@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-This is my first major script and release. I have done snippets and small shit and given away to the community. I was tired how most drug scripts that are free lack creativity and the ones that are creative and in depth are expensive. 
+This is my first major script and release. I have done snippets and small shit and given away to the community. 
 This was all possible because of creators and devs in Project Sloth, JixelTay, and Samuel's development. I used the globalstates and spawning of props from Samuel's christmas script (I asked permission before release) tebex link here for their stuff: https://fivem.samueldev.shop/
 Project Sloth has been a pioneer of how the fivem community should be. Helping the community by creating free, easy to install, and fun scripts. Along with allowing the community to publish free scripts. 
 and Jimathy and Tay are the sole reason I learned how to code. When I started back in august, I had no idea what I was doing and their scripts are easy to read, edit, and see how things actually function. 
