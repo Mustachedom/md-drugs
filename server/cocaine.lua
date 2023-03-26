@@ -38,20 +38,23 @@ RegisterServerEvent('md-drugs:server:makepowder', function()
 	local randomchance = math.random(1,100)
 		
 	if randomchance <= 80 then 
-		Player.Functions.RemoveItem("coca_leaf", 1)
-		Player.Functions.AddItem("coke", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "add", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
+		if Player.Functions.RemoveItem("coca_leaf", 1) then
+    		Player.Functions.AddItem("coke", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "add", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
+        end
 	elseif randomchance >= 81 and randomchance <= 95 then
-		Player.Functions.RemoveItem("coca_leaf", 1)
-		Player.Functions.AddItem("cokestagetwo", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagetwo'], "add", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
+       if Player.Functions.RemoveItem("coca_leaf", 1) then
+    		Player.Functions.AddItem("cokestagetwo", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagetwo'], "add", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
+        end
 	else
-		Player.Functions.RemoveItem("coca_leaf", 1)
-		Player.Functions.AddItem("cokestagethree", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagethree'], "add", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
+    	if Player.Functions.RemoveItem("coca_leaf", 1) then
+    		Player.Functions.AddItem("cokestagethree", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagethree'], "add", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
+        end
 	end
 end)
 
