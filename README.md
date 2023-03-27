@@ -128,7 +128,7 @@ How to install like a fuckin bosssssss
             slot = 1,
         },
 		[2] = {
-            name = "needles",
+            name = "needle",
             price = 500,
             amount = 55000,
             info = {},
