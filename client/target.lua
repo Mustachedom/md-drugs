@@ -303,7 +303,7 @@ exports['qb-target']:AddBoxZone("makepowdercoke",Config.makecokepowder,1.5, 1.75
             event = "md-drugs:client:buytabs",
 			icon = "fas fa-sign-in-alt",
 			label = "Buy Tabs",
-			item = Config.dirtymoney
+			
 		},
 	},
 	distance = 2.5
@@ -321,7 +321,7 @@ exports['qb-target']:AddBoxZone("makepowdercoke",Config.makecokepowder,1.5, 1.75
             event = "md-drugs:client:buylabkit",
 			icon = "fas fa-sign-in-alt",
 			label = "Buy A Kit",
-			item = Config.dirtymoney
+			
 		},
 	},
 	distance = 2.5
@@ -395,7 +395,7 @@ exports['qb-target']:AddBoxZone("makepowdercoke",Config.makecokepowder,1.5, 1.75
             event = "md-drugs:client:buyheroinlabkit",
 			icon = "fas fa-sign-in-alt",
 			label = "Buy A Kit",
-			item = Config.dirtymoney
+			
 		},
 	},
 	distance = 2.5
