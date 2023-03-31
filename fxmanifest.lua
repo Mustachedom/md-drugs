@@ -13,8 +13,7 @@ client_scripts {
 	'client/crack.lua',
 	'client/shrooms.lua',
 	'client/pharma.lua',
-	'client/mission.lua',
-	'client/oxtarget.lua'
+	
 }
 
 server_scripts {
@@ -24,7 +23,7 @@ server_scripts {
 	'server/crack.lua',
 	'server/shrooms.lua',
 	'server/pharma.lua',
-	'server/mission.lua',
+
 }
 
 shared_scripts {
