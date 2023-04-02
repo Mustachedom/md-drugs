@@ -39,7 +39,15 @@ Config.buyheroinlabkit = vector3(-1796.64, 455.88, 128.31) -- buy heroin lab kit
 Config.cutheroinone = vector3(-1799.01, 456.01, 128.31) -- cut heroin stage 1-3 with baking soda
 Config.fillneedle = vector3(-1802.74, 456.65, 128.29) -- fill needles with heroin
 
------------- Pharma
+------------ XTC
+Config.isosafrole = vector3(0, 0, 0) -- where to steal isosafrole
+Config.mdp2p = vector3(1,1,1) -- where to steal mdp2p
+Config.rawxtcloc = vector3(2,2,2) --  where to combine the 2 ingridents to make raw xtc
+Config.makeunstampedwhite = vector3(3,3,3) -- where to make white unstamped
+Config.makeunstampedred = vector3(4,4,4) --  where to make redunstamped
+Config.makeunstampedorange = vector3(5,5,5) -- where to make orange unstamped
+Config.makeunstampedblue = vector3(6,6,6) -- where to make blue unstamped
+Config.stamp = vector3(7,7,7) --  where to stamp white people
 
 
 Config.CocaPlant = {
