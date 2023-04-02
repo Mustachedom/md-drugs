@@ -20,7 +20,7 @@ RegisterServerEvent('md-drugs:server:stealmdp2p', function()
   end	
 end)
 
-RegisterServerEvent('md-drugs:server:getpress', function()
+RegisterServerEvent('md-drugs:server:buypress', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("marked_money", 200000) then
