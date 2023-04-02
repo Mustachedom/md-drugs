@@ -48,7 +48,7 @@ Config.makeunstampedred = vector3(4,4,4) --  where to make redunstamped
 Config.makeunstampedorange = vector3(5,5,5) -- where to make orange unstamped
 Config.makeunstampedblue = vector3(6,6,6) -- where to make blue unstamped
 Config.stamp = vector3(7,7,7) --  where to stamp white people
-
+Config.buypress = vector3(8,8,8) --  where to stamp white people
 
 Config.CocaPlant = {
     [1] = {
