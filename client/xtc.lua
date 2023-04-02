@@ -668,6 +668,26 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
+RegisterNetEvent("md-drugs:client:buypress")
+AddEventHandler("md-drugs:client:buypress", function() 
+    RequestAnimDict("mp_arresting")
+        while (not HasAnimDictLoaded("mp_arresting")) do
+        Citizen.Wait(4000)
+        end
+        TaskPlayAnim(PlayerPedId(), "mp_arresting" ,"a_uncuff" ,8.0, -8.0, -1, 1, 0, false, false, false )
+          local PedCoords = GetEntityCoords(PlayerPedId())
+    QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
+        disableMovement = false,
+        disableCarMovement = false,
+        disableMouse = false,
+        disableCombat = true,
+        disableInventory = true,
+    }, {}, {}, {}, function()-- Done
+        TriggerServerEvent("md-drugs:server:buypress")
+        Citizen.Wait(4000)
+        ClearPedTasks(PlayerPedId()
+    end
+end)
 CreateThread(function()
 exports['qb-target']::AddBoxZone("stealisosafrole",Config.isosafrole,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "stealisosafrole",
@@ -1091,6 +1111,23 @@ exports['qb-target']::AddBoxZone("stealisosafrole",Config.isosafrole,1.5, 1.75, 
       event = "md-drugs:client:stampblue",
       icon = 'fas fa-eye',
       label = 'Make Blue Stamped Pills', 
+      targeticon = 'fas fa-eye',
+    }
+  },
+  distance = 2.5, 
+  })
+ exports['qb-target']::AddBoxZone("buypress",Config.buypress,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+	name = "stampblue",
+	heading = 11.0,
+	debugPoly = false,
+	minZ = Config.buypress-2,
+	maxZ = Config.buypress+2,
+  options = {
+    { 
+      type = "client",
+      event = "md-drugs:client:buypress",
+      icon = 'fas fa-eye',
+      label = 'Buy Press', 
       targeticon = 'fas fa-eye',
     }
   },
