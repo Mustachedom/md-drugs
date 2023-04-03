@@ -685,9 +685,10 @@ AddEventHandler("md-drugs:client:buypress", function()
     }, {}, {}, {}, function()-- Done
         TriggerServerEvent("md-drugs:server:buypress")
         Citizen.Wait(4000)
-        ClearPedTasks(PlayerPedId()
-    end
+        ClearPedTasks(PlayerPedId())
+		end)
 end)
+
 CreateThread(function()
 exports['qb-target']:AddBoxZone("stealisosafrole2",Config.isosafrole,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "stealisosafrole2",
