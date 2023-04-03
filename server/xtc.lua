@@ -165,7 +165,7 @@ RegisterServerEvent('md-drugs:server:makeredxtcdual', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("loosecoke", 1)
+	if Player.Functions.RemoveItem("loosecoke", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc2'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
@@ -180,7 +180,7 @@ RegisterServerEvent('md-drugs:server:makeredxtctriple', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("loosecoke", 1)
+	if Player.Functions.RemoveItem("loosecoke", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc3'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
@@ -195,7 +195,7 @@ RegisterServerEvent('md-drugs:server:makeredxtcquad', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("loosecoke", 1)
+	if Player.Functions.RemoveItem("loosecoke", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc4'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
@@ -226,7 +226,7 @@ RegisterServerEvent('md-drugs:server:makeorangextcdual', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc2'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
@@ -256,7 +256,7 @@ RegisterServerEvent('md-drugs:server:makeorangextcquad', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc4'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
@@ -271,7 +271,7 @@ RegisterServerEvent('md-drugs:server:makebluextcsingle', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
@@ -286,7 +286,7 @@ RegisterServerEvent('md-drugs:server:makebluextcdual', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc2'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
@@ -301,7 +301,7 @@ RegisterServerEvent('md-drugs:server:makebluextctriple', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc3'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
@@ -316,7 +316,7 @@ RegisterServerEvent('md-drugs:server:makebluextcquad', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc4'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
