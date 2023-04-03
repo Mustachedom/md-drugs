@@ -24,14 +24,14 @@ RegisterServerEvent('md-drugs:server:buypress', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("marked_money", 200000) then
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "add",  1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['singlepress'], "add",  1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['marked_money'], "remove",  200000)
     Player.Functions.AddItem("singlepress", 1)
-  elseif Player.Functions.RemoveItem("singlepress", 1) then
+  elseif Player.Functions.RemoveItem("blue_xtc", 20) then
 		if Player.Functions.RemoveItem('white_xtc', 20) then
 			if Player.Functions.RemoveItem('red_xtc', 20) then
 				if Player.Functions.RemoveItem('orange_xtc', 20) then
-					if Player.Functions.RemoveItem('blue_xtc', 20) then
+					if Player.Functions.RemoveItem('singlepress', 1) then
 						Player.Functions.AddItem('dualpress', 1)
 					else
 					TriggerClientEvent('QBCore:Notify', src, "Give Me 20 Blue XTC", "error")
@@ -91,7 +91,7 @@ RegisterServerEvent('md-drugs:server:makingrawxtc', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   
-  if Player.Functions.RemoveItem("", 1) then 
+  if Player.Functions.RemoveItem("mdp2p", 1) then 
       if Player.Functions.RemoveItem("isosafrole", 1) then
           Player.Functions.AddItem("raw_xtc", 1)
 		  TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "add",  1)
@@ -112,6 +112,8 @@ RegisterServerEvent('md-drugs:server:makextcsingle', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "add",  1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
     Player.Functions.AddItem("white_xtc", 1)
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -122,6 +124,8 @@ RegisterServerEvent('md-drugs:server:makextcdual', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc2'], "add",  1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
     Player.Functions.AddItem("white_xtc2", 1)
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -132,6 +136,8 @@ RegisterServerEvent('md-drugs:server:makextctriple', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc3'], "add",  1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
     Player.Functions.AddItem("white_xtc3", 1)
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -142,6 +148,8 @@ RegisterServerEvent('md-drugs:server:makextcquad', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc4'], "add",  1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
     Player.Functions.AddItem("white_xtc4", 1)
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -150,15 +158,17 @@ RegisterServerEvent('md-drugs:server:makeredxtcsingle', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("loosecoke", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "add",  1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
-		Player.Functions.AddItem("red_xtc", 1)
-	else 
-	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-	end
-  end	
+	 if Player.Functions.RemoveItem("loosecoke", 1) then
+	 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "add",  1)
+	 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
+	 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
+	 	Player.Functions.AddItem("red_xtc", 1)
+	 else 
+	 TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
+	 end
+   else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
+   end
 end)
 
 RegisterServerEvent('md-drugs:server:makeredxtcdual', function()
@@ -173,6 +183,8 @@ RegisterServerEvent('md-drugs:server:makeredxtcdual', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -188,6 +200,8 @@ RegisterServerEvent('md-drugs:server:makeredxtctriple', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -203,6 +217,8 @@ RegisterServerEvent('md-drugs:server:makeredxtcquad', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 ------------------------------- Orange unstamped
@@ -211,7 +227,7 @@ RegisterServerEvent('md-drugs:server:makeorangextcsingle', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
@@ -219,6 +235,8 @@ RegisterServerEvent('md-drugs:server:makeorangextcsingle', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -234,6 +252,8 @@ RegisterServerEvent('md-drugs:server:makeorangextcdual', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -241,7 +261,7 @@ RegisterServerEvent('md-drugs:server:makeorangextctriple', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-	if Player.Functions.RemoveItem("heroinvial", 1)
+	if Player.Functions.RemoveItem("heroinvial", 1) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc3'], "add",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
@@ -249,6 +269,8 @@ RegisterServerEvent('md-drugs:server:makeorangextctriple', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -264,6 +286,8 @@ RegisterServerEvent('md-drugs:server:makeorangextcquad', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 --------------------------------- blue unstamped
@@ -279,6 +303,8 @@ RegisterServerEvent('md-drugs:server:makebluextcsingle', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -294,6 +320,8 @@ RegisterServerEvent('md-drugs:server:makebluextcdual', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -309,6 +337,8 @@ RegisterServerEvent('md-drugs:server:makebluextctriple', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -324,6 +354,8 @@ RegisterServerEvent('md-drugs:server:makebluextcquad', function()
 	else 
 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
+  else
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 ---------------------------
@@ -335,61 +367,101 @@ RegisterServerEvent('md-drugs:server:stampwhite', function()
   
 	if luck <= 5 then 
 		if Player.Functions.RemoveItem("white_xtc", 1) then
-			Player.Functions.Additem("white_playboys", 1)
+			Player.Functions.AddItem("white_playboys", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_playboys'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc2", 1) then
 			Player.Functions.AddItem("white_playboys2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_playboys2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc3", 1) then
 			Player.Functions.AddItem("white_playboys3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_playboys3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc4", 1) then
 			Player.Functions.AddItem("white_playboys4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_playboys4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 6 and luck <= 22 then
 		if Player.Functions.RemoveItem("white_xtc", 1) then
-			Player.Functions.Additem("white_aliens", 1)
+			Player.Functions.AddItem("white_aliens", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_aliens'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc2", 1) then
 			Player.Functions.AddItem("white_aliens2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_aliens2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc3", 1) then
-			Player.Functions.AddItem("white_aliens3", 1) 
+			Player.Functions.AddItem("white_aliens3", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_aliens3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)			
 		elseif Player.Functions.RemoveItem("white_xtc4", 1) then
 			Player.Functions.AddItem("white_aliens4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_aliens4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 23 and luck <= 43 then 
 		if Player.Functions.RemoveItem("white_xtc", 1) then
-			Player.Functions.Additem("white_pl", 1)
+			Player.Functions.AddItem("white_pl", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_pl'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc2", 1) then
 			Player.Functions.AddItem("white_pl2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_pl2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc3", 1) then
 			Player.Functions.AddItem("white_pl3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_pl3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc4", 1) then
 			Player.Functions.AddItem("white_pl4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_pl4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 44 and luck <= 70 then 
 		if Player.Functions.RemoveItem("white_xtc", 1) then
-			Player.Functions.Additem("white_trolls", 1)
+			Player.Functions.AddItem("white_trolls", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_trolls'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc2", 1) then
 			Player.Functions.AddItem("white_trolls2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_trolls2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc3", 1) then
 			Player.Functions.AddItem("white_trolls3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_trolls3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc4", 1) then
 			Player.Functions.AddItem("white_trolls4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_trolls4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 71 and luck <= 100 then
 		if Player.Functions.RemoveItem("white_xtc", 1) then
-			Player.Functions.Additem("white_cats", 1)
+			Player.Functions.AddItem("white_cats", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_cats'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc2", 1) then
 			Player.Functions.AddItem("white_cats2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_cats2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc3", 1) then
 			Player.Functions.AddItem("white_cats3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_cats3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("white_xtc4", 1) then
 			Player.Functions.AddItem("white_cats4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_cats4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
@@ -405,61 +477,101 @@ RegisterServerEvent('md-drugs:server:stampred', function()
   
 	if luck <= 5 then 
 		if Player.Functions.RemoveItem("red_xtc", 1) then
-			Player.Functions.Additem("red_playboys", 1)
+			Player.Functions.AddItem("red_playboys", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_playboys'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc2", 1) then
-			Player.Functions.AddItem("red_playboys2", 1) 
+			Player.Functions.AddItem("red_playboys2", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_playboys2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)			
 		elseif Player.Functions.RemoveItem("red_xtc3", 1) then
-			Player.Functions.AddItem("red_playboys3", 1) 
+			Player.Functions.AddItem("red_playboys3", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_playboys3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc4", 1) then
 			Player.Functions.AddItem("red_playboys4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_playboys4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 6 and luck <= 22 then
 		if Player.Functions.RemoveItem("red_xtc", 1) then
-			Player.Functions.Additem("red_aliens", 1)
+			Player.Functions.AddItem("red_aliens", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_aliens'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc2", 1) then
-			Player.Functions.AddItem("red_aliens2", 1) 
+			Player.Functions.AddItem("red_aliens2", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_aliens2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc3", 1) then
 			Player.Functions.AddItem("red_aliens3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_aliens3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc4", 1) then
 			Player.Functions.AddItem("red_aliens4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_aliens4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 23 and luck <= 43 then 
 		if Player.Functions.RemoveItem("red_xtc", 1) then
-			Player.Functions.Additem("red_pl", 1)
+			Player.Functions.AddItem("red_pl", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_pl'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc2", 1) then
 			Player.Functions.AddItem("red_pl2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_pl2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc3", 1) then
 			Player.Functions.AddItem("red_pl3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_pl3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc4", 1) then
 			Player.Functions.AddItem("red_pl4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_pl4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 44 and luck <= 70 then 
 		if Player.Functions.RemoveItem("red_xtc", 1) then
-			Player.Functions.Additem("red_trolls", 1)
+			Player.Functions.AddItem("red_trolls", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_trolls'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc2", 1) then
 			Player.Functions.AddItem("red_trolls2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_trolls2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc3", 1) then
-			Player.Functions.AddItem("red_trolls3", 1) 
+			Player.Functions.AddItem("red_trolls3", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_trolls3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)			
 		elseif Player.Functions.RemoveItem("red_xtc4", 1) then
 			Player.Functions.AddItem("red_trolls4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_trolls4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 71 and luck <= 100 then
 		if Player.Functions.RemoveItem("red_xtc", 1) then
-			Player.Functions.Additem("red_cats", 1)
+			Player.Functions.AddItem("red_cats", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_cats'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc2", 1) then
 			Player.Functions.AddItem("red_cats2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_cats2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("red_xtc3", 1) then
-			Player.Functions.AddItem("red_cats3", 1) 
+			Player.Functions.AddItem("red_cats3", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_cats3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)			
 		elseif Player.Functions.RemoveItem("red_xtc4", 1) then
 			Player.Functions.AddItem("red_cats4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_cats4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['red_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
@@ -475,61 +587,101 @@ RegisterServerEvent('md-drugs:server:stamporange', function()
   
 	if luck <= 5 then 
 		if Player.Functions.RemoveItem("orange_xtc", 1) then
-			Player.Functions.Additem("orange_playboys", 1)
+			Player.Functions.AddItem("orange_playboys", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_playboys'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc2", 1) then
 			Player.Functions.AddItem("orange_playboys2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_playboys2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc3", 1) then
-			Player.Functions.AddItem("orange_playboys3", 1) 
+			Player.Functions.AddItem("orange_playboys3", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_playboys3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)			
 		elseif Player.Functions.RemoveItem("orange_xtc4", 1) then
 			Player.Functions.AddItem("orange_playboys4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_playboys4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 6 and luck <= 22 then
 		if Player.Functions.RemoveItem("orange_xtc", 1) then
-			Player.Functions.Additem("orange_aliens", 1)
+			Player.Functions.AddItem("orange_aliens", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_aliens'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc2", 1) then
 			Player.Functions.AddItem("orange_aliens2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_aliens2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc3", 1) then
 			Player.Functions.AddItem("orange_aliens3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_aliens3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc4", 1) then
 			Player.Functions.AddItem("orange_aliens4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_aliens4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 23 and luck <= 43 then 
 		if Player.Functions.RemoveItem("orange_xtc", 1) then
-			Player.Functions.Additem("orange_pl", 1)
+			Player.Functions.AddItem("orange_pl", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_pl'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc2", 1) then
 			Player.Functions.AddItem("orange_pl2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_pl2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc3", 1) then
-			Player.Functions.AddItem("orange_pl3", 1) 
+			Player.Functions.AddItem("orange_pl3", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_pl3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc4", 1) then
 			Player.Functions.AddItem("orange_pl4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_pl4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 44 and luck <= 70 then 
 		if Player.Functions.RemoveItem("orange_xtc", 1) then
-			Player.Functions.Additem("orange_trolls", 1)
+			Player.Functions.AddItem("orange_trolls", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_trolls'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc2", 1) then
 			Player.Functions.AddItem("orange_trolls2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_trolls2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc3", 1) then
 			Player.Functions.AddItem("orange_trolls3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_trolls3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc4", 1) then
 			Player.Functions.AddItem("orange_trolls4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_trolls4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 71 and luck <= 100 then
 		if Player.Functions.RemoveItem("orange_xtc", 1) then
-			Player.Functions.Additem("orange_cats", 1)
+			Player.Functions.AddItem("orange_cats", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_cats'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc2", 1) then
-			Player.Functions.AddItem("orange_cats2", 1) 
+			Player.Functions.AddItem("orange_cats2", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_cats2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)			
 		elseif Player.Functions.RemoveItem("orange_xtc3", 1) then
 			Player.Functions.AddItem("orange_cats3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_cats3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("orange_xtc4", 1) then
 			Player.Functions.AddItem("orange_cats4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_cats4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['orange_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
@@ -545,61 +697,101 @@ RegisterServerEvent('md-drugs:server:stampblue', function()
   
 	if luck <= 5 then 
 		if Player.Functions.RemoveItem("blue_xtc", 1) then
-			Player.Functions.Additem("blue_playboys", 1)
+			Player.Functions.AddItem("blue_playboys", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_playboys'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc2", 1) then
 			Player.Functions.AddItem("blue_playboys2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_playboys2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc3", 1) then
 			Player.Functions.AddItem("blue_playboys3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_playboys3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc4", 1) then
 			Player.Functions.AddItem("blue_playboys4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_playboys4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 6 and luck <= 22 then
 		if Player.Functions.RemoveItem("blue_xtc", 1) then
-			Player.Functions.Additem("blue_aliens", 1)
+			Player.Functions.AddItem("blue_aliens", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_aliens'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc2", 1) then
 			Player.Functions.AddItem("blue_aliens2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_aliens2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc3", 1) then
 			Player.Functions.AddItem("blue_aliens3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_aliens3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc4", 1) then
 			Player.Functions.AddItem("blue_aliens4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_aliens4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 23 and luck <= 43 then 
 		if Player.Functions.RemoveItem("blue_xtc", 1) then
-			Player.Functions.Additem("blue_pl", 1)
+			Player.Functions.AddItem("blue_pl", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_pl'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc2", 1) then
 			Player.Functions.AddItem("blue_pl2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_pl2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc3", 1) then
-			Player.Functions.AddItem("blue_pl3", 1) 
+			Player.Functions.AddItem("blue_pl3", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_pl3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)			
 		elseif Player.Functions.RemoveItem("blue_xtc4", 1) then
 			Player.Functions.AddItem("blue_pl4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_pl4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 44 and luck <= 70 then 
 		if Player.Functions.RemoveItem("blue_xtc", 1) then
-			Player.Functions.Additem("blue_trolls", 1)
+			Player.Functions.AddItem("blue_trolls", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_trolls'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc2", 1) then
 			Player.Functions.AddItem("blue_trolls2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_trolls2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc3", 1) then
 			Player.Functions.AddItem("blue_trolls3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_trolls3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc4", 1) then
 			Player.Functions.AddItem("blue_trolls4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_trolls4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
 	elseif luck >= 71 and luck <= 100 then
 		if Player.Functions.RemoveItem("blue_xtc", 1) then
-			Player.Functions.Additem("blue_cats", 1)
+			Player.Functions.AddItem("blue_cats", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_cats'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc2", 1) then
 			Player.Functions.AddItem("blue_cats2", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_cats2'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc3", 1) then
 			Player.Functions.AddItem("blue_cats3", 1) 
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_cats3'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		elseif Player.Functions.RemoveItem("blue_xtc4", 1) then
 			Player.Functions.AddItem("blue_cats4", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_cats4'], "add",  1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['blue_xtc'], "remove",  1)
 		else 
 		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 		end
