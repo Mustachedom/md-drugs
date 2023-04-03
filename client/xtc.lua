@@ -689,449 +689,268 @@ AddEventHandler("md-drugs:client:buypress", function()
     end
 end)
 CreateThread(function()
-exports['qb-target']::AddBoxZone("stealisosafrole",Config.isosafrole,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "stealisosafrole",
-	heading = 11.0,
+exports['qb-target']:AddBoxZone("stealisosafrole2",Config.isosafrole,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+	name = "stealisosafrole2",
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.isosafrole-2,
 	maxZ = Config.isosafrole+2,
-  options = {
-    { 
-      type = "client",
-      event = "md-drugs:client:stealisosafrole",
-      icon = 'fas fa-eye',
-      label = 'Steal Isosafrole', 
-      targeticon = 'fas fa-eye', 
-    }
-  },
-  distance = 2.5, 
-  })
-  exports['qb-target']::AddBoxZone("stealmdp2p",Config.mdp2p,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+}, {
+	options = {
+	   { 
+		type = "client",
+		event = "md-drugs:client:stealisosafrole",
+		icon = 'fas fa-sign-in-alt',
+		label = 'Steal Isosafrole',   
+		},
+	},
+	distance = 2.5
+ })
+  exports['qb-target']:AddBoxZone("stealmdp2p",Config.mdp2p,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "stealmdp2p",
-	heading = 11.0,
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.mdp2p-2,
 	maxZ = Config.mdp2p+2,
-  options = {
-    { 
+}, {
+	options = {
+	  { 
       type = "client",
       event = "md-drugs:client:stealmdp2p",
       icon = 'fas fa-eye',
-      label = 'Steal mdp2p', 
-      targeticon = 'fas fa-eye', 
-    }
-  },
-  distance = 2.5, 
-  })
-    exports['qb-target']::AddBoxZone("makerawxtc",Config.rawxtcloc,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+      label = 'Steal mdp2p',  
+	  },
+	},
+	distance = 2.5
+ })
+   exports['qb-target']:AddBoxZone("makerawxtc",Config.rawxtcloc,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "makerawxtc",
-	heading = 11.0,
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.rawxtcloc-2,
 	maxZ = Config.rawxtcloc+2,
-  options = {
-    { 
+}, {
+	options = {
+		{ 
+		type = "client",
+		event = "md-drugs:client:makingrawxtc",
+		icon = 'fas fa-eye',
+		label = 'Make Raw XTC', 
+		},
+	},
+	distance = 2.5
+ })
+ exports['qb-target']:AddBoxZone("buypress",Config.buypress,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+	name = "buypress",
+	heading = 156.0,
+	debugPoly = false,
+	minZ = Config.buypress-2,
+	maxZ = Config.buypress+2,
+}, {
+	options = {
+	   { 
       type = "client",
-      event = "md-drugs:client:makingrawxtc",
+      event = "md-drugs:client:buypress",
       icon = 'fas fa-eye',
-      label = 'Make Raw XTC', 
-      targeticon = 'fas fa-eye', 
-    }
-  },
-  distance = 2.5, 
-  })
-    exports['qb-target']::AddBoxZone("makeunstampedwhite1",Config.makeunstampedwhite,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+      label = 'Buy Press',  
+		},
+	},
+	distance = 2.5
+ })
+  exports['qb-target']:AddBoxZone("makeunstampedwhite1",Config.makeunstampedwhite,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "makeunstampedwhite1",
-	heading = 11.0,
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.makeunstampedwhite-2,
 	maxZ = Config.makeunstampedwhite+2,
-  options = {
-    { 
-	  num = 1,
+}, {
+	options = {
+	{
       type = "client",
       event = "md-drugs:client:makextcsingle",
       icon = 'fas fa-eye',
       label = 'Make White Single Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "singlepress", 
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedwhite2",Config.makeunstampedwhite,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedwhite2",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedwhite-2,
-	maxZ = Config.makeunstampedwhite+2,
-  options = {
-    { 
-	  num = 2,
+    },
+	{ 
+	  
       type = "client",
       event = "md-drugs:client:makextcdual",
       icon = 'fas fa-eye',
       label = 'Make White dual Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "dualpress",
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedwhite3",Config.makeunstampedwhite,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedwhite3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedwhite-2,
-	maxZ = Config.makeunstampedwhite+2,
-  options = {
-    { 
-	  num = 3,
+    },
+	{ 
+	  
       type = "client",
       event = "md-drugs:client:makextctriple",
       icon = 'fas fa-eye',
       label = 'Make White Triple Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "triplepress",
-    }
-  },
-  distance = 2.5, 
-  })
-        exports['qb-target']::AddBoxZone("makeunstampedwhite4",Config.makeunstampedwhite,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedwhite3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedwhite-2,
-	maxZ = Config.makeunstampedwhite+2,
-  options = {
-    { 
-	  num = 4,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makextcquad",
       icon = 'fas fa-eye',
       label = 'Make White Quad Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "quadpress",
-    }
+    },
   },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedred1",Config.makeunstampedred,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+	distance = 2.5
+ })
+   exports['qb-target']:AddBoxZone("makeunstampedred1",Config.makeunstampedred,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "makeunstampedred1",
-	heading = 11.0,
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.makeunstampedred-2,
 	maxZ = Config.makeunstampedred+2,
-  options = {
-    { 
-	  num = 1,
+}, {
+options = {
+	{
       type = "client",
       event = "md-drugs:client:makeredxtcsingle",
       icon = 'fas fa-eye',
       label = 'Make Red Single Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "singlepress", 
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedred2",Config.makeunstampedred,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedred2",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedred-2,
-	maxZ = Config.makeunstampedred+2,
-  options = {
-    { 
-	  num = 2,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makeredxtcdual",
       icon = 'fas fa-eye',
       label = 'Make Red dual Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "dualpress",
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedred3",Config.makeunstampedred,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedred3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedred-2,
-	maxZ = Config.makeunstampedred+2,
-  options = {
-    { 
-	  num = 3,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makeredxtctriple",
       icon = 'fas fa-eye',
       label = 'Make Red Triple Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "triplepress",
-    }
-  },
-  distance = 2.5, 
-  })
-        exports['qb-target']::AddBoxZone("makeunstampedred4",Config.makeunstampedred,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedred3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedred-2,
-	maxZ = Config.makeunstampedred+2,
-  options = {
-    { 
-	  num = 4,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makeredxtcquad",
       icon = 'fas fa-eye',
       label = 'Make Red Quad Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "quadpress",
-    }
+    },
   },
-  distance = 2.5, 
-  })
-        exports['qb-target']::AddBoxZone("makeunstampedorange1",Config.makeunstampedorange,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+	distance = 2.5
+ })
+    exports['qb-target']:AddBoxZone("makeunstampedorange1",Config.makeunstampedorange,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "makeunstampedorange1",
-	heading = 11.0,
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.makeunstampedorange-2,
 	maxZ = Config.makeunstampedorange+2,
-  options = {
-    { 
-	  num = 1,
+}, {
+options = {
+	{ 
       type = "client",
       event = "md-drugs:client:makeorangextcsingle",
       icon = 'fas fa-eye',
       label = 'Make orange Single Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "singlepress", 
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedorange2",Config.makeunstampedorange,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedorange2",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedorange-2,
-	maxZ = Config.makeunstampedorange+2,
-  options = {
-    { 
-	  num = 2,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makeorangextcdual",
       icon = 'fas fa-eye',
       label = 'Make orange dual Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "dualpress",
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedorange3",Config.makeunstampedorange,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedorange3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedorange-2,
-	maxZ = Config.makeunstampedorange+2,
-  options = {
-    { 
-	  num = 3,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makeorangextctriple",
       icon = 'fas fa-eye',
       label = 'Make orange Triple Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "triplepress",
-    }
-  },
-  distance = 2.5, 
-  })
-        exports['qb-target']::AddBoxZone("makeunstampedorange4",Config.makeunstampedorange,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedorange3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedorange-2,
-	maxZ = Config.makeunstampedorange+2,
-  options = {
-    { 
-	  num = 4,
+    },
+	{ 
+	  
       type = "client",
       event = "md-drugs:client:makeorangextcquad",
       icon = 'fas fa-eye',
       label = 'Make orange Quad Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "quadpress",
-    }
+    },
   },
-  distance = 2.5, 
-  })
-          exports['qb-target']::AddBoxZone("makeunstampedblue1",Config.makeunstampedblue,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+	distance = 2.5
+ })
+     exports['qb-target']:AddBoxZone("makeunstampedblue1",Config.makeunstampedblue,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "makeunstampedblue1",
-	heading = 11.0,
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.makeunstampedblue-2,
 	maxZ = Config.makeunstampedblue+2,
-  options = {
-    { 
-	  num = 1,
+}, {
+options = {
+	{ 
       type = "client",
       event = "md-drugs:client:makebluextcsingle",
       icon = 'fas fa-eye',
       label = 'Make blue Single Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "singlepress", 
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedblue2",Config.makeunstampedblue,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedblue2",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedblue-2,
-	maxZ = Config.makeunstampedblue+2,
-  options = {
-    { 
-	  num = 2,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makebluextcdual",
       icon = 'fas fa-eye',
       label = 'Make blue dual Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "dualpress",
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("makeunstampedblue3",Config.makeunstampedblue,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedblue3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedblue-2,
-	maxZ = Config.makeunstampedblue+2,
-  options = {
-    { 
-	  num = 3,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makebluextctriple",
       icon = 'fas fa-eye',
       label = 'Make blue Triple Stack', 
-      targeticon = 'fas fa-eye', 
 	  item = "triplepress",
-    }
-  },
-  distance = 2.5, 
-  })
-        exports['qb-target']::AddBoxZone("makeunstampedblue4",Config.makeunstampedblue,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "makeunstampedblue3",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.makeunstampedblue-2,
-	maxZ = Config.makeunstampedblue+2,
-  options = {
-    { 
-	  num = 4,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:makebluextcquad",
       icon = 'fas fa-eye',
       label = 'Make blue Quad Stack', 
-      targeticon = 'fas fa-eye',
 	  item = "quadpress",
-    }
+    },
   },
-  distance = 2.5, 
-  })
-    exports['qb-target']::AddBoxZone("stampwhite",Config.stamp,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+	distance = 2.5
+ })
+      exports['qb-target']:AddBoxZone("stampwhite",Config.stamp,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "stampwhite",
-	heading = 11.0,
+	heading = 156.0,
 	debugPoly = false,
 	minZ = Config.stamp-2,
 	maxZ = Config.stamp+2,
-  options = {
-    { 
-	  num = 1,
+}, {
+options = {
+	{ 
       type = "client",
       event = "md-drugs:client:stampwhite",
       icon = 'fas fa-eye',
       label = 'Make White Stamped Pills', 
-      targeticon = 'fas fa-eye',
-    }
-  },
-  distance = 2.5, 
-  })
-      exports['qb-target']::AddBoxZone("stampred",Config.stamp,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "stampred",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.stamp-2,
-	maxZ = Config.stamp+2,
-  options = {
-    { 
-	  num = 2,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:stampred",
       icon = 'fas fa-eye',
       label = 'Make Red Stamped Pills', 
-      targeticon = 'fas fa-eye',
-    }
-  },
-  distance = 2.5, 
-  })
-        exports['qb-target']::AddBoxZone("stamporange",Config.stamp,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "stamporange",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.stamp-2,
-	maxZ = Config.stamp+2,
-  options = {
-    { 
-	  num = 3,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:stamporange",
       icon = 'fas fa-eye',
       label = 'Make Orange Stamped Pills', 
-      targeticon = 'fas fa-eye',
-    }
-  },
-  distance = 2.5, 
-  })
-          exports['qb-target']::AddBoxZone("stampblue",Config.stamp,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "stampblue",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.stamp-2,
-	maxZ = Config.stamp+2,
-  options = {
-    { 
-	  num = 4,
+    },
+	{ 
       type = "client",
       event = "md-drugs:client:stampblue",
       icon = 'fas fa-eye',
       label = 'Make Blue Stamped Pills', 
-      targeticon = 'fas fa-eye',
-    }
+    },
   },
-  distance = 2.5, 
-  })
- exports['qb-target']::AddBoxZone("buypress",Config.buypress,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "stampblue",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.buypress-2,
-	maxZ = Config.buypress+2,
-  options = {
-    { 
-      type = "client",
-      event = "md-drugs:client:buypress",
-      icon = 'fas fa-eye',
-      label = 'Buy Press', 
-      targeticon = 'fas fa-eye',
-    }
-  },
-  distance = 2.5, 
-  })
+	distance = 2.5
+ })
+ 
  end)
  
