@@ -39,20 +39,23 @@ RegisterServerEvent('md-drugs:server:dryplant', function()
 	local randomchance = math.random(1,100)
 		
 	if randomchance <= 75 then 
-		Player.Functions.RemoveItem("poppyresin", 1)
-		Player.Functions.AddItem("heroin", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin'], "add", Config.cokerecieve)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", Config.cocaleafbreakdown)
+		if Player.Functions.RemoveItem("poppyresin", 1) then
+    		Player.Functions.AddItem("heroin", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin'], "add", Config.cokerecieve)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", Config.cocaleafbreakdown)
+        end
 	elseif randomchance >= 76 and randomchance <= 90 then
-		Player.Functions.RemoveItem("poppyresin", 1)
-		Player.Functions.AddItem("heroinstagetwo", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagetwo'], "add", Config.cokerecieve)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", Config.cocaleafbreakdown)
+		if Player.Functions.RemoveItem("poppyresin", 1) then
+    		Player.Functions.AddItem("heroinstagetwo", 1)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagetwo'], "add", Config.cokerecieve)
+    		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", Config.cocaleafbreakdown)
+        end
 	else
-		Player.Functions.RemoveItem("poppyresin", 1)
+		if Player.Functions.RemoveItem("poppyresin", 1) then
 		Player.Functions.AddItem("heroinstagethree", 1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinstagethree'], "add", Config.cokerecieve)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", Config.cocaleafbreakdown)
+        end
 	end
 end)
 
