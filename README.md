@@ -28,7 +28,7 @@ How to install like a fuckin bosssssss
 3) change all the locations in the config. it will automatically create the box -2 and +2 on the z in the target.lua so you dont have to do all that! Every city should have different locations to fit well with your city
 4) upload images
 5) add items here	
- 
+ ```
  ----- md-coke
  ["coke"] 		 	 	 	     = {["name"] = "coke",           				["label"] = "Raw Cocaine", 				["weight"] = 1000,		["type"] = "item", 		["image"] = "coke.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,    ["description"] = "Processed cocaine"},
  ["coca_leaf"] 		 	 	 	 = {["name"] = "coca_leaf",           			["label"] = "Cocaine leaves",	 		["weight"] = 1500,		["type"] = "item", 		["image"] = "coca_leaf.png", 			["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,    ["description"] = "Cocaine leaves that must be processed !"},
@@ -216,7 +216,7 @@ How to install like a fuckin bosssssss
 ["dualpress"] 				 	 = {["name"] = "dualpress", 			    	["label"] = "Dual Pill Press", 			        ['weight'] = 100, 		["type"] = "item", 		["image"] = "pillpress.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
 ["triplepress"] 				 = {["name"] = "triplepress", 			    	["label"] = "Triple Pill Press", 			    ['weight'] = 100, 		["type"] = "item", 		["image"] = "pillpress.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
 ["quadpress"] 					 = {["name"] = "quadpress", 			    	["label"] = "Quad Pill Press", 			        ['weight'] = 100, 		["type"] = "item", 		["image"] = "pillpress.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
-
+ ```
 6) enjoy
 
 
