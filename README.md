@@ -216,7 +216,16 @@ How to install like a fuckin bosssssss
 ["dualpress"] 				 	 = {["name"] = "dualpress", 			    	["label"] = "Dual Pill Press", 			        ['weight'] = 100, 		["type"] = "item", 		["image"] = "pillpress.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
 ["triplepress"] 				 = {["name"] = "triplepress", 			    	["label"] = "Triple Pill Press", 			    ['weight'] = 100, 		["type"] = "item", 		["image"] = "pillpress.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
 ["quadpress"] 					 = {["name"] = "quadpress", 			    	["label"] = "Quad Pill Press", 			        ['weight'] = 100, 		["type"] = "item", 		["image"] = "pillpress.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
- ```
+
+["cokeburner"] 				     = {["name"] = "cokeburner", 			    	["label"] = "Nokia Burner", 		     ['weight'] = 100, 		["type"] = "item", 		["image"] = "cokeburner.png", 			    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
+["crackburner"] 				     = {["name"] = "crackburner", 			    	["label"] = "Juke Burner", 		     ['weight'] = 100, 		["type"] = "item", 		["image"] = "crackburner.png", 			    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
+["heroinburner"] 				     = {["name"] = "heroinburner", 			    	["label"] = "Razr Burner", 		     ['weight'] = 100, 		["type"] = "item", 		["image"] = "heroinburner.png", 			    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
+["lsdburner"] 				     = {["name"] = "lsdburner", 			    	["label"] = "SideKick Burner", 		     ['weight'] = 100, 		["type"] = "item", 		["image"] = "lsdburner.png", 			    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
+
+
+
+
+```
 6) enjoy
 
 
