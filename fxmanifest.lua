@@ -5,7 +5,7 @@ fx_version "cerulean"
 game "gta5"
 
 client_scripts {
-	
+	'client/wholesale.lua',
 	'client/cocaine.lua',
 	'client/heroin.lua',
 	'client/lsd.lua',
@@ -13,8 +13,9 @@ client_scripts {
 	'client/crack.lua',
 	'client/shrooms.lua',
 	'client/pharma.lua',
-	'client/xtc.lua'
-	
+	'client/xtc.lua',
+	'@PolyZone/client.lua',
+   	 '@PolyZone/CircleZone.lua',
 }
 
 server_scripts {
@@ -24,8 +25,8 @@ server_scripts {
 	'server/crack.lua',
 	'server/shrooms.lua',
 	'server/pharma.lua',
-	'server/xtc.lua'
-
+	'server/xtc.lua',
+	'server/wholesale.lua',
 }
 
 shared_scripts {
