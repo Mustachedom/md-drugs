@@ -5,8 +5,11 @@ Config.rewardItem = "coca_leaf"
 Config.rewardItemheroin = "poppyresin"
 Config.rewardshrooms = "shrooms"
 Config.respawnTime = 150 -- Seconds
+Config.cd = false ---- if you use cd-dispatch
+Config.ps = false --- if you use ps dispatch
+Config.gks = true -- true if you use gks, false if you use qb or renewed phone
+Config.Dirty = 'marked_money' -- whatever you use for dirty money
 
- 
 
 
 ------------- Cocaine locations
@@ -282,4 +285,38 @@ Config.shrooms = {
     },
    
    
+}
+
+Config.Cokepeds = { ------------- this is where the setup peds will spawn
+	vector3(640.24, 644.18, 129.09),
+	vector3(642.64, 649.71, 128.91),
+	vector3(646.47, 650.65, 128.91),
+	vector3(652.8, 649.88, 128.95),
+	vector3(656.87, 631.85, 128.91),
+	vector3(649.96, 620.57, 128.91),
+}
+
+Config.CrackPeds = { ------------- this is where the setup peds will spawn
+	vector3(1873.25, 299.28, 164.27),
+	vector3(1891.37, 292.12, 163.68),
+	vector3(1886.68, 274.1, 162.96),
+	vector3(1869.67, 265.97, 163.72),
+	vector3(1836.88, 251.09, 162.56),
+	vector3(1853.3, 230.64, 162.09),
+}
+
+Config.heroinPeds = { ------------- this is where the setup peds will spawn
+	vector3(2740.93, 1389.09, 24.5),
+	vector3(2713.38, 1392.31, 24.54),
+	vector3(2703.66, 1355.09, 24.52),
+	vector3(2680.34, 1363.39, 24.52),
+	vector3(2766.1, 1388.15, 24.52),
+	vector3(2764.76, 1364.16, 24.52),
+}
+
+Config.lsdPeds = { ------------- this is where the setup peds will spawn
+	vector3(-1564.49, 838.85, 184.18),
+	vector3(-1545.33, 863.67, 181.44),
+	vector3(-1542.18, 802.71, 184.24),
+	vector3(-1524.31, 820.44, 181.79),
 }
