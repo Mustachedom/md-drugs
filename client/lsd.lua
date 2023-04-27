@@ -326,9 +326,7 @@ AddEventHandler("md-drugs:client:buytabs", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-        Citizen.Wait(4000)
 		TriggerServerEvent("md-drugs:server:gettabpaper")
-    
         ClearPedTasks(PlayerPedId())
     end)
 end)
