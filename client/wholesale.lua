@@ -57,12 +57,20 @@ AddEventHandler("md-drugs:client:getloccoke", function()
     SetBlipRoute(deliveryBlip, true)
 	druglocation = CircleZone:Create(CurrentLocation, 5,{ name = "cokesell", debugPoly = false })
 	druglocation:onPlayerInOut(function(isPointInside) if isPointInside then  RemoveBlip(deliveryBlip) end end)
+	  if Config.Gks then
 	 TriggerServerEvent('gksphone:NewMail', {
 				sender = 'Anon',
 				image = '/html/static/img/icons/mail.png',
 				subject = "Meet Me At The Marked location",
-			message = 'Bring me 100 bags of coke. If You Bring Police. You are dead.'
+			message = 'Bring me 100 bags of crack. If You Bring Police. You are dead.'
 			})
+	else
+		TriggerServerEvent('qb-phone:server:sendNewMail', {
+            sender = 'Anonymous',
+            subject = 'Meet Me At The Marked Location',
+            message = 'Bring me 100 bags of crack. If You Bring Police. You are dead',
+        })
+	end
 	local current = "g_m_y_famdnf_01"
             RequestModel(current)
             while not HasModelLoaded(current) do
