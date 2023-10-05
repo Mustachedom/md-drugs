@@ -44,7 +44,7 @@ Config.DryOut = vector3(2622.6, 4222.57, 43.6) -- Place to dry out mescaline int
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
 
 ---------- Pharma
-Config.FillPrescription = Vector3(2432.43, 4253, 45.2) ----------- this is where you want people to take their prescription to get a bottle of pills. They use bottle to get a random amount of prescription pills
+Config.FillPrescription = vector3(2432.43, 4253, 45.2) ----------- this is where you want people to take their prescription to get a bottle of pills. They use bottle to get a random amount of prescription pills
 ------- travelling merchant
 
 Config.Travellingmerchant = { ------------ these are the random locations the merchant can spawn on script start. whatever you want for the merchant is in Config.Items right below
