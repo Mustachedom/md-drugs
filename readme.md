@@ -20,21 +20,31 @@ without those scripts I would forget 1000x more commas and not understand how co
 I am not affiliated with any of these creators above but I have to give a shout out to the community when I can. 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 - Big Credit to [Samuel's Development](https://fivem.samueldev.shop/ ) for the way they did globalstates. That was the main inspiration to the beginning of this script. <br>
 - Big Credit to Project Sloth as a team and also the Project Sloth Community. This was only made because of the big library of Free scripts published by them and their community. [Buy Them coffee or something.](https://www.buymeacoffee.com/projectsloth/c/6825452)<br>
 - Big Credit to [Bostra](https://discord.gg/5ncbwMNq). if you have been around you may have seen him post some free scripts and help people. There was definetly times I dm'd him saying what the fuck am I doing and he helped keep me sane. <br>
 - Big Credit to Feisty. She made all the images that look good. Seriously you can tell which ones I forgot to ask her for. <br>
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 <h1>Dependencies</h1>
-- qbcore
-- lj or qb inventory
-- ps-buffs
-- ps-ui
-- qb-target
-- polyzone
-- RPEmotes
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+- [qb-core](https://github.com/qbcore-framework/qb-core)
+
+- [LJ/PS](https://github.com/Project-Sloth/ps-inventory) or [qb inventory](https://github.com/qbcore-framework/qb-inventory)
+  
+- [ps-buffs](https://github.com/Project-Sloth/ps-buf)
+  
+- [ps-ui](https://github.com/Project-Sloth/ps-ui)
+  
+- [qb-target](https://github.com/qbcore-framework/qb-target)
+  
+- [ polyzone](https://github.com/mkafrin/PolyZone)
+  
+- [RPEmotes](https://github.com/TayMcKenzieNZ/rpemotes)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 <h1>How to install like a fuckin bosssssss</h1>
@@ -237,15 +247,24 @@ Add items To qb-core - > shared -> items.lua
 ["cactusbulb"] 				     = {["name"] = "cactusbulb", 			    	["label"] = "Cactus Bulb", 		     ['weight'] = 100, 		["type"] = "item", 		["image"] = "cactusbulb.png", 			    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
 ["driedmescaline"] 				     = {["name"] = "driedmescaline", 			    	["label"] = "Mescaline", 		     ['weight'] = 100, 		["type"] = "item", 		["image"] = "driedmescaline.png", 			    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,                     ["description"] = ""},
 ```
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 - STEP 2 
 Add Images from `HTML` folder to your inventory script images location
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 - STEP 3 
 delete `cornerselling.lua` from `qb-drugs` in the client **and** the server file
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 - STEP 4 
 INSIDE OF THE CONFIG change all the locations for everything. All locations have been changed to make a preview video easier and with how big of a script this is, Im not going to config it for every city. Its simple vec3 and vec4s. Make your city unique 
 so its not in the same location as every other city.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 - STEP 5
 in `qb-radial` menu search for 
@@ -258,6 +277,9 @@ and switch it to this
 ```
 event = 'md-drugs:client:cornerselling',
 ```
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 - STEP 6 
 in `qb-adminmenu` look for 
 ```
@@ -272,6 +294,8 @@ QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
     cb(exports['md-drugs']:GetDealers())
 end)
 ```
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 - STEP 7 
 in `Cornerselling.lua` line 30 and line 148 of `deliveries.lu`a on the **client** side for **both** place your Police Alert inside that function. 
