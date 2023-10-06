@@ -47,7 +47,24 @@ RegisterNetEvent("md-drugs:Client:getoxylocation", function()
 end)
 
 CreateThread(function()
- 
+ if Config.oxtarget then
+ exports.ox_target:addBoxZone({ -- 963.37, -2122.95, 31.47
+		coords = Config.Payfortruck,
+		size = vec3(2,2,2),
+		debugPoly = false,
+		rotation = 45,
+		options = {
+			{
+            type = "client",
+            event = "md-drugs:client:getoxytruck",
+			icon = "fas fa-sign-in-alt",
+			label = "Pay For Truck",
+			
+			
+			},
+		},
+	})
+ else
  exports['qb-target']:AddBoxZone("getoxylocation",Config.Payfortruck,1.5, 1.75, { -- 963.37, -2122.95, 31.47
 	name = "getoxylocation",
 	heading = 11.0,
@@ -69,9 +86,8 @@ CreateThread(function()
 	distance = 2.5
  })
 	
-	
+end	
 end)
- 
 RegisterNetEvent("md-drugs:client:getoxylocationroute")
 AddEventHandler("md-drugs:client:getoxylocationroute", function() 
 	Wait(100)
