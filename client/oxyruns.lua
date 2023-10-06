@@ -112,7 +112,7 @@ AddEventHandler("md-drugs:client:getoxylocationroute", function()
 	druglocation:onPlayerInOut(function(isPointInside) if isPointInside then  RemoveBlip(deliveryBlip) end end)
 	end
 	if unluck <= Config.PoliceAlertOxy then 
-        policecall()
+        Policecall()
     end
 	local current = "g_m_y_famdnf_01"
             RequestModel(current)
