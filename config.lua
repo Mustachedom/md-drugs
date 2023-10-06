@@ -5,6 +5,7 @@ Config.rewardItem = "coca_leaf"
 Config.rewardItemheroin = "poppyresin"
 Config.rewardshrooms = "shrooms"
 Config.rewardMescaline = "cactusbulb"
+Config.oxtarget = false --- turn to true if you use oxtarget
 Config.respawnTime = 150 -- Seconds
 Config.cd = false ---- if you use cd-dispatch
 Config.ps = false --- if you use ps dispatch
