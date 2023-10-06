@@ -156,7 +156,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:takemescaline")
 AddEventHandler("md-drugs:client:takemescaline", function()
-local chance = math.random(1,10)
+local chance = math.random(1,100)
 local chance2 = math.random(1,100)
     QBCore.Functions.Progressbar("drink_something", "Taking Mescaline", 1000, false, true, {
         disableMovement = false,
