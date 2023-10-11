@@ -91,6 +91,21 @@ if Config.oxtarget then
 			},
 		},
 	})
+	exports.ox_target:addBoxZone({ -- 963.37, -2122.95, 31.47
+		coords = Config.gettabs,
+		size = vec3(2,2,2),
+		debugPoly = false,
+		rotation = 45,
+		options = {
+			{
+				type = "client",
+				event = "md-drugs:client:buytabs",
+				icon = "fas fa-sign-in-alt",
+				label = "Buy Tabs",
+				
+			},
+		},
+	})
 	------ heroin
 	exports.ox_target:addBoxZone({ -- 963.37, -2122.95, 31.47
 		coords = Config.dryplant,
@@ -412,6 +427,24 @@ else
 				event = "md-drugs:client:buylabkit",
 				icon = "fas fa-sign-in-alt",
 				label = "Buy A Kit",
+				
+			},
+		},
+		distance = 2.5
+	})
+		exports['qb-target']:AddBoxZone("buylabkit",Config.gettabs,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+		name = "buylabkit",
+		heading = 156.0,
+		debugPoly = false,
+		minZ = Config.gettabs-2,
+		maxZ = Config.gettabs+2,
+	}, {
+		options = {
+			{
+				type = "client",
+				event = "md-drugs:client:buytabs",
+				icon = "fas fa-sign-in-alt",
+				label = "Buy Tabs",
 				
 			},
 		},
