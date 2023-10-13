@@ -118,27 +118,7 @@ AddEventHandler('onResourceStart', function(resource)
     end
 end)
 
-CreateThread(function()
-exports['qb-target']:AddBoxZone("drymescaline",Config.DryOut,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-	name = "drymescaline",
-	heading = 11.0,
-	debugPoly = false,
-	minZ = Config.DryOut-2,
-	maxZ = Config.DryOut+2,
-}, {
-	options = {
-		{
-            type = "client",
-            event = "md-drugs:client:drymescaline",
-			icon = "fas fa-sign-in-alt",
-			label = "Dry Out",
-			
-		},
-	},
-	distance = 2.5
- })
-			
-end)
+
 RegisterNetEvent("md-drugs:client:drymescaline")
 AddEventHandler("md-drugs:client:drymescaline", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
