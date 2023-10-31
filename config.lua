@@ -1,6 +1,6 @@
 Config = {} --Ignore.
 
-Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
+Config.UseTarget = true
 Config.rewardItem = "coca_leaf"
 Config.rewardItemheroin = "poppyresin"
 Config.rewardshrooms = "shrooms"
