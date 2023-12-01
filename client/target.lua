@@ -432,8 +432,8 @@ else
 		},
 		distance = 2.5
 	})
-		exports['qb-target']:AddBoxZone("buylabkit",Config.gettabs,1.5, 1.75, { -- 963.37, -2122.95, 31.47
-		name = "buylabkit",
+		exports['qb-target']:AddBoxZone("buylabkit1",Config.gettabs,1.5, 1.75, { -- 963.37, -2122.95, 31.47
+		name = "buylabkit1",
 		heading = 156.0,
 		debugPoly = false,
 		minZ = Config.gettabs-2,
