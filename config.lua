@@ -577,10 +577,10 @@ Config.DrugsPrice = {
     -- Shop Config
 Config.Products = {
         [1] = {name = "weed_white-widow_seed", price = 15, amount = 150, info = {}, type = "item", slot = 1, minrep = 0},
-        [2] = {name = "weed_skunk_seed", price = 15, amount = 150, info = {}, type = "item", slot = 1, minrep = 20},
-        [3] = {name = "weed_purple-haze_seed", price = 15, amount = 150, info = {}, type = "item", slot = 1, minrep = 40},
-		[4] = {name = "weed_og-kush_seed", price = 15, amount = 150, info = {}, type = "item", slot = 1, minrep = 60},
-		[5] = {name = "weed_amnesia_seed", price = 15, amount = 150, info = {}, type = "item", slot = 1, minrep = 80},
+        [2] = {name = "weed_skunk_seed", price = 15, amount = 150, info = {}, type = "item", slot = 2, minrep = 20},
+        [3] = {name = "weed_purple-haze_seed", price = 15, amount = 150, info = {}, type = "item", slot = 3, minrep = 40},
+	[4] = {name = "weed_og-kush_seed", price = 15, amount = 150, info = {}, type = "item", slot = 4, minrep = 60},
+	[5] = {name = "weed_amnesia_seed", price = 15, amount = 150, info = {}, type = "item", slot = 5, minrep = 80},
 }
 
 Config.UseMarkedBills = false -- true for marked bills, false for cash
