@@ -42,7 +42,9 @@ There was definetly times I dm'd him saying what the fuck am I doing and he help
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+----------------------------------
+[Preview](https://www.youtube.com/watch?v=I_x7_oz_SAU)](https://www.youtube.com/watch?v=I_x7_oz_SAU)
+------------------------------------------------------
 <h1>How to install like a fuckin bosssssss</h1>
 
 - STEP 1
