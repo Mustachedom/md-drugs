@@ -27,7 +27,7 @@ end
 end)
 end
 
-QBCore.Functions.CreateUseableItem(function(source, item)
+QBCore.Functions.CreateUseableItem('leancup', function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local recipe1 = { 'mdlean', 'sprunk', 'leancup'}
@@ -64,6 +64,5 @@ if price == 2 then
 Player.Functions.AddItem('cupofdextro', 1)
 TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cupofdextro'], "add", 1)
 end
-end, 'leancup')
-
+end)
 
