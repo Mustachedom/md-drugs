@@ -28,7 +28,7 @@ There was definetly times I dm'd him saying what the fuck am I doing and he help
 
 - [LJ/PS](https://github.com/Project-Sloth/ps-inventory) or [qb inventory](https://github.com/qbcore-framework/qb-inventory) or [ox_inventory](https://github.com/overextended/ox_inventory/releases/tag/v2.36.1)
   
-- [ps-buffs](https://github.com/Project-Sloth/ps-buf)
+- [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
   
 - [ps-ui](https://github.com/Project-Sloth/ps-ui)
   
