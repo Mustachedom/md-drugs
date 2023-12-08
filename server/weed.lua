@@ -342,10 +342,10 @@ local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
 if Player.Functions.GetItemByName("butanetorch") then 
-	Player.Functions.RemoveItem("shatter", 1)
-	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["shatter"], "remove", 1)
-	TriggerClientEvent("md-drugs:client:dodabs", src)
-	
+	if Player.Functions.RemoveItem("shatter", 1) then
+    	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["shatter"], "remove", 1)
+    	TriggerClientEvent("md-drugs:client:dodabs", src)
+	end
 else
 TriggerClientEvent('QBCore:Notify', src, "You Need A Butane Torch", "error")
 end
