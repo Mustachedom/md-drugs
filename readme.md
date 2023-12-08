@@ -364,4 +364,5 @@ if you do not have this then add this in animationslist.lua`
         }
     },
 ```
-
+-----------
+step 10 check small resources config to see if you have any preset teleports that could be interfereing(coke is one from base smallresources)
