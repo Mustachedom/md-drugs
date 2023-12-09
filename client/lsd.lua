@@ -37,7 +37,7 @@ RegisterNetEvent("md-drugs:client:getlysergic", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:getlysergic")
@@ -57,7 +57,7 @@ RegisterNetEvent("md-drugs:client:getdiethylamide", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	exports['ps-ui']:Circle(function(success)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     if success then
         TriggerServerEvent("md-drugs:server:getdiethylamide")
 	else
@@ -67,7 +67,7 @@ end, 1, 8) -- NumberOfCircles, MS
 end)
 
 RegisterNetEvent("md-drugs:client:setlsdlabkit", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+local PedCoords = GetEntityCoords(cache.ped)
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	QBCore.Functions.Progressbar("drink_something", "Setting Table Down", 1000, false, true, {
         disableMovement = false,
@@ -78,7 +78,7 @@ local PedCoords = GetEntityCoords(PlayerPedId())
     }, {}, {}, {}, function()-- Done
 	labkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	PlaceObjectOnGroundProperly(labkit)
-	ClearPedTasks(PlayerPedId())
+	ClearPedTasks(cache.ped)
 	exports['qb-target']:AddTargetEntity(labkit, {
      options = {
         {
@@ -112,7 +112,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:getlabkitback", function() 
     exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    local PedCoords = GetEntityCoords(PlayerPedId())
+    local PedCoords = GetEntityCoords(cache.ped)
     QBCore.Functions.Progressbar("drink_something", "Packing Up", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -122,14 +122,14 @@ RegisterNetEvent("md-drugs:client:getlabkitback", function()
     }, {}, {}, {}, function()-- Done
 		DeleteObject(labkit)
 		TriggerServerEvent('md-drugs:server:getlabkitback')
-		ClearPedTasks(PlayerPedId())
+		ClearPedTasks(cache.ped)
 	end)
 end)
 
 
 RegisterNetEvent("md-drugs:client:heatliquid", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-	local PedCoords = GetEntityCoords(PlayerPedId())
+	local PedCoords = GetEntityCoords(cache.ped)
 	dict = "scr_ie_svm_technical2"
     QBCore.Functions.Progressbar("drink_something", "Heating Liquids!", 1000, false, true, {
         disableMovement = false,
@@ -138,21 +138,21 @@ RegisterNetEvent("md-drugs:client:heatliquid", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-    ClearPedTasks(PlayerPedId())
+    ClearPedTasks(cache.ped)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:heatliquid")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
 		TriggerServerEvent("md-drugs:server:failheating")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 		DeleteObject(labkit)
 		dirtylabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 		loadParticle(dict)
 	    exitPtfx = StartParticleFxLoopedOnEntity("scr_dst_cocaine", dirtylabkit, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
 		PlaceObjectOnGroundProperly(dirtylabkit)
         SetParticleFxLoopedAlpha(exitPtfx, 3.0)
-		 ClearPedTasks(PlayerPedId())
+		 ClearPedTasks(cache.ped)
 		exports['qb-target']:AddTargetEntity(dirtylabkit, {
 		options = {
         {
@@ -178,7 +178,7 @@ RegisterNetEvent("md-drugs:client:cleanlabkit", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 		TriggerServerEvent("md-drugs:server:removecleaningkit")
-		 ClearPedTasks(PlayerPedId())
+		 ClearPedTasks(cache.ped)
 	end)
 end)
 
@@ -196,7 +196,7 @@ RegisterNetEvent("md-drugs:client:refinequalityacid", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-    ClearPedTasks(PlayerPedId())
+    ClearPedTasks(cache.ped)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:refinequalityacid")
@@ -216,7 +216,7 @@ RegisterNetEvent("md-drugs:client:maketabpaper", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:maketabpaper")
@@ -237,7 +237,7 @@ RegisterNetEvent("md-drugs:client:cutsheet", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -251,7 +251,7 @@ RegisterNetEvent("md-drugs:client:buytabs", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 		TriggerServerEvent("md-drugs:server:gettabpaper")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -265,7 +265,7 @@ RegisterNetEvent("md-drugs:client:buylabkit", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 		TriggerServerEvent("md-drugs:server:getlabkit")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -281,7 +281,7 @@ RegisterNetEvent('md-drugs:client:taketabs', function(itemName)
 		anim = "pill",
 		flags = 49,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
+        StopAnimTask(cache.ped, "mp_suicide", "pill", 1.0)
         TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
 		if itemName == "smiley_tabs" or itemName == "wildcherry_tabs" or itemName == "yinyang_tabs"   then
 			AlienEffect()
@@ -295,7 +295,7 @@ RegisterNetEvent('md-drugs:client:taketabs', function(itemName)
 			EcstasyEffect()
 		end	
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
+        StopAnimTask(cache.ped, "mp_suicide", "pill", 1.0)
         QBCore.Functions.Notify("Canceled", "error")
     end)
 end)

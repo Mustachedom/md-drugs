@@ -93,18 +93,18 @@ RegisterNetEvent("md-drugs:client:getfromtrunk", function()
 	if carryPackage then
 		QBCore.Functions.Notify("You Cant Carry More Than One", "error")
 	else	
-			local pos = GetEntityCoords(PlayerPedId(), true)
+			local pos = GetEntityCoords(cache.ped, true)
 		RequestAnimDict('anim@heists@box_carry@')
 		while (not HasAnimDictLoaded('anim@heists@box_carry@')) do
 			Wait(7)
 		end
-		TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
+		TaskPlayAnim(cache.ped, 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
 		RequestModel("hei_prop_drug_statue_box_big")
 		while not HasModelLoaded("hei_prop_drug_statue_box_big") do
 			Wait(0)
 		end
 		local object = CreateObject("hei_prop_drug_statue_box_big", pos.x, pos.y, pos.z, true, true, true)
-		AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.05, 0.1, -0.3, 300.0, 250.0, 20.0, true, true, false, true, 1, true)
+		AttachEntityToEntity(object, cache.ped, GetPedBoneIndex(cache.ped, 57005), 0.05, 0.1, -0.3, 300.0, 250.0, 20.0, true, true, false, true, 1, true)
 		carryPackage = object
 	end	
 end)
@@ -119,7 +119,7 @@ RegisterNetEvent("md-drugs:client:giveoxybox", function()
 			disableInventory = true,
 		}, {}, {}, {}, function()-- Done
 			TriggerServerEvent("md-drugs:server:giveoxybox")
-			ClearPedTasks(PlayerPedId())
+			ClearPedTasks(cache.ped)
 			DeleteEntity(oxybuyer)
 			 DetachEntity(carryPackage, true, true)
 			 DeleteObject(carryPackage)

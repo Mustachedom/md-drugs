@@ -26,9 +26,9 @@ RegisterNetEvent('coke:respawnCane', function(loc)
                             { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                             {}, {}, function()
                             TriggerServerEvent("coke:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end)
                     end
                 }
@@ -62,9 +62,9 @@ RegisterNetEvent("coke:init", function()
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                                 {}, {}, function()
                                 TriggerServerEvent("coke:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end)
                         end
                     }
@@ -108,7 +108,7 @@ RegisterNetEvent("md-drugs:client:makepowder", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:makepowder")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -116,7 +116,7 @@ RegisterNetEvent("md-drugs:client:cutcokeone", function()
 	cuttingcoke = true
 	CutCoke()
 	TriggerServerEvent("md-drugs:server:cutcokeone")
-    ClearPedTasks(PlayerPedId())
+    ClearPedTasks(cache.ped)
 	cuttingcoke = nil
    
 end)
@@ -125,7 +125,7 @@ RegisterNetEvent("md-drugs:client:bagcoke", function()
 	baggingcoke = true
 	BagCoke()
 	TriggerServerEvent("md-drugs:server:bagcoke")
-    ClearPedTasks(PlayerPedId())
+    ClearPedTasks(cache.ped)
 	baggingcoke = nil
    
 end)

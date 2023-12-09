@@ -29,9 +29,9 @@ RegisterNetEvent('weed:respawnCane', function(loc)
                             { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                             {}, {}, function()
                             TriggerServerEvent("weed:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end)
                     end,
 					canInteract = function()
@@ -71,9 +71,9 @@ RegisterNetEvent("weed:init", function()
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                                 {}, {}, function()
                                 TriggerServerEvent("weed:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end)
                         end,
 						canInteract = function()
@@ -135,7 +135,7 @@ options = {
 				if drying then
 					QBCore.Functions.Notify("Already Drying One Out", "error")
 				else
-					local loc = GetEntityCoords(PlayerPedId())
+					local loc = GetEntityCoords(cache.ped)
 					local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)
 					drying = true
 					FreezeEntityPosition(weedplant, true)
@@ -187,7 +187,7 @@ options = {
 			label = "Enter Building",
 			distance = 5,
 			action = function()
-				SetEntityCoords(PlayerPedId(),Config.Teleout)
+				SetEntityCoords(cache.ped,Config.Teleout)
 				
 			end,
 			canInteract = function()
@@ -214,7 +214,7 @@ options = {
 			label = "Exit Building",
 			distance = 5,
 			action = function()
-				SetEntityCoords(PlayerPedId(),Config.Telein)
+				SetEntityCoords(cache.ped,Config.Telein)
 				
 			end,
 			canInteract = function()
@@ -251,9 +251,9 @@ options = {
 							exports['ps-ui']:Circle(function(success)
 						if success then
 							TriggerServerEvent("md-drugs:server:makebutter")       
-							ClearPedTasks(PlayerPedId())
+							ClearPedTasks(cache.ped)
 							else
-							ClearPedTasks(PlayerPedId())
+							ClearPedTasks(cache.ped)
 							end
 						end, 3, 8) -- NumberOfCircles, 
 						end)
@@ -282,9 +282,9 @@ options = {
 					exports['ps-ui']:Circle(function(success)
 					if success then
 						TriggerServerEvent("md-drugs:server:makebrownies")       
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					else
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					end
 					end, 3, 8) -- NumberOfCircles, 
 						end)
@@ -313,9 +313,9 @@ options = {
 					exports['ps-ui']:Circle(function(success)
 					if success then
 						TriggerServerEvent("md-drugs:server:makecookies")       
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					else
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					end
 					end, 3, 8) -- NumberOfCircles, 
 						end)
@@ -344,9 +344,9 @@ options = {
 					exports['ps-ui']:Circle(function(success)
 					if success then
 						TriggerServerEvent("md-drugs:server:makechocolate")       
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					else
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					end
 					end, 3, 8) -- NumberOfCircles, 
 						end)
@@ -375,9 +375,9 @@ options = {
 					exports['ps-ui']:Circle(function(success)
 					if success then
 						TriggerServerEvent("md-drugs:server:makemuffin")
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					else
-						ClearPedTasks(PlayerPedId())
+						ClearPedTasks(cache.ped)
 					end
 					end, 3, 8) -- NumberOfCircles, 
 						end)
@@ -415,10 +415,10 @@ options = {
 							exports['ps-ui']:Circle(function(success)
 						if success then
 							TriggerServerEvent("md-drugs:server:makeoil")       
-							ClearPedTasks(PlayerPedId())
+							ClearPedTasks(cache.ped)
 						else
 							local explosion = math.random(1,100)
-							local loc = GetEntityCoords(PlayerPedId())
+							local loc = GetEntityCoords(cache.ped)
 							if explosion <= 99 then
 								AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
 								exploded = true
@@ -426,7 +426,7 @@ options = {
 								Wait(1000 * 30)
 								exploded = nil
 							end	
-							ClearPedTasks(PlayerPedId())
+							ClearPedTasks(cache.ped)
 							end
 						end, 3, 8) -- NumberOfCircles, 
 						end)
@@ -524,7 +524,7 @@ RegisterNetEvent("md-drugs:client:edibles", function()
 		flags = 49,
     }, {}, {}, function()
 AlienEffect()
-ClearPedTasks(PlayerPedId())
+ClearPedTasks(cache.ped)
 end)
 end)
 

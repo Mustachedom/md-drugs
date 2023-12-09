@@ -12,10 +12,10 @@ RegisterNetEvent("md-drugs:client:makecrackone", function()
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:makecrackone")       
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
 		TriggerServerEvent("md-drugs:server:failcrackone")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 3, 8) -- NumberOfCircles, 
     end)
@@ -32,7 +32,7 @@ RegisterNetEvent("md-drugs:client:bagcrack", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:bagcrack")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 

@@ -40,7 +40,7 @@ RegisterNetEvent("md-drugs:client:getloccoke", function()
                         icon = "fas fa-eye",
                         action = function()
 							local luck = math.random(1,100)
-							local ped = GetEntityCoords(PlayerPedId())
+							local ped = GetEntityCoords(cache.ped)
 							if luck <= Config.SuccessfulChance then
 								TriggerEvent("md-drugs:client:successsalecoke")
 							else
@@ -74,7 +74,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
 	   Citizen.Wait(4000)
 		
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -89,7 +89,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
     }, {}, {}, {}, function()-- Done
         Citizen.Wait(4000)
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 ----------heroin
@@ -128,7 +128,7 @@ RegisterNetEvent("md-drugs:client:getloccrack", function()
                         icon = "fas fa-eye",
                         action = function()
 							local luck = math.random(1,100)
-							local ped = GetEntityCoords(PlayerPedId())
+							local ped = GetEntityCoords(cache.ped)
 							if luck <= Config.SuccessfulChance then
 								TriggerEvent("md-drugs:client:successsalecrack")
 							else
@@ -162,7 +162,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
 	   Citizen.Wait(4000)
 		
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -177,7 +177,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
     }, {}, {}, {}, function()-- Done
         Citizen.Wait(4000)
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 ----------------------------- heroin
@@ -216,7 +216,7 @@ RegisterNetEvent("md-drugs:client:getlocheroin", function()
                         icon = "fas fa-eye",
                         action = function()
 							local luck = math.random(1,100)
-							local ped = GetEntityCoords(PlayerPedId())
+							local ped = GetEntityCoords(cache.ped)
 							if luck <= Config.SuccessfulChance then
 								TriggerEvent("md-drugs:client:successsaleheroin")
 							else
@@ -249,7 +249,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
     }, {}, {}, {}, function()-- Done
        TriggerServerEvent("md-drugs:server:wholesaleheroin")
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -263,7 +263,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 ---------------------------  lsd
@@ -302,7 +302,7 @@ RegisterNetEvent("md-drugs:client:getloclsd", function()
                         icon = "fas fa-eye",
                         action = function()
 							local luck = math.random(1,100)
-							local ped = GetEntityCoords(PlayerPedId())
+							local ped = GetEntityCoords(cache.ped)
 							if luck <= Config.SuccessfulChance then
 								TriggerEvent("md-drugs:client:successsalelsd")
 							else
@@ -333,7 +333,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
     }, {}, {}, {}, function()-- Done
        TriggerServerEvent("md-drugs:server:wholesalelsd")
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -348,7 +348,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
     }, {}, {}, {}, function()-- Done
 		
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 ------------------------- xtc
@@ -387,7 +387,7 @@ RegisterNetEvent("md-drugs:client:getlocxtc", function()
                         icon = "fas fa-eye",
                         action = function()
 							local luck = math.random(1,100)
-							local ped = GetEntityCoords(PlayerPedId())
+							local ped = GetEntityCoords(cache.ped)
 							if luck <= Config.SuccessfulChance then
 								TriggerEvent("md-drugs:client:successsalextc")
 							else
@@ -417,10 +417,10 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-		ClearPedTasks(PlayerPedId())
+		ClearPedTasks(cache.ped)
        TriggerServerEvent("md-drugs:server:wholesalextc")
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -433,9 +433,9 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-		ClearPedTasks(PlayerPedId())
+		ClearPedTasks(cache.ped)
        
         DeleteEntity(drugdealer)
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)

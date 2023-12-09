@@ -50,7 +50,7 @@ RegisterNetEvent("md-drugs:client:givevicodinprescription", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:givevicodinprescription")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 RegisterNetEvent("md-drugs:client:giveadderalprescription", function() 
@@ -63,7 +63,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:giveadderalprescription")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -77,7 +77,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:givemorphineprescription")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 RegisterNetEvent("md-drugs:client:givexanaxprescription", function() 
@@ -90,7 +90,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:givexanaxprescription")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -104,7 +104,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:fillprescription")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -117,7 +117,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -133,7 +133,7 @@ RegisterNetEvent('md-drugs:client:takepharma', function(itemName)
 		anim = "pill",
 		flags = 49,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
+        StopAnimTask(cache.ped, "mp_suicide", "pill", 1.0)
         
 		if itemName == "vicodin" then
 			exports['ps-buffs']:AddHealthBuff(10000, 20)
@@ -145,7 +145,7 @@ RegisterNetEvent('md-drugs:client:takepharma', function(itemName)
 			exports['ps-buffs']:AddHealthBuff(10000, 40)
 		end
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
+        StopAnimTask(cache.ped, "mp_suicide", "pill", 1.0)
         QBCore.Functions.Notify("Canceled", "error")
     end)
 end)

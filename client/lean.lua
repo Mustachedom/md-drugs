@@ -31,11 +31,11 @@ RegisterNetEvent('md-drugs:client:consumelean', function(itemName)
 		disableMouse = false,
 		disableCombat = true,
     }, {}, {}, {}, function()
-       ClearPedTasks(PlayerPedId())
+       ClearPedTasks(cache.ped)
 	TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
 			AlienEffect()
 			Wait(math.random(1000,5000))
-			SetPedToRagdoll(PlayerPedId(), 1000,2000, 2)
+			SetPedToRagdoll(cache.ped, 1000,2000, 2)
 			
 					
    end)

@@ -25,7 +25,7 @@ end)
 -- Functions
 
 local function GetClosestDealer()
-    local ped = PlayerPedId()
+    local ped = cache.ped
     local pCoords = GetEntityCoords(ped)
     for k, v in pairs(QBConfig.Dealers) do
         local dealerCoords = vector3(v.coords.x, v.coords.y, v.coords.z)
@@ -92,7 +92,7 @@ local function RequestDelivery()
 
         QBCore.Functions.Notify("Currently searching for a delivery...", 'success')
         if Config.NearbyDeliveries == true then
-            local playerPed = PlayerPedId()
+            local playerPed = cache.ped
             local playerCoords = GetEntityCoords(playerPed)
             local nearbyLocations = {}
         -- Filter out the nearby locations
@@ -182,7 +182,7 @@ local function DeliverStuff()
             TriggerServerEvent('md-drugs:server:successDelivery', activeDelivery, true)
             activeDelivery = nil
             exports['qb-target']:RemoveZone('drugDeliveryZone')
-            ClearPedTasks(PlayerPedId())
+            ClearPedTasks(cache.ped)
         end)
     else
         TriggerServerEvent('md-drugs:server:successDelivery', activeDelivery, false)

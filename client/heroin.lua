@@ -60,9 +60,9 @@ RegisterNetEvent('heroin:respawnCane', function(loc)
                             { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                             {}, {}, function()
                             TriggerServerEvent("heroin:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end)
                     end
                 }
@@ -100,9 +100,9 @@ RegisterNetEvent("heroin:init", function()
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                                 {}, {}, function()
                                 TriggerServerEvent("heroin:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end)
                         end
                     }
@@ -150,7 +150,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:dryplant")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -164,7 +164,7 @@ RegisterNetEvent("md-drugs:client:cutheroin", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:cutheroin")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -178,14 +178,14 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:getheroinlabkit")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
 RegisterNetEvent("md-drugs:client:setheroinlabkit", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+local PedCoords = GetEntityCoords(cache.ped)
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-	ClearPedTasks(PlayerPedId())
+	ClearPedTasks(cache.ped)
 	heroinlabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	SetVehicleOnGroundProperly(heroinlabkit)
 	exports['qb-target']:AddTargetEntity(heroinlabkit, {
@@ -207,23 +207,23 @@ local PedCoords = GetEntityCoords(PlayerPedId())
 end)
 
 RegisterNetEvent("md-drugs:client:heatliquidheroin", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+local PedCoords = GetEntityCoords(cache.ped)
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:heatliquidheroin")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
 		TriggerServerEvent("md-drugs:server:failheatingheroin")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 		DeleteObject(heroinlabkit)
 		Wait(100)
 		dirtylabkitheroin = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 		loadParticle("core")
 	    heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", dirtylabkitheroin, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
         SetParticleFxLoopedAlpha(heroinkit, 3.0)
-		 ClearPedTasks(PlayerPedId())
-		 SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
+		 ClearPedTasks(cache.ped)
+		 SetPedToRagdoll(cache.ped, 1300, 1300, 0, 0, 0, 0)
 		 
 		exports['qb-target']:AddTargetEntity(dirtylabkitheroin, {
 		 options = {
@@ -250,7 +250,7 @@ RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 		TriggerServerEvent("md-drugs:server:removecleaningkitheroin")
-		 ClearPedTasks(PlayerPedId())
+		 ClearPedTasks(cache.ped)
 	end)
 end)
 
@@ -264,7 +264,7 @@ end)
 RegisterNetEvent("md-drugs:client:getheroinkitback", function() 
 DeleteObject(heroinlabkit)
 TriggerServerEvent("md-drugs:server:getheroinlabkitback")
-ClearPedTasks(PlayerPedId())
+ClearPedTasks(cache.ped)
 end)
 
 RegisterNetEvent("md-drugs:client:fillneedle", function() 
@@ -279,10 +279,10 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:fillneedle")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
 		TriggerServerEvent("md-drugs:server:failheroin")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, 
     end)

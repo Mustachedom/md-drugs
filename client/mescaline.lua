@@ -41,9 +41,9 @@ RegisterNetEvent('Mescaline:respawnCane', function(loc)
                             { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                             {}, {}, function()
                             TriggerServerEvent("Mescaline:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end)
                     end
                 }
@@ -81,9 +81,9 @@ RegisterNetEvent("Mescaline:init", function()
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                                 {}, {}, function()
                                 TriggerServerEvent("Mescaline:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end)
                         end
                     }
@@ -129,7 +129,7 @@ RegisterNetEvent("md-drugs:client:drymescaline", function()
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	    TriggerServerEvent("md-drugs:server:drymescaline")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
     end)
 end)
 
@@ -145,7 +145,7 @@ local chance2 = math.random(1,100)
     }, {}, {}, {}, function()-- Done
 		if chance <= Config.Badtrip then 
 			AlienEffect()
-			clone = ClonePed(PlayerPedId(), false, false, true)
+			clone = ClonePed(cache.ped, false, false, true)
 			SetEntityAsMissionEntity(clone)
 			SetEntityVisible(clone, true)
 			SetPedRelationshipGroupHash(clone)
@@ -155,13 +155,13 @@ local chance2 = math.random(1,100)
 			SetPedFleeAttributes(clone, false)
 			if chance2 <= 99 then
 				GiveWeaponToPed(clone, "weapon_flaregun", 1, false, true)
-				TaskCombatPed(clone, PlayerPedId(), 0, 16)
+				TaskCombatPed(clone, cache.ped, 0, 16)
 				SetPedCombatAttributes(clone, 46, true)
 				Wait(1000 * 30)
 				DeleteEntity(clone)
 			else
 				GiveWeaponToPed(clone, "weapon_rpg", 1, false, true)
-				TaskCombatPed(clone, PlayerPedId(), 0, 16)
+				TaskCombatPed(clone, cache.ped, 0, 16)
 				SetPedCombatAttributes(clone, 46, true)
 				Wait(1000 * 30)
 				DeleteEntity(clone)

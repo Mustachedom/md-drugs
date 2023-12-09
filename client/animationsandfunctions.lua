@@ -16,7 +16,7 @@ function MethCooking()
 local animDict, animName = "anim@amb@business@meth@meth_monitoring_cooking@cooking@", "chemical_pour_short_cooker"
 lib.requestAnimDict(animDict, 500)
 dict = "scr_fbi5a"
-local ped = PlayerPedId()
+local ped = cache.ped
 SetEntityCoords(ped, vector3(1005.773, -3200.402, -38.524))
 Wait(1)
 
@@ -48,7 +48,7 @@ function SmashMeth()
 local ver = ""
 local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char02"
 lib.requestAnimDict(animDict, 500)
-local ped = PlayerPedId()
+local ped = cache.ped
 local targetPosition = vector3(1012.628, -3194.619, -39.589)
 SetEntityCoords(ped, targetPosition)
 Wait(1)
@@ -99,7 +99,7 @@ local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
 	lib.requestAnimDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
-	local ped = PlayerPedId()
+	local ped = cache.ped
 	local coords = GetEntityCoords(ped)
 	local scenePos, sceneRot = vector3(1008.734, -3196.646, -39.99), vector3(0.0, 0.0, 1.08)
 	local scenes = {
@@ -206,18 +206,18 @@ FreezeEntityPosition(ped, false)
 end
 
 function Tray()
-local pos = GetEntityCoords(PlayerPedId(), true)
+local pos = GetEntityCoords(cache.ped, true)
 RequestAnimDict('anim@heists@box_carry@')
 while (not HasAnimDictLoaded('anim@heists@box_carry@')) do
 Wait(7)
 end
-TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
+TaskPlayAnim(cache.ped, 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
 RequestModel("bkr_prop_meth_tray_02a")
 while not HasModelLoaded("bkr_prop_meth_tray_02a") do
 Wait(0)
 end
 local trays = CreateObject("bkr_prop_meth_tray_02a", pos.x, pos.y, pos.z, true, true, true)
-AttachEntityToEntity(trays, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.01,-0.2, -0.2, 20.0, 0.0, 0.0, true, true, false, true, 1, true)
+AttachEntityToEntity(trays, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.01,-0.2, -0.2, 20.0, 0.0, 0.0, true, true, false, true, 1, true)
 end
 
 
@@ -226,7 +226,7 @@ function CutCoke()
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
 	lib.requestAnimDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
-	local ped = PlayerPedId()
+	local ped = cache.ped
 	local coords = GetEntityCoords(ped)
 	local scenePos, sceneRot = vector3(1090.37+.9, -3193.61-1.68, -39.60), vector3(0.0, 0.0, 0.00)
 	local scenes = {
@@ -294,7 +294,7 @@ local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
 	lib.requestAnimDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
-	local ped = PlayerPedId()
+	local ped = cache.ped
 	local coords = GetEntityCoords(ped)
 	local scenePos, sceneRot = vector3(1090.62+4.3, -3196.2+3, -38.99-1), vector3(360.0, 360.0, 180.08)
 	local scenes = {
@@ -395,8 +395,8 @@ function EcstasyEffect()
             ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.08)
         end
     end
-    if IsPedRunning(PlayerPedId()) then
-        SetPedToRagdoll(PlayerPedId(), math.random(1000, 3000), math.random(1000, 3000), 3, 0, 0, 0)
+    if IsPedRunning(cache.ped) then
+        SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, 0, 0, 0)
     end
 
     startStamina = 0
@@ -435,7 +435,7 @@ end
 
 function CokeBaggyEffect()
     local startStamina = 20
-    local ped = PlayerPedId()
+    local ped = cache.ped
     AlienEffect()
     SetRunSprintMultiplierForPlayer(PlayerId(), 1.1)
     while startStamina > 0 do
@@ -472,7 +472,7 @@ function AlienEffect()
 end
 
 function SpawnCarPedChase()
-local ped = GetEntityCoords(PlayerPedId())
+local ped = GetEntityCoords(cache.ped)
 local stoploc = vector3(-1157.63, -3056.71, 13.94)
 local start = Config.StartLoc[math.random(1,#Config.StartLoc)]
 local search = false
@@ -557,7 +557,7 @@ end
 end
 
 function SpawnMethCarPedChase()
-local ped = GetEntityCoords(PlayerPedId())
+local ped = GetEntityCoords(cache.ped)
 local stoploc = vector3(-1157.63, -3056.71, 13.94)
 local start =  Config.StartLoc[math.random(1,#Config.StartLoc)]
 local searchmeth = false
@@ -646,7 +646,7 @@ end
 end
 
 function SetUpPeds()
-local 	ped = GetEntityCoords(PlayerPedId())
+local 	ped = GetEntityCoords(cache.ped)
 local	CokePed = CreatePed(0, "g_m_y_famdnf_01", ped.x+3, ped.y-5, ped.z-1, 90.0, true, true)
 local	CokePed2 = CreatePed(0,"g_m_y_famdnf_01", ped.x+6, ped.y-10, ped.z-1, 90.0, true, true)
 local	CokePed3 = CreatePed(0,"g_m_y_famdnf_01", ped.x+-2, ped.y+5, ped.z-1, 90.0, true, true)
@@ -657,19 +657,19 @@ local	CokePed7 = CreatePed(0,"g_m_y_famdnf_01", ped.x+1, ped.y-10, ped.z-1, 90.0
 SetPedArmour(CokePed, 200)
 SetPedCanSwitchWeapon(CokePed, true)
 GiveWeaponToPed(CokePed, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed, PlayerPedId(), 0, 16)
+TaskCombatPed(CokePed, cache.ped, 0, 16)
 GiveWeaponToPed(CokePed2, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed2, PlayerPedId(), 0, 16)
+TaskCombatPed(CokePed2, cache.ped, 0, 16)
 GiveWeaponToPed(CokePed3, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed3, PlayerPedId(), 0, 16)
+TaskCombatPed(CokePed3, cache.ped, 0, 16)
 GiveWeaponToPed(CokePed4, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed4, PlayerPedId(), 0, 16)
+TaskCombatPed(CokePed4, cache.ped, 0, 16)
 GiveWeaponToPed(CokePed5, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed5, PlayerPedId(), 0, 16)
+TaskCombatPed(CokePed5, cache.ped, 0, 16)
 GiveWeaponToPed(CokePed6, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed6, PlayerPedId(), 0, 16)
+TaskCombatPed(CokePed6, cache.ped, 0, 16)
 GiveWeaponToPed(CokePed7, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed7, PlayerPedId(), 0, 16)
+TaskCombatPed(CokePed7, cache.ped, 0, 16)
 SetPedCombatAttributes(CokePed, 46, true)
 SetPedCombatAttributes(CokePed2, 46, true)
 SetPedCombatAttributes(CokePed3, 46, true)

@@ -26,7 +26,7 @@ exports['qb-target']:AddBoxZone("methteleout",Config.MethTeleIn, 1.5, 1.75, { --
 				icon = "fas fa-sign-in-alt",
 				label = "Enter Building",
 				action = function()
-					SetEntityCoords(PlayerPedId(),Config.MethTeleOut)
+					SetEntityCoords(cache.ped,Config.MethTeleOut)
 				end,
 
 			},
@@ -46,7 +46,7 @@ exports['qb-target']:AddBoxZone("methtelein",Config.MethTeleOut,1.5, 1.75, { -- 
 				icon = "fas fa-sign-in-alt",
 				label = "Exit Building",
 				action = function()
-					SetEntityCoords(PlayerPedId(),Config.MethTeleIn)
+					SetEntityCoords(cache.ped,Config.MethTeleIn)
 				end,
 
 			},
@@ -66,7 +66,7 @@ exports['qb-target']:AddBoxZone("maze",vector3(-95.55, -806.73, 44.04),1.5, 1.75
 				icon = "fas fa-sign-in-alt",
 				label = "dont click this",
 				action = function()
-					SetEntityCoords(PlayerPedId(),vector3(-75.36, -837.24, 318.93))
+					SetEntityCoords(cache.ped,vector3(-75.36, -837.24, 318.93))
 				end,
 
 			},
@@ -110,12 +110,12 @@ exports['qb-target']:AddBoxZone("ingridientsmeth",vector3(1005.7, -3201.28, -39.
 								exports['ps-ui']:Circle(function(success)
 									if success then
 										QBCore.Functions.Notify("Increasing Heat", "success")
-										ClearPedTasks(PlayerPedId())
+										ClearPedTasks(cache.ped)
 										heated = true
 										exports['qb-target']:RemoveZone("adjustdials")
 									else
 										AddExplosion(1005.773, -3200.402, -38.524, 49, 10, true, false, true, true)
-										ClearPedTasks(PlayerPedId())
+										ClearPedTasks(cache.ped)
 										amonia = nil
 										exports['qb-target']:RemoveZone("adjustdials")
 									end
@@ -144,18 +144,18 @@ exports['qb-target']:AddBoxZone("ingridientsmeth",vector3(1005.7, -3201.28, -39.
 			distance = 5,
 			action = function()
 				if amonia then
-					local pos = GetEntityCoords(PlayerPedId(), true)
+					local pos = GetEntityCoords(cache.ped, true)
 					RequestAnimDict('anim@heists@box_carry@')
 					while (not HasAnimDictLoaded('anim@heists@box_carry@')) do
 					Wait(7)
 					end
-					TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
+					TaskPlayAnim(cache.ped, 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
 					RequestModel("bkr_prop_meth_tray_02a")
 					while not HasModelLoaded("bkr_prop_meth_tray_02a") do
 					Wait(0)
 					end
 					local trays = CreateObject("bkr_prop_meth_tray_02a", pos.x, pos.y, pos.z, true, true, true)
-					AttachEntityToEntity(trays, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.01,-0.2, -0.2, 20.0, 0.0, 0.0, true, true, false, true, 1, true)
+					AttachEntityToEntity(trays, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.01,-0.2, -0.2, 20.0, 0.0, 0.0, true, true, false, true, 1, true)
 					tray = true
 					exports['qb-target']:AddBoxZone("boxmeth",vector3(1012.04, -3194.96, -38.99),1.5, 1.75, { -- 963.37, .z-2122.95, 31.47
 					name = "boxmeth",

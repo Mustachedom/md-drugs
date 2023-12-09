@@ -245,7 +245,7 @@ in `wholesale.lua` line 5
 for example something like ps-dispatch will look like this 
 ```
 local function PoliceCall()
-   local currentPos = GetEntityCoords(PlayerPedId())
+   local currentPos = GetEntityCoords(cache.ped)
                 TriggerServerEvent("dispatch:server:notify", {
                 dispatchcodename = "susactivity", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
                 dispatchCode = "10-66",

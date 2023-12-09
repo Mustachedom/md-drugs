@@ -16,7 +16,7 @@ if Config.oxtarget then
 			onSelect = function()
 				 DoScreenFadeOut(500)
 				Wait(1000)
-				SetEntityCoords(PlayerPedId(),Config.CokeTeleOut.x, Config.CokeTeleOut.y, Config.CokeTeleOut.z)
+				SetEntityCoords(cache.ped,Config.CokeTeleOut.x, Config.CokeTeleOut.y, Config.CokeTeleOut.z)
 				 Wait(1000)
 				 DoScreenFadeIn(500)
 			end,
@@ -38,7 +38,7 @@ if Config.oxtarget then
 				onSelect = function()
 					DoScreenFadeOut(500)
 					Wait(500)
-					SetEntityCoords(PlayerPedId(),Config.CokeTeleIn)
+					SetEntityCoords(cache.ped,Config.CokeTeleIn)
 					Wait(500)
 						DoScreenFadeIn(500)
 				end,
@@ -362,7 +362,7 @@ else
 				action = function()
 					 DoScreenFadeOut(500)
 					Wait(500)
-					SetEntityCoords(PlayerPedId(),Config.CokeTeleOut)
+					SetEntityCoords(cache.ped,Config.CokeTeleOut)
 					 Wait(500)
 					 DoScreenFadeIn(500)
 				end,
@@ -385,7 +385,7 @@ else
 					action = function()
 						DoScreenFadeOut(500)
 						Wait(500)
-						SetEntityCoords(PlayerPedId(),Config.CokeTeleIn)
+						SetEntityCoords(cache.ped,Config.CokeTeleIn)
 						Wait(500)
 							DoScreenFadeIn(500)
 					end,

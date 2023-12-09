@@ -29,9 +29,9 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
                             { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                             {}, {}, function()
                             TriggerServerEvent("shrooms:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
+                            ClearPedTasks(cache.ped)
                         end)
                     end
                 }
@@ -90,9 +90,9 @@ end)
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                                 {}, {}, function()
                                 TriggerServerEvent("shrooms:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
+                                ClearPedTasks(cache.ped)
                             end)
                         end
                     }
@@ -115,12 +115,12 @@ RegisterNetEvent('md-drugs:client:takeshrooms', function()
 		anim = "pill",
 		flags = 49,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
+        StopAnimTask(cache.ped, "mp_suicide", "pill", 1.0)
         TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
         EcstasyEffect()
         -- exports["qb-smallresources"]:DoAcid(240000)
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
+        StopAnimTask(cache.ped, "mp_suicide", "pill", 1.0)
         QBCore.Functions.Notify("Canceled", "error")
     end)
 end)

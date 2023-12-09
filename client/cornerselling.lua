@@ -38,7 +38,7 @@ local function RobberyPed()
                     icon = 'fas fa-magnifying-glass',
                     label = "take back",
                     action = function()
-                        local player = PlayerPedId()
+                        local player = cache.ped
                        exports["rpemotes"]:EmoteCommandStart("pickup", 0)
                         Wait(2000)
                         ClearPedTasks(player)
@@ -46,7 +46,7 @@ local function RobberyPed()
                         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[stealData.item], "add")
                         stealingPed = nil
                         stealData = {}
-                        ClearPedTasks(PlayerPedId())
+                        ClearPedTasks(cache.ped)
                         exports['qb-target']:RemoveZone('stealingPed')
                     end,
                     canInteract = function(entity)
@@ -60,7 +60,7 @@ local function RobberyPed()
         })
         CreateThread(function()
             while stealingPed do
-                local playerPed = PlayerPedId()
+                local playerPed = cache.ped
                 local pos = GetEntityCoords(playerPed)
                 local pedpos = GetEntityCoords(stealingPed)
                 local dist = #(pos - pedpos)
@@ -104,7 +104,7 @@ local function SellToPed(ped)
     SetEntityAsNoLongerNeeded(ped)
     ClearPedTasks(ped)
 
-    local coords = GetEntityCoords(PlayerPedId(), true)
+    local coords = GetEntityCoords(cache.ped, true)
     local pedCoords = GetEntityCoords(ped)
     local pedDist = #(coords - pedCoords)
     if getRobbed <= QBConfig.RobberyChance then
@@ -114,7 +114,7 @@ local function SellToPed(ped)
     end
 
     while pedDist > 1.5 do
-        coords = GetEntityCoords(PlayerPedId(), true)
+        coords = GetEntityCoords(cache.ped, true)
         pedCoords = GetEntityCoords(ped)
         if getRobbed <= QBConfig.RobberyChance then
             TaskGoStraightToCoord(ped, coords, 15.0, -1, 0.0, 0.0)
@@ -126,13 +126,13 @@ local function SellToPed(ped)
         Wait(100)
     end
 
-    TaskLookAtEntity(ped, PlayerPedId(), 5500.0, 2048, 3)
-    TaskTurnPedToFaceEntity(ped, PlayerPedId(), 5500)
+    TaskLookAtEntity(ped, cache.ped, 5500.0, 2048, 3)
+    TaskTurnPedToFaceEntity(ped, cache.ped, 5500)
     TaskStartScenarioInPlace(ped, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false)
 
     if hasTarget then
         while pedDist < 3.0 and not IsPedDeadOrDying(ped) do
-            local coords2 = GetEntityCoords(PlayerPedId(), true)
+            local coords2 = GetEntityCoords(cache.ped, true)
             local pedCoords2 = GetEntityCoords(ped)
             local pedDist2 = #(coords2 - pedCoords2)
             if getRobbed <= QBConfig.RobberyChance then
@@ -145,7 +145,7 @@ local function SellToPed(ped)
                     amount = bagAmount,
                 }
                 hasTarget = false
-                local moveto = GetEntityCoords(PlayerPedId())
+                local moveto = GetEntityCoords(cache.ped)
                 local movetoCoords = {x = moveto.x + math.random(100, 500), y = moveto.y + math.random(100, 500), z = moveto.z, }
                 ClearPedTasksImmediately(ped)
                 TaskGoStraightToCoord(ped, movetoCoords.x, movetoCoords.y, movetoCoords.z, 15.0, -1, 0.0, 0.0)
@@ -162,8 +162,8 @@ local function SellToPed(ped)
                                     icon = 'fas fa-hand-holding-dollar',
                                     label = "Sell " ..bagAmount.. " of " .. currentOfferDrug.item.. " for " .. randomPrice .. " Dollars! ",
                                     action = function(entity)
-									 local playerPed = PlayerPedId()
-                                        if IsPedInAnyVehicle(PlayerPedId(), false) then
+									 local playerPed = cache.ped
+                                        if IsPedInAnyVehicle(cache.ped, false) then
                                             QBCore.Functions.Notify("youre in a car", 'error')
                                             hasTarget = false
                                             SetPedKeepTask(entity, false)
@@ -183,7 +183,7 @@ local function SellToPed(ped)
                                                 hasTarget = false
                                                 exports["rpemotes"]:EmoteCommandStart("point", 0)
                                                 Wait(650)
-                                                ClearPedTasks(PlayerPedId())
+                                                ClearPedTasks(cache.ped)
                                                 SetPedKeepTask(entity, false)
                                                 SetEntityAsNoLongerNeeded(entity)
                                                 ClearPedTasksImmediately(entity)
@@ -236,10 +236,10 @@ local function ToggleSelling()
         cornerselling = true
         LocalPlayer.state:set("inv_busy", true, true)
         QBCore.Functions.Notify("get that paper")
-        local startLocation = GetEntityCoords(PlayerPedId())
+        local startLocation = GetEntityCoords(cache.ped)
         CreateThread(function()
             while cornerselling do
-                local player = PlayerPedId()
+                local player = cache.ped
                 local coords = GetEntityCoords(player)
                 if not hasTarget then
                     local PlayerPeds = {}
@@ -274,7 +274,7 @@ end
 RegisterNetEvent('md-drugs:client:cornerselling', function()
     QBCore.Functions.TriggerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(result)
         if CurrentCops >= QBConfig.MinimumDrugSalePolice then
-            if IsPedInAnyVehicle(PlayerPedId(), false) then
+            if IsPedInAnyVehicle(cache.ped, false) then
                 QBCore.Functions.Notify("youre in a car", 'error')
             else
                 if result then

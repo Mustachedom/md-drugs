@@ -1,10 +1,10 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent("md-drugs:client:setpressquad", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+local PedCoords = GetEntityCoords(cache.ped)
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
-	ClearPedTasks(PlayerPedId())
+	ClearPedTasks(cache.ped)
 	quadpress = CreateObject("bkr_prop_coke_press_01b", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	PlaceObjectOnGroundProperly(quadpress)
 	exports['qb-target']:AddTargetEntity(quadpress, {
@@ -41,10 +41,10 @@ local PedCoords = GetEntityCoords(PlayerPedId())
 end)
 
 RegisterNetEvent("md-drugs:client:setpresstriple", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+local PedCoords = GetEntityCoords(cache.ped)
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
-	ClearPedTasks(PlayerPedId())
+	ClearPedTasks(cache.ped)
 	triplepress = CreateObject("bkr_prop_coke_press_01b", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	PlaceObjectOnGroundProperly(triplepress)
 	exports['qb-target']:AddTargetEntity(triplepress, {
@@ -79,10 +79,10 @@ local PedCoords = GetEntityCoords(PlayerPedId())
 end)
 
 RegisterNetEvent("md-drugs:client:setpressdual", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+local PedCoords = GetEntityCoords(cache.ped)
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
-	ClearPedTasks(PlayerPedId())
+	ClearPedTasks(cache.ped)
 	dualpress = CreateObject("bkr_prop_coke_press_01b", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	PlaceObjectOnGroundProperly(dualpress)
 	exports['qb-target']:AddTargetEntity(dualpress, {
@@ -120,10 +120,10 @@ local PedCoords = GetEntityCoords(PlayerPedId())
 end)
 
 RegisterNetEvent("md-drugs:client:setpresssingle", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+local PedCoords = GetEntityCoords(cache.ped)
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
-	ClearPedTasks(PlayerPedId())
+	ClearPedTasks(cache.ped)
 	singlepress = CreateObject("bkr_prop_coke_press_01aa", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	PlaceObjectOnGroundProperly(singlepress)
 	exports['qb-target']:AddTargetEntity(singlepress, {
@@ -164,25 +164,25 @@ end)
 RegisterNetEvent("md-drugs:client:getsinglepressback", function() 
 DeleteObject(singlepress)
 TriggerServerEvent("md-drugs:server:getsinglepressback")
-ClearPedTasks(PlayerPedId())
+ClearPedTasks(cache.ped)
 end)
 
 RegisterNetEvent("md-drugs:client:getdualpressback", function() 
 DeleteObject(dualpress)
 TriggerServerEvent("md-drugs:server:getdualpressback")
-ClearPedTasks(PlayerPedId())
+ClearPedTasks(cache.ped)
 end)
 
 RegisterNetEvent("md-drugs:client:gettriplepressback", function() 
 DeleteObject(triplepress)
 TriggerServerEvent("md-drugs:server:gettriplepressback")
-ClearPedTasks(PlayerPedId())
+ClearPedTasks(cache.ped)
 end)
 
 RegisterNetEvent("md-drugs:client:getquadpressback", function() 
 DeleteObject(quadpress)
 TriggerServerEvent("md-drugs:server:getquadpressback")
-ClearPedTasks(PlayerPedId())
+ClearPedTasks(cache.ped)
 end)
 
 RegisterNetEvent("md-drugs:client:stealisosafrole", function() 
@@ -197,10 +197,10 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	   exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:stealisosafrole")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 1, 8) -- NumberOfCircles, MS
     end)
@@ -218,10 +218,10 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	    exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:stealmdp2p")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 1, 8) -- NumberOfCircles, MS
     end)
@@ -239,10 +239,10 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	   exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:makingrawxtc")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 1, 8) -- NumberOfCircles, MS
     end)
@@ -260,10 +260,10 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	   exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:makextcsingle")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 4, 8) -- NumberOfCircles, MS
     end)
@@ -281,11 +281,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	   exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:makextcdual")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 3, 8) -- NumberOfCircles, MS
     end)
@@ -304,11 +304,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makextctriple")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -327,11 +327,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makextcquad")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 1, 8) -- NumberOfCircles, MS
     end)
@@ -350,11 +350,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeredxtcsingle")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 4, 8) -- NumberOfCircles, MS
     end)
@@ -373,11 +373,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeredxtcdual")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 3, 8) -- NumberOfCircles, MS
     end)
@@ -396,11 +396,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeredxtctriple")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -419,11 +419,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeredxtcquad")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 1, 8) -- NumberOfCircles, MS
     end)
@@ -442,11 +442,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeorangextcsingle")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 4, 8) -- NumberOfCircles, MS
     end)
@@ -465,11 +465,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeorangextcdual")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 3, 8) -- NumberOfCircles, MS
     end)
@@ -488,11 +488,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeorangextctriple")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -511,11 +511,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makeorangextcquad")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 1, 8) -- NumberOfCircles, MS
     end)
@@ -534,11 +534,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makebluextcsingle")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 4, 8) -- NumberOfCircles, MS
     end)
@@ -557,11 +557,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makebluextcdual")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 3, 8) -- NumberOfCircles, MS
     end)
@@ -580,11 +580,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makebluextctriple")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -603,11 +603,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:makebluextcquad")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 1, 8) -- NumberOfCircles, MS
     end)
@@ -626,11 +626,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:stampwhite")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -649,11 +649,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:stampred")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -672,11 +672,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:stamporange")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -695,11 +695,11 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     if success then
         TriggerServerEvent("md-drugs:server:stampblue")
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	else
         QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
         
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 	end
 end, 2, 8) -- NumberOfCircles, MS
     end)
@@ -715,7 +715,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	   TriggerServerEvent("md-drugs:server:buypress")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 
     end)
 end)
@@ -729,7 +729,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
 	   TriggerServerEvent("md-drugs:server:upgradepress")
-        ClearPedTasks(PlayerPedId())
+        ClearPedTasks(cache.ped)
 
     end)
 end)
