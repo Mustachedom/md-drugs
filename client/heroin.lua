@@ -140,8 +140,7 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 ---- plant stop end
 
-RegisterNetEvent("md-drugs:client:dryplant")
-AddEventHandler("md-drugs:client:dryplant", function() 
+RegisterNetEvent("md-drugs:client:dryplant", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "drying out these poppies!", 4000, false, true, {
         disableMovement = false,
@@ -155,8 +154,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:cutheroin")
-AddEventHandler("md-drugs:client:cutheroin", function() 
+RegisterNetEvent("md-drugs:client:cutheroin", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "cutting the heroin!", 4000, false, true, {
         disableMovement = false,
@@ -170,8 +168,7 @@ AddEventHandler("md-drugs:client:cutheroin", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:buyheroinlabkit")
-AddEventHandler("md-drugs:client:buyheroinlabkit", function() 
+RegisterNetEvent("md-drugs:client:buyheroinlabkit", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Shhhhh!", 4000, false, true, {
         disableMovement = false,
@@ -185,8 +182,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:setheroinlabkit")
-AddEventHandler("md-drugs:client:setheroinlabkit", function() 
+RegisterNetEvent("md-drugs:client:setheroinlabkit", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	ClearPedTasks(PlayerPedId())
@@ -210,8 +206,7 @@ local PedCoords = GetEntityCoords(PlayerPedId())
    })
 end)
 
-RegisterNetEvent("md-drugs:client:heatliquidheroin")
-AddEventHandler("md-drugs:client:heatliquidheroin", function() 
+RegisterNetEvent("md-drugs:client:heatliquidheroin", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	exports['ps-ui']:Circle(function(success)
@@ -245,8 +240,7 @@ end, 1, 8) -- NumberOfCircles, MS
 end)
 
 
-RegisterNetEvent("md-drugs:client:cleanheroinlabkit")
-AddEventHandler("md-drugs:client:cleanheroinlabkit", function() 
+RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function() 
     exports["rpemotes"]:EmoteCommandStart("clean", 0)
     QBCore.Functions.Progressbar("drink_something", "Cleaning", 4000, false, true, {
         disableMovement = false,
@@ -260,23 +254,20 @@ AddEventHandler("md-drugs:client:cleanheroinlabkit", function()
 	end)
 end)
 
-RegisterNetEvent("md-drugs:client:deletedirtyheroin")
-AddEventHandler("md-drugs:client:deletedirtyheroin", function() 
+RegisterNetEvent("md-drugs:client:deletedirtyheroin", function() 
 DeleteObject(dirtylabkitheroin)
 Wait(1000)
 TriggerEvent("md-drugs:client:setheroinlabkit")
 end)
 
 
-RegisterNetEvent("md-drugs:client:getheroinkitback")
-AddEventHandler("md-drugs:client:getheroinkitback", function() 
+RegisterNetEvent("md-drugs:client:getheroinkitback", function() 
 DeleteObject(heroinlabkit)
 TriggerServerEvent("md-drugs:server:getheroinlabkitback")
 ClearPedTasks(PlayerPedId())
 end)
 
-RegisterNetEvent("md-drugs:client:fillneedle")
-AddEventHandler("md-drugs:client:fillneedle", function() 
+RegisterNetEvent("md-drugs:client:fillneedle", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Filling Needles!", 1000, false, true, {
         disableMovement = false,

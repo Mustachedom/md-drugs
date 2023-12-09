@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterNetEvent("md-drugs:client:setpressquad")
-AddEventHandler("md-drugs:client:setpressquad", function() 
+RegisterNetEvent("md-drugs:client:setpressquad", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
@@ -41,8 +40,7 @@ local PedCoords = GetEntityCoords(PlayerPedId())
   })
 end)
 
-RegisterNetEvent("md-drugs:client:setpresstriple")
-AddEventHandler("md-drugs:client:setpresstriple", function() 
+RegisterNetEvent("md-drugs:client:setpresstriple", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
@@ -80,8 +78,7 @@ local PedCoords = GetEntityCoords(PlayerPedId())
      })
 end)
 
-RegisterNetEvent("md-drugs:client:setpressdual")
-AddEventHandler("md-drugs:client:setpressdual", function() 
+RegisterNetEvent("md-drugs:client:setpressdual", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
@@ -122,8 +119,7 @@ local PedCoords = GetEntityCoords(PlayerPedId())
 	})
 end)
 
-RegisterNetEvent("md-drugs:client:setpresssingle")
-AddEventHandler("md-drugs:client:setpresssingle", function() 
+RegisterNetEvent("md-drugs:client:setpresssingle", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	Wait(4000)
@@ -165,36 +161,31 @@ local PedCoords = GetEntityCoords(PlayerPedId())
  })
 end)
 
-RegisterNetEvent("md-drugs:client:getsinglepressback")
-AddEventHandler("md-drugs:client:getsinglepressback", function() 
+RegisterNetEvent("md-drugs:client:getsinglepressback", function() 
 DeleteObject(singlepress)
 TriggerServerEvent("md-drugs:server:getsinglepressback")
 ClearPedTasks(PlayerPedId())
 end)
 
-RegisterNetEvent("md-drugs:client:getdualpressback")
-AddEventHandler("md-drugs:client:getdualpressback", function() 
+RegisterNetEvent("md-drugs:client:getdualpressback", function() 
 DeleteObject(dualpress)
 TriggerServerEvent("md-drugs:server:getdualpressback")
 ClearPedTasks(PlayerPedId())
 end)
 
-RegisterNetEvent("md-drugs:client:gettriplepressback")
-AddEventHandler("md-drugs:client:gettriplepressback", function() 
+RegisterNetEvent("md-drugs:client:gettriplepressback", function() 
 DeleteObject(triplepress)
 TriggerServerEvent("md-drugs:server:gettriplepressback")
 ClearPedTasks(PlayerPedId())
 end)
 
-RegisterNetEvent("md-drugs:client:getquadpressback")
-AddEventHandler("md-drugs:client:getquadpressback", function() 
+RegisterNetEvent("md-drugs:client:getquadpressback", function() 
 DeleteObject(quadpress)
 TriggerServerEvent("md-drugs:server:getquadpressback")
 ClearPedTasks(PlayerPedId())
 end)
 
-RegisterNetEvent("md-drugs:client:stealisosafrole")
-AddEventHandler("md-drugs:client:stealisosafrole", function() 
+RegisterNetEvent("md-drugs:client:stealisosafrole", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Stealing Isosafrole", 4000, false, true, {
         disableMovement = false,
@@ -215,8 +206,7 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:stealmdp2p")
-AddEventHandler("md-drugs:client:stealmdp2p", function() 
+RegisterNetEvent("md-drugs:client:stealmdp2p", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Stealing MDP2P", 4000, false, true, {
         disableMovement = false,
@@ -237,8 +227,7 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makingrawxtc")
-AddEventHandler("md-drugs:client:makingrawxtc", function() 
+RegisterNetEvent("md-drugs:client:makingrawxtc", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Raw Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -259,8 +248,7 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 ---------------------------- unstamped just xtc
-RegisterNetEvent("md-drugs:client:makextcsingle")
-AddEventHandler("md-drugs:client:makextcsingle", function() 
+RegisterNetEvent("md-drugs:client:makextcsingle", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Single Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -281,8 +269,7 @@ end, 4, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makextcdual")
-AddEventHandler("md-drugs:client:makextcdual", function() 
+RegisterNetEvent("md-drugs:client:makextcdual", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Dual Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -304,8 +291,7 @@ end, 3, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makextctriple")
-AddEventHandler("md-drugs:client:makextctriple", function() 
+RegisterNetEvent("md-drugs:client:makextctriple", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Triple Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -328,8 +314,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makextcquad")
-AddEventHandler("md-drugs:client:makextcquad", function() 
+RegisterNetEvent("md-drugs:client:makextcquad", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Quad Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -352,8 +337,7 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 ------------------------------------------------- 
-RegisterNetEvent("md-drugs:client:makeredxtcsingle")
-AddEventHandler("md-drugs:client:makeredxtcsingle", function() 
+RegisterNetEvent("md-drugs:client:makeredxtcsingle", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Single Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -376,8 +360,7 @@ end, 4, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makeredxtcdual")
-AddEventHandler("md-drugs:client:makeredxtcdual", function() 
+RegisterNetEvent("md-drugs:client:makeredxtcdual", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Dual Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -400,8 +383,7 @@ end, 3, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makeredxtctriple")
-AddEventHandler("md-drugs:client:makeredxtctriple", function() 
+RegisterNetEvent("md-drugs:client:makeredxtctriple", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Triple Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -424,8 +406,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makeredxtcquad")
-AddEventHandler("md-drugs:client:makeredxtcquad", function() 
+RegisterNetEvent("md-drugs:client:makeredxtcquad", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Quad Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -448,8 +429,7 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 --------------------------------------------------------------- making orange unstamped
-RegisterNetEvent("md-drugs:client:makeorangextcsingle")
-AddEventHandler("md-drugs:client:makeorangextcsingle", function() 
+RegisterNetEvent("md-drugs:client:makeorangextcsingle", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Single Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -472,8 +452,7 @@ end, 4, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makeorangextcdual")
-AddEventHandler("md-drugs:client:makeorangextcdual", function() 
+RegisterNetEvent("md-drugs:client:makeorangextcdual", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Dual Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -496,8 +475,7 @@ end, 3, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makeorangextctriple")
-AddEventHandler("md-drugs:client:makeorangextctriple", function() 
+RegisterNetEvent("md-drugs:client:makeorangextctriple", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Triple Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -520,8 +498,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makeorangextcquad")
-AddEventHandler("md-drugs:client:makeorangextcquad", function() 
+RegisterNetEvent("md-drugs:client:makeorangextcquad", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Quad Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -544,8 +521,7 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 --------------------------------------- blue unstamped
-RegisterNetEvent("md-drugs:client:makebluextcsingle")
-AddEventHandler("md-drugs:client:makebluextcsingle", function() 
+RegisterNetEvent("md-drugs:client:makebluextcsingle", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Single Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -568,8 +544,7 @@ end, 4, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makebluextcdual")
-AddEventHandler("md-drugs:client:makebluextcdual", function() 
+RegisterNetEvent("md-drugs:client:makebluextcdual", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Blue Dual Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -592,8 +567,7 @@ end, 3, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makebluextctriple")
-AddEventHandler("md-drugs:client:makebluextctriple", function() 
+RegisterNetEvent("md-drugs:client:makebluextctriple", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Blue Triple Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -616,8 +590,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:makebluextcquad")
-AddEventHandler("md-drugs:client:makebluextcquad", function() 
+RegisterNetEvent("md-drugs:client:makebluextcquad", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Unstamped Blue Quad Stack Ecstacy", 4000, false, true, {
         disableMovement = false,
@@ -640,8 +613,7 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 ------------------------------------------------------------------ Stamping
-RegisterNetEvent("md-drugs:client:stampwhite")
-AddEventHandler("md-drugs:client:stampwhite", function() 
+RegisterNetEvent("md-drugs:client:stampwhite", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
         disableMovement = false,
@@ -664,8 +636,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:stampred")
-AddEventHandler("md-drugs:client:stampred", function() 
+RegisterNetEvent("md-drugs:client:stampred", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
         disableMovement = false,
@@ -688,8 +659,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:stamporange")
-AddEventHandler("md-drugs:client:stamporange", function() 
+RegisterNetEvent("md-drugs:client:stamporange", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
         disableMovement = false,
@@ -712,8 +682,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:stampblue")
-AddEventHandler("md-drugs:client:stampblue", function() 
+RegisterNetEvent("md-drugs:client:stampblue", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
         disableMovement = false,
@@ -736,8 +705,7 @@ end, 2, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:getsinglepress")
-AddEventHandler("md-drugs:client:getsinglepress", function() 
+RegisterNetEvent("md-drugs:client:getsinglepress", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Buying Press", 4000, false, true, {
         disableMovement = false,
@@ -751,8 +719,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 
     end)
 end)
-RegisterNetEvent("md-drugs:client:exchangepresses")
-AddEventHandler("md-drugs:client:exchangepresses", function() 
+RegisterNetEvent("md-drugs:client:exchangepresses", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Buying Press", 4000, false, true, {
         disableMovement = false,
@@ -766,8 +733,7 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 
     end)
 end)
-RegisterNetEvent("md-drugs:client:buypress")
-AddEventHandler("md-drugs:client:buypress", function() 
+RegisterNetEvent("md-drugs:client:buypress", function() 
      lib.registerContext({
 	 id = 'buypresses',
 	 title = 'Purchase Presses',

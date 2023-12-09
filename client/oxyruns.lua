@@ -6,8 +6,7 @@ local listen = false
 local carryPackage = nil
 
 
-RegisterNetEvent("md-drugs:client:getoxytruck")
-AddEventHandler("md-drugs:client:getoxytruck", function() 
+RegisterNetEvent("md-drugs:client:getoxytruck", function() 
 if TriggerServerEvent('md-drugs:server:payfortruck') then
 end
 end)
@@ -40,8 +39,7 @@ RegisterNetEvent("md-drugs:Client:getoxylocation", function()
 end)
 
 
-RegisterNetEvent("md-drugs:client:getoxylocationroute")
-AddEventHandler("md-drugs:client:getoxylocationroute", function() 
+RegisterNetEvent("md-drugs:client:getoxylocationroute", function() 
 	Wait(100)
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
@@ -91,8 +89,7 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:client:getfromtrunk")
-AddEventHandler("md-drugs:client:getfromtrunk", function() 
+RegisterNetEvent("md-drugs:client:getfromtrunk", function() 
 	if carryPackage then
 		QBCore.Functions.Notify("You Cant Carry More Than One", "error")
 	else	
@@ -112,8 +109,7 @@ AddEventHandler("md-drugs:client:getfromtrunk", function()
 	end	
 end)
 
-RegisterNetEvent("md-drugs:client:giveoxybox")
-AddEventHandler("md-drugs:client:giveoxybox", function() 
+RegisterNetEvent("md-drugs:client:giveoxybox", function() 
 	if carryPackage then
 		QBCore.Functions.Progressbar("drink_something", "handing over oxy", 4000, false, true, {
 			disableMovement = false,

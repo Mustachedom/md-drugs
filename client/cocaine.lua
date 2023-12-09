@@ -98,8 +98,7 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
-RegisterNetEvent("md-drugs:client:makepowder")
-AddEventHandler("md-drugs:client:makepowder", function() 
+RegisterNetEvent("md-drugs:client:makepowder", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "chopping plants to powder", 4000, false, true, {
         disableMovement = false,
@@ -113,8 +112,7 @@ AddEventHandler("md-drugs:client:makepowder", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:cutcokeone")
-AddEventHandler("md-drugs:client:cutcokeone", function() 
+RegisterNetEvent("md-drugs:client:cutcokeone", function() 
 	cuttingcoke = true
 	CutCoke()
 	TriggerServerEvent("md-drugs:server:cutcokeone")
@@ -123,8 +121,7 @@ AddEventHandler("md-drugs:client:cutcokeone", function()
    
 end)
 
-RegisterNetEvent("md-drugs:client:bagcoke")
-AddEventHandler("md-drugs:client:bagcoke", function() 
+RegisterNetEvent("md-drugs:client:bagcoke", function() 
 	baggingcoke = true
 	BagCoke()
 	TriggerServerEvent("md-drugs:server:bagcoke")

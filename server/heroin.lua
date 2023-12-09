@@ -32,8 +32,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 	end
 end)
 
-RegisterNetEvent("heroin:pickupCane")
-AddEventHandler("heroin:pickupCane", function(loc)
+RegisterNetEvent("heroin:pickupCane", function(loc)
     if not Config.PoppyPlants[loc].taken then
         Config.PoppyPlants[loc].taken = true
         GlobalState.PoppyPlants = Config.PoppyPlants

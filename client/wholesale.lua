@@ -5,8 +5,7 @@ function PoliceCallWholesale()
 print " tell your devs they didnt do something"
 end
 
-RegisterNetEvent("md-drugs:client:getloccoke")
-AddEventHandler("md-drugs:client:getloccoke", function() 
+RegisterNetEvent("md-drugs:client:getloccoke", function() 
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
 	local unluck =  math.random(1,100)
@@ -62,8 +61,7 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:client:successsalecoke")
-AddEventHandler("md-drugs:client:successsalecoke", function() 
+RegisterNetEvent("md-drugs:client:successsalecoke", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
@@ -80,8 +78,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:setupcoke")
-AddEventHandler("md-drugs:client:setupcoke", function() 
+RegisterNetEvent("md-drugs:client:setupcoke", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
@@ -96,8 +93,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
     end)
 end)
 ----------heroin
-RegisterNetEvent("md-drugs:client:getloccrack")
-AddEventHandler("md-drugs:client:getloccrack", function() 
+RegisterNetEvent("md-drugs:client:getloccrack", function() 
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
 	local unluck =  math.random(1,100)
@@ -153,8 +149,7 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:client:successsalecrack")
-AddEventHandler("md-drugs:client:successsalecrack", function() 
+RegisterNetEvent("md-drugs:client:successsalecrack", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
@@ -171,8 +166,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:setupcrack")
-AddEventHandler("md-drugs:client:setupcrack", function() 
+RegisterNetEvent("md-drugs:client:setupcrack", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
@@ -187,8 +181,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
     end)
 end)
 ----------------------------- heroin
-RegisterNetEvent("md-drugs:client:getlocheroin")
-AddEventHandler("md-drugs:client:getlocheroin", function() 
+RegisterNetEvent("md-drugs:client:getlocheroin", function() 
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
 	local unluck =  math.random(1,100)
@@ -245,8 +238,7 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:client:successsaleheroin")
-AddEventHandler("md-drugs:client:successsaleheroin", function() 
+RegisterNetEvent("md-drugs:client:successsaleheroin", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
@@ -261,8 +253,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:setupheroin")
-AddEventHandler("md-drugs:client:setupheroin", function() 
+RegisterNetEvent("md-drugs:client:setupheroin", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
@@ -276,8 +267,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
     end)
 end)
 ---------------------------  lsd
-RegisterNetEvent("md-drugs:client:getloclsd")
-AddEventHandler("md-drugs:client:getloclsd", function() 
+RegisterNetEvent("md-drugs:client:getloclsd", function() 
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
 	local unluck =  math.random(1,100)
@@ -332,8 +322,7 @@ AddEventHandler("md-drugs:client:getloclsd", function()
 end)
 
 
-RegisterNetEvent("md-drugs:client:successsalelsd")
-AddEventHandler("md-drugs:client:successsalelsd", function() 
+RegisterNetEvent("md-drugs:client:successsalelsd", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
@@ -348,8 +337,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:setuplsd")
-AddEventHandler("md-drugs:client:setuplsd", function() 
+RegisterNetEvent("md-drugs:client:setuplsd", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
@@ -364,8 +352,7 @@ QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, t
     end)
 end)
 ------------------------- xtc
-RegisterNetEvent("md-drugs:client:getlocxtc")
-AddEventHandler("md-drugs:client:getlocxtc", function() 
+RegisterNetEvent("md-drugs:client:getlocxtc", function() 
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
 	local unluck =  math.random(1,100)
@@ -421,8 +408,7 @@ AddEventHandler("md-drugs:client:getlocxtc", function()
 end)
 
 
-RegisterNetEvent("md-drugs:client:successsalextc")
-AddEventHandler("md-drugs:client:successsalextc", function() 
+RegisterNetEvent("md-drugs:client:successsalextc", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
@@ -438,8 +424,7 @@ QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:setupxtc")
-AddEventHandler("md-drugs:client:setupxtc", function() 
+RegisterNetEvent("md-drugs:client:setupxtc", function() 
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,

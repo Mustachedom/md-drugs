@@ -21,8 +21,7 @@ end
 
 
 
-RegisterNetEvent("Mescaline:pickupCane")
-AddEventHandler("Mescaline:pickupCane", function(loc)
+RegisterNetEvent("Mescaline:pickupCane", function(loc)
     if not Config.Mescaline[loc].taken then
         Config.Mescaline[loc].taken = true
         GlobalState.Mescaline = Config.Mescaline
@@ -36,8 +35,7 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:server:drymescaline")
-AddEventHandler("md-drugs:server:drymescaline", function()
+RegisterNetEvent("md-drugs:server:drymescaline", function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 

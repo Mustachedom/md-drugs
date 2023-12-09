@@ -18,8 +18,7 @@ function CaneCooldown(loc)
     end)
 end
 
-RegisterNetEvent("coke:pickupCane")
-AddEventHandler("coke:pickupCane", function(loc)
+RegisterNetEvent("coke:pickupCane", function(loc)
     if not Config.CocaPlant[loc].taken then
         Config.CocaPlant[loc].taken = true
         GlobalState.CocaPlant = Config.CocaPlant

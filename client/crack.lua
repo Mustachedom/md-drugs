@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterNetEvent("md-drugs:client:makecrackone")
-AddEventHandler("md-drugs:client:makecrackone", function() 
+RegisterNetEvent("md-drugs:client:makecrackone", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Cooking Crack", 1000, false, true, {
         disableMovement = false,
@@ -23,8 +22,7 @@ end, 3, 8) -- NumberOfCircles,
 end)
 
 
-RegisterNetEvent("md-drugs:client:bagcrack")
-AddEventHandler("md-drugs:client:bagcrack", function() 
+RegisterNetEvent("md-drugs:client:bagcrack", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "bagging some good good", 4000, false, true, {
         disableMovement = false,

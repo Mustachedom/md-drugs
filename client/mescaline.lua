@@ -119,8 +119,7 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 
-RegisterNetEvent("md-drugs:client:drymescaline")
-AddEventHandler("md-drugs:client:drymescaline", function() 
+RegisterNetEvent("md-drugs:client:drymescaline", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Drying Out", 4000, false, true, {
         disableMovement = false,
@@ -134,8 +133,7 @@ AddEventHandler("md-drugs:client:drymescaline", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:takemescaline")
-AddEventHandler("md-drugs:client:takemescaline", function()
+RegisterNetEvent("md-drugs:client:takemescaline", function()
 local chance = math.random(1,100)
 local chance2 = math.random(1,100)
     QBCore.Functions.Progressbar("drink_something", "Taking Mescaline", 1000, false, true, {

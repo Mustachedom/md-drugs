@@ -18,8 +18,7 @@ function WeedCooldown(loc)
     end)
 end
 
-RegisterNetEvent("weed:pickupCane")
-AddEventHandler("weed:pickupCane", function(loc)
+RegisterNetEvent("weed:pickupCane", function(loc)
     if not Config.WeedPlant[loc].taken then
         Config.WeedPlant[loc].taken = true
         GlobalState.WeedPlant = Config.WeedPlant
