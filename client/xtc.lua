@@ -185,553 +185,103 @@ TriggerServerEvent("md-drugs:server:getquadpressback")
 ClearPedTasks(cache.ped)
 end)
 
-RegisterNetEvent("md-drugs:client:stealisosafrole", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Stealing Isosafrole", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:stealisosafrole")
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(cache.ped)
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+RegisterNetEvent("md-drugs:client:stealisosafrole", function()
+	ProgressBar('Stealing Isosafrole', 4000, 'md-drugs:server:stealisosafrole', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:stealmdp2p", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Stealing MDP2P", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:stealmdp2p")
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(cache.ped)
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Stealing MDP2P', 4000, 'md-drugs:server:stealmdp2p', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makingrawxtc", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Raw Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makingrawxtc")
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(cache.ped)
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Raw Ecstacy', 4000, 'md-drugs:server:makingrawxtc', true, 'Its a circle. It Aint Hard')
 end)
 ---------------------------- unstamped just xtc
 RegisterNetEvent("md-drugs:client:makextcsingle", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Single Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makextcsingle")
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        ClearPedTasks(cache.ped)
-	end
-end, 4, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Single Stack Ecstacy', 4000, 'md-drugs:server:makextcsingle', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makextcdual", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Dual Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makextcdual")
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 3, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Dual Stack Ecstacy', 4000, 'md-drugs:server:makextcdual', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makextctriple", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Triple Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makextctriple")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Triple Stack Ecstacy', 4000, 'md-drugs:server:makextctriple', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makextcquad", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Quad Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makextcquad")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Quad Stack Ecstacy', 4000, 'md-drugs:server:makextcquad', true, 'Its a circle. It Aint Hard')
 end)
 ------------------------------------------------- 
 RegisterNetEvent("md-drugs:client:makeredxtcsingle", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Single Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeredxtcsingle")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 4, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Red Single Stack Ecstacy', 4000, 'md-drugs:server:makeredxtcsingle', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makeredxtcdual", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Dual Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeredxtcdual")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 3, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Red Dual Stack Ecstacy', 4000, 'md-drugs:server:makeredxtcdual', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makeredxtctriple", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Triple Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeredxtctriple")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Red Triple Stack Ecstacy', 4000, 'md-drugs:server:makeredxtctriple', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makeredxtcquad", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Red Quad Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeredxtcquad")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Red Quad Stack Ecstacy', 4000, 'md-drugs:server:makeredxtcquad', true, 'Its a circle. It Aint Hard')
 end)
 --------------------------------------------------------------- making orange unstamped
 RegisterNetEvent("md-drugs:client:makeorangextcsingle", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Single Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeorangextcsingle")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 4, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Orange Single Stack Ecstacy', 4000, 'md-drugs:server:makeorangextcsingle', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makeorangextcdual", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Dual Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeorangextcdual")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 3, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Orange Dual Stack Ecstacy', 4000, 'md-drugs:server:makeorangextcdual', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makeorangextctriple", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Triple Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeorangextctriple")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Orange Triple Stack Ecstacy', 4000, 'md-drugs:server:makeorangextctriple', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makeorangextcquad", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Quad Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makeorangextcquad")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Orange Quad Stack Ecstacy', 4000, 'md-drugs:server:makeorangextcquad', true, 'Its a circle. It Aint Hard')
 end)
 --------------------------------------- blue unstamped
 RegisterNetEvent("md-drugs:client:makebluextcsingle", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Orange Single Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makebluextcsingle")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 4, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Orange Single Stack Ecstacy', 4000, 'md-drugs:server:makebluextcsingle', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makebluextcdual", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Blue Dual Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makebluextcdual")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 3, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Blue Dual Stack Ecstacy', 4000, 'md-drugs:server:makebluextcdual', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makebluextctriple", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Blue Triple Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makebluextctriple")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Blue Triple Stack Ecstacy', 4000, 'md-drugs:server:makebluextctriple', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:makebluextcquad", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Unstamped Blue Quad Stack Ecstacy", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:makebluextcquad")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Unstamped Blue Quad Stack Ecstacy', 4000, 'md-drugs:server:makebluextcquad', true, 'Its a circle. It Aint Hard')
 end)
 ------------------------------------------------------------------ Stamping
 RegisterNetEvent("md-drugs:client:stampwhite", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:stampwhite")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Stamped Pills', 4000, 'md-drugs:server:stampwhite', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:stampred", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:stampred")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Stamped Pills', 4000, 'md-drugs:server:stampred', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:stamporange", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:stamporange")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Stamped Pills', 4000, 'md-drugs:server:stamporange', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:stampblue", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Making Stamped Pills", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:stampblue")
-        
-        ClearPedTasks(cache.ped)
-	else
-        QBCore.Functions.Notify("Its a circle. It Aint Hard", "error")    
-        
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, MS
-    end)
+	ProgressBar('Making Stamped Pills', 4000, 'md-drugs:server:stampblue', true, 'Its a circle. It Aint Hard')
 end)
 
-RegisterNetEvent("md-drugs:client:getsinglepress", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Buying Press", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   TriggerServerEvent("md-drugs:server:buypress")
-        ClearPedTasks(cache.ped)
-
-    end)
+RegisterNetEvent("md-drugs:client:getsinglepress", function()
+	ProgressBar('Buying Press', 4000, 'md-drugs:server:buypress')
 end)
-RegisterNetEvent("md-drugs:client:exchangepresses", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Buying Press", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	   TriggerServerEvent("md-drugs:server:upgradepress")
-        ClearPedTasks(cache.ped)
-
-    end)
+RegisterNetEvent("md-drugs:client:exchangepresses", function()
+    ProgressBar('Buying Press', 4000, 'md-drugs:server:upgradepress')
 end)
 RegisterNetEvent("md-drugs:client:buypress", function() 
      lib.registerContext({

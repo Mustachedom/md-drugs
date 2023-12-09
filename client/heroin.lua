@@ -141,45 +141,15 @@ end)
 ---- plant stop end
 
 RegisterNetEvent("md-drugs:client:dryplant", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "drying out these poppies!", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:dryplant")
-        ClearPedTasks(cache.ped)
-    end)
+	ProgressBar('drying out these poppies!', 4000, 'md-drugs:server:dryplant')
 end)
 
 RegisterNetEvent("md-drugs:client:cutheroin", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "cutting the heroin!", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:cutheroin")
-        ClearPedTasks(cache.ped)
-    end)
+    ProgressBar('cutting the heroin!', 4000, 'md-drugs:server:cutheroin')
 end)
 
 RegisterNetEvent("md-drugs:client:buyheroinlabkit", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Shhhhh!", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:getheroinlabkit")
-        ClearPedTasks(cache.ped)
-    end)
+	ProgressBar('Shhhhh!', 4000, 'md-drugs:server:getheroinlabkit')
 end)
 
 RegisterNetEvent("md-drugs:client:setheroinlabkit", function() 
@@ -207,51 +177,38 @@ local PedCoords = GetEntityCoords(cache.ped)
 end)
 
 RegisterNetEvent("md-drugs:client:heatliquidheroin", function() 
-local PedCoords = GetEntityCoords(cache.ped)
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:heatliquidheroin")
-        ClearPedTasks(cache.ped)
-	else
-		TriggerServerEvent("md-drugs:server:failheatingheroin")
-        ClearPedTasks(cache.ped)
-		DeleteObject(heroinlabkit)
-		Wait(100)
-		dirtylabkitheroin = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
-		loadParticle("core")
-	    heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", dirtylabkitheroin, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
-        SetParticleFxLoopedAlpha(heroinkit, 3.0)
-		 ClearPedTasks(cache.ped)
-		 SetPedToRagdoll(cache.ped, 1300, 1300, 0, 0, 0, 0)
-		 
-		exports['qb-target']:AddTargetEntity(dirtylabkitheroin, {
-		 options = {
-        {
-         
-            event = "md-drugs:client:cleanheroinlabkit",
-            icon = "fas fa-box-circle-check",
-            label = "Clean It",
-        }
-    }
-	})
-	end
-end, 1, 8) -- NumberOfCircles, MS
+    local PedCoords = GetEntityCoords(cache.ped)
+    exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+        exports['ps-ui']:Circle(function(success)
+        if success then
+            TriggerServerEvent("md-drugs:server:heatliquidheroin")
+            ClearPedTasks(cache.ped)
+        else
+            TriggerServerEvent("md-drugs:server:failheatingheroin")
+            ClearPedTasks(cache.ped)
+            DeleteObject(heroinlabkit)
+            Wait(100)
+            dirtylabkitheroin = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+            loadParticle("core")
+            heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", dirtylabkitheroin, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
+            SetParticleFxLoopedAlpha(heroinkit, 3.0)
+            ClearPedTasks(cache.ped)
+            SetPedToRagdoll(cache.ped, 1300, 1300, 0, 0, 0, 0)
+            
+            exports['qb-target']:AddTargetEntity(dirtylabkitheroin, {
+                options = {{
+                
+                    event = "md-drugs:client:cleanheroinlabkit",
+                    icon = "fas fa-box-circle-check",
+                    label = "Clean It",
+                }}})
+        end
+    end, 1, 8) -- NumberOfCircles, MS
 end)
 
 
 RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function() 
-    exports["rpemotes"]:EmoteCommandStart("clean", 0)
-    QBCore.Functions.Progressbar("drink_something", "Cleaning", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		TriggerServerEvent("md-drugs:server:removecleaningkitheroin")
-		 ClearPedTasks(cache.ped)
-	end)
+    ProgressBar('Cleaning', 4000, 'md-drugs:server:removecleaningkitheroin')
 end)
 
 RegisterNetEvent("md-drugs:client:deletedirtyheroin", function() 
@@ -267,25 +224,8 @@ TriggerServerEvent("md-drugs:server:getheroinlabkitback")
 ClearPedTasks(cache.ped)
 end)
 
-RegisterNetEvent("md-drugs:client:fillneedle", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Filling Needles!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:fillneedle")
-        ClearPedTasks(cache.ped)
-	else
-		TriggerServerEvent("md-drugs:server:failheroin")
-        ClearPedTasks(cache.ped)
-	end
-end, 2, 8) -- NumberOfCircles, 
-    end)
+RegisterNetEvent("md-drugs:client:fillneedle", function()
+    ProgressBar('Filling Needles!', 4000, 'md-drugs:server:fillneedle', true, 'Its a circle. It Aint Hard', 'md-drugs:server:failheroin')
 end)
 
 

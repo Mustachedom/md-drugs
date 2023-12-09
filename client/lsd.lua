@@ -28,104 +28,54 @@ local Ped = "g_m_y_famdnf_01"
 	})
 end)
 
-RegisterNetEvent("md-drugs:client:getlysergic", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Stealing Lysergic Acid!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-        ClearPedTasks(cache.ped)
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:getlysergic")
-	else
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+RegisterNetEvent("md-drugs:client:getlysergic", function()
+    ProgressBar('Stealing Lysergic Acid!', 1000, 'md-drugs:server:getlysergic', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:getdiethylamide", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Stealing Diethylamide!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	exports['ps-ui']:Circle(function(success)
-        ClearPedTasks(cache.ped)
-    if success then
-        TriggerServerEvent("md-drugs:server:getdiethylamide")
-	else
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+    ProgressBar('Stealing Diethylamide!', 1000, 'md-drugs:server:getdiethylamide', true, 'Its a circle. It Aint Hard')
 end)
 
 RegisterNetEvent("md-drugs:client:setlsdlabkit", function() 
-local PedCoords = GetEntityCoords(cache.ped)
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-	QBCore.Functions.Progressbar("drink_something", "Setting Table Down", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
+    local PedCoords = GetEntityCoords(cache.ped)
+    ProgressBar('Setting Table Down', 1000)
 	labkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	PlaceObjectOnGroundProperly(labkit)
 	ClearPedTasks(cache.ped)
 	exports['qb-target']:AddTargetEntity(labkit, {
-     options = {
-        {
-			
-            event = "md-drugs:client:heatliquid",
-            icon = "fas fa-box-circle-check",
-            label = "Heat Liquid",
-        },
-		{
-			
-            event = "md-drugs:client:refinequalityacid",
-            icon = "fas fa-box-circle-check",
-            label = "Refine",
-        },
-		{
-			
-            event = "md-drugs:client:maketabpaper",
-            icon = "fas fa-box-circle-check",
-            label = "Dab Sheets",
-        },
-		{
-			
-            event = "md-drugs:client:getlabkitback",
-            icon = "fas fa-box-circle-check",
-            label = "Pick Up",
-        },
-    }
+        options = {
+            {
+                
+                event = "md-drugs:client:heatliquid",
+                icon = "fas fa-box-circle-check",
+                label = "Heat Liquid",
+            },
+            {
+                
+                event = "md-drugs:client:refinequalityacid",
+                icon = "fas fa-box-circle-check",
+                label = "Refine",
+            },
+            {
+                
+                event = "md-drugs:client:maketabpaper",
+                icon = "fas fa-box-circle-check",
+                label = "Dab Sheets",
+            },
+            {
+                
+                event = "md-drugs:client:getlabkitback",
+                icon = "fas fa-box-circle-check",
+                label = "Pick Up",
+            },
+        }
 	})
-end)
 end)
 
 RegisterNetEvent("md-drugs:client:getlabkitback", function() 
-    exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    local PedCoords = GetEntityCoords(cache.ped)
-    QBCore.Functions.Progressbar("drink_something", "Packing Up", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		DeleteObject(labkit)
-		TriggerServerEvent('md-drugs:server:getlabkitback')
-		ClearPedTasks(cache.ped)
-	end)
+    ProgressBar('Packing Up', 1000, 'md-drugs:server:getlabkitback')
+    DeleteObject(labkit)
 end)
-
 
 RegisterNetEvent("md-drugs:client:heatliquid", function() 
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
@@ -169,17 +119,7 @@ end, 1, 8) -- NumberOfCircles, MS
 end)
 
 RegisterNetEvent("md-drugs:client:cleanlabkit", function() 
-    exports["rpemotes"]:EmoteCommandStart("clean", 0)
-    QBCore.Functions.Progressbar("drink_something", "Cleaning", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		TriggerServerEvent("md-drugs:server:removecleaningkit")
-		 ClearPedTasks(cache.ped)
-	end)
+    ProgressBar('Cleaning', 4000, 'md-drugs:server:removecleaningkit')
 end)
 
 RegisterNetEvent("md-drugs:client:resetlsdkit", function() 
@@ -188,85 +128,24 @@ TriggerEvent("md-drugs:client:setlsdlabkit")
 end)
 
 RegisterNetEvent("md-drugs:client:refinequalityacid", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Refining The Quality!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-    ClearPedTasks(cache.ped)
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:refinequalityacid")
-	else
-		TriggerServerEvent("md-drugs:server:failrefinequality")
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+    ProgressBar('Refining The Quality!', 1000, 'md-drugs:server:refinequalityacid', true, nil, 'md-drugs:server:failrefinequality')
 end)
 
 RegisterNetEvent("md-drugs:client:maketabpaper", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Dipping LSD Onto Paper", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-        ClearPedTasks(cache.ped)
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:maketabpaper")
-	else
-		TriggerServerEvent("md-drugs:server:failtabs")
-	end
-end, 3, 8) -- NumberOfCircles, 
-    end)
+    ProgressBar('Dipping LSD Onto Paper!', 1000, 'md-drugs:server:maketabpaper', true, nil, 'md-drugs:server:failtabs')
 end)
 
 
 RegisterNetEvent("md-drugs:client:cutsheet", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Cutting Sheets", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-        ClearPedTasks(cache.ped)
-    end)
+    ProgressBar('Cutting Sheets', 1000)
 end)
 
 RegisterNetEvent("md-drugs:client:buytabs", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Buying Tab Paper", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		TriggerServerEvent("md-drugs:server:gettabpaper")
-        ClearPedTasks(cache.ped)
-    end)
+		ProgressBar('Buying Tab Paper', 4000, 'md-drugs:server:gettabpaper')
 end)
 
 RegisterNetEvent("md-drugs:client:buylabkit", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Buying A Lab Kit", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		TriggerServerEvent("md-drugs:server:getlabkit")
-        ClearPedTasks(cache.ped)
-    end)
+		ProgressBar('Buying A Lab Kit', 4000, 'md-drugs:server:getlabkit')
 end)
 
 

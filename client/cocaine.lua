@@ -81,12 +81,13 @@ AddEventHandler('onResourceStart', function(resource)
         TriggerEvent('coke:init')
     end
  end)
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
      Wait(3000)
      LoadModel('prop_plant_01a')
      TriggerEvent('coke:init')
- end)
- 
+end)
+
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01a'))
@@ -99,17 +100,7 @@ AddEventHandler('onResourceStop', function(resourceName)
 end)
 
 RegisterNetEvent("md-drugs:client:makepowder", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "chopping plants to powder", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:makepowder")
-        ClearPedTasks(cache.ped)
-    end)
+		ProgressBar('chopping plants to powder', 4000, 'md-drugs:server:makepowder')
 end)
 
 RegisterNetEvent("md-drugs:client:cutcokeone", function() 

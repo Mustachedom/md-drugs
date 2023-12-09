@@ -240,23 +240,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Butter",
 			action = function()
-						exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-						QBCore.Functions.Progressbar("drink_something", "Making Canna Butter", 4000, false, true, {
-							disableMovement = false,
-							disableCarMovement = false,
-							disableMouse = false,
-							disableCombat = true,
-							disableInventory = true,
-						}, {}, {}, {}, function()-- Done
-							exports['ps-ui']:Circle(function(success)
-						if success then
-							TriggerServerEvent("md-drugs:server:makebutter")       
-							ClearPedTasks(cache.ped)
-							else
-							ClearPedTasks(cache.ped)
-							end
-						end, 3, 8) -- NumberOfCircles, 
-						end)
+				ProgressBar('Making Canna Butter', 4000, 'md-drugs:server:makebutter', true, 'Its a circle. It Aint Hard')
 			end,
 			canInteract = function()
 			if Config.Joblock then
@@ -271,23 +255,7 @@ options = {
 			label = "Make Brownies",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-						QBCore.Functions.Progressbar("drink_something", "Making Special Brownies", 4000, false, true, {
-						disableMovement = false,
-						disableCarMovement = false,
-						disableMouse = false,
-						disableCombat = true,
-						disableInventory = true,
-					}, {}, {}, {}, function()-- Done
-					exports['ps-ui']:Circle(function(success)
-					if success then
-						TriggerServerEvent("md-drugs:server:makebrownies")       
-						ClearPedTasks(cache.ped)
-					else
-						ClearPedTasks(cache.ped)
-					end
-					end, 3, 8) -- NumberOfCircles, 
-						end)
+				ProgressBar('Making Special Brownies', 4000, 'md-drugs:server:makebrownies', true, 'Its a circle. It Aint Hard')
 			end,
 			canInteract = function()
 			if Config.Joblock then
@@ -302,23 +270,7 @@ options = {
 			label = "Make Cookies",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-						QBCore.Functions.Progressbar("drink_something", "Making Special Cookies", 4000, false, true, {
-						disableMovement = false,
-						disableCarMovement = false,
-						disableMouse = false,
-						disableCombat = true,
-						disableInventory = true,
-					}, {}, {}, {}, function()-- Done
-					exports['ps-ui']:Circle(function(success)
-					if success then
-						TriggerServerEvent("md-drugs:server:makecookies")       
-						ClearPedTasks(cache.ped)
-					else
-						ClearPedTasks(cache.ped)
-					end
-					end, 3, 8) -- NumberOfCircles, 
-						end)
+				ProgressBar('Making Special Cookies', 4000, 'md-drugs:server:makecookies', true, 'Its a circle. It Aint Hard')
 			end,
 			canInteract = function()
 			if Config.Joblock then
@@ -333,23 +285,7 @@ options = {
 			label = "Make Chocolate",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-						QBCore.Functions.Progressbar("drink_something", "Making Special Chocolate", 4000, false, true, {
-						disableMovement = false,
-						disableCarMovement = false,
-						disableMouse = false,
-						disableCombat = true,
-						disableInventory = true,
-					}, {}, {}, {}, function()-- Done
-					exports['ps-ui']:Circle(function(success)
-					if success then
-						TriggerServerEvent("md-drugs:server:makechocolate")       
-						ClearPedTasks(cache.ped)
-					else
-						ClearPedTasks(cache.ped)
-					end
-					end, 3, 8) -- NumberOfCircles, 
-						end)
+				ProgressBar('Making Special Chocolate', 4000, 'md-drugs:server:makechocolate', true, 'Its a circle. It Aint Hard')
 			end,
 			canInteract = function()
 			if Config.Joblock then
@@ -364,23 +300,7 @@ options = {
 			label = "Make Muffin",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-						QBCore.Functions.Progressbar("drink_something", "Making Special Muffin", 4000, false, true, {
-						disableMovement = false,
-						disableCarMovement = false,
-						disableMouse = false,
-						disableCombat = true,
-						disableInventory = true,
-					}, {}, {}, {}, function()-- Done
-					exports['ps-ui']:Circle(function(success)
-					if success then
-						TriggerServerEvent("md-drugs:server:makemuffin")
-						ClearPedTasks(cache.ped)
-					else
-						ClearPedTasks(cache.ped)
-					end
-					end, 3, 8) -- NumberOfCircles, 
-						end)
+				ProgressBar('Making Special Muffin', 4000, 'md-drugs:server:makemuffin', true, 'Its a circle. It Aint Hard')
 			end,
 			canInteract = function()
 			if Config.Joblock then
@@ -529,42 +449,37 @@ end)
 end)
 
 CreateThread(function()
-local WeedShop = {}
-local current = "u_m_m_jesus_01"
-lib.requestModel(current, timeout)
-local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
-	 WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.h, false, false)
-             FreezeEntityPosition(WeedGuy, true)
-            SetEntityInvincible(WeedGuy, true)
-			SetEntityHeading(WeedGuy, 270.0)
-			exports['qb-target']:AddTargetEntity(WeedGuy, { 
-                options = {
-                    {
-                        label = "Weed Shop",
-                        icon = "fas fa-eye",
-						action = function()
-						lib.showContext('WeedShop')
-						end,
-						
-                    },
-                }
-               
-				})
-for k, v in pairs (Config.Weed.items) do 
-	WeedShop[#WeedShop + 1] = {
-		icon = "nui://".."ps-inventory/html/images/"..QBCore.Shared.Items[v.name].image,
-		 header = v.label,
-		 title = v.label,
-		 event = "md-drugs:client:WeedShop",
-		 args = {
-			 item = v.name,
-			 cost = v.price,
-			 amount = v.amount,
-		 }
-	 }
- 
- lib.registerContext({id = 'WeedShop',title = "Weed Shop", options = WeedShop})
-end
+	local WeedShop = {}
+	local current = "u_m_m_jesus_01"
+	lib.requestModel(current, timeout)
+	local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
+		WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.h, false, false)
+		FreezeEntityPosition(WeedGuy, true)
+		SetEntityInvincible(WeedGuy, true)
+		SetEntityHeading(WeedGuy, 270.0)
+		exports['qb-target']:AddTargetEntity(WeedGuy, { 
+			options = {
+				{
+					label = "Weed Shop",
+					icon = "fas fa-eye",
+					action = function()
+					lib.showContext('WeedShop')
+					end,
+				}}})
+	for k, v in pairs (Config.Weed.items) do
+		WeedShop[#WeedShop + 1] = {
+			icon = "nui://".."ps-inventory/html/images/"..QBCore.Shared.Items[v.name].image,
+			header = v.label,
+			title = v.label,
+			event = "md-drugs:client:WeedShop",
+			args = {
+				item = v.name,
+				cost = v.price,
+				amount = v.amount,
+			}
+		}
+	lib.registerContext({id = 'WeedShop',title = "Weed Shop", options = WeedShop})
+	end
 
 end)
 
@@ -586,7 +501,7 @@ RegisterNetEvent("md-drugs:client:WeedShop", function(data)
 end)
 
 RegisterNetEvent('md-drugs:client:smokeblunts', function(itemName)
-     exports["rpemotes"]:EmoteCommandStart('smoke', 0)
+    exports["rpemotes"]:EmoteCommandStart('smoke', 0)
 	TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
 		Wait(1000)
 			if itemName == "blunts" then

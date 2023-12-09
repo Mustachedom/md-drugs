@@ -41,71 +41,21 @@ end)
 
 
 RegisterNetEvent("md-drugs:client:givevicodinprescription", function() 
- exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:givevicodinprescription")
-        ClearPedTasks(cache.ped)
-    end)
+ 	ProgressBar('Getting The Prescription Written', 4000, 'md-drugs:server:givevicodinprescription')
 end)
 RegisterNetEvent("md-drugs:client:giveadderalprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:giveadderalprescription")
-        ClearPedTasks(cache.ped)
-    end)
+	ProgressBar('Getting The Prescription Written', 4000, 'md-drugs:server:giveadderalprescription')
 end)
 
 RegisterNetEvent("md-drugs:client:givemorphineprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:givemorphineprescription")
-        ClearPedTasks(cache.ped)
-    end)
+	ProgressBar('Getting The Prescription Written', 4000, 'md-drugs:server:givemorphineprescription')
 end)
 RegisterNetEvent("md-drugs:client:givexanaxprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:givexanaxprescription")
-        ClearPedTasks(cache.ped)
-    end)
+	ProgressBar('Getting The Prescription Written', 4000, 'md-drugs:server:givexanaxprescription')
 end)
 
 RegisterNetEvent("md-drugs:client:fillprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Picking Up Your Prescription", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:fillprescription")
-        ClearPedTasks(cache.ped)
-    end)
+	ProgressBar('Picking Up Your Prescription', 4000, 'md-drugs:server:fillprescription')
 end)
 
 RegisterNetEvent("md-drugs:client:openingvicodin", function() 
