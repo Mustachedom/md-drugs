@@ -76,8 +76,8 @@ RegisterServerEvent('md-drugs:server:failheating', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-if Player.Functions.RemoveItem('diethylamide', Config.diethylamideliquid) then 
-	if Player.Functions.RemoveItem('lysergic_acid', Config.lysergicacidliquid) then 
+if Player.Functions.RemoveItem('diethylamide', 1) then 
+	if Player.Functions.RemoveItem('lysergic_acid', 1) then 
 		TriggerClientEvent('QBCore:Notify', src, "you overheated them idiot", "error")
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['diethylamide'], "remove", 1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['lysergic_acid'], "remove", 1)
