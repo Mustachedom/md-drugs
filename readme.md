@@ -44,6 +44,10 @@ There was definetly times I dm'd him saying what the fuck am I doing and he help
 
 ----------------------------------
 - [Preview](https://www.youtube.com/watch?v=I_x7_oz_SAU)
+
+
+- [install guide thanks to Kamaryn!](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd)
+join their [discord for their video updates!](https://discord.gg/KPRmZqFS)
 ------------------------------------------------------
 <h1>How to install like a fuckin bosssssss</h1>
 
