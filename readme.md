@@ -17,8 +17,8 @@ Shout out to [STACHY225](https://babiczind.tebex.io/category/2103836) for workin
 There was definetly times I dm'd him saying what the fuck am I doing and he helped keep me sane. He also made the cute mushrooms!<br>
 - Big Credit to Feisty. She made all the images that look good. Seriously you can tell which ones I forgot to ask her for. <br>
 - shout out to my beta testers who had to deal with me a lot! <br>
--[Jim's Tebex](https://jimathy666.tebex.io/) for putting out open source resources that I was able to break and fix and learn how to code
--[jixeltay](https://jixeltay.tebex.io/category/scripts) for putting out banger after banger. These people help the community learn so much more
+[Jim's Tebex](https://jimathy666.tebex.io/) for putting out open source resources that I was able to break and fix and learn how to code
+[jixeltay](https://jixeltay.tebex.io/category/scripts) for putting out banger after banger. These people help the community learn so much more
 
 - Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
