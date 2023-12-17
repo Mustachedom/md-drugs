@@ -3,13 +3,13 @@ local CocaPlant = {}
 local cuttingcoke = nil
 local baggingcoke = nil
 function LoadModel(hash)
-    hash = GetHashKey(hash)
+    hash = joaat(hash)
     lib.requestModel(hash, 500)
 end 
 
 RegisterNetEvent('coke:respawnCane', function(loc)
     local v = GlobalState.CocaPlant[loc]
-    local hash = GetHashKey(v.model)
+    local hash = joaat(v.model)
     --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
@@ -45,7 +45,7 @@ end)
 
 RegisterNetEvent("coke:init", function()
     for k, v in pairs (GlobalState.CocaPlant) do
-        local hash = GetHashKey(v.model)
+        local hash = joaat(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
@@ -89,7 +89,7 @@ AddEventHandler('onResourceStart', function(resource)
  
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01a'))
+        SetModelAsNoLongerNeeded(joaat('prop_plant_01a'))
         for k, v in pairs(CocaPlant) do
             if DoesEntityExist(v) then
                 DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
@@ -98,9 +98,8 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
-RegisterNetEvent("md-drugs:client:makepowder")
-AddEventHandler("md-drugs:client:makepowder", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:makepowder", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "chopping plants to powder", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -113,8 +112,7 @@ AddEventHandler("md-drugs:client:makepowder", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:cutcokeone")
-AddEventHandler("md-drugs:client:cutcokeone", function() 
+RegisterNetEvent("md-drugs:client:cutcokeone", function() 
 	cuttingcoke = true
 	CutCoke()
 	TriggerServerEvent("md-drugs:server:cutcokeone")
@@ -123,8 +121,7 @@ AddEventHandler("md-drugs:client:cutcokeone", function()
    
 end)
 
-RegisterNetEvent("md-drugs:client:bagcoke")
-AddEventHandler("md-drugs:client:bagcoke", function() 
+RegisterNetEvent("md-drugs:client:bagcoke", function() 
 	baggingcoke = true
 	BagCoke()
 	TriggerServerEvent("md-drugs:server:bagcoke")
