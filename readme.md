@@ -11,6 +11,9 @@
 
 - I used [Samuel's development](https://fivem.samueldev.shop/) Christmas script global states and prop spawning (with permission obtained prior to release) in the development process.
 
+- [Jim's Tebex](https://jimathy666.tebex.io/) for putting out open source resources that I was able to break and fix and learn how to code.
+  
+- [jixeltay](https://jixeltay.tebex.io/category/scripts) for putting out banger after banger. These people help the community learn so much more.
 
 - Shout out to [STACHY225](https://babiczind.tebex.io/category/2103836) for working out the meth network animations!
 
@@ -20,7 +23,7 @@
 
 - Special shoutout to [Beta Testers]()Your feedback has been invaluable!
 
-- Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch
+- Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch.
 
 
 - Thanks to [Kamaryn]() for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd), join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
