@@ -53,7 +53,7 @@
   
 - [PolyZone](https://github.com/mkafrin/PolyZone)
   
-- [RPEmotes](https://github.com/TayMcKenzieNZ/rpemotes)
+- [RPEmotes](https://github.com/TayMcKenzieNZ/rpemotes) or [scully_emotemenu](https://github.com/Scullyy/scully_emotemenu)
 
 - [Ox Lib](https://github.com/overextended/ox_lib/releases/releases)
 
