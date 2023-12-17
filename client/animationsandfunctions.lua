@@ -1,6 +1,28 @@
 ---@diagnostic disable: param-type-mismatch
 local QBCore = exports['qb-core']:GetCoreObject()
+local scully = GetResourceState('scully_emotemenu')
+local rpemotes = GetResourceState('rpemotes')
 local started = nil
+
+-- Play Emote --
+function PlayEmote(emote)
+    if scully == 'started' or scully == 'starting' then
+        exports.scully_emotemenu:playEmoteByCommand(emote)
+    end
+    if rpemotes == 'started' or rpemotes == 'starting' then
+		exports.rpemotes:EmoteCommandStart({emote}, 0)
+    end
+end
+
+-- End Emote
+function EndEmote()
+    if scully == 'started' or scully == 'starting' then
+        exports.scully_emotemenu:cancelEmote()
+    end
+    if rpemotes == 'started' or rpemotes == 'starting' then
+		exports.rpemotes:EmoteCancel(forceCancel)
+    end
+end
 
 local function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then
@@ -636,46 +658,45 @@ else
                     methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
                     end
                 end
-			else	
-			startedmeth = nil
-			end
-			
+		else	
+		startedmeth = nil
+		end
         end        
     end)
 end
 end
 
 function SetUpPeds()
-local 	ped = GetEntityCoords(PlayerPedId())
-local	CokePed = CreatePed(0, "g_m_y_famdnf_01", ped.x+3, ped.y-5, ped.z-1, 90.0, true, true)
-local	CokePed2 = CreatePed(0,"g_m_y_famdnf_01", ped.x+6, ped.y-10, ped.z-1, 90.0, true, true)
-local	CokePed3 = CreatePed(0,"g_m_y_famdnf_01", ped.x+-2, ped.y+5, ped.z-1, 90.0, true, true)
-local	CokePed4 = CreatePed(0,"g_m_y_famdnf_01", ped.x+8, ped.y-12, ped.z-1, 90.0, true, true)
-local	CokePed5 = CreatePed(0,"g_m_y_famdnf_01", ped.x+5, ped.y-2, ped.z-1, 90.0, true, true)
-local	CokePed6 = CreatePed(0,"g_m_y_famdnf_01", ped.x+2, ped.y-20, ped.z-1, 90.0, true, true)
-local	CokePed7 = CreatePed(0,"g_m_y_famdnf_01", ped.x+1, ped.y-10, ped.z-1, 90.0, true, true)
-SetPedArmour(CokePed, 200)
-SetPedCanSwitchWeapon(CokePed, true)
-GiveWeaponToPed(CokePed, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed, PlayerPedId(), 0, 16)
-GiveWeaponToPed(CokePed2, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed2, PlayerPedId(), 0, 16)
-GiveWeaponToPed(CokePed3, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed3, PlayerPedId(), 0, 16)
-GiveWeaponToPed(CokePed4, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed4, PlayerPedId(), 0, 16)
-GiveWeaponToPed(CokePed5, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed5, PlayerPedId(), 0, 16)
-GiveWeaponToPed(CokePed6, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed6, PlayerPedId(), 0, 16)
-GiveWeaponToPed(CokePed7, "weapon_pistol", 1, false, true)
-TaskCombatPed(CokePed7, PlayerPedId(), 0, 16)
-SetPedCombatAttributes(CokePed, 46, true)
-SetPedCombatAttributes(CokePed2, 46, true)
-SetPedCombatAttributes(CokePed3, 46, true)
-SetPedCombatAttributes(CokePed4, 46, true)
-SetPedCombatAttributes(CokePed5, 46, true)
-SetPedCombatAttributes(CokePed6, 46, true)
-SetPedCombatAttributes(CokePed7, 46, true)
+	local 	ped = GetEntityCoords(PlayerPedId())
+	local	CokePed = CreatePed(0, "g_m_y_famdnf_01", ped.x+3, ped.y-5, ped.z-1, 90.0, true, true)
+	local	CokePed2 = CreatePed(0,"g_m_y_famdnf_01", ped.x+6, ped.y-10, ped.z-1, 90.0, true, true)
+	local	CokePed3 = CreatePed(0,"g_m_y_famdnf_01", ped.x+-2, ped.y+5, ped.z-1, 90.0, true, true)
+	local	CokePed4 = CreatePed(0,"g_m_y_famdnf_01", ped.x+8, ped.y-12, ped.z-1, 90.0, true, true)
+	local	CokePed5 = CreatePed(0,"g_m_y_famdnf_01", ped.x+5, ped.y-2, ped.z-1, 90.0, true, true)
+	local	CokePed6 = CreatePed(0,"g_m_y_famdnf_01", ped.x+2, ped.y-20, ped.z-1, 90.0, true, true)
+	local	CokePed7 = CreatePed(0,"g_m_y_famdnf_01", ped.x+1, ped.y-10, ped.z-1, 90.0, true, true)
+	SetPedArmour(CokePed, 200)
+	SetPedCanSwitchWeapon(CokePed, true)
+	GiveWeaponToPed(CokePed, "weapon_pistol", 1, false, true)
+	TaskCombatPed(CokePed, PlayerPedId(), 0, 16)
+	GiveWeaponToPed(CokePed2, "weapon_pistol", 1, false, true)
+	TaskCombatPed(CokePed2, PlayerPedId(), 0, 16)
+	GiveWeaponToPed(CokePed3, "weapon_pistol", 1, false, true)
+	TaskCombatPed(CokePed3, PlayerPedId(), 0, 16)
+	GiveWeaponToPed(CokePed4, "weapon_pistol", 1, false, true)
+	TaskCombatPed(CokePed4, PlayerPedId(), 0, 16)
+	GiveWeaponToPed(CokePed5, "weapon_pistol", 1, false, true)
+	TaskCombatPed(CokePed5, PlayerPedId(), 0, 16)
+	GiveWeaponToPed(CokePed6, "weapon_pistol", 1, false, true)
+	TaskCombatPed(CokePed6, PlayerPedId(), 0, 16)
+	GiveWeaponToPed(CokePed7, "weapon_pistol", 1, false, true)
+	TaskCombatPed(CokePed7, PlayerPedId(), 0, 16)
+	SetPedCombatAttributes(CokePed, 46, true)
+	SetPedCombatAttributes(CokePed2, 46, true)
+	SetPedCombatAttributes(CokePed3, 46, true)
+	SetPedCombatAttributes(CokePed4, 46, true)
+	SetPedCombatAttributes(CokePed5, 46, true)
+	SetPedCombatAttributes(CokePed6, 46, true)
+	SetPedCombatAttributes(CokePed7, 46, true)
 end
 
