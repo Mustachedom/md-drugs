@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local WeedPlant = {}
 local exploded = nil
 function LoadModel(hash)
-    hash = GetHashKey(hash)
+    hash = joaat(hash)
     RequestModel(hash)
     while not HasModelLoaded(hash) do
         Wait(3000)
@@ -11,7 +11,7 @@ end
 
 RegisterNetEvent('weed:respawnCane', function(loc)
     local v = GlobalState.WeedPlant[loc]
-    local hash = GetHashKey(v.model)
+    local hash = joaat(v.model)
     if not HasModelLoaded(hash) then LoadModel(hash) end
     if not WeedPlant[loc] then
         WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
@@ -53,7 +53,7 @@ end)
 
 RegisterNetEvent("weed:init", function()
     for k, v in pairs (GlobalState.WeedPlant) do
-        local hash = GetHashKey(v.model)
+        local hash = joaat(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
@@ -103,7 +103,7 @@ AddEventHandler('onResourceStart', function(resource)
  
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('bkr_prop_weed_lrg_01b'))
+        SetModelAsNoLongerNeeded(joaat('bkr_prop_weed_lrg_01b'))
         for k, v in pairs(WeedPlant) do
             if DoesEntityExist(v) then
                 DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
@@ -240,7 +240,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Butter",
 			action = function()
-						exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+						PlayEmote('uncuff')
 						QBCore.Functions.Progressbar("drink_something", "Making Canna Butter", 4000, false, true, {
 							disableMovement = false,
 							disableCarMovement = false,
@@ -271,7 +271,7 @@ options = {
 			label = "Make Brownies",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					PlayEmote('uncuff')
 						QBCore.Functions.Progressbar("drink_something", "Making Special Brownies", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -302,7 +302,7 @@ options = {
 			label = "Make Cookies",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					PlayEmote('uncuff')
 						QBCore.Functions.Progressbar("drink_something", "Making Special Cookies", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -333,7 +333,7 @@ options = {
 			label = "Make Chocolate",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					PlayEmote('uncuff')
 						QBCore.Functions.Progressbar("drink_something", "Making Special Chocolate", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -364,7 +364,7 @@ options = {
 			label = "Make Muffin",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					PlayEmote('uncuff')
 						QBCore.Functions.Progressbar("drink_something", "Making Special Muffin", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -404,7 +404,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Oil",
 			action = function()
-						exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+						PlayEmote('uncuff')
 						QBCore.Functions.Progressbar("drink_something", "Making Wax Oil", 4000, false, true, {
 							disableMovement = false,
 							disableCarMovement = false,
@@ -500,16 +500,17 @@ RegisterNetEvent('md-drugs:client:bluntwraps', function(args)
 end)
 
 RegisterNetEvent("md-drugs:client:rollanim", function()
-exports["rpemotes"]:EmoteCommandStart('uncuff', 0)
-Wait(4000)
-exports["rpemotes"]:EmoteCancel(forceCancel) 
+	PlayEmote('uncuff')
+	Wait(4000)
+
+	EndEmote()
 end)
 
 
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-exports["rpemotes"]:EmoteCommandStart('bong2', 0)
-AlienEffect()
+	PlayEmote('bong2')
+	AlienEffect()
 end)
 
 RegisterNetEvent("md-drugs:client:edibles", function()
@@ -586,14 +587,15 @@ RegisterNetEvent("md-drugs:client:WeedShop", function(data)
 end)
 
 RegisterNetEvent('md-drugs:client:smokeblunts', function(itemName)
-     exports["rpemotes"]:EmoteCommandStart('smoke', 0)
+	PlayEmote('smoke')
 	TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
-		Wait(1000)
-			if itemName == "blunts" then
-				AlienEffect()
-			elseif itemName == "leanblunts" or itemName == "dextroblunts" then
-				EcstasyEffect()
-			else
-				TrevorEffect()
-			end
+	Wait(1000)
+
+	if itemName == "blunts" then
+		AlienEffect()
+	elseif itemName == "leanblunts" or itemName == "dextroblunts" then
+		EcstasyEffect()
+	else
+		TrevorEffect()
+	end
 end)
