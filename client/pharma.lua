@@ -40,9 +40,8 @@ end
 end)
 
 
-RegisterNetEvent("md-drugs:client:givevicodinprescription")
-AddEventHandler("md-drugs:client:givevicodinprescription", function() 
- exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:givevicodinprescription", function() 
+     PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -54,9 +53,9 @@ AddEventHandler("md-drugs:client:givevicodinprescription", function()
         ClearPedTasks(PlayerPedId())
     end)
 end)
-RegisterNetEvent("md-drugs:client:giveadderalprescription")
-AddEventHandler("md-drugs:client:giveadderalprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+
+RegisterNetEvent("md-drugs:client:giveadderalprescription", function() 
+PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -69,9 +68,8 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:givemorphineprescription")
-AddEventHandler("md-drugs:client:givemorphineprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:givemorphineprescription", function() 
+PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -83,9 +81,9 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         ClearPedTasks(PlayerPedId())
     end)
 end)
-RegisterNetEvent("md-drugs:client:givexanaxprescription")
-AddEventHandler("md-drugs:client:givexanaxprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+
+RegisterNetEvent("md-drugs:client:givexanaxprescription", function() 
+PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Getting The Prescription Written", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -98,9 +96,8 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:fillprescription")
-AddEventHandler("md-drugs:client:fillprescription", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:fillprescription", function() 
+PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Picking Up Your Prescription", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -113,9 +110,8 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:openingvicodin")
-AddEventHandler("md-drugs:client:openingvicodin", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:openingvicodin", function() 
+PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Opening Bottle", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
