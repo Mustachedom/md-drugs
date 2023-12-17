@@ -3,16 +3,16 @@ local shrooms = {}
 
 
 function LoadModel(hash)
-    hash = GetHashKey(hash)
+    hash = joaat(hash)
     RequestModel(hash)
     while not HasModelLoaded(hash) do
-        Wait(3000)
+        Wait(100)
     end
 end
 
 RegisterNetEvent('shrooms:respawnCane', function(loc)
     local v = GlobalState.shrooms[loc]
-    local hash = GetHashKey(v.model)
+    local hash = joaat(v.model)
     --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not shrooms[loc] then
         shrooms[loc] = CreateObject(hash, v.location, false, true, true)
@@ -50,7 +50,7 @@ AddEventHandler('onResourceStart', function(resource)
 
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('mushroom'))
+        SetModelAsNoLongerNeeded(joaat('mushroom'))
         for k, v in pairs(shrooms) do
             if DoesEntityExist(v) then
                 DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
@@ -73,7 +73,7 @@ end)
 
  RegisterNetEvent("shrooms:init", function()
     for k, v in pairs (GlobalState.shrooms) do
-        local hash = GetHashKey(v.model)
+        local hash = joaat(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             shrooms[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
