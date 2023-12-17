@@ -3,7 +3,7 @@ local Mescaline = {}
 local hallucinate = nil
 
 function LoadModel(hash)
-    hash = GetHashKey(hash)
+    hash = joaat(hash)
     RequestModel(hash)
     while not HasModelLoaded(hash) do
         Wait(3000)
@@ -24,7 +24,7 @@ end
 ---- plant spawns dont edit
 RegisterNetEvent('Mescaline:respawnCane', function(loc)
     local v = GlobalState.Mescaline[loc]
-    local hash = GetHashKey(v.model)
+    local hash = joaat(v.model)
     --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not Mescaline[loc] then
         Mescaline[loc] = CreateObject(hash, v.location, false, true, true)
@@ -64,7 +64,7 @@ end)
 
 RegisterNetEvent("Mescaline:init", function()
     for k, v in pairs (GlobalState.Mescaline) do
-        local hash = GetHashKey(v.model)
+        local hash = joaat(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             Mescaline[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
@@ -109,7 +109,7 @@ AddEventHandler('onResourceStart', function(resource)
  
  AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('prop_cactus_03'))
+        SetModelAsNoLongerNeeded(joaat('prop_cactus_03'))
         for k, v in pairs(Mescaline) do
             if DoesEntityExist(v) then
                 DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
@@ -119,9 +119,8 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 
-RegisterNetEvent("md-drugs:client:drymescaline")
-AddEventHandler("md-drugs:client:drymescaline", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:drymescaline", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Drying Out", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -134,8 +133,7 @@ AddEventHandler("md-drugs:client:drymescaline", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:takemescaline")
-AddEventHandler("md-drugs:client:takemescaline", function()
+RegisterNetEvent("md-drugs:client:takemescaline", function()
 local chance = math.random(1,100)
 local chance2 = math.random(1,100)
     QBCore.Functions.Progressbar("drink_something", "Taking Mescaline", 1000, false, true, {
