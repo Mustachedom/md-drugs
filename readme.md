@@ -1,32 +1,35 @@
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-<h1>Support</h1>
+<h1>md-drugs</h1>
 
-if you have any issues, you can come to my discord and throw a ticket in. I hope i can get it fixed ASAP Rocky
+<div align="center">
+  <a href="https://discord.gg/sAMzrB4DDx">
+    <img align="center" src="https://cdn.discordapp.com/attachments/1164709522691076120/1185676859363557457/Discord_logo.svg.png?ex=65907aa0&is=657e05a0&hm=dd2a8924c3a3d84507747ab2bac036e5fc219c697e084c9aa13ba468ff725bde&" width="100">
+  </a><br>
+  <a href="https://discord.gg/sAMzrB4DDx">Mustache Scripts Discord</a><br>
+</div>
 
-[My Community Discord Invite Link](https://discord.gg/TwBaVECdGM)
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <h1>Credits</h1>
-This was all possible because of creators and devs in Project Sloth, JixelTay, and Samuel's development. I used the globalstates and spawning of props from Samuel's christmas script (I asked permission before release) 
 
-[Samuel's Tebex.](https://fivem.samueldev.shop/)
+- I used [Samuel's development](https://fivem.samueldev.shop/) Christmas script global states and prop spawning (with permission obtained prior to release) in the development process.
 
-Shout out to [STACHY225](https://babiczind.tebex.io/category/2103836) for working out the meth network animations!
 
-- Big Credit to [Bostra](https://discord.gg/5ncbwMNq). if you have been around you may have seen him post some free scripts and help people. 
-There was definetly times I dm'd him saying what the fuck am I doing and he helped keep me sane. He also made the cute mushrooms!<br>
-- Big Credit to Feisty. She made all the images that look good. Seriously you can tell which ones I forgot to ask her for. <br>
-- shout out to my beta testers who had to deal with me a lot! <br>
+- Shout out to [STACHY225](https://babiczind.tebex.io/category/2103836) for working out the meth network animations!
 
+- Huge credit to [Bostra](https://discord.gg/5ncbwMNq) for sharing free scripts and providing sanity checks during moments of confusion. Those cute mushrooms? His creation!
+
+- Special thanks to [Feisty]() for the stunning visuals. If it looks good, she probably had a hand in it.
+
+- Special shoutout to [Beta Testers]()Your feedback has been invaluable!
 
 - Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+- Thanks to [Kamaryn]() for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd), join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
 
 <h1>Dependencies</h1>
 
-- [qb-core](https://github.com/qbcore-framework/qb-core)
+- [QBCore](https://github.com/qbcore-framework/qb-core)
 
-- [LJ/PS](https://github.com/Project-Sloth/ps-inventory) or [qb inventory](https://github.com/qbcore-framework/qb-inventory) or [ox_inventory](https://github.com/overextended/ox_inventory/releases/tag/v2.36.1)
+- [ps inventory](https://github.com/Project-Sloth/ps-inventory) **or** [qb inventory](https://github.com/qbcore-framework/qb-inventory) **or** [ox inventory](https://github.com/overextended/ox_inventory)
   
 - [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
   
@@ -34,33 +37,30 @@ There was definetly times I dm'd him saying what the fuck am I doing and he help
   
 - [qb-target](https://github.com/qbcore-framework/qb-target)
   
-- [ polyzone](https://github.com/mkafrin/PolyZone)
+- [PolyZone](https://github.com/mkafrin/PolyZone)
   
 - [RPEmotes](https://github.com/TayMcKenzieNZ/rpemotes)
 
-- [ox_lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0)
+- [Ox Lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0)
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<h1>Preview</h1>
 
-----------------------------------
-- [Preview](https://www.youtube.com/watch?v=I_x7_oz_SAU)
+- [Preview link](https://www.youtube.com/watch?v=I_x7_oz_SAU)
 
+<h1>How to install like a fuckin boss</h1>
 
-- [install guide thanks to Kamaryn!](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd)
-join their [discord for their video updates!](https://discord.gg/KPRmZqFS)
-------------------------------------------------------
-<h1>How to install like a fuckin bosssssss</h1>
+- **STEP 1**
 
-- STEP 1
-Add items To qb-core - > shared -> items.lua
-```
+	- Add the following Items to `qb-core/shared/items.lua`
+
+```lua
 ------------------ md-drugs
 ["coke"] 		 	 	 	     = {["name"] = "coke",           				["label"] = "Raw Cocaine", 				["weight"] = 1000,		["type"] = "item", 		["image"] = "coke.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,    ["description"] = "Processed cocaine"},
- ["coca_leaf"] 		 	 	 	 = {["name"] = "coca_leaf",           			["label"] = "Cocaine leaves",	 		["weight"] = 1500,		["type"] = "item", 		["image"] = "coca_leaf.png", 			["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,    ["description"] = "Cocaine leaves that must be processed !"},
- ["poppyresin"] 		 	 	 = {["name"] = "poppyresin",           			["label"] = "Poppy resin",	 			["weight"] = 2000, 		["type"] = "item", 		["image"] = "poppyresin.png", 			["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,    ["description"] = "It sticks to your fingers when you handle it."},
- ["heroin"] 		 	 	 	 = {["name"] = "heroin",           				["label"] = "Weak Heroin Powder",	 				["weight"] = 500, 		["type"] = "item", 		["image"] = "loosecoke.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,     ["description"] = "Really addictive depressant..."},
- ["bakingsoda"] 		 	 	 = {["name"] = "bakingsoda",           		    ["label"] = "Baking Soda",	 		    ["weight"] = 300, 		["type"] = "item", 		["image"] = "bakingsoda.png", 		    ["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,     ["description"] = "Household Baking Soda!"},
- ['loosecoke'] 			 		 = {['name'] = 'loosecoke', 			  		['label'] = 'loose coke', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'loosecoke.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = 'Paper made specifically for encasing and smoking tobacco or cannabis.'},
+["coca_leaf"] 		 	 	 	 = {["name"] = "coca_leaf",           			["label"] = "Cocaine leaves",	 		["weight"] = 1500,		["type"] = "item", 		["image"] = "coca_leaf.png", 			["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,    ["description"] = "Cocaine leaves that must be processed !"},
+["poppyresin"] 		 	 	 = {["name"] = "poppyresin",           			["label"] = "Poppy resin",	 			["weight"] = 2000, 		["type"] = "item", 		["image"] = "poppyresin.png", 			["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,    ["description"] = "It sticks to your fingers when you handle it."},
+["heroin"] 		 	 	 	 = {["name"] = "heroin",           				["label"] = "Weak Heroin Powder",	 				["weight"] = 500, 		["type"] = "item", 		["image"] = "loosecoke.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,     ["description"] = "Really addictive depressant..."},
+["bakingsoda"] 		 	 	 = {["name"] = "bakingsoda",           		    ["label"] = "Baking Soda",	 		    ["weight"] = 300, 		["type"] = "item", 		["image"] = "bakingsoda.png", 		    ["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,     ["description"] = "Household Baking Soda!"},
+['loosecoke'] 			 		 = {['name'] = 'loosecoke', 			  		['label'] = 'loose coke', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'loosecoke.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = 'Paper made specifically for encasing and smoking tobacco or cannabis.'},
 ['loosecokestagetwo'] 			 = {['name'] = 'loosecokestagetwo', 			['label'] = 'More Pure Loose Coke', 			['weight'] = 100, 		['type'] = 'item', 		['image'] = 'loosecokestagetwo.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = ''},
 ['loosecokestagethree'] 		 = {['name'] = 'loosecokestagethree', 			['label'] = 'Purest Loose Coke', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'loosecokestagethree.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = ''},
 ['cokebaggystagetwo'] 			 = {['name'] = 'cokebaggystagetwo', 			['label'] = 'Bag of Good Coke', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'cocaine_baggystagetwo.png', 		['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'To get happy real quick'},
@@ -69,7 +69,7 @@ Add items To qb-core - > shared -> items.lua
 ["cokestagethree"] 		 	 	 = {["name"] = "cokestagethree",           		["label"] = "Best Raw Cocaine", 				["weight"] = 100,		["type"] = "item", 		["image"] = "cokestagethree.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["expire"] = 90,  ["description"] = "Processed cocaine"},
  
  ----md-lsd
- ['lysergic_acid'] 			 	 = {['name'] = 'lysergic_acid', 			  		['label'] = 'Lysergic Acid', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'lysergic_acid.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = ''},
+['lysergic_acid'] 			 	 = {['name'] = 'lysergic_acid', 			  		['label'] = 'Lysergic Acid', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'lysergic_acid.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = ''},
 ['diethylamide'] 			 	 = {['name'] = 'diethylamide', 			  			['label'] = 'Diethylamide', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'diethylamide.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = ''},
 ['lsd_one_vial'] 			 	 = {['name'] = 'lsd_one_vial', 			  			['label'] = 'Weakest LSD Vial', 			['weight'] = 100, 		['type'] = 'item', 		['image'] = 'lsd_one_vial.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = ''},
 ['lsd_vial_two'] 			 	 = {['name'] = 'lsd_vial_two', 			  			['label'] = 'Slightly Better LSD Vial', 	['weight'] = 100, 		['type'] = 'item', 		['image'] = 'lsd_vial_two.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil, 					 ['description'] = ''},
@@ -107,7 +107,7 @@ Add items To qb-core - > shared -> items.lua
 ["heroin_ready"] 		 	 	 	 = {["name"] = "heroin_ready",           			["label"] = "Syringe Of Heroin",	 	["weight"] = 250, 		["type"] = "item", 		["image"] = "heroin_ready.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   		 ["description"] = ""},
 ["heroin_readystagetwo"] 		 	 = {["name"] = "heroin_readystagetwo",           	["label"] = "Syringe Of Better Heroin",	 ["weight"] = 250, 		["type"] = "item", 		["image"] = "heroin_readystagetwo.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,         ["description"] = ""},
 ["heroin_readystagethree"] 		 	 = {["name"] = "heroin_readystagethree",           	["label"] = "Syringe Of Best Heroin",	 ["weight"] = 250, 		["type"] = "item", 		["image"] = "heroin_readystagethree.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,         ["description"] = ""},
-["emptyvial"] 				     = {["name"] = "emptyvial", 			    	["label"] = "empty vial", 			    ['weight'] = 100, 		["type"] = "item", 		["image"] = "emptyvial.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ['combinable'] = nil,					 ["description"] = ""},
+["emptyvial"] 				    	 = {["name"] = "emptyvial", 			    	["label"] = "empty vial", 			    ['weight'] = 100, 		["type"] = "item", 		["image"] = "emptyvial.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ['combinable'] = nil,					 ["description"] = ""},
 ["needle"] 		 					 = {["name"] = "needle",           					["label"] = "Syringe",	 				["weight"] = 250, 		["type"] = "item", 		["image"] = "syringe.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,         ["description"] = ""},
 ---- md crack
 ["crackrock"] 		 	 	 		 = {["name"] = "crackrock",           				["label"] = "Crack Rock",	 			["weight"] = 250, 		["type"] = "item", 		["image"] = "crackrock1.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,     ["description"] = ""},
@@ -117,7 +117,7 @@ Add items To qb-core - > shared -> items.lua
 ["baggedcrackedstagetwo"] 		 	 = {["name"] = "baggedcrackedstagetwo",           	["label"] = "Better Bag Of Crack",	 	["weight"] = 250, 		["type"] = "item", 		["image"] = "crackbag2.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,  	     ["description"] = ""},
 ["baggedcrackedstagethree"] 		 = {["name"] = "baggedcrackedstagethree",           ["label"] = "Best Bag Of Crack",	 	["weight"] = 250, 		["type"] = "item", 		["image"] = "crackbag3.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,  	     ["description"] = ""},
 ---- shrooms 
-["shrooms"] 		 = {["name"] = "shrooms",           ["label"] = "Shrooms",	 	["weight"] = 250, 		["type"] = "item", 		["image"] = "shrooms.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,  	     ["description"] = ""},
+["shrooms"] 					 = {["name"] = "shrooms",           ["label"] = "Shrooms",	 	["weight"] = 250, 		["type"] = "item", 		["image"] = "shrooms.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,  	     ["description"] = ""},
 -- pharma
 ['prescription_pad'] 		     = {['name'] = 'prescription_pad', 			    ['label'] = 'Prescription Pad',        		     ['weight'] = 10,       ['type'] = 'item',     ['image'] = 'prescriptionpad.png',         	['unique'] = true,    	['useable'] = true,     ['shouldClose'] = false,   ['combinable'] = nil,   					 ['description'] = ''},
 ["vicodin_prescription"] 		 = {["name"] = "vicodin_prescription",        	["label"] = "Vicie Prescription",	 			 ["weight"] = 250, 		["type"] = "item", 		["image"] = "vicodinprescription.png", 		["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,     				 ["description"] = ""},
@@ -283,90 +283,98 @@ Add items To qb-core - > shared -> items.lua
 
 ```
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- **STEP 2**
 
-- STEP 2 
-Add Images from `HTML` folder to your inventory script images location
+	- Add items images to `qb-inventory/html/images`
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- **STEP 3**
 
-- STEP 3 
-delete  `qb-drugs` 
+ 	- delete `qb-drugs`
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- **STEP 4**
 
-- STEP 4 
-INSIDE OF THE CONFIG change **all** the locations for everything. **All locations have been changed to make a preview video easier and with how big of a script this is, Im not going to config it for every city** Its simple vec3 and vec4s. Make your city unique 
-so its not in the same location as every other city.
+	-  Inside the config file change **all** the locations for everything.
+		- **ps:**  All locations have been changed to make a preview video easier and with how big of a script this is, Im not going to config it for every city.
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- **STEP 5**
 
-- STEP 5
-in `qb-radial` menu search for 
+	- head to `qb-radial/config.lua` and search for the following event
+```lua
+     event = 'qb-drugs:client:cornerselling',
 ```
-event = 'qb-drugs:client:cornerselling',
-```
+![](https://cdn.discordapp.com/attachments/1164709522691076120/1185724912648867940/image.png?ex=6590a760&is=657e3260&hm=51534201d8d3e71f79a5c1678879ed8423f381a4a31c62f1bce6caf73782abe0&)
 
-and switch it to this 
-
-```
-event = 'md-drugs:client:cornerselling',
+```lua
+     event = 'md-drugs:client:cornerselling',
 ```
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+![](https://cdn.discordapp.com/attachments/1164709522691076120/1185725132975644753/image.png?ex=6590a795&is=657e3295&hm=97d7f60ec6c4508af92f758c00669b1d52fe673c6481434b586f81cf29c1f292&)
 
-- STEP 6 
-in `qb-adminmenu` look for 
-```
-QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
-    cb(exports['qb-drugs']:GetDealers())
-end)
-```
-in the `server.lua` and change it to 
 
-```
-QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
-    cb(exports['md-drugs']:GetDealers())
-end)
-```
+- **STEP 6 (for qb-adminmenu users)** 
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	- head to `qb-adminmenu/server/server.lua` search for the following callback
 
-- STEP 7 
-on the **client** side for **all of these** place your Police Alert inside that function. 
-in `Cornerselling.lua` line 30
-in`deliveries.lua` line 168
-in `oxyruns.lua` line 16
-in `wholesale.lua` line 5
-for example something like ps-dispatch will look like this 
+```lua
+	QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
+		cb(exports['qb-drugs']:GetDealers())
+	end)
 ```
-local function PoliceCall()
-exports['ps-dispatch']:DrugSale()
-end
-```
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-step 8 
-add this to your Config.Products = { in your config for qb-shops in the ['normal'] = { category
-```
- {name = 'bakingsoda',    price = 100,   amount = 5000, info = {}, type = 'item'},
- {name = 'emptyvial',    price = 100,   amount = 5000, info = {}, type = 'item'},
- {name = 'needle',    price = 100,   amount = 5000, info = {}, type = 'item'},
+- and replace it with this
+
+```lua
+	QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
+		cb(exports['md-drugs']:GetDealers())
+	end)
 ```
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-step 9 
-search in rpemotes for uncuff
-if you do not have this then add this in animationslist.lua`
+
+
+- **STEP 7**
+	- **Head to the client folder and place your Police Alert inside that function.**
+		- in `md-drugs/client/Cornerselling.lua` **line 30**
+		- in `md-drugs/client/deliveries.lua` **line 168**
+		- in `md-drugs/client/oxyruns.lua` **line 16**
+		- in `md-drugs/client/wholesale.lua` **line 5**
+	- for example something like [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch/releases) will look like this.
+
+
+```lua
+	local function PoliceCall()
+		exports['ps-dispatch']:DrugSale()
+	end
 ```
-["uncuff"] = {
-        "mp_arresting",
-        "a_uncuff",
-        "Uncuff",
-        AnimationOptions = {
-            EmoteLoop = true,
-            EmoteMoving = true
-        }
-    },
+
+- **STEP 8**
+
+	- Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to
+
+```lua
+	{name = 'bakingsoda',   price = 100,   amount = 5000, info = {}, type = 'item'},
+	{name = 'emptyvial',    price = 100,   amount = 5000, info = {}, type = 'item'},
+	{name = 'needle',    	price = 100,   amount = 5000, info = {}, type = 'item'},
 ```
------------
-step 10 check small resources config to see if you have any preset teleports that could be interfereing(coke is one from base smallresources)
+
+- **Preview**
+
+![](https://cdn.discordapp.com/attachments/1164709522691076120/1185729686135910582/image.png?ex=6590abd2&is=657e36d2&hm=35c3b2d4f55473d65dd9197a69052b7ec7ac7b28528811f3f59d5f306b7237eb&)
+
+- **STEP 9**
+	- Head to `rpemotes/client/AnimationList.lua` search for **uncuff** if it's missing add it
+
+```lua
+	["uncuff"] = {
+		"mp_arresting",
+		"a_uncuff",
+		"Uncuff",
+			AnimationOptions = {
+			EmoteLoop = true,
+			EmoteMoving = true
+		}
+	},
+```
+
+- **STEP 10**
+	- check `qb-smallresources/config.lua` and Delete the marked table, as it may teleport you to an unwanted location.
+
+![](https://cdn.discordapp.com/attachments/1164709522691076120/1185731258353995796/image.png?ex=6590ad49&is=657e3849&hm=31c180c7a83b0a2e1b8c7fb1bdb2dba911ca1725038c5f893cb5fffff8e7e172&)
