@@ -28,9 +28,8 @@ local Ped = "g_m_y_famdnf_01"
 	})
 end)
 
-RegisterNetEvent("md-drugs:client:getlysergic")
-AddEventHandler("md-drugs:client:getlysergic", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:getlysergic", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Stealing Lysergic Acid!", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -48,9 +47,8 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:getdiethylamide")
-AddEventHandler("md-drugs:client:getdiethylamide", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:getdiethylamide", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Stealing Diethylamide!", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -68,10 +66,9 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:setlsdlabkit")
-AddEventHandler("md-drugs:client:setlsdlabkit", function() 
+RegisterNetEvent("md-drugs:client:setlsdlabkit", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	PlayEmote('uncuff')
 	QBCore.Functions.Progressbar("drink_something", "Setting Table Down", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -113,9 +110,8 @@ local PedCoords = GetEntityCoords(PlayerPedId())
 end)
 end)
 
-RegisterNetEvent("md-drugs:client:getlabkitback")
-AddEventHandler("md-drugs:client:getlabkitback", function() 
-    exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:getlabkitback", function() 
+    PlayEmote('uncuff')
     local PedCoords = GetEntityCoords(PlayerPedId())
     QBCore.Functions.Progressbar("drink_something", "Packing Up", 1000, false, true, {
         disableMovement = false,
@@ -131,9 +127,8 @@ AddEventHandler("md-drugs:client:getlabkitback", function()
 end)
 
 
-RegisterNetEvent("md-drugs:client:heatliquid")
-AddEventHandler("md-drugs:client:heatliquid", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:heatliquid", function() 
+	PlayEmote('uncuff')
 	local PedCoords = GetEntityCoords(PlayerPedId())
 	dict = "scr_ie_svm_technical2"
     QBCore.Functions.Progressbar("drink_something", "Heating Liquids!", 1000, false, true, {
@@ -173,9 +168,8 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:cleanlabkit")
-AddEventHandler("md-drugs:client:cleanlabkit", function() 
-    exports["rpemotes"]:EmoteCommandStart("clean", 0)
+RegisterNetEvent("md-drugs:client:cleanlabkit", function() 
+    PlayEmote('clean')
     QBCore.Functions.Progressbar("drink_something", "Cleaning", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -188,15 +182,13 @@ AddEventHandler("md-drugs:client:cleanlabkit", function()
 	end)
 end)
 
-RegisterNetEvent("md-drugs:client:resetlsdkit")
-AddEventHandler("md-drugs:client:resetlsdkit", function() 
-DeleteObject(dirtylabkit)
-TriggerEvent("md-drugs:client:setlsdlabkit")
+RegisterNetEvent("md-drugs:client:resetlsdkit", function() 
+    DeleteObject(dirtylabkit)
+    TriggerEvent("md-drugs:client:setlsdlabkit")
 end)
 
-RegisterNetEvent("md-drugs:client:refinequalityacid")
-AddEventHandler("md-drugs:client:refinequalityacid", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:refinequalityacid", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Refining The Quality!", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -215,9 +207,8 @@ end, 1, 8) -- NumberOfCircles, MS
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:maketabpaper")
-AddEventHandler("md-drugs:client:maketabpaper", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:maketabpaper", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Dipping LSD Onto Paper", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -237,9 +228,8 @@ end, 3, 8) -- NumberOfCircles,
 end)
 
 
-RegisterNetEvent("md-drugs:client:cutsheet")
-AddEventHandler("md-drugs:client:cutsheet", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:cutsheet", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Cutting Sheets", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -251,9 +241,8 @@ AddEventHandler("md-drugs:client:cutsheet", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:buytabs")
-AddEventHandler("md-drugs:client:buytabs", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:buytabs", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Buying Tab Paper", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -266,9 +255,8 @@ AddEventHandler("md-drugs:client:buytabs", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:buylabkit")
-AddEventHandler("md-drugs:client:buylabkit", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+RegisterNetEvent("md-drugs:client:buylabkit", function() 
+	PlayEmote('uncuff')
     QBCore.Functions.Progressbar("drink_something", "Buying A Lab Kit", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -280,7 +268,6 @@ AddEventHandler("md-drugs:client:buylabkit", function()
         ClearPedTasks(PlayerPedId())
     end)
 end)
-
 
 RegisterNetEvent('md-drugs:client:taketabs', function(itemName)
 	    QBCore.Functions.Progressbar("use_lsd", "Have Fun!", 1750, false, true, {
