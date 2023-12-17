@@ -55,7 +55,7 @@
   
 - [RPEmotes](https://github.com/TayMcKenzieNZ/rpemotes)
 
-- [Ox Lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0)
+- [Ox Lib](https://github.com/overextended/ox_lib/releases/releases)
 
 <h1>Preview</h1>
 
