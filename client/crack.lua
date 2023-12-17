@@ -34,4 +34,3 @@ RegisterNetEvent("md-drugs:client:bagcrack", function()
         ClearPedTasks(PlayerPedId())
     end)
 end)
-
