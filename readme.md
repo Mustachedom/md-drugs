@@ -29,7 +29,7 @@
 
 - [QBCore](https://github.com/qbcore-framework/qb-core)
 
-- [ps inventory](https://github.com/Project-Sloth/ps-inventory) **or** [qb inventory](https://github.com/qbcore-framework/qb-inventory) **or** [ox inventory](https://github.com/overextended/ox_inventory)
+- [ps inventory](https://github.com/Project-Sloth/ps-inventory) **or** [qb inventory](https://github.com/qbcore-framework/qb-inventory)
   
 - [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
   
