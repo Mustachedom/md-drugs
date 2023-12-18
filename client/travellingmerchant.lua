@@ -94,6 +94,6 @@ RegisterNetEvent("md-drugs:client:travellingmerchantox", function(data) local di
 		},
 		{ type = 'number', label = "Amount to buy", description = settext, min = 0, max = max, default = 1 },
 	})
-	if data.cost == "Free" then data.cost = 0 end
-		TriggerServerEvent("md-drugs:server:travellingmerchantox", dialog[2], dialog[1], data.item, data.cost )
+if data.cost == "Free" then data.cost = 0 end
+	TriggerServerEvent("md-drugs:server:travellingmerchantox", dialog[2], dialog[1], data.item, data.cost )
 end)
