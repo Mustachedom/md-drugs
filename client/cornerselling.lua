@@ -137,7 +137,7 @@ local function SellToPed(ped)
             local pedDist2 = #(coords2 - pedCoords2)
             if getRobbed <= QBConfig.RobberyChance then
                 TriggerServerEvent('md-drugs:server:robCornerDrugs', drugType, bagAmount)
-                QBCore.Functions.Notify("You Got Robbed " .. bagAmount .. " Bags of " .. currentOfferDrug.item.. "!")
+                QBCore.Functions.Notify("You Got Robbed " .. bagAmount .. " Bags of " .. currentOfferDrug.label.. "!")
                 stealingPed = ped
                 stealData = {
                     item = availableDrugs[drugType].item,
@@ -160,7 +160,7 @@ local function SellToPed(ped)
                             options = {
                                 {
                                     icon = 'fas fa-hand-holding-dollar',
-                                    label = "Sell " ..bagAmount.. " of " .. currentOfferDrug.item.. " for " .. randomPrice .. " Dollars! ",
+                                    label = "Sell " ..bagAmount.. " of " .. currentOfferDrug.label.. " for " .. randomPrice .. " Dollars! ",
                                     action = function(entity)
 									 local playerPed = PlayerPedId()
                                         if IsPedInAnyVehicle(PlayerPedId(), false) then
