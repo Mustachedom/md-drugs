@@ -22,8 +22,8 @@ local function loadParticle(dict)
 end
 
 CreateThread(function() 
-local Ped = "g_m_y_famdnf_01"
-	lib.requestModel(Ped, 500)
+  local Ped = 'g_m_y_famdnf_01'
+    if not HasModelLoaded(Ped) then LoadModel(Ped) end
 	labkitlocation = Config.buyheroinlabkit
 	heroinkitdealer = CreatePed(0, Ped,labkitlocation.x, labkitlocation.y, labkitlocation.z-1, 180.0, false, false)
     FreezeEntityPosition(heroinkitdealer, true)
