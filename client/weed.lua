@@ -531,8 +531,8 @@ end)
 
 CreateThread(function()
 local WeedShop = {}
-local current = "u_m_m_jesus_01"
-lib.requestModel(current, timeout)
+local current = 'u_m_m_jesus_01'
+if not HasModelLoaded(current) then LoadModel(current) end
 local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
 	 WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.h, false, false)
              FreezeEntityPosition(WeedGuy, true)
