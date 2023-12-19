@@ -1,8 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 CreateThread(function() 
-local current = "g_m_y_famdnf_01"
-	lib.requestModel(current, timeout)
+local current = 'g_m_y_famdnf_01'
+	if not HasModelLoaded(current) then LoadModel(current) end
 	local CurrentLocation = Config.Travellingmerchant[math.random(#Config.Travellingmerchant)]
 	travellingmerchant = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.h, false, false)
     FreezeEntityPosition(travellingmerchant, true)
