@@ -1,9 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 CreateThread(function()
-	local current = "s_m_m_doctor_01"
-	lib.requestModel(current, 500)
-	 SyrupLocation = CreatePed(0, current,Config.SyrupVendor.x,Config.SyrupVendor.y,Config.SyrupVendor.z-1, false, false)
+    local current = 's_m_m_doctor_01'
+    if not HasModelLoaded(current) then LoadModel(current) end
+    SyrupLocation = CreatePed(0, joaat(current), Config.SyrupVendor.x, Config.SyrupVendor.y, Config.SyrupVendor.z-1, false, false)
     FreezeEntityPosition(SyrupLocation, true)
     SetEntityInvincible(SyrupLocation, true)
 	exports['qb-target']:AddTargetEntity(SyrupLocation, {
