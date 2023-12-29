@@ -552,7 +552,7 @@ local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
 				})
 for k, v in pairs (Config.Weed.items) do 
 	WeedShop[#WeedShop + 1] = {
-		icon = "nui://".."ps-inventory/html/images/"..QBCore.Shared.Items[v.name].image,
+		icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
 		 header = v.label,
 		 title = v.label,
 		 event = "md-drugs:client:WeedShop",
