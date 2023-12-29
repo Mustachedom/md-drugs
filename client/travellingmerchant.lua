@@ -65,7 +65,7 @@ local ShopMenu = {}
 
 for k, v in pairs (Config.Items.items) do 
 			ShopMenu[#ShopMenu + 1] = {
-				   icon = "nui://".."ps-inventory/html/images/"..QBCore.Shared.Items[v.name].image,
+				   icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
 					header = v.label,
 					title = v.label,
 					event = "md-drugs:client:travellingmerchantox",
