@@ -626,3 +626,6 @@ xtcburner 				     = {name = 'xtcburner', 			    	label = 'ENV Burner', 		    		
 	- check `qb-smallresources/config.lua` and Delete the marked table, as it may teleport you to an unwanted location.
 
 ![](https://cdn.discordapp.com/attachments/1164709522691076120/1185731258353995796/image.png?ex=6590ad49&is=657e3849&hm=31c180c7a83b0a2e1b8c7fb1bdb2dba911ca1725038c5f893cb5fffff8e7e172&)
+
+[mlo i use](https://www.gta5-mods.com/maps/mlo-4x-drug-lab-interiors-sp-fivem)
+^ heres an option. use it or dont. 
