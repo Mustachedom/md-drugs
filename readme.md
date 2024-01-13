@@ -527,7 +527,7 @@ sprunk 				    	 = {name = 'sprunk', 			    		label = 'Sprunk', 		    			 	 weig
 leancup 				     = {name = 'leancup', 			    		label = 'Empty Cup', 		    			 weight = 100, 		type = 'item', 		image = 'leancup.png', 			   		unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,                     description = ''},
 cupoflean 				     = {name = 'cupoflean', 			    	label = 'Lean Cup', 		    			 weight = 100, 		type = 'item', 		image = 'cupoflean.png', 			    unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,                     description = ''},
 cupofdextro 				 = {name = 'cupofdextro', 			    	label = 'Dextro Cup', 		    			 weight = 100, 		type = 'item', 		image = 'cupofdextro.png', 			    unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,                     description = ''},
-xtcburner 				     = {name = 'xtcburner', 			    	label = 'ENV Burner', 		    			 weight = 100, 		type = 'item', 		image = 'xtcburner.png', 			    unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,                     description = ''}
+xtcburner 				     = {name = 'xtcburner', 			    	label = 'ENV Burner', 		    			 weight = 100, 		type = 'item', 		image = 'xtcburner.png', 			    unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,                     description = ''},
 
 ```
 
