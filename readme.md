@@ -53,7 +53,6 @@
   
 - [PolyZone](https://github.com/mkafrin/PolyZone)
   
-- [RPEmotes](https://github.com/TayMcKenzieNZ/rpemotes)
 
 - [Ox Lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0)
 
@@ -609,6 +608,7 @@ xtcburner 				     = {name = 'xtcburner', 			    	label = 'ENV Burner', 		    		
 
 - **STEP 9**
 	- Head to `rpemotes/client/AnimationList.lua` search for **uncuff** if it's missing add it
+ - OR your emote script and add
 
 ```lua
 	["uncuff"] = {
