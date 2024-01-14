@@ -64,7 +64,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:successsalecoke")
 AddEventHandler("md-drugs:client:successsalecoke", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -82,7 +82,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:setupcoke")
 AddEventHandler("md-drugs:client:setupcoke", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -155,7 +155,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:successsalecrack")
 AddEventHandler("md-drugs:client:successsalecrack", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -173,7 +173,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:setupcrack")
 AddEventHandler("md-drugs:client:setupcrack", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -247,7 +247,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:successsaleheroin")
 AddEventHandler("md-drugs:client:successsaleheroin", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -263,7 +263,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:setupheroin")
 AddEventHandler("md-drugs:client:setupheroin", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -334,7 +334,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:successsalelsd")
 AddEventHandler("md-drugs:client:successsalelsd", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -350,7 +350,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:setuplsd")
 AddEventHandler("md-drugs:client:setuplsd", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -423,7 +423,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:successsalextc")
 AddEventHandler("md-drugs:client:successsalextc", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "Wholesaling Drugs", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -440,7 +440,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:setupxtc")
 AddEventHandler("md-drugs:client:setupxtc", function() 
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 QBCore.Functions.Progressbar("drink_something", "YOU FUCKED NOW", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,

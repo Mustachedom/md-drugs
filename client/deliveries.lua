@@ -171,7 +171,7 @@ end
 local function DeliverStuff()
     if deliveryTimeout > 0 then
         Wait(500)
-        exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+        TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
         PoliceCallDeliveries()
         QBCore.Functions.Progressbar("work_dropbox", "handing Off Package", 3500, false, true, {
             disableMovement = true,
