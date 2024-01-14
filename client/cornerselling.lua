@@ -193,9 +193,6 @@ local function SellToPed(ped)
                                             end)
                                         end
                                     end,
-				canInteract = function()
-				if IsEntityDead(ped) == false then return true end
-				end
                                 },
                                 {
                                     icon = 'fas fa-x',

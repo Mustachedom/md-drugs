@@ -142,7 +142,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:dryplant")
 AddEventHandler("md-drugs:client:dryplant", function() 
-    TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "drying out these poppies!", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -157,7 +157,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:cutheroin")
 AddEventHandler("md-drugs:client:cutheroin", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "cutting the heroin!", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -172,7 +172,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:buyheroinlabkit")
 AddEventHandler("md-drugs:client:buyheroinlabkit", function() 
-    TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Shhhhh!", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -188,7 +188,7 @@ end)
 RegisterNetEvent("md-drugs:client:setheroinlabkit")
 AddEventHandler("md-drugs:client:setheroinlabkit", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	ClearPedTasks(PlayerPedId())
 	heroinlabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 	SetVehicleOnGroundProperly(heroinlabkit)
@@ -213,7 +213,7 @@ end)
 RegisterNetEvent("md-drugs:client:heatliquidheroin")
 AddEventHandler("md-drugs:client:heatliquidheroin", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
-TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:heatliquidheroin")
@@ -277,7 +277,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:fillneedle")
 AddEventHandler("md-drugs:client:fillneedle", function() 
-TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "Filling Needles!", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,

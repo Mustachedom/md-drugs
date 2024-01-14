@@ -227,6 +227,8 @@ options = {
 		},
 	},	
 })
+if Config.Crafting then
+else
 exports['qb-target']:AddBoxZone("MakeButter",Config.MakeButter,1.5, 1.75, { -- 963.37, .z-2122.95, 31.47
 		name = "MakeButter",
 		heading = 11.0,
@@ -240,7 +242,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Butter",
 			action = function()
-						TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+						exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 						QBCore.Functions.Progressbar("drink_something", "Making Canna Butter", 4000, false, true, {
 							disableMovement = false,
 							disableCarMovement = false,
@@ -271,7 +273,7 @@ options = {
 			label = "Make Brownies",
 			item = "cannabutter",
 			action = function()
-					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 						QBCore.Functions.Progressbar("drink_something", "Making Special Brownies", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -302,7 +304,7 @@ options = {
 			label = "Make Cookies",
 			item = "cannabutter",
 			action = function()
-					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 						QBCore.Functions.Progressbar("drink_something", "Making Special Cookies", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -333,7 +335,7 @@ options = {
 			label = "Make Chocolate",
 			item = "cannabutter",
 			action = function()
-					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 						QBCore.Functions.Progressbar("drink_something", "Making Special Chocolate", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -364,7 +366,7 @@ options = {
 			label = "Make Muffin",
 			item = "cannabutter",
 			action = function()
-					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 						QBCore.Functions.Progressbar("drink_something", "Making Special Muffin", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -391,6 +393,7 @@ options = {
 		},
 	},	
 })
+end
 exports['qb-target']:AddBoxZone("makeoil",Config.MakeOil,1.5, 1.75, { -- 963.37, .z-2122.95, 31.47
 		name = "makeoil",
 		heading = 11.0,
@@ -404,7 +407,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Oil",
 			action = function()
-						TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+						exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 						QBCore.Functions.Progressbar("drink_something", "Making Wax Oil", 4000, false, true, {
 							disableMovement = false,
 							disableCarMovement = false,
@@ -500,15 +503,15 @@ RegisterNetEvent('md-drugs:client:bluntwraps', function(args)
 end)
 
 RegisterNetEvent("md-drugs:client:rollanim", function()
-TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+exports["rpemotes"]:EmoteCommandStart('uncuff', 0)
 Wait(4000)
-ClearPedTasks(PlayerPedId())
+exports["rpemotes"]:EmoteCancel(forceCancel) 
 end)
 
 
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-	TriggerEvent('animations:client:EmoteCommandStart', {'bong2'}) 
+exports["rpemotes"]:EmoteCommandStart('bong2', 0)
 AlienEffect()
 end)
 
@@ -552,7 +555,7 @@ local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
 				})
 for k, v in pairs (Config.Weed.items) do 
 	WeedShop[#WeedShop + 1] = {
-		icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
+		icon = "nui://".."ps-inventory/html/images/"..QBCore.Shared.Items[v.name].image,
 		 header = v.label,
 		 title = v.label,
 		 event = "md-drugs:client:WeedShop",
@@ -586,7 +589,7 @@ RegisterNetEvent("md-drugs:client:WeedShop", function(data)
 end)
 
 RegisterNetEvent('md-drugs:client:smokeblunts', function(itemName)
-	TriggerEvent('animations:client:EmoteCommandStart', {'smoke'}) 
+     exports["rpemotes"]:EmoteCommandStart('smoke', 0)
 	TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
 		Wait(1000)
 			if itemName == "blunts" then
