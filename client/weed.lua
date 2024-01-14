@@ -240,7 +240,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Butter",
 			action = function()
-						exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+						TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 						QBCore.Functions.Progressbar("drink_something", "Making Canna Butter", 4000, false, true, {
 							disableMovement = false,
 							disableCarMovement = false,
@@ -271,7 +271,7 @@ options = {
 			label = "Make Brownies",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 						QBCore.Functions.Progressbar("drink_something", "Making Special Brownies", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -302,7 +302,7 @@ options = {
 			label = "Make Cookies",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 						QBCore.Functions.Progressbar("drink_something", "Making Special Cookies", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -333,7 +333,7 @@ options = {
 			label = "Make Chocolate",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 						QBCore.Functions.Progressbar("drink_something", "Making Special Chocolate", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -364,7 +364,7 @@ options = {
 			label = "Make Muffin",
 			item = "cannabutter",
 			action = function()
-					exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+					TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 						QBCore.Functions.Progressbar("drink_something", "Making Special Muffin", 4000, false, true, {
 						disableMovement = false,
 						disableCarMovement = false,
@@ -404,7 +404,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Oil",
 			action = function()
-						exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+						TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 						QBCore.Functions.Progressbar("drink_something", "Making Wax Oil", 4000, false, true, {
 							disableMovement = false,
 							disableCarMovement = false,
@@ -500,15 +500,15 @@ RegisterNetEvent('md-drugs:client:bluntwraps', function(args)
 end)
 
 RegisterNetEvent("md-drugs:client:rollanim", function()
-exports["rpemotes"]:EmoteCommandStart('uncuff', 0)
+TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 Wait(4000)
-exports["rpemotes"]:EmoteCancel(forceCancel) 
+ClearPedTasks(PlayerPedId())
 end)
 
 
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-exports["rpemotes"]:EmoteCommandStart('bong2', 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'bong2'}) 
 AlienEffect()
 end)
 
@@ -586,7 +586,7 @@ RegisterNetEvent("md-drugs:client:WeedShop", function(data)
 end)
 
 RegisterNetEvent('md-drugs:client:smokeblunts', function(itemName)
-     exports["rpemotes"]:EmoteCommandStart('smoke', 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'smoke'}) 
 	TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
 		Wait(1000)
 			if itemName == "blunts" then

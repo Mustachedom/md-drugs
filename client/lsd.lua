@@ -30,7 +30,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:getlysergic")
 AddEventHandler("md-drugs:client:getlysergic", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Stealing Lysergic Acid!", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -50,7 +50,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:getdiethylamide")
 AddEventHandler("md-drugs:client:getdiethylamide", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Stealing Diethylamide!", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -71,7 +71,7 @@ end)
 RegisterNetEvent("md-drugs:client:setlsdlabkit")
 AddEventHandler("md-drugs:client:setlsdlabkit", function() 
 local PedCoords = GetEntityCoords(PlayerPedId())
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 	QBCore.Functions.Progressbar("drink_something", "Setting Table Down", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -115,7 +115,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:getlabkitback")
 AddEventHandler("md-drugs:client:getlabkitback", function() 
-    exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+    TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     local PedCoords = GetEntityCoords(PlayerPedId())
     QBCore.Functions.Progressbar("drink_something", "Packing Up", 1000, false, true, {
         disableMovement = false,
@@ -133,7 +133,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:heatliquid")
 AddEventHandler("md-drugs:client:heatliquid", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 	local PedCoords = GetEntityCoords(PlayerPedId())
 	dict = "scr_ie_svm_technical2"
     QBCore.Functions.Progressbar("drink_something", "Heating Liquids!", 1000, false, true, {
@@ -196,7 +196,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:refinequalityacid")
 AddEventHandler("md-drugs:client:refinequalityacid", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Refining The Quality!", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -217,7 +217,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:maketabpaper")
 AddEventHandler("md-drugs:client:maketabpaper", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Dipping LSD Onto Paper", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -239,7 +239,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:cutsheet")
 AddEventHandler("md-drugs:client:cutsheet", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Cutting Sheets", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -253,7 +253,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:buytabs")
 AddEventHandler("md-drugs:client:buytabs", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Buying Tab Paper", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -268,7 +268,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:buylabkit")
 AddEventHandler("md-drugs:client:buylabkit", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Buying A Lab Kit", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,

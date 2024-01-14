@@ -121,7 +121,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:drymescaline")
 AddEventHandler("md-drugs:client:drymescaline", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "Drying Out", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
