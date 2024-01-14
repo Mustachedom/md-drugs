@@ -100,7 +100,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:makepowder")
 AddEventHandler("md-drugs:client:makepowder", function() 
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
     QBCore.Functions.Progressbar("drink_something", "chopping plants to powder", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
