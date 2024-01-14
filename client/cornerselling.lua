@@ -39,7 +39,7 @@ local function RobberyPed()
                     label = "take back",
                     action = function()
                         local player = PlayerPedId()
-                       exports["rpemotes"]:EmoteCommandStart("pickup", 0)
+                      TriggerEvent('animations:client:EmoteCommandStart', {'pickup'}) 
                         Wait(2000)
                         ClearPedTasks(player)
                         TriggerServerEvent('md-drugs:server:giveStealItems', stealData.item, stealData.amount)
