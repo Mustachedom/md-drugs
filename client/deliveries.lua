@@ -35,11 +35,11 @@ local function GetClosestDealer()
         end
     end
 end
-CreateThread(function()
+RegisterNetEvent('md-drugs:client:openshopdealers', function()
     local dealermenu = {}
     if Config.StupidassNewQbItemName then
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
-		if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
+			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
                           icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
                           title = v.label,
@@ -53,11 +53,11 @@ CreateThread(function()
                         }
                
                    lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
-		end	   
+			end	   
         end           
     else
          for k, v in pairs (QBConfig.Products) do 
-		if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
+			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
                           icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
                           title = v.label,
@@ -71,7 +71,7 @@ CreateThread(function()
                         }
 
                    lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
-		end	   
+			end	   
         end     
     end
 end)
@@ -214,7 +214,7 @@ function InitZones()
          testdealer = CreatePed(0, Ped,v.coords.x,v.coords.y,v.coords.z-1, 90.0, false, false)
           FreezeEntityPosition(testdealer, true)
          SetEntityInvincible(testdealer, true)
-         exports["qb-target"]:AddBoxZone("dealer_"..k, vector3(v.coords.x, v.coords.y, v.coords.z), 1.5, 1.5, {
+           exports["qb-target"]:AddBoxZone("dealer_"..k, vector3(v.coords.x, v.coords.y, v.coords.z), 1.5, 1.5, {
              name = "dealer_"..k,
              heading = v.heading,
              minZ = v.coords.z - 1,
@@ -225,9 +225,7 @@ function InitZones()
                  {
                      icon = 'fas fa-user-secret',
                      label = "Deliver",
-                     action = function()
-                         RequestDelivery()
-                     end,
+                     event = 'md-drugs:client:openshopdealers',
                      canInteract = function()
                          GetClosestDealer()
                          local hours = GetClockHours()
