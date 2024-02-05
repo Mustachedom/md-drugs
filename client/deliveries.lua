@@ -39,6 +39,7 @@ CreateThread(function()
     local dealermenu = {}
     if Config.StupidassNewQbItemName then
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
+		if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
                           icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
                           title = v.label,
@@ -52,9 +53,11 @@ CreateThread(function()
                         }
                
                    lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
+		end	   
         end           
     else
          for k, v in pairs (QBConfig.Products) do 
+		if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
                           icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
                           title = v.label,
@@ -68,10 +71,10 @@ CreateThread(function()
                         }
 
                    lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
+		end	   
         end     
     end
 end)
-
 local function RandomDeliveryItemOnRep()
     local myRep = QBCore.Functions.GetPlayerData().metadata["dealerrep"]
     local availableItems = {}
