@@ -43,15 +43,13 @@
 
 - [QBCore](https://github.com/qbcore-framework/qb-core)
 
-- [ps inventory](https://github.com/Project-Sloth/ps-inventory) **or** [qb inventory](https://github.com/qbcore-framework/qb-inventory)
+- [ps inventory](https://github.com/Project-Sloth/ps-inventory) **or** [qb inventory](https://github.com/qbcore-framework/qb-inventory) **or** Ox_inventory
   
-- [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
+- [ps-buffs](https://github.com/Project-Sloth/ps-buffs) -- only for pharma consumbles, can easily comment out in client
   
 - [ps-ui](https://github.com/Project-Sloth/ps-ui)
   
-- [qb-target](https://github.com/qbcore-framework/qb-target)
-  
-- [PolyZone](https://github.com/mkafrin/PolyZone)
+- [qb-target](https://github.com/qbcore-framework/qb-target) **or** Ox_target
 
 - GAME BUILD 2944 OR LATER
 
