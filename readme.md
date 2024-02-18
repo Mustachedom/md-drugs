@@ -52,7 +52,8 @@
 - [qb-target](https://github.com/qbcore-framework/qb-target)
   
 - [PolyZone](https://github.com/mkafrin/PolyZone)
-  
+
+- GAME BUILD 2944 OR LATER
 
 - [Ox Lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0)
 
