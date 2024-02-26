@@ -225,7 +225,9 @@ function InitZones()
                  {
                      icon = 'fas fa-user-secret',
                      label = "Deliver",
-                     event = 'md-drugs:client:openshopdealers',
+                     action = function()
+				RequestDelivery()
+			end,
                      canInteract = function()
                          GetClosestDealer()
                          local hours = GetClockHours()
