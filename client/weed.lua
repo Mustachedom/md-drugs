@@ -118,7 +118,7 @@ CreateThread(function()
 for k, v in pairs (Config.WeedDry) do
 
 exports['qb-target']:AddBoxZone("weeddry"..k,v,1.5, 1.75, { -- 963.37, .z-2122.95, 31.47
-		name = "ingridientsmeth"..k,
+		name = "weeddry"..k,
 		heading = 11.0,
 		debugPoly = false,
 		minZ = v.z-2,
