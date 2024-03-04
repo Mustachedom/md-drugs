@@ -104,6 +104,24 @@ QBConfig.DrugsPrice = {
 	["orange_cats2"] = {min = 18, max = 40},
 	["orange_cats3"] = {min = 18, max = 40},
 	["orange_cats4"] = {min = 18, max = 40},	
+	["blunts"] = {min = 18, max = 40},
+	["leanblunts"] = {min = 18, max = 40},
+	["dextroblunts"] = {min = 18, max = 40},
+	["chewyblunt"] = {min = 18, max = 40},
+	["cupoflean"] = {min = 18, max = 40},
+	["shatter"] = {min = 18, max = 40},
+	["ciggie"] = {min = 18, max = 40},
+	["methbags"] = {min = 18, max = 40},	
+	["driedmescaline"] = {min = 18, max = 40},
+	["specialchocolate"] = {min = 18, max = 40},
+	["shrooms"] = {min = 18, max = 40},
+	["gratefuldead_tabs"] = {min = 18, max = 40},
+	["bart_tabs"] = {min = 18, max = 40},
+	["pineapple_tabs"] = {min = 18, max = 40},
+	["yinyang_tabs"] = {min = 18, max = 40},
+	["wildcherry_tabs"] = {min = 18, max = 40},	
+	["smiley_tabs"] = {min = 18, max = 40},
+	
 }
 
 	Debug = false -- true / false - Currently prints the vector3 and label of locations when requesting a delivery
