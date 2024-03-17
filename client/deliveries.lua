@@ -35,7 +35,7 @@ local function GetClosestDealer()
         end
     end
 end
-RegisterNetEvent('md-drugs:client:openshopdealers', function()
+CreateThread(function()
     local dealermenu = {}
     if Config.StupidassNewQbItemName then
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
