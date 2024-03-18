@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local CocaPlant = {}
 local PoppyPlants = {}
-
+local herointable = false
 function LoadModel(hash)
     hash = GetHashKey(hash)
     RequestModel(hash)
@@ -187,11 +187,16 @@ end)
 
 RegisterNetEvent("md-drugs:client:setheroinlabkit")
 AddEventHandler("md-drugs:client:setheroinlabkit", function() 
+if herointable then   
+    QBCore.Functions.Notify('You Already Have A Table Out', 'error')
+else
+         
 local PedCoords = GetEntityCoords(PlayerPedId())
 TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+    herointable = true
 	ClearPedTasks(PlayerPedId())
 	heroinlabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
-	SetVehicleOnGroundProperly(heroinlabkit)
+	PlaceObjectOnGroundProperly(heroinlabkit)
 	exports['qb-target']:AddTargetEntity(heroinlabkit, {
     options = {
         {
@@ -205,9 +210,12 @@ TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'})
             event = "md-drugs:client:getheroinkitback",
             icon = "fas fa-box-circle-check",
             label = "Pick Up",
+            canInteract = function()
+                if herointable then return true end end
         },
     }
    })
+end   
 end)
 
 RegisterNetEvent("md-drugs:client:heatliquidheroin")
@@ -270,6 +278,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:getheroinkitback")
 AddEventHandler("md-drugs:client:getheroinkitback", function() 
+herointable = false
 DeleteObject(heroinlabkit)
 TriggerServerEvent("md-drugs:server:getheroinlabkitback")
 ClearPedTasks(PlayerPedId())

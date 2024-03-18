@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local tableout = false
 local function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then
         RequestNamedPtfxAsset(dict)
@@ -70,7 +70,11 @@ end)
 
 RegisterNetEvent("md-drugs:client:setlsdlabkit")
 AddEventHandler("md-drugs:client:setlsdlabkit", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+if tableout then 
+    QBCore.Functions.Notify('You Already Have A Table Out', 'error')
+else
+    tableout = true
+    local PedCoords = GetEntityCoords(PlayerPedId())
 	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 	QBCore.Functions.Progressbar("drink_something", "Setting Table Down", 1000, false, true, {
         disableMovement = false,
@@ -107,11 +111,15 @@ local PedCoords = GetEntityCoords(PlayerPedId())
             event = "md-drugs:client:getlabkitback",
             icon = "fas fa-box-circle-check",
             label = "Pick Up",
+            canInteract = function()
+                if tableout then return true end end
         },
     }
 	})
-end)
-end)
+    end)
+end
+end)    
+
 
 RegisterNetEvent("md-drugs:client:getlabkitback")
 AddEventHandler("md-drugs:client:getlabkitback", function() 
@@ -127,6 +135,7 @@ AddEventHandler("md-drugs:client:getlabkitback", function()
 		DeleteObject(labkit)
 		TriggerServerEvent('md-drugs:server:getlabkitback')
 		ClearPedTasks(PlayerPedId())
+        tableout = false
 	end)
 end)
 

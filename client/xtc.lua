@@ -1,8 +1,12 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local xtcpress = false
 RegisterNetEvent("md-drugs:client:setpressquad")
 AddEventHandler("md-drugs:client:setpressquad", function() 
+if xtcpress then
+    QBCore.Functions.Notify('You Have A Press Out Already', 'error')
+else
 local PedCoords = GetEntityCoords(PlayerPedId())
+    xtcpress = true
 	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 	Wait(4000)
 	ClearPedTasks(PlayerPedId())
@@ -36,14 +40,21 @@ local PedCoords = GetEntityCoords(PlayerPedId())
             event = "md-drugs:client:getquadpressback",
             icon = "fas fa-eye",
             label = "Pick Up",
+            canInteract = function()
+                if xtcpress then return true end end 
         },
     }
   })
+end  
 end)
 
 RegisterNetEvent("md-drugs:client:setpresstriple")
 AddEventHandler("md-drugs:client:setpresstriple", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+    if xtcpress then
+        QBCore.Functions.Notify('You Have A Press Out Already', 'error')
+    else
+    local PedCoords = GetEntityCoords(PlayerPedId())
+        xtcpress = true
 	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 	Wait(4000)
 	ClearPedTasks(PlayerPedId())
@@ -75,14 +86,21 @@ local PedCoords = GetEntityCoords(PlayerPedId())
             event = "md-drugs:client:gettriplepressback",
             icon = "fas fa-eye",
             label = "Pick Up",
+            canInteract = function()
+                if xtcpress then return true end end 
         },
     }
      })
+    end     
 end)
 
 RegisterNetEvent("md-drugs:client:setpressdual")
 AddEventHandler("md-drugs:client:setpressdual", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+    if xtcpress then
+        QBCore.Functions.Notify('You Have A Press Out Already', 'error')
+    else
+    local PedCoords = GetEntityCoords(PlayerPedId())
+        xtcpress = true
 	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 	Wait(4000)
 	ClearPedTasks(PlayerPedId())
@@ -117,14 +135,21 @@ local PedCoords = GetEntityCoords(PlayerPedId())
             event = "md-drugs:client:getdualpressback",
             icon = "fas fa-eye",
             label = "Pick Up",
+            canInteract = function()
+                if xtcpress then return true end end 
         },
     }
 	})
+end    
 end)
 
 RegisterNetEvent("md-drugs:client:setpresssingle")
 AddEventHandler("md-drugs:client:setpresssingle", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
+    if xtcpress then
+        QBCore.Functions.Notify('You Have A Press Out Already', 'error')
+    else
+    local PedCoords = GetEntityCoords(PlayerPedId())
+        xtcpress = true
 	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
 	Wait(4000)
 	ClearPedTasks(PlayerPedId())
@@ -160,13 +185,17 @@ local PedCoords = GetEntityCoords(PlayerPedId())
             event = "md-drugs:client:getsinglepressback",
             icon = "fas fa-eye",
             label = "Pick Up",
+            canInteract = function()
+                if xtcpress then return true end end 
         },
     }
  })
+end
 end)
 
 RegisterNetEvent("md-drugs:client:getsinglepressback")
-AddEventHandler("md-drugs:client:getsinglepressback", function() 
+AddEventHandler("md-drugs:client:getsinglepressback", function()
+xtcpress = false
 DeleteObject(singlepress)
 TriggerServerEvent("md-drugs:server:getsinglepressback")
 ClearPedTasks(PlayerPedId())
@@ -174,13 +203,15 @@ end)
 
 RegisterNetEvent("md-drugs:client:getdualpressback")
 AddEventHandler("md-drugs:client:getdualpressback", function() 
+xtcpress = false
 DeleteObject(dualpress)
 TriggerServerEvent("md-drugs:server:getdualpressback")
 ClearPedTasks(PlayerPedId())
 end)
 
 RegisterNetEvent("md-drugs:client:gettriplepressback")
-AddEventHandler("md-drugs:client:gettriplepressback", function() 
+AddEventHandler("md-drugs:client:gettriplepressback", function()
+    xtcpress = false    
 DeleteObject(triplepress)
 TriggerServerEvent("md-drugs:server:gettriplepressback")
 ClearPedTasks(PlayerPedId())
@@ -188,6 +219,7 @@ end)
 
 RegisterNetEvent("md-drugs:client:getquadpressback")
 AddEventHandler("md-drugs:client:getquadpressback", function() 
+    xtcpress = false    
 DeleteObject(quadpress)
 TriggerServerEvent("md-drugs:server:getquadpressback")
 ClearPedTasks(PlayerPedId())
