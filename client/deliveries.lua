@@ -35,7 +35,7 @@ local function GetClosestDealer()
         end
     end
 end
-CreateThread(function()
+RegisterNetEvent('md-drugs:client:opendealermenu', function()
     local dealermenu = {}
     if Config.StupidassNewQbItemName then
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
@@ -74,6 +74,7 @@ CreateThread(function()
 			end	   
         end     
     end
+    lib.showContext('dealermenu')
 end)
 local function RandomDeliveryItemOnRep()
     local myRep = QBCore.Functions.GetPlayerData().metadata["dealerrep"]
@@ -256,7 +257,7 @@ function InitZones()
                      icon = 'fas fa-user-secret',
                      label = "Open Shop",
                      action = function()
-                        lib.showContext('dealermenu')
+                        TriggerEvent('md-drugs:client:opendealermenu')
                      end,
                      canInteract = function()
                          GetClosestDealer()
