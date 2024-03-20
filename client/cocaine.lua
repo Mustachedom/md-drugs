@@ -148,7 +148,7 @@ CreateThread(function()
 				icon = "fas fa-sign-in-alt",
 				label = "cut up",
 				canInteract = function()
-					if cuttingcoke == nil then return true end
+					if cuttingcoke == nil and baggingcoke == nil then return true end
 				end			
 			},
 		},
@@ -168,7 +168,7 @@ CreateThread(function()
 				icon = "fas fa-sign-in-alt",
 				label = "bagging",
 				canInteract = function()
-					if baggingcoke == nil then return true end
+					if baggingcoke == nil and cuttingcoke == nil then return true end
 				end
 			},
 		},
