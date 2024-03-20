@@ -134,44 +134,46 @@ AddEventHandler("md-drugs:client:bagcoke", function()
 end)
 
 CreateThread(function()
-	exports['qb-target']:AddBoxZone("cutcokepowder",vector3(1093.01, -3194.8, -38.99),1.5, 1.75, { -- 963.37, -2122.95, 31.47
-		name = "cutcokepowder",
-		heading = 11.0,
-		debugPoly = false,
-		minZ = -40,
-		maxZ = -36,
-	}, {
-		options = {
-			{
-				type = "client",
-				event = "md-drugs:client:cutcokeone",
-				icon = "fas fa-sign-in-alt",
-				label = "cut up",
-				canInteract = function()
-					if cuttingcoke == nil and baggingcoke == nil then return true end
-				end			
-			},
-		},
-		distance = 2.5
-	})
-	exports['qb-target']:AddBoxZone("bagcokepowder",vector3(1090.19, -3194.8, -38.98),1.5, 1.75, { -- 963.37, -2122.95, 31.47
-		name = "bagcokepowder",
-		heading = 11.0,
-		debugPoly = false,
-		minZ = -40,
-		maxZ = -36,
-	}, {
-		options = {
-			{
-				type = "client",
-				event = "md-drugs:client:bagcoke",
-				icon = "fas fa-sign-in-alt",
-				label = "bagging",
-				canInteract = function()
-					if baggingcoke == nil and cuttingcoke == nil then return true end
-				end
-			},
-		},
-		distance = 2.5
-	})
+    local cut = vector3(1093.01, -3194.8, -39.99)
+    local bagg = vector3(1090.70, -3195.91, -39.99)
+    exports['qb-target']:AddBoxZone("cutcokepowder",vector3(cut.x, cut.y, cut.z),1.5, 1.75, { -- 963.37, -2122.95, 31.47
+        name = "cutcokepowder",
+        heading = 11.0,
+        debugPoly = true,
+        minZ = cut.z-1,
+        maxZ = cut.z+1,
+    }, {
+        options = {
+            {
+                type = "client",
+                event = "md-drugs:client:cutcokeone",
+                icon = "fas fa-sign-in-alt",
+                label = "cut up",
+                canInteract = function()
+                    if cuttingcoke == nil and baggingcoke == nil then return true end
+                end            
+            },
+        },
+        distance = 2.5
+    })
+    exports['qb-target']:AddBoxZone("bagcokepowder",vector3(bagg.x, bagg.y, bagg.z),1.5, 1.75, { -- 963.37, -2122.95, 31.47
+        name = "bagcokepowder",
+        heading = 11.0,
+        debugPoly = true,
+        minZ = bagg.z-1,
+        maxZ = bagg.z+1,
+    }, {
+        options = {
+            {
+                type = "client",
+                event = "md-drugs:client:bagcoke",
+                icon = "fas fa-sign-in-alt",
+                label = "bagging",
+                canInteract = function()
+                    if baggingcoke == nil and cuttingcoke == nil then return true end
+                end
+            },
+        },
+        distance = 2.5
+    })
 end)
