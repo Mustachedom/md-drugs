@@ -61,36 +61,7 @@ if Config.oxtarget then
 			},
 		},
 	})
-	exports.ox_target:addBoxZone({ -- 963.37, -2122.95, 31.47
-		coords = vector3(1093.01, -3194.8, -38.99),
-		size = vec3(2,2,2),
-		debugPoly = false,
-		rotation = 45,
-		options = {
-			{
-				type = "client",
-				event = "md-drugs:client:cutcokeone",
-				icon = "fas fa-sign-in-alt",
-				label = "cut up",
-
-			},
-		},
-	})
-	exports.ox_target:addBoxZone({ -- 963.37, -2122.95, 31.47
-		coords = vector3(1090.19, -3194.8, -38.98),
-		size = vec3(2,2,2),
-		debugPoly = false,
-		rotation = 45,
-		options = {
-			{
-				type = "client",
-				event = "md-drugs:client:bagcoke",
-				icon = "fas fa-sign-in-alt",
-				label = "bagging",
-
-			},
-		},
-	})
+	
 	------------- lsd
 	exports.ox_target:addBoxZone({ -- 963.37, -2122.95, 31.47
 		coords = Config.lysergicacid,
