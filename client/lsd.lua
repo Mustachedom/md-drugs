@@ -192,6 +192,7 @@ AddEventHandler("md-drugs:client:cleanlabkit", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
+	tableout = false
 		TriggerServerEvent("md-drugs:server:removecleaningkit")
 		 ClearPedTasks(PlayerPedId())
 	end)
