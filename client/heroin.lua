@@ -263,6 +263,7 @@ AddEventHandler("md-drugs:client:cleanheroinlabkit", function()
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
+
 		TriggerServerEvent("md-drugs:server:removecleaningkitheroin")
 		 ClearPedTasks(PlayerPedId())
 	end)
@@ -271,6 +272,7 @@ end)
 RegisterNetEvent("md-drugs:client:deletedirtyheroin")
 AddEventHandler("md-drugs:client:deletedirtyheroin", function() 
 DeleteObject(dirtylabkitheroin)
+herointable = false
 Wait(1000)
 TriggerEvent("md-drugs:client:setheroinlabkit")
 end)
