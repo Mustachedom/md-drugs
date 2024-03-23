@@ -139,7 +139,7 @@ CreateThread(function()
     exports['qb-target']:AddBoxZone("cutcokepowder",vector3(cut.x, cut.y, cut.z),1.5, 1.75, { -- 963.37, -2122.95, 31.47
         name = "cutcokepowder",
         heading = 11.0,
-        debugPoly = true,
+        debugPoly = false,
         minZ = cut.z-1,
         maxZ = cut.z+1,
     }, {
@@ -159,7 +159,7 @@ CreateThread(function()
     exports['qb-target']:AddBoxZone("bagcokepowder",vector3(bagg.x, bagg.y, bagg.z),1.5, 1.75, { -- 963.37, -2122.95, 31.47
         name = "bagcokepowder",
         heading = 11.0,
-        debugPoly = true,
+        debugPoly = false,
         minZ = bagg.z-1,
         maxZ = bagg.z+1,
     }, {
