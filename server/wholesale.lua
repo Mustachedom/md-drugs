@@ -113,7 +113,7 @@ RegisterServerEvent('md-drugs:server:wholesaleheroin', function()
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
 			TriggerClientEvent('QBCore:Notify', src, "You received " .. item.amount * price .. "  Dollars!" , "success")
-            heroinmoney = heroinmoney + removed
+          
         end
     end
 end)
@@ -140,14 +140,7 @@ RegisterServerEvent('md-drugs:server:wholesalextc', function()
         if item and item.amount > 0 then
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
-            xtcmoney = xtcmoney + removed
         end
-    end
-
-    if xtcmoney > 0 then
-        TriggerClientEvent('QBCore:Notify', src, "You received " .. item.amount * price .. "  Dollars!" , "success")
-    else
-       TriggerClientEvent('QBCore:Notify', src, "Nothing To Sell", "error")
     end
 end)
 
