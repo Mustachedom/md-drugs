@@ -6,6 +6,7 @@ Config.rewardItemheroin = "poppyresin"
 Config.rewardshrooms = "shrooms"
 Config.rewardMescaline = "cactusbulb"
 Config.rewardWeed = "wetcannabis"
+Config.requestModelTime = 30000 -- time for ox_lib to request the model to spawn props, increase based on your server and player's experience with failed model requests
 Config.oxtarget = true --- turn to true if you use oxtarget
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel

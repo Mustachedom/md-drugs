@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 CreateThread(function()
 	local current = "s_m_m_doctor_01"
-	lib.requestModel(current, 500)
+	lib.requestModel(current, Config.requestModelTime)
 	 SyrupLocation = CreatePed(0, current,Config.SyrupVendor.x,Config.SyrupVendor.y,Config.SyrupVendor.z-1, false, false)
     FreezeEntityPosition(SyrupLocation, true)
     SetEntityInvincible(SyrupLocation, true)

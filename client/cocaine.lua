@@ -4,7 +4,7 @@ local cuttingcoke = nil
 local baggingcoke = nil
 function LoadModel(hash)
     hash = GetHashKey(hash)
-    lib.requestModel(hash, 500)
+    lib.requestModel(hash, Config.requestModelTime)
 end 
 
 RegisterNetEvent('coke:respawnCane', function(loc)

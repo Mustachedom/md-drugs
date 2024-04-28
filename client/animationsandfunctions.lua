@@ -480,9 +480,9 @@ local spawnedCar = {}
 if started then 
 else
     started = true
-    lib.requestModel(`pounder`, 500)
-    lib.requestModel("ig_priest", 500)
-    lib.requestModel(`cargobob3`, 500)
+    lib.requestModel(`pounder`, Config.requestModelTime)
+    lib.requestModel("ig_priest", Config.requestModelTime)
+    lib.requestModel(`cargobob3`, Config.requestModelTime)
     leancar = CreateVehicle(`pounder`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
     driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, true, false)
     pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
@@ -565,9 +565,9 @@ local searchmeth = false
 if startedmeth then 
 else
     startedmeth = true
-    lib.requestModel(`journey`, 500)
-    lib.requestModel("a_m_m_hillbilly_02", 500)
-    lib.requestModel(`cargobob3`, 500)
+    lib.requestModel(`journey`, Config.requestModelTime)
+    lib.requestModel("a_m_m_hillbilly_02", Config.requestModelTime)
+    lib.requestModel(`cargobob3`, Config.requestModelTime)
     methcar = CreateVehicle(`journey`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
     methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, true, false)
     methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
