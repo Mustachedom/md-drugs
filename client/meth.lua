@@ -221,7 +221,7 @@ end)
 
 CreateThread(function()
 	local current = "g_m_y_famdnf_01"
-	lib.requestModel(current, 1000)
+	lib.requestModel(current, Config.requestModelTime)
 	local CurrentLocation = Config.MethHeistStart
 	methdealer = CreatePed(0, current, CurrentLocation.x, CurrentLocation.y, CurrentLocation.z - 1, false, false)
 	FreezeEntityPosition(methdealer, true)

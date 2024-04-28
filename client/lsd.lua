@@ -12,7 +12,7 @@ end
 
 CreateThread(function() 
 local Ped = "g_m_y_famdnf_01"
-	lib.requestModel(Ped, 500)
+	lib.requestModel(Ped, Config.requestModelTime)
 	tabdealer = CreatePed(0, Ped,Config.buylsdlabkit.x,Config.buylsdlabkit.y,Config.buylsdlabkit.z-1, 180.0, false, false)
     FreezeEntityPosition(tabdealer, true)
     SetEntityInvincible(tabdealer, true)

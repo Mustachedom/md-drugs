@@ -20,7 +20,7 @@ end
 RegisterNetEvent("md-drugs:Client:getoxylocation", function()
 	local coords = Config.truckspawn
 	local ModelHash = "burrito3" -- Use Compile-time hashes to get the hash of this model
-	lib.requestModel(ModelHash, 500)
+	lib.requestModel(ModelHash, Config.requestModelTime)
 	local oxycar = CreateVehicle(ModelHash,Config.truckspawn.x, Config.truckspawn.y,Config.truckspawn.z, Config.truckspawn.h, true, false)
     SetEntityHeading(oxycar, coords.w)
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
@@ -72,7 +72,7 @@ AddEventHandler("md-drugs:client:getoxylocationroute", function()
         PolicecallOxy()
     end
 	local current = "g_m_y_famdnf_01"
-    lib.requestModel(current, 500)
+    lib.requestModel(current, Config.requestModelTime)
     oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, false, false)
 	SetEntityHeading(oxybuyer, 180)
      FreezeEntityPosition(oxybuyer, true)

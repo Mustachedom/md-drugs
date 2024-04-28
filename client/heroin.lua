@@ -22,7 +22,7 @@ end
 
 CreateThread(function() 
 local Ped = "g_m_y_famdnf_01"
-	lib.requestModel("g_m_y_famdnf_01", 500)
+	lib.requestModel("g_m_y_famdnf_01", Config.requestModelTime)
 	labkitlocation = Config.buyheroinlabkit
 	heroinkitdealer = CreatePed(0, Ped,labkitlocation.x, labkitlocation.y, labkitlocation.z-1, 180.0, false, false)
     FreezeEntityPosition(heroinkitdealer, true)
