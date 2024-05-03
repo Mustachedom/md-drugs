@@ -16,7 +16,7 @@ Config.Tier2 = 300 -- amount to hit for level 3
 Config.progressbartype = 'oxcir' -- either 'qb', 'oxcir', 'oxbar'
 Config.minigametype = 'ox' -- either 'ps' or 'ox'
 Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
-Config.Phone = 'qb' -- either qb or yflip(yflip is experimental)
+Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 
 ------------- you can either set a gang or leave it blank, if blank it will autopopulate data to not require it :)
