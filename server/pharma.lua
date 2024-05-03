@@ -1,124 +1,39 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-
-RegisterServerEvent('md-drugs:server:givevicodinprescription', function()
+QBCore.Functions.CreateUseableItem('prescription_pad', function(source, item)
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-	
-	if Player.Functions.AddItem('vicodin_prescription', 1 ) then
-		TriggerClientEvent('QBCore:Notify', src, "Dont Forget to give it to them!", "success")
-	end
+	local Player = QBCore.Functions.GetPlayer(src)
+	if Player.PlayerData.job.type == 'ems' then 
+		TriggerClientEvent("md-drugs:client:prescriptionpad", src, item)
+	end	
 end)
 
-RegisterServerEvent('md-drugs:server:giveadderalprescription', function()
+RegisterServerEvent('md-drugs:server:giveprescription', function(item)
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-	
-	if Player.Functions.AddItem('adderal_prescription', 1 ) then
-		TriggerClientEvent('QBCore:Notify', src, "Dont Forget to give it to them!", "success")
-	end
+	local Player = QBCore.Functions.GetPlayer(src)
+	Player.Functions.AddItem(item, 1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item], "add", 1)
 end)
 
-RegisterServerEvent('md-drugs:server:givemorphineprescription', function()
+RegisterServerEvent('md-drugs:server:unbottle', function(item)
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-	
-	if Player.Functions.AddItem('morphine_prescription', 1 ) then
-		TriggerClientEvent('QBCore:Notify', src, "Dont Forget to give it to them!", "success")
-	end
+	local Player = QBCore.Functions.GetPlayer(src)
+	local amount = math.random(10,30)
+	Player.Functions.AddItem(item, amount)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item], "add", amount)
 end)
 
-RegisterServerEvent('md-drugs:server:givexanaxprescription', function()
+local pharmabottle = {'vicodinbottle', 'adderalbottle','morphinebottle','xanaxbottle'}
+for m, d in pairs (pharmabottle) do
+QBCore.Functions.CreateUseableItem(d, function(source, item)
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-	
-	if Player.Functions.AddItem('xanax_prescription', 1 ) then
-		TriggerClientEvent('QBCore:Notify', src, "Dont Forget to give it to them!", "success")
-	end
+	local Player = QBCore.Functions.GetPlayer(src)
+	if Player.Functions.RemoveItem(d, 1) then
+		TriggerClientEvent("md-drugs:client:unbottle", src, item)
+		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[d], "remove", 1)
+	end	
 end)
-
-RegisterServerEvent('md-drugs:server:fillprescription', function()
-	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-	
-	if Player.Functions.RemoveItem('vicodin_prescription', 1 ) then
-		if Player.Functions.AddItem('vicodinbottle', 1) then
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['vicodinbottle'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['vicodin_prescription'], "remove", 1)
-				TriggerClientEvent('QBCore:Notify', src, "got some pills!", "success")
-		end
-	elseif Player.Functions.RemoveItem('adderal_prescription', 1 ) then
-		if Player.Functions.AddItem('adderalbottle', 1) then
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['adderalbottle'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['adderal_prescription'], "remove", 1)
-				TriggerClientEvent('QBCore:Notify', src, "got some pills!", "success")
-		end
-	elseif Player.Functions.RemoveItem('morphine_prescription', 1 ) then
-		if Player.Functions.AddItem('morphinebottle', 1) then
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['vicodinbottle'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['morphine_prescription'], "remove", 1)
-				TriggerClientEvent('QBCore:Notify', src, "got some pills!", "success")
-		end
-	elseif Player.Functions.RemoveItem('xanax_prescription', 1 ) then
-		if Player.Functions.AddItem('xanaxbottle', 1) then
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['xanaxbottle'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['vicodin_prescription'], "remove", 1)
-				TriggerClientEvent('QBCore:Notify', src, "got some pills!", "success")
-		end
-	else
-	TriggerClientEvent('QBCore:Notify', src, "you aint got the supplies", "error")
-	end
-end)
-
-
-QBCore.Functions.CreateUseableItem('vicodinbottle', function(source, item)
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
-local luck = math.random(10,30)
-
-if Player.Functions.RemoveItem('vicodinbottle', 1) then
-	Player.Functions.AddItem('vicodin', luck)
-	TriggerClientEvent('QBCore:Notify', src,"You got ".. luck .. "Vicodin!", "success")
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['vicodin'], "add", luck)
-	end
-end)
-
-QBCore.Functions.CreateUseableItem('adderalbottle', function(source, item)
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
-local luck = math.random(10,30)
-
-if Player.Functions.RemoveItem('adderalbottle', 1) then
-	Player.Functions.AddItem('adderal', luck)
-	TriggerClientEvent('QBCore:Notify', src,"You got ".. luck .. "Adderal!", "success")
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['adderal'], "add", luck)
-	end
-end)
-
-QBCore.Functions.CreateUseableItem('morphinebottle', function(source, item)
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
-local luck = math.random(10,30)
-
-if Player.Functions.RemoveItem('morphinebottle', 1) then
-	Player.Functions.AddItem('morphine', luck)
-	TriggerClientEvent('QBCore:Notify', src,"You got ".. luck .. "Morphine!", "success")
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['morphine'], "add", luck)
-	end
-end)
-
-QBCore.Functions.CreateUseableItem('xanaxbottle', function(source, item)
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
-local luck = math.random(10,30)
-
-if Player.Functions.RemoveItem('xanaxbottle', 1) then
-	Player.Functions.AddItem('xanax', luck)
-	TriggerClientEvent('QBCore:Notify', src,"You got ".. luck .. "Xanax!", "success")
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['xanax'], "add", luck)
-	end
-end)
-
+end
 
 local pharmadrugs = { "adderal", "vicodin", "xanax", "morphine"}
 for k, v in pairs (pharmadrugs) do QBCore.Functions.CreateUseableItem(v, function(source, item)
@@ -127,7 +42,29 @@ local Player = QBCore.Functions.GetPlayer(src)
 
 if TriggerClientEvent('md-drugs:client:takepharma', src, item.name) then
 	Player.Functions.RemoveItem(item.name, 1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item.name], "remove", 1)
 	
 	end
 end)
 end
+RegisterServerEvent('md-drugs:server:fillprescription', function()
+	local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+	if RemoveItem('vicodin_prescription', 1 ) then
+		AddItem('vicodinbottle', 1) 
+		Notifys(Lang.Pharma.pills, "success")
+	elseif RemoveItem('adderal_prescription', 1 ) then
+		AddItem('adderalbottle', 1) 
+		Notifys(Lang.Pharma.pills, "success")
+	elseif RemoveItem('morphine_prescription', 1 ) then
+		AddItem('morphinebottle', 1) 
+		Notifys(Lang.Pharma.pills, "success")
+		
+	elseif RemoveItem('xanax_prescription', 1 ) then
+		AddItem('xanaxbottle', 1) 
+		Notifys(Lang.Pharma.pills, "success")
+		
+	else
+		Notifys(Lang.Pharma.no, "error")
+	end
+end)

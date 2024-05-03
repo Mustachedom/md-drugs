@@ -23,14 +23,15 @@ end
 
 RegisterNetEvent("Mescaline:pickupCane")
 AddEventHandler("Mescaline:pickupCane", function(loc)
+    local playerPed = GetPlayerPed(source)
+	if CheckDist(source, playerPed, Config.Mescaline[loc].location) then end
     if not Config.Mescaline[loc].taken then
         Config.Mescaline[loc].taken = true
         GlobalState.Mescaline = Config.Mescaline
         TriggerClientEvent("Mescaline:removeCane", -1, loc)
         MescalineCooldown(loc)
         local Player = QBCore.Functions.GetPlayer(source)
-        Player.Functions.AddItem(Config.rewardMescaline, 1)
-        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardItemheroin], "add")
+        AddItem('cactusbulb', 1)
     end
 end)
 
@@ -41,19 +42,18 @@ AddEventHandler("md-drugs:server:drymescaline", function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
- if Player.Functions.RemoveItem("cactusbulb", 1) then
-		Player.Functions.AddItem("driedmescaline", 1)
-		TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['driedmescaline'], "add", 1)
-else
-	TriggerClientEvent('QBCore:Notify', src, "No Cactus Bulbs", "error")
-end
+    if RemoveItem("cactusbulb", 1) then
+		AddItem("driedmescaline", 1)
+    else
+	    Notifys(Lang.mescaline.nocactus, "error")
+    end
 end)
 
 QBCore.Functions.CreateUseableItem("driedmescaline", function(source, item)
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
 
-if Player.Functions.RemoveItem("driedmescaline", 1) then 
-	TriggerClientEvent("md-drugs:client:takemescaline", src)
-end
+    if Player.Functions.RemoveItem("driedmescaline", 1) then 
+	    TriggerClientEvent("md-drugs:client:takemescaline", src)
+    end
 end)

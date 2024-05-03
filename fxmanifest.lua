@@ -3,7 +3,7 @@ author "mustache_dom"
 description "drugs by mustache dom"
 fx_version "cerulean"
 game "gta5"
-version  '3.0.0'
+version  '3.5.0'
 client_scripts {
 	'client/**.lua',
 	'@PolyZone/client.lua',
@@ -19,6 +19,7 @@ server_scripts {
 shared_scripts {
 	'@ox_lib/init.lua',
 	'shared/**.lua',
+
 }
 
 

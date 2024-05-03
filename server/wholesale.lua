@@ -8,18 +8,13 @@ local xtc = {"white_playboys",  "white_playboys2",  "white_playboys3",  "white_p
 QBCore.Functions.CreateUseableItem("cokeburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
-	
-	if Player.Functions.RemoveItem("cokeburner", 1) then
-		TriggerClientEvent("md-drugs:client:getloccoke", src)
-		TriggerClientEvent('QBCore:Notify', src, "Bring Me All The Coke You Have", "success")
-	end 
+		TriggerClientEvent("md-drugs:client:GetLocation", src, 'coke', "Bring Me All The Coke You Have")
 end)
  
 RegisterServerEvent('md-drugs:server:wholesalecoke', function()	
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local cocaine = 0
-	local price = math.random(50,1000)
+	local price = math.random(Config.Wcoke.min, Config.Wcoke.max)
 	
     for k, v in pairs(coke) do
         local item = Player.Functions.GetItemByName(v)
@@ -27,38 +22,30 @@ RegisterServerEvent('md-drugs:server:wholesalecoke', function()
         if item and item.amount > 0 then
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
-			  TriggerClientEvent('QBCore:Notify', src, "You received " .. item.amount * price .. "  Dollars!" , "success")
+			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
         end
     end
 end)
-
-
---------------------- crack
 
 
 QBCore.Functions.CreateUseableItem("crackburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	if Player.Functions.RemoveItem("crackburner", 1) then
-	TriggerClientEvent("md-drugs:client:getloccrack", src)
-	TriggerClientEvent('QBCore:Notify', src, "Bring Me All The Crack You Have", "success")
-	end 
+	TriggerClientEvent("md-drugs:client:GetLocation", src, 'crack', "Bring Me All The Crack You Have")
 end)
 
 RegisterServerEvent('md-drugs:server:wholesalecrack', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local crackmoney = 0
-	local price = math.random(50,1000)
+	local price = math.random(Config.Wcrack.min, Config.Wcrack.max)
 	
     for k, v in pairs(crack) do
         local item = Player.Functions.GetItemByName(v)
         if item and item.amount > 0 then
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
-			TriggerClientEvent('QBCore:Notify', src, "You received " .. item.amount * price .. "  Dollars!" , "success")
-           
+			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")        
         end
     end
 end)
@@ -68,16 +55,14 @@ QBCore.Functions.CreateUseableItem("lsdburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	if Player.Functions.RemoveItem("lsdburner", 1) then
-	TriggerClientEvent("md-drugs:client:getloclsd", src)
-	TriggerClientEvent('QBCore:Notify', src, "Bring Me 500 Of One Type Of Tabs", "success")
-	end 
+	TriggerClientEvent("md-drugs:client:GetLocation", src, 'lsd', "Bring Me All The lsd You Have")
+    
 end)
 
 RegisterServerEvent('md-drugs:server:wholesalelsd', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	local price = math.random(50,1000)
+	local price = math.random(Config.Wlsd.min, Config.Wlsd.max)
 	
     for k, v in pairs(lsd) do
         local item = Player.Functions.GetItemByName(v)
@@ -85,7 +70,7 @@ RegisterServerEvent('md-drugs:server:wholesalelsd', function()
         if item and item.amount > 0 then
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
-			TriggerClientEvent('QBCore:Notify', src, "You received " .. item.amount * price .. "  Dollars!" , "success")
+			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
         end
     end
 end)
@@ -95,16 +80,13 @@ QBCore.Functions.CreateUseableItem("heroinburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	if Player.Functions.RemoveItem("heroinburner", 1) then
-	TriggerClientEvent("md-drugs:client:getlocheroin", src)
-	TriggerClientEvent('QBCore:Notify', src, "Bring Me All The Heroin You Have", "success")
-	end 
+	TriggerClientEvent("md-drugs:client:GetLocation", src, 'heroin', "Bring Me All The Heroin You Have")
 end)
 
 RegisterServerEvent('md-drugs:server:wholesaleheroin', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	local price = math.random(50,1000)
+	local price = math.random(Config.WHeroin.min, Config.WHeroin.max)
 	
     for k, v in pairs(heroin) do
         local item = Player.Functions.GetItemByName(v)
@@ -112,8 +94,8 @@ RegisterServerEvent('md-drugs:server:wholesaleheroin', function()
         if item and item.amount > 0 then
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
-			TriggerClientEvent('QBCore:Notify', src, "You received " .. item.amount * price .. "  Dollars!" , "success")
-          
+			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
+           
         end
     end
 end)
@@ -122,17 +104,13 @@ QBCore.Functions.CreateUseableItem("xtcburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	if Player.Functions.RemoveItem("xtcburner", 1) then
-	TriggerClientEvent("md-drugs:client:getlocxtc", src)
-	TriggerClientEvent('QBCore:Notify', src, "Bring Me All The XTC You Have", "success")
-	end 
+	TriggerClientEvent("md-drugs:client:GetLocation", src, 'xtc', "Bring Me All The xtc You Have")
 end)
 
 RegisterServerEvent('md-drugs:server:wholesalextc', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local xtcmoney = 0
-	local price = math.random(50,1000)
+	local price = math.random(Config.WXTC.min, Config.WXTC.max)
 	
     for k, v in pairs(xtc) do
         local item = Player.Functions.GetItemByName(v)
@@ -140,12 +118,43 @@ RegisterServerEvent('md-drugs:server:wholesalextc', function()
         if item and item.amount > 0 then
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
+            Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
         end
     end
 end)
 
 
+RegisterServerEvent('md-drugs:server:RemoveBurner', function(item)
+	local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
 
+    if item == 'coke' then
+        if Player.Functions.RemoveItem('cokeburner', 1) then
+        else
+            DropPlayer(src, 'How Did You Trigger The Event Without The Item?')    
+        end    
+    elseif item == 'crack' then 
+        if Player.Functions.RemoveItem('crackburner', 1) then
+        else
+            DropPlayer(src, 'How Did You Trigger The Event Without The Item?')    
+        end     
+    elseif item == 'heroin' then
+        if Player.Functions.RemoveItem('heroinburner', 1) then
+        else
+            DropPlayer(src, 'How Did You Trigger The Event Without The Item?')    
+        end     
+    elseif item == 'lsd' then
+        if Player.Functions.RemoveItem('lsdburner', 1) then
+        else
+            DropPlayer(src, 'How Did You Trigger The Event Without The Item?')    
+        end     
+    elseif item == 'xtc' then
+        if Player.Functions.RemoveItem('xtcburner', 1) then
+        else
+            DropPlayer(src, 'How Did You Trigger The Event Without The Item?')    
+        end      
+    end          
+end)
 
 
 

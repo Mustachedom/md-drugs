@@ -19,139 +19,111 @@ function heroinCooldown(loc)
     end)
 end
 
-RegisterServerEvent('md-drugs:server:removecleaningkitheroin', function()
+RegisterServerEvent('md-drugs:server:removecleaningkitheroin', function(data)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-	if Player.Functions.RemoveItem("cleaningkit", 1) then
-		TriggerClientEvent('QBCore:Notify', src, "Cleaned It Perfectly", "success")
-		TriggerClientEvent("md-drugs:client:deletedirtyheroin", src)
-		--TriggerClientEvent("md-drugs:client:resetheroinkit", src)
+	if RemoveItem("cleaningkit", 1) then
+		Notifys("Cleaned It Perfectly", "success")
+		TriggerClientEvent("md-drugs:client:deletedirtyheroin", src, data)
 	else
-	TriggerClientEvent('QBCore:Notify', src, "You cant clean it with spit alone", "error")
+		Notifys("You cant clean it with spit alone", "error")
 	end
 end)
 
-RegisterNetEvent("heroin:pickupCane")
-AddEventHandler("heroin:pickupCane", function(loc)
+
+RegisterServerEvent("heroin:pickupCane", function(loc)
+	local playerPed = GetPlayerPed(source)
+	if CheckDist(source, playerPed, Config.PoppyPlants[loc].location) then return end
     if not Config.PoppyPlants[loc].taken then
         Config.PoppyPlants[loc].taken = true
         GlobalState.PoppyPlants = Config.PoppyPlants
         TriggerClientEvent("heroin:removeCane", -1, loc)
         heroinCooldown(loc)
         local Player = QBCore.Functions.GetPlayer(source)
-        Player.Functions.AddItem(Config.rewardItemheroin, 1)
-        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardItemheroin], "add")
+        AddItem('poppyresin', 1)
+        
     end
 end)
 
-RegisterServerEvent('md-drugs:server:dryplant', function()
+RegisterServerEvent('md-drugs:server:dryplant', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	local randomchance = math.random(1,100)
+	local playerPed = GetPlayerPed(source)
+	if CheckDist(source, playerPed, Config.dryplant[num]['loc']) then return end
+	if not Itemcheck(Player, 'poppyresin', 1, 'true') then return end
 	if Config.TierSystem then
-		if randomchance <= 75 then
-			if Player.Functions.RemoveItem("poppyresin", 1) then
-				Player.Functions.AddItem("heroin", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", 1)
+		local heroin = Player.PlayerData.metadata['heroin']
+		if heroin <= Config.Tier1 then
+			if RemoveItem("poppyresin", 1) then
+				AddItem("heroin", 1)
 			end
-		elseif randomchance >= 76 and randomchance <= 90 then
-			if Player.Functions.RemoveItem("poppyresin", 1) then
-				Player.Functions.AddItem("heroinstagetwo", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinstagetwo'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", 1)
+		elseif heroin >= Config.Tier1 and heroin <= Config.Tier2 then
+			if RemoveItem("poppyresin", 1) then
+				AddItem("heroinstagetwo", 1)
 			end
 		else
-			if Player.Functions.RemoveItem("poppyresin", 1) then
-			Player.Functions.AddItem("heroinstagethree", 1)
-			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinstagethree'], "add", 1)
-			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", 1)
+			if RemoveItem("poppyresin", 1) then
+				AddItem("heroinstagethree", 1)
 			end
 		end
 	else
-		if randomchance <= 75 then
-			if Player.Functions.RemoveItem("poppyresin", 1) then
-				Player.Functions.AddItem("heroin", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['poppyresin'], "remove", 1)
-			end
+		if RemoveItem("poppyresin", 1) then
+			AddItem("heroin", 1)	
 		end
 	end
 end)
 
 
-RegisterServerEvent('md-drugs:server:cutheroin', function()
+RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+	local playerPed = GetPlayerPed(source)
+	if CheckDist(source, playerPed, Config.cutheroinone[num]['loc']) then return end
+	if not Itemcheck(Player, 'bakingsoda', 1, 'true') then return end
 	if Config.TierSystem then
-		if Player.Functions.RemoveItem('heroin', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('heroincut',1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut heroin", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincut'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the powder", "error")
-			Player.Functions.AddItem('heroin',1)
-			end
-		elseif Player.Functions.RemoveItem('heroinstagetwo', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('heroincutstagetwo', 1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut heroin", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincutstagetwo'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinstagetwo'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the powder", "error")
-			Player.Functions.AddItem('heroinstagetwo',1)
-			end
-		elseif Player.Functions.RemoveItem('heroinstagethree', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('heroincutstagethree', 1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut heroin", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincutstagethree'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinstagethree'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the powder", "error")
-			Player.Functions.AddItem('heroinstagethree',1)
-			end
-
+		local rawh = Player.Functions.GetItemByName('heroin')
+		local rawh2 = Player.Functions.GetItemByName('heroinstagetwo')
+		local rawh3 = Player.Functions.GetItemByName('heroinstagethree')
+		if rawh then
+			RemoveItem('heroin', 1 ) 
+			RemoveItem('bakingsoda', 1 ) 
+			AddItem('heroincut',1) 
+			Notifys(Lang.Heroin.cutheroin, "success")
+		elseif rawh2 then
+			RemoveItem('heroinstagetwo', 1 ) 
+			RemoveItem('bakingsoda', 1 ) 
+			AddItem('heroincutstagetwo', 1) 
+			Notifys(Lang.Heroin.cutheroin, "success")	
+		elseif rawh3 then
+			RemoveItem('heroinstagethree', 1 ) 
+			RemoveItem('bakingsoda', 1 ) 
+			AddItem('heroincutstagethree', 1) 
+			Notifys(Lang.Heroin.cutheroin, "success")
 		else
-		TriggerClientEvent('QBCore:Notify', src, "you aint got the powder", "error")
+			Notifys(Lang.Heroin.noheroin, "error")
 		end
 	else
-		if Player.Functions.RemoveItem('heroin', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('heroincut',1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut heroin", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincut'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the powder", "error")
-			Player.Functions.AddItem('heroin',1)
-			end
+		if RemoveItem('heroin', 1 ) then
+			RemoveItem('bakingsoda', 1 )
+			AddItem('heroincut',1)
+			Notifys(Lang.Heroin.cutheroin, "success")
+		else
+			Notifys(Lang.Heroin.noheroin, "error")
 		end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+	local playerPed = GetPlayerPed(source)
 
-if Player.Functions.RemoveMoney('cash', Config.heroinlabkitprice) then
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinlabkit'], "add", 1)
-	Player.Functions.AddItem('heroinlabkit', 1)
+	if CheckDist(source, playerPed, vector3(Config.buyheroinlabkit.x,Config.buyheroinlabkit.y,Config.buyheroinlabkit.z)) then return end
+	if Player.Functions.RemoveMoney('cash', Config.heroinlabkitprice) then
+		AddItem('heroinlabkit', 1)
+	else
+		Notifys('You Need '.. Config.heroinlabkitprice .. ' In Cash For This', 'error')
 	end
 end)
 
@@ -160,17 +132,16 @@ local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
 	if Player.Functions.AddItem("heroinlabkit", 1) then
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinlabkit'], "add", 1)
+		Notifys('You Got Your Lab Kit Back', 'Success')
 	end
 end)
 
 QBCore.Functions.CreateUseableItem('heroinlabkit', function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
-
+	if not Itemcheck(Player, 'heroinlabkit', 1, 'true') then return end
 	if TriggerClientEvent("md-drugs:client:setheroinlabkit", src) then
 		Player.Functions.RemoveItem("heroinlabkit", 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinlabkit'], "remove", 1)
 	end
 end)
 
@@ -179,55 +150,36 @@ end)
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
+	if not Itemcheck(Player, 'emptyvial', 1, 'true') then return end
 	if Config.TierSystem then
-		if Player.Functions.RemoveItem('heroincut', 1) then
-			if Player.Functions.RemoveItem('emptyvial', 1) then
-				Player.Functions.AddItem('heroinvial', 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincut'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['emptyvial'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "add", 1)
-				TriggerClientEvent('QBCore:Notify', src, "you made some heroin", "success")
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the right shit", "error")
-			Player.Functions.AddItem('heroincut', 1)
-			end
-		elseif Player.Functions.RemoveItem('heroincutstagetwo', 1) then
-			if Player.Functions.RemoveItem('emptyvial', 1) then
-				Player.Functions.AddItem('heroinvialstagetwo', 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincutstagetwo'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['emptyvial'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvialstagetwo'], "add", 1)
-				TriggerClientEvent('QBCore:Notify', src, "you made some heroin", "success")
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the right shit", "error")
-			Player.Functions.AddItem('heroincutstagetwo', 1)
-			end
-		elseif Player.Functions.RemoveItem('heroincutstagethree', 1) then
-			if Player.Functions.RemoveItem('emptyvial', 1) then
-				Player.Functions.AddItem('heroinvialstagethree', 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincutstagethree'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['emptyvial'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvialstagethree'], "add", 1)
-				TriggerClientEvent('QBCore:Notify', src, "you made some heroin", "success")
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the right shit", "error")
-			Player.Functions.AddItem('heroincutstagethree', 1)
-			end
+		local cuth = Player.Functions.GetItemByName('heroincut')
+		local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
+		local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
+		if cuth then
+			RemoveItem('heroincut', 1) 
+			RemoveItem('emptyvial', 1) 
+			AddItem('heroinvial', 1)
+			Notifys(Lang.Heroin.vial, "success")
+		elseif cuth2 then
+			RemoveItem('heroincutstagetwo', 1) 
+			RemoveItem('emptyvial', 1) 
+			AddItem('heroinvialstagetwo', 1)
+			Notifys(Lang.Heroin.vial, "success")
+		elseif cuth3 then
+			RemoveItem('heroincutstagethree', 1) 
+			RemoveItem('emptyvial', 1) 
+			AddItem('heroinvialstagethree', 1)
+			Notifys(Lang.Heroin.vial, "success")
 		else
-		TriggerClientEvent('QBCore:Notify', src, "you aint got the right shit", "error")
+			Notifys(Lang.Heroin.novial, "error")
 		end
 	else
-		if Player.Functions.RemoveItem('heroincut', 1) then
-			if Player.Functions.RemoveItem('emptyvial', 1) then
-				Player.Functions.AddItem('heroinvial', 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincut'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['emptyvial'], "remove", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "add", 1)
-				TriggerClientEvent('QBCore:Notify', src, "you made some heroin", "success")
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you aint got the right shit", "error")
-			Player.Functions.AddItem('heroincut', 1)
-			end
+		if RemoveItem('heroincut', 1) then
+			RemoveItem('emptyvial', 1) 
+			AddItem('heroinvial', 1)
+			Notifys(Lang.Heroin.vial, "success")
+		else
+			Notifys(Lang.Heroin.novial, "error")
 		end
 	end
 end)
@@ -235,78 +187,62 @@ end)
 RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
+local cuth = Player.Functions.GetItemByName('heroincut')
+local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
+local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
 
-	if Player.Functions.RemoveItem('heroincut', 1) then
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincut'], "remove", 1)
-		TriggerClientEvent('QBCore:Notify', src, "you overheated them idiot", "error")
-	elseif Player.Functions.RemoveItem('heroincutstagetwo', 1) then
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincutstagetwo'], "remove", 1)
-		TriggerClientEvent('QBCore:Notify', src, "you overheated them idiot", "error")
-	else
-		Player.Functions.RemoveItem('heroincutstagethree', 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroincutstagethree'], "remove", 1)
-		TriggerClientEvent('QBCore:Notify', src, "you overheated them idiot", "error")
+	if cuth then
+		RemoveItem('heroincut', 1) 
+		Notifys(Lang.Heroin.fail, "error")
+	elseif cuth2 then
+		RemoveItem('heroincutstagetwo', 1) 
+		Notifys(Lang.Heroin.fail, "error")
+	elseif cuth3 then
+		RemoveItem('heroincutstagethree', 1)
+		Notifys(Lang.Heroin.fail, "error")
 	end
-
 end)
 
 
-RegisterServerEvent('md-drugs:server:fillneedle', function()
+RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+	local playerPed = GetPlayerPed(source)
+	if CheckDist(source, playerPed, Config.fillneedle[num]['loc']) then return end
+	if not Itemcheck(Player, 'needle', 1, 'true') then return end
 	if Config.TierSystem then
-		if Player.Functions.RemoveItem('heroinvial', 1 ) then
-			if Player.Functions.RemoveItem('needle', 1) then
-				if Player.Functions.AddItem('heroin_ready', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin_ready'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['needle'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you dont have a syringe", "error")
-			Player.Functions.AddItem('heroinvial', 1)
-			end
-		elseif Player.Functions.RemoveItem('heroinvialstagetwo', 1 ) then
-			if Player.Functions.RemoveItem('needle', 1) then
-				if Player.Functions.AddItem('heroin_readystagetwo', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin_readystagetwo'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvialstagetwo'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['needle'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you dont have a syringe", "error")
-			Player.Functions.AddItem('heroinvialstagetwo', 1)
-			end
-		elseif Player.Functions.RemoveItem('heroinvialstagethree', 1 ) then
-			if Player.Functions.RemoveItem('needle', 1) then
-				if Player.Functions.AddItem('heroin_readystagethree', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin_readystagethree'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvialstagethree'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['needle'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you dont have a syringe", "error")
-			Player.Functions.AddItem('heroinvialstagethree', 1)
-			end
+		local heroin = Player.PlayerData.metadata['heroin']
+		local vh = Player.Functions.GetItemByName('heroinvial')
+		local vh2 = Player.Functions.GetItemByName('heroinvialstagetwo')
+		local vh3 = Player.Functions.GetItemByName('heroinvialstagethree')
+		if vh then
+			RemoveItem('heroinvial', 1 ) 
+			RemoveItem('needle', 1) 
+			AddItem('heroin_ready', 1) 
+			Player.Functions.SetMetaData('heroin',  (heroin + 1))
+			Notifys(Lang.Heroin.fill, "success")
+		elseif vh2 then
+			RemoveItem('heroinvialstagetwo', 1 ) 
+			RemoveItem('needle', 1) 
+			AddItem('heroin_readystagetwo', 1) 
+			Player.Functions.SetMetaData('heroin',  (heroin + 1))
+			Notifys(Lang.Heroin.fill, "success")
+		elseif vh3 then
+			RemoveItem('heroinvialstagethree', 1 ) 
+			RemoveItem('needle', 1) 
+			AddItem('heroin_readystagethree', 1) 
+			Player.Functions.SetMetaData('heroin',  (heroin + 1))
+			Notifys(Lang.Heroin.fill, "success")
 		else
-		TriggerClientEvent('QBCore:Notify', src, "you aint got the supplies", "error")
+			Notifys(Lang.Heroin.nofill, "error")
 		end
 	else
-		if Player.Functions.RemoveItem('heroinvial', 1 ) then
-			if Player.Functions.RemoveItem('needle', 1) then
-				if Player.Functions.AddItem('heroin_ready', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroin_ready'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['needle'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else
-			TriggerClientEvent('QBCore:Notify', src, "you dont have a syringe", "error")
-			Player.Functions.AddItem('heroinvial', 1)
-			end
+		if RemoveItem('heroinvial', 1 ) then
+		 	RemoveItem('needle', 1)
+			AddItem('heroin_ready', 1)
+			Notifys(Lang.Heroin.fill, "success")
+		else
+			Notifys(Lang.Heroin.nofill, "error")
 		end
 	end
 end)
@@ -317,17 +253,15 @@ RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	if Config.TierSystem then
-		if Player.Functions.RemoveItem('heroinvialstagethree', 1 ) then
-			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvialstagethree'], "remove", 1)
-		elseif Player.Functions.RemoveItem('heroinvialstagetwo', 1) then
-			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvialstagetwo'], "remove", 1)
-		else
-			Player.Functions.RemoveItem('heroinvial', 1)
-			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove", 1)
+		local vh = Player.Functions.GetItemByName('heroinvial')
+		local vh2 = Player.Functions.GetItemByName('heroinvialstagetwo')
+		local vh3 = Player.Functions.GetItemByName('heroinvialstagethree')
+		if vh then RemoveItem('heroinvialstagethree', 1 ) 
+		elseif vh2 then RemoveItem('heroinvialstagetwo', 1) 
+		elseif vh3 then RemoveItem('heroinvial', 1)
 		end
 	else
-		Player.Functions.RemoveItem('heroinvial', 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove", 1)
+		RemoveItem('heroinvial', 1)
 	end
 end)
 

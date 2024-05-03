@@ -3,19 +3,10 @@ local QBCore = exports['qb-core']:GetCoreObject()
 RegisterServerEvent('md-drugs:server:startcook', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
-  local recipe = {"ephedrine", "acetone"}
-  local ephedrine = Player.Functions.GetItemByName("ephedrine")
-  local acetone = Player.Functions.GetItemByName("acetone")
-  for k, v in pairs (recipe) do 
-		if ephedrine and ephedrine.amount > 0 then
-			if acetone and acetone.amount > 0 then
-				if Player.Functions.RemoveItem(v, 1) then
-					TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[v], "remove", 1)
-				end	
-			end	
-		end
-	end	
-	TriggerClientEvent('QBCore:Notify', src, "Adding Things To The Mix", "success")
+	if not Itemcheck(Player, 'ephedrine', 1, 'true') and Itemcheck(Player, 'acetone', 1, 'true') then return end
+	Notifys("Adding Things To The Mix", "success")
+	RemoveItem('ephedrine', 1)
+	RemoveItem('acetone', 1)
 end)
 
 RegisterServerEvent('md-drugs:server:givemethingridients', function()
@@ -24,14 +15,13 @@ RegisterServerEvent('md-drugs:server:givemethingridients', function()
 	local chance = math.random(1,100)
 	local amount = math.random(1,5)
 	if chance <= 50 then 
-		if Player.Functions.AddItem('ephedrine', amount) then
-			TriggerClientEvent('QBCore:Notify', src, "You Got Some Ephedrine", "success")
-			TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['ephedrine'], "add", amount)
+		if AddItem('ephedrine', amount) then
+			Notifys(Lang.meth.eph, "success")
+			
 		end
 	else
-		if Player.Functions.AddItem('acetone', amount) then
-			TriggerClientEvent('QBCore:Notify', src, "You Got Some Acetone", "success")
-			TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['acetone'], "add", amount)
+		if AddItem('acetone', amount) then
+			Notifys(Lang.meth.ace, "success")
 		end
 	end	
 end)
@@ -41,12 +31,30 @@ RegisterServerEvent('md-drugs:server:getmeth', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local amount = math.random(1,5)
  
-  if Player.Functions.RemoveItem("empty_weed_bag", amount) then
-		Player.Functions.AddItem("methbags", amount)
-		TriggerClientEvent('QBCore:Notify', src, "You Made " .. amount .. " Bags Of Meth!", "success")
-		TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['methbags'], "add", amount)
-		TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['empty_weed_bag'], "remove", amount)
+  if RemoveItem("empty_weed_bag", amount) then
+		AddItem("methbags", amount)
+		Notifys("You Made " .. amount .. " Bags Of Meth!", "success")
 	else
-	TriggerClientEvent('QBCore:Notify', src, "Cant Bag This Without Bags", "error")
+		Notifys(Lang.meth.nobag, "error")
 	end
+end)
+
+RegisterServerEvent('md-drugs:server:geteph', function(num)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+	local playerPed = GetPlayerPed(source)
+		if CheckDist(source, playerPed, Config.MethEph[num]['loc']) then return end
+		if AddItem('ephedrine', 1) then
+			Notifys('Got Ephedrine!', "success")
+		end
+end)
+	
+RegisterServerEvent('md-drugs:server:getace', function(num)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+	local playerPed = GetPlayerPed(source)
+		if CheckDist(source, playerPed, Config.Methace[num]['loc']) then return end
+		if AddItem('acetone', 1) then
+			Notifys('Got Acetone!', "success")
+		end
 end)
