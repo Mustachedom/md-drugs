@@ -158,7 +158,7 @@ Config.Weed = { --- this is the store for the weed ingridients
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
 Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
 Config.WholesaleTimeout = 600 -- time in seconds to get to the location
-Config.PoliceCount = 20 -- Amount of police required
+Config.PoliceCount = 2 -- Amount of police required
 Config.Wcoke =  { min = 20, max = 60} -- pricings per item
 Config.Wcrack = { min = 20, max = 60}
 Config.Wlsd = { min = 20, max = 60}
