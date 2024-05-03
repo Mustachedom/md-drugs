@@ -88,11 +88,6 @@ AddEventHandler('onResourceStart', function(resourceName)
         end
     else
     end
-    if GetResourceState('qb-target'):find("start") then
-        if Config.oxtarget ~= false then
-            print'^1 Line 3 of your config is wrong change it false'
-        end
-    end
     if not GetResourceState('ox_lib'):find("start") then 
        print('^1 ox_lib Is A Depndancy, Not An Optional ')
     end
