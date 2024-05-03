@@ -65,7 +65,7 @@ QBCore.Functions.CreateCallback('md-drugs:server:GetCoppers', function(source, c
 end)
 
 
-AddEventHandler('onResourceStart', function(resourceName)
+CreateThread(function()
     if (GetCurrentResourceName() ~= 'md-drugs') then
         print('^1 >:( I guess it isnt a cool enough name for you')
     end
