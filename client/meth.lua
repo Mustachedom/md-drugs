@@ -194,6 +194,8 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+if Config.MethHeist == false then
+else
 	local current = "g_m_y_famdnf_01"
 	lib.requestModel(current, Config.RequestModelTime)
 	local CurrentLocation = Config.MethHeistStart
@@ -213,6 +215,7 @@ CreateThread(function()
 			},
 		}
 	})
+end
 end)
 RegisterNetEvent("md-drugs:client:stealeph", function(data)
 	if not progressbar('Stealing Ephedrine', 4000, 'uncuff') then return end
