@@ -212,7 +212,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Butter",
 			action = function()
-				if not ItemCheck('mdbutter') and ItemCheck('grindedweed') then return end
+				if not ItemCheck('mdbutter') and not ItemCheck('grindedweed') then return end
 				if not minigame(2, 8) then return end
 				if not progressbar(Lang.Weed.canna, 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:makebutter")       
@@ -230,7 +230,7 @@ options = {
 			label = "Make Brownies",
 			item = "cannabutter",
 			action = function()
-				if not ItemCheck('cannabutter') and ItemCheck('flour') and ItemCheck('chocolate') then return end
+				if not ItemCheck('cannabutter') and not ItemCheck('flour') and not ItemCheck('chocolate') then return end
 				if not minigame(2, 8) then return end
 				if not progressbar(Lang.Weed.brown, 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:makebrownies")       
@@ -249,7 +249,7 @@ options = {
 			label = "Make Cookies",
 			item = "cannabutter",
 			action = function()
-				if not ItemCheck('cannabutter') and ItemCheck('flour') then return end
+				if not ItemCheck('cannabutter') and not ItemCheck('flour') then return end
 				if not minigame(2, 8) then return end
 				if not progressbar(Lang.Weed.cook, 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:makecookies")       
@@ -267,7 +267,7 @@ options = {
 			label = "Make Chocolate",
 			item = "cannabutter",
 			action = function()
-				if not ItemCheck('cannabutter') and ItemCheck('chocolate') then return end
+				if not ItemCheck('cannabutter') and not ItemCheck('chocolate') then return end
 				if not minigame(2, 8) then return end
 				if not progressbar(Lang.Weed.choc, 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:makechocolate")       
@@ -285,7 +285,7 @@ options = {
 			label = "Make Muffin",
 			item = "cannabutter",
 			action = function()
-				if not ItemCheck('cannabutter') and ItemCheck('flour') then return end
+				if not ItemCheck('cannabutter') and not ItemCheck('flour') then return end
 				if not minigame(2, 8) then return end
 				if not progressbar(Lang.Weed.muff, 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:makemuffin")       
@@ -306,7 +306,7 @@ options = {
 			icon = "fas fa-sign-in-alt",
 			label = "Make Oil",
 			action = function()
-				if not ItemCheck('butane') and ItemCheck('grindedweed') then return end
+				if not ItemCheck('butane') and not ItemCheck('grindedweed') then return end
 				if not minigame(2, 8) then 
 					local explosion = math.random(1,100)
 						local loc = GetEntityCoords(PlayerPedId())
