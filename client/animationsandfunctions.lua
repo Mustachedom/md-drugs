@@ -1,4 +1,4 @@
----@diagnostic disable: param-type-mismatch
+
 local QBCore = exports['qb-core']:GetCoreObject()
 local started = nil
 
@@ -12,14 +12,15 @@ local function loadParticle(dict)
     SetPtfxAssetNextCall(dict)
 end
 
+
+
 function MethCooking()
 local animDict, animName = "anim@amb@business@meth@meth_monitoring_cooking@cooking@", "chemical_pour_short_cooker"
 lib.requestAnimDict(animDict, 500)
-dict = "scr_fbi5a"
+dict = "scr_ornate_heist"
 local ped = PlayerPedId()
 SetEntityCoords(ped, vector3(1005.773, -3200.402, -38.524))
 Wait(1)
-
 local targetPosition = GetEntityCoords(ped)
 local animDuration = GetAnimDuration(animDict, animName) * 800
 FreezeEntityPosition(ped, true)
@@ -36,11 +37,16 @@ NetworkStopSynchronisedScene(netScene)
 DeleteObject(sacid)
 DeleteObject(ammonia)
 FreezeEntityPosition(ped, false)
-loadParticle(dict)
-methflare = StartParticleFxLoopedAtCoord('scr_fbi5a_flare',vector3(1005.95, -3202.09, -37.58), 0, 0, 0, 2.0, 0, 0,0)
-SetParticleFxLoopedAlpha(methflare, 1.0)
-Wait(20000)
-StopParticleFxLooped(methflare,true)
+lib.requestModel('hei_prop_heist_thermite', 2000)
+loadParticle('scr_ornate_heist')
+
+local thermite = CreateObject('hei_prop_heist_thermite', vector3(1005.76, -3201.3, -39.25), true, false, false)
+FreezeEntityPosition(thermite, true)
+SetEntityRotation(thermite, 190.0, 90.0, 140.0, 3, true )
+Wait(1000)
+local therm = StartParticleFxLoopedOnEntity('scr_heist_ornate_thermal_burn', thermite, 0.0, 1.4, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
+Wait(math.random(10000, 20000))
+StopParticleFxLooped(therm, true)
 end
 
 
@@ -384,8 +390,8 @@ FreezeEntityPosition(ped, false)
 end
 
 function EcstasyEffect()
-    local startStamina = 30
-    SetFlash(0, 0, 500, 7000, 500)
+    local startStamina = 50
+    SetFlash(0, 0, 500, 20000, 500)
     while startStamina > 0 do
         Wait(1000)
         startStamina = startStamina - 1
@@ -404,7 +410,7 @@ end
 
 
 function MethBagEffect()
-    local startStamina = 8
+    local startStamina = 30
     TrevorEffect()
     SetRunSprintMultiplierForPlayer(PlayerId(), 1.49)
     while startStamina > 0 do
@@ -475,17 +481,15 @@ function SpawnCarPedChase()
 local ped = GetEntityCoords(PlayerPedId())
 local stoploc = vector3(-1157.63, -3056.71, 13.94)
 local start = Config.StartLoc[math.random(1,#Config.StartLoc)]
-local search = false
-local spawnedCar = {}
-if started then 
+if started then  --  checks if active
 else
     started = true
-    lib.requestModel(`pounder`, Config.requestModelTime)
-    lib.requestModel("ig_priest", Config.requestModelTime)
-    lib.requestModel(`cargobob3`, Config.requestModelTime)
-    leancar = CreateVehicle(`pounder`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
-    driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, true, false)
-    pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
+    lib.requestModel(`pounder`, Config.RequestModelTime)
+    lib.requestModel("ig_priest", Config.RequestModelTime)
+    lib.requestModel(`cargobob3`, Config.RequestModelTime)
+   local leancar = CreateVehicle(`pounder`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
+   local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, true, false)
+   local pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
 	FreezeEntityPosition(pilot2, true)
 	SetEntityInvincible(pilot2, true)
     SetEntityAsMissionEntity(leancar)
@@ -493,84 +497,87 @@ else
     SetPedIntoVehicle(driver, leancar, -1)
     SetPedFleeAttributes(driver,false)
     TaskVehicleDriveToCoordLongrange(driver, leancar, stoploc.x, stoploc.y, stoploc.z-1, 50.0, 524288, 25.0)
-    SetPedKeepTask(driver, true)
-	 exports['qb-target']:AddTargetEntity(leancar, {
-     options = {
-            {
-                name = 'leancar',
-                icon = 'fa-solid fa-car',
-                label = 'Steal From Car',
-                action = function()
-					local chance = math.random(1,100)
-                        exports['ps-ui']:Circle(function(success)
-                            if success then
-                                TriggerServerEvent('md-drugs:server:givelean')
-                                started = nil
-                            else
-                                started = nil
-                            end
-                            end, 5, 8)
-                        if chance <= 30 then
-                            DeleteVehicle(leancar)
-                            DeleteEntity(driver)
-                            DeleteEntity(pilot2)
-                        end    
-                    end,
-					canInteract = function()
-						if IsEntityDead(driver)  then
-						return true end
-						end,	
-            }
-        }                
-        })
+    SetPedKeepTask(driver, true) -- everything above is ped/ veh spawn
+	repeat -- repeats Wait(1000) only until 
+		Wait(1000)
+	until #(GetEntityCoords(driver) - stoploc) < 20.0 or GetEntityHealth(driver) == 0 -- either the distance is within 20 OR the driver is dead
+	if GetEntityHealth(driver) == 0 then  -- once one of those thing ends, the loop breaks and carries on from here
+		if Config.oxtarget then 
+			local options = {
+				{
+					name = 'leancar',
+					icon = 'fa-solid fa-car',
+					label = 'Steal From Car',
+					onSelect = function()
+						 if not minigame(2,8) then return end
+						TriggerServerEvent('md-drugs:server:givelean')
+						started = nil
+						if math.random(1,100) <= 30 then
+							DeleteVehicle(leancar)
+							DeleteEntity(driver)
+							DeleteEntity(pilot2)
+						 end    
+					end,		
+				}
+			}                
+			exports.ox_target:addLocalEntity(leancar, options)
+		else	
+			exports['qb-target']:AddTargetEntity(leancar, {
+    		options = {
+    		       {
+    		           name = 'leancar',
+    		           icon = 'fa-solid fa-car',
+    		           label = 'Steal From Car',
+    		           action = function()
+							if not minigame(2,8) then return end
+    		               TriggerServerEvent('md-drugs:server:givelean')
+    		               started = nil
+    		               if math.random(1,100) <= 30 then
+    		                   DeleteVehicle(leancar)
+    		                   DeleteEntity(driver)
+    		                   DeleteEntity(pilot2)
+    		                end    
+    		           end,		
+    		       }
+    		   }                
+    		})
+		end
+	else
+		repeat -- this second loop is to spawn the helicopter when the truck is in distance 
+			Wait(1000)
+		until #(GetEntityCoords(driver) - GetEntityCoords(pilot2)) < 25.0
+        Wait( 3 * 1000)
+        local heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
         Wait(1000)
-        search = true
-    CreateThread(function()
-        
-        while search do   
-            Wait(5000)
-			if IsEntityDead(driver) == false then
-             loc = #(GetEntityCoords(driver) - GetEntityCoords(pilot2))
-                if loc < 25.0 then
-                    Wait( 3 * 1000)
-                    search = false
-                    started = nil
-                     heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
-                     Wait(1000)
-                     if DoesEntityExist(heli) then
-						SetEntityInvincible(pilot2, false)
-                        DeleteVehicle(leancar)
-                        DeleteEntity(driver)
-                        SetEntityAsMissionEntity(heli)
-                        SetPedIntoVehicle(pilot2, heli, -1)
-                        TaskHeliMission(pilot2, heli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
-                    else    
-                    heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
-                    end
-                end
-			else	
-			started = nil
-			end
-        end        
-    end)
+        if DoesEntityExist(heli) then
+			SetEntityInvincible(pilot2, false)
+            DeleteVehicle(leancar)
+            DeleteEntity(driver)
+            SetEntityAsMissionEntity(heli)
+            SetPedIntoVehicle(pilot2, heli, -1)
+            TaskHeliMission(pilot2, heli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
+        else    
+        	heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
+        end  
+     end        
 end
 end
 
 function SpawnMethCarPedChase()
 local ped = GetEntityCoords(PlayerPedId())
 local stoploc = vector3(-1157.63, -3056.71, 13.94)
-local start =  Config.StartLoc[math.random(1,#Config.StartLoc)]
-local searchmeth = false
+local start = Config.StartLoc[math.random(1,#Config.StartLoc)]
+local startedmeth = false
 
 if startedmeth then 
 else
     startedmeth = true
-    lib.requestModel(`journey`, Config.requestModelTime)
-    lib.requestModel("a_m_m_hillbilly_02", Config.requestModelTime)
-    lib.requestModel(`cargobob3`, Config.requestModelTime)
-    methcar = CreateVehicle(`journey`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
-    methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, true, false)
-    methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
+    lib.requestModel(`journey`, Config.RequestModelTime)
+    lib.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
+    lib.requestModel(`cargobob3`, Config.RequestModelTime)
+    local methcar = CreateVehicle(`journey`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
+    local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, true, false)
+    local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
 	FreezeEntityPosition(methpilot, true)
 	SetEntityInvincible(methpilot, true)
     SetEntityAsMissionEntity(methcar)
@@ -579,69 +586,69 @@ else
     SetPedFleeAttributes(methdriver,false)
     TaskVehicleDriveToCoordLongrange(methdriver, methcar, stoploc.x, stoploc.y, stoploc.z-1, 50.0, 524288, 25.0)
     SetPedKeepTask(methdriver, true)
-	exports['qb-target']:AddTargetEntity(methcar, {
-     options = {
-            {
-                name = 'methcar',
-                icon = 'fa-solid fa-car',
-                label = 'Steal From Car',
-                action = function()
-					local chance = math.random(1,100)
-                        exports['ps-ui']:Circle(function(success)
-                            if success then
-                                TriggerServerEvent('md-drugs:server:givemethingridients')
-                                startedmeth = nil
-                            else
-                                startedmeth = nil
-                            end
-                            end, 5, 8)
-						print(chance)
-                        if chance <= 30 then
-                            DeleteVehicle(methcar)
+	repeat 
+		Wait(1000)
+	until #(GetEntityCoords(methdriver) - stoploc) < 20.0 or GetEntityHealth(methdriver) == 0
+	if GetEntityHealth(methdriver) == 0 then 
+		if Config.oxtarget then 
+			local options = {
+				{
+					name = 'methcar',
+					icon = 'fa-solid fa-car',
+					label = 'Steal From Car',
+					onSelect = function()
+						 if not minigame(2,8) then return end
+						 TriggerServerEvent('md-drugs:server:givemethingridients')
+						 startedmeth = nil
+						if math.random(1,100) <= 30 then
+							DeleteVehicle(methcar)
                             DeleteEntity(methdriver)
                             DeleteEntity(methpilot)
-                        end    
-                    end,
-				canInteract = function()
-					if IsEntityDead(methdriver)  then
-					return true end
-					end,
-            }
-        }                
-       })
+						 end    
+					end,		
+				}
+			}                
+			exports.ox_target:addLocalEntity(methcar, options)
+		else	
+			exports['qb-target']:AddTargetEntity(methcar, {
+    		options = {
+    		       {
+    		           name = 'methcar',
+    		           icon = 'fa-solid fa-car',
+    		           label = 'Steal From Car',
+    		           action = function()
+						if not minigame(2,8) then return end
+						TriggerServerEvent('md-drugs:server:givemethingridients')
+						startedmeth = nil
+					    if math.random(1,100) <= 30 then
+						   DeleteVehicle(methcar)
+						   DeleteEntity(methdriver)
+						   DeleteEntity(methpilot)
+						end    
+    		           end,		
+    		       }
+    		   }                
+    		})
+		end
+	else
+		repeat
+			Wait(1000)
+		until #(GetEntityCoords(methdriver) - GetEntityCoords(methpilot)) < 25.0
+        Wait( 3 * 1000)
+        local methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
         Wait(1000)
-        searchmeth = true
-    CreateThread(function()
-        
-        while searchmeth do   
-            Wait(1000)
-			local pickuploc = GetEntityCoords(methcar)
-			if IsEntityDead(methdriver) == false then
-             loc = #(GetEntityCoords(methdriver) - GetEntityCoords(methpilot))
-                if loc < 25.0 then
-                    Wait( 3 * 1000)
-                    startedmeth = nil
-                     methheli = CreateVehicle(`cargobob3`, pickuploc.x, pickuploc.y, pickuploc.z+4, 80, true,true) 
-                     Wait(10)
-                     if DoesEntityExist(methheli) then
-						SetEntityInvincible(methpilot, false)
-						CreatePickUpRopeForCargobob(methheli, 1)
-                        AttachVehicleToCargobob(methheli, methcar, GetEntityBoneIndexByName(methcar, 'bodyshell'), 0.0, 0.0, 0.0)
-                        DeleteEntity(methdriver)
-                        SetEntityAsMissionEntity(methheli)
-                        SetPedIntoVehicle(methpilot, methheli, -1)
-                        TaskHeliMission(methpilot, methheli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
-						searchmeth = false
-                    else    
-                    methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
-                    end
-                end
-			else	
-			startedmeth = nil
-			end
-			
-        end        
-    end)
+        if DoesEntityExist(methheli) then
+			SetEntityInvincible(methpilot, false)
+			CreatePickUpRopeForCargobob(methheli, 1)
+            AttachVehicleToCargobob(methheli, methcar, GetEntityBoneIndexByName(methcar, 'bodyshell'), 0.0, 0.0, 0.0)
+            DeleteEntity(methdriver)
+            SetEntityAsMissionEntity(methheli)
+            SetPedIntoVehicle(methpilot, methheli, -1)
+            TaskHeliMission(methpilot, methheli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
+        else    
+        	methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
+        end  
+    end        
 end
 end
 
@@ -654,6 +661,11 @@ local	CokePed4 = CreatePed(0,"g_m_y_famdnf_01", ped.x+8, ped.y-12, ped.z-1, 90.0
 local	CokePed5 = CreatePed(0,"g_m_y_famdnf_01", ped.x+5, ped.y-2, ped.z-1, 90.0, true, true)
 local	CokePed6 = CreatePed(0,"g_m_y_famdnf_01", ped.x+2, ped.y-20, ped.z-1, 90.0, true, true)
 local	CokePed7 = CreatePed(0,"g_m_y_famdnf_01", ped.x+1, ped.y-10, ped.z-1, 90.0, true, true)
+AddRelationshipGroup('setups')
+local peds = {CokePed, CokePed2,CokePed3, CokePed4, CokePed5,CokePed6, CokePed7}
+for k, v in pairs (ped) do 
+	SetPedRelationshipGroupDefaultHash(v, 'setups')
+end
 SetPedArmour(CokePed, 200)
 SetPedCanSwitchWeapon(CokePed, true)
 GiveWeaponToPed(CokePed, "weapon_pistol", 1, false, true)
@@ -679,3 +691,17 @@ SetPedCombatAttributes(CokePed6, 46, true)
 SetPedCombatAttributes(CokePed7, 46, true)
 end
 
+RegisterCommand('DrugRep', function()
+	if not Config.TierSystem then return end
+	lib.registerContext({
+		id = 'DrugRep',
+		title = 'Drug Reputation',
+		options = {
+		  {icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..QBCore.Functions.GetPlayerData().metadata.coke},
+		  {icon = "fa-solid fa-syringe", title = 'Heroin: '..QBCore.Functions.GetPlayerData().metadata.heroin},
+		  {icon = "fa-solid fa-vial", title = 'LSD: '..QBCore.Functions.GetPlayerData().metadata.lsd},
+		  {icon = "fa-solid fa-plug", title = 'Dealer: '..QBCore.Functions.GetPlayerData().metadata.dealerrep},
+		}
+	  })
+	  lib.showContext('DrugRep')
+end, false)

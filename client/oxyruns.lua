@@ -1,47 +1,39 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
 local deliveryBlip = nil
-local PZone = nil
-local listen = false
 local carryPackage = nil
 
 
-RegisterNetEvent("md-drugs:client:getoxytruck")
-AddEventHandler("md-drugs:client:getoxytruck", function() 
+RegisterNetEvent("md-drugs:client:getoxytruck", function() 
 if TriggerServerEvent('md-drugs:server:payfortruck') then
 end
 end)
-
-function PolicecallOxy()
-print "Tell Your Dev They Didn't Follow The Readme"
-end
 
 
 RegisterNetEvent("md-drugs:Client:getoxylocation", function()
 	local coords = Config.truckspawn
 	local ModelHash = "burrito3" -- Use Compile-time hashes to get the hash of this model
-	lib.requestModel(ModelHash, Config.requestModelTime)
+	lib.requestModel(ModelHash, Config.RequestModelTime)
 	local oxycar = CreateVehicle(ModelHash,Config.truckspawn.x, Config.truckspawn.y,Config.truckspawn.z, Config.truckspawn.h, true, false)
     SetEntityHeading(oxycar, coords.w)
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(oxycar))
-	TriggerEvent('QBCore:Notify', 'Your truck is here', 'success')
+	Notify(Lang.oxy.truck, 'success')
 	TriggerEvent("md-drugs:client:getoxylocationroute")
     SetVehicleEngineOn(oxycar, true, true)
-	 exports['qb-target']:AddTargetEntity(oxycar, {
-    options = {
-        {
-            event = "md-drugs:client:getfromtrunk",
-            icon = "fas fa-box-circle-check",
-            label = "Get Package",
-        },
+    local options = {
+        { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = "Get Package"},
     }
-	})
+	if Config.OxTarget then
+		exports.ox_target:addLocalEntity(oxycar, {options = options})
+	else 
+		exports['qb-target']:AddTargetEntity(oxycar, {options = options, distance = 2.0})
+	end  
+	
 end)
 
 
-RegisterNetEvent("md-drugs:client:getoxylocationroute")
-AddEventHandler("md-drugs:client:getoxylocationroute", function() 
+
+RegisterNetEvent("md-drugs:client:getoxylocationroute", function() 
 	Wait(100)
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
@@ -50,53 +42,44 @@ AddEventHandler("md-drugs:client:getoxylocationroute", function()
         RemoveBlip(deliveryBlip)
     end
 	if CurrentLocation ~= nil then
-    deliveryBlip = AddBlipForCoord(CurrentLocation)
-    SetBlipSprite(deliveryBlip, 1)
-    SetBlipDisplay(deliveryBlip, 2)
-    SetBlipScale(deliveryBlip, 1.0)
-    SetBlipAsShortRange(deliveryBlip, false)
-    SetBlipColour(deliveryBlip, 27)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("drug Meet")
-    EndTextCommandSetBlipName(deliveryBlip)
-    SetBlipRoute(deliveryBlip, true)
-	oxyzone = lib.zones.sphere({
-		coords = CurrentLocation,
-		radius = 2,
-		onEnter = function()
-			RemoveBlip(deliveryBlip)
-			end,
-		})
+    	deliveryBlip = AddBlipForCoord(CurrentLocation)
+    	SetBlipSprite(deliveryBlip, 1)
+    	SetBlipDisplay(deliveryBlip, 2)
+    	SetBlipScale(deliveryBlip, 1.0)
+    	SetBlipAsShortRange(deliveryBlip, false)
+    	SetBlipColour(deliveryBlip, 27)
+    	BeginTextCommandSetBlipName("STRING")
+    	AddTextComponentSubstringPlayerName("drug Meet")
+    	EndTextCommandSetBlipName(deliveryBlip)
+    	SetBlipRoute(deliveryBlip, true)
+		local current = "g_m_y_famdnf_01"
+		lib.requestModel(current, Config.RequestModelTime)
+    	local oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
+		SetEntityHeading(oxybuyer, 180)
+    	FreezeEntityPosition(oxybuyer, true)
+    	SetEntityInvincible(oxybuyer, true)
+	repeat
+		Wait(1000)
+	until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
+		RemoveBlip(deliveryBlip)
+		PoliceCall(Config.PoliceAlertOxy)
+		local options = {
+    	        { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", event = "md-drugs:client:giveoxybox", ped = oxybuyer},
+    	    }
+		if Config.OxTarget then
+			exports.ox_target:addLocalEntity(oxybuyer, {options = options})
+		else 
+			exports['qb-target']:AddTargetEntity(oxybuyer, {options = options, distance = 2.0})
+		end   
 	end
-	if unlucky <= Config.PoliceAlertOxy then 
-        PolicecallOxy()
-    end
-	local current = "g_m_y_famdnf_01"
-    lib.requestModel(current, Config.requestModelTime)
-    oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, false, false)
-	SetEntityHeading(oxybuyer, 180)
-     FreezeEntityPosition(oxybuyer, true)
-    SetEntityInvincible(oxybuyer, true)
-	exports['qb-target']:AddTargetEntity(oxybuyer, { 
-        options = {
-            {
-                type = "client",
-                label = "Talk To Buyer",
-                icon = "fas fa-eye",
-                event = "md-drugs:client:giveoxybox"
-            },
-        }
-     })
 end)
 
 
-
-RegisterNetEvent("md-drugs:client:getfromtrunk")
-AddEventHandler("md-drugs:client:getfromtrunk", function() 
+RegisterNetEvent("md-drugs:client:getfromtrunk", function() 
 	if carryPackage then
-		QBCore.Functions.Notify("You Cant Carry More Than One", "error")
+		Notify(Lang.oxy.cantcarry, "error")
 	else	
-			local pos = GetEntityCoords(PlayerPedId(), true)
+		local pos = GetEntityCoords(PlayerPedId(), true)
 		RequestAnimDict('anim@heists@box_carry@')
 		while (not HasAnimDictLoaded('anim@heists@box_carry@')) do
 			Wait(7)
@@ -112,25 +95,17 @@ AddEventHandler("md-drugs:client:getfromtrunk", function()
 	end	
 end)
 
-RegisterNetEvent("md-drugs:client:giveoxybox")
-AddEventHandler("md-drugs:client:giveoxybox", function() 
+
+RegisterNetEvent("md-drugs:client:giveoxybox", function(data) 
 	if carryPackage then
-		QBCore.Functions.Progressbar("drink_something", "handing over oxy", 4000, false, true, {
-			disableMovement = false,
-			disableCarMovement = false,
-			disableMouse = false,
-			disableCombat = true,
-			disableInventory = true,
-		}, {}, {}, {}, function()-- Done
-			TriggerServerEvent("md-drugs:server:giveoxybox")
-			ClearPedTasks(PlayerPedId())
-			DeleteEntity(oxybuyer)
-			 DetachEntity(carryPackage, true, true)
-			 DeleteObject(carryPackage)
-			 carryPackage = nil
-		end)
+		if not progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
+		TriggerServerEvent("md-drugs:server:giveoxybox")
+		DeleteEntity(data.ped)
+		DetachEntity(carryPackage, true, true)
+		DeleteObject(carryPackage)
+	    carryPackage = nil
 	else
-	QBCore.Functions.Notify("cant be empty handed idiot", "error")
+		Notify(Lang.oxy.empty, "error")
 	end
 end)
 

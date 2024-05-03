@@ -1,5 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local tableout = false
+
+
 local function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then
         RequestNamedPtfxAsset(dict)
@@ -12,312 +14,128 @@ end
 
 CreateThread(function() 
 local Ped = "g_m_y_famdnf_01"
-	lib.requestModel(Ped, Config.requestModelTime)
-	tabdealer = CreatePed(0, Ped,Config.buylsdlabkit.x,Config.buylsdlabkit.y,Config.buylsdlabkit.z-1, 180.0, false, false)
+	lib.requestModel(Ped, Config.RequestModelTime)
+	local tabdealer = CreatePed(0, Ped,Config.buylsdlabkit.x,Config.buylsdlabkit.y,Config.buylsdlabkit.z-1, Config.buylsdlabkit.w, false, false)
     FreezeEntityPosition(tabdealer, true)
     SetEntityInvincible(tabdealer, true)
-	exports['qb-target']:AddTargetEntity(tabdealer, {
-       options = {
-           {
-               type = "client",
-               label = "Buy LSD Lab Kit",
-               icon = "fas fa-eye",
-               event = "md-drugs:client:buylabkit"
-           }
-       }
-	})
+    local options = {
+        { type = "client", label = "Buy LSD Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buylabkit", distance = 2.0}
+     }
+    if Config.OxTarget then
+        exports.ox_target:addLocalEntity(tabdealer, {options = options})
+    else 
+	    exports['qb-target']:AddTargetEntity(tabdealer, {options = options, distance = 2.0})
+    end    
 end)
 
-RegisterNetEvent("md-drugs:client:getlysergic")
-AddEventHandler("md-drugs:client:getlysergic", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Stealing Lysergic Acid!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-        ClearPedTasks(PlayerPedId())
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:getlysergic")
-	else
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+
+RegisterNetEvent("md-drugs:client:getlysergic", function(data) 
+    if not minigame(2, 8) then return end
+	if not progressbar(Lang.lsd.steallys, 4000, 'uncuff') then return end
+    TriggerServerEvent("md-drugs:server:getlysergic",data.data)
 end)
 
-RegisterNetEvent("md-drugs:client:getdiethylamide")
-AddEventHandler("md-drugs:client:getdiethylamide", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Stealing Diethylamide!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	exports['ps-ui']:Circle(function(success)
-        ClearPedTasks(PlayerPedId())
-    if success then
-        TriggerServerEvent("md-drugs:server:getdiethylamide")
-	else
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+
+RegisterNetEvent("md-drugs:client:getdiethylamide", function(data) 
+    if not minigame(2, 8) then return end
+	if not progressbar(Lang.lsd.stealdie, 4000, 'uncuff') then return end
+    TriggerServerEvent('md-drugs:server:getdiethylamide', data.data)
 end)
 
 RegisterNetEvent("md-drugs:client:setlsdlabkit")
-AddEventHandler("md-drugs:client:setlsdlabkit", function() 
+AddEventHandler("md-drugs:client:setlsdlabkit", function()
 if tableout then 
-    QBCore.Functions.Notify('You Already Have A Table Out', 'error')
+    Notify(Lang.lsd.tableout, 'error')
 else
     tableout = true
     local PedCoords = GetEntityCoords(PlayerPedId())
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-	QBCore.Functions.Progressbar("drink_something", "Setting Table Down", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	labkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
-	PlaceObjectOnGroundProperly(labkit)
-	ClearPedTasks(PlayerPedId())
-	exports['qb-target']:AddTargetEntity(labkit, {
-     options = {
-        {
-			
-            event = "md-drugs:client:heatliquid",
-            icon = "fas fa-box-circle-check",
-            label = "Heat Liquid",
-        },
-		{
-			
-            event = "md-drugs:client:refinequalityacid",
-            icon = "fas fa-box-circle-check",
-            label = "Refine",
-        },
-		{
-			
-            event = "md-drugs:client:maketabpaper",
-            icon = "fas fa-box-circle-check",
-            label = "Dab Sheets",
-        },
-		{
-			
-            event = "md-drugs:client:getlabkitback",
-            icon = "fas fa-box-circle-check",
-            label = "Pick Up",
-            canInteract = function()
-                if tableout then return true end end
-        },
+	if not progressbar(Lang.lsd.place, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getlabkitback') return end
+	local labkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+    PlaceObjectOnGroundProperly(labkit)
+	
+    local options = {
+        { event = "md-drugs:client:heatliquid", icon = "fas fa-box-circle-check", label = "Heat Liquid" ,    data = labkit, },
+        { event = "md-drugs:client:refinequalityacid", icon = "fas fa-box-circle-check", label = "Refine",   data = labkit, },
+		{ event = "md-drugs:client:maketabpaper", icon = "fas fa-box-circle-check", label = "Dab Sheets",    data = labkit, },
+		{ event = "md-drugs:client:getlabkitback", icon = "fas fa-box-circle-check", label = "Pick Up",      data = labkit, canInteract = function() if tableout then return true end end},
     }
-	})
-    end)
+    if Config.OxTarget then
+        exports.ox_target:addLocalEntity(labkit, {options = options})
+    else
+	    exports['qb-target']:AddTargetEntity(labkit, {options = options})
+    end    
 end
-end)    
-
-
-RegisterNetEvent("md-drugs:client:getlabkitback")
-AddEventHandler("md-drugs:client:getlabkitback", function() 
-    TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    local PedCoords = GetEntityCoords(PlayerPedId())
-    QBCore.Functions.Progressbar("drink_something", "Packing Up", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		DeleteObject(labkit)
-		TriggerServerEvent('md-drugs:server:getlabkitback')
-		ClearPedTasks(PlayerPedId())
-        tableout = false
-	end)
 end)
 
+RegisterNetEvent("md-drugs:client:getlabkitback", function(data) 
+    if not progressbar(Lang.lsd.tablepack, 4000, 'uncuff') then return end
+	DeleteObject(data.data)
+	TriggerServerEvent('md-drugs:server:getlabkitback')
+    tableout = false
+end)
 
-RegisterNetEvent("md-drugs:client:heatliquid")
-AddEventHandler("md-drugs:client:heatliquid", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
+RegisterNetEvent("md-drugs:client:heatliquid", function(data) 
 	local PedCoords = GetEntityCoords(PlayerPedId())
 	dict = "scr_ie_svm_technical2"
-    QBCore.Functions.Progressbar("drink_something", "Heating Liquids!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-    ClearPedTasks(PlayerPedId())
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:heatliquid")
-        ClearPedTasks(PlayerPedId())
-	else
-		TriggerServerEvent("md-drugs:server:failheating")
-        ClearPedTasks(PlayerPedId())
-		DeleteObject(labkit)
-		dirtylabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+    if not ItemCheck('lysergic_acid') then return end
+    if not ItemCheck('diethylamide') then return end
+	if not minigame(2, 8) then
+        TriggerServerEvent("md-drugs:server:failheating")
+		DeleteObject(data.data)
+		local dirtylabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
 		loadParticle(dict)
 	    exitPtfx = StartParticleFxLoopedOnEntity("scr_dst_cocaine", dirtylabkit, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
 		PlaceObjectOnGroundProperly(dirtylabkit)
         SetParticleFxLoopedAlpha(exitPtfx, 3.0)
-		 ClearPedTasks(PlayerPedId())
-		exports['qb-target']:AddTargetEntity(dirtylabkit, {
-		options = {
-        {
-      
-            event = "md-drugs:client:cleanlabkit",
-            icon = "fas fa-box-circle-check",
-            label = "Clean It",
-        },
-    }
-	})
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+		local options = {
+            { event = "md-drugs:client:cleanlabkit", icon = "fas fa-box-circle-check", label = "Clean It", data = dirtylabkit },
+        }
+        if Config.OxTarget then
+            exports.ox_target:addLocalEntity(dirtylabkit, { options = options})
+        else    
+	        exports['qb-target']:AddTargetEntity(dirtylabkit, { options = options})
+        end
+        return end
+    if not progressbar(Lang.lsd.heat, 7000, 'uncuff') then return end
+    TriggerServerEvent("md-drugs:server:heatliquid")
 end)
 
-RegisterNetEvent("md-drugs:client:cleanlabkit")
-AddEventHandler("md-drugs:client:cleanlabkit", function() 
-    TriggerEvent('animations:client:EmoteCommandStart', {'clean'}) 
-    QBCore.Functions.Progressbar("drink_something", "Cleaning", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	tableout = false
-		TriggerServerEvent("md-drugs:server:removecleaningkit")
-		 ClearPedTasks(PlayerPedId())
-	end)
+RegisterNetEvent("md-drugs:client:cleanlabkit", function(data)
+    if not ItemCheck('cleaningkit')  then return end
+    if not progressbar(Lang.lsd.clean, 4000, 'clean') then return end
+    tableout = false
+	TriggerServerEvent("md-drugs:server:removecleaningkit", data.data)
 end)
 
-RegisterNetEvent("md-drugs:client:resetlsdkit")
-AddEventHandler("md-drugs:client:resetlsdkit", function() 
-DeleteObject(dirtylabkit)
+
+RegisterNetEvent("md-drugs:client:resetlsdkit", function(data) 
+DeleteObject(data)
 TriggerEvent("md-drugs:client:setlsdlabkit")
 end)
 
-RegisterNetEvent("md-drugs:client:refinequalityacid")
-AddEventHandler("md-drugs:client:refinequalityacid", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Refining The Quality!", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-    ClearPedTasks(PlayerPedId())
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:refinequalityacid")
-	else
-		TriggerServerEvent("md-drugs:server:failrefinequality")
-	end
-end, 1, 8) -- NumberOfCircles, MS
-    end)
+
+RegisterNetEvent("md-drugs:client:refinequalityacid", function()
+    if not ItemCheck('lsd_one_vial')  then return end 
+    if not minigame(2, 8) then TriggerServerEvent("md-drugs:server:failrefinequality") return end
+    if not progressbar(Lang.lsd.refine, 4000, 'uncuff') then return end
+    TriggerServerEvent("md-drugs:server:refinequalityacid")
 end)
 
-RegisterNetEvent("md-drugs:client:maketabpaper")
-AddEventHandler("md-drugs:client:maketabpaper", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Dipping LSD Onto Paper", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-        ClearPedTasks(PlayerPedId())
-	exports['ps-ui']:Circle(function(success)
-    if success then
-        TriggerServerEvent("md-drugs:server:maketabpaper")
-	else
-		TriggerServerEvent("md-drugs:server:failtabs")
-	end
-end, 3, 8) -- NumberOfCircles, 
-    end)
+RegisterNetEvent("md-drugs:client:maketabpaper", function()
+    if not ItemCheck('tab_paper')  then return end 
+    if not minigame(2, 8) then TriggerServerEvent("md-drugs:server:failtabs") return end
+	if not progressbar(Lang.lsd.dip, 4000, 'uncuff') then return end
+    TriggerServerEvent("md-drugs:server:maketabpaper")
+end)
+
+RegisterNetEvent("md-drugs:client:buytabs", function(data) 
+	if not progressbar(Lang.lsd.buypaper, 4000, 'uncuff') then return end
+    TriggerServerEvent("md-drugs:server:gettabpaper", data.data)
 end)
 
 
-RegisterNetEvent("md-drugs:client:cutsheet")
-AddEventHandler("md-drugs:client:cutsheet", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Cutting Sheets", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-        ClearPedTasks(PlayerPedId())
-    end)
-end)
-
-RegisterNetEvent("md-drugs:client:buytabs")
-AddEventHandler("md-drugs:client:buytabs", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Buying Tab Paper", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		TriggerServerEvent("md-drugs:server:gettabpaper")
-        ClearPedTasks(PlayerPedId())
-    end)
-end)
-
-RegisterNetEvent("md-drugs:client:buylabkit")
-AddEventHandler("md-drugs:client:buylabkit", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Buying A Lab Kit", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		TriggerServerEvent("md-drugs:server:getlabkit")
-        ClearPedTasks(PlayerPedId())
-    end)
-end)
-
-
-RegisterNetEvent('md-drugs:client:taketabs', function(itemName)
-	    QBCore.Functions.Progressbar("use_lsd", "Have Fun!", 1750, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {
-		animDict = "mp_suicide",
-		anim = "pill",
-		flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
-        TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
-		if itemName == "smiley_tabs" or itemName == "wildcherry_tabs" or itemName == "yinyang_tabs"   then
-			AlienEffect()
-		elseif itemName == "pineapple_tabs" then
-			 EcstasyEffect()
-		elseif itemName == "bart_tabs" then
-				TrevorEffect()
-		else
-			TrevorEffect()
-			Wait(15000)
-			EcstasyEffect()
-		end	
-    end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
-        QBCore.Functions.Notify("Canceled", "error")
-    end)
+RegisterNetEvent("md-drugs:client:buylabkit", function()
+    if QBCore.Functions.HasItem('lsdlabkit') then Notify('You Have One Idiot', 'error') return end 
+	if not progressbar(Lang.lsd.buykit, 4000, 'uncuff') then return end
+	TriggerServerEvent("md-drugs:server:getlabkit")
 end)

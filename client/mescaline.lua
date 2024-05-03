@@ -1,6 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Mescaline = {}
-local hallucinate = nil
 
 function LoadModel(hash)
     hash = GetHashKey(hash)
@@ -10,45 +9,19 @@ function LoadModel(hash)
     end
 end 
 
-local function loadParticle(dict)
-    if not HasNamedPtfxAssetLoaded(dict) then
-        RequestNamedPtfxAsset(dict)
-    end
-    while not HasNamedPtfxAssetLoaded(dict) do
-        Wait(0)
-    end
-    SetPtfxAssetNextCall(dict)
-end
-
-
----- plant spawns dont edit
 RegisterNetEvent('Mescaline:respawnCane', function(loc)
     local v = GlobalState.Mescaline[loc]
     local hash = GetHashKey(v.model)
-    --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not Mescaline[loc] then
         Mescaline[loc] = CreateObject(hash, v.location, false, true, true)
         SetEntityAsMissionEntity(Mescaline[loc], true, true)
         FreezeEntityPosition(Mescaline[loc], true)
         SetEntityHeading(Mescaline[loc], v.heading)
         exports['qb-target']:AddTargetEntity(Mescaline[loc], {
-            options = { {
-                    icon = "fas fa-hand",
-                    label = "pick Cactus",
-                    action = function()
-                        QBCore.Functions.Progressbar("pick_cane", "picking Cactus", 2000, false, true, {
-                            disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
-                            { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
-                            {}, {}, function()
-                            TriggerServerEvent("Mescaline:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
-                        end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
-                        end)
-                    end
-                }
-            },
-            distance = 3.0
+        options = { 
+            {icon = "fas fa-hand",label = "pick Cactus",action = function()    if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end    TriggerServerEvent("Mescaline:pickupCane", loc)end}
+        },
+        distance = 3.0
         })
     end
 end)
@@ -72,23 +45,9 @@ RegisterNetEvent("Mescaline:init", function()
             FreezeEntityPosition(Mescaline[k], true)
             SetEntityHeading(Mescaline[k], v.heading)
             exports['qb-target']:AddTargetEntity(Mescaline[k], {
-                options = { {
-                        icon = "fas fa-hand",
-                        label = "Pick Mescaline",
-                        action = function()
-                            QBCore.Functions.Progressbar("pick_cane", "Picking Mescaline", 2000, false, true, {
-                                disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
-                                { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
-                                {}, {}, function()
-                                TriggerServerEvent("Mescaline:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
-                            end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
-                            end)
-                        end
-                    }
-                },
-                distance = 3.0
+                options = { { icon = "fas fa-hand", label = "Pick Mescaline", action = function()  if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end  TriggerServerEvent("Mescaline:pickupCane", k) end}
+            },
+            distance = 3.0
             })
         end
     end
@@ -119,57 +78,42 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 
-RegisterNetEvent("md-drugs:client:drymescaline")
-AddEventHandler("md-drugs:client:drymescaline", function() 
-	TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
-    QBCore.Functions.Progressbar("drink_something", "Drying Out", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:drymescaline")
-        ClearPedTasks(PlayerPedId())
-    end)
+
+RegisterNetEvent("md-drugs:client:drymescaline", function()
+    if not ItemCheck('cactusbulb')  then return end 
+	if not progressbar(Lang.mescaline.dry, 4000, 'uncuff') then return end
+	TriggerServerEvent("md-drugs:server:drymescaline")
 end)
 
-RegisterNetEvent("md-drugs:client:takemescaline")
-AddEventHandler("md-drugs:client:takemescaline", function()
+
+RegisterNetEvent("md-drugs:client:takemescaline", function()
 local chance = math.random(1,100)
 local chance2 = math.random(1,100)
-    QBCore.Functions.Progressbar("drink_something", "Taking Mescaline", 1000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		if chance <= Config.Badtrip then 
-			AlienEffect()
-			clone = ClonePed(PlayerPedId(), false, false, true)
-			SetEntityAsMissionEntity(clone)
-			SetEntityVisible(clone, true)
-			SetPedRelationshipGroupHash(clone)
-			SetPedAccuracy(clone)
-			SetPedArmour(clone)
-			SetPedCanSwitchWeapon(clone, true)
-			SetPedFleeAttributes(clone, false)
-			if chance2 <= 99 then
-				GiveWeaponToPed(clone, "weapon_flaregun", 1, false, true)
-				TaskCombatPed(clone, PlayerPedId(), 0, 16)
-				SetPedCombatAttributes(clone, 46, true)
-				Wait(1000 * 30)
-				DeleteEntity(clone)
-			else
-				GiveWeaponToPed(clone, "weapon_rpg", 1, false, true)
-				TaskCombatPed(clone, PlayerPedId(), 0, 16)
-				SetPedCombatAttributes(clone, 46, true)
-				Wait(1000 * 30)
-				DeleteEntity(clone)
-			end
+    if not progressbar(Lang.mescaline.eat, 4000, 'uncuff') then return end
+	if chance <= Config.Badtrip then 
+		AlienEffect()
+		clone = ClonePed(PlayerPedId(), false, false, true)
+		SetEntityAsMissionEntity(clone)
+		SetEntityVisible(clone, true)
+		SetPedRelationshipGroupHash(clone)
+		SetPedAccuracy(clone)
+		SetPedArmour(clone)
+		SetPedCanSwitchWeapon(clone, true)
+		SetPedFleeAttributes(clone, false)
+		if chance2 <= 99 then
+			GiveWeaponToPed(clone, "weapon_flaregun", 1, false, true)
+			TaskCombatPed(clone, PlayerPedId(), 0, 16)
+			SetPedCombatAttributes(clone, 46, true)
+			Wait(1000 * 30)
+			DeleteEntity(clone)
 		else
-			AlienEffect()
-		end	
-    end)
+			GiveWeaponToPed(clone, "weapon_rpg", 1, false, true)
+			TaskCombatPed(clone, PlayerPedId(), 0, 16)
+			SetPedCombatAttributes(clone, 46, true)
+			Wait(1000 * 30)
+			DeleteEntity(clone)
+		end
+	else
+		AlienEffect()
+	end	
 end)

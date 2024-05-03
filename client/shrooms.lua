@@ -20,23 +20,9 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
         FreezeEntityPosition(shrooms[loc], true)
         SetEntityHeading(shrooms[loc], v.heading)
         exports['qb-target']:AddTargetEntity(shrooms[loc], {
-            options = { {
-                    icon = "fas fa-hand",
-                    label = "pick shrooms",
-                    action = function()
-                        QBCore.Functions.Progressbar("pick_cane", "picking shrooms", 2000, false, true, {
-                            disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
-                            { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
-                            {}, {}, function()
-                            TriggerServerEvent("shrooms:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
-                        end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
-                        end)
-                    end
-                }
-            },
-            distance = 3.0
+            options = { { icon = "fas fa-hand", label = "pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  TriggerServerEvent("shrooms:pickupCane", loc) end }
+        },
+        distance = 3.0
         })
     end
 end)
@@ -81,23 +67,9 @@ end)
             FreezeEntityPosition(shrooms[k], true)
             SetEntityHeading(shrooms[k], v.heading)
             exports['qb-target']:AddTargetEntity(shrooms[k], {
-                options = { {
-                        icon = "fas fa-hand",
-                        label = "Pick shrooms",
-                        action = function()
-                            QBCore.Functions.Progressbar("pick_cane", "Picking Shrooms", 2000, false, true, {
-                                disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
-                                { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
-                                {}, {}, function()
-                                TriggerServerEvent("shrooms:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
-                            end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
-                            end)
-                        end
-                    }
-                },
-                distance = 3.0
+                options = { { icon = "fas fa-hand", label = "Pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end     TriggerServerEvent("shrooms:pickupCane", k) end }
+            },
+            distance = 3.0
             })
         end
     end
@@ -105,22 +77,7 @@ end)
 
 
 RegisterNetEvent('md-drugs:client:takeshrooms', function()
-    QBCore.Functions.Progressbar("use_lsd", "Have Fun!", 1750, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {
-		animDict = "mp_suicide",
-		anim = "pill",
-		flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
-        TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
-        EcstasyEffect()
-        -- exports["qb-smallresources"]:DoAcid(240000)
-    end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "mp_suicide", "pill", 1.0)
-        QBCore.Functions.Notify("Canceled", "error")
-    end)
+    if not progressbar(Lang.Shrooms.eat, 500, 'eat')  then return end              
+    TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
+    EcstasyEffect()
 end)
