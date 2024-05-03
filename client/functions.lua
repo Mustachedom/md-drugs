@@ -77,6 +77,13 @@ function Email(sender, subject, message)
 			content = message,
 			
 		}, 'phoneNumber', receiver)
+	elseif Config.Phone == 'qs' then
+		TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+   		sender = sender,
+   		subject = subject,
+    		message = message,
+    		button = {}
+		})
 	else
 		TriggerServerEvent('qb-phone:server:sendNewMail', {
 			sender = sender,
