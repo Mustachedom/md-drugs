@@ -47,7 +47,7 @@ end)
 RegisterServerEvent('md-drugs:server:makebutter', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'mdbutter', 1, 'true') and  Itemcheck(Player, 'grindedweed', 1, 'true') then return end		
+	if not Itemcheck(Player, 'mdbutter', 1, 'true') and  not Itemcheck(Player, 'grindedweed', 1, 'true') then return end		
 	  RemoveItem('mdbutter', 1) 
 	  RemoveItem('grindedweed', 1) 
 	  AddItem('cannabutter', 1 )
@@ -59,7 +59,7 @@ RegisterServerEvent('md-drugs:server:makebrownies', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 
-	if not Itemcheck(Player, 'cannabutter', 1, 'true') and  Itemcheck(Player, 'flour', 1, 'true') and  Itemcheck(Player,'chocolate', 1, 'true') then return end
+	if not Itemcheck(Player, 'cannabutter', 1, 'true') and  not Itemcheck(Player, 'flour', 1, 'true') and  not Itemcheck(Player,'chocolate', 1, 'true') then return end
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		RemoveItem('chocolate', 1)
@@ -69,7 +69,7 @@ end)
 RegisterServerEvent('md-drugs:server:makecookies', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'cannabutter', 1, 'true') and Itemcheck(Player, 'flour', 1, 'true') then return end
+	if not Itemcheck(Player, 'cannabutter', 1, 'true') and not Itemcheck(Player, 'flour', 1, 'true') then return end
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialcookie', 1 ) 
@@ -78,7 +78,7 @@ end)
 RegisterServerEvent('md-drugs:server:makechocolate', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
- 	if not Itemcheck(Player, 'cannabutter', 1, 'true') and Itemcheck(Player, 'chocolate', 1, 'true') then return end
+ 	if not Itemcheck(Player, 'cannabutter', 1, 'true') and not Itemcheck(Player, 'chocolate', 1, 'true') then return end
 		RemoveItem('cannabutter', 1)
 		RemoveItem('chocolate', 1)
 		AddItem('specialchocolate', 1 ) 
@@ -87,7 +87,7 @@ end)
 RegisterServerEvent('md-drugs:server:makemuffin', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'cannabutter', 1, 'true') and Itemcheck(Player, 'flour', 1, 'true') then return end
+	if not Itemcheck(Player, 'cannabutter', 1, 'true') and not Itemcheck(Player, 'flour', 1, 'true') then return end
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialmuffin', 1 )
@@ -96,7 +96,7 @@ end)
 RegisterServerEvent('md-drugs:server:makeoil', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'grindedweed', 1, 'true') and Itemcheck(Player, 'butane', 1, 'true') then return end
+	if not Itemcheck(Player, 'grindedweed', 1, 'true') and not Itemcheck(Player, 'butane', 1, 'true') then return end
 		RemoveItem('butane', 1)
 		RemoveItem('grindedweed', 1)
 		AddItem('shatter', 1 ) 
@@ -108,7 +108,7 @@ RegisterServerEvent('md-drugs:server:rollblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
   
-  	if not Itemcheck(Player, 'grindedweed', 1, 'true') and Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
+  	if not Itemcheck(Player, 'grindedweed', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
 	  TriggerClientEvent("md-drugs:client:rollanim", src)
  	 	RemoveItem('bluntwrap', 1)
   		RemoveItem('grindedweed', 1)
@@ -119,7 +119,7 @@ RegisterServerEvent('md-drugs:server:rollleanblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
   	local chance = math.random(1,10)
-  	if not Itemcheck(Player, 'mdlean', 1, 'true') and Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
+  	if not Itemcheck(Player, 'mdlean', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
 	  TriggerClientEvent("md-drugs:client:rollanim", src)
 		RemoveItem("bluntwrap", 1)
 		AddItem("leanbluntwrap", 1)
@@ -133,7 +133,7 @@ RegisterServerEvent('md-drugs:server:rolldextroblunt', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local chance = math.random(1,10)
-  if not Itemcheck(Player, 'mdreddextro', 1, 'true') and Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
+  if not Itemcheck(Player, 'mdreddextro', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
 	RemoveItem("bluntwrap", 1)
 	AddItem("dextrobluntwrap", 1)
 	TriggerClientEvent("md-drugs:client:rollanim", src)
@@ -145,7 +145,7 @@ end)
 RegisterServerEvent('md-drugs:server:rollchewyblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-  	if not Itemcheck(Player, 'loosecoke', 1, 'true') and Itemcheck(Player, 'bluntwrap', 1, 'true') and Itemcheck(Player, 'grindedweed', 1, 'true') then return end
+  	if not Itemcheck(Player, 'loosecoke', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') and not Itemcheck(Player, 'grindedweed', 1, 'true') then return end
 		RemoveItem("bluntwrap", 1)
 		RemoveItem("loosecoke", 1)
 		RemoveItem("grindedweed", 1)
