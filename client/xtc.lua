@@ -53,8 +53,8 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
                     if xtcpress then return true end end 
             },
         }
-        if Config.OxTarget then
-            exports.ox_target:addLocalEntity(press, { options = optionsox})
+        if Config.oxtarget then
+            exports.ox_target:addLocalEntity(press,  optionsox)
         else
             exports['qb-target']:AddTargetEntity(press, { options = options})
         end

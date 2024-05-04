@@ -157,8 +157,8 @@ exports['qb-target']:AddBoxZone("weeddry"..k,v,1.5, 1.75, {name = "weeddry"..k,h
 								return true end end,										
 						}
 					}
-					if Config.OxTarget then
-						exports.ox_target:addLocalEntity(weedplant, { options = optionsox })
+					if Config.oxtarget then
+						exports.ox_target:addLocalEntity(weedplant, optionsox )
 					else
 						exports['qb-target']:AddTargetEntity(weedplant, {options = options})
 					end

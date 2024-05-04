@@ -135,7 +135,6 @@ RegisterNetEvent("md-drugs:client:setheroinlabkit")
 AddEventHandler("md-drugs:client:setheroinlabkit", function() 
 if herointable then   
    Notify(Lang.Heroin.tableout, 'error')
-   TriggerServerEvent('md-drugs:server:getheroinlabkitback')
 else
 local PedCoords = GetEntityCoords(PlayerPedId())
     if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
@@ -170,8 +169,8 @@ local PedCoords = GetEntityCoords(PlayerPedId())
         local options = {
             {   event = "md-drugs:client:cleanheroinlabkit",   icon = "fas fa-box-circle-check",   label = "Clean It", data = dirtylabkitheroin}
         }
-        if Config.OxTarget then
-            exports.ox_target:addLocalEntity(dirtylabkitheroin, { options = options})
+        if Config.oxtarget then
+            exports.ox_target:addLocalEntity(dirtylabkitheroin,options )
         else
 		    exports['qb-target']:AddTargetEntity(dirtylabkitheroin, {options = options})
         end    

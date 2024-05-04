@@ -9,7 +9,7 @@ CreateThread(function()
     local options = {
         { type = "client", label = "Get Task", icon = "fas fa-eye", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0},
     }
-    if Config.OxTarget then
+    if Config.oxtarget then
         exports.ox_target:addLocalEntity(SyrupLocation, options)
     else
 	    exports['qb-target']:AddTargetEntity(SyrupLocation, { options = options, distance = 2.0})

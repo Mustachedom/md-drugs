@@ -21,8 +21,8 @@ local Ped = "g_m_y_famdnf_01"
     local options = {
         { type = "client", label = "Buy LSD Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buylabkit", distance = 2.0}
      }
-    if Config.OxTarget then
-        exports.ox_target:addLocalEntity(tabdealer, {options = options})
+    if Config.oxtarget then
+        exports.ox_target:addLocalEntity(tabdealer, options)
     else 
 	    exports['qb-target']:AddTargetEntity(tabdealer, {options = options, distance = 2.0})
     end    
@@ -60,14 +60,13 @@ else
 		{ event = "md-drugs:client:maketabpaper", icon = "fas fa-box-circle-check", label = "Dab Sheets",    data = labkit, },
 		{ event = "md-drugs:client:getlabkitback", icon = "fas fa-box-circle-check", label = "Pick Up",      data = labkit, canInteract = function() if tableout then return true end end},
     }
-    if Config.OxTarget then
-        exports.ox_target:addLocalEntity(labkit, {options = options})
+    if Config.oxtarget then
+        exports.ox_target:addLocalEntity(labkit, options)
     else
 	    exports['qb-target']:AddTargetEntity(labkit, {options = options})
     end    
 end
 end)
-
 
 RegisterNetEvent("md-drugs:client:getlabkitback", function(data) 
     if not progressbar(Lang.lsd.tablepack, 4000, 'uncuff') then return end
@@ -92,8 +91,8 @@ RegisterNetEvent("md-drugs:client:heatliquid", function(data)
 		local options = {
             { event = "md-drugs:client:cleanlabkit", icon = "fas fa-box-circle-check", label = "Clean It", data = dirtylabkit },
         }
-        if Config.OxTarget then
-            exports.ox_target:addLocalEntity(dirtylabkit, { options = options})
+        if Config.oxtarget then
+            exports.ox_target:addLocalEntity(dirtylabkit, options)
         else    
 	        exports['qb-target']:AddTargetEntity(dirtylabkit, { options = options})
         end

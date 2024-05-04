@@ -76,8 +76,8 @@ if tray then
 
 		}
 	}
-	if Config.OxTarget then
-        exports.ox_target:addLocalEntity(bucket, {options = optionsox})
+	if Config.oxtarget then
+        exports.ox_target:addLocalEntity(bucket,  optionsox)
     else 
 	    exports['qb-target']:AddTargetEntity(bucket, {options = options, distance = 2.0})
     end   

@@ -121,7 +121,7 @@ CreateThread(function()
     local options2 = {
 		{ type = "client", event = "md-drugs:client:bagcoke", icon = "fas fa-sign-in-alt", label = "bagging", canInteract = function()
 				if baggingcoke == nil and cuttingcoke == nil then return true end end }, }
-    if Config.OxTarget then
+    if Config.oxtarget then
         exports.ox_target:addBoxZone({coords = vector3(1093.17, -3195.74, -39.19 -1), size = vec3(1,1,1), options = options})
         exports.ox_target:addBoxZone({coords = vector3(1093.17, -3195.74, -39.19 -1), size = vec3(1,1,1), options = options2})
     else

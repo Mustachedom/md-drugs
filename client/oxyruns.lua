@@ -23,8 +23,8 @@ RegisterNetEvent("md-drugs:Client:getoxylocation", function()
     local options = {
         { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = "Get Package"},
     }
-	if Config.OxTarget then
-		exports.ox_target:addLocalEntity(oxycar, {options = options})
+	if Config.oxtarget then
+		exports.ox_target:addLocalEntity(oxycar, options)
 	else 
 		exports['qb-target']:AddTargetEntity(oxycar, {options = options, distance = 2.0})
 	end  
@@ -66,8 +66,8 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 		local options = {
     	        { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", event = "md-drugs:client:giveoxybox", ped = oxybuyer},
     	    }
-		if Config.OxTarget then
-			exports.ox_target:addLocalEntity(oxybuyer, {options = options})
+		if Config.oxtarget then
+			exports.ox_target:addLocalEntity(oxybuyer, options)
 		else 
 			exports['qb-target']:AddTargetEntity(oxybuyer, {options = options, distance = 2.0})
 		end   
