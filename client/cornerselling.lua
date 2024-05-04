@@ -126,7 +126,7 @@ function Cornersell()
 end
 
 RegisterNetEvent('md-drugs:client:cornerselling', function()
-    if  GetCops(QBConfig.MinimumDrugSalePolice) then return end
+    if not GetCops(QBConfig.MinimumDrugSalePolice) then return end
     QBCore.Functions.TriggerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(item, amount)
     if item ~= 'nothing' then
         if sell then 
