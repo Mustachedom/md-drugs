@@ -35,7 +35,7 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
                 Player.Functions.AddItem('markedbills', 1, false, info )
             end
         elseif QBConfig.CustomDirtyMoney then 
-            Player.Functions.AddItem(Config.CustomDirtyMoneyitem,price)
+            Player.Functions.AddItem(QBConfig.CustomDirtyMoneyitem,price)
         else
             Player.Functions.AddMoney('cash', price)
         end
