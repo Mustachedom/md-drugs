@@ -135,6 +135,7 @@ RegisterNetEvent("md-drugs:client:setheroinlabkit")
 AddEventHandler("md-drugs:client:setheroinlabkit", function() 
 if herointable then   
    Notify(Lang.Heroin.tableout, 'error')
+   TriggerServerEvent('md-drugs:server:getheroinlabkitback')
 else
 local PedCoords = GetEntityCoords(PlayerPedId())
     if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
