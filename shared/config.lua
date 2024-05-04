@@ -5,6 +5,7 @@ Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
+
 Config.imagelink = "qb-inventory/html/images/"
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
 
