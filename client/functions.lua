@@ -26,7 +26,7 @@ local dispatch = Config.Dispatch
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
 	  end)
 	  Wait(time + 50)
-	  if test then return true else Wait(300) if test then return true end end 
+	  if test then return true else Wait(400) if test then return true end end 
 	else
 		print"dude, it literally tells you what you need to set it as in the config"
 	end	  
