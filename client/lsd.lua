@@ -46,6 +46,7 @@ RegisterNetEvent("md-drugs:client:setlsdlabkit")
 AddEventHandler("md-drugs:client:setlsdlabkit", function()
 if tableout then 
     Notify(Lang.lsd.tableout, 'error')
+    TriggerServerEvent('md-drugs:server:getlabkitback')
 else
     tableout = true
     local PedCoords = GetEntityCoords(PlayerPedId())
@@ -66,6 +67,7 @@ else
     end    
 end
 end)
+
 
 RegisterNetEvent("md-drugs:client:getlabkitback", function(data) 
     if not progressbar(Lang.lsd.tablepack, 4000, 'uncuff') then return end
