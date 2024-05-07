@@ -41,7 +41,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 
 if TriggerClientEvent('md-drugs:client:takeshrooms', src, item.name) then
 	Player.Functions.RemoveItem('shrooms', 1)
-	Notifys(Lang.Shrooms.trip, "success")
+    TriggerClientEvent("QBCore:Notify", src, Lang.Shrooms.trip, 'success')
 	end
 end)
 
