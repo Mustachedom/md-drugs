@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 local QBCore = exports['qb-core']:GetCoreObject()
 
 GlobalState.WeedPlant = Config.WeedPlant
@@ -47,59 +47,93 @@ end)
 RegisterServerEvent('md-drugs:server:makebutter', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'mdbutter', 1, 'true') and  not Itemcheck(Player, 'grindedweed', 1, 'true') then return end		
+  local recipe = {'mdbutter', 'grindedweed'}
+  local have = 0 
+  for k, v in pairs (recipe) do 
+	if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+  end
+	if have == 2 then 		
 	  RemoveItem('mdbutter', 1) 
 	  RemoveItem('grindedweed', 1) 
 	  AddItem('cannabutter', 1 )
-		
+	end	
 end)
 
 
 RegisterServerEvent('md-drugs:server:makebrownies', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-
-	if not Itemcheck(Player, 'cannabutter', 1, 'true') and  not Itemcheck(Player, 'flour', 1, 'true') and  not Itemcheck(Player,'chocolate', 1, 'true') then return end
+	  local recipe = {'cannabutter', 'flour', 'chocolate' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+	if have == 3 then 
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		RemoveItem('chocolate', 1)
 		AddItem('specialbrownie', 1 )
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:makecookies', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'cannabutter', 1, 'true') and not Itemcheck(Player, 'flour', 1, 'true') then return end
+	local recipe = {'cannabutter', 'flour' }
+	local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+	if have == 2 then
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialcookie', 1 ) 
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:makechocolate', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
- 	if not Itemcheck(Player, 'cannabutter', 1, 'true') and not Itemcheck(Player, 'chocolate', 1, 'true') then return end
+	  local recipe = {'cannabutter', 'chocolate' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+ 	if have == 2 then
 		RemoveItem('cannabutter', 1)
 		RemoveItem('chocolate', 1)
 		AddItem('specialchocolate', 1 ) 
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:makemuffin', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'cannabutter', 1, 'true') and not Itemcheck(Player, 'flour', 1, 'true') then return end
+	  local recipe = {'cannabutter', 'flour' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+ 	if have == 2 then
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialmuffin', 1 )
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:makeoil', function()
   	local src = source
-  	local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'grindedweed', 1, 'true') and not Itemcheck(Player, 'butane', 1, 'true') then return end
+	  local Player = QBCore.Functions.GetPlayer(src)
+  	local recipe = {'grindedweed', 'butane' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+ 	if have == 2 then
 		RemoveItem('butane', 1)
 		RemoveItem('grindedweed', 1)
-		AddItem('shatter', 1 ) 
+		AddItem('shatter', 1 )
+	end	
 end)
 
 
@@ -107,50 +141,73 @@ end)
 RegisterServerEvent('md-drugs:server:rollblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-  
-  	if not Itemcheck(Player, 'grindedweed', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
+	  local recipe = {'bluntwrap', 'grindedweed' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+ 	if have == 2 then
 	  TriggerClientEvent("md-drugs:client:rollanim", src)
  	 	RemoveItem('bluntwrap', 1)
   		RemoveItem('grindedweed', 1)
-		AddItem('blunt', 1 ) 
+		AddItem('blunt', 1 )
+	end	
 end)
 
 RegisterServerEvent('md-drugs:server:rollleanblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
   	local chance = math.random(1,10)
-  	if not Itemcheck(Player, 'mdlean', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
+	  local recipe = {'bluntwrap', 'mdlean' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+ 	if have == 2 then
 	  TriggerClientEvent("md-drugs:client:rollanim", src)
 		RemoveItem("bluntwrap", 1)
 		AddItem("leanbluntwrap", 1)
 	if chance > 8 then
 		RemoveItem("mdlean", 1)
 	end
-	
+end
 end)
 
 RegisterServerEvent('md-drugs:server:rolldextroblunt', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local chance = math.random(1,10)
-  if not Itemcheck(Player, 'mdreddextro', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') then return end
+  local chance = math.random(1,10)
+	  local recipe = {'mdreddextro', 'mdlean' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+ 	if have == 2 then
 	RemoveItem("bluntwrap", 1)
 	AddItem("dextrobluntwrap", 1)
 	TriggerClientEvent("md-drugs:client:rollanim", src)
 	if chance > 8 then
 		Player.Functions.RemoveItem("mdreddextro", 1)
 	end	
+end
 end)
 
 RegisterServerEvent('md-drugs:server:rollchewyblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-  	if not Itemcheck(Player, 'loosecoke', 1, 'true') and not Itemcheck(Player, 'bluntwrap', 1, 'true') and not Itemcheck(Player, 'grindedweed', 1, 'true') then return end
+	  local recipe = {'bluntwrap', 'loosecoke', 'grindedweed' }
+	  local have = 0 
+	  for k, v in pairs (recipe) do 
+		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
+	  end
+ 	if have == 3 then
 		RemoveItem("bluntwrap", 1)
 		RemoveItem("loosecoke", 1)
 		RemoveItem("grindedweed", 1)
 		AddItem("chewyblunt", 1)
 		TriggerClientEvent("md-drugs:client:rollanim", src)
+	end
 end)
 ------------------------ usuable items
 QBCore.Functions.CreateUseableItem("leanbluntwrap", function(source, item)
@@ -189,10 +246,6 @@ local keef = Player.Functions.GetItemByName("grindedweed")
 		Notifys(Lang.Weed.noweed, "error")
 	end
 end)
-
-
-
-
 
 QBCore.Functions.CreateUseableItem("dabrig", function(source, item)
 local src = source
@@ -237,4 +290,5 @@ if Player.Functions.RemoveItem("mdwoods",1 ) then
 	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["tobacco"], "add", 1)
 end
 end)
+
 
