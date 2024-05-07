@@ -190,16 +190,7 @@ local keef = Player.Functions.GetItemByName("grindedweed")
 	end
 end)
 
-local blunts = { 'dextroblunts', 'leanblunts', "chewyblunt", 'blunt' }
-for k, v in pairs (blunts) do QBCore.Functions.CreateUseableItem(v, function(source, item)
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
-	if TriggerClientEvent('md-drugs:client:smokeblunts', source, item.name) then
-		Player.Functions.RemoveItem(item.name, 1)
-		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item.name], "remove", 1)
-	end
-end)
-end
+
 
 
 
