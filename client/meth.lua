@@ -22,13 +22,10 @@ local function dials()
 			ClearPedTasks(PlayerPedId())
 			amonia = nil
 			active = nil
-			exports['qb-target']:RemoveZone("adjustdials")
 		return end
 		Notify(Lang.meth.increaseheat, "success")
 		ClearPedTasks(PlayerPedId())
-		heated = true
-		exports['qb-target']:RemoveZone("adjustdials")
-			
+		heated = true	
 	else
 	end
 end
