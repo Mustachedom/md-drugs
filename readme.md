@@ -438,6 +438,15 @@ then in prop emotes do
 		PlayerData.metadata['heroin'] = PlayerData.metadata['heroin'] or 0
 		PlayerData.metadata['lsd'] = PlayerData.metadata['lsd'] or 0
 	```
+
+ ** IF YOU HAVE THE LATEST QB-CORE THEY RECENTLY UPDATED HOW METADATA IS MADE
+
+go to the config of qb-core and search metadata, underneath crafting = 0, add this
+```
+ 	lsd = 0,
+        coke = 0,
+        heroin = 0,
+```
 	
 
 [mlo i use](https://www.gta5-mods.com/maps/mlo-4x-drug-lab-interiors-sp-fivem)
