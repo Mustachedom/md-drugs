@@ -158,7 +158,7 @@ CreateThread(function()
 		options = {
 			{	name = 'adjustdials',	icon = "fas fa-sign-in-alt",	label = "Adjust Dials",	distance = 5,	action = function()		dials()	end,
 				canInteract = function()
-					if amonia then return true end end
+					if amonia and heated == false then return true end end
 			},
 		},
 	})
