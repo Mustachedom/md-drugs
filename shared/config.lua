@@ -15,7 +15,7 @@ Config.Tier2 = 300 -- amount to hit for level 3
 
 ---------------------------------- BRIDGE 
 Config.progressbartype = 'oxcir' -- either 'qb', 'oxcir', 'oxbar'
-Config.minigametype = 'ox' -- either 'ps' or 'ox'
+Config.minigametype = 'ox' -- either 'ps' or 'ox' or 'none'
 Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
 Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
