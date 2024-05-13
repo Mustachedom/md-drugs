@@ -30,7 +30,6 @@ AddEventHandler("coke:pickupCane", function(loc)
         CaneCooldown(loc)
         local Player = QBCore.Functions.GetPlayer(source)
         AddItem('coca_leaf', 1)
-        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['coca_leaf'], "add")
     end
 end)
 
