@@ -44,10 +44,14 @@ function minigame(num1, num2)
 		if num2 <= 6 then num2 = 'hard' elseif num2 >= 7 and num2 <= 12 then num2 = 'medium' else num2 = 'easy' end
 		local success = lib.skillCheck({num1, num2}, {'1', '2', '3', '4'})
 		return success 
-    else
+    elseif minigametype == 'none' then
+		return true
+	else	
+		
         print"dude, it literally tells you what you need to set it as in the config"
     end
 end
+
 
  function Notify(text, type)
 	if notifytype =='ox' then
