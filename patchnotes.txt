@@ -1,0 +1,7 @@
+Notes from 3.5.2 -> 3.5.3
+
+added easier calls for GetCops 
+
+added support for qs phone emails
+
+added option for minigames 'none' so its not required
