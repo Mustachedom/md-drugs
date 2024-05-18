@@ -41,7 +41,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
 			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
-                          icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
+                          icon =  GetImage(v.name),
                           title = QBCore.Shared.Items[v.name].label,
                           description = v.price,
                           event = "md-drugs:client:travellingmerchantox",
@@ -61,7 +61,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
          for k, v in pairs (QBConfig.Products) do 
 			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
-                          icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
+                          icon =  GetImage(v.name),
                           title = QBCore.Shared.Items[v.name].label,
                           description = v.price,
                           event = "md-drugs:client:travellingmerchantox",
