@@ -143,4 +143,21 @@ function GetCops(number)
 	end)
 end
 
-
+function GetImage(img)
+	if GetResourceState('ox_inventory') == 'started' then
+		local Items = exports['ox_inventory']:Items()
+		return Items[img]['client']['image'] or Items[img]
+	elseif GetResourceState('ps-inventory') == 'started' then
+		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('lj-inventory') == 'started' then
+		return "nui://lj-inventory/html/images/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('qb-inventory') == 'started' then
+		return "nui://qb-inventory/html/images/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('qs-inventory') == 'started' then
+		return "nui://qs-inventory/html/img/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('origen_inventory') == 'started' then
+		return "nui://origen_inventory/html/img/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('core_inventory') == 'started' then
+		return "nui://core_inventory/html/img/".. QBCore.Shared.Items[img].image
+	end
+end
