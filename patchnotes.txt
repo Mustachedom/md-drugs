@@ -5,3 +5,16 @@ added easier calls for GetCops
 added support for qs phone emails
 
 added option for minigames 'none' so its not required
+
+
+3.5.3 - > 3.5.4
+
+1) Removed Config.imagelink - too tired of people not changing that and then asking me why images wont load.
+  - should work for qb, ps, lj, ox, qs, core, origen. if you use another inventory go to line 147 of the functions.lua in the client folder 
+      - make this adjustment
+        ```
+          elseif GetResourceState('yourinventoryname') == 'started' then
+		          return "nui:/yourinventoryname/folder1/folder2/".. QBCore.Shared.Items[img].image
+        ```
+2 )small bug fixes in meth.lua client side
+3) small bug fixes in pharma.lua server side
