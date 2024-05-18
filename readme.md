@@ -314,7 +314,7 @@ Optionals
 
 - **STEP 5**
 
-	- Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to
+	- Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to OR anywhere else you want them. The Only way in this script to get them is to find the travelling merchant
 
 ```lua
 	{name = 'bakingsoda',   price = 100,   amount = 5000, info = {}, type = 'item'},
