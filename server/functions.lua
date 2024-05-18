@@ -66,28 +66,6 @@ end)
 
 
 CreateThread(function()
-    if (GetCurrentResourceName() ~= 'md-drugs') then
-        print('^1 >:( I guess it isnt a cool enough name for you')
-    end
-    if GetResourceState('qb-inventory'):find("start") then
-         if Config.imagelink ~= 'qb-inventory/html/images/' then
-             print'^1 Line 9 of your config is wrong change it to qb-inventory/html/images/'
-         end
-    
-    elseif GetResourceState('ps-inventory'):find("start") then
-        if Config.imagelink ~= 'ps-inventory/html/images/' then
-            print'^1 Line 9 of your config is wrong change it to ps-inventory/html/images/'
-        end
-    elseif GetResourceState('lj-inventory'):find("start") then
-        if Config.imagelink ~= 'lj-inventory/html/images/' then
-            print' ^1 Line 9 of your config is wrong change it to ps-inventory/html/images/'
-        end
-    elseif GetResourceState('ox_inventory'):find("start") then
-        if Config.imagelink ~= 'ox_inventory/web/images/' then
-            print'^1  Line 9 of your config is wrong'
-        end
-    else
-    end
     if not GetResourceState('ox_lib'):find("start") then 
        print('^1 ox_lib Is A Depndancy, Not An Optional ')
     end
