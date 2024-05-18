@@ -26,7 +26,7 @@ CreateThread(function()
 
 	for k, v in pairs (Config.Items.items) do 
 		ShopMenu[#ShopMenu + 1] = {
-			   icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
+			   icon =  GetImage(v.name),
 			    description = '$'.. v.price,
 				title = QBCore.Shared.Items[v.name].label,
 				event = "md-drugs:client:travellingmerchantox",
