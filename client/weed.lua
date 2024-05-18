@@ -399,7 +399,7 @@ local current = "u_m_m_jesus_01"
 		})
 for k, v in pairs (Config.Weed.items) do 
 	WeedShop[#WeedShop + 1] = {
-		icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
+		icon =  GetImage(v.name),
 		 title = QBCore.Shared.Items[v.name].label,
 		 description = '$'.. v.price,
 		 event = "md-drugs:client:travellingmerchantox",
