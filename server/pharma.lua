@@ -49,18 +49,26 @@ end)
 end
 RegisterServerEvent('md-drugs:server:fillprescription', function()
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-	if RemoveItem('vicodin_prescription', 1 ) then
+    	local Player = QBCore.Functions.GetPlayer(src)
+	local vic = Player.Functions.GetItemByName('vicodin_prescription)
+	local add = Player.Functions.GetItemByName('vicodin_prescription)
+	local mor = Player.Functions.GetItemByName('vicodin_prescription)
+	local xan = Player.Functions.GetItemByName('vicodin_prescription)	
+	if vic then
+		RemoveItem('vicodin_prescription', 1 ) 
 		AddItem('vicodinbottle', 1) 
 		Notifys(Lang.Pharma.pills, "success")
-	elseif RemoveItem('adderal_prescription', 1 ) then
+	elseif add then
+		RemoveItem('adderal_prescription', 1 ) 
 		AddItem('adderalbottle', 1) 
 		Notifys(Lang.Pharma.pills, "success")
-	elseif RemoveItem('morphine_prescription', 1 ) then
+	elseif mor then
+		RemoveItem('morphine_prescription', 1 ) 
 		AddItem('morphinebottle', 1) 
 		Notifys(Lang.Pharma.pills, "success")
 		
-	elseif RemoveItem('xanax_prescription', 1 ) then
+	elseif xan then
+		RemoveItem('xanax_prescription', 1 ) 
 		AddItem('xanaxbottle', 1) 
 		Notifys(Lang.Pharma.pills, "success")
 		
