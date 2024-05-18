@@ -29,6 +29,7 @@
 
 <h1>Special Thanks To Kamaryn For The Preview</h1>
 - Thanks to Kamaryn for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd)
+
 - join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
 
 <h1>Dependencies</h1>
