@@ -167,7 +167,8 @@ exports['qb-target']:AddBoxZone("weeddry"..k,v,1.5, 1.75, {name = "weeddry"..k,h
 			canInteract = function()
 			if Config.Joblock then
 				if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-					return true end
+					if drying == false then 
+					return true end end
 			else
 			return true end end,
 		},
