@@ -21,25 +21,22 @@
 
 - Big Credit to [Bostra](https://discord.gg/5ncbwMNq). if you have been around you may have seen him post some free scripts and help people, There was definetly times I dm'd him saying what the fuck am I doing and he helped keep me sane. He also made the cute mushrooms!
 
-
-- shout out to my beta testers who had to deal with me a lot!
-
 - [Jim's Tebex](https://jimathy666.tebex.io/) for putting out open source resources that I was able to break and fix and learn how to code
 
 - [jixeltay](https://jixeltay.tebex.io/category/scripts) for putting out banger after banger. These people help the community learn so much more
 
-
 - Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch.
 
-
+<h1>Special Thanks To Kamaryn For The Preview</h1>
 - Thanks to [Kamaryn]() for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd), join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
 
 <h1>Dependencies</h1>
 - [Ox Lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0) 
-- [QBCore](https://github.com/qbcore-framework/qb-core)
-- [qb-target](https://github.com/qbcore-framework/qb-target) **or** Ox_target
+
+- [qb-target](https://github.com/qbcore-framework/qb-target) **or** ox_target
+  
 - emote script that uses the animations event (rpemotes, dpemotes, scully emotes all work)
-Optionals 
+
 
 
 - GAME BUILD 2944 OR LATER
@@ -328,15 +325,15 @@ Optionals
 
 - **STEP 6**
  - Head to your emote script search for **uncuff** if it's missing add it
-if rp or dpemotes then do this 
+ - if rp or dpemotes then do this 
 
 ```lua
-["uncuff"] = {"mp_arresting","a_uncuff","Uncuff", AnimationOptions = {     EmoteLoop = true,     EmoteMoving = true } },
+    ["uncuff"] = {"mp_arresting","a_uncuff","Uncuff", AnimationOptions = {     EmoteLoop = true,     EmoteMoving = true } },
     ["edible"] = { "mp_player_inteat@burger", "mp_player_int_eat_burger", "edible",    AnimationOptions = {        EmoteLoop = false,        EmoteMoving = true    }},
     ["shootup"] = { "rcmpaparazzo1ig_4", "miranda_shooting_up", "Shoot Up",  AnimationOptions = {EmoteLoop = true,EmoteMoving = true,Prop = 'prop_syringe_01',  PansexualPropBone = 18905,PropPlacement = {0.11, 0.03, 0.0, -124.0, 0.0, 0.0},}},
 ```
 
-if scully emotes do this in emotes.lua
+- if scully emotes do this in emotes.lua
 ```
 		{
 			Label = 'Uncuff',
