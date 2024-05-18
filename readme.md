@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://discord.gg/sAMzrB4DDx">
-    <img align="center" src="https://cdn.discordapp.com/attachments/1164709522691076120/1185676859363557457/Discord_logo.svg.png?ex=65907aa0&is=657e05a0&hm=dd2a8924c3a3d84507747ab2bac036e5fc219c697e084c9aa13ba468ff725bde&" width="100">
+    <img align="center" src="https://i.imgur.com/t65G9Z0.png" width="100">
   </a><br>
   <a href="https://discord.gg/sAMzrB4DDx">Mustache Scripts Discord</a><br>
 </div>
@@ -327,12 +327,11 @@ Optionals
 ![](https://cdn.discordapp.com/attachments/1164709522691076120/1185729686135910582/image.png?ex=6590abd2&is=657e36d2&hm=35c3b2d4f55473d65dd9197a69052b7ec7ac7b28528811f3f59d5f306b7237eb&)
 
 - **STEP 6**
-	- Head to `rpemotes/client/AnimationList.lua` search for **uncuff** if it's missing add it
- - OR your emote script and add
+ - Head to your emote script search for **uncuff** if it's missing add it
 if rp or dpemotes then do this 
 
 ```lua
-	["uncuff"] = {"mp_arresting","a_uncuff","Uncuff", AnimationOptions = {     EmoteLoop = true,     EmoteMoving = true } },
+["uncuff"] = {"mp_arresting","a_uncuff","Uncuff", AnimationOptions = {     EmoteLoop = true,     EmoteMoving = true } },
     ["edible"] = { "mp_player_inteat@burger", "mp_player_int_eat_burger", "edible",    AnimationOptions = {        EmoteLoop = false,        EmoteMoving = true    }},
     ["shootup"] = { "rcmpaparazzo1ig_4", "miranda_shooting_up", "Shoot Up",  AnimationOptions = {EmoteLoop = true,EmoteMoving = true,Prop = 'prop_syringe_01',  PansexualPropBone = 18905,PropPlacement = {0.11, 0.03, 0.0, -124.0, 0.0, 0.0},}},
 ```
@@ -391,8 +390,8 @@ then in prop emotes do
 
 - **STEP 7**
 	- check `qb-smallresources/config.lua` and if this exists, delete it 
-	```
-	 [2] = { --Coke Processing Enter/Exit
+```
+[2] = { --Coke Processing Enter/Exit
         [1] = {
             poly = { coords = vector3(909.49, -1589.22, 30.51), heading = 92.24, length = 2, width = 2 },
             allowVeh = false,
@@ -404,7 +403,7 @@ then in prop emotes do
             label = '[E] Leave'
         }
     }
-	```
+```
 	
 	
 	
@@ -427,21 +426,21 @@ then in prop emotes do
 	end)
 ```	
 - 
--	** IF YOU WANT TO USE THE TIER SYSTEM FOR COKE,CRACK, AND HEROIN **
+-	**IF YOU WANT TO USE THE TIER SYSTEM FOR COKE,CRACK, AND HEROIN**
 	search for 
 	```
 	 PlayerData.metadata['dealerrep'] = PlayerData.metadata['dealerrep'] or 0
 	```
-	IN PLAYERS.LUA in QB-CORE/Server/players.lua and add these directly below
+	IF YOUR QB-CORE IS FROM MAY 1ST OR BEFORE GO IN PLAYERS.LUA in QB-CORE/Server/players.lua and add these directly below
 	```
 		PlayerData.metadata['coke'] = PlayerData.metadata['coke'] or 0
 		PlayerData.metadata['heroin'] = PlayerData.metadata['heroin'] or 0
 		PlayerData.metadata['lsd'] = PlayerData.metadata['lsd'] or 0
 	```
 
- ** IF YOU HAVE THE LATEST QB-CORE THEY RECENTLY UPDATED HOW METADATA IS MADE
+ **IF YOU HAVE THE LATEST QB-CORE THEY RECENTLY UPDATED HOW METADATA IS MADE**
 
-go to the config of qb-core and search metadata, underneath crafting = 0, add this
+go to the config of qb-core and search metadata, underneath craftingrep = 0, add this
 ```
  	lsd = 0,
         coke = 0,
@@ -449,5 +448,4 @@ go to the config of qb-core and search metadata, underneath crafting = 0, add th
 ```
 	
 
-[mlo i use](https://www.gta5-mods.com/maps/mlo-4x-drug-lab-interiors-sp-fivem)
-^ heres an option. use it or dont. 
+[mlo i use](https://www.gta5-mods.com/maps/mlo-4x-drug-lab-interiors-sp-fivem) heres an option. use it or dont. 
