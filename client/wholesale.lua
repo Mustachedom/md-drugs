@@ -3,7 +3,7 @@ local miss = false
 local deliveryBlip = nil
 
 RegisterNetEvent("md-drugs:client:GetLocation", function(drug, notify)
-    if GetCops(Config.PoliceCount) then return end
+    if not GetCops(Config.PoliceCount) then return end
  if miss then
     Notify('Already Called Someone', 'error')
  else   
