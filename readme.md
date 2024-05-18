@@ -28,7 +28,8 @@
 - Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch.
 
 <h1>Special Thanks To Kamaryn For The Preview</h1>
-- Thanks to [Kamaryn]() for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd), join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
+- Thanks to Kamaryn for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd)
+- join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
 
 <h1>Dependencies</h1>
 - [Ox Lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0) 
