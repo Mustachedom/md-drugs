@@ -196,7 +196,7 @@ RegisterNetEvent("md-drugs:client:exchangepresses", function(data)
 end)
 
 RegisterNetEvent("md-drugs:client:buypress", function() 
-    local img = icon = GetImage('singlepress'),
+    local img = GetImage('singlepress'),
      lib.registerContext({
 	 id = 'buypresses',
 	 title = 'Purchase Presses',
