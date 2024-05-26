@@ -67,28 +67,28 @@ RegisterNetEvent("md-drugs:client:XTCMenu", function(type)
         title = 'XTC Menu',
         options = {
           {
-            icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['white_xtc'].image,
+            icon = GetImage('white_xtc'),
             title = 'White XTC',
             description = '1 X Raw XTC',
             event = "md-drugs:client:MakeXTC",
             args = { data = type, color = 'white'}
           },
           {
-            icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['red_xtc'].image,
+            icon = GetImage('red_xtc'),
             title = 'Red XTC',
             description = '1 X Raw XTC and 1 X Loose Coke',
             event = "md-drugs:client:MakeXTC",
             args = { data = type, color = 'red'}
           },
           {
-            icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['orange_xtc'].image,
+            icon = GetImage('orange_xtc'),
             title = 'Orange XTC',
             description = '1 X Raw XTC and 1 X Heroin Vial',
             event = "md-drugs:client:MakeXTC",
             args = { data = type, color = 'orange'}
           },
           {
-            icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['blue_xtc'].image,
+            icon = GetImage('blue_xtc'),
             title = 'Blue XTC',
             description = '1 X Raw XTC and 1 X Crack Rock',
             event = "md-drugs:client:MakeXTC",
