@@ -142,7 +142,7 @@ RegisterNetEvent("md-drugs:client:stampwhite", function(data)
     title = 'Stamp XTC Menu',
     options = {
       {
-        icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['white_xtc'].image,
+        icon = GetImage('white_xtc'),
         title = 'White XTC',
         onSelect = function()
             if not minigame(2, 8) then Notify(Lang.xtc.fail, "error") return end
@@ -151,7 +151,7 @@ RegisterNetEvent("md-drugs:client:stampwhite", function(data)
         end      
       },
       {
-        icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['red_xtc'].image,
+        icon = GetImage('red_xtc'),
         title = 'Red XTC',
         onSelect = function()
             if not minigame(2, 8) then Notify(Lang.xtc.fail, "error") return end
@@ -160,7 +160,7 @@ RegisterNetEvent("md-drugs:client:stampwhite", function(data)
         end
       },
       {
-        icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['orange_xtc'].image,
+        icon = GetImage('orange_xtc'),
         title = 'Orange XTC',
         onSelect = function()
             if not minigame(2, 8) then Notify(Lang.xtc.fail, "error") return end
@@ -169,7 +169,7 @@ RegisterNetEvent("md-drugs:client:stampwhite", function(data)
         end,
       },
       {
-        icon = 'nui://'..Config.imagelink..QBCore.Shared.Items['blue_xtc'].image,
+        icon = GetImage('blue_xtc'),
         title = 'Blue XTC',
         onSelect = function()
             if not minigame(2, 8) then Notify(Lang.xtc.fail, "error") return end
@@ -196,7 +196,7 @@ RegisterNetEvent("md-drugs:client:exchangepresses", function(data)
 end)
 
 RegisterNetEvent("md-drugs:client:buypress", function() 
-    local img = 'nui://' .. Config.imagelink .. QBCore.Shared.Items['singlepress'].image
+    local img = icon = GetImage('singlepress'),
      lib.registerContext({
 	 id = 'buypresses',
 	 title = 'Purchase Presses',
