@@ -19,14 +19,19 @@ local dispatch = Config.Dispatch
 		return true
 	  end
 	elseif progressbartype == 'qb' then
-		local test = false
+	local test = false
+		local cancelled = false
 	  QBCore.Functions.Progressbar("drink_something", text, time, false, true, { disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, disableInventory = true,
 	  }, {}, {}, {}, function()-- Done
 		test = true
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-	  end)
-	  Wait(time + 200)
-	  if test then return true else Wait(400) if test then return true end end 
+	  end, function()
+		cancelled = true
+	end)
+	  repeat 
+		Wait(100)
+	  until cancelled or test
+	  if test then return true end
 	else
 		print"dude, it literally tells you what you need to set it as in the config"
 	end	  
