@@ -142,11 +142,17 @@ end
 
 function GetCops(number)
 	if number == 0 then return true end
+	local need = false
+	local nope = false
 	QBCore.Functions.TriggerCallback('md-drugs:server:GetCoppers', function(amount)
-		
-		if amount >= number then return amount == true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error') end
+		if amount >= number then need = true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error') nope = true end
 	end)
+	repeat 
+		Wait(100)
+	until need or nope
+	if need then return true end
 end
+
 
 function GetImage(img)
 	if GetResourceState('ox_inventory') == 'started' then
