@@ -29,7 +29,7 @@ end
 function CheckDist(source,Player, coords)
     local pcoords = GetEntityCoords(Player)
     local ok 
-    if #(pcoords - coords) < 3.0 then
+    if #(pcoords - coords) < 4.0 then
         return ok
     else    
         DropPlayer(source, 'Too Far') return  end
