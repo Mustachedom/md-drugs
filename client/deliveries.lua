@@ -149,11 +149,7 @@ local function RequestDelivery()
                sender = QBConfig.Dealers[currentDealer]["name"],
                subject = "Delivery Location",
                message = "Deliver This For Me",
-               button = {
-                   enabled = true,
-                   buttonEvent = "md-drugs:client:setLocation",
-                   buttonData = waitingDelivery
-               }
+               
            })
         end)
         TriggerClientEvent("md-drugs:client:setLocation",waitingDelivery)
