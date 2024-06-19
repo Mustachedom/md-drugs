@@ -152,7 +152,7 @@ local function RequestDelivery()
                
            })
         end)
-        TriggerClientEvent("md-drugs:client:setLocation",waitingDelivery)
+        TriggerEvent("md-drugs:client:setLocation",waitingDelivery)
     else
         Notify(Lang.Delivery.busy, 'error')
     end
