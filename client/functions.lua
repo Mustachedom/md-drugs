@@ -157,7 +157,11 @@ end
 function GetImage(img)
 	if GetResourceState('ox_inventory') == 'started' then
 		local Items = exports['ox_inventory']:Items()
-		return Items[img]['client']['image'] or Items[img]
+		if Items[img]['client']['image'] == nil then 
+			return Items[img]
+		else
+			return Items[img]['client']['image']
+		end
 	elseif GetResourceState('ps-inventory') == 'started' then
 		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
 	elseif GetResourceState('lj-inventory') == 'started' then
