@@ -19,3 +19,6 @@ added option for minigames 'none' so its not required
 2 )small bug fixes in meth.lua client side
 3) small bug fixes in pharma.lua server side
 4) bug allowing to see target for drying weed when waiting for the weed to dry patched
+
+3.5.4 - > 3.5.5
+Updated small tweaks to client and server functions.lua
