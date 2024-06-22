@@ -378,8 +378,8 @@ then in prop emotes do
                     Bone = 18905,
                     Name = 'prop_syringe_01',
                     Placement = {
-                        vector3(0.11, 0.03, 0.0,),
-                        vector3( -124.0, 0.0, 0.0),
+                        vector3(0.11, 0.03, 0.0),
+                         vector3( -124.0, 0.0, 0.0),
                     },
                 },
             },
