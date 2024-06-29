@@ -10,11 +10,17 @@ local dispatch = Config.Dispatch
 	if progressbartype == 'oxbar' then 
 	  if lib.progressBar({ duration = time, label = text, useWhileDead = false, canCancel = true, disable = { car = true, move = true},}) then 
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
+		if GetResourceState('scully_emotemenu') == 'started' then
+			exports.scully_emotemenu:cancelEmote
+		end
 		return true
 	  end	 
 	elseif progressbartype == 'oxcir' then
 	  if lib.progressCircle({ duration = time, label = text, useWhileDead = false, canCancel = true, position = 'bottom', disable = { car = true,move = true},}) then 
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
+		if GetResourceState('scully_emotemenu') == 'started' then
+			exports.scully_emotemenu:cancelEmote
+		end	
 		return true
 	  end
 	elseif progressbartype == 'qb' then
@@ -24,8 +30,14 @@ local dispatch = Config.Dispatch
 	  }, {}, {}, {}, function()-- Done
 		test = true
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
+		if GetResourceState('scully_emotemenu') == 'started' then
+			exports.scully_emotemenu:cancelEmote
+		end
 	  end, function()
 		cancelled = true
+		if GetResourceState('scully_emotemenu') == 'started' then
+			exports.scully_emotemenu:cancelEmote
+		end
 	end)
 	  repeat 
 		Wait(100)
