@@ -5,13 +5,13 @@ local minigametype = Config.minigametype
 local notifytype = Config.Notify 
 local dispatch = Config.Dispatch
 
- function progressbar(text, time, anim)
+function progressbar(text, time, anim)
 	TriggerEvent('animations:client:EmoteCommandStart', {anim}) 
 	if progressbartype == 'oxbar' then 
 	  if lib.progressBar({ duration = time, label = text, useWhileDead = false, canCancel = true, disable = { car = true, move = true},}) then 
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
 		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote
+			exports.scully_emotemenu:cancelEmote()
 		end
 		return true
 	  end	 
@@ -19,7 +19,7 @@ local dispatch = Config.Dispatch
 	  if lib.progressCircle({ duration = time, label = text, useWhileDead = false, canCancel = true, position = 'bottom', disable = { car = true,move = true},}) then 
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
 		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote
+			exports.scully_emotemenu:cancelEmote()
 		end	
 		return true
 	  end
@@ -31,12 +31,12 @@ local dispatch = Config.Dispatch
 		test = true
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
 		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote
+			exports.scully_emotemenu:cancelEmote()
 		end
 	  end, function()
 		cancelled = true
 		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote
+			exports.scully_emotemenu:cancelEmote()
 		end
 	end)
 	  repeat 
