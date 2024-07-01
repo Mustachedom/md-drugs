@@ -83,8 +83,12 @@ end
 
 function ItemCheck(item)
 local success 
-if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-if QBCore.Functions.HasItem(item) then success = item return success else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
+if GetResourceState('ox_inventory') == 'started' then
+    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
+else
+    if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
+    if QBCore.Functions.HasItem(item) then success = item return success else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
+end
 end
 
 function Email(sender, subject, message)
