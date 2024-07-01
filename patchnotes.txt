@@ -22,3 +22,10 @@ added option for minigames 'none' so its not required
 
 3.5.4 - > 3.5.5
 Updated small tweaks to client and server functions.lua
+
+
+3.5.5 - > 3.5.6
+updated mainly client/server functions.lua to include a check for if using scully emotes then use the export to cancel emote once done with progressbar, added support for a few other inventories and dispatch
+
+added new item box events for additem and removeitem functions in the server/functions.lua
+I left the original itembox event in, if you dont use the old event it will just trigger to a blank event and the next event will trigger, its a duct tape backwards compat method
