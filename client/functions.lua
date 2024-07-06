@@ -198,3 +198,12 @@ function GetImage(img)
 		return "nui://core_inventory/html/img/".. QBCore.Shared.Items[img].image
 	end
 end
+
+function GetLabel(label)
+	if GetResourceState('ox_inventory') == 'started' then
+		local Items = exports['ox_inventory']:Items()
+		return Items[label]['label']
+	else
+		return QBCore.Shared.Items[label]['label']
+	end
+end
