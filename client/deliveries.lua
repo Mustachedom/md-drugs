@@ -42,7 +42,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
 			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
                           icon =  GetImage(v.name),
-                          title = QBCore.Shared.Items[v.name].label,
+                          title = GetLabel(v.name),
                           description = v.price,
                           event = "md-drugs:client:travellingmerchantox",
                           args = {
@@ -62,7 +62,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
 			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
             dealermenu[#dealermenu + 1] = {
                           icon =  GetImage(v.name),
-                          title = QBCore.Shared.Items[v.name].label,
+                          title = GetLabel(v.name),
                           description = v.price,
                           event = "md-drugs:client:travellingmerchantox",
                           args = {
