@@ -28,7 +28,7 @@ CreateThread(function()
 		ShopMenu[#ShopMenu + 1] = {
 			   icon =  GetImage(v.name),
 			    description = '$'.. v.price,
-				title = QBCore.Shared.Items[v.name].label,
+				title = GetLabel(v.name),
 				event = "md-drugs:client:travellingmerchantox",
 				args = {
 					item = v.name,
