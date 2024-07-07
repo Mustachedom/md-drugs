@@ -388,11 +388,10 @@ local WeedShop = {}
 local current = "u_m_m_jesus_01"
 
 	lib.requestModel(current, Config.RequestModelTime)
-	local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
-	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.h, false, false)
+	local CurrentLocation = Config.WeedSaleman
+	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
     FreezeEntityPosition(WeedGuy, true)
     SetEntityInvincible(WeedGuy, true)
-	SetEntityHeading(WeedGuy, 270.0)
 	exports['qb-target']:AddTargetEntity(WeedGuy, { 
         options = {
             {label = "Weed Shop",icon = "fas fa-eye",action = function() lib.showContext('WeedShop')end},
