@@ -86,10 +86,43 @@ end
     	end   
   end
 
+function GetImage(img)
+	if GetResourceState('ox_inventory') == 'started' then
+		local Items = exports['ox_inventory']:Items()
+		if Items[img]['client']['image'] == nil then 
+			return Items[img]
+		else
+			return Items[img]['client']['image']
+		end
+	elseif GetResourceState('ps-inventory') == 'started' then
+		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('lj-inventory') == 'started' then
+		return "nui://lj-inventory/html/images/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('qb-inventory') == 'started' then
+		return "nui://qb-inventory/html/images/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('qs-inventory') == 'started' then
+		return "nui://qs-inventory/html/img/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('origen_inventory') == 'started' then
+		return "nui://origen_inventory/html/img/".. QBCore.Shared.Items[img].image
+	elseif GetResourceState('core_inventory') == 'started' then
+		return "nui://core_inventory/html/img/".. QBCore.Shared.Items[img].image
+	end
+end
+
+function GetLabel(label)
+	if GetResourceState('ox_inventory') == 'started' then
+		local Items = exports['ox_inventory']:Items()
+		return Items[label]['label']
+	else
+		return QBCore.Shared.Items[label]['label']
+	end
+end
+
+
 function ItemCheck(item)
 local success 
 if GetResourceState('ox_inventory') == 'started' then
-    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
+    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') end
 else
     if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
     if QBCore.Functions.HasItem(item) then success = item return success else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
@@ -176,34 +209,3 @@ function GetCops(number)
 end
 
 
-function GetImage(img)
-	if GetResourceState('ox_inventory') == 'started' then
-		local Items = exports['ox_inventory']:Items()
-		if Items[img]['client']['image'] == nil then 
-			return Items[img]
-		else
-			return Items[img]['client']['image']
-		end
-	elseif GetResourceState('ps-inventory') == 'started' then
-		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('lj-inventory') == 'started' then
-		return "nui://lj-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('qb-inventory') == 'started' then
-		return "nui://qb-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('qs-inventory') == 'started' then
-		return "nui://qs-inventory/html/img/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('origen_inventory') == 'started' then
-		return "nui://origen_inventory/html/img/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('core_inventory') == 'started' then
-		return "nui://core_inventory/html/img/".. QBCore.Shared.Items[img].image
-	end
-end
-
-function GetLabel(label)
-	if GetResourceState('ox_inventory') == 'started' then
-		local Items = exports['ox_inventory']:Items()
-		return Items[label]['label']
-	else
-		return QBCore.Shared.Items[label]['label']
-	end
-end
