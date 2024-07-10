@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, statval, item)
-	if not progressbar(progresstext .. QBCore.Shared.Items[item].label .. "!", time, anim ) then return end
+	if not progressbar(progresstext .. GetLabel(item).. "!", time, anim ) then return end
 	TriggerServerEvent('md-drugs:server:removeconsum', item)
 	if status == "armor" then 
 		TriggerServerEvent('hospital:server:SetArmor', statval)
