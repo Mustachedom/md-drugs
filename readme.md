@@ -39,8 +39,6 @@
   
 - emote script that uses the animations event (rpemotes, dpemotes, scully emotes all work)
 
-
-
 - GAME BUILD 2944 OR LATER
 
 
@@ -48,6 +46,9 @@
 <h1>Preview</h1>
 
 - [Preview link](https://www.youtube.com/watch?v=I_x7_oz_SAU)
+- **Preview**
+
+![](https://cdn.discordapp.com/attachments/1164709522691076120/1185729686135910582/image.png?ex=6590abd2&is=657e36d2&hm=35c3b2d4f55473d65dd9197a69052b7ec7ac7b28528811f3f59d5f306b7237eb&)
 
 <h1>How to install like a fuckin boss</h1>
 
@@ -64,37 +65,8 @@
 	-  Inside the config file change **all** the locations for everything.
 		- **ps:  All locations have been changed to make a preview video easier and with how big of a script this is, Im not going to config it for every city. THESE LOCATION DO NOT DO WELL FOR A LIVE SERVER SO CHANGE THEM**
 
+
 - **STEP 4**
-
-	- head to `qb-radial/config.lua` and search for the following event
-```lua
-     event = 'qb-drugs:client:cornerselling',
-```
-![](https://cdn.discordapp.com/attachments/1164709522691076120/1185724912648867940/image.png?ex=6590a760&is=657e3260&hm=51534201d8d3e71f79a5c1678879ed8423f381a4a31c62f1bce6caf73782abe0&)
-
-```lua
-     event = 'md-drugs:client:cornerselling',
-```
-
-![](https://cdn.discordapp.com/attachments/1164709522691076120/1185725132975644753/image.png?ex=6590a795&is=657e3295&hm=97d7f60ec6c4508af92f758c00669b1d52fe673c6481434b586f81cf29c1f292&)
-
-
-
-- **STEP 5**
-
-	- Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to OR anywhere else you want them. The Only way in this script to get them is to find the travelling merchant
-
-```lua
-	{name = 'bakingsoda',   price = 100,   amount = 5000, info = {}, type = 'item'},
-	{name = 'emptyvial',    price = 100,   amount = 5000, info = {}, type = 'item'},
-	{name = 'needle',    	price = 100,   amount = 5000, info = {}, type = 'item'},
-```
-
-- **Preview**
-
-![](https://cdn.discordapp.com/attachments/1164709522691076120/1185729686135910582/image.png?ex=6590abd2&is=657e36d2&hm=35c3b2d4f55473d65dd9197a69052b7ec7ac7b28528811f3f59d5f306b7237eb&)
-
-- **STEP 6**
  - Head to your emote script search for **uncuff** if it's missing add it
  - if rp or dpemotes then do this 
 
@@ -156,7 +128,7 @@ then in prop emotes do
     },
 ```
 
-- **STEP 7**
+- **STEP 5**
 	- check `qb-smallresources/config.lua` and if this exists, delete it 
 ```
 [2] = { --Coke Processing Enter/Exit
@@ -176,6 +148,16 @@ then in prop emotes do
 	
 	
 -- **OPTIONAL STEPS**
+- **For Qb-shops users**
+
+	- Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to OR anywhere else you want them. The Only way in this script to get them is to find the travelling merchant
+
+```lua
+	{name = 'bakingsoda',   price = 100,   amount = 5000, info = {}, type = 'item'},
+	{name = 'emptyvial',    price = 100,   amount = 5000, info = {}, type = 'item'},
+	{name = 'needle',    	price = 100,   amount = 5000, info = {}, type = 'item'},
+```
+
 
 - **for qb-adminmenu users** 
 
