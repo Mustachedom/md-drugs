@@ -191,7 +191,7 @@ local function SetMapBlip(x, y)
     Notify(Lang.Delivery.found, 'success');
 end
 
--- PolyZone specific functions
+
 
 
 function InitZones()
@@ -203,10 +203,7 @@ function InitZones()
          while not HasModelLoaded(Ped) do
              Wait(0)
          end
-         
          testdealer = CreatePed(0, Ped,v.coords.x,v.coords.y,v.coords.z-1, 90.0, false, false)
-       --   FreezeEntityPosition(testdealer, true)
-      --   SetEntityInvincible(testdealer, true)
          Freeze(testdealer, true, 90)
            exports["qb-target"]:AddBoxZone("dealer_"..k, vector3(v.coords.x, v.coords.y, v.coords.z), 1.5, 1.5, {
              name = "dealer_"..k,
