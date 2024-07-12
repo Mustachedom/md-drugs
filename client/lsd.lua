@@ -16,8 +16,6 @@ CreateThread(function()
 local Ped = "g_m_y_famdnf_01"
 	lib.requestModel(Ped, Config.RequestModelTime)
 	local tabdealer = CreatePed(0, Ped,Config.buylsdlabkit.x,Config.buylsdlabkit.y,Config.buylsdlabkit.z-1, Config.buylsdlabkit.w, false, false)
-   -- FreezeEntityPosition(tabdealer, true)
-   -- SetEntityInvincible(tabdealer, true)
     Freeze(tabdealer, true, Config.buylsdlabkit.w)
     local options = {
         { type = "client", label = "Buy LSD Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buylabkit", distance = 2.0}
