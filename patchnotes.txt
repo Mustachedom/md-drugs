@@ -29,3 +29,10 @@ updated mainly client/server functions.lua to include a check for if using scull
 
 added new item box events for additem and removeitem functions in the server/functions.lua
 I left the original itembox event in, if you dont use the old event it will just trigger to a blank event and the next event will trigger, its a duct tape backwards compat method
+
+3.5.6 - > 3.5.7
+
+added a couple new functions to cut back on repeating natives needed ( Freeze() ) will now set an entitys heading, block temp events, freeze, and set invincible)
+added better calls for GetImage and GetLabel for ox inventory
+converted all callbacks to lib.callback to increase optimization
+should be fully compatible with qbx without needing to make a couple edits now
