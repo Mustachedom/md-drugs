@@ -179,7 +179,7 @@ Config.Items = { --- this is the store for the travelling merchant
 		[4] = {name = "mdp2p", 			 price = 25, 	amount = 50, 	},
 		[5] = {name = "lysergic_acid",   price = 25, 	amount = 50, 	},
 		[6] = {name = "diethylamide",    price = 25, 	amount = 50, 	},
-		[7] = {name = "empty_weed_bag",  price = 2, 	amount = 1000, 	},
+		[7] = {name = "lockpick",  price = 2, 	amount = 1000, 	},
 		[8] = {name = "emptyvial", 		 price = 2, 	amount = 1000, 	},
 		[9] = {name = "needle", 		 price = 2, 	amount = 1000,	},
 		[10] = {name = "cokeburner", 	 price = 25, 	amount = 50, 	},

@@ -16,9 +16,10 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
     --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not shrooms[loc] then
         shrooms[loc] = CreateObject(hash, v.location, false, true, true)
-        SetEntityAsMissionEntity(shrooms[loc], true, true)
-        FreezeEntityPosition(shrooms[loc], true)
-        SetEntityHeading(shrooms[loc], v.heading)
+      -- SetEntityAsMissionEntity(shrooms[loc], true, true)
+      -- FreezeEntityPosition(shrooms[loc], true)
+      -- SetEntityHeading(shrooms[loc], v.heading)
+        Freeze(shrooms[loc], true, v.heading)
         exports['qb-target']:AddTargetEntity(shrooms[loc], {
             options = { { icon = "fas fa-hand", label = "pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  TriggerServerEvent("shrooms:pickupCane", loc) end }
         },
@@ -63,9 +64,10 @@ end)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             shrooms[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
-            SetEntityAsMissionEntity(shrooms[k], true, true)
-            FreezeEntityPosition(shrooms[k], true)
-            SetEntityHeading(shrooms[k], v.heading)
+           --SetEntityAsMissionEntity(shrooms[k], true, true)
+           --FreezeEntityPosition(shrooms[k], true)
+           --SetEntityHeading(shrooms[k], v.heading)
+            Freeze(shrooms[k], true, v.heading)
             exports['qb-target']:AddTargetEntity(shrooms[k], {
                 options = { { icon = "fas fa-hand", label = "Pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end     TriggerServerEvent("shrooms:pickupCane", k) end }
             },

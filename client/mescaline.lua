@@ -14,9 +14,10 @@ RegisterNetEvent('Mescaline:respawnCane', function(loc)
     local hash = GetHashKey(v.model)
     if not Mescaline[loc] then
         Mescaline[loc] = CreateObject(hash, v.location, false, true, true)
-        SetEntityAsMissionEntity(Mescaline[loc], true, true)
-        FreezeEntityPosition(Mescaline[loc], true)
-        SetEntityHeading(Mescaline[loc], v.heading)
+       --SetEntityAsMissionEntity(Mescaline[loc], true, true)
+       --FreezeEntityPosition(Mescaline[loc], true)
+       --SetEntityHeading(Mescaline[loc], v.heading)
+        Freeze(Mescaline[loc], true, v.heading)
         exports['qb-target']:AddTargetEntity(Mescaline[loc], {
         options = { 
             {icon = "fas fa-hand",label = "pick Cactus",action = function()    if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end    TriggerServerEvent("Mescaline:pickupCane", loc)end}
@@ -41,9 +42,10 @@ RegisterNetEvent("Mescaline:init", function()
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             Mescaline[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
-            SetEntityAsMissionEntity(Mescaline[k], true, true)
-            FreezeEntityPosition(Mescaline[k], true)
-            SetEntityHeading(Mescaline[k], v.heading)
+            --SetEntityAsMissionEntity(Mescaline[k], true, true)
+            --FreezeEntityPosition(Mescaline[k], true)
+            --SetEntityHeading(Mescaline[k], v.heading)
+            Freeze(Mescaline[k], true, v.heading)
             exports['qb-target']:AddTargetEntity(Mescaline[k], {
                 options = { { icon = "fas fa-hand", label = "Pick Mescaline", action = function()  if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end  TriggerServerEvent("Mescaline:pickupCane", k) end}
             },

@@ -16,8 +16,9 @@ local Ped = "g_m_y_famdnf_01"
 	lib.requestModel("g_m_y_famdnf_01", Config.RequestModelTime)
 	local labkitlocation = Config.buyheroinlabkit
 	local heroinkitdealer = CreatePed(0, Ped, labkitlocation.x, labkitlocation.y, labkitlocation.z-1, labkitlocation.w, false, false)
-    FreezeEntityPosition(heroinkitdealer, true)
-    SetEntityInvincible(heroinkitdealer, true)
+   -- FreezeEntityPosition(heroinkitdealer, true)
+   -- SetEntityInvincible(heroinkitdealer, true)
+    Freeze(heroinkitdealer, true, labkitlocation.w)
     local options = {
         { label = "Buy Heroin Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buyheroinlabkit", distance = 2.0},
     } 
@@ -35,9 +36,10 @@ RegisterNetEvent('heroin:respawnCane', function(loc)
     --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not PoppyPlants[loc] then
         PoppyPlants[loc] = CreateObject(hash, v.location, false, true, true)
-        SetEntityAsMissionEntity(PoppyPlants[loc], true, true)
-        FreezeEntityPosition(PoppyPlants[loc], true)
-        SetEntityHeading(PoppyPlants[loc], v.heading)
+       -- SetEntityAsMissionEntity(PoppyPlants[loc], true, true)
+       -- FreezeEntityPosition(PoppyPlants[loc], true)
+       -- SetEntityHeading(PoppyPlants[loc], v.heading)
+        Freeze(PoppyPlants[loc], true, v.heading)
         exports['qb-target']:AddTargetEntity(PoppyPlants[loc], {
             options = { {
                     icon = "fas fa-hand",
@@ -68,9 +70,10 @@ RegisterNetEvent("heroin:init", function()
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             PoppyPlants[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
-            SetEntityAsMissionEntity(PoppyPlants[k], true, true)
-            FreezeEntityPosition(PoppyPlants[k], true)
-            SetEntityHeading(PoppyPlants[k], v.heading)
+           -- SetEntityAsMissionEntity(PoppyPlants[k], true, true)
+           -- FreezeEntityPosition(PoppyPlants[k], true)
+           -- SetEntityHeading(PoppyPlants[k], v.heading)
+            Freeze(PoppyPlants[k], true, v.heading)
             exports['qb-target']:AddTargetEntity(PoppyPlants[k], {
                 options = { {
                         icon = "fas fa-hand",

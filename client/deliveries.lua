@@ -205,8 +205,9 @@ function InitZones()
          end
          
          testdealer = CreatePed(0, Ped,v.coords.x,v.coords.y,v.coords.z-1, 90.0, false, false)
-          FreezeEntityPosition(testdealer, true)
-         SetEntityInvincible(testdealer, true)
+       --   FreezeEntityPosition(testdealer, true)
+      --   SetEntityInvincible(testdealer, true)
+         Freeze(testdealer, true, 90)
            exports["qb-target"]:AddBoxZone("dealer_"..k, vector3(v.coords.x, v.coords.y, v.coords.z), 1.5, 1.5, {
              name = "dealer_"..k,
              heading = v.heading,
@@ -310,9 +311,7 @@ RegisterNetEvent('md-drugs:client:setLocation', function(locationData)
      end
      
      Buyer = CreatePed(0, Ped,activeDelivery["coords"].x, activeDelivery["coords"].y, activeDelivery["coords"].z-1, 180.0, false, false)
-     FreezeEntityPosition(Buyer, true)
-    SetEntityInvincible(Buyer, true)
-    
+        Freeze(Buyer, true, 180)
        exports['qb-target']:AddTargetEntity(Buyer, {
             options = {
                 {

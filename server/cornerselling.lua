@@ -3,7 +3,7 @@ local StolenDrugs = {}
 
 
 
-QBCore.Functions.CreateCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(source, cb)
+lib.callback.register('md-drugs:server:cornerselling:getAvailableDrugs', function(source, cb)
     local AvailableDrugs = {}
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return nil end
@@ -12,12 +12,11 @@ QBCore.Functions.CreateCallback('md-drugs:server:cornerselling:getAvailableDrugs
         local item = Player.Functions.GetItemByName(k)
         if item and type == 0 then
             type = type + 1
-            cb(item.name, item.amount)
+            return item.name, item.amount
         end
     end
     if type == 0 then 
-        print(type)
-        cb('nothing', 0)
+        return 'nothing', 0
     end
 end)
 

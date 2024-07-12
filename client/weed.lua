@@ -16,9 +16,10 @@ RegisterNetEvent('weed:respawnCane', function(loc)
     if not HasModelLoaded(hash) then LoadModel(hash) end
     if not WeedPlant[loc] then
         WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
-        SetEntityAsMissionEntity(WeedPlant[loc], true, true)
-        FreezeEntityPosition(WeedPlant[loc], true)
-        SetEntityHeading(WeedPlant[loc], v.heading)
+      --SetEntityAsMissionEntity(WeedPlant[loc], true, true)
+      --FreezeEntityPosition(WeedPlant[loc], true)
+      --SetEntityHeading(WeedPlant[loc], v.heading)
+		Freeze(WeedPlant[loc],true,  v.heading)
          exports['qb-target']:AddTargetEntity(WeedPlant[loc], {
             options = { 
 				{
@@ -51,9 +52,10 @@ RegisterNetEvent("weed:init", function()
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
-            SetEntityAsMissionEntity(WeedPlant[k], true, true)
-            FreezeEntityPosition(WeedPlant[k], true)
-            SetEntityHeading(WeedPlant[k], v.heading)
+           --SetEntityAsMissionEntity(WeedPlant[k], true, true)
+           --FreezeEntityPosition(WeedPlant[k], true)
+           --SetEntityHeading(WeedPlant[k], v.heading)
+			Freeze(WeedPlant[k],true,  v.heading)
             exports['qb-target']:AddTargetEntity(WeedPlant[k], {
                 options = { 
 					{
@@ -390,8 +392,9 @@ local current = "u_m_m_jesus_01"
 	lib.requestModel(current, Config.RequestModelTime)
 	local CurrentLocation = Config.WeedSaleman
 	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
-    FreezeEntityPosition(WeedGuy, true)
-    SetEntityInvincible(WeedGuy, true)
+   --FreezeEntityPosition(WeedGuy, true)
+   --SetEntityInvincible(WeedGuy, true)
+	Freeze(WeedGuy, true, CurrentLocation.w)
 	exports['qb-target']:AddTargetEntity(WeedGuy, { 
         options = {
             {label = "Weed Shop",icon = "fas fa-eye",action = function() lib.showContext('WeedShop')end},

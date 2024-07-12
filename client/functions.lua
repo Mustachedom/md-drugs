@@ -89,10 +89,14 @@ end
 function GetImage(img)
 	if GetResourceState('ox_inventory') == 'started' then
 		local Items = exports['ox_inventory']:Items()
-		if Items[img]['client']['image'] == nil then 
-			return Items[img]
+		if Items[img]['client'] then 
+			if Items[img]['client']['image'] then
+				return Items[img]['client']['image']
+			else
+				return "nui://ox_inventory/web/images/".. img.. '.png'
+			end
 		else
-			return Items[img]['client']['image']
+			return "nui://ox_inventory/web/images/".. img.. '.png'
 		end
 	elseif GetResourceState('ps-inventory') == 'started' then
 		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
@@ -197,15 +201,15 @@ end
 
 function GetCops(number)
 	if number == 0 then return true end
-	local need = false
-	local nope = false
-	QBCore.Functions.TriggerCallback('md-drugs:server:GetCoppers', function(amount)
-		if amount >= number then need = true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error') nope = true end
-	end)
-	repeat 
-		Wait(100)
-	until need or nope
-	if need then return true end
+	local amount = lib.callback.await('md-drugs:server:GetCoppers', false)
+	if amount >= number then return true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
 end
 
 
+function Freeze(entity, toggle, head)
+		SetEntityInvincible(entity, toggle)
+		SetEntityAsMissionEntity(entity, toggle, toggle)
+        FreezeEntityPosition(entity, toggle)
+        SetEntityHeading(entity, head)
+		SetBlockingOfNonTemporaryEvents(entity, toggle)
+end

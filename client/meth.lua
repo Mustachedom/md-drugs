@@ -197,9 +197,10 @@ else
 	lib.requestModel(current, Config.RequestModelTime)
 	local CurrentLocation = Config.MethHeistStart
 	local methdealer = CreatePed(0, current, CurrentLocation.x, CurrentLocation.y, CurrentLocation.z - 1, false, false)
-	FreezeEntityPosition(methdealer, true)
-	SetEntityHeading(methdealer, 220.0)
-	SetEntityInvincible(methdealer, true)
+	--FreezeEntityPosition(methdealer, true)
+	--SetEntityHeading(methdealer, 220.0)
+	--SetEntityInvincible(methdealer, true)
+	Freeze(methdealer, true, 220.0)
 	exports['qb-target']:AddTargetEntity(methdealer, {
 		options = {
 			{

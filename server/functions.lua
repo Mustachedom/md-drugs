@@ -13,6 +13,18 @@ function Notifys(text, type)
     end    
 end    
 
+function checkTable(player, table)
+	local need = 0
+	local have = 0
+	for k, v in pairs (table) do 
+		need = need + 1
+		if Itemcheck(player, k, v, 'true') then have = have + 1  end
+	end
+	if need == have then
+		return true
+	else
+	end
+end
 function Itemcheck(Player, item, amount, notify) 
     local itemchecks = Player.Functions.GetItemByName(item)
     local yes
@@ -53,7 +65,18 @@ function AddItem(item, amount)
     end
 end
 
-QBCore.Functions.CreateCallback('md-drugs:server:GetCoppers', function(source, cb, args)
+--QBCore.Functions.CreateCallback('md-drugs:server:GetCoppers', function(source, cb, args)
+--    local amount = 0
+--    local players = QBCore.Functions.GetQBPlayers()
+--    for k, v in pairs(players) do
+--         if v.PlayerData.job.type == 'leo' and v.PlayerData.job.onduty then
+--          amount = amount + 1
+--         end
+--    end
+--    cb(amount)
+--end)
+
+lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
     local amount = 0
     local players = QBCore.Functions.GetQBPlayers()
     for k, v in pairs(players) do
@@ -61,9 +84,15 @@ QBCore.Functions.CreateCallback('md-drugs:server:GetCoppers', function(source, c
           amount = amount + 1
          end
     end
-    cb(amount)
+   return amount
 end)
 
+lib.addCommand('cornersell', {
+    help = 'Start/Stop Cornerselling',
+    restricted = 'group.admin'
+}, function(source, args, raw)
+    TriggerClientEvent('md-drugs:client:cornerselling',source)
+end)
 
 CreateThread(function()
     if not GetResourceState('ox_lib'):find("start") then 

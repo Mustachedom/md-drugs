@@ -5,8 +5,9 @@ local current = "g_m_y_famdnf_01"
 	lib.requestModel(current, Config.RequestModelTime)
 	local CurrentLocation = Config.Travellingmerchant[math.random(#Config.Travellingmerchant)]
 	local travellingmerchant = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
-    FreezeEntityPosition(travellingmerchant, true)
-    SetEntityInvincible(travellingmerchant, true)
+    --FreezeEntityPosition(travellingmerchant, true)
+    --SetEntityInvincible(travellingmerchant, true)
+	Freeze(travellingmerchant, true, CurrentLocation.w)
 	if Config.oxtarget then
 		local options = {
 			{ label = "Travelling Merchant", icon = "fas fa-eye", onSelect = function() 	lib.showContext('travellingmerchant') end},
