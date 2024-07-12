@@ -6,12 +6,8 @@ local baggingcoke = nil
 RegisterNetEvent('coke:respawnCane', function(loc)
     local v = GlobalState.CocaPlant[loc]
     local hash = GetHashKey(v.model)
-    --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
-       -- SetEntityAsMissionEntity(CocaPlant[loc], true, true)
-       -- FreezeEntityPosition(CocaPlant[loc], true)
-       -- SetEntityHeading(CocaPlant[loc], v.heading)
        Freeze(CocaPlant[loc], true, v.heading)
         exports['qb-target']:AddTargetEntity(CocaPlant[loc], {
             options = { {
@@ -39,9 +35,6 @@ RegisterNetEvent("coke:init", function()
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
-           -- SetEntityAsMissionEntity(CocaPlant[k], true, true)
-           -- FreezeEntityPosition(CocaPlant[k], true)
-           -- SetEntityHeading(CocaPlant[k], v.heading)
             Freeze(CocaPlant[k], true, v.heading)
             exports['qb-target']:AddTargetEntity(CocaPlant[k], {
                 options = { {
