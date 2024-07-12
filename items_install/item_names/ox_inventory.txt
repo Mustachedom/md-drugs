@@ -9,6 +9,16 @@
             image = "coke.png",
         }
     },
+    ["empty_weed_bag"] = {
+        label = "Empty Bag",
+        weight = 1000,
+        stack = false,
+        close = false,
+        description = "Empty Bag To Put Product In",
+        client = {
+            image = "weed_baggy_empty.png",
+        }
+    },
     ["coca_leaf"] = {
         label = "Cocaine leaves",
         weight = 1500,
