@@ -52,13 +52,10 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
     	AddTextComponentSubstringPlayerName("drug Meet")
     	EndTextCommandSetBlipName(deliveryBlip)
     	SetBlipRoute(deliveryBlip, true)
-		local current = "g_m_y_famdnf_01"
-		lib.requestModel(current, Config.RequestModelTime)
+	local current = "g_m_y_famdnf_01"
+	lib.requestModel(current, Config.RequestModelTime)
     	local oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
-		--SetEntityHeading(oxybuyer, 180)
-    	--FreezeEntityPosition(oxybuyer, true)
-    	--SetEntityInvincible(oxybuyer, true)
-		Freeze(oxybuyer, true, CurrentLocation.w)
+	Freeze(oxybuyer, true, CurrentLocation.w)
 	repeat
 		Wait(1000)
 	until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
