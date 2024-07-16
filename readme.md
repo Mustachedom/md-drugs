@@ -150,16 +150,16 @@ then in prop emotes do
 -- **OPTIONAL STEPS**
 
 - <h1>Fivemerr Logging</h1>
-	If you want to use the Fivemerr Logging it is very very simple. Create an account with fivemerr ( its free so like why arent you using it) [fivemerr](https://fivemerr.com/) 
-	go to server/functions.lua and on line 3 turn it to true
+   If you want to use the Fivemerr Logging it is very very simple. Create an account with fivemerr ( its free so like why arent you using it) [fivemerr](https://fivemerr.com/) 
+   go to server/functions.lua and on line 3 turn it to true
 	add this to your server.cfg
-	```
-		set fivemerrLogs "API_KEY"
+	```lua
+	set fivemerrLogs "API_KEY"
 	```
 	badabing badaboop your logs will pop up in fivemerr
 
 
-- **Radial Menu**
+- <h1>Radial Menu </h1>
 	- head to `qb-radial/config.lua` and search for the following event
 ```lua
      event = 'qb-drugs:client:cornerselling',
@@ -182,37 +182,19 @@ or just use the command /cornersell
 	{name = 'needle',    	price = 100,   amount = 5000, info = {}, type = 'item'},
 ```
 
-
-- **for qb-adminmenu users** 
-
-	- head to `qb-adminmenu/server/server.lua` search for the following callback
-
-```lua
-	QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
-		cb(exports['qb-drugs']:GetDealers())
-	end)
-```
-- and replace it with this
-
-```lua
-	QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
-		cb(exports['md-drugs']:GetDealers())
-	end)
-```	
-- 
--	**IF YOU WANT TO USE THE TIER SYSTEM FOR COKE,CRACK, AND HEROIN**
-	search for 
+- <h1>Tier System</h1>
+	Check Players.lua in the server folder of QB-Core. IF see
 	```
 	 PlayerData.metadata['dealerrep'] = PlayerData.metadata['dealerrep'] or 0
 	```
-	IF YOUR QB-CORE IS FROM MAY 1ST OR BEFORE GO IN PLAYERS.LUA in QB-CORE/Server/players.lua and add these directly below
+ 	Then Place This directly under it
 	```
 		PlayerData.metadata['coke'] = PlayerData.metadata['coke'] or 0
 		PlayerData.metadata['heroin'] = PlayerData.metadata['heroin'] or 0
 		PlayerData.metadata['lsd'] = PlayerData.metadata['lsd'] or 0
 	```
 
- **IF YOU HAVE THE LATEST QB-CORE THEY RECENTLY UPDATED HOW METADATA IS MADE**
+ **IF YOU DONT SEE THE ABOVE THEN GO TO THE CONFIG OF QB-Core**
 
 go to the config of qb-core and search metadata, underneath armor = 0, add this
 ```
