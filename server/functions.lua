@@ -20,7 +20,7 @@ else
     print'^1 logs disabled for md-drugs'
 end
 end)
-function Log(message, meta, type)
+function Log(message, type)
 if logs == false then return end	
     local buffer = {
         level = "info",
