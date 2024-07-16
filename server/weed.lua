@@ -16,6 +16,7 @@ function WeedCooldown(loc)
         GlobalState.WeedPlant = Config.WeedPlant
         Wait(1000)
         TriggerClientEvent('weed:respawnCane', -1, loc)
+		Log('Weed Plant Respawned At ' .. Config.WeedPlant[loc].location, 'weed')
     end)
 end
 
@@ -30,6 +31,8 @@ AddEventHandler("weed:pickupCane", function(loc)
         WeedCooldown(loc)
         local Player = QBCore.Functions.GetPlayer(source)
         AddItem('wetcannabis', 1)
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Picked Weed With a distance of ' .. dist(source, playerPed, Config.WeedPlant[loc].location) .. ' vectors', 'weed')
+    
     end
 end)
 --------------- events
@@ -38,6 +41,7 @@ RegisterServerEvent('md-drugs:server:dryoutweed', function()
     local Player = QBCore.Functions.GetPlayer(src)
 	if RemoveItem("wetcannabis", 1) then
     	AddItem("drycannabis", 1)
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Dried Weed', 'weed')
     else
 		Notifys(Lang.Weed.nodry, "error")
 	end
@@ -56,6 +60,7 @@ RegisterServerEvent('md-drugs:server:makebutter', function()
 	  RemoveItem('mdbutter', 1) 
 	  RemoveItem('grindedweed', 1) 
 	  AddItem('cannabutter', 1 )
+	  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Canna Butter ', 'weed')
 	end	
 end)
 
@@ -73,6 +78,7 @@ RegisterServerEvent('md-drugs:server:makebrownies', function()
 		RemoveItem('flour', 1)
 		RemoveItem('chocolate', 1)
 		AddItem('specialbrownie', 1 )
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Special Brownies ', 'weed')
 	end
 end)
 
@@ -88,6 +94,7 @@ RegisterServerEvent('md-drugs:server:makecookies', function()
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialcookie', 1 ) 
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Special Cookies ', 'weed')
 	end
 end)
 
@@ -103,6 +110,7 @@ RegisterServerEvent('md-drugs:server:makechocolate', function()
 		RemoveItem('cannabutter', 1)
 		RemoveItem('chocolate', 1)
 		AddItem('specialchocolate', 1 ) 
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Special Chocolate ', 'weed')
 	end
 end)
 
@@ -118,6 +126,7 @@ RegisterServerEvent('md-drugs:server:makemuffin', function()
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialmuffin', 1 )
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Special Muffin ', 'weed')
 	end
 end)
 
@@ -133,6 +142,7 @@ RegisterServerEvent('md-drugs:server:makeoil', function()
 		RemoveItem('butane', 1)
 		RemoveItem('grindedweed', 1)
 		AddItem('shatter', 1 )
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Shatter ', 'weed')
 	end	
 end)
 
@@ -151,6 +161,7 @@ RegisterServerEvent('md-drugs:server:rollblunt', function()
  	 	RemoveItem('bluntwrap', 1)
   		RemoveItem('grindedweed', 1)
 		AddItem('blunt', 1 )
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Rolled A Blunt ', 'weed')
 	end	
 end)
 
@@ -167,6 +178,7 @@ RegisterServerEvent('md-drugs:server:rollleanblunt', function()
 	  TriggerClientEvent("md-drugs:client:rollanim", src)
 		RemoveItem("bluntwrap", 1)
 		AddItem("leanbluntwrap", 1)
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Rolled A Lean Blunt ', 'weed')
 	if chance > 8 then
 		RemoveItem("mdlean", 1)
 	end
@@ -187,6 +199,7 @@ RegisterServerEvent('md-drugs:server:rolldextroblunt', function()
 	RemoveItem("bluntwrap", 1)
 	AddItem("dextrobluntwrap", 1)
 	TriggerClientEvent("md-drugs:client:rollanim", src)
+	Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Rolled A Dextro Blunt ', 'weed')
 	if chance > 8 then
 		Player.Functions.RemoveItem("mdreddextro", 1)
 	end	
@@ -207,6 +220,8 @@ RegisterServerEvent('md-drugs:server:rollchewyblunt', function()
 		RemoveItem("grindedweed", 1)
 		AddItem("chewyblunt", 1)
 		TriggerClientEvent("md-drugs:client:rollanim", src)
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Rolled A Chewy Blunt ', 'weed')
+		
 	end
 end)
 ------------------------ usuable items
@@ -223,6 +238,7 @@ local keef = Player.Functions.GetItemByName("grindedweed")
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['leanblunts'], "add", 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['grindedweed'], "remove", 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['leanbluntwrap'], "remove", 1)
+			
 		end
 	else
 		Notifys(Lang.Weed.noweed, "error")

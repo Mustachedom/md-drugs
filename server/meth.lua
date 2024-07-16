@@ -7,6 +7,7 @@ RegisterServerEvent('md-drugs:server:startcook', function()
 	Notifys("Adding Things To The Mix", "success")
 	RemoveItem('ephedrine', 1)
 	RemoveItem('acetone', 1)
+	Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Started A Meth Batch', 'Meth')
 end)
 
 RegisterServerEvent('md-drugs:server:givemethingridients', function()
@@ -17,11 +18,12 @@ RegisterServerEvent('md-drugs:server:givemethingridients', function()
 	if chance <= 50 then 
 		if AddItem('ephedrine', amount) then
 			Notifys(Lang.meth.eph, "success")
-			
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. amount .. ' Of Ephedrine', 'Meth')
 		end
 	else
 		if AddItem('acetone', amount) then
 			Notifys(Lang.meth.ace, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. amount .. ' Of Acetone', 'Meth')
 		end
 	end	
 end)
@@ -34,6 +36,7 @@ RegisterServerEvent('md-drugs:server:getmeth', function()
   if RemoveItem("empty_weed_bag", amount) then
 		AddItem("methbags", amount)
 		Notifys("You Made " .. amount .. " Bags Of Meth!", "success")
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged ' .. amount .. 'Of Meth', 'Meth')
 	else
 		Notifys(Lang.meth.nobag, "error")
 	end
@@ -46,6 +49,7 @@ RegisterServerEvent('md-drugs:server:geteph', function(num)
 		if CheckDist(source, playerPed, Config.MethEph[num]['loc']) then return end
 		if AddItem('ephedrine', 1) then
 			Notifys('Got Ephedrine!', "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. 1 .. 'Of Ephedrine', 'Meth')
 		end
 end)
 	
@@ -55,6 +59,7 @@ RegisterServerEvent('md-drugs:server:getace', function(num)
 	local playerPed = GetPlayerPed(source)
 		if CheckDist(source, playerPed, Config.Methace[num]['loc']) then return end
 		if AddItem('acetone', 1) then
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. 1 .. 'Of Acetone', 'Meth')
 			Notifys('Got Acetone!', "success")
 		end
 end)

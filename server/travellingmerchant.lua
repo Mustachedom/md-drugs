@@ -7,6 +7,7 @@ RegisterServerEvent("md-drugs:server:travellingmerchantox", function(amount, mon
 	if Player.Functions.RemoveMoney(tostring(money), tonumber(price) * tonumber(amount)) then
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "add", amount)
 		Player.Functions.AddItem(item, amount)
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bought ' .. amount .. ' Of ' .. item .. ' For ' .. tonumber(price) * tonumber(amount) .. '!', 'merchant')
 	end
 
 end)

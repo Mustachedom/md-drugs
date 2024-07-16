@@ -6,6 +6,7 @@ RegisterServerEvent('md-drugs:server:payfortruck', function()
 	local playerPed = GetPlayerPed(source)
 	if Player.Functions.RemoveMoney('cash', Config.TruckPrice ) or Player.Functions.RemoveMoney('bank', Config.TruckPrice ) then
 		TriggerClientEvent("md-drugs:Client:getoxylocation", src)
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Rented A Van For OxyRuns', 'oxy')
 	else
 		Notifys(Lang.oxy.broke, "error")
 	end
@@ -25,6 +26,7 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 		Player.Functions.AddMoney("cash", cash * 0.5)
 		if itemchance <= Config.OxyItemChance then 
 			AddItem(item, Config.OxyItemAmount)
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. Config.OxyItemAmount .. ' Of ' .. item .. ' For This Drop Off', 'oxy')
 		end	
 	else
 		Notifys(Lang.oxy.next, "success")
@@ -32,6 +34,7 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 		Player.Functions.AddMoney("cash", cash)
 		if itemchance <= Config.OxyItemChance then 
 			AddItem(item, Config.OxyItemAmount)
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. Config.OxyItemAmount .. ' Of ' .. item .. ' For This Drop Off', 'oxy')
 		end
 	end
 	

@@ -15,6 +15,7 @@ function CaneCooldown(loc)
         GlobalState.CocaPlant = Config.CocaPlant
         Wait(1000)
         TriggerClientEvent('coke:respawnCane', -1, loc)
+		Log('Coca Plant Respawned At ' .. Config.CocaPlant[loc].location, 'coke')
     end)
 end
 
@@ -30,6 +31,7 @@ AddEventHandler("coke:pickupCane", function(loc)
         CaneCooldown(loc)
         local Player = QBCore.Functions.GetPlayer(source)
         AddItem('coca_leaf', 1)
+		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Picked A Coca Leaf With a distance of ' .. dist(source, playerPed, Config.CocaPlant[loc].location) .. ' vectors', 'coke')
     end
 end)
 
@@ -43,14 +45,27 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
 	if Config.TierSystem then		
 		local coke = Player.PlayerData.metadata['coke']
 		if coke <= Config.Tier1 then
-			if RemoveItem("coca_leaf", 1) then AddItem("coke", 1) end
+			if RemoveItem("coca_leaf", 1) then 
+				AddItem("coke", 1)
+				Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Raw Coke' .. dist(source, playerPed, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
+			end
 		elseif coke >= Config.Tier1 and coke <= Config.Tier2 then
-			if RemoveItem("coca_leaf", 1) then AddItem("cokestagetwo", 1) end
+			if RemoveItem("coca_leaf", 1) then
+				 AddItem("cokestagetwo", 1)
+				 Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Raw Coke tier 2' .. dist(source, playerPed, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
+			end
+			
 		else
-			if RemoveItem("coca_leaf", 1) then AddItem("cokestagethree", 1) end
+			if RemoveItem("coca_leaf", 1) then
+				AddItem("cokestagethree", 1)
+				Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Raw Coke tier 3' .. dist(source, playerPed, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
+			end
 		end
 	else
-		if  RemoveItem("coca_leaf", 1) then AddItem("coke", 1) end
+		if RemoveItem("coca_leaf", 1) then
+		 	AddItem("coke", 1)
+			 Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Raw Coke' .. dist(source, playerPed, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
+		end
 	end	
 end)
 
@@ -65,16 +80,19 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function()
 		local coke3 = Player.Functions.GetItemByName('cokestagethree')
 		if coke then
 			RemoveItem('coke', 1 ) 
-			RemoveItem('bakingsoda', 1 ) 
-			AddItem('loosecoke', 1) 
+			RemoveItem('bakingsoda', 1 )
+			AddItem('loosecoke', 1)
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Coke', 'coke')
 		elseif coke2 then
 			RemoveItem('cokestagetwo', 1 ) 
 			RemoveItem('bakingsoda', 1 ) 
 			AddItem('loosecokestagetwo', 1) 
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Coke tier 2', 'coke')
 		elseif coke3 then
 			RemoveItem('cokestagethree', 1 ) 
 			RemoveItem('bakingsoda', 1 ) 
 			AddItem('loosecokestagethree', 1) 
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Coke tier 3', 'coke')
 		else
 			Notifys(Lang.Coke.nocutcoke, "error")
 		end	
@@ -82,6 +100,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function()
 		if RemoveItem('coke', 1 ) then
 			RemoveItem('bakingsoda', 1 ) 
 			AddItem('loosecoke', 1) 
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Coke', 'coke')
 		else
 			Notifys(Lang.Coke.nocutcoke, "error")
 		end	
@@ -102,16 +121,19 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
 			RemoveItem('empty_weed_bag', 1) 
 			AddItem('cokebaggy', 1) 
 			Player.Functions.SetMetaData('coke',  (coke + 1))
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Coke and now has a rep of ' .. coke + 1, 'coke')
 		elseif locoke2 then
 			RemoveItem('loosecokestagetwo', 1 ) 
 			RemoveItem('empty_weed_bag', 1) 
 			AddItem('cokebaggystagetwo', 1) 
 			Player.Functions.SetMetaData('coke',  (coke + 1))
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Coke tier 2 and now has a rep of ' .. coke + 1, 'coke')
 		elseif locoke3 then
 			RemoveItem('loosecokestagethree', 1 ) 
 			RemoveItem('empty_weed_bag', 1) 
 			AddItem('cokebaggystagethree', 1)
 			Player.Functions.SetMetaData('coke',  (coke + 1))
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Coke tier 3 and now has a rep of ' .. coke + 1, 'coke')
 		else
 			Notifys(Lang.Coke.nobagcoke, "error")
 		end
@@ -119,6 +141,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
 		if RemoveItem('loosecoke', 1 ) then
 			RemoveItem('empty_weed_bag', 1) 
 			AddItem('cokebaggy', 1) 
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Coke', 'coke')
 		else
 			Notifys(Lang.Coke.nobagcoke, "error")
 		end

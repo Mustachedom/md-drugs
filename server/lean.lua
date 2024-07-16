@@ -8,10 +8,12 @@ RegisterServerEvent('md-drugs:server:givelean', function()
 	if chance <= 50 then 
 		if AddItem('mdlean', amount) then
 			Notifys(Lang.Lean.lean, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. amount .. ' Of Lean' , 'lean')
 		end
 	else
 		if AddItem('mdreddextro', amount) then
 			Notifys(Lang.Lean.dextro, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. amount .. ' Of Red Dextro' , 'lean')
 		end
 	end	
 end)
@@ -26,6 +28,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 			Player.Functions.RemoveItem('sprunk', 1 )
 			Player.Functions.RemoveItem('leancup', 1 )
 			Player.Functions.AddItem('cupoflean', 1 )
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Cup Of Lean' , 'lean')
 		end
 	else
 		if Player.Functions.GetItemByName('leancup') and Player.Functions.GetItemByName('sprunk') and Player.Functions.GetItemByName('mdreddextro') then 
@@ -33,6 +36,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 			Player.Functions.RemoveItem('sprunk', 1 )
 			Player.Functions.RemoveItem('leancup', 1 )
 			Player.Functions.AddItem('cupofdextro', 1 )
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Cup Of Red Dextro' , 'lean')
 		end
 	end
 end)

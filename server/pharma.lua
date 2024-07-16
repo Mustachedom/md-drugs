@@ -12,6 +12,7 @@ RegisterServerEvent('md-drugs:server:giveprescription', function(item)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	Player.Functions.AddItem(item, 1)
+	Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Prescription Of ' .. item .. '!', 'pharma')
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item], "add", 1)
 end)
 
@@ -20,6 +21,7 @@ RegisterServerEvent('md-drugs:server:unbottle', function(item)
 	local Player = QBCore.Functions.GetPlayer(src)
 	local amount = math.random(10,30)
 	Player.Functions.AddItem(item, amount)
+	Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Unbottled '.. amount .. ' Of ' .. item .. '!', 'pharma')
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item], "add", amount)
 end)
 
@@ -42,6 +44,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 
 if TriggerClientEvent('md-drugs:client:takepharma', src, item.name) then
 	Player.Functions.RemoveItem(item.name, 1)
+	Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Took ' .. item.name .. '!', 'pharma')
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item.name], "remove", 1)
 	
 	end
@@ -75,4 +78,5 @@ RegisterServerEvent('md-drugs:server:fillprescription', function()
 	else
 		Notifys(Lang.Pharma.no, "error")
 	end
+	Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Filled A Prescription!', 'pharma')
 end)

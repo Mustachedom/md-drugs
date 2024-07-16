@@ -16,16 +16,19 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
 			RemoveItem('bakingsoda', 1) 
 			AddItem('crackrock', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Crack', 'crack')
 		elseif locoke2 then
 			RemoveItem('loosecokestagetwo', 1 ) 
 			RemoveItem('bakingsoda', 1) 
 			AddItem('crackrockstagetwo', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Crack', 'crack')
 		elseif locoke3 then
 			RemoveItem('loosecokestagethree', 1 ) 
 			RemoveItem('bakingsoda', 1) 
 			AddItem('crackrockstagethree', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Crack', 'crack')
 		else
 			Notifys(Lang.Crack.nocoke, 'error')
 		end			
@@ -34,6 +37,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
 			RemoveItem('bakingsoda', 1) 
 			AddItem('crackrock', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Cut Crack', 'crack')
 		else
 			Notifys(Lang.Crack.nocoke, 'error')
 		end
@@ -55,16 +59,19 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
 			RemoveItem('empty_weed_bag', 1) 	
 			AddItem('baggedcracked', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Crack', 'crack')
 		elseif rock2 then
 			 RemoveItem('crackrockstagetwo', 1 ) 
 			RemoveItem('empty_weed_bag', 1) 
 			AddItem('baggedcrackedstagetwo', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Crack', 'crack')
 		elseif rock3 then
 			RemoveItem('crackrockstagethree', 1 ) 
 			RemoveItem('empty_weed_bag', 1) 
 			AddItem('baggedcrackedstagethree', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Crack', 'crack')
 		else
 			Notifys(Lang.Crack.nocoke, "error")
 		end
@@ -73,6 +80,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
 			RemoveItem('empty_weed_bag', 1) 
 			AddItem('baggedcracked', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
+			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bagged Crack', 'crack')
 		else
 			Notifys(Lang.Crack.nocoke, "error")
 		end

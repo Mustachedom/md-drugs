@@ -1,5 +1,47 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local notify = Config.Notify -- qb or ox
+local logs = false 
+local logapi = GetConvar("fivemerrLogs", "")
+local endpoint = 'https://api.fivemerr.com/v1/logs'
+local headers = {
+            ['Authorization'] = logapi,
+            ['Content-Type'] = 'application/json',
+    }
+
+CreateThread(function()
+if logs then 
+    print'^2 Logs Enabled for md-drugs'
+    if logapi == 'insert string here' then 
+        print'^1 homie you gotta set your api on line 4'
+    else
+        print'^2 API Key Looks Good, Dont Trust Me Though, Im Not Smart'
+    end
+else
+    print'^1 logs disabled for md-drugs'
+end
+end)
+function Log(message, meta, type)
+if logs == false then return end	
+    local buffer = {
+        level = "info",
+        message = message,
+        resource = GetCurrentResourceName(),
+        metadata = {
+            meta = type
+        }
+    }
+     SetTimeout(500, function()
+         PerformHttpRequest(endpoint, function(status, _, _, response)
+             if status ~= 200 then 
+                 if type(response) == 'string' then
+                     response = json.decode(response) or response
+                 end
+             end
+         end, 'POST', json.encode(buffer), headers)
+         buffer = nil
+     end)
+end
+
 
 function Notifys(text, type)
     if notify == 'qb' then
@@ -13,18 +55,6 @@ function Notifys(text, type)
     end    
 end    
 
-function checkTable(player, table)
-	local need = 0
-	local have = 0
-	for k, v in pairs (table) do 
-		need = need + 1
-		if Itemcheck(player, k, v, 'true') then have = have + 1  end
-	end
-	if need == have then
-		return true
-	else
-	end
-end
 function Itemcheck(Player, item, amount, notify) 
     local itemchecks = Player.Functions.GetItemByName(item)
     local yes
@@ -37,7 +67,11 @@ function Itemcheck(Player, item, amount, notify)
             Notifys('You Need ' .. amount .. ' Of ' .. QBCore.Shared.Items[item].label .. ' To Do this', 'error') return else end 
     end        
 end
-
+function dist(source, Player, coords)
+    local pcoords = GetEntityCoords(Player)
+    local dist = #(pcoords - coords)
+        return dist
+end
 function CheckDist(source,Player, coords)
     local pcoords = GetEntityCoords(Player)
     local ok 
@@ -46,7 +80,18 @@ function CheckDist(source,Player, coords)
     else    
         DropPlayer(source, 'Too Far') return  end
 end
-
+function checkTable(player, table)
+	local need = 0
+	local have = 0
+	for k, v in pairs (table) do 
+		need = need + 1
+		if Itemcheck(player, k, v, 'true') then have = have + 1  end
+	end
+	if need == have then
+		return true
+	else
+	end
+end
 function RemoveItem( item, amount) 
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -65,17 +110,6 @@ function AddItem(item, amount)
     end
 end
 
---QBCore.Functions.CreateCallback('md-drugs:server:GetCoppers', function(source, cb, args)
---    local amount = 0
---    local players = QBCore.Functions.GetQBPlayers()
---    for k, v in pairs(players) do
---         if v.PlayerData.job.type == 'leo' and v.PlayerData.job.onduty then
---          amount = amount + 1
---         end
---    end
---    cb(amount)
---end)
-
 lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
     local amount = 0
     local players = QBCore.Functions.GetQBPlayers()
@@ -85,13 +119,6 @@ lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
          end
     end
    return amount
-end)
-
-lib.addCommand('cornersell', {
-    help = 'Start/Stop Cornerselling',
-    restricted = 'group.admin'
-}, function(source, args, raw)
-    TriggerClientEvent('md-drugs:client:cornerselling',source)
 end)
 
 CreateThread(function()
