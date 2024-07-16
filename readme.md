@@ -150,7 +150,7 @@ then in prop emotes do
 -- **OPTIONAL STEPS**
 
 - **Fivemerr Logging**
-	If you want to use the Fivemerr Logging it is very very simple. Create an account with fivemerr ( its free so like why arent you using it) ![fivemerr](https://fivemerr.com/) 
+	If you want to use the Fivemerr Logging it is very very simple. Create an account with fivemerr ( its free so like why arent you using it) [fivemerr](https://fivemerr.com/) 
 	go to server/functions.lua and on line 3 turn it to true
 	add this to your server.cfg
 	```
