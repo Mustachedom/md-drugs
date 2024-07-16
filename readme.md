@@ -187,11 +187,11 @@ or just use the command /cornersell
 ```
 
 - <h1>Tier System</h1>
-	Check Players.lua in the server folder of QB-Core. IF see
-	```
-	 PlayerData.metadata['dealerrep'] = PlayerData.metadata['dealerrep'] or 0
-	```
- 	Then Place This directly under it
+	- Check Players.lua in the server folder of QB-Core. IF see
+ 
+	```PlayerData.metadata['dealerrep'] = PlayerData.metadata['dealerrep'] or 0```
+ 	- Then Place This directly under it
+       
 	```
 		PlayerData.metadata['coke'] = PlayerData.metadata['coke'] or 0
 		PlayerData.metadata['heroin'] = PlayerData.metadata['heroin'] or 0
