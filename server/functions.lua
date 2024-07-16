@@ -27,7 +27,7 @@ if logs == false then return end
         message = message,
         resource = GetCurrentResourceName(),
         metadata = {
-            meta = type
+            drugs = type
         }
     }
      SetTimeout(500, function()
