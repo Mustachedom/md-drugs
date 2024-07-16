@@ -176,7 +176,8 @@ then in prop emotes do
 
 ![](https://cdn.discordapp.com/attachments/1164709522691076120/1185725132975644753/image.png?ex=6590a795&is=657e3295&hm=97d7f60ec6c4508af92f758c00669b1d52fe673c6481434b586f81cf29c1f292&)
 or just use the command /cornersell
-- **For Qb-shops users**
+
+<h1>For Qb-shops users</h1>
 
 	- Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to OR anywhere else you want them. The Only way in this script to get them is to find the travelling merchant
 
