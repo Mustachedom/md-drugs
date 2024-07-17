@@ -36,3 +36,6 @@ added a couple new functions to cut back on repeating natives needed ( Freeze() 
 added better calls for GetImage and GetLabel for ox inventory
 converted all callbacks to lib.callback to increase optimization
 should be fully compatible with qbx without needing to make a couple edits now
+
+3.5.7 - > 3.5.8 
+Added support for fivemerr logs
