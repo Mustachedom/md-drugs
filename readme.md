@@ -149,19 +149,21 @@ then in prop emotes do
 	
 -- **OPTIONAL STEPS**
 
-- <h1>Fivemerr Logging</h1>
-   - If you want to use the Fivemerr Logging it is very very simple. 
-   
-   - Create an account with fivemerr ( its free so like why arent you using it) [fivemerr](https://fivemerr.com/)
- 
-   - go to server/functions.lua and on line 3 turn it to true
- 
-   - add this to your server.cfg
-   
-	```set fivemerrLogs "API_KEY"```
-	
-	badabing badaboop your logs will pop up in fivemerr
+<h1>Fivemerr</h1>
+This is NOT a requirement but something I personally use and believe in.
 
+
+- to integrate with fivemerr make sure you have  ```set fivemerrLogs "API_KEY"```   in your server.cfg
+   
+- Head to /server/bridge.lua and line 3 turn local logs = true
+  
+- profit
+
+Why integrate with Fivemerr? Its a great place to store logs as it doesnt rely on discord webhooks and its far easier to search through
+
+As well as a place to offload images and videos from fivem that doesnt rely on discord since discord API will be automatically deleting images and videos after a certain amount of time If you need an invite to their server look below
+- [Fivemerr Discord](https://discord.com/invite/fivemerr)
+- [Fivemerr Docs](https://docs.fivemerr.com/)
 
 - <h1>Radial Menu </h1>
 	- head to `qb-radial/config.lua` and search for the following event
