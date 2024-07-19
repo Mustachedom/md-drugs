@@ -42,7 +42,15 @@ if logs == false then return end
          buffer = nil
      end)
 end
+local invname = ''
+CreateThread(function()
+if GetResourceState('ps-inventory') == 'started' then
+    invname = 'ps-inventory'
+elseif GetResourceState('qb-inventory') == 'started' then
+    invname = 'qb-inventory'
+end
 
+end)
 
 function Notifys(text, type)
     if notify == 'qb' then
@@ -96,7 +104,7 @@ end
 function RemoveItem( item, amount) 
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player.Functions.RemoveItem(item, amount) then TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[item], "remove", amount)  return true
+    if Player.Functions.RemoveItem(item, amount) then TriggerClientEvent(invname ..":client:ItemBox", src, QBCore.Shared.Items[item], "remove", amount)  return true
      else 
         Notifys('You Need ' .. amount .. ' Of ' .. QBCore.Shared.Items[item].label .. ' To Do This', 'error')
     end
@@ -105,7 +113,7 @@ end
 function AddItem(item, amount) 
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player.Functions.AddItem(item, amount) then TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[item], "add", amount) return true
+    if Player.Functions.AddItem(item, amount) then TriggerClientEvent(invname ..":client:ItemBox", src, QBCore.Shared.Items[item], "add", amount) return true
      else 
         print('you sucks')
     end
@@ -139,3 +147,4 @@ CreateThread(function()
          end
      end, "GET", "", "")
 end)
+
