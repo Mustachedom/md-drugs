@@ -55,3 +55,14 @@ RegisterNetEvent('md-drugs:server:robCornerDrugs', function(drugType, amount)
     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "remove", amount)
     TriggerClientEvent('md-drugs:client:refreshAvailableDrugs', src, getAvailableDrugs(src))
 end)
+lib.addCommand('cornersell', {
+    help = 'Sell Things On The Corner',
+    params = {
+       
+    },
+}, function(source, args, raw)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(source)
+    Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Used Command cornersell!' , 'cornerselling')
+    TriggerClientEvent('md-drugs:client:cornerselling', src)
+end)
