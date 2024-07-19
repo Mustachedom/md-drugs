@@ -39,3 +39,5 @@ should be fully compatible with qbx without needing to make a couple edits now
 
 3.5.7 - > 3.5.8 
 Added support for fivemerr logs
+3.5.8 -> 3.5.9 
+added command /cornersell **you only need to update server/cornserselling.lua** from previous update
