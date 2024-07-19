@@ -155,7 +155,7 @@ This is NOT a requirement but something I personally use and believe in.
 
 - to integrate with fivemerr make sure you have  ```set fivemerrLogs "API_KEY"```   in your server.cfg
    
-- Head to /server/bridge.lua and line 3 turn local logs = true
+- Head to /server/functions.lua turn local logs = true
   
 - profit
 
