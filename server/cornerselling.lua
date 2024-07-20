@@ -25,7 +25,7 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
     local Player = QBCore.Functions.GetPlayer(src)
   
     if RemoveItem(item, amount) then
-        Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Sold ' .. amount .. ' Of ' .. item .. '!' , 'cornerselling')
+        Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Sold ' .. amount .. ' Of ' .. item .. ' For A Price Of ' .. price .. '!' , 'cornerselling')
         if QBConfig.MarkedBills then
             if price  >= QBConfig.DrugsPrice[item]['min'] * amount and price  <= QBConfig.DrugsPrice[item]['max'] * amount then 
                 local info = {
