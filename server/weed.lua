@@ -229,7 +229,7 @@ QBCore.Functions.CreateUseableItem("leanbluntwrap", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local keef = Player.Functions.GetItemByName("grindedweed")
-	
+
 	if keef and keef.amount > 0 then 
 		if Player.Functions.RemoveItem('grindedweed', 1) then
 			TriggerClientEvent("md-drugs:client:rollanim", src)
@@ -259,7 +259,7 @@ local keef = Player.Functions.GetItemByName("grindedweed")
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['dextrobluntwrap'], "remove", 1)
 		end
 	else
-		
+		Notifysu('You Need Keef', 'error', src)
 	end
 end)
 
@@ -268,12 +268,13 @@ local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
 if Player.Functions.GetItemByName("butanetorch") then 
-	if Player.Functions.RemoveItem("shatter", 1) then
-    	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["shatter"], "remove", 1)
+	if RemoveItemu("shatter", 1, src) then
+		Notifysu('test', 'success', src)
     	TriggerClientEvent("md-drugs:client:dodabs", src)
     end
 end
 end)
+
 QBCore.Functions.CreateUseableItem("bluntwrap", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
@@ -283,10 +284,13 @@ end)
 QBCore.Functions.CreateUseableItem("weedgrinder", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
+
 if Player.Functions.RemoveItem("drycannabis",1 ) then 
 	Player.Functions.AddItem("grindedweed", 1)
 	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["grindedweed"], "add", 1)
 	TriggerClientEvent("md-drugs:client:grind", src)
+else
+	Notifysu('You Need Dried Weed', 'error', src)
 end
 end)
 

@@ -53,12 +53,13 @@ end
 end)
 
 function Notifys(text, type)
+    local src = source
     if notify == 'qb' then
-        TriggerClientEvent("QBCore:Notify", source, text, type)
+        TriggerClientEvent("QBCore:Notify", src, text, type)
     elseif notify == 'ox' then
-        lib.notify(source, { title = text, type = type})
+        lib.notify(src, { title = text, type = type})
     elseif notify == 'okok' then
-        TriggerClientEvent('okokNotify:Alert', source, '', text, 4000, type, false)
+        TriggerClientEvent('okokNotify:Alert', src, '', text, 4000, type, false)
     else
         print"dude, it literally tells you what to put in the config"    
     end    
@@ -118,6 +119,36 @@ function AddItem(item, amount)
         print('you sucks')
     end
 end
+
+function Notifysu(text, type, source)
+    
+    if notify == 'qb' then
+        TriggerClientEvent("QBCore:Notify", source, text, type)
+    elseif notify == 'ox' then
+        lib.notify(source, { title = text, type = type})
+    elseif notify == 'okok' then
+        TriggerClientEvent('okokNotify:Alert', source, '', text, 4000, type, false)
+    else
+        print"dude, it literally tells you what to put in the config"    
+    end    
+end  
+
+function RemoveItemu( item, amount, source) 
+    local Player = QBCore.Functions.GetPlayer(source)
+    if Player.Functions.RemoveItem(item, amount) then TriggerClientEvent(invname ..":client:ItemBox", source, QBCore.Shared.Items[item], "remove", amount)  return true
+     else 
+        Notifysu('You Need ' .. amount .. ' Of ' .. QBCore.Shared.Items[item].label .. ' To Do This', 'error', source)
+    end
+end
+
+function AddItemu(item, amount, source) 
+    local Player = QBCore.Functions.GetPlayer(source)
+    if Player.Functions.AddItem(item, amount) then TriggerClientEvent(invname ..":client:ItemBox", source, QBCore.Shared.Items[item], "add", amount) return true
+     else 
+        print('you sucks')
+    end
+end
+ 
 
 lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
     local amount = 0
