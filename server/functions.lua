@@ -48,6 +48,8 @@ if GetResourceState('ps-inventory') == 'started' then
     invname = 'ps-inventory'
 elseif GetResourceState('qb-inventory') == 'started' then
     invname = 'qb-inventory'
+else
+    invname = 'inventory'		
 end
 
 end)
