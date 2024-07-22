@@ -375,7 +375,7 @@ end)
 
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-TriggerEvent('animations:client:EmoteCommandStart', {'bong2'}) 
+if not progressbar('Doing Dabs', 4000, 'bong2') then return end
 AlienEffect()
 end)
 
