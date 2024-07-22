@@ -259,7 +259,7 @@ local keef = Player.Functions.GetItemByName("grindedweed")
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['dextrobluntwrap'], "remove", 1)
 		end
 	else
-		Notifys(Lang.Weed.noweed, "error")
+		
 	end
 end)
 
@@ -271,11 +271,7 @@ if Player.Functions.GetItemByName("butanetorch") then
 	if Player.Functions.RemoveItem("shatter", 1) then
     	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["shatter"], "remove", 1)
     	TriggerClientEvent("md-drugs:client:dodabs", src)
-	else
-        Notifys(Lang.Weed.noshat, "error")
     end
-else
-Notifys(Lang.Weed.notorch, "error")
 end
 end)
 QBCore.Functions.CreateUseableItem("bluntwrap", function(source, item)
