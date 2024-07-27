@@ -107,7 +107,7 @@ exports['qb-target']:AddBoxZone("weeddry"..k,v,1.5, 1.75, {name = "weeddry"..k,h
 			icon = "fas fa-sign-in-alt",
 			label = "Dry Weed",
 			distance = 1,
-			items = "wetcannabis",
+			item = "wetcannabis",
 			action = function()
 				if drying then
 					Notify(Lang.Weed.busy, "error")
