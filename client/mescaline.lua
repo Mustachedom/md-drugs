@@ -19,7 +19,7 @@ RegisterNetEvent('Mescaline:respawnCane', function(loc)
         options = { 
             {icon = "fas fa-hand",label = "pick Cactus",action = function()    if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end    TriggerServerEvent("Mescaline:pickupCane", loc)end}
         },
-        distance = 3.0
+        distance = 2.5
         })
     end
 end)
@@ -43,7 +43,7 @@ RegisterNetEvent("Mescaline:init", function()
             exports['qb-target']:AddTargetEntity(Mescaline[k], {
                 options = { { icon = "fas fa-hand", label = "Pick Mescaline", action = function()  if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end  TriggerServerEvent("Mescaline:pickupCane", k) end}
             },
-            distance = 3.0
+            distance = 2.5
             })
         end
     end
