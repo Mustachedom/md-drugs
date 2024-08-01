@@ -19,7 +19,7 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
         exports['qb-target']:AddTargetEntity(shrooms[loc], {
             options = { { icon = "fas fa-hand", label = "pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  TriggerServerEvent("shrooms:pickupCane", loc) end }
         },
-        distance = 3.0
+        distance = 2.5
         })
     end
 end)
@@ -64,7 +64,7 @@ end)
             exports['qb-target']:AddTargetEntity(shrooms[k], {
                 options = { { icon = "fas fa-hand", label = "Pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end     TriggerServerEvent("shrooms:pickupCane", k) end }
             },
-            distance = 3.0
+            distance = 2.5
             })
         end
     end
