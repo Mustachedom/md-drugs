@@ -45,7 +45,7 @@ RegisterNetEvent('heroin:respawnCane', function(loc)
                     end
                 }
             },
-            distance = 3.0
+            distance = 2.5
         })
     end
 end)
@@ -76,7 +76,7 @@ RegisterNetEvent("heroin:init", function()
                         end
                     }
                 },
-                distance = 3.0
+                distance = 2.5
             })
         end
     end
