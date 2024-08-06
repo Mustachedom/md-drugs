@@ -34,7 +34,7 @@ RegisterNetEvent('weed:respawnCane', function(loc)
 						return true end end,
                 }
             },
-distance 2.5
+distance = 2.5
            })
     end
 end)
@@ -68,7 +68,7 @@ RegisterNetEvent("weed:init", function()
 						return true end end,
                     }
                 },
-                distance 2.5
+                distance = 2.5
                })
         end
     end
