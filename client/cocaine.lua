@@ -3,24 +3,42 @@ local CocaPlant = {}
 local cuttingcoke = nil
 local baggingcoke = nil
 
+local function pick(loc)
+if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
+TriggerServerEvent("coke:pickupCane", loc)  
+return true 
+end
+
 RegisterNetEvent('coke:respawnCane', function(loc)
     local v = GlobalState.CocaPlant[loc]
     local hash = GetHashKey(v.model)
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
        Freeze(CocaPlant[loc], true, v.heading)
-        exports['qb-target']:AddTargetEntity(CocaPlant[loc], {
-            options = { {
+        local options = { 
+                {
                     icon = "fas fa-hand",
                     label = "pick Cocaine",
                     action = function()
-                        if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
-                        TriggerServerEvent("coke:pickupCane", loc)   
+                        if not pick(loc) then return end
                     end
                 }
-            },
-            distance = 2.5
-        })
+            }
+        local optionsox = {
+                {
+                    icon = "fas fa-hand",
+                    label = "pick Cocaine",
+                    distance = 2.5,
+                    onselect = function()
+                        if not pick(loc) then return end
+                    end
+                }
+            }
+        if Config.oxtarget then
+            exports.ox_target:AddLocalEntity(CocaPlant[loc], {options = options, distance = 2.5})
+        else
+            exports['qb-target']:AddTargetEntity(CocaPlant[loc], {options = options, distance = 2.5})
+        end
     end
 end)
 
@@ -41,9 +59,8 @@ RegisterNetEvent("coke:init", function()
                         icon = "fas fa-hand",
                         label = "pick cocaine",
                         action = function()
-                           if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then  return end
-                            TriggerServerEvent("coke:pickupCane", k)
-                        end
+                           if not pick(k) then return end
+                    end
                     }
                 },
                 distance = 2.5
