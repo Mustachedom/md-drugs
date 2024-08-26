@@ -54,17 +54,29 @@ RegisterNetEvent("coke:init", function()
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)
-            exports['qb-target']:AddTargetEntity(CocaPlant[k], {
-                options = { {
-                        icon = "fas fa-hand",
-                        label = "pick cocaine",
-                        action = function()
-                           if not pick(k) then return end
+            local options = { 
+                {
+                    icon = "fas fa-hand",
+                    label = "pick Cocaine",
+                    action = function()
+                        if not pick(k) then return end
                     end
-                    }
-                },
-                distance = 2.5
-            })
+                }
+            }
+        local optionsox = {
+                {
+                    icon = "fas fa-hand",
+                    label = "pick Cocaine",
+                    distance = 2.5,
+                    onselect = function()
+                        if not pick(k) then return end
+                    end
+                }
+            }
+        if Config.oxtarget then
+            exports.ox_target:AddLocalEntity(CocaPlant[k], options = options)
+        else
+            exports['qb-target']:AddTargetEntity(CocaPlant[k], {options = options, distance = 2.5})
         end
     end
 end)
