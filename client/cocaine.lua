@@ -79,6 +79,7 @@ RegisterNetEvent("coke:init", function()
             exports['qb-target']:AddTargetEntity(CocaPlant[k], {options = options, distance = 2.5})
         end
     end
+    end
 end)
 
 AddEventHandler('onResourceStart', function(resource)
