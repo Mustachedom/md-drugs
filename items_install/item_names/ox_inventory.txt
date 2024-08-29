@@ -9,6 +9,16 @@
             image = "coke.png",
         }
     },
+    ["cokebaggy"] = {
+        label = "Bag Of Cocaine",
+        weight = 1000,
+        stack = false,
+        close = false,
+        description = "A Small Bag Of Weak Cocaine",
+        client = {
+            image = "coke.png",
+        }
+    },
     ["empty_weed_bag"] = {
         label = "Empty Bag",
         weight = 1000,
