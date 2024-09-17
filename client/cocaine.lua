@@ -35,9 +35,9 @@ RegisterNetEvent('coke:respawnCane', function(loc)
                 }
             }
         if Config.oxtarget then
-            exports.ox_target:AddLocalEntity(CocaPlant[loc], optionsox)
+            exports.ox_target:addLocalEntity(CocaPlant[loc], optionsox)
         else
-            exports['qb-target']:addTargetEntity(CocaPlant[loc], {options = options, distance = 2.5})
+            exports['qb-target']:AddTargetEntity(CocaPlant[loc], {options = options, distance = 2.5})
         end
     end
 end)
