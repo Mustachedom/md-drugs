@@ -29,7 +29,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
                     icon = "fas fa-hand",
                     label = "pick Cocaine",
                     distance = 2.5,
-                    onselect = function()
+                    onSelect = function()
                         if not pick(loc) then return end
                     end
                 }
@@ -37,7 +37,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
         if Config.oxtarget then
             exports.ox_target:AddLocalEntity(CocaPlant[loc], optionsox)
         else
-            exports['qb-target']:AddTargetEntity(CocaPlant[loc], {options = options, distance = 2.5})
+            exports['qb-target']:addTargetEntity(CocaPlant[loc], {options = options, distance = 2.5})
         end
     end
 end)
