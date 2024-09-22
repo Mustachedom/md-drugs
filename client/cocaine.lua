@@ -74,7 +74,7 @@ RegisterNetEvent("coke:init", function()
                 }
             }
         if Config.oxtarget then
-            exports.ox_target:AddLocalEntity(CocaPlant[k], optionsox)
+            exports.ox_target:addLocalEntity(CocaPlant[k], optionsox)
         else
             exports['qb-target']:AddTargetEntity(CocaPlant[k], {options = options, distance = 2.5})
         end
