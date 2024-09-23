@@ -68,7 +68,7 @@ RegisterNetEvent("coke:init", function()
                     icon = "fas fa-hand",
                     label = "pick Cocaine",
                     distance = 2.5,
-                    onselect = function()
+                    onSelect = function()
                         if not pick(k) then return end
                     end
                 }
