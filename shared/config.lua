@@ -1,6 +1,6 @@
 Config = {} --Ignore.
 
-Config.oxtarget = false --- turn to true if you use oxtarget
+Config.Target = 'qb' -- qb or ox
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
@@ -13,14 +13,30 @@ Config.Tier2 = 300 -- amount to hit for level 3
 
 ---------------------------------- BRIDGE 
 Config.progressbartype = 'oxcir' -- either 'qb', 'oxcir', 'oxbar'
-Config.minigametype = 'ox' -- either 'ps' or 'ox' or 'none'
 Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
 Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 
+Config.Minigames = {
+    ps =            {    amount = 2,     speed = 8,},
+    ox =            { 'easy', 'easy'},   --easy medium or hard each one corresponds to how many skillchecks and the difficulty
+    blcirprog =     {    amount = 2,     speed = 50},       -- speed = 1-100
+    blprog =        {    amount = 1,     speed = 50},       -- speed = 1-100
+    blkeyspam =     {    amount = 1,     difficulty = 50}, -- difficulty = 1-100
+    blkeycircle =   {    amount = 1,     difficulty = 50, keynumbers = 3},
+    blnumberslide = {    amount = 1,     difficulty = 50, keynumbers = 3},
+    blrapidlines =  {    amount = 1,     difficulty = 50, numberofline = 3},
+    blcircleshake = {    amount = 1,     difficulty = 50, stages = 3},
+    glpath =        {    gridsize = 10,  lives = 3,     timelimit = 999999},
+    glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
+    glmath =        {timeLimit = 300000},
+
+}
+Config.minigametype = 'blkeyspam' -- look above for options or choose none if you dont want any minigames 
+
 ------------- you can either set a gang or leave it blank, if blank it will autopopulate data to not require it :)
 ------------- Cocaine -- new animations require to be in a certain spot or they get fucky. uses bob74 ipl if you turn Config.FancyCokeAnims you can put it anywhere :) 
-Config.FancyCokeAnims = false -- if you want multi location this needs to be false
+Config.FancyCokeAnims = true -- if you want multi location this needs to be false
 
 Config.CokeTeleIn = vector3(198.16, -1276.92, 29.33)-- where you target to go inside
 
@@ -28,12 +44,14 @@ Config.CokeTeleOut = vector3(1088.81, -3187.57, -38.99) -- where you target to l
 
 Config.MakePowder = { -- where you chop your coca leaves to make powder
     {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 Config.CuttingCoke = { -- only active if Config.FancyCokeAnims = false
-    {loc = vector3(1095.66, -3195.4, -39.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 Config.BaggingCoke = { -- only active if Config.FancyCokeAnims = false
-    {loc = vector3(1100.34, -3199.44, -39.19), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(1100.3, -3199.42, -39.19), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 ---------------- Crack locations
 Config.makecrack = { -- make crack with baking soda with cut coke 1-3
@@ -99,7 +117,7 @@ Config.stamp = { --  where to stamp pills
 Config.buypress = vector3(845.82, -884.79, 25.18)--  Where you buy your presses
 
 ----- mescaline
-Config.DryOut = vector3(2622.6, 4222.57, 43.6) -- Place to dry out mescaline into usuable drug
+Config.DryOut = vector3(2638.22, 4237.93, 44.78) -- Place to dry out mescaline into usuable drug
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
 
 
@@ -126,14 +144,14 @@ Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
 Config.Teleout = vector3(1066.31, -3183.36, -39.16) -- where you target to tele in
 Config.Telein = vector3(244.74, 374.54, 105.74) -- where you target to tele out
 Config.MakeButter = vector3(1045.48, -3198.49, -38.22) -- where you make cannabutter and baked edibles
-Config.MakeOil = vector3(1038.90, -3198.66, -38.17-1) -- where you make shatter
+Config.MakeOil = vector3(1038.90, -3198.66, -38.17) -- where you make shatter
 Config.WeedSaleman = vector4(1030.46, -3203.63, -38.2, 180.0)
 
 Config.WeedDry = { -- where you dry leaves 
-    vector3(1043.0, -3191.59, -38.39),
-    vector3(1041.0, -3191.59, -38.39),
-    vector3(1045.0, -3191.59, -38.39),
-    vector3(1039.0, -3191.59, -38.39),
+    {loc = vector3(1043.0, -3191.59, -38.39),},
+    {loc = vector3(1041.0, -3191.59, -38.39),},
+    {loc = vector3(1045.0, -3191.59, -38.39),},
+    {loc = vector3(1039.0, -3191.59, -38.39),},
 }
 
 Config.Joblock = false -- if you want weed to be a job
@@ -157,7 +175,7 @@ Config.Weed = { --- this is the store for the weed ingridients
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
 Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
 Config.WholesaleTimeout = 600 -- time in seconds to get to the location
-Config.PoliceCount = 2 -- Amount of police required
+Config.PoliceCount = 0 -- Amount of police required
 Config.Wcoke =  { min = 20, max = 60} -- pricings per item
 Config.Wcrack = { min = 20, max = 60}
 Config.Wlsd = { min = 20, max = 60}
@@ -173,30 +191,30 @@ Config.Travellingmerchant = { ------------ these are the random locations the me
 }
 Config.Items = { --- this is the store for the travelling merchant
     items = {
-        [1] = {name = "tab_paper", 		 price = 50, 	amount = 50, 	},
-        [2] = {name = "bakingsoda", 	 price = 25, 	amount = 50, 	},
-		[3] = {name = "isosafrole", 	 price = 25, 	amount = 50, 	},
-		[4] = {name = "mdp2p", 			 price = 25, 	amount = 50, 	},
-		[5] = {name = "lysergic_acid",   price = 25, 	amount = 50, 	},
-		[6] = {name = "diethylamide",    price = 25, 	amount = 50, 	},
-		[7] = {name = "lockpick",  price = 2, 	amount = 1000, 	},
-		[8] = {name = "emptyvial", 		 price = 2, 	amount = 1000, 	},
-		[9] = {name = "needle", 		 price = 2, 	amount = 1000,	},
-		[10] = {name = "cokeburner", 	 price = 25, 	amount = 50, 	},
-		[11] = {name = "crackburner", 	 price = 2, 	amount = 50, 	},
-		[12] = {name = "lsdburner",		 price = 2, 	amount = 50, 	},
-		[13] = {name = "heroinburner", 	 price = 2, 	amount = 50, 	},
-		[14] = {name = "mdlean", 		 price = 50, 	amount = 50, 	},
-        [15] = {name = "weedgrinder", 	 price = 25, 	amount = 50, 	},
-		[16] = {name = "mdbutter", 		 price = 25, 	amount = 50, 	},
-		[17] = {name = "flour", 		 price = 25, 	amount = 50, 	},
-		[18] = {name = "chocolate",  	 price = 25, 	amount = 50, 	},
-		[19] = {name = "butane", 		 price = 25, 	amount = 50, 	},
-		[20] = {name = "butanetorch", 	 price = 2, 	amount = 1000, 	},
-		[21] = {name = "dabrig", 		 price = 2, 	amount = 1000, 	},
-		[22] = {name = "mdwoods", 		 price = 2, 	amount = 1000, 	},
-		[23] = {name = "leancup", 		 price = 25, 	amount = 50, 	},
-        [24] = {name = "xtcburner", 	 price = 25, 	amount = 50, 	},
+        {name = "tab_paper", 		 price = 50, 	amount = 50,},
+        {name = "bakingsoda", 	 price = 25, 	amount = 50, 	},
+		{name = "isosafrole", 	 price = 25, 	amount = 50, 	},
+		{name = "mdp2p", 			 price = 25, 	amount = 50, 	},
+		{name = "lysergic_acid",   price = 25, 	amount = 50, 	},
+		{name = "diethylamide",    price = 25, 	amount = 50, 	},
+		{name = "lockpick",  price = 2, 	amount = 1000, 	},
+		{name = "emptyvial", 		 price = 2, 	amount = 1000, 	},
+		{name = "needle", 		 price = 2, 	amount = 1000,	},
+		{name = "cokeburner", 	 price = 25, 	amount = 50, 	},
+		{name = "crackburner", 	 price = 2, 	amount = 50, 	},
+		{name = "lsdburner",		 price = 2, 	amount = 50, 	},
+		{name = "heroinburner", 	 price = 2, 	amount = 50, 	},
+		{name = "mdlean", 		 price = 50, 	amount = 50, 	},
+        {name = "weedgrinder", 	 price = 25, 	amount = 50, 	},
+		{name = "mdbutter", 		 price = 25, 	amount = 50, 	},
+		{name = "flour", 		 price = 25, 	amount = 50, 	},
+		{name = "chocolate",  	 price = 25, 	amount = 50, 	},
+		{name = "butane", 		 price = 25, 	amount = 50, 	},
+		{name = "butanetorch", 	 price = 2, 	amount = 1000, 	},
+		{name = "dabrig", 		 price = 2, 	amount = 1000, 	},
+		{name = "mdwoods", 		 price = 2, 	amount = 1000, 	},
+		{name = "leancup", 		 price = 25, 	amount = 50, 	},
+        {name = "xtcburner", 	 price = 25, 	amount = 50, 	},
 		
 	}
 }
@@ -205,7 +223,7 @@ Config.Items = { --- this is the store for the travelling merchant
 ----- when you get to the drop off point third eye the truck. You will carry a box to the ped. He will give you cash, some oxy and maybe a random item. Rinse and repeat
 
 
-Config.truckspawn = vector4(1449.65, -1486.0, 63.22, 342.58) --- where the truck will spawn when you pay for it 
+Config.truckspawn = vector4(1450.87, -1482.13, 63.22, 69.95) --- where the truck will spawn when you pay for it 
 Config.Payfortruck = vector3(1437.64, -1491.91, 63.62) --- where you pay for the truck
 Config.TruckPrice = 500 -- amount the truck will cost to rent
 Config.OxyRunCompleteCash = 200 -- base price you get for completeing a run. 50% if the car needs to be ditched

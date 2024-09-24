@@ -3,23 +3,21 @@ local QBCore = exports['qb-core']:GetCoreObject()
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-	local playerPed = GetPlayerPed(source)
-	if CheckDist(source, playerPed, Config.isosafrole[num]['loc']) then return end
-  	if AddItem("isosafrole", 1) then 
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stole isosafrole with a distance of  ' .. dist(source, playerPed, Config.isosafrole[num]['loc']) .. ' vectors!', 'xtc')
+	if CheckDist(source, Config.isosafrole[num]['loc']) then return end
+  	if AddItem(src, "isosafrole", 1) then 
+		Log(GetName(source) .. ' Stole isosafrole with a distance of  ' .. dist(source, Config.isosafrole[num]['loc']) .. ' vectors!', 'xtc')
   	end	
 end)
 
 RegisterServerEvent('md-drugs:server:stealmdp2p', function(num)
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
-	local playerPed = GetPlayerPed(source)
-	if CheckDist(source, playerPed, Config.mdp2p[num]['loc']) then return end
-  	if AddItem("mdp2p", 1) then 
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stole MDP2P with a distance of  ' .. dist(source, playerPed, Config.mdp2p[num]['loc']) .. ' vectors!', 'xtc')
-  	
+	if CheckDist(source, Config.mdp2p[num]['loc']) then return end
+  	if AddItem(src,"mdp2p", 1) then 
+		Log(GetName(source) .. ' Stole MDP2P with a distance of  ' .. dist(source, Config.mdp2p[num]['loc']) .. ' vectors!', 'xtc')
   	end	
 end)
+
 local presses = {
 	{item = 'singlepress',  data = 'single'},
 	{item = 'dualpress', 	data = 'dual'},
@@ -30,10 +28,9 @@ for k, v in pairs (presses) do
 QBCore.Functions.CreateUseableItem(v.item, function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
-local playerPed = GetPlayerPed(source)
 	if TriggerClientEvent("md-drugs:client:setpress", src, v.data) then
-		Player.Functions.RemoveItem(v.item, 1)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Placed A ' .. v.item .. ' At ' .. GetEntityCoords(playerPed) .. '!', 'xtc')
+		RemoveItem(src, v.item, 1)
+		Log(GetName(source) .. ' Placed A ' .. v.item .. ' At ' .. GetCoords(source) .. '!', 'xtc')
 	end
 end)
 end
@@ -41,23 +38,22 @@ end
 RegisterServerEvent('md-drugs:server:getpressback', function(type)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
-local playerPed = GetPlayerPed(source)
 	if type == 'single' then
-		if Player.Functions.GetItemByName('singlepress') then  Notifys('You Already Have A Kit') return end
-		AddItem('singlepress', 1)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Picked Their Single Press At ' .. GetEntityCoords(playerPed) .. '!', 'xtc')
+		if Player.Functions.GetItemByName('singlepress') then  Notifys(src, 'You Already Have A Kit') return end
+		AddItem(src, 'singlepress', 1)
+		Log(GetName(source) .. ' Picked Their Single Press At ' .. GetCoords(source) .. '!', 'xtc')
 	elseif type == 'dual' then
-		if Player.Functions.GetItemByName('dualpress') then  Notifys('You Already Have A Kit') return end
-		AddItem('dualpress', 1)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Picked Their Dual Press At ' .. GetEntityCoords(playerPed) .. '!', 'xtc')
+		if Player.Functions.GetItemByName('dualpress') then  Notifys(src, 'You Already Have A Kit') return end
+		AddItem(src, 'dualpress', 1)
+		Log(GetName(source) .. ' Picked Their Dual Press At ' .. GetCoords(source) .. '!', 'xtc')
 	elseif type == 'triple' then
-		if Player.Functions.GetItemByName('triplepress') then  Notifys('You Already Have A Kit') return end
-		AddItem('triplepress', 1)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Picked Their Triple Press At ' .. GetEntityCoords(playerPed) .. '!', 'xtc')
+		if Player.Functions.GetItemByName('triplepress') then  Notifys(src, 'You Already Have A Kit') return end
+		AddItem(src, 'triplepress', 1)
+		Log(GetName(source) .. ' Picked Their Triple Press At ' .. GetCoords(source) .. '!', 'xtc')
 	elseif type == 'quad' then
-		if Player.Functions.GetItemByName('quadpress') then  Notifys('You Already Have A Kit') return end
-		AddItem('quadpress', 1)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Picked Their Quad Press At ' .. GetEntityCoords(playerPed) .. '!', 'xtc')
+		if Player.Functions.GetItemByName('quadpress') then  Notifys(src, 'You Already Have A Kit') return end
+		AddItem(src, 'quadpress', 1)
+		Log(GetName(source) .. ' Picked Their Quad Press At ' .. GetCoords(source) .. '!', 'xtc')
 	end		
 end)
 
@@ -65,118 +61,62 @@ end)
 RegisterServerEvent('md-drugs:server:makextc', function(data)
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
-  if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
+  if not Itemcheck(src, 'raw_xtc', 1) then return end
   	if data.data == 'single' then 
 		if data.color == 'white' then 
-			if RemoveItem('raw_xtc', 1) then
-				AddItem('white_xtc', 1)
-				Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Single Stack White Pill!', 'xtc')
-			end
+			if not GetRecipe(src, 'xtc', 'singlestack', 'white') then return end
+				Log(GetName(source) .. ' Made A Single Stack White Pill!', 'xtc')
 		elseif data.color == 'red' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'loosecoke', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('loosecoke', 1)
-			AddItem('red_xtc', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Single Stack Red Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'singlestack', 'red') then return end
+			Log(GetName(source) .. ' Made A Single Stack Red Pill!', 'xtc')
 		elseif data.color == 'orange' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'heroinvial', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('heroinvial', 1)
-			AddItem('orange_xtc', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Single Stack Orange Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'singlestack', 'orange') then return end
+			Log(GetName(source) .. ' Made A Single Stack Orange Pill!', 'xtc')
 		elseif data.color == 'blue' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'crackrock', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('crackrock', 1)
-			AddItem('blue_xtc', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Single Stack Blue Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'singlestack', 'blue') then return end
+			Log(GetName(source) .. ' Made A Single Stack Blue Pill!', 'xtc')
 		end
 	elseif data.data == 'dual' then
 		if data.color == 'white' then 
-			if RemoveItem('raw_xtc', 1) then
-				AddItem('white_xtc2', 1)
-				Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Dual Stack White Pill!', 'xtc')
-			end
+			if not GetRecipe(src, 'xtc', 'dualstack', 'white') then return end
+				Log(GetName(source) .. ' Made A Dual Stack White Pill!', 'xtc')
 		elseif data.color == 'red' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'loosecoke', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('loosecoke', 1)
-			AddItem('red_xtc2', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Dual Stack Red Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'dualstack', 'red') then return end
+			Log(GetName(source) .. ' Made A Dual Stack Red Pill!', 'xtc')
 		elseif data.color == 'orange' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'heroinvial', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('heroinvial', 1)
-			AddItem('orange_xtc2', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Dual Stack Orange Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'dualstack', 'orange') then return end
+			Log(GetName(source) .. ' Made A Dual Stack Orange Pill!', 'xtc')
 		elseif data.color == 'blue' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'crackrock', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('crackrock', 1)
-			AddItem('blue_xtc2', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Dual Stack Blue Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'dualstack', 'blue') then return end
+			Log(GetName(source) .. ' Made A Dual Stack Blue Pill!', 'xtc')
 		end
 	elseif data.data == 'triple' then
 		if data.color == 'white' then 
-			if RemoveItem('raw_xtc', 1) then
-				AddItem('white_xtc3', 1)
-				Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Triple Stack White Pill!', 'xtc')
-			end
+			if not GetRecipe(src, 'xtc', 'triplestack', 'white') then return end
+				Log(GetName(source) .. ' Made A Triple Stack White Pill!', 'xtc')
 		elseif data.color == 'red' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'loosecoke', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('loosecoke', 1)
-			AddItem('red_xtc3', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Triple Stack Red Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'triplestack', 'red') then return end
+			Log(GetName(source) .. ' Made A Triple Stack Red Pill!', 'xtc')
 		elseif data.color == 'orange' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'heroinvial', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('heroinvial', 1)
-			AddItem('orange_xtc3', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Triple Stack Orange Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'triplestack', 'orange') then return end
+			Log(GetName(source) .. ' Made A Triple Stack Orange Pill!', 'xtc')
 		elseif data.color == 'blue' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'crackrock', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('crackrock', 1)
-			AddItem('blue_xtc3', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Triple Stack Blue Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'triplestack', 'blue') then return end
+			Log(GetName(source) .. ' Made A Triple Stack Blue Pill!', 'xtc')
 		end
 	elseif data.data == 'quad' then
 		if data.color == 'white' then 
-			if RemoveItem('raw_xtc', 1) then
-				AddItem('white_xtc4', 1)
-				Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Quad Stack White Pill!', 'xtc')
-			end
+			if not GetRecipe(src, 'xtc', 'quadstack', 'white') then return end
+				Log(GetName(source) .. ' Made A Quad Stack White Pill!', 'xtc')
 		elseif data.color == 'red' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'loosecoke', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('loosecoke', 1)
-			AddItem('red_xtc4', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Quad Stack Red Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'quadstack', 'red') then return end
+			Log(GetName(source) .. ' Made A Quad Stack Red Pill!', 'xtc')
 		elseif data.color == 'orange' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'heroinvial', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('heroinvial', 1)
-			AddItem('orange_xtc4', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Quad Stack Orange Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'quadstack', 'orange') then return end
+			Log(GetName(source) .. ' Made A Quad Stack Orange Pill!', 'xtc')
 		elseif data.color == 'blue' then
-			if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
-			if not Itemcheck(Player, 'crackrock', 1, 'true') then return end
-			RemoveItem('raw_xtc', 1)
-			RemoveItem('crackrock', 1)
-			AddItem('blue_xtc4', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made A Quad Stack Blue Pill!', 'xtc')
+			if not GetRecipe(src, 'xtc', 'quadstack', 'blue') then return end
+			Log(GetName(source) .. ' Made A Quad Stack Blue Pill!', 'xtc')
 		end
 	end
 end)
@@ -186,8 +126,8 @@ RegisterServerEvent('md-drugs:server:buypress', function()
 	local Player = QBCore.Functions.GetPlayer(src)
 	
 	  if Player.Functions.RemoveMoney("cash", 20000) then
-		  AddItem("singlepress", 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Bought A Pill Press', 'xtc')
+		  AddItem(src, "singlepress", 1)
+		  Log(GetName(source) .. ' Bought A Pill Press', 'xtc')
 	  else
 		  Notifys(Lang.xtc.cash, "error")
 	  end
@@ -195,58 +135,19 @@ RegisterServerEvent('md-drugs:server:buypress', function()
 
 RegisterServerEvent('md-drugs:server:upgradepress', function(data)
   local src = source
-  local Player = QBCore.Functions.GetPlayer(src)
-  local playerPed = GetPlayerPed(source)
 
-    if CheckDist(source, playerPed, Config.buypress) then return end
+    if CheckDist(source, Config.buypress) then return end
     if data == 'dual' then
-		local have = 0
-		local pill = {'white_xtc', 'blue_xtc', 'red_xtc', 'orange_xtc'}
-		for k, v in pairs (pill) do
-			if Itemcheck(Player, v, 20, 'true') then have = have + 1 end
-		end
-	 	if have == 4 then 
-			if not Itemcheck(Player, 'singlepress', 1, 'true') then return end
-			RemoveItem('white_xtc', 20)
-			RemoveItem('blue_xtc', 20)
-			RemoveItem('red_xtc', 20)
-			RemoveItem('orange_xtc', 20)
-			RemoveItem('singlepress', 1)
-			AddItem('dualpress', 1)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Upgraded Press To Dual Press', 'xtc')
-		end
+		if not GetRecipe(src, 'xtc', 'press', 'dual') then return end
+		Log(GetName(source) .. ' Upgraded Press To Dual Press', 'xtc')
     elseif data == 'triple' then
-		local have = 0
-		local pill = {'white_xtc2', 'blue_xtc2', 'red_xtc2', 'orange_xtc2'}
-		for k, v in pairs (pill) do
-			if Itemcheck(Player, v, 50, 'true') then have = have + 1 end
-		end
-	 	if have == 4 then 
-		  RemoveItem('dualpress', 1)
-		  RemoveItem('white_xtc2', 50)
-		  RemoveItem('blue_xtc2', 50)
-		  RemoveItem('red_xtc2', 50)
-		  RemoveItem('orange_xtc2', 50)
-		  AddItem('triplepress', 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Upgraded Press To Triple Press', 'xtc')
-	  end
+		if not GetRecipe(src, 'xtc', 'press', 'triple') then return end
+		Log(GetName(source) .. ' Upgraded Press To Triple Press', 'xtc')
     elseif data == 'quad' then
-		local have = 0
-		local pill = {'white_xtc3', 'blue_xtc3', 'red_xtc3', 'orange_xtc3'}
-		for k, v in pairs (pill) do
-			if Itemcheck(Player, v, 150, 'true') then have = have + 1 end
-		end
-	 	if have == 4 then 
-		  RemoveItem('triplepress', 1)
-		  RemoveItem('white_xtc3', 150)
-		  RemoveItem('blue_xtc3', 150)
-		  RemoveItem('red_xtc3', 150)
-		  RemoveItem('orange_xtc3', 150)
-		  AddItem('quadpress', 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Upgraded Press To Quad Press', 'xtc')
-	  end
+		if not GetRecipe(src, 'xtc', 'press', 'quad') then return end
+		  Log(GetName(source) .. ' Upgraded Press To Quad Press', 'xtc')
 	else
-		Notify('huh', 'error')
+		Notifys(src, 'huh', 'error')
 	end
 end)
 
@@ -254,13 +155,9 @@ end)
 RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
-  local playerPed = GetPlayerPed(source)
-  if CheckDist(source, playerPed, Config.rawxtcloc[num]['loc']) then return end
-  if not Itemcheck(Player, 'mdp2p', 1, 'true') and not Itemcheck(Player, 'isosafrole', 1, 'true') then return end
-	RemoveItem('mdp2p', 1)
-	RemoveItem('isosafrole', 1)
-    AddItem("raw_xtc", 1)	
-	Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Made Raw XTC With A Distance Of ' .. dist(source, playerPed, Config.rawxtcloc[num]['loc']) .. '!', 'xtc')
+  	if CheckDist(source, Config.rawxtcloc[num]['loc']) then return end
+  	if not GetRecipe(src, 'xtc', 'raw', 'raw_xtc') then return end
+	Log(GetName(source) .. ' Made Raw XTC With A Distance Of ' .. dist(source, Config.rawxtcloc[num]['loc']) .. '!', 'xtc')
 end)
   
 RegisterServerEvent('md-drugs:server:stampwhite', function(num)
@@ -274,21 +171,20 @@ RegisterServerEvent('md-drugs:server:stampwhite', function(num)
   local chance3 = math.random(#one)
   local four = {'white_playboys4', 'white_aliens4', 'white_pl4', 'white_trolls4', 'white_cats4'}
   local chance4 = math.random(#one)
-  local playerPed = GetPlayerPed(source)
-	if CheckDist(source, playerPed, Config.stamp[num]['loc']) then return end
+	if CheckDist(source, Config.stamp[num]['loc']) then return end
 
-	if Player.Functions.RemoveItem("white_xtc", 1) then
-		AddItem(one[chance], 1)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Single White Pill And Got ' .. one[chance] .. '!', 'xtc')
-	elseif Player.Functions.RemoveItem("white_xtc2", 1) then
-		AddItem(two[chance2], 1)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Dual White Pill And Got ' .. two[chance2] .. '!', 'xtc')
-	elseif Player.Functions.RemoveItem("white_xtc3", 1) then
-		AddItem(three[chance3], 1) 
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Triple White Pill And Got ' .. three[chance3] .. '!', 'xtc')
-	elseif Player.Functions.RemoveItem("white_xtc4", 1) then
-		AddItem(four[chance4], 1) 
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Quad White Pill And Got ' .. four[chance4] .. '!', 'xtc')
+	if RemoveItem(src, "white_xtc", 1) then
+		AddItem(src, one[chance], 1)
+		Log(GetName(source) .. ' Stamped A Single White Pill And Got ' .. one[chance] .. '!', 'xtc')
+	elseif RemoveItem(src, "white_xtc2", 1) then
+		AddItem(src, two[chance2], 1)
+		Log(GetName(source) .. ' Stamped A Dual White Pill And Got ' .. two[chance2] .. '!', 'xtc')
+	elseif RemoveItem(src, "white_xtc3", 1) then
+		AddItem(src, three[chance3], 1) 
+		Log(GetName(source) .. ' Stamped A Triple White Pill And Got ' .. three[chance3] .. '!', 'xtc')
+	elseif RemoveItem(src, "white_xtc4", 1) then
+		AddItem(src, four[chance4], 1) 
+		Log(GetName(source) .. ' Stamped A Quad White Pill And Got ' .. four[chance4] .. '!', 'xtc')
 	else 
 		Notifys('You Dont Have Unstamped White Pills', 'error')
 	end
@@ -306,20 +202,20 @@ RegisterServerEvent('md-drugs:server:stampred', function(num)
 	local four = {'red_playboys4', 'red_aliens4', 'red_pl4', 'red_trolls4', 'red_cats4'}
 	local chance4 = math.random(#one)
 	local playerPed = GetPlayerPed(source)
-	  if CheckDist(source, playerPed, Config.stamp[num]['loc']) then return end
+	  if CheckDist(source, Config.stamp[num]['loc']) then return end
   
-	  if Player.Functions.RemoveItem("red_xtc", 1) then
-		  AddItem(one[chance], 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Single Red Pill And Got ' .. one[chance] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("red_xtc2", 1) then
-		  AddItem(two[chance2], 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Dual Red Pill And Got ' .. two[chance2] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("red_xtc3", 1) then
-		  AddItem(three[chance3], 1) 
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Triple Red Pill And Got ' .. three[chance3] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("red_xtc4", 1) then
-		  AddItem(four[chance4], 1) 
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Quad Red Pill And Got ' .. four[chance4] .. '!', 'xtc')
+	  if RemoveItem(src, "red_xtc", 1) then
+		  AddItem(src, one[chance], 1)
+		  Log(GetName(source) .. ' Stamped A Single Red Pill And Got ' .. one[chance] .. '!', 'xtc')
+	  elseif RemoveItem(src, "red_xtc2", 1) then
+		  AddItem(src, two[chance2], 1)
+		  Log(GetName(source) .. ' Stamped A Dual Red Pill And Got ' .. two[chance2] .. '!', 'xtc')
+	  elseif RemoveItem(src, "red_xtc3", 1) then
+		  AddItem(src, three[chance3], 1) 
+		  Log(GetName(source) .. ' Stamped A Triple Red Pill And Got ' .. three[chance3] .. '!', 'xtc')
+	  elseif RemoveItem(src, "red_xtc4", 1) then
+		  AddItem(src, four[chance4], 1) 
+		  Log(GetName(source) .. ' Stamped A Quad Red Pill And Got ' .. four[chance4] .. '!', 'xtc')
 	  else 
 		  Notifys('You Dont Have Unstamped red Pills', 'error')
 	  end
@@ -337,20 +233,20 @@ RegisterServerEvent('md-drugs:server:stamporange', function(num)
 	local four = {'orange_playboys4', 'orange_aliens4', 'orange_pl4', 'orange_trolls4', 'orange_cats4'}
 	local chance4 = math.random(#one)
 	local playerPed = GetPlayerPed(source)
-	  if CheckDist(source, playerPed, Config.stamp[num]['loc']) then return end
+	  if CheckDist(source, Config.stamp[num]['loc']) then return end
   
-	  if Player.Functions.RemoveItem("orange_xtc", 1) then
-		  AddItem(one[chance], 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Single Orange Pill And Got ' .. one[chance] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("orange_xtc2", 1) then
-		  AddItem(two[chance2], 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Dual Orange Pill And Got ' .. two[chance2] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("orange_xtc3", 1) then
-		  AddItem(three[chance3], 1) 
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Triple Orange Pill And Got ' .. three[chance3] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("orange_xtc4", 1) then
-		  AddItem(four[chance4], 1) 
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Quad Orange Pill And Got ' .. four[chance4] .. '!', 'xtc')
+	  if RemoveItem(src, "orange_xtc", 1) then
+		  AddItem(src, one[chance], 1)
+		  Log(GetName(source) .. ' Stamped A Single Orange Pill And Got ' .. one[chance] .. '!', 'xtc')
+	  elseif RemoveItem(src, "orange_xtc2", 1) then
+		  AddItem(src, two[chance2], 1)
+		  Log(GetName(source) .. ' Stamped A Dual Orange Pill And Got ' .. two[chance2] .. '!', 'xtc')
+	  elseif RemoveItem(src, "orange_xtc3", 1) then
+		  AddItem(src, three[chance3], 1) 
+		  Log(GetName(source) .. ' Stamped A Triple Orange Pill And Got ' .. three[chance3] .. '!', 'xtc')
+	  elseif RemoveItem(src, "orange_xtc4", 1) then
+		  AddItem(src, four[chance4], 1) 
+		  Log(GetName(source) .. ' Stamped A Quad Orange Pill And Got ' .. four[chance4] .. '!', 'xtc')
 	  else 
 		  Notifys('You Dont Have Unstamped orange Pills', 'error')
 	  end
@@ -368,19 +264,19 @@ RegisterServerEvent('md-drugs:server:stampblue', function(num)
 	local four = {'blue_playboys4', 'blue_aliens4', 'blue_pl4', 'blue_trolls4', 'blue_cats4'}
 	local chance4 = math.random(#one)
 	local playerPed = GetPlayerPed(source)
-	  if CheckDist(source, playerPed, Config.stamp[num]['loc']) then return  end
-	  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Single Blue Pill And Got ' .. one[chance] .. '!', 'xtc')
-	  if Player.Functions.RemoveItem("blue_xtc", 1) then
-		  AddItem(one[chance], 1)
-	  elseif Player.Functions.RemoveItem("blue_xtc2", 1) then
-		  AddItem(two[chance2], 1)
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Dual Blue Pill And Got ' .. two[chance2] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("blue_xtc3", 1) then
-		  AddItem(three[chance3], 1) 
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Triple Blue Pill And Got ' .. three[chance3] .. '!', 'xtc')
-	  elseif Player.Functions.RemoveItem("blue_xtc4", 1) then
-		  AddItem(four[chance4], 1) 
-		  Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Stamped A Quad Blue Pill And Got ' .. four[chance4] .. '!', 'xtc')
+	  if CheckDist(source, Config.stamp[num]['loc']) then return  end
+	  Log(GetName(source) .. ' Stamped A Single Blue Pill And Got ' .. one[chance] .. '!', 'xtc')
+	  if RemoveItem(src, "blue_xtc", 1) then
+		  AddItem(src, one[chance], 1)
+	  elseif RemoveItem(src, "blue_xtc2", 1) then
+		  AddItem(src, two[chance2], 1)
+		  Log(GetName(source) .. ' Stamped A Dual Blue Pill And Got ' .. two[chance2] .. '!', 'xtc')
+	  elseif RemoveItem(src, "blue_xtc3", 1) then
+		  AddItem(src, three[chance3], 1) 
+		  Log(GetName(source) .. ' Stamped A Triple Blue Pill And Got ' .. three[chance3] .. '!', 'xtc')
+	  elseif RemoveItem(src, "blue_xtc4", 1) then
+		  AddItem(src, four[chance4], 1) 
+		  Log(GetName(source) .. ' Stamped A Quad Blue Pill And Got ' .. four[chance4] .. '!', 'xtc')
 	  else 
 		  Notifys('You Dont Have Unstamped blue Pills', 'error')
 	  end

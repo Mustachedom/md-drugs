@@ -5,6 +5,9 @@ local heated = nil
 local active = nil
 
 local function startcook()
+	if not ItemCheck('empty_weed_bag') then return end
+	if not ItemCheck('acetone') then return end
+	if not ItemCheck('ephedrine') then return end
 	if amonia == nil then
 		active = true
 		TriggerServerEvent("md-drugs:server:startcook")
@@ -35,49 +38,10 @@ if tray then
 	tray = false
 	DeleteObject(trays)
 	local bucket = CreateObject(`bkr_prop_meth_bigbag_03a`, vector3(1012.85, -3194.29, -39.2), true, true, true)
-	SetEntityHeading(bucket, 90.0)
+	Freeze(bucket, true, 90.0)
 	SmashMeth()
-
-	local options = {
-		{
-			name = 'bucket',
-			icon = 'fa-solid fa-car',
-			label = 'Bag Meth',
-			action = function()
-				DeleteObject(bucket)
-				amonia = nil
-				heated = nil
-				tray = nil
-				active = nil
-				BagMeth()
-				TriggerServerEvent('md-drugs:server:getmeth')
-				
-			end,
-
-		}
-	}
-	local optionsox = {
-		{
-			name = 'bucket',
-			icon = 'fa-solid fa-car',
-			label = 'Bag Meth',
-			onSelect = function()
-				DeleteObject(bucket)
-				amonia = nil
-				heated = nil
-				tray = nil
-				active = nil
-				BagMeth()
-				TriggerServerEvent('md-drugs:server:getmeth')
-			end,
-
-		}
-	}
-	if Config.oxtarget then
-        exports.ox_target:addLocalEntity(bucket,  optionsox)
-    else 
-	    exports['qb-target']:AddTargetEntity(bucket, {options = options, distance = 2.0})
-    end   
+	Wait(100)
+	AddSingleModel(bucket, {name = 'bucket',icon = 'fa-solid fa-car',label = 'Bag Meth',action = function()	DeleteObject(bucket)amonia = nil heated = nil tray = nil active = nil BagMeth()	TriggerServerEvent('md-drugs:server:getmeth')end,}, bucket) 
 end	
 end
 
@@ -109,109 +73,58 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	exports['qb-target']:AddBoxZone("methteleout", Config.MethTeleIn, 1.5, 1.75, { name = "methteleout", heading = 11.0, debugPoly = false, minZ = Config.MethTeleIn.z - 2, maxZ = Config.MethTeleIn.z + 2,}, {
-		options = {
-			{name = 'teleout',	icon = "fas fa-sign-in-alt",	label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end},
-		},
-		distance = 2.5
-	})
-	exports['qb-target']:AddBoxZone("methtelein", Config.MethTeleOut, 1.5, 1.75, {name = "methtelein",heading = 11.0,debugPoly = false,minZ = Config.MethTeleOut.z - 2,maxZ = Config.MethTeleOut.z + 2,}, {
-		options = {
-			{ name = 'teleout', icon = "fas fa-sign-in-alt", label = "Exit Building", action = function() 	SetEntityCoords(PlayerPedId(), Config.MethTeleIn) end },
-		},
-		distance = 2.5
-	})
-	exports['qb-target']:AddBoxZone("maze", vector3(-95.55, -806.73, 44.04), 1.5, 1.75, { name = "maze", heading = 11.0, debugPoly = false, minZ = 44 - 2, maxZ = 44 + 2, }, {
-		options = {
-			{	name = 'die',	icon = "fas fa-sign-in-alt",	label = "dont click this",	action = function()		SetEntityCoords(PlayerPedId(), vector3(-75.36, -837.24, 318.93))	end},
-		},
-		distance = 2.5
-	})
+	
+	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
+	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
 	local itemreqcook = { "ephedrine", "acetone" }
-	exports['qb-target']:AddBoxZone("ingridientsmeth", vector3(1005.7, -3201.28, -39.55), 1.5, 1.75,{ name = "ingridientsmeth", heading = 11.0, debugPoly = false, minZ = -39 - 2, maxZ = -39 + 2,}, {
-		options = {
-			{ name = 'methcook', icon = "fas fa-sign-in-alt", label = "Cook Meth", item = itemreqcook, action = function() 	startcook() end,
-				canInteract = function()
-					if amonia == nil and active == nil then
-						return true
-					end
-			  end,
-			},
-			{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = "Grab Tray", distance = 5, action = function() 	trayscarry() end,
-			  canInteract = function()
-					if heated and amonia and tray == nil then return true end
-			  end,
-			},
+	local options = {
+		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = "Cook Meth", action = function() 	startcook() end,
+			canInteract = function()
+				if amonia == nil and active == nil then
+					return true
+				end
+		  end,
 		},
-		distance = 2.5
-	})
-	exports['qb-target']:AddBoxZone("boxmeth", vector3(1012.15, -3194.04, -39.20), 1.5, 1.75,{	name = "boxmeth",	heading = 3.0,	debugPoly = false,	minZ = -39 - 2,	maxZ = -39 + 2,}, {
-		options = {
-			{name = 'boxmeth',icon = "fas fa-sign-in-alt",label = "Box Up Meth",distance = 5,action = function()	smash()end,
-				canInteract = function()
-					if tray then return true end
-				end,
-			},
+		{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = "Grab Tray", action = function() 	trayscarry() end,
+		  canInteract = function()
+				if heated and amonia and tray == nil then return true end
+		  end,
 		},
-	})
-	exports['qb-target']:AddBoxZone("adjustdials", vector3(1007.89, -3201.17, -38.99), 1.5, 1.75,{	name = "adjustdials",	heading = 11.0,	debugPoly = false,	minZ = -39 - 2,	maxZ = -39 + 2,}, {
-		options = {
-			{	name = 'adjustdials',	icon = "fas fa-sign-in-alt",	label = "Adjust Dials",	distance = 5,	action = function()		dials()	end,
-				canInteract = function()
-					if amonia and heated == nil then return true end end
-			},
-		},
-	})
+	}
+	AddBoxZoneSingle("cookmeth",vector3(1005.7, -3201.28, -39.55), options )
+	AddBoxZoneSingle('boxmeth', vector3(1012.15, -3194.04, -39.20), {name = 'boxmeth',icon = "fas fa-sign-in-alt",label = "Box Up Meth",action = function()	smash()end,
+			canInteract = function()
+				if tray then return true end
+			end})
+	AddBoxZoneSingle('adjustdials',vector3(1007.89, -3201.17, -38.99),{	name = 'adjustdials',	icon = "fas fa-sign-in-alt",	label = "Adjust Dials",	distance = 5,	action = function()		dials()	end,
+			canInteract = function()
+				if amonia and heated == nil then return true end end
+			})
 	if Config.MethHeist == false then
-		for k, v in pairs (Config.MethEph) do 
-			if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
-			exports['qb-target']:AddBoxZone("methep"..k, v.loc, v.l, v.w, { name = "methep"..k, heading = v.rot, minZ = v.loc.z - 1.0, maxZ = v.loc.z + 2.0,}, {
-				options = {
-					{icon = "fas fa-sign-in-alt",	label = "Steal Ephedrine", event = 'md-drugs:client:stealeph', data = k,
-					canInteract = function()
-						if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
-				},
-				},
-				distance = 2.5
-			})
-		end
-		for k, v in pairs (Config.Methace) do 
-			if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
-			exports['qb-target']:AddBoxZone("methace"..k, v.loc, v.l, v.w, { name = "methace"..k, heading = v.rot, minZ = v.loc.z - 1.0, maxZ = v.loc.z + 2.0,}, {
-				options = {
-					{icon = "fas fa-sign-in-alt",	label = "Steal Acetone", event = 'md-drugs:client:stealace', data = k,
-					canInteract = function()
-						if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
-				},
-				},
-				distance = 2.5
-			})
-		end
+		AddBoxZoneMulti('methep', Config.MethEph, {icon = "fas fa-sign-in-alt",	label = "Steal Ephedrine", event = 'md-drugs:client:stealeph'})
+		AddBoxZoneMulti('methace', Config.Methace, {icon = "fas fa-sign-in-alt",	label = "Steal Acetone", event = 'md-drugs:client:stealace'})
 	end
 end)
 
 CreateThread(function()
-if Config.MethHeist == false then
-else
+if not Config.MethHeist == false then
 	local current = "g_m_y_famdnf_01"
 	lib.requestModel(current, Config.RequestModelTime)
 	local CurrentLocation = Config.MethHeistStart
 	local methdealer = CreatePed(0, current, CurrentLocation.x, CurrentLocation.y, CurrentLocation.z - 1, false, false)
 	Freeze(methdealer, true, 220.0)
-	exports['qb-target']:AddTargetEntity(methdealer, {
-		options = {
-			{
-				label = "Get Mission",
-				icon = "fas fa-eye",
-				action = function()
-					Notify(Lang.meth.mission, "success")
-					SpawnMethCarPedChase()
-				end,
-			},
-		}
-	})
+	Wait(100)
+	AddSingleModel(methdealer,{
+		label = "Get Mission",
+		icon = "fas fa-eye",
+		action = function()
+			Notify(Lang.meth.mission, "success")
+			SpawnMethCarPedChase()
+		end,
+	},nil )
 end
 end)
+
 RegisterNetEvent("md-drugs:client:stealeph", function(data)
 	if not progressbar('Stealing Ephedrine', 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:geteph", data.data)

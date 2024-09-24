@@ -1,14 +1,14 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('md-drugs:server:payfortruck', function()
+lib.callback.register('md-drugs:server:payfortruck', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	local playerPed = GetPlayerPed(source)
 	if Player.Functions.RemoveMoney('cash', Config.TruckPrice ) or Player.Functions.RemoveMoney('bank', Config.TruckPrice ) then
-		TriggerClientEvent("md-drugs:Client:getoxylocation", src)
-		Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Rented A Van For OxyRuns', 'oxy')
+		Log(GetName(src) .. ' Rented A Van For OxyRuns', 'oxy')
+		return true
 	else
-		Notifys(Lang.oxy.broke, "error")
+		Notifys(src, Lang.oxy.broke, "error")
+		return false
 	end
 end)
 
@@ -22,19 +22,19 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local item = Config.OxyRandItems[math.random(1, #Config.OxyRandItems)]
 	
 	if chance <= Config.OxyRunDitchChance then 
-		Notifys(Lang.oxy.hot, "error")
+		Notifys(src, Lang.oxy.hot, "error")
 		Player.Functions.AddMoney("cash", cash * 0.5)
 		if itemchance <= Config.OxyItemChance then 
-			AddItem(item, Config.OxyItemAmount)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. Config.OxyItemAmount .. ' Of ' .. item .. ' For This Drop Off', 'oxy')
+			AddItem(src, item, Config.OxyItemAmount)
+			Log(GetName(source) .. ' Got ' .. Config.OxyItemAmount .. ' Of ' .. item .. ' For This Drop Off', 'oxy')
 		end	
 	else
 		Notifys(Lang.oxy.next, "success")
 		TriggerClientEvent("md-drugs:client:getoxylocationroute", src)
 		Player.Functions.AddMoney("cash", cash)
 		if itemchance <= Config.OxyItemChance then 
-			AddItem(item, Config.OxyItemAmount)
-			Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got ' .. Config.OxyItemAmount .. ' Of ' .. item .. ' For This Drop Off', 'oxy')
+			AddItem(src, item, Config.OxyItemAmount)
+			Log(GetName(source) .. ' Got ' .. Config.OxyItemAmount .. ' Of ' .. item .. ' For This Drop Off', 'oxy')
 		end
 	end
 	

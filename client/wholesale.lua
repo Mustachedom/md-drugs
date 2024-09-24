@@ -9,7 +9,6 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug, notify)
  else   
     TriggerServerEvent('md-drugs:server:RemoveBurner', drug)
     Notify(notify, 'success')
-	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
     local timer = 0
     miss = true
@@ -23,48 +22,40 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug, notify)
     AddTextComponentSubstringPlayerName("drug Meet")
     EndTextCommandSetBlipName(deliveryBlip)
     SetBlipRoute(deliveryBlip, true)
+    lib.requestModel("g_m_y_famdnf_01", Config.RequestModelTime)
+	    local current = "g_m_y_famdnf_01"
+       local drugdealer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, 90.0, false, false)
+       FreezeEntityPosition(drugdealer, true)
+       SetEntityInvincible(drugdealer, true)
+       AddSingleModel(drugdealer, {
+           type = "client",
+           label = "Talk To Buyer",
+           icon = "fas fa-eye",
+           action = function()
+                    local luck = math.random(1,100)
+                    if luck >=101 then
+                        TriggerEvent("md-drugs:client:SuccessSale", drug)
+                        Wait(4000)
+                        DeleteEntity(drugdealer)
+                    else
+                        TriggerEvent("md-drugs:client:SetUp")
+                        Wait(3000)
+                        DeleteEntity(drugdealer)
+                    end
+                    miss = false
+                end,	
+       },nil )
 	repeat
         Wait(1000)
         timer = timer + 1
     until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z) ) < 4.0 or timer == Config.WholesaleTimeout + 1
     PoliceCall(Config.AlertPoliceWholesale)
+    RemoveBlip(deliveryBlip)
     if timer <= Config.WholesaleTimeout or #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z) ) < 4.0  then
         timer = 0
-        RemoveBlip(deliveryBlip)
-        lib.requestModel("g_m_y_famdnf_01", Config.RequestModelTime)
-	    local current = "g_m_y_famdnf_01"
-       local drugdealer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, 90.0, false, false)
-        FreezeEntityPosition(drugdealer, true)
-        SetEntityInvincible(drugdealer, true)
-	        exports['qb-target']:AddTargetEntity(drugdealer, {
-           options = {
-               {
-                   type = "client",
-                   label = "Talk To Buyer",
-                   icon = "fas fa-eye",
-                   action = function()
-	        				local luck = math.random(1,100)
-	        				local ped = GetEntityCoords(PlayerPedId())
-	        				if luck <= Config.SuccessfulChance then
-	        					TriggerEvent("md-drugs:client:SuccessSale", drug)
-                                Wait(4000)
-                                DeleteEntity(drugdealer)
-	        				else
-	        					TriggerEvent("md-drugs:client:SetUp")
-	        					Wait(3000)
-	        					SetUpPeds()
-                                Wait(4000)
-                                DeleteEntity(drugdealer)
-	        				end
-                            miss = false
-	        			end,	
-               },
-           },
-           distance = 2.0
-        })
     else
         Notify('The Buyer Waited To Long')
-        RemoveBlip(deliveryBlip)
+        DeleteEntity(drugdealer)
     end
 end
 end)

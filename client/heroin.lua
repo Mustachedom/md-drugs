@@ -1,52 +1,29 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local CocaPlant = {}
 local PoppyPlants = {}
 local herointable = false
-local function loadParticle(dict)
-    if not HasNamedPtfxAssetLoaded(dict) then
-        RequestNamedPtfxAsset(dict)
-    end
-    while not HasNamedPtfxAssetLoaded(dict) do
-        Wait(0)
-    end
-    SetPtfxAssetNextCall(dict)
+
+local function pickher(loc)
+    if not progressbar(Lang.Heroin.pick, 4000, 'uncuff') then return end
+    TriggerServerEvent("heroin:pickupCane", loc)
 end
+
 CreateThread(function() 
 local Ped = "g_m_y_famdnf_01"
 	lib.requestModel("g_m_y_famdnf_01", Config.RequestModelTime)
 	local labkitlocation = Config.buyheroinlabkit
 	local heroinkitdealer = CreatePed(0, Ped, labkitlocation.x, labkitlocation.y, labkitlocation.z-1, labkitlocation.w, false, false)
     Freeze(heroinkitdealer, true, labkitlocation.w)
-    local options = {
-        { label = "Buy Heroin Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buyheroinlabkit", distance = 2.0},
-    } 
-    if Config.oxtarget then
-        exports.ox_target:addLocalEntity(heroinkitdealer, options)
-    else
-	    exports['qb-target']:AddTargetEntity(heroinkitdealer, { options = options, distance = 2.0})
-    end    
+    AddSingleModel(heroinkitdealer, { label = "Buy Heroin Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buyheroinlabkit", distance = 2.0}, nil )
 end)
 
 ---- plant spawns dont edit
 RegisterNetEvent('heroin:respawnCane', function(loc)
     local v = GlobalState.PoppyPlants[loc]
     local hash = GetHashKey(v.model)
-
     if not PoppyPlants[loc] then
         PoppyPlants[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(PoppyPlants[loc], true, v.heading)
-        exports['qb-target']:AddTargetEntity(PoppyPlants[loc], {
-            options = { {
-                    icon = "fas fa-hand",
-                    label = "pick Poppies",
-                    action = function()
-                       if not progressbar(Lang.Heroin.pick, 4000, 'uncuff') then return end
-                        TriggerServerEvent("heroin:pickupCane", loc)
-                    end
-                }
-            },
-            distance = 2.5
-        })
+        AddSingleModel(PoppyPlants[loc], {icon = "fas fa-hand",    label = "pick Poppies",    action = function()        pickher(loc)    end}, loc )
     end
 end)
 
@@ -66,18 +43,7 @@ RegisterNetEvent("heroin:init", function()
         if not v.taken then
             PoppyPlants[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(PoppyPlants[k], true, v.heading)
-            exports['qb-target']:AddTargetEntity(PoppyPlants[k], {
-                options = { {
-                        icon = "fas fa-hand",
-                        label = "Pick Poppies",
-                        action = function()
-                           if not progressbar(Lang.Heroin.pick, 4000, 'uncuff') then return end
-                            TriggerServerEvent("heroin:pickupCane", k) 
-                        end
-                    }
-                },
-                distance = 2.5
-            })
+            AddSingleModel(PoppyPlants[k], {icon = "fas fa-hand",    label = "pick Poppies",    action = function()        pickher(k)    end}, k )
         end
     end
 end)
@@ -126,37 +92,37 @@ RegisterNetEvent("md-drugs:client:buyheroinlabkit", function()
 	TriggerServerEvent("md-drugs:server:getheroinlabkit")
 end)
 
-RegisterNetEvent("md-drugs:client:setheroinlabkit")
-AddEventHandler("md-drugs:client:setheroinlabkit", function() 
+
+RegisterNetEvent("md-drugs:client:setheroinlabkit", function() 
 if herointable then   
    Notify(Lang.Heroin.tableout, 'error')
 else
-local PedCoords = GetEntityCoords(PlayerPedId())
-    if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
     herointable = true
-	local heroinlabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+    local location, head = StartRay()
+    if not location then herointable = false TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
+    if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
+	local heroinlabkit = CreateObject("v_ret_ml_tablea", location.x, location.y, location.z, true, false)
+    SetEntityHeading(heroinlabkit, head)
 	PlaceObjectOnGroundProperly(heroinlabkit)
     local  options = {
         { event = "md-drugs:client:heatliquidheroin", icon = "fas fa-box-circle-check", label = "Cook Heroin", data = heroinlabkit},
         { event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = "Pick Up",     data = heroinlabkit, canInteract = function() if herointable then return true end end},
      }
-    if Config.oxtarget then
-        exports.ox_target:addLocalEntity(heroinlabkit, options)
-    else
-	    exports['qb-target']:AddTargetEntity(heroinlabkit, {options = options})
-    end    
+    AddMultiModel(heroinlabkit, options, heroinlabkit)
 end
 end)
 
 
 RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data) 
-local PedCoords = GetEntityCoords(PlayerPedId())
+    local loc = GetEntityCoords(data.data)
+    local head = GetEntityHeading(data.data)
     if not ItemCheck('emptyvial') then return end
     if not minigame(2, 8) then
         TriggerServerEvent("md-drugs:server:failheatingheroin")
 		DeleteObject(data.data)
-		Wait(100)
-		local dirtylabkitheroin = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+		local dirtylabkitheroin = CreateObject("v_ret_ml_tablea", loc.x, loc.y, loc.z-1, true, false)
+        SetEntityHeading(dirtylabkitheroin, head)
+        PlaceObjectOnGroundProperly(dirtylabkitheroin)
 		loadParticle("core")
 	    heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", dirtylabkitheroin, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
         SetParticleFxLoopedAlpha(heroinkit, 3.0)
@@ -164,11 +130,7 @@ local PedCoords = GetEntityCoords(PlayerPedId())
         local options = {
             {   event = "md-drugs:client:cleanheroinlabkit",   icon = "fas fa-box-circle-check",   label = "Clean It", data = dirtylabkitheroin}
         }
-        if Config.oxtarget then
-            exports.ox_target:addLocalEntity(dirtylabkitheroin,options )
-        else
-		    exports['qb-target']:AddTargetEntity(dirtylabkitheroin, {options = options})
-        end    
+        AddMultiModel(dirtylabkitheroin, options, nil )
 	return end
    if not progressbar(Lang.Heroin.success, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:heatliquidheroin")
@@ -181,11 +143,18 @@ RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function(data)
 	TriggerServerEvent("md-drugs:server:removecleaningkitheroin", data.data)
 end)
 
-RegisterNetEvent("md-drugs:client:deletedirtyheroin", function(data) 
-DeleteObject(data)
-herointable = false
-Wait(1000)
-TriggerEvent("md-drugs:client:setheroinlabkit")
+RegisterNetEvent("md-drugs:client:deletedirtyheroin", function(data)
+local location = GetEntityCoords(data)
+local head = GetEntityHeading(data)
+    DeleteObject(data)
+	local heroinlabkit = CreateObject("v_ret_ml_tablea", location.x, location.y, location.z-1, true, false)
+    SetEntityHeading(heroinlabkit, head)
+	PlaceObjectOnGroundProperly(heroinlabkit)
+    local  options = {
+        { event = "md-drugs:client:heatliquidheroin", icon = "fas fa-box-circle-check", label = "Cook Heroin", data = heroinlabkit},
+        { event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = "Pick Up",     data = heroinlabkit, canInteract = function() if herointable then return true end end},
+     }
+    AddMultiModel(heroinlabkit, options, heroinlabkit)
 end)
 
 

@@ -3,23 +3,26 @@ local xtcpress = false
 
 
 RegisterNetEvent("md-drugs:client:setpress", function(type)
-    
     if xtcpress then 
         Notify(Lang.xtc.out, 'error')
     else
-        local PedCoords = GetEntityCoords(PlayerPedId())
+        local coords, head = StartRay2()
         xtcpress = true
 	    progressbar('Setting Press On The Ground', 4000, 'uncuff')
-	    local press = CreateObject("bkr_prop_coke_press_01aa", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+	    local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	    PlaceObjectOnGroundProperly(press)
-	
+        SetEntityHeading(press, head)
         local options = {
-            {   
+            {
                 icon = "fas fa-eye",
                 label = "Make XTC",
+                distance = 2.0,
                 action = function() 
                     TriggerEvent("md-drugs:client:XTCMenu", type) 
                 end,   
+                onSelect = function() 
+                    TriggerEvent("md-drugs:client:XTCMenu", type) 
+                end, 
                 canInteract = function()
                     if xtcpress then return true end end
             },
@@ -28,36 +31,16 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
                 label = "Pick Up",   
                 action = function()  
                     TriggerEvent("md-drugs:client:GetPressBack", type, press) 
-                end,  
-                canInteract = function()        
-                    if xtcpress then return true end end 
-            },
-        }
-        local optionsox = {
-            {   
-                icon = "fas fa-eye",
-                label = "Make XTC",
-                onSelect = function() 
-                    TriggerEvent("md-drugs:client:XTCMenu", type) 
-                end,   
-                canInteract = function()
-                    if xtcpress then return true end end
-            },
-            {     
-                icon = "fas fa-eye",    
-                label = "Pick Up",   
+                end, 
                 onSelect = function()  
                     TriggerEvent("md-drugs:client:GetPressBack", type, press) 
-                end,  
+                end, 
+                distance = 2.0,
                 canInteract = function()        
                     if xtcpress then return true end end 
             },
         }
-        if Config.oxtarget then
-            exports.ox_target:addLocalEntity(press,  optionsox)
-        else
-            exports['qb-target']:AddTargetEntity(press, { options = options})
-        end
+        AddMultiModel(press, options, nil)
     end
 end)    
 
@@ -196,7 +179,7 @@ RegisterNetEvent("md-drugs:client:exchangepresses", function(data)
 end)
 
 RegisterNetEvent("md-drugs:client:buypress", function() 
-    local img = GetImage('singlepress'),
+    local img = GetImage('singlepress')
      lib.registerContext({
 	 id = 'buypresses',
 	 title = 'Purchase Presses',

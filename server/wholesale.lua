@@ -23,7 +23,7 @@ RegisterServerEvent('md-drugs:server:wholesalecoke', function()
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
 			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
-              Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Wholesaled Drugs ', 'wholesale')
+              Log(GetName(source) .. ' Wholesaled Drugs ', 'wholesale')
         end
     end
 end)
@@ -47,7 +47,7 @@ RegisterServerEvent('md-drugs:server:wholesalecrack', function()
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
 			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
-            Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Wholesaled Drugs ', 'wholesale')        
+            Log(GetName(source) .. ' Wholesaled Drugs ', 'wholesale')        
         end
     end
 end)
@@ -73,7 +73,7 @@ RegisterServerEvent('md-drugs:server:wholesalelsd', function()
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
 			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
-            Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Wholesaled Drugs ', 'wholesale')
+            Log(GetName(source) .. ' Wholesaled Drugs ', 'wholesale')
         end
     end
 end)
@@ -98,7 +98,7 @@ RegisterServerEvent('md-drugs:server:wholesaleheroin', function()
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
 			Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
-            Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Wholesaled Drugs ', 'wholesale')
+            Log(GetName(source) .. ' Wholesaled Drugs ', 'wholesale')
         end
     end
 end)
@@ -122,7 +122,7 @@ RegisterServerEvent('md-drugs:server:wholesalextc', function()
             local removed = Player.Functions.RemoveItem(v, item.amount)
             Player.Functions.AddMoney("cash", item.amount * price)
             Notifys("You received " .. item.amount * price .. "  Dollars!" , "success")
-            Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Wholesaled Drugs ', 'wholesale')  
+            Log(GetName(source) .. ' Wholesaled Drugs ', 'wholesale')  
         end
     end
 end)

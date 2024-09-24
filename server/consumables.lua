@@ -15,9 +15,8 @@ end
 
 RegisterNetEvent('md-drugs:server:removeconsum', function(item)
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
-		Player.Functions.RemoveItem(item, 1) 
-        Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Got High With ' .. item .. '!', 'consuming')
+		RemoveItem(source,item, 1) 
+        Log(GetName(source)  .. ' Got High With ' .. item .. '!', 'consuming')
 end)    
 
 RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)

@@ -24,27 +24,23 @@ end
 RegisterNetEvent("shrooms:pickupCane")
 AddEventHandler("shrooms:pickupCane", function(loc)
     local chance = math.random(1,10)
-    local playerPed = GetPlayerPed(source)
-	if CheckDist(source, playerPed, Config.shrooms[loc].location) then return end
+	if CheckDist(source, Config.shrooms[loc].location) then return end
     if not Config.shrooms[loc].taken then
         Config.shrooms[loc].taken = true
         GlobalState.shrooms = Config.shrooms
         TriggerClientEvent("shrooms:removeCane", -1, loc)
         shroomsCooldown(loc)
-        local Player = QBCore.Functions.GetPlayer(source)
-        AddItem('shrooms', 1)
-        Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Picked A Shroom With a distance of ' .. dist(source, playerPed, Config.shrooms[loc].location) .. ' vectors', 'shrooms')
+        AddItem(source, 'shrooms', 1)
+        Log(GetName(source) .. ' Picked A Shroom With a distance of ' .. dist(source, Config.shrooms[loc].location) .. ' vectors', 'shrooms')
     end
 end)
 
 QBCore.Functions.CreateUseableItem('shrooms', function(source, item)
 local src = source
-local Player = QBCore.Functions.GetPlayer(src)
-
 if TriggerClientEvent('md-drugs:client:takeshrooms', src, item.name) then
-	Player.Functions.RemoveItem('shrooms', 1)
-    Log(Player.PlayerData.charinfo.firstname .. ' ' ..  Player.PlayerData.charinfo.lastname .. ' Took Some Mushrooms', 'shrooms')
-    TriggerClientEvent("QBCore:Notify", src, Lang.Shrooms.trip, 'success')
+	RemoveItem(src, 'shrooms', 1)
+    Log(GetName(source) .. ' Took Some Mushrooms', 'shrooms')
+    Notifys(src, 'You Took Some Shrooms!', 'success')
 	end
 end)
 

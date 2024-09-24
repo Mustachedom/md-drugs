@@ -49,27 +49,59 @@ function progressbar(text, time, anim)
 	  until cancelled or test
 	  if test then return true end
 	else
-		print"dude, it literally tells you what you need to set it as in the config"
+			print"^1 SCRIPT ERROR: Md-DRUGS set your progressbar with one of the options!"
 	end	  
   end
 
 function minigame(num1, num2)
-    local check
+   local game = Config.Minigames
 	if minigametype == 'ps' then
+		local check 
     	exports['ps-ui']:Circle(function(success)
         	check = success
-    	end, num1, num2) 
+    	end, game['ps'].amount, game['ps'].speed) 
     	return check
 	elseif minigametype == 'ox' then
-		num1 = 'easy'
-		if num2 <= 6 then num2 = 'hard' elseif num2 >= 7 and num2 <= 12 then num2 = 'medium' else num2 = 'easy' end
-		local success = lib.skillCheck({num1, num2}, {'1', '2', '3', '4'})
-		return success 
-    elseif minigametype == 'none' then
-		return true
-	else	
 		
-        print"dude, it literally tells you what you need to set it as in the config"
+		local success = lib.skillCheck(game['ox'], {'1', '2', '3', '4'})
+		return success 
+    elseif minigametype == 'blcirprog' then
+		local success = exports.bl_ui:CircleProgress(game['blcirprog'].amount, game['blcirprog'].speed)
+		return success
+	elseif minigametype == 'blprog' then
+		local success = exports.bl_ui:Progress(game['blprog'].amount, game['blprog'].speed)
+		return success
+	elseif minigametype == 'blkeyspam' then
+		local success = exports.bl_ui:KeySpam(game['blkeyspam'].amount, game['blprog'].difficulty)
+		return success
+	elseif minigametype == 'blkeycircle' then
+		local success = exports.bl_ui:KeyCircle(game['blkeycircle'].amount, game['blkeycircle'].difficulty, game['blkeycircle'].keynumbers)
+		return success	
+	elseif minigametype == 'blnumberslide' then
+		local success = exports.bl_ui:NumberSlide(game['blnumberslide'].amount, game['blnumberslide'].difficulty, game['blnumberslide'].keynumbers)
+		return success	
+	elseif minigametype == 'blrapidlines' then
+		local success = exports.bl_ui:RapidLines(game['blrapidlines'].amount, game['blrapidlines'].difficulty, game['blrapidlines'].numberofline)
+		return success	
+	elseif minigametype == 'blcircleshake' then
+		local success = exports.bl_ui:CircleShake(game['blcircleshake'].amount, game['blcircleshake'].difficulty, game['blcircleshake'].stages)
+		return success	
+	elseif minigametype == 'glpath' then 
+		exports["glow_minigames"]:StartMinigame(function(success)
+			if success then return true else return false end	
+		end, "path", game['glpath'])
+	elseif minigametype == 'glspot' then
+		exports["glow_minigames"]:StartMinigame(function(success)
+			if success then return true else return false end	
+		end, "spot", game['glspot'])
+	elseif minigametype == 'glmath' then
+		exports["glow_minigames"]:StartMinigame(function(success)
+			if success then return true else return false end	
+		end, "math", game['glmath'])
+	elseif minigametype == 'none' then 
+		return true			
+	else	
+       	print"^1 SCRIPT ERROR: Md-DRUGS set your minigame with one of the options!"
     end
 end
 
@@ -82,8 +114,8 @@ end
 	elseif notifytype == 'okok' then
 	  exports['okokNotify']:Alert('', text, 4000, type, false)
 	else 
-       	print"dude, it literally tells you what you need to set it as in the config"
-    	end   
+       	print"^1 SCRIPT ERROR: Md-DRUGS set your notification with one of the options!"
+    end   
   end
 
 function GetImage(img)
@@ -126,11 +158,30 @@ end
 function ItemCheck(item)
 local success 
 if GetResourceState('ox_inventory') == 'started' then
-    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') end
+    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
 else
     if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-    if QBCore.Functions.HasItem(item) then success = item return success else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
+    if QBCore.Functions.HasItem(item) then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') return false end
 end
+end
+
+function ItemCheckMulti(item)
+	local need = 0
+	local has = 0
+	for k,v in pairs (item) do 
+		need = need + 1
+		if GetResourceState('ox_inventory') == 'started' then
+			if exports.ox_inventory:GetItemCount(v) >= 1 then has = has + 1 else Notify('You Need ' .. GetLabel(v) .. " !", 'error') end
+		else
+			if QBCore.Shared.Items[v] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
+			if QBCore.Functions.HasItem(v) then has = has + 1  else Notify('You Need ' .. QBCore.Shared.Items[v].label .. " !", 'error') end
+		end
+	end
+	if need == has then 
+		return true
+	else
+		return false
+	end
 end
 
 function Email(sender, subject, message)
@@ -213,3 +264,220 @@ function Freeze(entity, toggle, head)
         SetEntityHeading(entity, head)
 		SetBlockingOfNonTemporaryEvents(entity, toggle)
 end
+
+function tele(coords) 
+	DoScreenFadeOut(500)
+	Wait(1000)
+	SetEntityCoords(PlayerPedId(),coords.x, coords.y, coords.z)
+	Wait(1000)
+	DoScreenFadeIn(500)
+end
+
+function Blip(entity, text)
+	local deliveryBlip = AddBlipForCoord(entity)
+    SetBlipSprite(deliveryBlip, 1)
+    SetBlipDisplay(deliveryBlip, 2)
+    SetBlipScale(deliveryBlip, 1.0)
+    SetBlipAsShortRange(deliveryBlip, false)
+    SetBlipColour(deliveryBlip, 27)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName(text)
+    EndTextCommandSetBlipName(deliveryBlip)
+    SetBlipRoute(deliveryBlip, true)
+end
+
+function RemoveBlips()
+	RemoveBlip(deliveryBlip)
+end
+
+function AddBoxZoneSingle(name, loc, data)
+	if Config.Target == 'qb' then
+		exports['qb-target']:AddBoxZone(name, loc, 1.5, 1.75, {name = name, minZ = loc.z-1,maxZ = loc.z +1}, 
+		{ options = {
+			{
+			  type = data.type or nil, 
+			  event = data.event or nil,
+			  action = data.action or nil,
+			  icon = data.icon, 
+			  label = data.label,
+			  data = data.data,
+			  canInteract = data.canInteract,
+			}
+		}, 
+		distance = 2.0
+	 })
+	elseif Config.Target == 'ox' then
+		exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = {
+			{
+			  type = data.type or nil, 
+			  event = data.event or nil,
+			  onSelect = data.action or nil,
+			  distance = 2.5,
+			  icon = data.icon, 
+			  label = data.label,
+			  data = data.data,
+			  canInteract = data.canInteract,
+			}
+		}, })
+	end
+end
+
+function AddBoxZoneMulti(name, table, data) 
+	for k, v in pairs (table) do
+		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
+		if Config.Target == 'qb' then
+			exports['qb-target']:AddBoxZone(name .. k, v.loc, 1.5, 1.75, {name = name..k, minZ = v.loc.z-1.50,maxZ = v.loc.z +1.5}, 
+			{ options = {
+				{
+				  type = data.type or nil, 
+				  event = data.event or nil,
+				  action = data.action or nil,
+				  icon = data.icon, 
+				  label = data.label,
+				  data = k,
+				  canInteract = data.canInteract or function()
+					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+				}
+			}, 
+			distance = 2.5
+		 })
+		elseif Config.Target == 'ox' then
+			exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1), options = {
+				{
+				  type = data.type or nil, 
+				  event = data.event or nil,
+				  onSelect = data.action or nil,
+				  icon = data.icon, 
+				  label = data.label,
+				  data = k,
+				  distance = 2.5,
+				  canInteract = data.canInteract or function()
+					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+				}
+			}, })
+		end
+	end
+end
+
+function AddSingleModel(model, data, num)
+	if Config.Target == 'qb' then
+		exports['qb-target']:AddTargetEntity(model, {options = {
+			{icon = data.icon, label = data.label, event = data.event or nil, action = data.action or nil, data = num }
+		}, distance = 2.5})
+	elseif Config.Target == 'ox' then
+		exports.ox_target:addLocalEntity(model, {icon = data.icon, label = data.label, event = data.event or nil, onSelect = data.action or nil, data = num, distance = 2.5 })
+	end
+end
+
+function AddMultiModel(model, data, num)
+	if Config.Target == 'qb' then
+		exports['qb-target']:AddTargetEntity(model, {options = data, distance = 2.5})
+	elseif Config.Target == 'ox' then
+		exports.ox_target:addLocalEntity(model, data)
+	end
+end
+
+local created = false
+local heading = 180.0
+function StartRay()
+    local run = true
+	local pedcoord = GetEntityCoords(PlayerPedId())
+	local table = CreateObject('v_ret_ml_tablea', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
+    repeat
+        local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
+		if not created then 
+			created = true
+			lib.showTextUI([[[E] To Place   
+			[DEL] To Cancel  
+			[<-] To Move Left  
+			[->] To Move Right]])
+		else
+			SetEntityCoords(table, endCoords.x, endCoords.y, endCoords.z+1)
+			SetEntityHeading(table, heading)
+			SetEntityCollision(table, false, false)
+			SetEntityAlpha(table, 100)
+		end
+		if IsControlPressed(0, 174) then
+            heading = heading - 2
+        end
+		if IsControlPressed(0, 175) then
+            heading = heading + 2
+        end
+        if IsControlPressed(0, 38) then
+            lib.hideTextUI()
+            run = false
+			DeleteObject(table)
+			created = false
+            return endCoords, heading
+        end
+
+        if IsControlPressed(0, 178) then
+            lib.hideTextUI()
+            run = false
+			created = false
+			DeleteObject(table)
+            return nil, nil
+		end
+        Wait(0)
+    until run == false
+end
+
+function StartRay2()
+    local run = true
+	local pedcoord = GetEntityCoords(PlayerPedId())
+	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
+    repeat
+        local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
+		if not created then 
+			created = true
+			lib.showTextUI([[[E] To Place   
+			[DEL] To Cancel  
+			[<-] To Move Left  
+			[->] To Move Right]])
+		else
+			SetEntityCoords(table, endCoords.x, endCoords.y, endCoords.z+1)
+			SetEntityHeading(table, heading)
+			SetEntityCollision(table, false, false)
+			SetEntityAlpha(table, 100)
+		end
+		if IsControlPressed(0, 174) then
+            heading = heading - 2
+        end
+		if IsControlPressed(0, 175) then
+            heading = heading + 2
+        end
+        if IsControlPressed(0, 38) then
+            lib.hideTextUI()
+            run = false
+			DeleteObject(table)
+			created = false
+            return endCoords, heading
+        end
+
+        if IsControlPressed(0, 178) then
+            lib.hideTextUI()
+            run = false
+			created = false
+			DeleteObject(table)
+            return nil, nil
+		end
+        Wait(0)
+    until run == false
+end
+
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+	Wait(3000)
+	local check = lib.callback.await('md-drugs:server:GetRep', false)
+
+	return 
+end)
+local active = false
+RegisterNetEvent('md-drugs:client:minusTier', function(data) 
+	if active then return end
+	if not data then return end
+	active = true
+	if not progressbar('Cutting This ' ..GetLabel(data.item) .. ' More', 4000, 'uncuff') then return end
+	TriggerServerEvent('md-drugs:server:AddMas', data)
+	active = false
+end)

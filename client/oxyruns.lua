@@ -2,73 +2,56 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local deliveryBlip = nil
 local carryPackage = nil
 
-
-RegisterNetEvent("md-drugs:client:getoxytruck", function() 
-if TriggerServerEvent('md-drugs:server:payfortruck') then
-end
-end)
-
-
-RegisterNetEvent("md-drugs:Client:getoxylocation", function()
-	local coords = Config.truckspawn
-	local ModelHash = "burrito3" -- Use Compile-time hashes to get the hash of this model
-	lib.requestModel(ModelHash, Config.RequestModelTime)
-	local oxycar = CreateVehicle(ModelHash,Config.truckspawn.x, Config.truckspawn.y,Config.truckspawn.z, Config.truckspawn.h, true, false)
-    SetEntityHeading(oxycar, coords.w)
+RegisterNetEvent("md-drugs:client:GetOxyCar", function()
+	lib.requestModel("burrito3", Config.RequestModelTime)
+	local paid = lib.callback.await('md-drugs:server:payfortruck', false)
+	if not paid then return end
+	local oxycar = CreateVehicle("burrito3",Config.truckspawn.x, Config.truckspawn.y,Config.truckspawn.z, Config.truckspawn.h, true, false)
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(oxycar))
 	Notify(Lang.oxy.truck, 'success')
 	TriggerEvent("md-drugs:client:getoxylocationroute")
     SetVehicleEngineOn(oxycar, true, true)
-    local options = {
-        { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = "Get Package"},
-    }
-	if Config.oxtarget then
-		exports.ox_target:addLocalEntity(oxycar, options)
-	else 
-		exports['qb-target']:AddTargetEntity(oxycar, {options = options, distance = 2.0})
-	end  
-	
+	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = "Get Package"}, nil )
 end)
 
 
 
 RegisterNetEvent("md-drugs:client:getoxylocationroute", function() 
-	Wait(100)
-	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
-	local unluck =  math.random(1,100)
-    if deliveryBlip ~= nil then
-        RemoveBlip(deliveryBlip)
-    end
 	if CurrentLocation ~= nil then
-    	deliveryBlip = AddBlipForCoord(CurrentLocation)
+    	local deliveryBlip = AddBlipForCoord(CurrentLocation)
     	SetBlipSprite(deliveryBlip, 1)
     	SetBlipDisplay(deliveryBlip, 2)
     	SetBlipScale(deliveryBlip, 1.0)
     	SetBlipAsShortRange(deliveryBlip, false)
     	SetBlipColour(deliveryBlip, 27)
     	BeginTextCommandSetBlipName("STRING")
-    	AddTextComponentSubstringPlayerName("drug Meet")
+    	AddTextComponentSubstringPlayerName(text)
     	EndTextCommandSetBlipName(deliveryBlip)
     	SetBlipRoute(deliveryBlip, true)
-	local current = "g_m_y_famdnf_01"
-	lib.requestModel(current, Config.RequestModelTime)
+		local current = "g_m_y_famdnf_01"
+		lib.requestModel(current, Config.RequestModelTime)
     	local oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
-	Freeze(oxybuyer, true, CurrentLocation.w)
-	repeat
-		Wait(1000)
-	until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
+		Freeze(oxybuyer, true, CurrentLocation.w)
+		repeat
+			Wait(1000)
+		until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
 		RemoveBlip(deliveryBlip)
-		PoliceCall(Config.PoliceAlertOxy)
-		local options = {
-    	        { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", event = "md-drugs:client:giveoxybox", ped = oxybuyer},
-    	    }
-		if Config.oxtarget then
-			exports.ox_target:addLocalEntity(oxybuyer, options)
-		else 
-			exports['qb-target']:AddTargetEntity(oxybuyer, {options = options, distance = 2.0})
-		end   
+		PoliceCall(Config.PoliceAlertOxy) 
+		AddSingleModel(oxybuyer,  { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", 
+		action = function()
+			if carryPackage then
+				if not progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
+				TriggerServerEvent("md-drugs:server:giveoxybox")
+				DeleteEntity(oxybuyer)
+				DetachEntity(carryPackage, true, true)
+				DeleteObject(carryPackage)
+				carryPackage = nil
+			else
+				Notify(Lang.oxy.empty, "error")
+			end
+		end}, oxybuyer)
 	end
 end)
 
@@ -95,6 +78,7 @@ end)
 
 
 RegisterNetEvent("md-drugs:client:giveoxybox", function(data) 
+
 	if carryPackage then
 		if not progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
 		TriggerServerEvent("md-drugs:server:giveoxybox")
