@@ -320,7 +320,7 @@ CreateThread(function()
 end)
 CreateThread(function()
     local url = "https://raw.githubusercontent.com/Mustachedom/md-drugs/main/version.txt"
-    local version = GetResourceMetadata('md-drugs-expiramental', "version" )
+    local version = GetResourceMetadata('md-drugs', "version" )
      PerformHttpRequest(url, function(err, text, headers)
          if (text ~= nil) then
                 print('^2 Your Version:' .. version .. ' | Current Version:' .. text .. '' )  
