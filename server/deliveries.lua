@@ -7,7 +7,9 @@ lib.callback.register('md-drugs:server:getDealers', function(data)
     local loc = json.encode({x = 899.98, y = -2603.24, z = 6.11, h = 176.12 })
     if not check[1] then 
         MySQL.insert('INSERT INTO dealers SET name = ?, coords = ?, time = ?, createdby = ?', {'MD', loc, 'any', 'code Newb'})
-        return false
+	Wait(2000)
+	local check2 = MySQL.query.await('SELECT * FROM dealers', {})
+        return check2
     else
         return check
     end
