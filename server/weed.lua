@@ -71,6 +71,13 @@ RegisterServerEvent('md-drugs:server:MakeWeedItems', function(data)
 	if not GetRecipe(src, data.recipe, data.table, data.item) then return end
 end)
 
+RegisterServerEvent('md-drugs:server:makeoil', function(data)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src) 
+	if not Player then return end
+	if not GetRecipe(src, 'weed', 'oil', 'shatter') then return end
+end)
+
 QBCore.Functions.CreateUseableItem("dabrig", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
