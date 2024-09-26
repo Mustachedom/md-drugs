@@ -86,7 +86,7 @@ local recipe = {
             specialmuffin =     { take = { 	cannabutter = 1, 	flour = 1},                 give = {specialmuffin = 1}},
         },
         oil = {
-            shatter = {take = {butane = 1, grindedweed = 1}, give = {'shatter'}}
+            shatter = {take = {butane = 1, grindedweed = 1}, give = {shatter = 1}}
         },
         blunts = {
             blunt = {take = {bluntwrap = 1, grindedweed = 1}, give = {blunt = 1}},
