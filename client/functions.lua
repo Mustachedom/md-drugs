@@ -359,13 +359,13 @@ function AddBoxZoneMulti(name, table, data)
 	end
 end
 
-function AddBoxZoneMultiOptions(name, table, data) 
+function AddBoxZoneMultiOptions(name, loc, data) 
 
 		if Config.Target == 'qb' then
 			exports['qb-target']:AddBoxZone(name .. k, v.loc, 1.5, 1.75, {name = name..k, minZ = v.loc.z-1.50,maxZ = v.loc.z +1.5}, 
-			{ options = table, distance = 2.5})
+			{ options = data, distance = 2.5})
 		elseif Config.Target == 'ox' then
-			exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1), options = table })
+			exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1), options = data })
 		end
 	end
 
