@@ -74,7 +74,7 @@ end)
 
 CreateThread(function()
 	
-	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
+	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
 	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
 	local itemreqcook = { "ephedrine", "acetone" }
 	local options = {
