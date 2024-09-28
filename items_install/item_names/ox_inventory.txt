@@ -2157,5 +2157,16 @@
         description = "",
         client = {
             image = "gta5phone.png",
-        },
+        }
+		},
+		 ["dextrobluntwrap"] = {
+        label = "Dextro Blunt Wrap",
+        weight = 100,
+        stack = true,
+        close = true,
+        description = "",
+        client = {
+            image = "dextrobluntwrap.png",
+        }
+    },
 },
