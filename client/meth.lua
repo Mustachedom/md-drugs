@@ -76,9 +76,10 @@ CreateThread(function()
 	
 	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
 	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
-	local itemreqcook = { "ephedrine", "acetone" }
 	local options = {
-		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = "Cook Meth", action = function() 	startcook() end,
+		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = "Cook Meth", 
+				action = function() 	startcook() end,
+				onSelect = function() 	startcook() end,
 			canInteract = function()
 				if amonia == nil and active == nil then
 					return true
@@ -91,7 +92,7 @@ CreateThread(function()
 		  end,
 		},
 	}
-	AddBoxZoneSingle("cookmeth",vector3(1005.7, -3201.28, -39.55), options )
+	AddBoxZoneMultiOptions("cookmeth",vector3(1005.7, -3201.28, -39.55), options )
 	AddBoxZoneSingle('boxmeth', vector3(1012.15, -3194.04, -39.20), {name = 'boxmeth',icon = "fas fa-sign-in-alt",label = "Box Up Meth",action = function()	smash()end,
 			canInteract = function()
 				if tray then return true end
