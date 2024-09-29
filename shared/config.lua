@@ -32,7 +32,7 @@ Config.Minigames = {
     glmath =        {timeLimit = 300000},
 
 }
-Config.minigametype = 'blkeyspam' -- look above for options or choose none if you dont want any minigames 
+Config.minigametype = 'ox' -- look above for options or choose none if you dont want any minigames 
 
 ------------- you can either set a gang or leave it blank, if blank it will autopopulate data to not require it :)
 ------------- Cocaine -- new animations require to be in a certain spot or they get fucky. uses bob74 ipl if you turn Config.FancyCokeAnims you can put it anywhere :) 

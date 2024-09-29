@@ -100,4 +100,4 @@ Is there bugs, probably. But im tired of beta testing it over and over so please
 
 
 3.7.0 -> 3.7.1
-slight bug fixes with ox items meth targeting 
+slight bug fixes with ox items, meth targeting 

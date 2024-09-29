@@ -191,27 +191,6 @@ or just use the command /cornersell
 ```
 
 - <h1>Tier System</h1>
-	- Check Players.lua in the server folder of QB-Core. If you see
- 
-	```PlayerData.metadata['dealerrep'] = PlayerData.metadata['dealerrep'] or 0```
-
- 	- Then Place This directly under it
-       
-	```
-		PlayerData.metadata['coke'] = PlayerData.metadata['coke'] or 0
-		PlayerData.metadata['heroin'] = PlayerData.metadata['heroin'] or 0
-		PlayerData.metadata['lsd'] = PlayerData.metadata['lsd'] or 0
-	```
-
- **IF YOU DONT SEE THE ABOVE THEN GO TO THE CONFIG OF QB-Core**
-
-go to the config of qb-core and search metadata, underneath armor = 0, add this
-```
- 	lsd = 0,
-        coke = 0,
-        heroin = 0,
-	dealerrep = 0,
-```
-	
+Turn On Config.TierSystem after you run the sql file
 
 [mlo i use](https://www.gta5-mods.com/maps/mlo-4x-drug-lab-interiors-sp-fivem) heres an option. use it or dont. 
