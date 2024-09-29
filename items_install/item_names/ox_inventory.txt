@@ -2169,4 +2169,3 @@
             image = "dextrobluntwrap.png",
         }
     },
-},
