@@ -1,6 +1,6 @@
 Config = {} --Ignore.
 
-Config.Target = 'qb' -- qb or ox
+Config.Target = 'ox' -- qb or ox
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)

@@ -74,25 +74,23 @@ end)
 
 CreateThread(function()
 	
-	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
-	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
+	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
+	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Exit Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
 	local options = {
-		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = "Cook Meth", 
-				action = function() 	startcook() end,
-				onSelect = function() 	startcook() end,
-			canInteract = function()
+		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = "Cook Meth", distance = 2.5, action = function() 	startcook() end, onSelect = function() 	startcook() end,
+				canInteract = function()
 				if amonia == nil and active == nil then
 					return true
 				end
 		  end,
 		},
-		{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = "Grab Tray", action = function() 	trayscarry() end,
+		{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = "Grab Tray", distance = 2.5, onSelect = function() 	trayscarry() end, action = function() 	trayscarry() end,
 		  canInteract = function()
 				if heated and amonia and tray == nil then return true end
 		  end,
 		},
 	}
-	AddBoxZoneMultiOptions("cookmeth",vector3(1005.7, -3201.28, -39.55), options )
+	AddBoxZoneMultiOptions("cookmeth",vector3(1005.72, -3200.33, -38.52), options )
 	AddBoxZoneSingle('boxmeth', vector3(1012.15, -3194.04, -39.20), {name = 'boxmeth',icon = "fas fa-sign-in-alt",label = "Box Up Meth",action = function()	smash()end,
 			canInteract = function()
 				if tray then return true end

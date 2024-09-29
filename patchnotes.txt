@@ -99,5 +99,5 @@ its what you imagine, about 80-90% of the recipes for md-drugs
 Is there bugs, probably. But im tired of beta testing it over and over so please report bugs to my discord where i can see them and patch them quickly. 
 
 
-
-
+3.7.0 -> 3.7.1
+slight bug fixes with ox items meth targeting 

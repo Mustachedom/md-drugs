@@ -111,7 +111,9 @@ function Itemcheck(source, item, amount)
         end
     end
 end
-
+RegisterCommand('testitem', function(source)
+if not Itemcheck(source,'lockpick', 10) then return end
+end)
 function GetCoords(source) 
     local ped = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(ped)
@@ -207,7 +209,7 @@ function getRep(source, type)
             dealerrep = Player.PlayerData.metadata.dealerrep or 0,
         })
         MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {Player.PlayerData.citizenid, table, GetName(source)})
-        return false
+        return 0
     else
         local rep = json.decode(sql[1].drugrep) 
         if type == 'coke' then
@@ -237,7 +239,7 @@ function GetAllRep(source)
         })
         MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {Player.PlayerData.citizenid, table, GetName(source)})
         Wait(1000)
-        return false
+        return 0
     else
         local rep = json.decode(sql[1].drugrep) 
         return rep

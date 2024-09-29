@@ -1,4 +1,5 @@
 	--md-drugs copy and paste below items to ox_inventory/data/items.lua
+	```
     ["coke"] = {
         label = "Raw Cocaine",
         weight = 1000,
@@ -2169,3 +2170,4 @@
             image = "dextrobluntwrap.png",
         }
     },
+```
