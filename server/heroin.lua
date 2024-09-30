@@ -144,7 +144,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 			if not GetRecipe(src, 'heroin', 'fillvial', 'tier3') then return end
 			Log(GetName(src) ..' Made A Vial Of Heroin Tier 3', 'heroin')
 		else
-			Notifys(Lang.Heroin.novial, "error")
+			Notifys(src, 'no cut heroin', "error")
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'fillvial', 'tier1') then return end
