@@ -102,9 +102,10 @@ function Itemcheck(source, item, amount)
             return false   
         end
     elseif inventory == 'ox' then
-       local has = exports.ox_inventory:GetItem(source, item , nil, true)
-        if has >= amount then 
+       local item = ox_inventory:GetItem(source, item, nil, false) 
+            if item.count >= amount then 
             return true
+            end
         else
             Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
             return false
