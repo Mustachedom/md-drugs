@@ -54,7 +54,7 @@ local recipe = {
      },
      lsd = {
         vial = {
-            heat = {take = {lysergic_acid = 1, diethylamide = 1,}, give = {lsd_vial_one = 1}}
+            heat = {take = {lysergic_acid = 1, diethylamide = 1,}, give = {lsd_one_vial = 1}}
         },
         
      },
