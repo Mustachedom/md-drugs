@@ -99,7 +99,7 @@ end)
 RegisterServerEvent('md-drugs:server:failrefinequality', function()
 	local src = source
 	if not Itemcheck(src, 'lsd_one_vial', 1) then return end
-	RemoveItem('lsd_one_vial', 1)  
+	RemoveItem(src,'lsd_one_vial', 1)  
 end)
 
 
