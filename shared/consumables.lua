@@ -25,7 +25,7 @@ strength = number -- how long you are strong boi
 ]]
 Consumables.Items = {
     -- meth
-    ["methbags"] =                { time = 4000, effect = 'meth', anim = "smoke", progressbartext = "Smoking", 
+    ["methbags"] =                { time = 4000, effect = 'meth', anim = "smoke", progressbartext = "Injesting", 
                                     add = {health = -20, stress = -10, speed = 40, strength = 10, thirst = -30}},
     -- coke
     ["cokebaggy"] =               {  anim = 'smell', time = 1000, effect = 'coke'},
@@ -117,7 +117,7 @@ Consumables.Items = {
     ["red_cats3"] =               {  anim = 'edible', time = 1000, effect = 'ecstacy'},
     ["red_cats4"] =               {  anim = 'edible', time = 1000, effect = 'ecstacy'},
     ["orange_cats"] =             {  anim = 'edible', time = 1000, effect = 'ecstacy'},
-    ["orange_cats2"] =            {  anim = 'edible', time = 1000, effect = 'ecstacy'},
+    ["orange_cats2"] =            {  anim = 'edible', time = 1000, effect = 'ecstacy'}, 
     ["orange_cats3"] =            {  anim = 'edible', time = 1000, effect = 'ecstacy'},
     ["orange_cats4"] =            {  anim = 'edible', time = 1000, effect = 'ecstacy'},
     -- weed
