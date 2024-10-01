@@ -12,9 +12,21 @@ Consumables.defaultstatval = 0
     trevor
     none
 ]]
+
+--[[
+add = {} 
+health = number -- amount of health to give
+stress = number -- number of stress to give 
+speed = number -- number of seconds you a fast boi
+hunger = number -- number of hunger to fill
+thirst = number -- same shit 
+strength = number -- how long you are strong boi
+
+]]
 Consumables.Items = {
     -- meth
-    ["methbags"] =                { time = 4000, effect = 'meth', anim = "smoke", progressbartext = "Smoking", status = 'thirst', statval = 10},
+    ["methbags"] =                { time = 4000, effect = 'meth', anim = "smoke", progressbartext = "Smoking", 
+                                    add = {health = -20, stress = -10, speed = 40, strength = 10, thirst = -30}},
     -- coke
     ["cokebaggy"] =               {  anim = 'smell', time = 1000, effect = 'coke'},
     ["cokebaggystagetwo"] =       {  anim = 'smell', time = 1000, effect = 'coke'},
@@ -109,10 +121,10 @@ Consumables.Items = {
     ["orange_cats3"] =            {  anim = 'edible', time = 1000, effect = 'ecstacy'},
     ["orange_cats4"] =            {  anim = 'edible', time = 1000, effect = 'ecstacy'},
     -- weed
-    ["specialbrownie"] =          {  anim = 'edible',  effect = 'alien', status = 'hunger', statval = 10},
-    ["specialcookie"] =           {  anim = 'edible',  effect = 'alien', status = 'hunger', statval = 10},
-    ["specialchocolate"] =        {  anim = 'edible',  effect = 'alien', status = 'hunger', statval = 10},
-    ["specialmuffin"] =           {  anim = 'edible',  effect = 'alien', status = 'hunger', statval = 10},
+    ["specialbrownie"] =          {  anim = 'edible',  effect = 'alien', add = {hunger = 10}},
+    ["specialcookie"] =           {  anim = 'edible',  effect = 'alien', add = {hunger = 10}},
+    ["specialchocolate"] =        {  anim = 'edible',  effect = 'alien', add = {hunger = 10}},
+    ["specialmuffin"] =           {  anim = 'edible',  effect = 'alien', add = {hunger = 10}},
     ["blunt"] =                   {  anim = 'smokeweed', effect = 'alien'},
     ["dextroblunts"] =            {  anim = 'smokeweed', effect = 'alien'},
     ["leanblunts"] =              {  anim = 'smokeweed', effect = 'alien'},

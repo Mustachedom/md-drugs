@@ -7,9 +7,8 @@ for k, v in pairs (Consumables.Items) do QBCore.Functions.CreateUseableItem(k, f
 	if v.effect == nil then v.effect = 0 end
 	if v.anim == nil then v.anim = Consumables.defaultanim end
 	if v.progressbartext == nil then v.progressbartext = Consumables.defaultprogresstext end
-	if v.status == nil and v.statval == nil then v.status = 'thirst' v.statval = 0 end
-	if v.statval ~= nil and v.statval == nil then v.statval = Consumables.defaultstatval end
-		 TriggerClientEvent("md-drugs:client:consumedrugs", source, v.time, v.effect, v.anim, v.progressbartext, v.status,  v.statval, k) 
+	if v.add == nil then v.add = 'none' end
+		 TriggerClientEvent("md-drugs:client:consumedrugs", source, v.time, v.effect, v.anim, v.progressbartext, v.add, k) 
 	end)
 end
 
@@ -20,6 +19,7 @@ RegisterNetEvent('md-drugs:server:removeconsum', function(item)
 end)    
 
 RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
+    print(stat,statval)
     local Player = QBCore.Functions.GetPlayer(source)
     if stat == "thirst" then
         local value = Player.PlayerData.metadata.thirst + statval

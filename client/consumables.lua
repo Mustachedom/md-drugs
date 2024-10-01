@@ -1,17 +1,47 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, statval, item)
+RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
+	print(time, effect, anim, progresstext, status, item)
 	if not progressbar(progresstext .. GetLabel(item).. "!", time, anim ) then return end
 	TriggerServerEvent('md-drugs:server:removeconsum', item)
-	if status == "armor" then 
-		TriggerServerEvent('hospital:server:SetArmor', statval)
-       	TriggerServerEvent('consumables:server:useArmor')
-       	SetPedArmour(PlayerPedId(), statval)
-	else	
-		TriggerServerEvent('md-drugs:server:updatestatus', status, statval)	
+	for k, v in pairs (status) do 
+		print(k,v)
+		if k == 'health' then
+			local cur = GetEntityHealth(PlayerPedId())
+			SetEntityHealth(PlayerPedId(), cur + v)
+		elseif k == 'thirst' or k == 'stress' or k == 'hunger' then 
+			TriggerServerEvent('md-drugs:server:updatestatus', k, v)	
+		elseif k == "armor" then 
+			TriggerServerEvent('hospital:server:SetArmor', v)
+    	   	TriggerServerEvent('consumables:server:useArmor')
+    	   	SetPedArmour(PlayerPedId(), statval)
+		elseif k == 'speed' then 
+			TriggerEvent('md-drugs:client:recievebuff', k, v)
+		elseif k == 'strength' then 
+			TriggerEvent('md-drugs:client:recievebuff', k, v)
+		end
 	end
-	TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
-	if effect == "alien" then AlienEffect() elseif effect == "ecstacy" then EcstasyEffect() elseif effect == "meth" then MethBagEffect() elseif effect == "coke" then CokeBaggyEffect() elseif effect == "trevor" then TrevorEffect() else end
-	if status == nil then return end
+		 TriggerEvent('evidence:client:SetStatus', 'widepupils', 200) if effect == "alien" then AlienEffect() elseif effect == "ecstacy" then EcstasyEffect() elseif effect == "meth" then MethBagEffect() elseif effect == "coke" then CokeBaggyEffect() elseif effect == "trevor" then TrevorEffect() else end if status == nil then return end
 end)
 
+RegisterNetEvent('md-drugs:client:recievebuff', function(type, amount)
+if type == 'speed' then
+	local count = 0
+	SetRunSprintMultiplierForPlayer(PlayerPedId(), 1.49)
+	repeat 
+		count = count + 1
+		Wait(1000) 
+	until count == amount
+	SetRunSprintMultiplierForPlayer(PlayerPedId(), 1.00)
+end
+if type == 'strength' then 
+	local strength = 0
+		SetCurrentPedWeapon(PlayerPedId(), 'weapon_unarmed', true)
+		SetWeaponDamageModifier(GetHashKey("WEAPON_UNARMED"), 60.0) 
+		repeat 
+			strength = strength + 1
+			Wait(1000) 
+		until strength == amount
+		SetWeaponDamageModifier(GetHashKey("WEAPON_UNARMED"), 1.0) 
+end
+end)
