@@ -14,7 +14,7 @@ RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, pr
 		elseif k == "armor" then 
 			TriggerServerEvent('hospital:server:SetArmor', v)
     	   	TriggerServerEvent('consumables:server:useArmor')
-    	   	SetPedArmour(PlayerPedId(), statval)
+    	   	SetPedArmour(PlayerPedId(), v)
 		elseif k == 'speed' then 
 			TriggerEvent('md-drugs:client:recievebuff', k, v)
 		elseif k == 'strength' then 
