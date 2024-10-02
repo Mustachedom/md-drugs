@@ -278,8 +278,8 @@ function ChecknRemove(source, table)
                 Notifys(source, 'You Need ' .. v .. ' Of ' .. GetLabels(k)  .. ' To Do this', 'error')
             end
         elseif inventory == 'ox' then
-             local items = exports.ox_inventory:GetItem(source, item, nil, false) 
-       		 if items.count >= amount then 
+             local items = exports.ox_inventory:GetItem(source, k, nil, false) 
+       		 if items.count >= v then 
                   	hass = hass + 1
        		 else
             		Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
