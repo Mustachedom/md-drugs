@@ -86,7 +86,7 @@ function GetLabels(item)
     if inventory == 'qb' then
         return QBCore.Shared.Items[item].label
     elseif inventory == 'ox' then
-        local items = exports.ox_inventory:Items() 
+        local items = exports.ox_inventory:Items()
         return items[item].label
     end
 end
@@ -102,8 +102,8 @@ function Itemcheck(source, item, amount)
             return false   
         end
     elseif inventory == 'ox' then
-       local item = ox_inventory:GetItem(source, item, nil, false) 
-        if item.count >= amount then 
+       local items = exports.ox_inventory:GetItem(source, item, nil, false) 
+        if items.count >= amount then 
                 return true
         else
             Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
@@ -111,9 +111,7 @@ function Itemcheck(source, item, amount)
         end
     end
 end
-RegisterCommand('testitem', function(source)
-if not Itemcheck(source,'lockpick', 10) then return end
-end)
+
 function GetCoords(source) 
     local ped = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(ped)
