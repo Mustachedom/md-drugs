@@ -53,19 +53,43 @@ function progressbar(text, time, anim)
 	end	  
   end
 
-function minigame(num1, num2)
-   local game = Config.Minigames
-	if minigametype == 'ps' then
+  function minigame(tier)
+	local time = 0
+	local game = Config.Minigames
+	if minigametype == 'ps_circle' then
 		local check 
-    	exports['ps-ui']:Circle(function(success)
-        	check = success
-    	end, game['ps'].amount, game['ps'].speed) 
-    	return check
+		exports['ps-ui']:Circle(function(success)
+			check = success
+		end, game['ps_circle'].amount, game['ps_circle'].speed) 
+		return check
+	elseif minigametype == 'ps_maze' then
+	   local check 
+	   exports['ps-ui']:Maze(function(success)
+		   check = success
+	   end, game['ps_maze'].timelimit)
+	   return check
+   elseif minigametype == 'ps_scrambler' then
+	   local check 
+	   exports['ps-ui']:Scrambler(function(success)
+		   check = success
+	   end, game['ps_scrambler'].type,  game['ps_scrambler'].time, game['ps_scrambler'].mirrored)
+	   return check
+   elseif minigametype == 'ps_var' then
+	   local check 
+	   exports['ps-ui']:VarHack(function(success)
+		   check = success
+	   end, game['ps_var'].numBlocks,  game['ps_var'].time)
+	   return check
+   elseif minigametype == 'ps_thermite' then
+	   local check 
+	   exports['ps-ui']:Thermite(function(success)
+		   check = success
+	   end, game['ps_thermite'].time,  game['ps_thermite'].gridsize, game['ps_thermite'].incorrect)
+	   return check
 	elseif minigametype == 'ox' then
-		
 		local success = lib.skillCheck(game['ox'], {'1', '2', '3', '4'})
 		return success 
-    elseif minigametype == 'blcirprog' then
+	elseif minigametype == 'blcirprog' then
 		local success = exports.bl_ui:CircleProgress(game['blcirprog'].amount, game['blcirprog'].speed)
 		return success
 	elseif minigametype == 'blprog' then
@@ -87,23 +111,43 @@ function minigame(num1, num2)
 		local success = exports.bl_ui:CircleShake(game['blcircleshake'].amount, game['blcircleshake'].difficulty, game['blcircleshake'].stages)
 		return success	
 	elseif minigametype == 'glpath' then 
-		exports["glow_minigames"]:StartMinigame(function(success)
-			if success then return true else return false end	
-		end, "path", game['glpath'])
+		local settings = {gridSize = game['glpath'].gridSize, lives = game['glpath'].lives, timeLimit = game['glpath'].timelimit}
+		local successes = false
+		 exports["glow_minigames"]:StartMinigame(function(success)
+			 if success then successes = true else successes = false  end
+		 end, "path", settings)
+		 repeat
+			Wait(1000)
+			time = time + 1
+		 until successes or time == 100
+		 if successes then return true end
 	elseif minigametype == 'glspot' then
+		local settings = {gridSize = game['glspot'].gridSize, timeLimit = game['glspot'].gridSize, charSet =  game['glspot'].charSet, required = game['glspot'].required}
+		local successes = false
 		exports["glow_minigames"]:StartMinigame(function(success)
-			if success then return true else return false end	
-		end, "spot", game['glspot'])
+		   if success then successes = true else successes = false  end
+		end, "spot", settings)
+		repeat
+		   Wait(1000)
+		   time = time + 1
+		until successes or time == 100
 	elseif minigametype == 'glmath' then
+		local settings = {timeLimit  = game['glmath'].timeLimit}
+		local successes = false
 		exports["glow_minigames"]:StartMinigame(function(success)
-			if success then return true else return false end	
-		end, "math", game['glmath'])
+		   if success then successes = true else successes = false  end
+		end, "math", settings)
+		repeat
+		   Wait(1000)
+		   time = time + 1
+		until successes or time == 100
 	elseif minigametype == 'none' then 
 		return true			
 	else	
-       	print"^1 SCRIPT ERROR: Md-DRUGS set your minigame with one of the options!"
-    end
-end
+		   print"^1 SCRIPT ERROR: Md-Drugs set your minigame with one of the options!"
+	end
+ end
+
 
 
  function Notify(text, type)
