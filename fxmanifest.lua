@@ -6,12 +6,10 @@ game "gta5"
 version  '3.7.2'
 client_scripts {
 	'client/**.lua',
-	'@PolyZone/client.lua',
-   	 '@PolyZone/CircleZone.lua',
 }
 
 server_scripts {
-    'server/**.lua',
+   	'server/**.lua',
 	'@oxmysql/lib/MySQL.lua',
 	
 }
