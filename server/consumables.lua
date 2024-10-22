@@ -30,7 +30,7 @@ RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
         Player.Functions.SetMetaData('thirst', value)
         TriggerClientEvent('hud:client:UpdateNeeds', source, Player.PlayerData.metadata.thirst, value)
     elseif stat == "stress" then 
-        local value = Player.PlayerData.metadata.hunger + statval
+        local value = Player.PlayerData.metadata.stress + statval
         Player.Functions.SetMetaData('stress', value)
         TriggerClientEvent('hud:client:UpdateStress', source, Player.PlayerData.metadata.stress, value)
     elseif stat == "armor" then
