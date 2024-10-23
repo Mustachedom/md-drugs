@@ -1,5 +1,22 @@
 Lang = {}
 
+Lang.targets = {
+    coke = {
+        pick = 'Pick Cocaine',
+        cut = 'Cut Cocaine',
+        bag = 'Bag Cocaine'
+    },
+    CornerSell = {
+        sell = 'Sell %s Of %s For $%s',
+        deny = 'Deny Price'
+    },
+    Delivery = {
+        Deliver = 'Deliver For %s',
+        open = 'Open %s Shop',
+        hand = 'Hand Over'
+    }
+}
+
 Lang.Coke = { 
     -- client side progressbars
     picking = "Picking Leaves",
@@ -22,8 +39,9 @@ Lang.Crack = {
 }
 Lang.Cornerselling = {
     -- client side notifys
+    inveh = 'STRANGER DANGER, I WONT GET IN THE CAR WITH YOU',
     toofar = "To Far From Your Corner Homie",
-    inacar = " You Cant Sell While In A Car",
+    selling = 'Selling %s For $%s',
     deny = "Fuck That Offer",
     start = "Get That Paper",
     stop = "Lazy Ass Cant Even Sell Drugs",
@@ -35,6 +53,9 @@ Lang.Cornerselling = {
 }
 Lang.Delivery = {
     -- client side
+    emailn = 'Not A Drug Dealer',
+    emailsub = 'Hurry Up And Get The Package To The Buyer',
+    emailcon = 'I Swear To God If It Doesnt Get There I Will Tell Your Mom You Said Fuck Just Bring %s Of %s',
     search = "Searching For A Delivery ...",
     none = "Nothing Close By",
     busy = "You Havent Even Finished The One I Told You Too",

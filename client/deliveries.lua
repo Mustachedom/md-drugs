@@ -2,47 +2,47 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local isActive = false
 RegisterNetEvent('md-drugs:client:opendealermenu', function()
     local dealermenu = {}
+    local rep = GetRep()
     if Config.StupidassNewQbItemName then
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
-			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
-            dealermenu[#dealermenu + 1] = {
-                          icon =  GetImage(v.name),
-                          title = GetLabel(v.name),
-                          description = v.price,
-                          event = "md-drugs:client:travellingmerchantox",
-                          args = {
-                              item = v.name,
-                              cost = v.price,
-                             amount = v.amount,
-                             table = QBConfig.ProductsStupidNameRewrite,
-                             num = k,
-                            }
-                        }
-               
-                   lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
-			end	   
-        end           
+			if rep.dealerrep >= v.minrep then 
+                dealermenu[#dealermenu + 1] = {
+                    icon =  GetImage(v.name),
+                    title = GetLabel(v.name),
+                    description = v.price,
+                    event = "md-drugs:client:travellingmerchantox",
+                    args = {
+                        item = v.name,
+                        cost = v.price,
+                       amount = v.amount,
+                       table = QBConfig.ProductsStupidNameRewrite,
+                       num = k,
+                      }
+                }
+			end
+        end
     else
          for k, v in pairs (QBConfig.Products) do 
-			if  QBCore.Functions.GetPlayerData().metadata["dealerrep"] >= v.minrep then 
-            dealermenu[#dealermenu + 1] = {
-                          icon =  GetImage(v.name),
-                          title = GetLabel(v.name),
-                          description = v.price,
-                          event = "md-drugs:client:travellingmerchantox",
-                          args = {
-                              item = v.name,
-                              cost = v.price,
-                             amount = v.amount,
-                             table = QBConfig.Products,
-                             num = k,
-                            }
-                        }
-
-                   lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
-			end	   
-        end     
+			if rep.dealerrep >= v.minrep then 
+                dealermenu[#dealermenu + 1] = {
+                  icon =  GetImage(v.name),
+                  title = GetLabel(v.name),
+                  description = v.price,
+                  event = "md-drugs:client:travellingmerchantox",
+                  args = {
+                      item = v.name,
+                      cost = v.price,
+                     amount = v.amount,
+                     table = QBConfig.Products,
+                     num = k,
+                }
+                }
+                
+			end
+        end
     end
+    sorter(dealermenu, 'title')
+    lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
     lib.showContext('dealermenu')
 end)
 
@@ -58,11 +58,11 @@ CreateThread(function()
         local options = {
             {
                 icon = 'fas fa-user-secret',
-                label = "Deliver For " .. v.name,
+                label = string.format(Lang.targets.Delivery.Deliver, v.name),
                 action = function()
 			      local bool, item, amount, coords = lib.callback.await('md-drugs:server:GetDeliveryItem', false, k)
                    if bool then 
-                      Email('Not A Drug Dealer', 'Hurry Up And Get The Package To The Buyer', 'I Swear To God If It Doesnt Get There I Will Tell Your Mom You Said Fuck Just Bring ' .. amount .. ' Of '.. GetLabel(item) .. '!' )
+                      Email(Lang.Delivery.emailn, Lang.Delivery.emailsub, string.format(Lang.Delivery.emailcon, amount, GetLabel(item)))
                       TriggerEvent('md-drugs:client:setLocation', {bool = bool, item = item, amount = amount, coords = coords})
 		          end
                end,
@@ -70,26 +70,21 @@ CreateThread(function()
                    local bool, item, amount, coords = lib.callback.await('md-drugs:server:GetDeliveryItem', false, k)
                    if item then
                        TriggerEvent('md-drugs:client:setLocation', {bool = bool, item = item, amount = amount, coords = coords})
-                       Email('Not A Drug Dealer', 'Hurry Up And Get The Package To The Buyer', 'I Swear To God If It Doesnt Get There I Will Tell Your Mom You Said Fuck Just Bring ' .. amount .. ' Of '.. GetLabel(item) .. '!' )
+                       Email(Lang.Delivery.emailn, Lang.Delivery.emailsub, string.format(Lang.Delivery.emailcon, amount, GetLabel(item)))
 		           end
                end    
             },
             {
                 icon = 'fas fa-user-secret',
-                label = "Open " .. v.name .. "'s Shop",
-                action = function()
-                   TriggerEvent('md-drugs:client:opendealermenu')
-                end,
-                onSelect = function()
-                   TriggerEvent('md-drugs:client:opendealermenu')
-               end  
-                
+                label = string.format(Lang.targets.Delivery.openm, v.name),
+                action =   function()   TriggerEvent('md-drugs:client:opendealermenu') end,
+                onSelect = function()   TriggerEvent('md-drugs:client:opendealermenu') end  
             }
         }
         AddMultiModel(dealer[k], options)
      end
 end)
-
+-- TODO add a blip for the delivery location
 RegisterNetEvent('md-drugs:client:setLocation', function(data)
     local coord = json.decode(data.coords)
     if isActive then
@@ -102,9 +97,9 @@ RegisterNetEvent('md-drugs:client:setLocation', function(data)
     Freeze(Buyer, true, 180)
         AddSingleModel(Buyer,  {
             icon = 'fas fa-user-secret',
-            label = "Hand Off",
+            label = Lang.targets.Delivery.hand,
             action = function()
-               if not progressbar('Delivering The Package', 4000, 'uncuff') then return end
+               if not progressbar(Lang.Delivery.pack, 4000, 'uncuff') then return end
                isActive = false
                DeletePed(Buyer)
                RemoveBlip(deliveryBlip)

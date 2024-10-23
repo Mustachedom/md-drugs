@@ -198,6 +198,17 @@ function GetLabel(label)
 	end
 end
 
+function GetRep()
+	local rep = lib.callback.await('md-drugs:server:GetRep', false)
+	return rep
+end
+
+
+function sorter(sorting, value) 
+	table.sort(sorting, function(a, b) return a[value] < b[value] end)
+end
+
+
 
 function ItemCheck(item)
 local success 
