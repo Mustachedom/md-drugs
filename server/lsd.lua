@@ -164,7 +164,7 @@ if not Itemcheck(src,'tab_paper', 1) then return end
 end)
 
 local sheets = {
-	{item = 'smileyfacesheet',   recieve = "Smiley_tabs", 		},
+	{item = 'smileyfacesheet',   recieve = "smiley_tabs", 		},
 	{item = 'wildcherrysheet',   recieve = "wildcherry_tabs",   },
 	{item = 'yinyangsheet',      recieve = "yinyang_tabs",      },
 	{item = 'pineapplesheet',    recieve = "pineapple_tabs",    },
