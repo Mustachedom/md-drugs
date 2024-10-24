@@ -13,7 +13,7 @@ local Ped = "g_m_y_famdnf_01"
 	local labkitlocation = Config.buyheroinlabkit
 	local heroinkitdealer = CreatePed(0, Ped, labkitlocation.x, labkitlocation.y, labkitlocation.z-1, labkitlocation.w, false, false)
     Freeze(heroinkitdealer, true, labkitlocation.w)
-    AddSingleModel(heroinkitdealer, { label = lang.targets.heroin.kit, icon = "fas fa-eye", event = "md-drugs:client:buyheroinlabkit", distance = 2.0}, nil )
+    AddSingleModel(heroinkitdealer, { label = Lang.targets.heroin.kit, icon = "fas fa-eye", event = "md-drugs:client:buyheroinlabkit", distance = 2.0}, nil )
 end)
 
 ---- plant spawns dont edit

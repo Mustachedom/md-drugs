@@ -4,9 +4,9 @@ local cuttingcoke = nil
 local baggingcoke = nil
 
 local function pick(loc)
-if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
-TriggerServerEvent("coke:pickupCane", loc)  
-return true 
+    if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
+        TriggerServerEvent("coke:pickupCane", loc)  
+    return true
 end
 
 RegisterNetEvent('coke:respawnCane', function(loc)
@@ -15,7 +15,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(CocaPlant[loc], true, v.heading)
-        AddSingleModel(CocaPlant[loc], {icon = 'fas fa-hand', label = Lang.targets.coke.pick, action = function() if not pick(loc) then return end end}, loc)    
+        AddSingleModel(CocaPlant[loc], {icon = 'fas fa-hand', label = Lang.targets.coke.pick, action = function() if not pick(loc) then return end end}, loc)
     end
 end)
 
@@ -31,7 +31,7 @@ RegisterNetEvent("coke:init", function()
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)
-            AddSingleModel(CocaPlant[k], {icon = 'fas fa-hand', label = Lang.targets.coke.pick, action = function() if not pick(k) then return end end}, k)    
+            AddSingleModel(CocaPlant[k], {icon = 'fas fa-hand', label = Lang.targets.coke.pick, action = function() if not pick(k) then return end end}, k)
         end
     end
 end)
@@ -42,6 +42,7 @@ AddEventHandler('onResourceStart', function(resource)
         TriggerEvent('coke:init')
     end
  end)
+
  RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
      Wait(3000)
      LoadModel('prop_plant_01a')

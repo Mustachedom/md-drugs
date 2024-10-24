@@ -76,7 +76,7 @@ CreateThread(function()
             },
             {
                 icon = 'fas fa-user-secret',
-                label = string.format(Lang.targets.Delivery.openm, v.name),
+                label = string.format(Lang.targets.Delivery.open, v.name),
                 action =   function()   TriggerEvent('md-drugs:client:opendealermenu') end,
                 onSelect = function()   TriggerEvent('md-drugs:client:opendealermenu') end  
             }
