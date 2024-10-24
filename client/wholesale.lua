@@ -5,7 +5,7 @@ local deliveryBlip = nil
 RegisterNetEvent("md-drugs:client:GetLocation", function(drug, notify)
     if not GetCops(Config.PoliceCount) then return end
  if miss then
-    Notify('Already Called Someone', 'error')
+    Notify(Lang.Wholesale.al, 'error')
  else   
     TriggerServerEvent('md-drugs:server:RemoveBurner', drug)
     Notify(notify, 'success')
@@ -29,7 +29,7 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug, notify)
        SetEntityInvincible(drugdealer, true)
        AddSingleModel(drugdealer, {
            type = "client",
-           label = "Talk To Buyer",
+           label = Lang.Wholesale.talk,
            icon = "fas fa-eye",
            action = function()
                     local luck = math.random(1,100)

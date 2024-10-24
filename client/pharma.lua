@@ -1,15 +1,16 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent("md-drugs:client:prescriptionpad", function(args)
+local icon, event = 'fa-solid fa-file-prescription', 'md-drugs:client:writeprescription'
 if QBCore.Functions.GetPlayerData().job.type == Config.PharmaJob then 
    lib.registerContext({
    id = 'prescriptionpad',
    title = "Prescription Pad",
    options = {
-        {title  = 'Give Vics', description  = 'Give Vics ', icon = 'fa-solid fa-file-prescription', event = 'md-drugs:client:writeprescription',  args = {item = 'vicodin_prescription'}},  
-        {title  = 'Give Madderal', description  = 'Give Madderal ', icon = 'fa-solid fa-file-prescription', event = 'md-drugs:client:writeprescription',  args = {item = 'adderal_prescription'}},  
-		{title  = 'Give Morphin',description  = 'Give Morphin ',icon = 'fa-solid fa-file-prescription', event = 'md-drugs:client:writeprescription', args = {item = 'morphine_prescription'}},  
-        {title  = 'Give Zany',   description  = 'Give Zany ', icon = 'fa-solid fa-file-prescription',   event = 'md-drugs:client:writeprescription',      args = {item = 'xanax_prescription'} },
+        {title  = 'Give Vics',     description  = 'Give Vics ',     icon = icon, event = event,  args = {item = 'vicodin_prescription'}},
+        {title  = 'Give Madderal', description  = 'Give Madderal ', icon = icon, event = event,  args = {item = 'adderal_prescription'}},
+		{title  = 'Give Morphin',  description  = 'Give Morphin ',  icon = icon, event = event,  args = {item = 'morphine_prescription'}},
+        {title  = 'Give Zany',     description  = 'Give Zany ',     icon = icon, event = event,  args = {item = 'xanax_prescription'} },
 	}
     })
     lib.showContext('prescriptionpad')	
@@ -41,7 +42,7 @@ RegisterNetEvent("md-drugs:client:unbottle", function(item)
     TriggerServerEvent('md-drugs:server:unbottle', item)
 end)
 
-
+-- TODO: @Mustachedom convert to consumables
 RegisterNetEvent('md-drugs:client:takepharma', function(itemName)
 	if not progressbar(Lang.Pharma.consume, 1000, 'eat') then return end
 	if itemName == "vicodin" then

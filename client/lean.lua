@@ -5,7 +5,7 @@ CreateThread(function()
 	lib.requestModel(current, Config.RequestModelTime)
 	local SyrupLocation = CreatePed(0, current,Config.SyrupVendor.x,Config.SyrupVendor.y,Config.SyrupVendor.z-1, Config.SyrupVendor.w, false, false)
     Freeze(SyrupLocation, true, Config.SyrupVendor.w)
-    AddSingleModel(SyrupLocation, { type = "client", label = "Get Task", icon = "fas fa-eye", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0}, nil )    
+    AddSingleModel(SyrupLocation, { type = "client", label = Lang.targets.lean.git, icon = "fas fa-eye", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0}, nil )    
 end)
 
 
@@ -21,12 +21,8 @@ local items = lib.callback.await('md-drugs:server:GetRecipe', false,'lean', 'cup
 for k, v in pairs (items) do
 	label = {}
 	local item = ''
-	 for m, d in pairs (items[k].take) do 
-		table.insert(label, GetLabel(m) .. ' X ' .. d)
-	 end
-	 for m,d in pairs (items[k].give) do
-		item = m
-	 end
+	 for m, d in pairs (items[k].take) do  table.insert(label, GetLabel(m) .. ' X ' .. d) end
+	 for m,d in pairs (items[k].give) do item = m end
 	 store[#store + 1] = {
 		icon =  GetImage(item),
 		description = table.concat(label, ", "),
@@ -34,22 +30,23 @@ for k, v in pairs (items) do
 		event = 'md-drugs:client:stirlean',
 		args = {
 			item = item, 
-			recipe = 'weed',
+			recipe = 'lean',
 			num = k,
 			label = 'Cooking Up ' .. GetLabel(item),
-			table = 'edibles'
-
+			table = 'cups'
 		}
 	}
 	lib.registerContext({id = 'leanCraft',title = "Make Lean", options = store})
 end
+sorter(store, 'title')
 lib.showContext('leanCraft')
 end)
+
 local busy = false
 RegisterNetEvent('md-drugs:client:stirlean', function(data) 
-if busy then return end
- busy = true
-if not progressbar(data.label, 4000, 'uncuff') then busy = false return end
-TriggerServerEvent('md-drugs:server:finishcup', data)
-busy = false
+	if busy then return end
+	 busy = true
+	if not progressbar(data.label, 4000, 'uncuff') then busy = false return end
+	TriggerServerEvent('md-drugs:server:finishcup', data)
+	busy = false
 end)

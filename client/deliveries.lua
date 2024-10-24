@@ -84,16 +84,22 @@ CreateThread(function()
         AddMultiModel(dealer[k], options)
      end
 end)
--- TODO add a blip for the delivery location
+
 RegisterNetEvent('md-drugs:client:setLocation', function(data)
     local coord = json.decode(data.coords)
-    if isActive then
-        Blip(vector3(coord.x, coord.y, coord.z), 'Drop Off')
-        return
-    end
+        local deliveryBlip = AddBlipForCoord(coord.x, coord.y, coord.z)
+        SetBlipSprite(deliveryBlip, 1)
+        SetBlipDisplay(deliveryBlip, 2)
+        SetBlipScale(deliveryBlip, 1.0)
+        SetBlipAsShortRange(deliveryBlip, false)
+        SetBlipColour(deliveryBlip, 27)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName('Drug Delivery')
+        EndTextCommandSetBlipName(deliveryBlip)
+        SetBlipRoute(deliveryBlip, true)
+    if isActive then return end
     isActive = true
-    Blip(vector3(coord.x, coord.y, coord.z), 'Drop Off')
-    Buyer = CreatePed(0, "g_m_y_famdnf_01",coord.x, coord.y, coord.z-1, 180.0, false, false)
+    local Buyer = CreatePed(0, "g_m_y_famdnf_01",coord.x, coord.y, coord.z-1, 180.0, false, false)
     Freeze(Buyer, true, 180)
         AddSingleModel(Buyer,  {
             icon = 'fas fa-user-secret',

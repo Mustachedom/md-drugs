@@ -53,7 +53,17 @@ function progressbar(text, time, anim)
 	end	  
   end
 
-  function minigame(tier)
+function loadParticle(dict)
+    if not HasNamedPtfxAssetLoaded(dict) then
+        RequestNamedPtfxAsset(dict)
+    end
+    while not HasNamedPtfxAssetLoaded(dict) do
+        Wait(0)
+    end
+    SetPtfxAssetNextCall(dict)
+end
+
+function minigame()
 	local time = 0
 	local game = Config.Minigames
 	if minigametype == 'ps_circle' then

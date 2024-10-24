@@ -537,9 +537,9 @@ RegisterCommand('DrugRep', function()
 		title = 'Drug Reputation',
 		options = {
 		  {icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
-		  {icon = "fa-solid fa-syringe", title = 'Heroin: '..rep.heroin},
-		  {icon = "fa-solid fa-vial", title = 'LSD: '..rep.lsd},
-		  {icon = "fa-solid fa-plug", title = 'Dealer: '..rep.dealerrep},
+		  {icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
+		  {icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
+		  {icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
 		}
 	  })
 	  lib.showContext('DrugRep')

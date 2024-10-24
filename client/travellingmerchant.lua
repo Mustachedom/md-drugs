@@ -28,6 +28,7 @@ CreateThread(function()
 			}
 		lib.registerContext({id = 'travellingmerchant',title = "Travelling Merchant", options = ShopMenu})
 	end
+	sorter(ShopMenu, 'title')
 end)
 
 
@@ -44,6 +45,7 @@ RegisterNetEvent("md-drugs:client:travellingmerchantox", function(data)
 		},
 		{ type = 'number', label = "Amount to buy", description = settext, min = 0, max = max, default = 1 },
 	})
+	if not dialog[1] then return end
 	if data.cost == "Free" then data.cost = 0 end
 		TriggerServerEvent("md-drugs:server:travellingmerchantox", dialog[2], dialog[1], data.item, data.cost, data.table, data.num )
 end)

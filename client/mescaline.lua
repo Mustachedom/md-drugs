@@ -7,18 +7,20 @@ function LoadModel(hash)
     while not HasModelLoaded(hash) do
         Wait(3000)
     end
-end 
+end
+
 local function pick(loc)
     if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end    
     TriggerServerEvent("Mescaline:pickupCane", loc)
 end
+
 RegisterNetEvent('Mescaline:respawnCane', function(loc)
     local v = GlobalState.Mescaline[loc]
     local hash = GetHashKey(v.model)
     if not Mescaline[loc] then
         Mescaline[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(Mescaline[loc], true, v.heading)
-        AddSingleModel(Mescaline[loc], {icon = "fas fa-hand",label = "pick Cactus",action = function()  pick(loc) end}, loc )
+        AddSingleModel(Mescaline[loc], {icon = "fas fa-hand",label = lang.targets.mescaline.pick, action = function()  pick(loc) end}, loc )
     end
 end)
 
@@ -38,7 +40,7 @@ RegisterNetEvent("Mescaline:init", function()
         if not v.taken then
             Mescaline[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(Mescaline[k], true, v.heading)
-            AddSingleModel(Mescaline[k], {icon = "fas fa-hand",label = "pick Cactus",action = function()  pick(k) end}, k)
+            AddSingleModel(Mescaline[k], {icon = "fas fa-hand",label = lang.targets.mescaline.pick,action = function()  pick(k) end}, k)
         end
     end
 end)
@@ -82,7 +84,7 @@ local chance2 = math.random(1,100)
     if not progressbar(Lang.mescaline.eat, 4000, 'uncuff') then return end
 	if chance <= Config.Badtrip then 
 		AlienEffect()
-		clone = ClonePed(PlayerPedId(), false, false, true)
+		local clone = ClonePed(PlayerPedId(), false, false, true)
 		SetEntityAsMissionEntity(clone)
 		SetEntityVisible(clone, true)
 		SetPedRelationshipGroupHash(clone)

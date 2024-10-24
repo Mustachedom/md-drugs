@@ -2,6 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local WeedPlant = {}
 local exploded = nil
 local drying = false
+
 function LoadModel(hash)
     hash = GetHashKey(hash)
     RequestModel(hash)
@@ -29,7 +30,7 @@ RegisterNetEvent('weed:respawnCane', function(loc)
         AddSingleModel(WeedPlant[loc], 
 			{
                icon = "fas fa-hand",
-               label = "Pick Weed",
+               label = Lang.targets.weed.pick,
                action = function()
                   if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
                    TriggerServerEvent("weed:pickupCane", loc)
@@ -53,7 +54,7 @@ RegisterNetEvent("weed:init", function()
 			AddSingleModel(WeedPlant[k],  
 			    {
                     icon = "fas fa-hand",
-                    label = "Pick Weed",
+                    label = Lang.targets.weed.pick,
                     action = function()
 					if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
 					TriggerServerEvent("weed:pickupCane", k)
@@ -90,7 +91,7 @@ CreateThread(function()
 	AddBoxZoneMulti('weeddry', Config.WeedDry, {
 		name = 'dryweed',
 		icon = "fas fa-sign-in-alt",
-		label = "Dry Weed",
+		label = Lang.targets.weed.dry,
 		distance = 1,
 		action = function()
 			if not ItemCheck('wetcannabis') then return end
@@ -101,12 +102,12 @@ CreateThread(function()
 				local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)
 				drying = true
 				FreezeEntityPosition(weedplant, true)
-				Notify("Wait A little Bit To Dry", "success")
+				Notify(Lang.Weed.wait, "success")
 				Wait(math.random(1000,5000))
-				Notify("Take Down The Weed", "success")
+				Notify(Lang.Weed.take, "success")
 				AddSingleModel(weedplant, {
 					icon = "fas fa-sign-in-alt",
-					label = "Pick Up Weed",
+					label = Lang.targets.weed.dpick,
 					action = function()
 						DeleteEntity(weedplant)
 						drying = false
@@ -121,23 +122,23 @@ CreateThread(function()
 			if hasJob() then return true end end	
 	})
 
-AddBoxZoneSingle('teleinweedout', Config.Teleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building", distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Telein) end,
+AddBoxZoneSingle('teleinweedout', Config.Teleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Telein) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('teleinweedin', Config.Telein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = "Exit Building", distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Teleout) end,
+AddBoxZoneSingle('teleinweedin', Config.Telein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Teleout) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('MakeButterCrafting', Config.MakeButter, {label = 'Open Butter Menu', action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
+AddBoxZoneSingle('MakeButterCrafting', Config.MakeButter, {label = Lang.Weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
 canInteract = function() if hasJob() then return true end end	
 }) 
 
 AddBoxZoneSingle('makeoil',Config.MakeOil, {
 	name = 'Oil',
 	icon = "fas fa-sign-in-alt",
-	label = "Make Oil",
+	label = Lang.targets.weed.oil,
 	action = function()
 		if not ItemCheckMulti({'butane', 'grindedweed'}) then return end
-		if not minigame(2, 8) then 
+		if not minigame() then 
 			local explosion = math.random(1,100)
 				local loc = GetEntityCoords(PlayerPedId())
 				if explosion <= 99 then
@@ -173,10 +174,10 @@ CreateThread(function()
     BikerWeedFarm.Plant8.Clear(false)
     BikerWeedFarm.Plant9.Clear(false)
     RefreshInterior(BikerWeedFarm.interiorId)
-	stove = CreateObject("prop_cooker_03",vector3(1045.49, -3198.46, -38.15-1), true, false)
+	local stove = CreateObject("prop_cooker_03",vector3(1045.49, -3198.46, -38.15-1), true, false)
 	SetEntityHeading(stove, 270.00)
 	FreezeEntityPosition(stove, true)
-	stove2 = CreateObject("prop_cooker_03",vector3(1038.90, -3198.66, -38.17-1), true, false)
+	local stove2 = CreateObject("prop_cooker_03",vector3(1038.90, -3198.66, -38.17-1), true, false)
 	SetEntityHeading(stove2, 90.00)
 	FreezeEntityPosition(stove2, true)
 end)
@@ -220,16 +221,15 @@ local current = "u_m_m_jesus_01"
 		 }
 	lib.registerContext({id = 'WeedShop',title = "Weed Shop", options = WeedShop})
 	end
+	sorter(WeedShop, 'title')
 end)
 
 CreateThread(function()
 local items = lib.callback.await('md-drugs:server:GetRecipe', false,'weed', 'edibles')
 local items2 = lib.callback.await('md-drugs:server:GetRecipe', false,'weed', 'blunts')
 local items3 = lib.callback.await('md-drugs:server:GetRecipe', false,'weed', 'bluntwrap')
-local craft = {} 
-local blunt = {} 
-local bluntwrap = {} 
-local label = {}
+local craft, blunt, bluntwrap, label = {}, {}, {}, {}
+
 for k, v in pairs (items) do
 	label = {}
 	local item = ''
@@ -303,6 +303,9 @@ for k, v in pairs (items3) do
 	}
 	lib.registerContext({id = 'mddrugsbluntwraps',title = "Dip Blunt Wrap", options = bluntwrap})
 end
+sorter(craft, 'title')
+sorter(blunt, 'title')
+sorter(bluntwrap, 'title')
 end)
 
 RegisterNetEvent("md-drugs:client:MakeWeedItems", function(data)
