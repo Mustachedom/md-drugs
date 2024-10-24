@@ -122,13 +122,13 @@ CreateThread(function()
 			if hasJob() then return true end end	
 	})
 
-AddBoxZoneSingle('teleinweedout', Config.Teleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Telein) end,
+AddBoxZoneSingle('teleinweedout', Config.Teleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Telein) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('teleinweedin', Config.Telein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Teleout) end,
+AddBoxZoneSingle('teleinweedin', Config.Telein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Teleout) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('MakeButterCrafting', Config.MakeButter, {label = Lang.Weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
+AddBoxZoneSingle('MakeButterCrafting', Config.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
 canInteract = function() if hasJob() then return true end end	
 }) 
 
@@ -164,15 +164,9 @@ CreateThread(function()
     BikerWeedFarm.Security.Set(BikerWeedFarm.Security.upgrade)
     BikerWeedFarm.Details.Enable(BikerWeedFarm.Details.chairs, true)
     BikerWeedFarm.Details.Enable({BikerWeedFarm.Details.production, BikerWeedFarm.Details.chairs, BikerWeedFarm.Details.drying}, true)
-	BikerWeedFarm.Plant1.Clear(false)
-    BikerWeedFarm.Plant2.Clear(false)
-    BikerWeedFarm.Plant3.Clear(false)
-    BikerWeedFarm.Plant4.Clear(false)
-    BikerWeedFarm.Plant5.Clear(false)
-    BikerWeedFarm.Plant6.Clear(false)
-    BikerWeedFarm.Plant7.Clear(false)
-    BikerWeedFarm.Plant8.Clear(false)
-    BikerWeedFarm.Plant9.Clear(false)
+	BikerWeedFarm.Plant1.Clear(false) BikerWeedFarm.Plant2.Clear(false) BikerWeedFarm.Plant3.Clear(false)
+	BikerWeedFarm.Plant4.Clear(false) BikerWeedFarm.Plant5.Clear(false) BikerWeedFarm.Plant6.Clear(false)
+	BikerWeedFarm.Plant7.Clear(false) BikerWeedFarm.Plant8.Clear(false) BikerWeedFarm.Plant9.Clear(false)
     RefreshInterior(BikerWeedFarm.interiorId)
 	local stove = CreateObject("prop_cooker_03",vector3(1045.49, -3198.46, -38.15-1), true, false)
 	SetEntityHeading(stove, 270.00)
@@ -202,8 +196,8 @@ local current = "u_m_m_jesus_01"
 
 	lib.requestModel(current, Config.RequestModelTime)
 	local CurrentLocation = Config.WeedSaleman
-	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.h, false, false)
-	Freeze(WeedGuy, true, CurrentLocation.h)
+	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
+	Freeze(WeedGuy, true, CurrentLocation.w)
 	AddSingleModel(WeedGuy, {label = "Weed Shop",icon = "fas fa-eye",action = function() lib.showContext('WeedShop')end}, nil)
 	for k, v in pairs (Config.Weed.items) do 
 		WeedShop[#WeedShop + 1] = {
@@ -219,93 +213,46 @@ local current = "u_m_m_jesus_01"
 			  	 num = k,
 			 }
 		 }
+		 sorter(WeedShop, 'title')
 	lib.registerContext({id = 'WeedShop',title = "Weed Shop", options = WeedShop})
 	end
-	sorter(WeedShop, 'title')
+
 end)
 
+local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
+    local options = {}
+	local items = lib.callback.await('md-drugs:server:GetRecipe', false,'weed',tableName)
+    for k, v in pairs(items) do
+        local label = {}
+        local item = ''
+        for m, d in pairs(v.take) do table.insert(label, GetLabel(m) .. ' X ' .. d) end 
+		for m, d in pairs(v.give) do item = m end
+        options[#options + 1] = {
+            icon = GetImage(item),
+            description = table.concat(label, ", "),
+            title = GetLabel(item),
+            event = "md-drugs:client:MakeWeedItems",
+            args = {
+                item = item, 
+                recipe = 'weed',
+                num = k,
+                label = eventLabelPrefix .. GetLabel(item),
+                table = tableName
+            }
+        }
+    end
+    sorter(options, 'title')
+    lib.registerContext({
+        id = contextId,
+        title = contextTitle,
+        options = options
+    })
+end
+
 CreateThread(function()
-local items = lib.callback.await('md-drugs:server:GetRecipe', false,'weed', 'edibles')
-local items2 = lib.callback.await('md-drugs:server:GetRecipe', false,'weed', 'blunts')
-local items3 = lib.callback.await('md-drugs:server:GetRecipe', false,'weed', 'bluntwrap')
-local craft, blunt, bluntwrap, label = {}, {}, {}, {}
-
-for k, v in pairs (items) do
-	label = {}
-	local item = ''
-	 for m, d in pairs (items[k].take) do 
-		table.insert(label, GetLabel(m) .. ' X ' .. d)
-	 end
-	 for m,d in pairs (items[k].give) do
-		item = m
-	 end
-	craft[#craft + 1] = {
-		icon =  GetImage(item),
-		description = table.concat(label, ", "),
-		title = GetLabel(item),
-		event = "md-drugs:client:MakeWeedItems",
-		args = {
-			item = item, 
-			recipe = 'weed',
-			num = k,
-			label = 'Cooking Up ' .. GetLabel(item),
-			table = 'edibles'
-
-		}
-	}
-	lib.registerContext({id = 'ButterCraft',title = "Edible Cooking", options = craft})
-end
-for k, v in pairs (items2) do
-	label = {}
-	local item = ''
-	 for m, d in pairs (items2[k].take) do 
-		table.insert(label, GetLabel(m) .. ' X ' .. d)
-	 end
-	 for m, d in pairs (items2[k].give) do
-		item = m
-	 end
-	 blunt[#blunt + 1] = {
-		icon =  GetImage(item),
-		description = table.concat(label, ", "),
-		title = GetLabel(item),
-		event = "md-drugs:client:MakeWeedItems",
-		args = {
-			item = item, 
-			recipe = 'weed',
-			num = k,
-			label = 'Rolling A ' .. GetLabel(item),
-			table = 'blunts'
-		}
-	}
-	lib.registerContext({id = 'mddrugsblunts',title = "Roll Blunts", options = blunt})
-end
-for k, v in pairs (items3) do
-	label = {}
-	local item = ''
-	 for m, d in pairs (items3[k].take) do 
-		table.insert(label, GetLabel(m) .. ' X ' .. d)
-	 end
-	 for m,d in pairs (items3[k].give) do
-		item = m
-	 end
-	 bluntwrap[#bluntwrap + 1] = {
-		icon =  GetImage(item),
-		description = table.concat(label, ", "),
-		title = GetLabel(item),
-		event = "md-drugs:client:MakeWeedItems",
-		args = {
-			item = item, 
-			recipe = 'weed',
-			num = k,
-			label = 'Dipping Syrup To Make ' .. GetLabel(item),
-			table = 'bluntwrap'
-		}
-	}
-	lib.registerContext({id = 'mddrugsbluntwraps',title = "Dip Blunt Wrap", options = bluntwrap})
-end
-sorter(craft, 'title')
-sorter(blunt, 'title')
-sorter(bluntwrap, 'title')
+createBluntOptions('ButterCraft', "Edible Cooking", 'Cooking A ', 'edibles')
+createBluntOptions('mddrugsblunts', "Roll Blunts", 'Rolling A ', 'blunts')
+createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", 'Dipping Syrup To Make ', 'bluntwrap')
 end)
 
 RegisterNetEvent("md-drugs:client:MakeWeedItems", function(data)

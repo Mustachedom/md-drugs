@@ -42,16 +42,7 @@ QBCore.Functions.CreateUseableItem(d, function(source, item)
 end)
 end
 
-local pharmadrugs = { "adderal", "vicodin", "xanax", "morphine"}
-for k, v in pairs (pharmadrugs) do QBCore.Functions.CreateUseableItem(v, function(source, item)
-local src = source
 
-	if TriggerClientEvent('md-drugs:client:takepharma', src, item.name) then
-		RemoveItem(src, item.name, 1)
-		Log(GetName(source) .. ' Took ' .. item.name .. '!', 'pharma')
-	end
-end)
-end
 RegisterServerEvent('md-drugs:server:fillprescription', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)

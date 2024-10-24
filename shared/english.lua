@@ -172,7 +172,8 @@ Lang.Heroin = {
 Lang.Lean = {
     marked = ' Car Has Been Marked On Your Map',
     lean = 'You Got Purple Lean',
-    dextro = ' You Got Red Dextro'
+    dextro = ' You Got Red Dextro',
+    act = 'You Already Have A Lean Task',
 }
 
 Lang.lsd = {
@@ -212,7 +213,8 @@ Lang.meth = {
     ace = 'You Got Some Acetone',
     eph = 'You Got Some Ephedrine',
     mix = 'Adding Things To The Mix',
-    nobag = 'No Bags'
+    nobag = 'No Bags',
+    act = 'You Already Have A Meth Task',
 }
 
 Lang.oxy = {
@@ -271,7 +273,13 @@ Lang.xtc = {
     stamp = 'Stamping %s Pills',
     buyp = "Buying Press",
     --
-    cash = 'I need 20k In Cash'
+    cash = 'I need 20k In Cash',
+    press = {
+        title = {single = 'Single Press', dual = 'Dual Press', triple = 'Triple Press', quad = 'Quad Press'},
+        des = {single ='Buy a single press for 20k', dual = '20 of each unstamped single stack pill and your single press ', 
+            triple = '50 of each unstamped dual stack pill and your dual press ', quad = '150 of each unstamped Triple stack pill and your triple press'
+        }
+    }
 }
 
 Lang.Wholesale = {

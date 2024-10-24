@@ -71,7 +71,7 @@ RegisterNetEvent("md-drugs:client:XTCMenu", function(type)
           
         }
       }) 
-      lib.showContext('XTCmenu')
+    lib.showContext('XTCmenu')
 end)
 
 RegisterNetEvent("md-drugs:client:GetPressBack", function(type, press)
@@ -164,10 +164,10 @@ RegisterNetEvent("md-drugs:client:buypress", function()
 	 id = 'buypresses',
 	 title = 'Purchase Presses',
 	 options = {
-        {    title  = 'Single Press',                description  = 'Buy a single press for 20k',                                       icon = img,    event = 'md-drugs:client:getsinglepress'},
-        {    title  = 'Exchange Single For Dual',    description  = '20 of each unstamped single stack pill and your single press ',    icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'dual'}},
-        {    title  = 'Exchange Dual For Triple',    description  = '50 of each unstamped dual stack pill and your dual press ',        icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'triple'}},
-        {    title  = 'Exchange Triple For Quad',    description  = '150 of each unstamped Triple stack pill and your triple press ',   icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'quad'}} 
+        {    title  = Lang.xtc.press.title.single,  description  = Lang.xtc.des.title.single,   icon = img,    event = 'md-drugs:client:getsinglepress'},
+        {    title  = Lang.xtc.press.title.dual,    description  = Lang.xtc.des.title.dual,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'dual'}},
+        {    title  = Lang.xtc.press.title.triple,  description  = Lang.xtc.des.title.triple,   icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'triple'}},
+        {    title  = Lang.xtc.press.title.quad,    description  = Lang.xtc.des.title.quad,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'quad'}} 
 	}	
     })
   lib.showContext('buypresses')	

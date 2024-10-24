@@ -36,9 +36,9 @@ for k, v in pairs (items) do
 			table = 'cups'
 		}
 	}
+	sorter(store, 'title')
 	lib.registerContext({id = 'leanCraft',title = "Make Lean", options = store})
 end
-sorter(store, 'title')
 lib.showContext('leanCraft')
 end)
 

@@ -3,13 +3,15 @@ local isActive = false
 RegisterNetEvent('md-drugs:client:opendealermenu', function()
     local dealermenu = {}
     local rep = GetRep()
+    print(rep.dealerrep)
     if Config.StupidassNewQbItemName then
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
-			if rep.dealerrep >= v.minrep then 
+
+			if rep.dealerrep >= v.minrep then
                 dealermenu[#dealermenu + 1] = {
                     icon =  GetImage(v.name),
                     title = GetLabel(v.name),
-                    description = v.price,
+                    description = '$'..v.price,
                     event = "md-drugs:client:travellingmerchantox",
                     args = {
                         item = v.name,
@@ -19,6 +21,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
                        num = k,
                       }
                 }
+                sorter(dealermenu, 'title')
 			end
         end
     else
@@ -27,7 +30,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
                 dealermenu[#dealermenu + 1] = {
                   icon =  GetImage(v.name),
                   title = GetLabel(v.name),
-                  description = v.price,
+                  description = '$'..v.price,
                   event = "md-drugs:client:travellingmerchantox",
                   args = {
                       item = v.name,
@@ -37,11 +40,11 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
                      num = k,
                 }
                 }
-                
+                sorter(dealermenu, 'title')
 			end
         end
     end
-    sorter(dealermenu, 'title')
+    
     lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
     lib.showContext('dealermenu')
 end)

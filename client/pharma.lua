@@ -41,17 +41,3 @@ RegisterNetEvent("md-drugs:client:unbottle", function(item)
     if item.name == 'xanaxbottle' then item = 'xanax' end
     TriggerServerEvent('md-drugs:server:unbottle', item)
 end)
-
--- TODO: @Mustachedom convert to consumables
-RegisterNetEvent('md-drugs:client:takepharma', function(itemName)
-	if not progressbar(Lang.Pharma.consume, 1000, 'eat') then return end
-	if itemName == "vicodin" then
-		exports['ps-buffs']:AddHealthBuff(10000, 20)
-	elseif itemName == "adderal" then
-		exports['ps-buffs']:StaminaBuffEffect(5000, 1.3)
-	elseif itemName == "xanax" then 
-		exports['ps-buffs']:AddStressBuff(10000, 25)
-	else 
-		exports['ps-buffs']:AddHealthBuff(10000, 40)
-	end
-end)

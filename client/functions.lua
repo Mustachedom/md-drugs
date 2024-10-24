@@ -215,7 +215,7 @@ end
 
 
 function sorter(sorting, value) 
-	table.sort(sorting, function(a, b) return a[value] < b[value] end)
+	table.sort(sorting, function(a, b) print(a[value], b[value]) return a[value] < b[value] end)
 end
 
 

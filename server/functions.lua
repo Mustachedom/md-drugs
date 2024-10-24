@@ -193,7 +193,6 @@ end
 function GetName(source) 
     local Player = QBCore.Functions.GetPlayer(source) 
         return Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
-    
 end
 
 function getRep(source, type) 

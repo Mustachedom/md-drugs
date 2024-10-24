@@ -47,8 +47,8 @@ function Cornersell()
         Wait(1000)
     until #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(targ)) < 2.0
     lib.requestAnimDict("rcmme_tracey1")
-    TaskStartScenarioInPlace(targ, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false)
-    FreezeEntityPosition(targ, true)
+    TaskStartScenarioInPlace(targ, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false) FreezeEntityPosition(targ, true)
+
     local item, amount, price = lib.callback.await('md-drugs:server:cornerselling:getAvailableDrugs', false)
         if item == 'nothing' then Notify(Lang.Cornerselling.nodrugs, 'error') sell = false  FreezeEntityPosition(targ, false)  ClearPedTasks(targ) return false end
             local options = { 

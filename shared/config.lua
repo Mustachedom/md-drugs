@@ -142,14 +142,12 @@ Config.FillPrescription = {---------- this is where you want people to take thei
 }
 
 Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
-
-
 -------------- weed
 Config.Teleout = vector3(1066.31, -3183.36, -39.16) -- where you target to tele in
 Config.Telein = vector3(244.74, 374.54, 105.74) -- where you target to tele out
 Config.MakeButter = vector3(1045.48, -3198.49, -38.22) -- where you make cannabutter and baked edibles
 Config.MakeOil = vector3(1038.90, -3198.66, -38.17) -- where you make shatter
-Config.WeedSaleman = vector4(1030.46, -3203.63, -38.2, 180.0)
+Config.WeedSaleman = vector4(1030.77, -3203.18, -38.2, 262.37)
 
 Config.WeedDry = { -- where you dry leaves 
     {loc = vector3(1043.0, -3191.59, -38.39),},

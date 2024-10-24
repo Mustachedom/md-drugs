@@ -7,30 +7,31 @@ local current = "g_m_y_famdnf_01"
 	local CurrentLocation = Config.Travellingmerchant[num]
 	local travellingmerchant = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
 	Freeze(travellingmerchant, true, CurrentLocation.w)
-	AddSingleModel(travellingmerchant, { label = "Travelling Merchant", icon = "fas fa-eye", action = function() 	lib.showContext('travellingmerchant') end}, nil)
-end)
+	AddSingleModel(travellingmerchant, { label = "Travelling Merchant", icon = "fas fa-eye", 
+	action = function()
+		local ShopMenu = {}
+			for k, v in pairs (Config.Items.items) do 
+				ShopMenu[#ShopMenu + 1] = {
+					    icon =  GetImage(v.name),
+					    description = '$'.. v.price,
+						title = GetLabel(v.name),
+						event = "md-drugs:client:travellingmerchantox",
+						args = {
+							item = v.name,
+							cost = v.price,
+							amount = v.amount,
+							table = Config.Items.items,
+							num = k
+						}
+					}
+					sorter(ShopMenu, 'title')
+				lib.registerContext({id = 'travellingmerchant',title = "Travelling Merchant", options = ShopMenu})
+			end
+			
+		lib.showContext('travellingmerchant') 
 
-CreateThread(function()
-	local ShopMenu = {}
-	for k, v in pairs (Config.Items.items) do 
-		ShopMenu[#ShopMenu + 1] = {
-			   icon =  GetImage(v.name),
-			    description = '$'.. v.price,
-				title = GetLabel(v.name),
-				event = "md-drugs:client:travellingmerchantox",
-				args = {
-					item = v.name,
-					cost = v.price,
-					amount = v.amount,
-					table = Config.Items.items,
-					num = k
-				}
-			}
-		lib.registerContext({id = 'travellingmerchant',title = "Travelling Merchant", options = ShopMenu})
-	end
-	sorter(ShopMenu, 'title')
+	end}, nil)
 end)
-
 
 RegisterNetEvent("md-drugs:client:travellingmerchantox", function(data)
 	local price = data.cost 
