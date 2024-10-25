@@ -5,8 +5,8 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
     if xtcpress then 
         Notify(Lang.xtc.out, 'error')
     else
-        local coords, head = StartRay2()
-        xtcpress = true
+      local coords, head = StartRay2()
+      xtcpress = true
 	    progressbar('Setting Press On The Ground', 4000, 'uncuff')
 	    local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	    PlaceObjectOnGroundProperly(press)
@@ -16,8 +16,8 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
                 icon = "fas fa-eye",
                 label = Lang.targets.xtc.make,
                 distance = 2.0,
-                action = function() TriggerEvent("md-drugs:client:XTCMenu", type) end,
-                onSelect = function()     TriggerEvent("md-drugs:client:XTCMenu", type)end,
+                action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end,
+                onSelect = function()TriggerEvent("md-drugs:client:XTCMenu", type)end,
                 canInteract = function()
                     if xtcpress then return true end end
             },
@@ -36,39 +36,15 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
 end)
 
 RegisterNetEvent("md-drugs:client:XTCMenu", function(type)
+  local event =  "md-drugs:client:MakeXTC"
     lib.registerContext({
         id = 'XTCmenu',
         title = 'XTC Menu',
         options = {
-          {
-            icon = GetImage('white_xtc'),
-            title = 'White XTC',
-            description = '1 X Raw XTC',
-            event = "md-drugs:client:MakeXTC",
-            args = { data = type, color = 'white'}
-          },
-          {
-            icon = GetImage('red_xtc'),
-            title = 'Red XTC',
-            description = '1 X Raw XTC and 1 X Loose Coke',
-            event = "md-drugs:client:MakeXTC",
-            args = { data = type, color = 'red'}
-          },
-          {
-            icon = GetImage('orange_xtc'),
-            title = 'Orange XTC',
-            description = '1 X Raw XTC and 1 X Heroin Vial',
-            event = "md-drugs:client:MakeXTC",
-            args = { data = type, color = 'orange'}
-          },
-          {
-            icon = GetImage('blue_xtc'),
-            title = 'Blue XTC',
-            description = '1 X Raw XTC and 1 X Crack Rock',
-            event = "md-drugs:client:MakeXTC",
-            args = { data = type, color = 'blue'}
-          },
-          
+          {icon = GetImage('white_xtc'),   title = 'White XTC',  description = '1 X Raw XTC',  event = event,  args = { data = type, color = 'white'}},
+          {icon = GetImage('red_xtc'),     title = 'Red XTC',    description = '1 X Raw XTC and 1 X Loose Coke',  event = event,  args = { data = type, color = 'red'}},
+          {icon = GetImage('orange_xtc'),  title = 'Orange XTC', description = '1 X Raw XTC and 1 X Heroin Vial',  event = event,  args = { data = type, color = 'orange'}},
+          {icon = GetImage('blue_xtc'),    title = 'Blue XTC',   description = '1 X Raw XTC and 1 X Crack Rock',  event = event,  args = { data = type, color = 'blue'}},
         }
       }) 
     lib.showContext('XTCmenu')
@@ -161,14 +137,14 @@ end)
 RegisterNetEvent("md-drugs:client:buypress", function() 
     local img = GetImage('singlepress')
      lib.registerContext({
-	 id = 'buypresses',
-	 title = 'Purchase Presses',
-	 options = {
-        {    title  = Lang.xtc.press.title.single,  description  = Lang.xtc.des.title.single,   icon = img,    event = 'md-drugs:client:getsinglepress'},
-        {    title  = Lang.xtc.press.title.dual,    description  = Lang.xtc.des.title.dual,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'dual'}},
-        {    title  = Lang.xtc.press.title.triple,  description  = Lang.xtc.des.title.triple,   icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'triple'}},
-        {    title  = Lang.xtc.press.title.quad,    description  = Lang.xtc.des.title.quad,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'quad'}} 
-	}	
+	    id = 'buypresses',
+	    title = 'Purchase Presses',
+	    options = {
+        {title  = Lang.xtc.press.title.single,  description  = Lang.xtc.des.title.single,   icon = img,    event = 'md-drugs:client:getsinglepress'},
+        {title  = Lang.xtc.press.title.dual,    description  = Lang.xtc.des.title.dual,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'dual'}},
+        {title  = Lang.xtc.press.title.triple,  description  = Lang.xtc.des.title.triple,   icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'triple'}},
+        {title  = Lang.xtc.press.title.quad,    description  = Lang.xtc.des.title.quad,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'quad'}} 
+	    }	
     })
   lib.showContext('buypresses')	
 end)

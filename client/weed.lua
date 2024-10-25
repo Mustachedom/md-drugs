@@ -140,14 +140,14 @@ AddBoxZoneSingle('makeoil',Config.MakeOil, {
 		if not ItemCheckMulti({'butane', 'grindedweed'}) then return end
 		if not minigame() then 
 			local explosion = math.random(1,100)
-				local loc = GetEntityCoords(PlayerPedId())
-				if explosion <= 99 then
-					AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
-					exploded = true
-					Notify(Lang.Weed.stovehot, "error")
-					Wait(1000 * 30)
-					exploded = nil
-				end	
+			local loc = GetEntityCoords(PlayerPedId())
+			if explosion <= 99 then
+				AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
+				exploded = true
+				Notify(Lang.Weed.stovehot, "error")
+				Wait(1000 * 30)
+				exploded = nil
+			end	
 		return end
 		if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
 		TriggerServerEvent("md-drugs:server:makeoil")       			

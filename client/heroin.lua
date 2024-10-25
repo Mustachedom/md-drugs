@@ -2,6 +2,11 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local PoppyPlants = {}
 local herointable = false
 
+local  options = {
+    { event = "md-drugs:client:heatliquidheroin", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.cook, data = heroinlabkit},
+    { event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.up,   data = heroinlabkit, canInteract = function() if herointable then return true end end},
+ }
+
 local function pickher(loc)
     if not progressbar(Lang.Heroin.pick, 4000, 'uncuff') then return end
     TriggerServerEvent("heroin:pickupCane", loc)
@@ -101,13 +106,9 @@ else
     local location, head = StartRay()
     if not location then herointable = false TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
     if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
-	local heroinlabkit = CreateObject("v_ret_ml_tablea", location.x, location.y, location.z, true, false)
+	heroinlabkit = CreateObject("v_ret_ml_tablea", location.x, location.y, location.z, true, false)
     SetEntityHeading(heroinlabkit, head)
 	PlaceObjectOnGroundProperly(heroinlabkit)
-    local  options = {
-        { event = "md-drugs:client:heatliquidheroin", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.cook, data = heroinlabkit},
-        { event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.up,   data = heroinlabkit, canInteract = function() if herointable then return true end end},
-     }
     AddMultiModel(heroinlabkit, options, heroinlabkit)
 end
 end)
@@ -147,10 +148,6 @@ local head = GetEntityHeading(data)
 	local heroinlabkit = CreateObject("v_ret_ml_tablea", location.x, location.y, location.z-1, true, false)
     SetEntityHeading(heroinlabkit, head)
 	PlaceObjectOnGroundProperly(heroinlabkit)
-    local  options = {
-        { event = "md-drugs:client:heatliquidheroin", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.cook, data = heroinlabkit},
-        { event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.up,   data = heroinlabkit, canInteract = function() if herointable then return true end end},
-     }
     AddMultiModel(heroinlabkit, options, heroinlabkit)
 end)
 
