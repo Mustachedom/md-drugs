@@ -261,7 +261,12 @@ function AddRep(source, type)
         MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {update, Player.PlayerData.citizenid})
     return true
 end
-    
+
+function sortTab(tbl, type)
+    table.sort(tbl, function(a, b)
+        return a[type] < b[type]
+    end)
+end
 
 function ChecknRemove(source, table) 
     local Player = QBCore.Functions.GetPlayer(source) 

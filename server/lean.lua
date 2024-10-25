@@ -19,7 +19,6 @@ end)
 
 QBCore.Functions.CreateUseableItem('leancup', function(source, item)
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
 	if Itemcheck(src, 'leancup', 1) then 
 		TriggerClientEvent('md-drugs:client:leancraft', src)
 	end

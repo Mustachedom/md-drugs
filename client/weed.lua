@@ -191,32 +191,12 @@ AlienEffect()
 end)
 
 CreateThread(function()
-local WeedShop = {}
-local current = "u_m_m_jesus_01"
-
+	local current = "u_m_m_jesus_01"
 	lib.requestModel(current, Config.RequestModelTime)
 	local CurrentLocation = Config.WeedSaleman
 	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
 	Freeze(WeedGuy, true, CurrentLocation.w)
-	AddSingleModel(WeedGuy, {label = "Weed Shop",icon = "fas fa-eye",action = function() lib.showContext('WeedShop')end}, nil)
-	for k, v in pairs (Config.Weed.items) do 
-		WeedShop[#WeedShop + 1] = {
-			icon =  GetImage(v.name),
-			 title = GetLabel(v.name),
-			 description = '$'.. v.price,
-			 event = "md-drugs:client:travellingmerchantox",
-			 args = {
-				item = v.name,
-				cost = v.price,
-			   	amount = v.amount,
-			   	table = Config.Weed.items,
-			  	 num = k,
-			 }
-		 }
-		 sorter(WeedShop, 'title')
-	lib.registerContext({id = 'WeedShop',title = "Weed Shop", options = WeedShop})
-	end
-
+	AddSingleModel(WeedGuy, {label = "Weed Shop",icon = "fas fa-eye", action = function() makeMenu('WeedShop') lib.showContext('WeedShop')end}, nil)
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)

@@ -1,51 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local isActive = false
-RegisterNetEvent('md-drugs:client:opendealermenu', function()
-    local dealermenu = {}
-    local rep = GetRep()
-    print(rep.dealerrep)
-    if Config.StupidassNewQbItemName then
-        for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
 
-			if rep.dealerrep >= v.minrep then
-                dealermenu[#dealermenu + 1] = {
-                    icon =  GetImage(v.name),
-                    title = GetLabel(v.name),
-                    description = '$'..v.price,
-                    event = "md-drugs:client:travellingmerchantox",
-                    args = {
-                        item = v.name,
-                        cost = v.price,
-                       amount = v.amount,
-                       table = QBConfig.ProductsStupidNameRewrite,
-                       num = k,
-                      }
-                }
-                sorter(dealermenu, 'title')
-			end
-        end
-    else
-         for k, v in pairs (QBConfig.Products) do 
-			if rep.dealerrep >= v.minrep then 
-                dealermenu[#dealermenu + 1] = {
-                  icon =  GetImage(v.name),
-                  title = GetLabel(v.name),
-                  description = '$'..v.price,
-                  event = "md-drugs:client:travellingmerchantox",
-                  args = {
-                      item = v.name,
-                      cost = v.price,
-                     amount = v.amount,
-                     table = QBConfig.Products,
-                     num = k,
-                }
-                }
-                sorter(dealermenu, 'title')
-			end
-        end
-    end
-    
-    lib.registerContext({id = 'dealermenu',title = "Dealer Menu", options = dealermenu})
+RegisterNetEvent('md-drugs:client:opendealermenu', function()
+    local rep = GetRep()
+    makeMenu('dealermenu', rep)
     lib.showContext('dealermenu')
 end)
 

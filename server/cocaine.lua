@@ -34,78 +34,74 @@ AddEventHandler("coke:pickupCane", function(loc)
 end)
 
 RegisterServerEvent('md-drugs:server:makepowder', function(num)
-	local src = source
-	if CheckDist(src, Config.MakePowder[num]['loc']) then return end
-	if Config.TierSystem then		
-		local coke = getRep(src, 'coke')
-		if coke <= Config.Tier1 then
-			if not GetRecipe(src, 'cocaine', 'cokepowder', 'tier1') then return end
-			Log(GetName(src) .. ' Made Raw Coke' .. dist(src, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
-		elseif coke >= Config.Tier1 and coke <= Config.Tier2 then
-			if not GetRecipe(src, 'cocaine', 'cokepowder', 'tier2') then return end
-			Log(GetName(src)  .. ' Made Raw Coke tier 2' .. dist(src, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
-		else
-			if not GetRecipe(src, 'cocaine', 'cokepowder', 'tier3') then return end
-			Log(GetName(src) ..' Made Raw Coke tier 3' .. dist(src, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
-		end
-	else
-		if not GetRecipe(src, 'cocaine', 'cokepowder', 'tier1') then return end
-		Log(GetName(src) .. ' Made Raw Coke' .. dist(src, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
-	end
+    local src = source
+    if CheckDist(src, Config.MakePowder[num]['loc']) then return end
+    local tier = 'tier1'
+    local logMessage = ' Made Raw Coke'
+    if Config.TierSystem then
+        local coke = getRep(src, 'coke')
+        if coke > Config.Tier1 and coke <= Config.Tier2 then
+            tier = 'tier2'
+            logMessage = ' Made Raw Coke tier 2'
+        elseif coke > Config.Tier2 then
+            tier = 'tier3'
+            logMessage = ' Made Raw Coke tier 3'
+        end
+    end
+    if not GetRecipe(src, 'cocaine', 'cokepowder', tier) then return end
+    Log(GetName(src) .. logMessage .. dist(src, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
 end)
 
 RegisterServerEvent('md-drugs:server:cutcokeone', function()
-	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
-	if Config.TierSystem then
-		local coke = Player.Functions.GetItemByName('coke')
-		local coke2 = Player.Functions.GetItemByName('cokestagetwo')
-		local coke3 = Player.Functions.GetItemByName('cokestagethree')
-		if coke then
-			if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
-			Log(GetName(src)  .. ' Cut Coke', 'coke')
-		elseif coke2 then
-			if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier2') then return end
-			Log(GetName(src)  .. ' Cut Coke tier 2', 'coke')
-		elseif coke3 then
-			if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier3') then return end
-			Log(GetName(src) .. ' Cut Coke tier 3', 'coke')
-		else
-			Notifys(src,Lang.Coke.nocutcoke, "error")
-		end	
-	else
-		if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
-		Log(GetName(src)  .. ' Cut Coke', 'coke')
-	end
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+	local count = 0
+    if Config.TierSystem then
+        local cokeTiers = {
+            {item = 'coke', 		  tier = 'tier1', log = ' Cut Coke'},
+            {item = 'cokestagetwo',   tier = 'tier2', log = ' Cut Coke tier 2'},
+            {item = 'cokestagethree', tier = 'tier3', log = ' Cut Coke tier 3'}
+        }
+        for _, v in ipairs(cokeTiers) do
+			if count >= 1 then return end
+            if Player.Functions.GetItemByName(v.item) then
+                if not GetRecipe(src, 'cocaine', 'cutcoke', v.tier) then return end
+                	Log(GetName(src) .. v.log, 'coke')
+                return
+            end
+        end
+        Notifys(src, Lang.Coke.nocutcoke, "error")
+    else
+        if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
+        Log(GetName(src) .. ' Cut Coke', 'coke')
+    end
 end)
 
 RegisterServerEvent('md-drugs:server:bagcoke', function()
-	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
-	if Config.TierSystem then
-		local coke = getRep(source, 'coke')
-		local locoke = Player.Functions.GetItemByName('loosecoke')
-		local locoke2 = Player.Functions.GetItemByName('loosecokestagetwo')
-		local locoke3 = Player.Functions.GetItemByName('loosecokestagethree')
-		if locoke then
-			if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
-			AddRep(src, 'coke')
-			Log(GetName(src)  .. ' Bagged Coke and now has a rep of ' .. coke + 1, 'coke')
-		elseif locoke2 then
-			if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
-			AddRep(src, 'coke')
-			Log(GetName(src)  .. ' Bagged Coke tier 2 and now has a rep of ' .. coke + 1, 'coke')
-		elseif locoke3 then
-			if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier3') then return end
-			AddRep(src, 'coke')
-			Log(GetName(source)  .. ' Bagged Coke tier 3 and now has a rep of ' .. coke + 1, 'coke')
-		else
-			Notifys(src, Lang.Coke.nobagcoke, "error")
-		end
-	else
-		if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
-		Log(GetName(source)  .. ' Bagged Coke', 'coke')
-	end
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+	local count = 0
+    if Config.TierSystem then
+        local coke = getRep(src, 'coke')
+        local cokeTiers = {
+            {item = 'loosecoke', 		   tier = 'tier1', log = ' Bagged Coke'},
+            {item = 'loosecokestagetwo',   tier = 'tier2', log = ' Bagged Coke tier 2'},
+            {item = 'loosecokestagethree', tier = 'tier3', log = ' Bagged Coke tier 3'}
+        }
+        for _, v in ipairs(cokeTiers) do
+            if Player.Functions.GetItemByName(v.item) then
+				if count >= 1 then return end
+                if not GetRecipe(src, 'cocaine', 'bagcoke', v.tier) then return end
+                AddRep(src, 'coke')
+                Log(GetName(src) .. v.log .. ' and now has a rep of ' .. coke + 1, 'coke')
+                return
+            end
+        end
+        Notifys(src, Lang.Coke.nobagcoke, "error")
+    else
+        if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
+        Log(GetName(src) .. ' Bagged Coke', 'coke')
+    end
 end)
 
 local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}

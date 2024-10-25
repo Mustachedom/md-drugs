@@ -1,9 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local icon = "fas fa-sign-in-alt"
+local icon = "fa solid fa-eye"
 CreateThread(function()
-	AddBoxZoneSingle('telecokein', 	     Config.CokeTeleIn, 	  {action = function()tele(Config.CokeTeleOut)end,  icon = icon, label = Lang.targets.coke.enter}) -- coke
-	AddBoxZoneSingle('telecokeout', 	 Config.CokeTeleOut, 	  {action = function()tele(Config.CokeTeleIn) end,  icon = icon, label = Lang.targets.coke.exits}) -- coke
-	AddBoxZoneMulti('makepowder', 		 Config.MakePowder, 	  {event = "md-drugs:client:makepowder",			icon = icon, label = Lang.targets.coke.chop}) -- coke
+	AddBoxZoneSingle('telecokein', 	     Config.CokeTeleIn, 	  {action = function()tele(Config.CokeTeleOut)end,  icon = 'fa-solid fa-door-open', label = Lang.targets.coke.enter}) -- coke
+	AddBoxZoneSingle('telecokeout', 	 Config.CokeTeleOut, 	  {action = function()tele(Config.CokeTeleIn) end,  icon = "fa-solid fa-door-closed", label = Lang.targets.coke.exit}) -- coke
+	AddBoxZoneMulti('makepowder', 		 Config.MakePowder, 	  {event = "md-drugs:client:makepowder",			icon = "fa-solid fa-scissors", label = Lang.targets.coke.chop}) -- coke
 	AddBoxZoneMulti('steallysergic', 	 Config.lysergicacid, 	  {event = "md-drugs:client:getlysergic",			icon = icon, label = Lang.targets.lsd.lys}) -- lsd
 	AddBoxZoneMulti('stealdiethylamide', Config.diethylamide, 	  {event = "md-drugs:client:getdiethylamide",		icon = icon, label = Lang.targets.lsd.die}) -- lsd
 	AddBoxZoneMulti('gettabs', 			 Config.gettabs, 	      {event = "md-drugs:client:buytabs",				icon = icon, label = Lang.targets.lsd.buyt}) -- lsd

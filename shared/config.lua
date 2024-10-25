@@ -158,20 +158,6 @@ Config.WeedDry = { -- where you dry leaves
 
 Config.Joblock = false -- if you want weed to be a job
 Config.weedjob = "" -- what the job name is
-Config.Weed = { --- this is the store for the weed ingridients
-    label = "Weed Shop",
-    slots = 8,
-    items = {
-        {name = "weedgrinder", 	price = 25, 	amount = 50, },
-		{name = "mdbutter", 	price = 25, 	amount = 50, },
-		{name = "flour", 		price = 25, 	amount = 50, },
-		{name = "chocolate",  	price = 25, 	amount = 50, },
-		{name = "butane", 		price = 25, 	amount = 50, },
-		{name = "butanetorch", 	price = 2, 		amount = 1000,},
-		{name = "dabrig", 		price = 2, 		amount = 1000,},
-		{name = "mdwoods", 		price = 2, 		amount = 1000,},	
-	}
-}
 
 ----------------- Wholesale
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
@@ -191,35 +177,7 @@ Config.Travellingmerchant = { ------------ these are the random locations the me
 	vector4(-1522.93, 1476.01, 111.45, 41.25),
 	vector4(-3278.98, 973.38, 5.35, 101.53),
 }
-Config.Items = { --- this is the store for the travelling merchant
-    items = {
-        {name = "tab_paper", 		 price = 50, 	amount = 50,},
-        {name = "bakingsoda", 	 price = 25, 	amount = 50, 	},
-		{name = "isosafrole", 	 price = 25, 	amount = 50, 	},
-		{name = "mdp2p", 			 price = 25, 	amount = 50, 	},
-		{name = "lysergic_acid",   price = 25, 	amount = 50, 	},
-		{name = "diethylamide",    price = 25, 	amount = 50, 	},
-		{name = "lockpick",  price = 2, 	amount = 1000, 	},
-		{name = "emptyvial", 		 price = 2, 	amount = 1000, 	},
-		{name = "needle", 		 price = 2, 	amount = 1000,	},
-		{name = "cokeburner", 	 price = 25, 	amount = 50, 	},
-		{name = "crackburner", 	 price = 2, 	amount = 50, 	},
-		{name = "lsdburner",		 price = 2, 	amount = 50, 	},
-		{name = "heroinburner", 	 price = 2, 	amount = 50, 	},
-		{name = "mdlean", 		 price = 50, 	amount = 50, 	},
-        {name = "weedgrinder", 	 price = 25, 	amount = 50, 	},
-		{name = "mdbutter", 		 price = 25, 	amount = 50, 	},
-		{name = "flour", 		 price = 25, 	amount = 50, 	},
-		{name = "chocolate",  	 price = 25, 	amount = 50, 	},
-		{name = "butane", 		 price = 25, 	amount = 50, 	},
-		{name = "butanetorch", 	 price = 2, 	amount = 1000, 	},
-		{name = "dabrig", 		 price = 2, 	amount = 1000, 	},
-		{name = "mdwoods", 		 price = 2, 	amount = 1000, 	},
-		{name = "leancup", 		 price = 25, 	amount = 50, 	},
-        {name = "xtcburner", 	 price = 25, 	amount = 50, 	},
-		
-	}
-}
+
 --------------------------------------- oxy runs
 ---- How oxyruns work. You pay for a truck, you get in it and it gives a route. There is a 20% chance that the car will be "hot" and you have to ditch it. No Routes will spawn if that pops up
 ----- when you get to the drop off point third eye the truck. You will carry a box to the ped. He will give you cash, some oxy and maybe a random item. Rinse and repeat

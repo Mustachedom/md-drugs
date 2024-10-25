@@ -9,8 +9,7 @@ RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 end)
 
 RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+	local src = source
 	if CheckDist(src, Config.diethylamide[num]['loc']) then return end
 	if AddItem(src,'diethylamide', 2) then 
 		Log(GetName(src) ..' Got Diethylamide with a distance of ' .. dist(source, Config.diethylamide[num]['loc']) .. '!', 'lsd')
@@ -28,7 +27,7 @@ end)
 
 
 lib.callback.register('md-drugs:server:removecleaningkit', function(source)
-local src = source
+	local src = source
 	if not Itemcheck(src, 'cleaningkit', 1) then return end
 	if RemoveItem(src,"cleaningkit", 1) then 
 		Log(GetName(src) ..' Wiped Down Their LSD Lab Kit!' , 'lsd')
@@ -37,21 +36,21 @@ local src = source
 end)
 
 RegisterServerEvent('md-drugs:server:getlabkitback', function()
-local src = source
+	local src = source
 	if AddItem(src,"lsdlabkit", 1) then
 		Log(GetName(src) ..' Picked Up Their LSD Lab Kit Back At ' .. GetCoords(src) .. '!', 'lsd')
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:heatliquid', function()
-local src = source
+	local src = source
 	if not GetRecipe(src, 'lsd', 'vial', 'heat') then return end
 	Log(GetName(src) ..' Heated Basic LSD!', 'lsd')
 end)
 
 RegisterServerEvent('md-drugs:server:failheating', function()
-local src = source
-if not ChecknRemove(source, {lysergic_acid = 1, diethylamide = 1}) then return end
+	local src = source
+	if not ChecknRemove(source, {lysergic_acid = 1, diethylamide = 1}) then return end
 	Notifys(src,Lang.lsd.failed, "error")
 	Log(GetName(src) ..' Failed Basic LSD Like An Idiot!', 'lsd')
 end)
@@ -59,7 +58,6 @@ end)
 
 RegisterServerEvent('md-drugs:server:refinequalityacid', function()
 local src = source
-local randomchance = math.random(1,100)
 if not Itemcheck(src, 'lsd_one_vial', 1) then return end
 	if Config.TierSystem then
 		local lsd = getRep(src, 'lsd')
@@ -79,6 +77,7 @@ if not Itemcheck(src, 'lsd_one_vial', 1) then return end
 			Log(GetName(src) ..' Refined Acid and Now Has A Rep Of ' .. lsd + 1 .. '!', 'lsd')
 		end
 	else
+		local randomchance = math.random(1,100)
 		if RemoveItem(src,'lsd_one_vial', 1) then 
 			if randomchance <= 60 then 
 				AddItem(src,'lsd_vial_two', 1)
@@ -127,44 +126,31 @@ RegisterServerEvent('md-drugs:server:getlabkit', function()
 	end
 end)
 
-
-
-
 RegisterServerEvent('md-drugs:server:maketabpaper', function()
-local src = source
-local Player = QBCore.Functions.GetPlayer(src)
-if not Itemcheck(src,'tab_paper', 1) then return end
-	if RemoveItem(src,'lsd_one_vial', 1) then
-		RemoveItem(src,'tab_paper', 1)
-		AddItem(src,'smileyfacesheet', 1)
-		Log(GetName(src) ..' Made A Smiley Face Sheet', 'lsd')
-	elseif Player.Functions.RemoveItem('lsd_vial_two', 1) then
-		RemoveItem(src,'tab_paper', 1)
-		AddItem(src,'wildcherrysheet', 1)
-		Log(GetName(src) ..' Made A Wild Cherry Sheet', 'lsd')
-	elseif Player.Functions.RemoveItem('lsd_vial_three', 1) then
-		RemoveItem(src,'tab_paper', 1)
-		AddItem(src,'yinyangsheet', 1)
-		Log(GetName(src) ..' Made A Yin Yang Sheet', 'lsd')
-	elseif Player.Functions.RemoveItem('lsd_vial_four', 1) then
-		RemoveItem(src,'tab_paper', 1)
-		AddItem(src,'pineapplesheet', 1)
-		Log(GetName(src) ..' Made A Pine Apple Sheet', 'lsd')
-	elseif Player.Functions.RemoveItem('lsd_vial_five', 1) then
-		RemoveItem(src,'tab_paper', 1)
-		AddItem(src,'bartsheet', 1)
-		Log(GetName(src) ..' Made A Cluckin Bell Sheet', 'lsd')
-	elseif Player.Functions.RemoveItem('lsd_vial_six', 1) then
-		RemoveItem(src,'tab_paper', 1)
-		AddItem(src,'gratefuldeadsheet', 1)
-		Log(GetName(src) ..' Made A Maze Sheet', 'lsd')
-	else
-		Notifys(Lang.lsd.novial, "error")
+	local src = source
+	if not Itemcheck(src,'tab_paper', 1) then return end
+	local count = 0
+	local vialdata = {
+		{vial = 'lsd_one_vial',   sheet = 'smileyfacesheet', log = 'Made A Smiley Face Sheet'},
+	    {vial = 'lsd_vial_two',   sheet = 'wildcherrysheet', log = 'Made A Wild Cherry Sheet'},
+	    {vial = 'lsd_vial_three', sheet = 'yinyangsheet', log = 'Made A Yin Yang Sheet'},
+	    {vial = 'lsd_vial_four',  sheet = 'pineapplesheet', log = 'Made A Pine Apple Sheet'},
+	    {vial = 'lsd_vial_five',  sheet = 'bartsheet', log = 'Made A Cluckin Bell Sheet'},
+	    {vial = 'lsd_vial_six',   sheet = 'gratefuldeadsheet', log = 'Made A Maze Sheet'}
+	}
+	sortTab(vialdata, 'vial')
+	for k, v in pairs (vialdata) do
+		if count >= 1 then return end
+		if RemoveItem(src, v.vial, 1) and RemoveItem(src, 'tab_paper', 1) then
+			AddItem(src, v.sheet, 1)
+			Log(GetName(src) ..' ' .. v.log, 'lsd')
+			count = count + 1
+		end
 	end
 end)
 
 local sheets = {
-	{item = 'smileyfacesheet',   recieve = "Smiley_tabs", 		},
+	{item = 'smileyfacesheet',   recieve = "smiley_tabs", 		},
 	{item = 'wildcherrysheet',   recieve = "wildcherry_tabs",   },
 	{item = 'yinyangsheet',      recieve = "yinyang_tabs",      },
 	{item = 'pineapplesheet',    recieve = "pineapple_tabs",    },

@@ -140,25 +140,7 @@ QBConfig.DrugsPrice = {
     ["cupofdextro"] =                 {min = 18, max = 40},
 }
 
-    QBConfig.Dealers = {}
-
-
-    -- Shop QBConfig
-QBConfig.Products = {
-        [1] = {name = "weed_white-widow_seed",  price = 15, amount = 150,  minrep = 0},
-        [2] = {name = "weed_skunk_seed", 		price = 15, amount = 150,  minrep = 0},
-        [3] = {name = "weed_purple-haze_seed",	price = 15, amount = 150,  minrep = 0},
-		[4] = {name = "weed_og-kush_seed", 	    price = 15, amount = 150,  minrep = 0},
-		[5] = {name = "weed_amnesia_seed", 		price = 15, amount = 150,  minrep = 0},
-}
-
-QBConfig.ProductsStupidNameRewrite = {
-        [1] = {name = "weed_whitewidow_seed",   price = 15, amount = 150, minrep = 0},
-        [2] = {name = "weed_skunk_seed", 		price = 15, amount = 150, minrep = 0},
-        [3] = {name = "weed_purplehaze_seed",	price = 15, amount = 150, minrep = 0},
-		[4] = {name = "weed_ogkush_seed", 	    price = 15, amount = 150, minrep = 0},
-		[5] = {name = "weed_amnesia_seed", 		price = 15, amount = 150, minrep = 0},
-}
+QBConfig.Dealers = {}
 
 QBConfig.UseMarkedBills = false -- true for marked bills, false for cash
 QBConfig.DeliveryRepGain = 1 -- amount of rep gained per delivery

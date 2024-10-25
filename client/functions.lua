@@ -218,6 +218,36 @@ function sorter(sorting, value)
 	table.sort(sorting, function(a, b) print(a[value], b[value]) return a[value] < b[value] end)
 end
 
+function makeMenu(name, rep)
+	local menu = {}
+	local data = lib.callback.await('md-drugs:server:menu', false, name)
+	for k, v in pairs (data.table) do
+		local allow = false
+		if rep == nil then 
+			allow = true
+		else
+			if rep.dealerrep >= v.minrep then allow = true end
+		end
+		if allow then 
+			menu[#menu + 1] = {
+				icon =  GetImage(v.name),
+				description = '$'.. v.price,
+				title = GetLabel(v.name),
+				onSelect = function()
+					local settext = "Cost: $"..v.price
+					local dialog = exports.ox_lib:inputDialog(v.name .."!",   {
+						{ type = 'select', label = "Payment Type", default = "cash", options = {	{ value = "cash"},	{ value = "bank"},}},
+						{ type = 'number', label = "Amount to buy", description = settext, min = 0, max = v.amount, default = 1 },
+					})
+					if not dialog[1] then return end
+					TriggerServerEvent("md-drugs:server:purchaseGoods", dialog[2], dialog[1], v.name, v.price, data.table, k)
+				end,
+			}
+		end
+	end
+	sorter(menu, 'title')
+	lib.registerContext({id = data.id, title = data.title, options = menu})
+end
 
 
 function ItemCheck(item)
