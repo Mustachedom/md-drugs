@@ -12,23 +12,11 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
 	    PlaceObjectOnGroundProperly(press)
       SetEntityHeading(press, head)
         local options = {
-            {
-                icon = "fas fa-eye",
-                label = Lang.targets.xtc.make,
-                distance = 2.0,
-                action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end,
-                onSelect = function()TriggerEvent("md-drugs:client:XTCMenu", type)end,
-                canInteract = function()
-                    if xtcpress then return true end end
+            { icon = "fas fa-eye", label = Lang.targets.xtc.make, distance = 2.0, action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end, 
+            canInteract = function() if xtcpress then return true end end
             },
-            {     
-                icon = "fas fa-eye",
-                label = Lang.targets.xtc.pick,
-                action = function() TriggerEvent("md-drugs:client:GetPressBack", type, press) end,
-                onSelect = function() TriggerEvent("md-drugs:client:GetPressBack", type, press) end,
-                distance = 2.0,
-                canInteract = function()
-                    if xtcpress then return true end end
+            {icon = "fas fa-eye", label = Lang.targets.xtc.pick, action = function() TriggerEvent("md-drugs:client:GetPressBack", type, press) end, distance = 2.0,
+              canInteract = function() if xtcpress then return true end end
             },
         }
         AddMultiModel(press, options, nil)
