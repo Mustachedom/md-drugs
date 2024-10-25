@@ -1,56 +1,49 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-
 RegisterServerEvent('md-drugs:server:makecrackone', function(num)
-	local src = source
+    local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    local count,type, tier = 0, 'cookcrack', 'tier1'
 	if CheckDist(src, Config.makecrack[num]['loc']) then return end
-	if Config.TierSystem then
-		local locoke = Player.Functions.GetItemByName('loosecoke')
-		local locoke2 = Player.Functions.GetItemByName('loosecokestagetwo')
-		local locoke3 = Player.Functions.GetItemByName('loosecokestagethree')
-		if locoke then
-			if not GetRecipe(src, 'crack', 'cookcrack', 'tier1') then return end
-			Log(GetName(src)  .. ' Cut Crack', 'crack')
-		elseif locoke2 then
-			if not GetRecipe(src, 'crack', 'cookcrack', 'tier2') then return end
-			Log(GetName(src)  .. ' Cut Crack', 'crack')
-		elseif locoke3 then
-			if not GetRecipe(src, 'crack', 'cookcrack', 'tier3') then return end
-			Log(GetName(src) .. ' Cut Crack', 'crack')
-		else
-			Notifys(src,Lang.Crack.nocoke, 'error')
-		end			
-	else
-		if not GetRecipe(src, 'crack', 'cookcrack', 'tier1') then return end
-		Log(GetName(src)  .. ' Cut Crack', 'crack')
-	end
+    if Config.TierSystem then
+        local crackTiers = {
+            {item = 'loosecoke', 		 tier = 'tier1', log = ' Cut Crack'},
+            {item = 'loosecokestagetwo', tier = 'tier2', log = ' Cut Crack tier 2'},
+            {item = 'loosecokestagethree', tier = 'tier3', log = ' Cut Crack tier 3'}
+        }
+        for _, v in ipairs(crackTiers) do
+            if count >= 1 then return end
+            if Player.Functions.GetItemByName(v.item) then
+				tier = v.tier
+				count = count + 1
+                Log(GetName(src) .. v.log, 'crack')
+            end
+        end
+    end
+	if not GetRecipe(src, 'crack', type, tier) then return end
 end)
 
+
 RegisterServerEvent('md-drugs:server:bagcrack', function(num)
-	local src = source
+    local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	if CheckDist(src, Config.bagcrack[num]['loc']) then  return end
-	if Config.TierSystem then
-		local rock = Player.Functions.GetItemByName('crackrock')
-		local rock2 = Player.Functions.GetItemByName('crackrockstagetwo')
-		local rock3 = Player.Functions.GetItemByName('crackrockstagethree')
-		if rock then
-			if not GetRecipe(src, 'crack', 'bagcrack', 'tier1') then return end
-			Log(GetName(src)  .. ' Bagged Crack', 'crack')
-		elseif rock2 then
-			if not GetRecipe(src, 'crack', 'bagcrack', 'tier2') then return end
-			Log(GetName(src)  .. ' Bagged Crack', 'crack')
-		elseif rock3 then
-			if not GetRecipe(src, 'crack', 'bagcrack', 'tier3') then return end
-			Log(GetName(src)  .. ' Bagged Crack', 'crack')
-		else
-			Notifys(src, Lang.Crack.nocoke, "error")
-		end
-	else
-		if not GetRecipe(src, 'crack', 'bagcrack', 'tier1') then return end
-		Log(GetName(src) .. ' Bagged Crack', 'crack')
-	end
+    local count,type, tier = 0, 'bagcrack', 'tier1'
+    if Config.TierSystem then
+        local crackTiers = {
+            {item = 'crackrock', tier = 'tier1', log = ' Bagged Crack'},
+            {item = 'crackrockstagetwo', tier = 'tier2', log = ' Bagged Crack tier 2'},
+            {item = 'crackrockstagethree', tier = 'tier3', log = ' Bagged Crack tier 3'}
+        }
+        for _, v in ipairs(crackTiers) do
+            if count >= 1 then return end
+            if Player.Functions.GetItemByName(v.item) then
+				tier = v.tier
+				count = count + 1
+                Log(GetName(src) .. v.log, 'crack') 
+            end
+        end
+    end
+	if not GetRecipe(src, 'crack', type, tier) then return end
 end)
 
 local cokecut = {crackrockstagetwo = 2, crackrockstagethree = 3}
