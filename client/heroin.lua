@@ -3,7 +3,7 @@ local PoppyPlants = {}
 local herointable = false
 
  local function createLabKit(coord, head)
-    local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false)
+    local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false,false)
     SetEntityHeading(heroinlabkit, head)
     PlaceObjectOnGroundProperly(heroinlabkit)
     local  options = {
@@ -54,19 +54,6 @@ RegisterNetEvent("heroin:init", function()
     end
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        LoadModel('prop_plant_01b')
-        TriggerEvent('heroin:init')
-    end
- end)
- 
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-     Wait(3000)
-     LoadModel('prop_plant_01b')
-     TriggerEvent('heroin:init')
- end)
- 
  AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01b'))

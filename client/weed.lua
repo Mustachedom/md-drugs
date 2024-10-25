@@ -3,13 +3,6 @@ local WeedPlant = {}
 local exploded = nil
 local drying = false
 
-function LoadModel(hash)
-    hash = GetHashKey(hash)
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do
-        Wait(3000)
-    end
-end 
 
 local function hasJob()
 	if Config.Joblock then
@@ -53,18 +46,6 @@ RegisterNetEvent("weed:init", function()
     end
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        LoadModel('bkr_prop_weed_lrg_01b')
-        TriggerEvent('weed:init')
-    end
- end)
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-     Wait(3000)
-     LoadModel('bkr_prop_weed_lrg_01b')
-     TriggerEvent('weed:init')
- end)
- 
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('bkr_prop_weed_lrg_01b'))

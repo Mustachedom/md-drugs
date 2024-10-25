@@ -1,14 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local shrooms = {}
 
-function LoadModel(hash)
-    hash = GetHashKey(hash)
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do
-        Wait(3000)
-    end
-end
-
 local function pick(loc)
     if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  
     TriggerServerEvent("shrooms:pickupCane", loc)
@@ -23,14 +15,6 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
         AddSingleModel(shrooms[loc],{ icon = "fas fa-hand", label = Lang.targets.shrooms.pick, action = function() pick(loc) end }, loc )
     end
 end)
-
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-		Wait(3000)
-        LoadModel('mushroom')
-        TriggerEvent('shrooms:init')
-    end
- end)
 
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
@@ -48,13 +32,7 @@ RegisterNetEvent('shrooms:removeCane', function(loc)
     shrooms[loc] = nil
 end)
 
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-     Wait(3000)
-     LoadModel('mushroom')
-     TriggerEvent('shrooms:init')
- end)
-
- RegisterNetEvent("shrooms:init", function()
+RegisterNetEvent("shrooms:init", function()
     for k, v in pairs (GlobalState.shrooms) do
         local hash = GetHashKey(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end

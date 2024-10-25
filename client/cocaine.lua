@@ -36,19 +36,6 @@ RegisterNetEvent("coke:init", function()
     end
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        LoadModel('prop_plant_01a')
-        TriggerEvent('coke:init')
-    end
- end)
-
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-     Wait(3000)
-     LoadModel('prop_plant_01a')
-     TriggerEvent('coke:init')
- end)
-
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01a'))

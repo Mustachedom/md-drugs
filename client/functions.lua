@@ -63,6 +63,10 @@ function loadParticle(dict)
     SetPtfxAssetNextCall(dict)
 end
 
+function LoadModel(hash)
+	lib.requestModel(hash, Config.RequestModelTime)
+end
+
 function minigame()
 	local time = 0
 	local game = Config.Minigames
@@ -173,30 +177,28 @@ function minigame()
   end
 
 function GetImage(img)
-	if GetResourceState('ox_inventory') == 'started' then
-		local Items = exports['ox_inventory']:Items()
-		if Items[img]['client'] then 
-			if Items[img]['client']['image'] then
-				return Items[img]['client']['image']
-			else
-				return "nui://ox_inventory/web/images/".. img.. '.png'
-			end
-		else
-			return "nui://ox_inventory/web/images/".. img.. '.png'
-		end
-	elseif GetResourceState('ps-inventory') == 'started' then
-		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('lj-inventory') == 'started' then
-		return "nui://lj-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('qb-inventory') == 'started' then
-		return "nui://qb-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('qs-inventory') == 'started' then
-		return "nui://qs-inventory/html/img/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('origen_inventory') == 'started' then
-		return "nui://origen_inventory/html/img/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('core_inventory') == 'started' then
-		return "nui://core_inventory/html/img/".. QBCore.Shared.Items[img].image
-	end
+    if GetResourceState('ox_inventory') == 'started' then
+        local Items = exports['ox_inventory']:Items()
+        local itemClient = Items[img] and Items[img]['client']
+        if itemClient and itemClient['image'] then
+            return itemClient['image']
+        else
+            return "nui://ox_inventory/web/images/" .. img .. '.png'
+        end
+    end
+    local invs = {
+        ['ps-inventory'] = "nui://ps-inventory/html/images/",
+        ['lj-inventory'] = "nui://lj-inventory/html/images/",
+        ['qb-inventory'] = "nui://qb-inventory/html/images/",
+        ['qs-inventory'] = "nui://qs-inventory/html/img/",
+        ['origen_inventory'] = "nui://origen_inventory/html/img/",
+        ['core_inventory'] = "nui://core_inventory/html/img/"
+    }
+    for k, v in pairs(invs) do
+        if GetResourceState(k) == 'started' then
+            return v .. QBCore.Shared.Items[img].image
+        end
+    end
 end
 
 function GetLabel(label)
@@ -464,7 +466,7 @@ function AddMultiModel(model, data, num)
 	for k, v in pairs (data) do 
 		table.insert(data,{
 			{ icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
-				onSelect = v.action,data = num,canInteract = v.canInteract or nil,
+				onSelect = v.action,data = num,canInteract = v.canInteract or nil, distance = 2.0
 		 	}
 		})
 	end
@@ -566,9 +568,24 @@ end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 	Wait(3000)
+	LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
+	LoadModel('prop_plant_01a') TriggerEvent('coke:init')
+	LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
+	LoadModel('mushroom') TriggerEvent('shrooms:init')
+	LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
 	local check = lib.callback.await('md-drugs:server:GetRep', false)
 
-	return 
+	return
+end)
+
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+		LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
+		LoadModel('prop_plant_01a') TriggerEvent('coke:init')
+		LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
+		LoadModel('mushroom') TriggerEvent('shrooms:init')
+		LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
+    end
 end)
 local active = false
 RegisterNetEvent('md-drugs:client:minusTier', function(data) 

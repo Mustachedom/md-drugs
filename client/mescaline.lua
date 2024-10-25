@@ -1,14 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Mescaline = {}
 
-function LoadModel(hash)
-    hash = GetHashKey(hash)
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do
-        Wait(3000)
-    end
-end
-
 local function pick(loc)
     if not progressbar(Lang.mescaline.pick, 4000, 'uncuff') then return end    
     TriggerServerEvent("Mescaline:pickupCane", loc)
@@ -41,20 +33,7 @@ RegisterNetEvent("Mescaline:init", function()
     end
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        LoadModel('prop_cactus_03')
-        TriggerEvent('Mescaline:init')
-    end
- end)
- 
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-     Wait(3000)
-     LoadModel('prop_cactus_03')
-     TriggerEvent('Mescaline:init')
- end)
- 
- AddEventHandler('onResourceStop', function(resourceName)
+AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_cactus_03'))
         for k, v in pairs(Mescaline) do
