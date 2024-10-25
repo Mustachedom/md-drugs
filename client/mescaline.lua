@@ -24,14 +24,10 @@ RegisterNetEvent('Mescaline:respawnCane', function(loc)
     end
 end)
 
-
-
 RegisterNetEvent('Mescaline:removeCane', function(loc)
     if DoesEntityExist(Mescaline[loc]) then DeleteEntity(Mescaline[loc]) end
     Mescaline[loc] = nil
 end)
-
-
 
 RegisterNetEvent("Mescaline:init", function()
     for k, v in pairs (GlobalState.Mescaline) do
@@ -69,43 +65,28 @@ AddEventHandler('onResourceStart', function(resource)
     end
 end)
 
-
-
 RegisterNetEvent("md-drugs:client:drymescaline", function()
     if not ItemCheck('cactusbulb')  then return end 
 	if not progressbar(Lang.mescaline.dry, 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:drymescaline")
 end)
 
-
 RegisterNetEvent("md-drugs:client:takemescaline", function()
-local chance = math.random(1,100)
-local chance2 = math.random(1,100)
+    local chance, chance2 = math.random(1,100), math.random(1,100)
+    local weapon = ''
+    if chance2 == 100 then weapon = 'weapon_rpg' else weapon = 'weapon_flaregun' end
     if not progressbar(Lang.mescaline.eat, 4000, 'uncuff') then return end
 	if chance <= Config.Badtrip then 
 		AlienEffect()
 		local clone = ClonePed(PlayerPedId(), false, false, true)
 		SetEntityAsMissionEntity(clone)
-		SetEntityVisible(clone, true)
-		SetPedRelationshipGroupHash(clone)
-		SetPedAccuracy(clone)
-		SetPedArmour(clone)
-		SetPedCanSwitchWeapon(clone, true)
 		SetPedFleeAttributes(clone, false)
-		if chance2 <= 99 then
-			GiveWeaponToPed(clone, "weapon_flaregun", 1, false, true)
-			TaskCombatPed(clone, PlayerPedId(), 0, 16)
-			SetPedCombatAttributes(clone, 46, true)
-			Wait(1000 * 30)
-			DeleteEntity(clone)
-		else
-			GiveWeaponToPed(clone, "weapon_rpg", 1, false, true)
-			TaskCombatPed(clone, PlayerPedId(), 0, 16)
-			SetPedCombatAttributes(clone, 46, true)
-			Wait(1000 * 30)
-			DeleteEntity(clone)
-		end
+		GiveWeaponToPed(clone, weapon, 1, false, true)
+		TaskCombatPed(clone, PlayerPedId(), 0, 16)
+		SetPedCombatAttributes(clone, 46, true)
+		Wait(1000 * 30)
+        DeleteEntity(clone)
 	else
 		AlienEffect()
-	end	
+	end
 end)

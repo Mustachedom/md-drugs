@@ -19,7 +19,6 @@ local function hasJob()
 	return true end
  end
 
-
 RegisterNetEvent('weed:respawnCane', function(loc)
     local v = GlobalState.WeedPlant[loc]
     local hash = GetHashKey(v.model)
@@ -27,15 +26,10 @@ RegisterNetEvent('weed:respawnCane', function(loc)
     if not WeedPlant[loc] then
         WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
 		Freeze(WeedPlant[loc],true,  v.heading)
-        AddSingleModel(WeedPlant[loc], 
-			{
-               icon = "fas fa-hand",
-               label = Lang.targets.weed.pick,
-               action = function()
-                  if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
-                   TriggerServerEvent("weed:pickupCane", loc)
-				end
-           }, loc)
+        AddSingleModel(WeedPlant[loc],  
+			    {icon = "fas fa-hand",label = Lang.targets.weed.pick, 
+				action = function()if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end	TriggerServerEvent("weed:pickupCane", loc) end},
+			loc)
     end
 end)
 
@@ -52,14 +46,9 @@ RegisterNetEvent("weed:init", function()
             WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
 			Freeze(WeedPlant[k],true,  v.heading)
 			AddSingleModel(WeedPlant[k],  
-			    {
-                    icon = "fas fa-hand",
-                    label = Lang.targets.weed.pick,
-                    action = function()
-					if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
-					TriggerServerEvent("weed:pickupCane", k)
-                    end
-                }, k)
+			    {icon = "fas fa-hand",label = Lang.targets.weed.pick, 
+				action = function()if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end	TriggerServerEvent("weed:pickupCane", k) end},
+			k)
         end
     end
 end)

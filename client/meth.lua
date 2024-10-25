@@ -83,18 +83,17 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	
 	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
 	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
 	local options = {
-		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.cook, distance = 2.5, action = function() 	startcook() end, onSelect = function() 	startcook() end,
+		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.cook, distance = 2.5, action = function() 	startcook() end,
 				canInteract = function()
 				if amonia == nil and active == nil then
 					return true
 				end
 		  end,
 		},
-		{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.tray, distance = 2.5, onSelect = function() 	trayscarry() end, action = function() 	trayscarry() end,
+		{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.tray, distance = 2.5, action = function() trayscarry() end,
 		  canInteract = function()
 				if heated and amonia and tray == nil then return true end
 		  end,

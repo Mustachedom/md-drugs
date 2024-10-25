@@ -19,19 +19,15 @@ else
 end
 end)
 
-
-
 RegisterNetEvent("md-drugs:client:writeprescription", function(args)
     if not progressbar(Lang.Pharma.write, 4000, 'notepad') then return end
 	TriggerServerEvent("md-drugs:server:giveprescription", args.item)
 end)
 
-
 RegisterNetEvent("md-drugs:client:fillprescription", function(data) 
     if not progressbar(Lang.Pharma.fill, 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:fillprescription", data.data)    
 end)
-
 
 RegisterNetEvent("md-drugs:client:unbottle", function(item) 
     if not progressbar(Lang.Pharma.open, 4000, 'uncuff') then return end

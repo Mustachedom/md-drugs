@@ -1,5 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local deliveryBlip = nil
 local carryPackage = nil
 
 RegisterNetEvent("md-drugs:client:GetOxyCar", function()
@@ -19,16 +18,7 @@ end)
 RegisterNetEvent("md-drugs:client:getoxylocationroute", function() 
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
 	if CurrentLocation ~= nil then
-    	local deliveryBlip = AddBlipForCoord(CurrentLocation)
-    	SetBlipSprite(deliveryBlip, 1)
-    	SetBlipDisplay(deliveryBlip, 2)
-    	SetBlipScale(deliveryBlip, 1.0)
-    	SetBlipAsShortRange(deliveryBlip, false)
-    	SetBlipColour(deliveryBlip, 27)
-    	BeginTextCommandSetBlipName("STRING")
-    	AddTextComponentSubstringPlayerName('Oxy Buyer')
-    	EndTextCommandSetBlipName(deliveryBlip)
-    	SetBlipRoute(deliveryBlip, true)
+    	SetNewWaypoint(CurrentLocation.x, CurrentLocation.y)
 		local current = "g_m_y_famdnf_01"
 		lib.requestModel(current, Config.RequestModelTime)
     	local oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
@@ -36,7 +26,7 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 		repeat
 			Wait(1000)
 		until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
-		RemoveBlip(deliveryBlip)
+		
 		PoliceCall(Config.PoliceAlertOxy)
 		AddSingleModel(oxybuyer,  { type = "client", label = Lang.targets.oxy.talk, icon = "fas fa-eye", 
 		action = function()

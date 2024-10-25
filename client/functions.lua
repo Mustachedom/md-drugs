@@ -368,22 +368,6 @@ function tele(coords)
 	DoScreenFadeIn(500)
 end
 
-function Blip(entity, text)
-	local deliveryBlip = AddBlipForCoord(entity)
-    SetBlipSprite(deliveryBlip, 1)
-    SetBlipDisplay(deliveryBlip, 2)
-    SetBlipScale(deliveryBlip, 1.0)
-    SetBlipAsShortRange(deliveryBlip, false)
-    SetBlipColour(deliveryBlip, 27)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(text)
-    EndTextCommandSetBlipName(deliveryBlip)
-    SetBlipRoute(deliveryBlip, true)
-end
-
-function RemoveBlips()
-	RemoveBlip(deliveryBlip)
-end
 
 function AddBoxZoneSingle(name, loc, data)
 	if Config.Target == 'qb' then
@@ -476,6 +460,14 @@ function AddSingleModel(model, data, num)
 end
 
 function AddMultiModel(model, data, num)
+	local data = {}
+	for k, v in pairs (data) do 
+		table.insert(data,{
+			{ icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
+				onSelect = v.action,data = num,canInteract = v.canInteract or nil,
+		 	}
+		})
+	end
 	if Config.Target == 'qb' then
 		exports['qb-target']:AddTargetEntity(model, {options = data, distance = 2.5})
 	elseif Config.Target == 'ox' then

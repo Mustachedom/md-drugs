@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local shrooms = {}
 
-
 function LoadModel(hash)
     hash = GetHashKey(hash)
     RequestModel(hash)
@@ -14,6 +13,7 @@ local function pick(loc)
     if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  
     TriggerServerEvent("shrooms:pickupCane", loc)
 end
+
 RegisterNetEvent('shrooms:respawnCane', function(loc)
     local v = GlobalState.shrooms[loc]
     local hash = GetHashKey(v.model)
@@ -23,6 +23,7 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
         AddSingleModel(shrooms[loc],{ icon = "fas fa-hand", label = Lang.targets.shrooms.pick, action = function() pick(loc) end }, loc )
     end
 end)
+
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
 		Wait(3000)
@@ -53,7 +54,6 @@ end)
      TriggerEvent('shrooms:init')
  end)
 
-
  RegisterNetEvent("shrooms:init", function()
     for k, v in pairs (GlobalState.shrooms) do
         local hash = GetHashKey(v.model)
@@ -65,7 +65,6 @@ end)
         end
     end
 end)
-
 
 RegisterNetEvent('md-drugs:client:takeshrooms', function()
     if not progressbar(Lang.Shrooms.eat, 500, 'eat')  then return end              

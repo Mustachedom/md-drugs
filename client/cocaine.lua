@@ -48,7 +48,7 @@ AddEventHandler('onResourceStart', function(resource)
      LoadModel('prop_plant_01a')
      TriggerEvent('coke:init')
  end)
- 
+
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01a'))
@@ -85,20 +85,19 @@ RegisterNetEvent("md-drugs:client:bagcoke", function()
 	    BagCoke()
     else
         if not progressbar(Lang.Coke.bagging, 5000, 'uncuff') then baggingcoke = nil return end
-    end      
+    end
 	TriggerServerEvent("md-drugs:server:bagcoke")
 	baggingcoke = nil
-   
 end)
 
 CreateThread(function()
     if Config.FancyCokeAnims == false then 
-        AddBoxZoneMulti('cuttcoke', Config.CuttingCoke,  {	type = "client",	event = "md-drugs:client:cutcokeone",	icon = "fas fa-sign-in-alt",	label = Lang.targets.coke.cut}) 
-        AddBoxZoneMulti('baggcoke', Config.BaggingCoke,  {	type = "client",	event = "md-drugs:client:bagcoke",	    icon = "fas fa-sign-in-alt",	label = Lang.targets.coke.bag})
+        AddBoxZoneMulti('cuttcoke', Config.CuttingCoke,  {	type = "client",	event = "md-drugs:client:cutcokeone",	icon = "fa-solid fa-mortar-pestle",	label = Lang.targets.coke.cut}) 
+        AddBoxZoneMulti('baggcoke', Config.BaggingCoke,  {	type = "client",	event = "md-drugs:client:bagcoke",	    icon = "fa-solid fa-sack-xmark",	label = Lang.targets.coke.bag})
     else
         AddBoxZoneSingle('cutcoke', vector3(1093.17, -3195.74, -39.19),
-		    { type = "client", event = "md-drugs:client:cutcokeone", icon = "fas fa-sign-in-alt", label = Lang.targets.coke.cut, canInteract = function()if cuttingcoke == nil and baggingcoke == nil then return true end end })
+		    { type = "client", event = "md-drugs:client:cutcokeone", icon = "fa-solid fa-mortar-pestle", label = Lang.targets.coke.cut, canInteract = function()if cuttingcoke == nil and baggingcoke == nil then return true end end })
         AddBoxZoneSingle('bagcokepowder', vector3(1090.29, -3195.66, -39.13),
-		    { type = "client", event = "md-drugs:client:bagcoke",    icon = "fas fa-sign-in-alt", label = Lang.targets.coke.bag, canInteract = function() if baggingcoke == nil and cuttingcoke == nil then return true end end })
+		    { type = "client", event = "md-drugs:client:bagcoke",    icon = "fa-solid fa-sack-xmark", label = Lang.targets.coke.bag, canInteract = function() if baggingcoke == nil and cuttingcoke == nil then return true end end })
     end
 end)
