@@ -44,7 +44,7 @@ function Cornersell()
     local item, amount, price = lib.callback.await('md-drugs:server:cornerselling:getAvailableDrugs', false)
         if item == 'nothing' then Notify(Lang.Cornerselling.nodrugs, 'error') sell = false  FreezeEntityPosition(targ, false)  ClearPedTasks(targ) return false end
             local options = { 
-                { label = string.format(Lang.Targets.CornerSell.sell, amount, GetLabel(item), price), icon ="fa-solid fa-money-bill",
+                { label = string.format(Lang.targets.CornerSell.sell, amount, GetLabel(item), price), icon ="fa-solid fa-money-bill",
                     action =   function() sellDrug(item, amount, price, targ) end,
                     canInteract = function()
                         if not targbusy then return true end end,

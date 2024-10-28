@@ -510,7 +510,6 @@ function SetUpPeds()
 	}
 	for i = 1, #peds do 
 		local k = peds[i] 
-		print(GetPedRelationshipGroupHash(i) )
 		i = CreatePed(0, "g_m_y_famdnf_01", k.x, k.y, k.z, 90.0, true, true)
 		SetPedRelationshipGroupHash(i, 'setups')
 		GiveWeaponToPed(i, "weapon_pistol", 1, false, true)
@@ -530,6 +529,7 @@ RegisterCommand('DrugRep', function()
 		  {icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
 		  {icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
 		  {icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
+		  {icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
 		}
 	  })
 	  lib.showContext('DrugRep')

@@ -64,7 +64,10 @@ function loadParticle(dict)
 end
 
 function LoadModel(hash)
-	lib.requestModel(hash, Config.RequestModelTime)
+	RequestModel(hash)
+	while not HasModelLoaded(hash)  do
+		Wait(0)
+	end
 end
 
 function minigame()
@@ -217,7 +220,7 @@ end
 
 
 function sorter(sorting, value) 
-	table.sort(sorting, function(a, b) print(a[value], b[value]) return a[value] < b[value] end)
+	table.sort(sorting, function(a, b) return a[value] < b[value] end)
 end
 
 function makeMenu(name, rep)
@@ -322,15 +325,7 @@ function PoliceCall(chance)
 				flash = 0,
 				unique_id = data.unique_id,
 				sound = 1,
-				blip = {
-					sprite = 431, 
-					scale = 1.2, 
-					colour = 3,
-					flashes = false, 
-					text = '420-69 Drug Sale',
-					time = 5,
-					radius = 0,
-				}
+				blip = { sprite = 431,  scale = 1.2,  colour = 3, flashes = false,  text = '420-69 Drug Sale', time = 5, radius = 0,}
 			})
 		elseif	dispatch == 'core' then
 			exports['core_dispatch']:addCall("420-69", "Drugs Are Being Sold", {
@@ -441,7 +436,6 @@ function AddBoxZoneMulti(name, table, data)
 end
 
 function AddBoxZoneMultiOptions(name, loc, data) 
-
 		if Config.Target == 'qb' then
 			exports['qb-target']:AddBoxZone(name , loc, 1.5, 1.75, {name = name, minZ = loc.z-1.50,maxZ = loc.z +1.5}, 
 			{ options = data, distance = 2.5})
@@ -462,18 +456,17 @@ function AddSingleModel(model, data, num)
 end
 
 function AddMultiModel(model, data, num)
-	local data = {}
+	local options = {}
 	for k, v in pairs (data) do 
-		table.insert(data,{
-			{ icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
-				onSelect = v.action,data = num,canInteract = v.canInteract or nil, distance = 2.0
-		 	}
+		table.insert(options,{
+			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
+			onSelect = v.action,data = num,canInteract = v.canInteract or nil, distance = 2.0
 		})
 	end
 	if Config.Target == 'qb' then
-		exports['qb-target']:AddTargetEntity(model, {options = data, distance = 2.5})
+		exports['qb-target']:AddTargetEntity(model, {options = options, distance = 2.5})
 	elseif Config.Target == 'ox' then
-		exports.ox_target:addLocalEntity(model, data)
+		exports.ox_target:addLocalEntity(model, options)
 	end
 end
 

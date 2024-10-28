@@ -3,7 +3,6 @@ local amonia = nil
 local tray = nil
 local heated = nil
 local active = nil
-
 local function startcook()
 	if not ItemCheck('empty_weed_bag') then return end
 	if not ItemCheck('acetone') then return end
@@ -42,14 +41,14 @@ if tray then
 	SmashMeth()
 	Wait(100)
 	AddSingleModel(bucket, 
-	{name = 'bucket',icon = 'fa-solid fa-car',label = Lang.targets.meth.bag,
+	{name = 'bucket',icon = 'fa-solid fa-car',label = Lang.targets.meth.bag, canInteract = function() if active == nil then return false end end,
 	action = function() 
+		active = nil
 		DeleteObject(bucket)
-		amonia = nil 
-		heated = nil 
-		tray = nil 
-		active = nil 
-		BagMeth()	
+		amonia = nil
+		heated = nil
+		tray = nil
+		BagMeth()
 		TriggerServerEvent('md-drugs:server:getmeth')
 	end,}, bucket) 
 end	

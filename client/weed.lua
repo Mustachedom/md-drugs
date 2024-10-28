@@ -1,13 +1,11 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local WeedPlant = {}
-local exploded = nil
-local drying = false
-
+local exploded, drying = false, false
 
 local function hasJob()
 	if Config.Joblock then
 		if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-			return true else return false end
+		return true else return false end
 	else
 	return true end
  end
@@ -116,14 +114,14 @@ AddBoxZoneSingle('makeoil',Config.MakeOil, {
 				exploded = true
 				Notify(Lang.Weed.stovehot, "error")
 				Wait(1000 * 30)
-				exploded = nil
+				exploded = false
 			end	
 		return end
 		if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
 		TriggerServerEvent("md-drugs:server:makeoil")       			
 	end,
 	canInteract = function()
-	if hasJob() and exploded == nil then return true end
+	if hasJob() and exploded == false then return true end
 	end,
 } )
 end)

@@ -204,11 +204,18 @@ function getRep(source, type)
             lsd = Player.PlayerData.metadata.lsd or 0,
             heroin = Player.PlayerData.metadata.heroin or 0,
             dealerrep = Player.PlayerData.metadata.dealerrep or 0,
+            cornerselling = {
+                price = QBConfig.SellLevel[1].price,
+                rep = 0,
+                label = QBConfig.SellLevel[1].label,
+                level = 1
+            }
         })
         MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {Player.PlayerData.citizenid, table, GetName(source)})
-        return 0
+        Wait(1000)
+        return json.decode(table)
     else
-        local rep = json.decode(sql[1].drugrep) 
+        local rep = json.decode(sql[1].drugrep)
         if type == 'coke' then
             return rep.coke
         elseif type == 'heroin' then
@@ -217,6 +224,8 @@ function getRep(source, type)
             return rep.lsd
         elseif type == 'dealerrep' then
             return rep.dealerrep
+        elseif type == 'cornerselling' then
+            return rep.cornerselling
         else
             print('^1 Error: No Valid Drug Rep Option Chosen') 
         end
@@ -233,29 +242,46 @@ function GetAllRep(source)
             lsd = Player.PlayerData.metadata.lsd or 0,
             heroin = Player.PlayerData.metadata.heroin or 0,
             dealerrep = Player.PlayerData.metadata.dealerrep or 0,
+            cornerselling = {
+                price = QBConfig.SellLevel[1].price,
+                rep = 0,
+                label = QBConfig.SellLevel[1].label,
+                level = 1
+            }
         })
         MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {Player.PlayerData.citizenid, table, GetName(source)})
         Wait(1000)
-        return 0
+        return json.decode(table)
     else
         local rep = json.decode(sql[1].drugrep) 
         return rep
     end
 end
 
-function AddRep(source, type) 
+function AddRep(source, type, amount) 
+    if not amount then amount = 1 end
     local Player = QBCore.Functions.GetPlayer(source) 
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
     local rep = json.decode(sql[1].drugrep)
     local update 
-    if type == 'coke' then
-         update = json.encode({coke = rep.coke + 1, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep})
+    if type == 'cornerselling' then
+        for k, v in pairs (QBConfig.SellLevel) do
+            if rep.cornerselling.level == k  then 
+                if rep.cornerselling.rep + amount >= v.maxrep then
+                    update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = {label = v.label, price = v.price, rep = rep.cornerselling.rep + amount, level = k + 1}})
+                else
+                    update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = {label = v.label, price = v.price, rep = rep.cornerselling.rep + amount, level = k}})
+                end
+            end
+        end 
+    elseif type == 'coke' then
+         update = json.encode({coke = rep.coke + amount, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = rep.cornerselling})
     elseif type == 'heroin' then
-        update = json.encode({coke = rep.coke, heroin = rep.heroin + 1, lsd = rep.lsd, dealerrep = rep.dealerrep})
+        update = json.encode({coke = rep.coke, heroin = rep.heroin + amount, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = rep.cornerselling})
     elseif type == 'lsd' then
-        update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd +1 , dealerrep = rep.dealerrep})
+        update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd +amount , dealerrep = rep.dealerrep, cornerselling = rep.cornerselling})
     elseif type == 'dealerrep' then
-        update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep + 1})
+        update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep + amount, cornerselling = rep.cornerselling})
     end
     if update == '' then return false end
         MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {update, Player.PlayerData.citizenid})

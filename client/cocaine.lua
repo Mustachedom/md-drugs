@@ -27,7 +27,7 @@ end)
 RegisterNetEvent("coke:init", function()
     for k, v in pairs (GlobalState.CocaPlant) do
         local hash = GetHashKey(v.model)
-        if not HasModelLoaded(hash) then LoadModel(hash) end
+        LoadModel(hash) 
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)

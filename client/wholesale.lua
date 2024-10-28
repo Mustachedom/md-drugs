@@ -24,15 +24,13 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug, notify)
            icon = "fas fa-eye",
            action = function()
                 local luck = math.random(1,100)
-                if luck >=101 then
+                if luck >= Config.SuccessfulChance then
                     TriggerEvent("md-drugs:client:SuccessSale", drug)
-                    Wait(4000)
-                    DeleteEntity(drugdealer)
                 else
                     TriggerEvent("md-drugs:client:SetUp")
-                    Wait(3000)
-                    DeleteEntity(drugdealer)
                 end
+                Wait(3000)
+                DeleteEntity(drugdealer)
                 miss = false
             end,	
        },nil )
