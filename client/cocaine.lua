@@ -15,7 +15,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(CocaPlant[loc], true, v.heading)
-        AddSingleModel(CocaPlant[loc], {icon = 'fas fa-hand', label = Lang.targets.coke.pick, action = function() if not pick(loc) then return end end}, loc)
+        AddSingleModel(CocaPlant[loc], {icon = "fa-solid fa-seedling", label = Lang.targets.coke.pick, action = function() if not pick(loc) then return end end}, loc)
     end
 end)
 
@@ -31,7 +31,7 @@ RegisterNetEvent("coke:init", function()
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)
-            AddSingleModel(CocaPlant[k], {icon = 'fas fa-hand', label = Lang.targets.coke.pick, action = function() if not pick(k) then return end end}, k)
+            AddSingleModel(CocaPlant[k], {icon = "fa-solid fa-seedling", label = Lang.targets.coke.pick, action = function() if not pick(k) then return end end}, k)
         end
     end
 end)

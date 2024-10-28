@@ -128,6 +128,7 @@ Lang.Cornerselling = {
     stop = "Lazy Ass Cant Even Sell Drugs",
     nodrugs = "What You Gonna sell? Air?",
     notcops = "Not Enough Cops",
+    no = 'You Cant Sell Drugs Here!',
     -- end client side notifys
     -- progressbars
     sell = "Selling Drugs",

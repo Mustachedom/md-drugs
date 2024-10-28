@@ -12,7 +12,7 @@ RegisterNetEvent('Mescaline:respawnCane', function(loc)
     if not Mescaline[loc] then
         Mescaline[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(Mescaline[loc], true, v.heading)
-        AddSingleModel(Mescaline[loc], {icon = "fas fa-hand",label = Lang.targets.mescaline.pick, action = function()  pick(loc) end}, loc )
+        AddSingleModel(Mescaline[loc], {icon = "fa-solid fa-seedling",label = Lang.targets.mescaline.pick, action = function()  pick(loc) end}, loc )
     end
 end)
 
@@ -28,7 +28,7 @@ RegisterNetEvent("Mescaline:init", function()
         if not v.taken then
             Mescaline[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(Mescaline[k], true, v.heading)
-            AddSingleModel(Mescaline[k], {icon = "fas fa-hand",label = Lang.targets.mescaline.pick,action = function()  pick(k) end}, k)
+            AddSingleModel(Mescaline[k], {icon = "fa-solid fa-seedling",label = Lang.targets.mescaline.pick,action = function()  pick(k) end}, k)
         end
     end
 end)

@@ -7,9 +7,9 @@ local function createLabKit(coord, head)
     SetEntityHeading(labkit, head)
     PlaceObjectOnGroundProperly(labkit)
     local options = {
-        { event = "md-drugs:client:heatliquid", icon = "fas fa-box-circle-check", label = Lang.targets.lsd.heat, data = labkit },
-        { event = "md-drugs:client:refinequalityacid", icon = "fas fa-box-circle-check", label = Lang.targets.lsd.refine, data = labkit },
-        { event = "md-drugs:client:maketabpaper", icon = "fas fa-box-circle-check", label = Lang.targets.lsd.dab, data = labkit },
+        { event = "md-drugs:client:heatliquid", icon = "fa-solid fa-temperature-high", label = Lang.targets.lsd.heat, data = labkit },
+        { event = "md-drugs:client:refinequalityacid", icon = "fa-solid fa-temperature-high", label = Lang.targets.lsd.refine, data = labkit },
+        { event = "md-drugs:client:maketabpaper", icon = "fa-regular fa-note-sticky", label = Lang.targets.lsd.dab, data = labkit },
         { event = "md-drugs:client:getlabkitback", icon = "fas fa-box-circle-check", label = Lang.targets.lsd.back, data = labkit, canInteract = function() return tableout end }
     }
     AddMultiModel(labkit, options, labkit)
@@ -20,7 +20,7 @@ CreateThread(function()
 	lib.requestModel(Ped, Config.RequestModelTime)
 	local tabdealer = CreatePed(0, Ped,Config.buylsdlabkit.x,Config.buylsdlabkit.y,Config.buylsdlabkit.z-1, Config.buylsdlabkit.w, false, false)
     Freeze(tabdealer, true, Config.buylsdlabkit.w)
-    AddSingleModel(tabdealer,{ type = "client", label = Lang.targets.lsd.buy, icon = "fas fa-eye", event = "md-drugs:client:buylabkit", distance = 2.0}, tabdealer )
+    AddSingleModel(tabdealer,{ type = "client", label = Lang.targets.lsd.buy, icon = "fa-solid fa-money-bill", event = "md-drugs:client:buylabkit", distance = 2.0}, tabdealer )
 end)
 
 
@@ -72,7 +72,7 @@ RegisterNetEvent("md-drugs:client:heatliquid", function(data)
 		PlaceObjectOnGroundProperly(dirtylabkit)
         SetParticleFxLoopedAlpha(exitPtfx, 3.0)
         Wait(100)
-        AddMultiModel(dirtylabkit, {   event = "md-drugs:client:cleanlabkit",   icon = "fas fa-box-circle-check",   label = Lang.targets.lsd.clean, data = dirtylabkit}, nil )
+        AddMultiModel(dirtylabkit, {   event = "md-drugs:client:cleanlabkit",   icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = dirtylabkit}, nil )
         return end
     if not progressbar(Lang.lsd.heat, 7000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:heatliquid")

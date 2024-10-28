@@ -229,7 +229,9 @@ QBConfig.DeliveryLocations = {
     [79] = {    ["label"] = "Bahama Mamas",             ["coords"] = vector3(-1383.1, -639.99, 28.67),},
  }
 
-
+QBConfig.NoSellZones = {
+    {loc = vector3(445.11, -991.3, 30.69), width = 10.0, length = 10.0, height = 10.0, rot = 180.0},
+}
 QBConfig.SellLevel = {
    {price = 0.5, minrep = 0,    maxrep = 240,  label = 'Rookie'},
    {price = 1.0, minrep = 240,  maxrep = 600,  label = 'Corner Boy'},

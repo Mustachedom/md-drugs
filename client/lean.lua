@@ -5,11 +5,11 @@ CreateThread(function()
 	lib.requestModel(current, Config.RequestModelTime)
 	local SyrupLocation = CreatePed(0, current,Config.SyrupVendor.x,Config.SyrupVendor.y,Config.SyrupVendor.z-1, Config.SyrupVendor.w, false, false)
     Freeze(SyrupLocation, true, Config.SyrupVendor.w)
-    AddSingleModel(SyrupLocation, { type = "client", label = Lang.targets.lean.git, icon = "fas fa-eye", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0}, nil )    
+    AddSingleModel(SyrupLocation, { type = "client", label = Lang.targets.lean.git, icon = "fa-solid fa-circle-info", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0}, nil )    
 end)
 
 
-RegisterNetEvent("md-drugs:client:getsyruplocationtobuy", function() 
+RegisterNetEvent("md-drugs:client:getsyruplocationtobuy", function()
 Notify(Lang.Lean.marked, "success")
 SpawnCarPedChase()
 end)

@@ -26,7 +26,7 @@ CreateThread(function()
 		          end
                end,
             },
-            { icon = 'fas fa-user-secret', label = string.format(Lang.targets.Delivery.open, v.name),
+            { icon = "fa-solid fa-store", label = string.format(Lang.targets.Delivery.open, v.name),
                 action =   function()   TriggerEvent('md-drugs:client:opendealermenu') end,
             }
         }

@@ -41,7 +41,7 @@ if tray then
 	SmashMeth()
 	Wait(100)
 	AddSingleModel(bucket, 
-	{name = 'bucket',icon = 'fa-solid fa-car',label = Lang.targets.meth.bag, canInteract = function() if active == nil then return false end end,
+	{name = 'bucket',icon = "fa-solid fa-sack-xmark",label = Lang.targets.meth.bag, canInteract = function() if active == nil then return false end end,
 	action = function() 
 		active = nil
 		DeleteObject(bucket)
@@ -82,10 +82,10 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
-	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
+	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fa-solid fa-door-open", label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
+	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
 	local options = {
-		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.cook, distance = 2.5, action = function() 	startcook() end,
+		{ name = 'methcook', icon = "fa-solid fa-temperature-high", label = Lang.targets.meth.cook, distance = 2.5, action = function() 	startcook() end,
 				canInteract = function()
 				if amonia == nil and active == nil then
 					return true

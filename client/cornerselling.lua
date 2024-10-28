@@ -2,6 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local sell = false
 local sold = false
 local targbusy = false
+local inZone = false
 
 local function reset(targ)
     FreezeEntityPosition(targ, false)
@@ -49,7 +50,7 @@ function Cornersell()
                     canInteract = function()
                         if not targbusy then return true end end,
                 },
-                { label = Lang.targets.CornerSell.deny, icon = "fa-solid fa-person-harassing", 
+                { label = Lang.targets.CornerSell.deny, icon = "fa-solid fa-person-harassing",
                     action =    function() deny(targ) end,
                     canInteract = function()
                         if not targbusy then return true end end,
@@ -64,6 +65,7 @@ end
 
 RegisterNetEvent('md-drugs:client:cornerselling', function()
     if not GetCops(QBConfig.MinimumDrugSalePolice) then return end
+    if inZone then Notify(Lang.Cornerselling.no, 'error') return end
     local item, amount, price = lib.callback.await('md-drugs:server:cornerselling:getAvailableDrugs', false)
     if item ~= 'nothing' then
         if sell then
@@ -80,4 +82,11 @@ RegisterNetEvent('md-drugs:client:cornerselling', function()
     else
         Notify(Lang.Cornerselling.nodrugs, 'error')
     end
+end)
+
+CreateThread(function()
+for k, v in pairs (QBConfig.NoSellZones) do
+    local box = lib.zones.box({ coords = v.loc, size = vec3(v.width, v.length, v.height), rotation = 180.0, debug = true,
+    onEnter = function() inZone = true end, onExit = function() inZone = false end})
+end
 end)
