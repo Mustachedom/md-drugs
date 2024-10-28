@@ -134,7 +134,6 @@ Config.StartLoc = {
     vector3(-224.89, 6388.32, 31.59)
 }
 
-
 ---------- Pharma
 
 Config.FillPrescription = {---------- this is where you want people to take their prescription to get a bottle of pills. They use bottle to get a random amount of prescription pills

@@ -3,7 +3,7 @@ author "mustache_dom"
 description "drugs by mustache dom"
 fx_version "cerulean"
 game "gta5"
-version  '3.7.2'
+version  '3.8.0'
 client_scripts {
 	'client/**.lua',
 }
