@@ -215,7 +215,9 @@ function getRep(source, type)
         Wait(1000)
         return json.decode(table)
     else
-        local rep = json.decode(sql[1].drugrep)
+        local reps = json.decode(sql[1].drugrep)
+        local rep = ''
+        if reps.coke == nil then rep = reps[1] else rep = reps end
         if type == 'coke' then
             return rep.coke
         elseif type == 'heroin' then
@@ -253,7 +255,8 @@ function GetAllRep(source)
         Wait(1000)
         return json.decode(table)
     else
-        local rep = json.decode(sql[1].drugrep) 
+        local rep = json.decode(sql[1].drugrep)
+        if rep.coke == nil then return rep[1] end
         return rep
     end
 end
@@ -262,8 +265,10 @@ function AddRep(source, type, amount)
     if not amount then amount = 1 end
     local Player = QBCore.Functions.GetPlayer(source) 
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
-    local rep = json.decode(sql[1].drugrep)
-    local update 
+    local reps = json.decode(sql[1].drugrep)
+    local update
+    local rep = ''
+    if reps.coke == nil then rep = reps[1] else rep = reps end
     if type == 'cornerselling' then
         for k, v in pairs (QBConfig.SellLevel) do
             if rep.cornerselling.level == k  then 
@@ -287,6 +292,31 @@ function AddRep(source, type, amount)
         MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {update, Player.PlayerData.citizenid})
     return true
 end
+
+RegisterCommand('fixmybrokenshit', function()
+    local sql = MySQL.query.await('SELECT * FROM drugrep', {})
+    for k, v in pairs (sql) do 
+      local new = {}
+      local old = json.decode(v.drugrep)
+      local get = old[1] or old
+      table.insert(new, {
+                coke = get.coke,
+                lsd = get.lsd,
+                heroin = get.heroin,
+                dealerrep = get.dealerrep,
+                cornerselling = {
+                    price = QBConfig.SellLevel[1].price,
+                    rep = 0,
+                    label = QBConfig.SellLevel[1].label,
+                    level = 1
+                }
+            })
+        if new[1].coke == 125 then print('work') end
+        if not new[1].cornerselling == 125 then print('fail') return end
+      local news = json.encode(new)
+      MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {news, v.cid})
+    end
+end, false)
 
 function sortTab(tbl, type)
     table.sort(tbl, function(a, b)
