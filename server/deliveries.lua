@@ -18,7 +18,7 @@ end)
 
 lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src) 
+    local Player = getPlayer(src)
     local item = math.random(1, #QBConfig.DeliveryItems)
     local amount = math.random(1,4)
     local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
@@ -44,7 +44,7 @@ end)
 
 RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(item, amount)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
     local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
     if not check[1] then return end
     local time = os.time()
@@ -69,7 +69,7 @@ end)
 QBCore.Commands.Add("newdealer", "Place a dealer (Admin Only)", {{ name = "name", help = "Dealer name"},  { name = "min", help = "Minimum Time"}, {name = "max", help = "Maximum Time"}}, true, function(source, args)
     local ped = GetPlayerPed(source)
     local coords = GetEntityCoords(ped)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = getPlayer(source)
     if not Player then return end
     local dealerName = args[1]
     local minTime = tonumber(args[2])
@@ -113,7 +113,8 @@ QBCore.Commands.Add("deletedealer", "Delete a dealer (Admin Only)", {{
 end, "admin")
 
 RegisterServerEvent("md-drugs:server:Dealershop", function(amount, value, item,  info)
-	local src = source local Player = QBCore.Functions.GetPlayer(src)
+	local src = source 
+    local Player = getPlayer(src)
 	local balance = Player.Functions.GetMoney(tostring(value)) 
 	if Player.Functions.RemoveMoney(tostring(value), tonumber(info) * tonumber(amount)) then
 		TriggerClientEvent('inventory:client:ItemBox', src, item.name, "add", amount)

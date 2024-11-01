@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local function GetJob(source) 
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src) 
+	local Player = getPlayer(src) 
 	if Player.PlayerData.job.type == 'ems' then
 		return true
 	else
@@ -45,7 +45,7 @@ end
 
 RegisterServerEvent('md-drugs:server:fillprescription', function()
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	local vic = Player.Functions.GetItemByName('vicodin_prescription')
 	local add = Player.Functions.GetItemByName('adderal_prescription')
 	local mor = Player.Functions.GetItemByName('morphine_prescription')

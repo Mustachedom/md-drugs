@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 lib.callback.register('md-drugs:server:cornerselling:getAvailableDrugs', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = getPlayer(source)
     local rep = getRep(source, 'cornerselling')
     if not Player then return nil end
     local type = 0
@@ -25,7 +25,7 @@ end)
 
 RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
     if RemoveItem(src, item, amount) then
         AddRep(src, 'cornerselling', QBConfig.DrugsPrice[item].rep * amount)
         Log(GetName(src)  .. ' Sold ' .. amount .. ' Of ' .. item .. ' For A Price Of ' .. price .. '!' , 'cornerselling')
@@ -47,11 +47,10 @@ end)
 lib.addCommand('cornersell', {
     help = 'Sell Things On The Corner',
     params = {
-       
     },
 }, function(source, args, raw)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = getPlayer(src)
     Log(GetName(source)  .. ' Used Command cornersell!' , 'cornerselling')
     TriggerClientEvent('md-drugs:client:cornerselling', src)
 end)

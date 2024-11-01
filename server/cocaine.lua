@@ -54,7 +54,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:cutcokeone', function()
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	local count = 0
     if Config.TierSystem then
         local cokeTiers = {
@@ -79,7 +79,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:bagcoke', function()
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	local count = 0
     if Config.TierSystem then
         local coke = getRep(src, 'coke')
@@ -108,7 +108,7 @@ local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
 for k, v in pairs (cokecut) do
 	QBCore.Functions.CreateUseableItem(k, function(source, item)
 		local src = source
-		local Player = QBCore.Functions.GetPlayer(src)
+		   local Player = getPlayer(src)
 		if Player.Functions.GetItemByName(item.name) then
 			if not Itemcheck(src, 'bakingsoda', 1) then return end
 			TriggerClientEvent('md-drugs:client:minusTier', src, {type = 'coke', xt = 'bakingsoda', item = k, amount =  v,recieve = 'loosecoke'})

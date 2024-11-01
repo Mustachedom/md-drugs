@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
     local count,type, tier = 0, 'cookcrack', 'tier1'
 	if CheckDist(src, Config.makecrack[num]['loc']) then return end
     if Config.TierSystem then
@@ -26,7 +26,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:bagcrack', function(num)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
     local count,type, tier = 0, 'bagcrack', 'tier1'
     if Config.TierSystem then
         local crackTiers = {
@@ -50,7 +50,7 @@ local cokecut = {crackrockstagetwo = 2, crackrockstagethree = 3}
 for k, v in pairs (cokecut) do
 	QBCore.Functions.CreateUseableItem(k, function(source, item)
 		local src = source
-		local Player = QBCore.Functions.GetPlayer(src)
+		local Player = getPlayer(src)
 		if Player.Functions.GetItemByName(item.name) then
 			if not Itemcheck(src, 'bakingsoda', 1) then return end
 			TriggerClientEvent('md-drugs:client:minusTier', src, {type = 'crack', xt = 'bakingsoda', item = k, amount =  v,recieve = 'crackrock'})

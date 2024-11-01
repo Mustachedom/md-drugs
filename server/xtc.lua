@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 -------------------- stealing ingridients 
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	local src = source
-  	local Player = QBCore.Functions.GetPlayer(src)
+  	local Player = getPlayer(src)
 	if CheckDist(source, Config.isosafrole[num]['loc']) then return end
   	if AddItem(src, "isosafrole", 1) then 
 		Log(GetName(source) .. ' Stole isosafrole with a distance of  ' .. dist(source, Config.isosafrole[num]['loc']) .. ' vectors!', 'xtc')
@@ -11,7 +11,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:stealmdp2p', function(num)
   	local src = source
-  	local Player = QBCore.Functions.GetPlayer(src)
+  	local Player = getPlayer(src)
 	if CheckDist(source, Config.mdp2p[num]['loc']) then return end
   	if AddItem(src,"mdp2p", 1) then 
 		Log(GetName(source) .. ' Stole MDP2P with a distance of  ' .. dist(source, Config.mdp2p[num]['loc']) .. ' vectors!', 'xtc')
@@ -27,7 +27,7 @@ local presses = {
 for k, v in pairs (presses) do 
 QBCore.Functions.CreateUseableItem(v.item, function(source, item)
 local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+local Player = getPlayer(src)
 	if TriggerClientEvent("md-drugs:client:setpress", src, v.data) then
 		RemoveItem(src, v.item, 1)
 		Log(GetName(source) .. ' Placed A ' .. v.item .. ' At ' .. GetCoords(source) .. '!', 'xtc')
@@ -37,7 +37,7 @@ end
 
 RegisterServerEvent('md-drugs:server:getpressback', function(type)
 local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+local Player = getPlayer(src)
 	if type == 'single' then
 		if Player.Functions.GetItemByName('singlepress') then  Notifys(src, 'You Already Have A Kit') return end
 		AddItem(src, 'singlepress', 1)
@@ -60,7 +60,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:makextc', function(data)
   local src = source
-  local Player = QBCore.Functions.GetPlayer(src)
+  local Player = getPlayer(src)
   if not Itemcheck(src, 'raw_xtc', 1) then return end
   	if data.data == 'single' then 
 		if data.color == 'white' then 
@@ -123,7 +123,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:buypress', function()
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = getPlayer(src)
 	
 	  if Player.Functions.RemoveMoney("cash", 20000) then
 		  AddItem(src, "singlepress", 1)
@@ -154,7 +154,7 @@ end)
 ------------- making powder
 RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
   local src = source
-  local Player = QBCore.Functions.GetPlayer(src)
+  local Player = getPlayer(src)
   	if CheckDist(source, Config.rawxtcloc[num]['loc']) then return end
   	if not GetRecipe(src, 'xtc', 'raw', 'raw_xtc') then return end
 	Log(GetName(source) .. ' Made Raw XTC With A Distance Of ' .. dist(source, Config.rawxtcloc[num]['loc']) .. '!', 'xtc')
@@ -162,7 +162,7 @@ end)
   
 RegisterServerEvent('md-drugs:server:stampwhite', function(num)
   local src = source
-  local Player = QBCore.Functions.GetPlayer(src)
+  local Player = getPlayer(src)
   local one = {'white_playboys', 'white_aliens', 'white_pl', 'white_trolls', 'white_cats'}
   local chance = math.random(#one)
   local two = {'white_playboys2', 'white_aliens2', 'white_pl2', 'white_trolls2', 'white_cats2'}
@@ -192,7 +192,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:stampred', function(num)
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = getPlayer(src)
 	local one = {'red_playboys', 'red_aliens', 'red_pl', 'red_trolls', 'red_cats'}
 	local chance = math.random(#one)
 	local two = {'red_playboys2', 'red_aliens2', 'red_pl2', 'red_trolls2', 'red_cats2'}
@@ -223,7 +223,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:stamporange', function(num)
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = getPlayer(src)
 	local one = {'orange_playboys', 'orange_aliens', 'orange_pl', 'orange_trolls', 'orange_cats'}
 	local chance = math.random(#one)
 	local two = {'orange_playboys2', 'orange_aliens2', 'orange_pl2', 'orange_trolls2', 'orange_cats2'}
@@ -254,7 +254,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:stampblue', function(num)
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = getPlayer(src)
 	local one = {'blue_playboys', 'blue_aliens', 'blue_pl', 'blue_trolls', 'blue_cats'}
 	local chance = math.random(#one)
 	local two = {'blue_playboys2', 'blue_aliens2', 'blue_pl2', 'blue_trolls2', 'blue_cats2'}

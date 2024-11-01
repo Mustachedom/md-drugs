@@ -18,7 +18,7 @@ RegisterNetEvent('md-drugs:server:removeconsum', function(item)
 end)
 
 RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = getPlayer(source)
     if stat == "thirst" then
         local value = Player.PlayerData.metadata.thirst + statval
         Player.Functions.SetMetaData('hunger', value)

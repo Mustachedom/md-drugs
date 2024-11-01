@@ -104,7 +104,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = getPlayer(src)
 	if CheckDist(source, Config.gettabs[num]['loc']) then return end
 	if Player.Functions.RemoveMoney('cash', Config.tabcost * 10) then
 		AddItem(src,'tab_paper', 10)
@@ -116,7 +116,7 @@ end)
  
 RegisterServerEvent('md-drugs:server:getlabkit', function()
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = getPlayer(src)
 	if CheckDist(source, vector3(Config.buylsdlabkit.x, Config.buylsdlabkit.y, Config.buylsdlabkit.z)) then return end
 	if Player.Functions.RemoveMoney('cash', Config.lsdlabkitcost) then
 		AddItem(src,'lsdlabkit', 1)
@@ -161,7 +161,7 @@ local sheets = {
 for k, v in pairs (sheets) do 
 	QBCore.Functions.CreateUseableItem(v.item, function(source)
 		local src = source
-		local Player = QBCore.Functions.GetPlayer(src)
+		local Player = getPlayer(src)
 		local math = math.random(1,10)
 		if RemoveItem(src, v.item, 1) then
 			AddItem(src, v.recieve, math)

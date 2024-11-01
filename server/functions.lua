@@ -66,50 +66,16 @@ else
     inventory = 'qb'
 end
 end)
------------------------------------- functions
----
----
-function Notifys(source, text, type)
+------------------------------------ Player Stuff functions
+function getPlayer(source) 
     local src = source
-    if notify == 'qb' then
-        TriggerClientEvent("QBCore:Notify", src, text, type)
-    elseif notify == 'ox' then
-        lib.notify(src, { title = text, type = type})
-    elseif notify == 'okok' then
-        TriggerClientEvent('okokNotify:Alert', src, '', text, 4000, type, false)
-    else
-        print"^1 Look At The Config For Proper Alert Options"    
-    end    
+    local Player = QBCore.Functions.GetPlayer(src)
+    return Player
 end
 
-function GetLabels(item) 
-    if inventory == 'qb' then
-        return QBCore.Shared.Items[item].label
-    elseif inventory == 'ox' then
-        local items = exports.ox_inventory:Items()
-        return items[item].label
-    end
-end
-
-function Itemcheck(source, item, amount) 
-    if inventory == 'qb' then
-        local Player = QBCore.Functions.GetPlayer(source)
-        local itemchecks = Player.Functions.GetItemByName(item)
-        if itemchecks and itemchecks.amount >= amount then
-            return true
-        else 
-            Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item)  .. ' To Do this', 'error')
-            return false   
-        end
-    elseif inventory == 'ox' then
-       local items = exports.ox_inventory:GetItem(source, item, nil, false) 
-        if items.count >= amount then 
-                return true
-        else
-            Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
-            return false
-        end
-    end
+function GetName(source) 
+    local Player = getPlayer(source) 
+    return Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
 end
 
 function GetCoords(source) 
@@ -137,22 +103,53 @@ function CheckDist(source, coords)
     end
 end
 
-function checkTable(table)
-	local need = 0
-	local have = 0
-	for k, v in pairs (table) do 
-		need = need + 1
-		if Itemcheck(source, k, v) then have = have + 1  end
-	end
-	if need == have then
-		return true
-	else
-	end
+
+function Notifys(source, text, type)
+    local src = source
+    if notify == 'qb' then
+        TriggerClientEvent("QBCore:Notify", src, text, type)
+    elseif notify == 'ox' then
+        lib.notify(src, { title = text, type = type})
+    elseif notify == 'okok' then
+        TriggerClientEvent('okokNotify:Alert', src, '', text, 4000, type, false)
+    else
+        print"^1 Look At The Config For Proper Alert Options"    
+    end    
+end
+
+function GetLabels(item) 
+    if inventory == 'qb' then
+        return QBCore.Shared.Items[item].label
+    elseif inventory == 'ox' then
+        local items = exports.ox_inventory:Items()
+        return items[item].label
+    end
+end
+
+function Itemcheck(source, item, amount) 
+    if inventory == 'qb' then
+        local Player = getPlayer(source)
+        local itemchecks = Player.Functions.GetItemByName(item)
+        if itemchecks and itemchecks.amount >= amount then
+            return true
+        else 
+            Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item)  .. ' To Do this', 'error')
+            return false   
+        end
+    elseif inventory == 'ox' then
+       local items = exports.ox_inventory:GetItem(source, item, nil, false) 
+        if items.count >= amount then 
+                return true
+        else
+            Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
+            return false
+        end
+    end
 end
 
 function RemoveItem(source, item, amount) 
     if inventory == 'qb' then
-        local Player = QBCore.Functions.GetPlayer(source)
+        local Player = getPlayer(source)
         if Player.Functions.RemoveItem(item, amount) then 
             TriggerClientEvent(invname ..":client:ItemBox", source, QBCore.Shared.Items[item], "remove", amount)  
             return true
@@ -170,7 +167,7 @@ end
 
 function AddItem(source, item, amount) 
     if inventory == 'qb' then
-        local Player = QBCore.Functions.GetPlayer(source)
+        local Player = getPlayer(source)
         if Player.Functions.AddItem(item, amount) then 
             TriggerClientEvent(invname ..":client:ItemBox", source, QBCore.Shared.Items[item], "add", amount) 
             return true
@@ -190,13 +187,9 @@ function AddItem(source, item, amount)
     end
 end
 
-function GetName(source) 
-    local Player = QBCore.Functions.GetPlayer(source) 
-        return Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
-end
 
 function getRep(source, type) 
-    local Player = QBCore.Functions.GetPlayer(source) 
+    local Player = getPlayer(source) 
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
     if not sql[1] then
         local table = json.encode({
@@ -236,7 +229,7 @@ function getRep(source, type)
 end
 
 function GetAllRep(source) 
-    local Player = QBCore.Functions.GetPlayer(source) 
+    local Player = getPlayer(source) 
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
     if not sql[1] then
         local table = json.encode({
@@ -263,7 +256,7 @@ end
 
 function AddRep(source, type, amount) 
     if not amount then amount = 1 end
-    local Player = QBCore.Functions.GetPlayer(source) 
+    local Player = getPlayer(source) 
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
     local reps = json.decode(sql[1].drugrep)
     local update
@@ -325,7 +318,7 @@ function sortTab(tbl, type)
 end
 
 function ChecknRemove(source, table) 
-    local Player = QBCore.Functions.GetPlayer(source) 
+    local Player = getPlayer(source) 
     local hass = 0
     local need = 0
     for k, v in pairs (table) do

@@ -67,7 +67,7 @@ lib.callback.register('md-drugs:server:menu', function(source, data)
 end)
 
 RegisterServerEvent("md-drugs:server:purchaseGoods", function(amount, money, item, price,table,num)
-	local src = source local Player = QBCore.Functions.GetPlayer(src)
+	local src = source local Player = getPlayer(src)
 	for i = 1, #table do 
 		if table[i].name == item then
 		if not table[i].price == price then return end
