@@ -1,5 +1,107 @@
 Lang = {}
 
+Lang.targets = {
+    coke = {
+        pick = 'Pick Cocaine',
+        cut = 'Cut Cocaine',
+        bag = 'Bag Cocaine',
+        enter = 'Enter Building',
+        exit = 'Exit Building',
+        chop = 'Chop Coca Leaves',
+        
+    },
+    CornerSell = {
+        sell = 'Sell %s Of %s For $%s',
+        deny = 'Deny Price'
+    },
+    crack = {
+        cook = 'Cook Crack',
+        bag = 'Bag Crack'
+    },
+    Delivery = {
+        Deliver = 'Deliver For %s',
+        open = 'Open %s Shop',
+        hand = 'Hand Over'
+    },
+    heroin = {
+        pick = 'Pick Poppies',
+        up = 'Pick Up Table',
+        dry = 'Dry Poppies',
+        cut = 'Cut Heroin',
+        cook = 'Cook Heroin',
+        kit = 'Buy Heroin Lab Kit',
+        clean = 'Clean Table',
+        fill = 'Fill Syringe',
+        vial = 'Make Vial',
+    },
+    lean = {
+        git = 'Get Task'
+    },
+    lsd = {
+        buy = 'Buy LSD Lab Kit',
+        heat = 'Heat Liquid',
+        refine = 'Refine Quality',
+        paper = 'Make Tab Paper',
+        back = 'Pick Up Lab Kit',
+        dab = 'Dab LSD on sheets',
+        clean = 'Clean Table',
+        lys = 'Steal Lysergic Acid',
+        die = 'Steal Diethylamide',
+        buyt = 'Buy Tabs',
+    },
+    mescaline = {
+        pick = 'Pick Cactus',
+        dry = 'Dry Out Cactus',
+    },
+    meth = {
+        bag = 'Bag Up Meth',
+        enter = 'Enter Buidling',
+        exit = 'Exit Building',
+        cook = 'Cook Meth',
+        tray = 'Grab Tray',
+        box = 'Box Up Meth',
+        adjust = 'Adjust Temperature',
+        eph = 'Steal Ephedrine',
+        ace = 'Steal Acetone',
+        mission = 'Get Mission',
+        stealfromcar = 'Steal From Car',
+    },
+    oxy = {
+        pack = 'Get Oxy Package',
+        talk = 'Talk To Buyer',
+        pay = 'Pay For Truck',
+    },
+    pha = {
+        fill = 'Fill Prescription',
+    },
+    shrooms = {
+        pick = 'Pick Shrooms',
+    },
+    travel = {
+        travel = 'Open Travelling Merchant',
+    },
+    xtc = {
+        iso = 'Steal Isosafrole',
+        mdp = 'Steal MDP2P',
+        raw = 'Make Raw XTC',
+        press = 'Buy XTC Press',
+        stamp = 'Stamp Pills',
+        make = 'Make XTC',
+        pick = 'Pick Up Press',
+    },
+    weed = {
+        pick = 'Pick Weed',
+        dry = 'Dry Weed',
+        dpick = 'Pick Dried Weed',
+        butt = 'Open Edible Menu',
+        oil = 'Make Oil'
+    },
+    Wholesale = {
+        talk = 'Talk To Buyer'
+    },
+    
+}
+
 Lang.Coke = { 
     -- client side progressbars
     picking = "Picking Leaves",
@@ -22,19 +124,24 @@ Lang.Crack = {
 }
 Lang.Cornerselling = {
     -- client side notifys
+    inveh = 'STRANGER DANGER, I WONT GET IN THE CAR WITH YOU',
     toofar = "To Far From Your Corner Homie",
-    inacar = " You Cant Sell While In A Car",
+    selling = 'Selling %s For $%s',
     deny = "Fuck That Offer",
     start = "Get That Paper",
     stop = "Lazy Ass Cant Even Sell Drugs",
     nodrugs = "What You Gonna sell? Air?",
     notcops = "Not Enough Cops",
+    no = 'You Cant Sell Drugs Here!',
     -- end client side notifys
     -- progressbars
     sell = "Selling Drugs",
 }
 Lang.Delivery = {
     -- client side
+    emailn = 'Not A Drug Dealer',
+    emailsub = 'Hurry Up And Get The Package To The Buyer',
+    emailcon = 'I Swear To God If It Doesnt Get There I Will Tell Your Mom You Said Fuck Just Bring %s Of %s',
     search = "Searching For A Delivery ...",
     none = "Nothing Close By",
     busy = "You Havent Even Finished The One I Told You Too",
@@ -70,7 +177,8 @@ Lang.Heroin = {
 Lang.Lean = {
     marked = ' Car Has Been Marked On Your Map',
     lean = 'You Got Purple Lean',
-    dextro = ' You Got Red Dextro'
+    dextro = ' You Got Red Dextro',
+    act = 'You Already Have A Lean Task',
 }
 
 Lang.lsd = {
@@ -85,6 +193,7 @@ Lang.lsd = {
     buypaper = 'Buying Tab Paper',
     buykit = 'Buying Lab Kit',
     place = 'Placing Table Down',
+    hav = 'You Already Have A Table',
     -- server
     lys = 'You Got Lysergic Acid',
     die = 'You Got Diethylamide',
@@ -109,7 +218,8 @@ Lang.meth = {
     ace = 'You Got Some Acetone',
     eph = 'You Got Some Ephedrine',
     mix = 'Adding Things To The Mix',
-    nobag = 'No Bags'
+    nobag = 'No Bags',
+    act = 'You Already Have A Meth Task',
 }
 
 Lang.oxy = {
@@ -148,6 +258,8 @@ Lang.Weed = {
     stovehot = 'Stove Is Too Hot Wait 30 Seconds To Cool Down',
     shat = 'Making Shatter',
     roll = 'Rolling Blunts',
+    wait = 'Wait A Little Bit For To Drive',
+    take = 'Taking Down The Weed',
     -- 
     nodry = 'You Need Wet Cannabis To Dry',
     noweed = 'Cant Roll A Blunt With Air',
@@ -162,6 +274,19 @@ Lang.xtc = {
     mdp2p = 'Stealing MDP2P',
     iso = 'Stealing Isosafrole',
     fail = 'Dude Its A Circle Not Rocket Science',
+    pickup = 'Picking Up The Press',
+    stamp = 'Stamping %s Pills',
+    buyp = "Buying Press",
     --
-    cash = 'I need 20k In Cash'
+    cash = 'I need 20k In Cash',
+    press = {
+        title = {single = 'Single Press', dual = 'Dual Press', triple = 'Triple Press', quad = 'Quad Press'},
+        des = {single ='Buy a single press for 20k', dual = '20 of each unstamped single stack pill and your single press ', 
+            triple = '50 of each unstamped dual stack pill and your dual press ', quad = '150 of each unstamped Triple stack pill and your triple press'
+        }
+    }
+}
+
+Lang.Wholesale = {
+    al = 'Already Called Someone!'
 }

@@ -3,7 +3,7 @@
     ["coke"] = {
         label = "Raw Cocaine",
         weight = 1000,
-        stack = false,
+        stack =true,
         close = false,
         description = "Raw Cocaine",
         client = {
@@ -13,7 +13,7 @@
     ["cokebaggy"] = {
         label = "Bag Of Cocaine",
         weight = 1000,
-        stack = false,
+        stack =true,
         close = false,
         description = "A Small Bag Of Weak Cocaine",
         client = {
@@ -23,7 +23,7 @@
     ["empty_weed_bag"] = {
         label = "Empty Bag",
         weight = 1000,
-        stack = false,
+        stack =true,
         close = false,
         description = "Empty Bag To Put Product In",
         client = {
@@ -33,7 +33,7 @@
     ["coca_leaf"] = {
         label = "Cocaine leaves",
         weight = 1500,
-        stack = false,
+        stack =true,
         close = false,
         description = "Cocaine leaves that must be processed !",
         client = {
@@ -43,7 +43,7 @@
     ["poppyresin"] = {
         label = "Poppy resin",
         weight = 2000,
-        stack = false,
+        stack =true,
         close = false,
         description = "It sticks to your fingers when you handle it.",
         client = {
@@ -53,7 +53,7 @@
     ["heroin"] = {
         label = "Weak Heroin Powder",
         weight = 500,
-        stack = false,
+        stack =true,
         close = true,
         description = "Dragon Chasin?",
         client = {
@@ -63,7 +63,7 @@
     ["bakingsoda"] = {
         label = "Baking Soda",
         weight = 300,
-        stack = false,
+        stack =true,
         close = false,
         description = "Household Baking Soda!",
         client = {
@@ -73,7 +73,7 @@
     ["loosecoke"] = {
         label = "Loose Coke",
         weight = 100,
-        stack = false,
+        stack =true,
         close = true,
         description = "Cut Cocaine",
         client = {
@@ -83,7 +83,7 @@
     ["loosecokestagetwo"] = {
         label = "More Pure Loose Coke",
         weight = 100,
-        stack = false,
+        stack =true,
         close = true,
         description = "Cut Cocaine",
         client = {
@@ -93,7 +93,7 @@
     ["loosecokestagethree"] = {
         label = "Purest Loose Coke",
         weight = 100,
-        stack = false,
+        stack =true,
         close = true,
         description = "Cut Cocaine",
         client = {
@@ -123,7 +123,7 @@
     ["cokestagetwo"] = {
         label = "Better Raw Cocaine",
         weight = 100,
-        stack = false,
+        stack =true,
         close = false,
         description = "Raw cocaine",
         client = {
@@ -133,7 +133,7 @@
     ["cokestagethree"] = {
         label = "Best Raw Cocaine",
         weight = 100,
-        stack = false,
+        stack =true,
         close = false,
         description = "Raw cocaine",
         client = {
@@ -363,7 +363,7 @@
     ["heroinstagetwo"] = {
         label = "Better Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Raw Heroin",
         client = {
@@ -373,7 +373,7 @@
     ["heroinstagethree"] = {
         label = "Best Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Raw Heroin",
         client = {
@@ -383,7 +383,7 @@
     ["heroincut"] = {
         label = "Cut Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Cut Heroin",
         client = {
@@ -393,7 +393,7 @@
     ["heroincutstagetwo"] = {
         label = "Better Cut Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Cut Heroin",
         client = {
@@ -403,7 +403,7 @@
     ["heroincutstagethree"] = {
         label = "Best Cut Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Cut Heroin",
         client = {
@@ -413,7 +413,7 @@
     ["heroinlabkit"] = {
         label = "Heroin Lab Kit",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "How Can A Big Ass Table Fit In One Slot",
         client = {
@@ -423,7 +423,7 @@
     ["heroinvial"] = {
         label = "Vial Of Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Hmm, Maybe A Needle Can Help",
         client = {
@@ -433,7 +433,7 @@
     ["heroinvialstagetwo"] = {
         label = "Better Vial of Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Hmm, Maybe A Needle Can Help",
         client = {
@@ -443,7 +443,7 @@
     ["heroinvialstagethree"] = {
         label = "Best Vial Of Heroin",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Hmm, Maybe A Needle Can Help",
         client = {
@@ -493,7 +493,7 @@
     ["needle"] = {
         label = "Syringe",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "I Swear Officer, Its For Diabetes",
         client = {
@@ -503,7 +503,7 @@
     ["crackrock"] = {
         label = "Crack Rock",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "This Isnt The Rock The Hippie Girl Told Me About",
         client = {
@@ -513,7 +513,7 @@
     ["crackrockstagetwo"] = {
         label = "Better Crack Rock",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "This Rocks!",
         client = {
@@ -523,7 +523,7 @@
     ["crackrockstagethree"] = {
         label = "Best Crack Rock",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "This Rocks!",
         client = {
@@ -583,7 +583,7 @@
     ["vicodin_prescription"] = {
         label = "Vicie Prescription",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "If Only This Helped With The Pain inside",
         client = {
@@ -593,7 +593,7 @@
     ["adderal_prescription"] = {
         label = "Mdderal Prescription",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "I CAN DO EVERYTHING",
         client = {
@@ -603,7 +603,7 @@
     ["morphine_prescription"] = {
         label = "Morphin Prescription",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "I Cant Feel Anything",
         client = {
@@ -613,7 +613,7 @@
     ["xanax_prescription"] = {
         label = "Zany Prescription",
         weight = 250,
-        stack = false,
+        stack =true,
         close = false,
         description = "Ahhh Sweet Comfort",
         client = {

@@ -137,7 +137,7 @@ local recipe = {
 
 function GetRecipe(source, type, method, tier)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(source) 
+    local Player = getPlayer(source) 
     local has = 0
     local need = 0 
         for k, v in pairs (recipe[type][method][tier].take) do 

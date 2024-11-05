@@ -1,13 +1,11 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 GlobalState.Mescaline = Config.Mescaline
 
-
 Citizen.CreateThread(function()
     for _, v in pairs(Config.Mescaline) do
         v.taken = false
     end
 end)
-
 
 function MescalineCooldown(loc)
     CreateThread(function()
@@ -22,7 +20,7 @@ end
 
 
 RegisterNetEvent("Mescaline:pickupCane", function(loc)
-	if  CheckDist(source, Config.Mescaline[loc].location) then return end
+	if CheckDist(source, Config.Mescaline[loc].location) then return end
     if not Config.Mescaline[loc].taken then
         Config.Mescaline[loc].taken = true
         GlobalState.Mescaline = Config.Mescaline

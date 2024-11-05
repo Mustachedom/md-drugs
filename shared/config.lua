@@ -18,20 +18,20 @@ Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 
 Config.Minigames = {
-    ps_circle =            {    amount = 2,     speed = 8,},
-    ps_maze =            {    timelimit = 15},
-    ps_scrambler =            {    type = 'numeric', time = 15, mirrored = 0},
-    ps_var =            {    numBlocks = 5, time = 10},
-    ps_thermite =            {  time = 10, gridsize = 5, incorrect = 3},
-    ox =            { 'easy', 'easy'},   --easy medium or hard each one corresponds to how many skillchecks and the difficulty
-    blcirprog =     {    amount = 2,     speed = 50},       -- speed = 1-100
-    blprog =        {    amount = 1,     speed = 50},       -- speed = 1-100
-    blkeyspam =     {    amount = 1,     difficulty = 50}, -- difficulty = 1-100
-    blkeycircle =   {    amount = 1,     difficulty = 50, keynumbers = 3},
-    blnumberslide = {    amount = 1,     difficulty = 50, keynumbers = 3},
-    blrapidlines =  {    amount = 1,     difficulty = 50, numberofline = 3},
-    blcircleshake = {    amount = 1,     difficulty = 50, stages = 3},
-    glpath =        {    gridSize = 19,  lives = 3,     timelimit = 10000},
+    ps_circle =     {amount = 2,     speed = 8,},
+    ps_maze =       {timelimit = 15},
+    ps_scrambler =  {type = 'numeric', time = 15, mirrored = 0},
+    ps_var =        {numBlocks = 5, time = 10},
+    ps_thermite =   {time = 10, gridsize = 5, incorrect = 3},
+    ox =            {'easy', 'easy'},   --easy medium or hard each one corresponds to how many skillchecks and the difficulty
+    blcirprog =     {amount = 2, speed = 50},       -- speed = 1-100
+    blprog =        {amount = 1, speed = 50},       -- speed = 1-100
+    blkeyspam =     {amount = 1, difficulty = 50}, -- difficulty = 1-100
+    blkeycircle =   {amount = 1, difficulty = 50, keynumbers = 3},
+    blnumberslide = {amount = 1, difficulty = 50, keynumbers = 3},
+    blrapidlines =  {amount = 1, difficulty = 50, numberofline = 3},
+    blcircleshake = {amount = 1, difficulty = 50, stages = 3},
+    glpath =        {gridSize = 19,  lives = 3,     timelimit = 10000},
     glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
     glmath =        {timeLimit = 300000},
 
@@ -134,7 +134,6 @@ Config.StartLoc = {
     vector3(-224.89, 6388.32, 31.59)
 }
 
-
 ---------- Pharma
 
 Config.FillPrescription = {---------- this is where you want people to take their prescription to get a bottle of pills. They use bottle to get a random amount of prescription pills
@@ -142,14 +141,12 @@ Config.FillPrescription = {---------- this is where you want people to take thei
 }
 
 Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
-
-
 -------------- weed
 Config.Teleout = vector3(1066.31, -3183.36, -39.16) -- where you target to tele in
 Config.Telein = vector3(244.74, 374.54, 105.74) -- where you target to tele out
 Config.MakeButter = vector3(1045.48, -3198.49, -38.22) -- where you make cannabutter and baked edibles
 Config.MakeOil = vector3(1038.90, -3198.66, -38.17) -- where you make shatter
-Config.WeedSaleman = vector4(1030.46, -3203.63, -38.2, 180.0)
+Config.WeedSaleman = vector4(1030.77, -3203.18, -38.2, 262.37)
 
 Config.WeedDry = { -- where you dry leaves 
     {loc = vector3(1043.0, -3191.59, -38.39),},
@@ -160,20 +157,6 @@ Config.WeedDry = { -- where you dry leaves
 
 Config.Joblock = false -- if you want weed to be a job
 Config.weedjob = "" -- what the job name is
-Config.Weed = { --- this is the store for the weed ingridients
-    label = "Weed Shop",
-    slots = 8,
-    items = {
-        {name = "weedgrinder", 	price = 25, 	amount = 50, },
-		{name = "mdbutter", 	price = 25, 	amount = 50, },
-		{name = "flour", 		price = 25, 	amount = 50, },
-		{name = "chocolate",  	price = 25, 	amount = 50, },
-		{name = "butane", 		price = 25, 	amount = 50, },
-		{name = "butanetorch", 	price = 2, 		amount = 1000,},
-		{name = "dabrig", 		price = 2, 		amount = 1000,},
-		{name = "mdwoods", 		price = 2, 		amount = 1000,},	
-	}
-}
 
 ----------------- Wholesale
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
@@ -181,9 +164,9 @@ Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
 Config.WholesaleTimeout = 600 -- time in seconds to get to the location
 Config.PoliceCount = 0 -- Amount of police required
 Config.Wcoke =  { min = 20, max = 60} -- pricings per item
-Config.Wcrack = { min = 20, max = 60}
-Config.Wlsd = { min = 20, max = 60}
-Config.WXTC = { min = 20, max = 60}
+Config.Wcrack = { min = 20, max = 60} -- pricings per item
+Config.Wlsd = { min = 20, max = 60} -- pricings per item
+Config.WXTC = { min = 20, max = 60} -- pricings per item
 
 
 --- travelling merchant
@@ -193,35 +176,7 @@ Config.Travellingmerchant = { ------------ these are the random locations the me
 	vector4(-1522.93, 1476.01, 111.45, 41.25),
 	vector4(-3278.98, 973.38, 5.35, 101.53),
 }
-Config.Items = { --- this is the store for the travelling merchant
-    items = {
-        {name = "tab_paper", 		 price = 50, 	amount = 50,},
-        {name = "bakingsoda", 	 price = 25, 	amount = 50, 	},
-		{name = "isosafrole", 	 price = 25, 	amount = 50, 	},
-		{name = "mdp2p", 			 price = 25, 	amount = 50, 	},
-		{name = "lysergic_acid",   price = 25, 	amount = 50, 	},
-		{name = "diethylamide",    price = 25, 	amount = 50, 	},
-		{name = "lockpick",  price = 2, 	amount = 1000, 	},
-		{name = "emptyvial", 		 price = 2, 	amount = 1000, 	},
-		{name = "needle", 		 price = 2, 	amount = 1000,	},
-		{name = "cokeburner", 	 price = 25, 	amount = 50, 	},
-		{name = "crackburner", 	 price = 2, 	amount = 50, 	},
-		{name = "lsdburner",		 price = 2, 	amount = 50, 	},
-		{name = "heroinburner", 	 price = 2, 	amount = 50, 	},
-		{name = "mdlean", 		 price = 50, 	amount = 50, 	},
-        {name = "weedgrinder", 	 price = 25, 	amount = 50, 	},
-		{name = "mdbutter", 		 price = 25, 	amount = 50, 	},
-		{name = "flour", 		 price = 25, 	amount = 50, 	},
-		{name = "chocolate",  	 price = 25, 	amount = 50, 	},
-		{name = "butane", 		 price = 25, 	amount = 50, 	},
-		{name = "butanetorch", 	 price = 2, 	amount = 1000, 	},
-		{name = "dabrig", 		 price = 2, 	amount = 1000, 	},
-		{name = "mdwoods", 		 price = 2, 	amount = 1000, 	},
-		{name = "leancup", 		 price = 25, 	amount = 50, 	},
-        {name = "xtcburner", 	 price = 25, 	amount = 50, 	},
-		
-	}
-}
+
 --------------------------------------- oxy runs
 ---- How oxyruns work. You pay for a truck, you get in it and it gives a route. There is a 20% chance that the car will be "hot" and you have to ditch it. No Routes will spawn if that pops up
 ----- when you get to the drop off point third eye the truck. You will carry a box to the ped. He will give you cash, some oxy and maybe a random item. Rinse and repeat

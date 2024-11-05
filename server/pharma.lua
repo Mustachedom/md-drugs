@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local function GetJob(source) 
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src) 
+	local Player = getPlayer(src) 
 	if Player.PlayerData.job.type == 'ems' then
 		return true
 	else
@@ -42,19 +42,10 @@ QBCore.Functions.CreateUseableItem(d, function(source, item)
 end)
 end
 
-local pharmadrugs = { "adderal", "vicodin", "xanax", "morphine"}
-for k, v in pairs (pharmadrugs) do QBCore.Functions.CreateUseableItem(v, function(source, item)
-local src = source
 
-	if TriggerClientEvent('md-drugs:client:takepharma', src, item.name) then
-		RemoveItem(src, item.name, 1)
-		Log(GetName(source) .. ' Took ' .. item.name .. '!', 'pharma')
-	end
-end)
-end
 RegisterServerEvent('md-drugs:server:fillprescription', function()
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	local vic = Player.Functions.GetItemByName('vicodin_prescription')
 	local add = Player.Functions.GetItemByName('adderal_prescription')
 	local mor = Player.Functions.GetItemByName('morphine_prescription')
@@ -70,13 +61,11 @@ RegisterServerEvent('md-drugs:server:fillprescription', function()
 	elseif mor then
 		RemoveItem(src,'morphine_prescription', 1 ) 
 		AddItem(src,'morphinebottle', 1) 
-		Notifys(src,Lang.Pharma.pills, "success")
-		
+		Notifys(src,Lang.Pharma.pills, "success")	
 	elseif xan then
 		RemoveItem(src,'xanax_prescription', 1 ) 
 		AddItem(src,'xanaxbottle', 1) 
-		Notifys(src,Lang.Pharma.pills, "success")
-		
+		Notifys(src,Lang.Pharma.pills, "success")	
 	else
 		Notifys(src,Lang.Pharma.no, "error")
 	end

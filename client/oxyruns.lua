@@ -1,18 +1,16 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local deliveryBlip = nil
 local carryPackage = nil
 
 RegisterNetEvent("md-drugs:client:GetOxyCar", function()
 	lib.requestModel("burrito3", Config.RequestModelTime)
 	local paid = lib.callback.await('md-drugs:server:payfortruck', false)
 	if not paid then return end
-	local oxycar = CreateVehicle("burrito3",Config.truckspawn.x, Config.truckspawn.y,Config.truckspawn.z, Config.truckspawn.h, true, false)
+	local oxycar = CreateVehicle("burrito3",Config.truckspawn.x, Config.truckspawn.y,Config.truckspawn.z, Config.truckspawn.w, true, false)
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(oxycar))
 	Notify(Lang.oxy.truck, 'success')
 	TriggerEvent("md-drugs:client:getoxylocationroute")
-    SetVehicleEngineOn(oxycar, true, true)
-	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = "Get Package"}, nil )
+	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = Lang.targets.oxy.pack}, nil )
 end)
 
 
@@ -20,16 +18,7 @@ end)
 RegisterNetEvent("md-drugs:client:getoxylocationroute", function() 
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
 	if CurrentLocation ~= nil then
-    	local deliveryBlip = AddBlipForCoord(CurrentLocation)
-    	SetBlipSprite(deliveryBlip, 1)
-    	SetBlipDisplay(deliveryBlip, 2)
-    	SetBlipScale(deliveryBlip, 1.0)
-    	SetBlipAsShortRange(deliveryBlip, false)
-    	SetBlipColour(deliveryBlip, 27)
-    	BeginTextCommandSetBlipName("STRING")
-    	AddTextComponentSubstringPlayerName(text)
-    	EndTextCommandSetBlipName(deliveryBlip)
-    	SetBlipRoute(deliveryBlip, true)
+    	SetNewWaypoint(CurrentLocation.x, CurrentLocation.y)
 		local current = "g_m_y_famdnf_01"
 		lib.requestModel(current, Config.RequestModelTime)
     	local oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
@@ -37,9 +26,9 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 		repeat
 			Wait(1000)
 		until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
-		RemoveBlip(deliveryBlip)
-		PoliceCall(Config.PoliceAlertOxy) 
-		AddSingleModel(oxybuyer,  { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", 
+		
+		PoliceCall(Config.PoliceAlertOxy)
+		AddSingleModel(oxybuyer,  { type = "client", label = Lang.targets.oxy.talk, icon = "fas fa-eye", 
 		action = function()
 			if carryPackage then
 				if not progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
@@ -78,7 +67,6 @@ end)
 
 
 RegisterNetEvent("md-drugs:client:giveoxybox", function(data) 
-
 	if carryPackage then
 		if not progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
 		TriggerServerEvent("md-drugs:server:giveoxybox")

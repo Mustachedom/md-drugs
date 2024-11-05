@@ -4,9 +4,9 @@ local cuttingcoke = nil
 local baggingcoke = nil
 
 local function pick(loc)
-if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
-TriggerServerEvent("coke:pickupCane", loc)  
-return true 
+    if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
+        TriggerServerEvent("coke:pickupCane", loc)  
+    return true
 end
 
 RegisterNetEvent('coke:respawnCane', function(loc)
@@ -15,7 +15,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(CocaPlant[loc], true, v.heading)
-        AddSingleModel(CocaPlant[loc], {icon = 'fas fa-hand', label = 'Pick Cocaine', action = function() if not pick(loc) then return end end}, loc)    
+        AddSingleModel(CocaPlant[loc], {icon = "fa-solid fa-seedling", label = Lang.targets.coke.pick, action = function() if not pick(loc) then return end end}, loc)
     end
 end)
 
@@ -27,27 +27,15 @@ end)
 RegisterNetEvent("coke:init", function()
     for k, v in pairs (GlobalState.CocaPlant) do
         local hash = GetHashKey(v.model)
-        if not HasModelLoaded(hash) then LoadModel(hash) end
+        LoadModel(hash) 
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)
-            AddSingleModel(CocaPlant[k], {icon = 'fas fa-hand', label = 'Pick Cocaine', action = function() if not pick(k) then return end end}, k)    
+            AddSingleModel(CocaPlant[k], {icon = "fa-solid fa-seedling", label = Lang.targets.coke.pick, action = function() if not pick(k) then return end end}, k)
         end
     end
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        LoadModel('prop_plant_01a')
-        TriggerEvent('coke:init')
-    end
- end)
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-     Wait(3000)
-     LoadModel('prop_plant_01a')
-     TriggerEvent('coke:init')
- end)
- 
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01a'))
@@ -84,20 +72,19 @@ RegisterNetEvent("md-drugs:client:bagcoke", function()
 	    BagCoke()
     else
         if not progressbar(Lang.Coke.bagging, 5000, 'uncuff') then baggingcoke = nil return end
-    end      
+    end
 	TriggerServerEvent("md-drugs:server:bagcoke")
 	baggingcoke = nil
-   
 end)
 
 CreateThread(function()
     if Config.FancyCokeAnims == false then 
-        AddBoxZoneMulti('cuttcoke', Config.CuttingCoke,  {	type = "client",	event = "md-drugs:client:cutcokeone",	icon = "fas fa-sign-in-alt",	label = "Cut Coke"})
-        AddBoxZoneMulti('baggcoke', Config.BaggingCoke,  {	type = "client",	event = "md-drugs:client:bagcoke",	icon = "fas fa-sign-in-alt",	label = "Bag Coke"})
+        AddBoxZoneMulti('cuttcoke', Config.CuttingCoke,  {	type = "client",	event = "md-drugs:client:cutcokeone",	icon = "fa-solid fa-mortar-pestle",	label = Lang.targets.coke.cut}) 
+        AddBoxZoneMulti('baggcoke', Config.BaggingCoke,  {	type = "client",	event = "md-drugs:client:bagcoke",	    icon = "fa-solid fa-sack-xmark",	label = Lang.targets.coke.bag})
     else
         AddBoxZoneSingle('cutcoke', vector3(1093.17, -3195.74, -39.19),
-		    { type = "client", event = "md-drugs:client:cutcokeone", icon = "fas fa-sign-in-alt", label = "cut up", canInteract = function()if cuttingcoke == nil and baggingcoke == nil then return true end end })
+		    { type = "client", event = "md-drugs:client:cutcokeone", icon = "fa-solid fa-mortar-pestle", label = Lang.targets.coke.cut, canInteract = function()if cuttingcoke == nil and baggingcoke == nil then return true end end })
         AddBoxZoneSingle('bagcokepowder', vector3(1090.29, -3195.66, -39.13),
-		    { type = "client", event = "md-drugs:client:bagcoke", icon = "fas fa-sign-in-alt", label = "bagging", canInteract = function() if baggingcoke == nil and cuttingcoke == nil then return true end end })
+		    { type = "client", event = "md-drugs:client:bagcoke",    icon = "fa-solid fa-sack-xmark", label = Lang.targets.coke.bag, canInteract = function() if baggingcoke == nil and cuttingcoke == nil then return true end end })
     end
 end)

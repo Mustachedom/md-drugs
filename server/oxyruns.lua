@@ -2,7 +2,7 @@ QBCore = exports['qb-core']:GetCoreObject()
 
 lib.callback.register('md-drugs:server:payfortruck', function()
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	if Player.Functions.RemoveMoney('cash', Config.TruckPrice ) or Player.Functions.RemoveMoney('bank', Config.TruckPrice ) then
 		Log(GetName(src) .. ' Rented A Van For OxyRuns', 'oxy')
 		return true
@@ -15,7 +15,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	local chance = math.random(1,100)
 	local cash = Config.OxyRunCompleteCash
 	local itemchance = math.random(1,100)

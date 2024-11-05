@@ -53,7 +53,24 @@ function progressbar(text, time, anim)
 	end	  
   end
 
-  function minigame(tier)
+function loadParticle(dict)
+    if not HasNamedPtfxAssetLoaded(dict) then
+        RequestNamedPtfxAsset(dict)
+    end
+    while not HasNamedPtfxAssetLoaded(dict) do
+        Wait(0)
+    end
+    SetPtfxAssetNextCall(dict)
+end
+
+function LoadModel(hash)
+	RequestModel(hash)
+	while not HasModelLoaded(hash)  do
+		Wait(0)
+	end
+end
+
+function minigame()
 	local time = 0
 	local game = Config.Minigames
 	if minigametype == 'ps_circle' then
@@ -143,12 +160,10 @@ function progressbar(text, time, anim)
 		until successes or time == 100
 	elseif minigametype == 'none' then 
 		return true			
-	else	
-		   print"^1 SCRIPT ERROR: Md-Drugs set your minigame with one of the options!"
+	else
+		print"^1 SCRIPT ERROR: Md-Drugs set your minigame with one of the options!"
 	end
  end
-
-
 
  function Notify(text, type)
 	if notifytype =='ox' then
@@ -157,36 +172,34 @@ function progressbar(text, time, anim)
 	  QBCore.Functions.Notify(text, type)
 	elseif notifytype == 'okok' then
 	  exports['okokNotify']:Alert('', text, 4000, type, false)
-	else 
+	else
        	print"^1 SCRIPT ERROR: Md-DRUGS set your notification with one of the options!"
-    end   
+    end
   end
 
 function GetImage(img)
-	if GetResourceState('ox_inventory') == 'started' then
-		local Items = exports['ox_inventory']:Items()
-		if Items[img]['client'] then 
-			if Items[img]['client']['image'] then
-				return Items[img]['client']['image']
-			else
-				return "nui://ox_inventory/web/images/".. img.. '.png'
-			end
-		else
-			return "nui://ox_inventory/web/images/".. img.. '.png'
-		end
-	elseif GetResourceState('ps-inventory') == 'started' then
-		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('lj-inventory') == 'started' then
-		return "nui://lj-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('qb-inventory') == 'started' then
-		return "nui://qb-inventory/html/images/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('qs-inventory') == 'started' then
-		return "nui://qs-inventory/html/img/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('origen_inventory') == 'started' then
-		return "nui://origen_inventory/html/img/".. QBCore.Shared.Items[img].image
-	elseif GetResourceState('core_inventory') == 'started' then
-		return "nui://core_inventory/html/img/".. QBCore.Shared.Items[img].image
-	end
+    if GetResourceState('ox_inventory') == 'started' then
+        local Items = exports['ox_inventory']:Items()
+        local itemClient = Items[img] and Items[img]['client']
+        if itemClient and itemClient['image'] then
+            return itemClient['image']
+        else
+            return "nui://ox_inventory/web/images/" .. img .. '.png'
+        end
+    end
+    local invs = {
+        ['ps-inventory'] = "nui://ps-inventory/html/images/",
+        ['lj-inventory'] = "nui://lj-inventory/html/images/",
+        ['qb-inventory'] = "nui://qb-inventory/html/images/",
+        ['qs-inventory'] = "nui://qs-inventory/html/img/",
+        ['origen_inventory'] = "nui://origen_inventory/html/img/",
+        ['core_inventory'] = "nui://core_inventory/html/img/"
+    }
+    for k, v in pairs(invs) do
+        if GetResourceState(k) == 'started' then
+            return v .. QBCore.Shared.Items[img].image
+        end
+    end
 end
 
 function GetLabel(label)
@@ -198,9 +211,49 @@ function GetLabel(label)
 	end
 end
 
+function GetRep()
+	local rep = lib.callback.await('md-drugs:server:GetRep', false)
+	return rep
+end
+
+
+function sorter(sorting, value) 
+	table.sort(sorting, function(a, b) return a[value] < b[value] end)
+end
+
+function makeMenu(name, rep)
+	local menu = {}
+	local data = lib.callback.await('md-drugs:server:menu', false, name)
+	for k, v in pairs (data.table) do
+		local allow = false
+		if rep == nil then 
+			allow = true
+		else
+			if rep.dealerrep >= v.minrep then allow = true end
+		end
+		if allow then 
+			menu[#menu + 1] = {
+				icon =  GetImage(v.name),
+				description = '$'.. v.price,
+				title = GetLabel(v.name),
+				onSelect = function()
+					local settext = "Cost: $"..v.price
+					local dialog = exports.ox_lib:inputDialog(v.name .."!",   {
+						{ type = 'select', label = "Payment Type", default = "cash", options = {	{ value = "cash"},	{ value = "bank"},}},
+						{ type = 'number', label = "Amount to buy", description = settext, min = 0, max = v.amount, default = 1 },
+					})
+					if not dialog[1] then return end
+					TriggerServerEvent("md-drugs:server:purchaseGoods", dialog[2], dialog[1], v.name, v.price, data.table, k)
+				end,
+			}
+		end
+	end
+	sorter(menu, 'title')
+	lib.registerContext({id = data.id, title = data.title, options = menu})
+end
+
 
 function ItemCheck(item)
-local success 
 if GetResourceState('ox_inventory') == 'started' then
     if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
 else
@@ -236,7 +289,6 @@ function Email(sender, subject, message)
 			sender = sender,
 			senderDisplayName = sender,
 			content = message,
-			
 		}, 'phoneNumber', receiver)
 	elseif Config.Phone == 'qs' then
 		TriggerServerEvent('qs-smartphone:server:sendNewMail', {
@@ -252,7 +304,7 @@ function Email(sender, subject, message)
 			message = message,
 		})
 	end
-end	  
+end
 
 function PoliceCall(chance)
 	local math = math.random(1,100)
@@ -269,15 +321,7 @@ function PoliceCall(chance)
 				flash = 0,
 				unique_id = data.unique_id,
 				sound = 1,
-				blip = {
-					sprite = 431, 
-					scale = 1.2, 
-					colour = 3,
-					flashes = false, 
-					text = '420-69 Drug Sale',
-					time = 5,
-					radius = 0,
-				}
+				blip = { sprite = 431,  scale = 1.2,  colour = 3, flashes = false,  text = '420-69 Drug Sale', time = 5, radius = 0,}
 			})
 		elseif	dispatch == 'core' then
 			exports['core_dispatch']:addCall("420-69", "Drugs Are Being Sold", {
@@ -317,22 +361,6 @@ function tele(coords)
 	DoScreenFadeIn(500)
 end
 
-function Blip(entity, text)
-	local deliveryBlip = AddBlipForCoord(entity)
-    SetBlipSprite(deliveryBlip, 1)
-    SetBlipDisplay(deliveryBlip, 2)
-    SetBlipScale(deliveryBlip, 1.0)
-    SetBlipAsShortRange(deliveryBlip, false)
-    SetBlipColour(deliveryBlip, 27)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(text)
-    EndTextCommandSetBlipName(deliveryBlip)
-    SetBlipRoute(deliveryBlip, true)
-end
-
-function RemoveBlips()
-	RemoveBlip(deliveryBlip)
-end
 
 function AddBoxZoneSingle(name, loc, data)
 	if Config.Target == 'qb' then
@@ -347,7 +375,7 @@ function AddBoxZoneSingle(name, loc, data)
 			  data = data.data,
 			  canInteract = data.canInteract,
 			}
-		}, 
+		},
 		distance = 2.0
 	 })
 	elseif Config.Target == 'ox' then
@@ -404,7 +432,6 @@ function AddBoxZoneMulti(name, table, data)
 end
 
 function AddBoxZoneMultiOptions(name, loc, data) 
-
 		if Config.Target == 'qb' then
 			exports['qb-target']:AddBoxZone(name , loc, 1.5, 1.75, {name = name, minZ = loc.z-1.50,maxZ = loc.z +1.5}, 
 			{ options = data, distance = 2.5})
@@ -425,10 +452,17 @@ function AddSingleModel(model, data, num)
 end
 
 function AddMultiModel(model, data, num)
+	local options = {}
+	for k, v in pairs (data) do 
+		table.insert(options,{
+			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
+			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
+		})
+	end
 	if Config.Target == 'qb' then
-		exports['qb-target']:AddTargetEntity(model, {options = data, distance = 2.5})
+		exports['qb-target']:AddTargetEntity(model, {options = options, distance = 2.5})
 	elseif Config.Target == 'ox' then
-		exports.ox_target:addLocalEntity(model, data)
+		exports.ox_target:addLocalEntity(model, options)
 	end
 end
 
@@ -523,9 +557,24 @@ end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 	Wait(3000)
+	LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
+	LoadModel('prop_plant_01a') TriggerEvent('coke:init')
+	LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
+	LoadModel('mushroom') TriggerEvent('shrooms:init')
+	LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
 	local check = lib.callback.await('md-drugs:server:GetRep', false)
 
-	return 
+	return
+end)
+
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+		LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
+		LoadModel('prop_plant_01a') TriggerEvent('coke:init')
+		LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
+		LoadModel('mushroom') TriggerEvent('shrooms:init')
+		LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
+    end
 end)
 local active = false
 RegisterNetEvent('md-drugs:client:minusTier', function(data) 

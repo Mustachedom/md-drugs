@@ -68,7 +68,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	if CheckDist(source, Config.cutheroinone[num]['loc']) then return end
 	if not Itemcheck(src, 'bakingsoda', 1) then return end
 	if Config.TierSystem then
@@ -95,7 +95,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
+	local Player = getPlayer(src)
 
 	if CheckDist(source, vector3(Config.buyheroinlabkit.x,Config.buyheroinlabkit.y,Config.buyheroinlabkit.z)) then return end
 	if Player.Functions.RemoveMoney('cash', Config.heroinlabkitprice) then
@@ -108,7 +108,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+local Player = getPlayer(src)
 	if AddItem(src, "heroinlabkit", 1) then
 		Log(GetName(src) ..' Picked Up Their Heroin Lab Kit Back At ' .. GetCoords(src) .. '!', 'heroin')
 	end
@@ -116,7 +116,7 @@ end)
 
 QBCore.Functions.CreateUseableItem('heroinlabkit', function(source, item)
 local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+local Player = getPlayer(src)
 	if not Itemcheck(source, 'heroinlabkit', 1) then return end
 	if TriggerClientEvent("md-drugs:client:setheroinlabkit", src) then
 		RemoveItem(src, "heroinlabkit", 1)
@@ -128,7 +128,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+local Player = getPlayer(src)
 	if not Itemcheck(source, 'emptyvial', 1) then return end
 	if Config.TierSystem then
 		local cuth = Player.Functions.GetItemByName('heroincut')
@@ -154,7 +154,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 local src = source
-local Player = QBCore.Functions.GetPlayer(src)
+local Player = getPlayer(src)
 local cuth = Player.Functions.GetItemByName('heroincut')
 local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
 local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
@@ -174,7 +174,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	if CheckDist(source, Config.fillneedle[num]['loc']) then return end
 	if not Itemcheck(src, 'needle', 1) then return end
 	if Config.TierSystem then
@@ -207,7 +207,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = getPlayer(src)
 	Log(GetName(src) ..' Sucks And Burned Their Heroin', 'heroin')
 	if Config.TierSystem then
 		local vh = Player.Functions.GetItemByName('heroinvial')

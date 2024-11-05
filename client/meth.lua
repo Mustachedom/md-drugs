@@ -3,7 +3,6 @@ local amonia = nil
 local tray = nil
 local heated = nil
 local active = nil
-
 local function startcook()
 	if not ItemCheck('empty_weed_bag') then return end
 	if not ItemCheck('acetone') then return end
@@ -20,7 +19,7 @@ end
 
 local function dials()
 	if amonia == true then
-		if not minigame(2, 8) then
+		if not minigame() then
 			AddExplosion(1005.773, -3200.402, -38.524, 49, 10, true, false, true, true)
 			ClearPedTasks(PlayerPedId())
 			amonia = nil
@@ -41,7 +40,17 @@ if tray then
 	Freeze(bucket, true, 90.0)
 	SmashMeth()
 	Wait(100)
-	AddSingleModel(bucket, {name = 'bucket',icon = 'fa-solid fa-car',label = 'Bag Meth',action = function()	DeleteObject(bucket)amonia = nil heated = nil tray = nil active = nil BagMeth()	TriggerServerEvent('md-drugs:server:getmeth')end,}, bucket) 
+	AddSingleModel(bucket, 
+	{name = 'bucket',icon = "fa-solid fa-sack-xmark",label = Lang.targets.meth.bag, canInteract = function() if active == nil then return false end end,
+	action = function() 
+		active = nil
+		DeleteObject(bucket)
+		amonia = nil
+		heated = nil
+		tray = nil
+		BagMeth()
+		TriggerServerEvent('md-drugs:server:getmeth')
+	end,}, bucket) 
 end	
 end
 
@@ -73,35 +82,35 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	
-	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Enter Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
-	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fas fa-sign-in-alt", label = "Exit Building",	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
+	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fa-solid fa-door-open",   label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
+	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
 	local options = {
-		{ name = 'methcook', icon = "fas fa-sign-in-alt", label = "Cook Meth", distance = 2.5, action = function() 	startcook() end, onSelect = function() 	startcook() end,
+		{ name = 'methcook', icon = "fa-solid fa-temperature-high", label = Lang.targets.meth.cook, distance = 2.5, action = function() 	startcook() end,
 				canInteract = function()
 				if amonia == nil and active == nil then
 					return true
 				end
 		  end,
 		},
-		{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = "Grab Tray", distance = 2.5, onSelect = function() 	trayscarry() end, action = function() 	trayscarry() end,
+		{ name = 'grabtray', icon = "fas fa-sign-in-alt", label = Lang.targets.meth.tray, distance = 2.5, action = function() trayscarry() end,
 		  canInteract = function()
 				if heated and amonia and tray == nil then return true end
 		  end,
 		},
 	}
 	AddBoxZoneMultiOptions("cookmeth",vector3(1005.72, -3200.33, -38.52), options )
-	AddBoxZoneSingle('boxmeth', vector3(1012.15, -3194.04, -39.20), {name = 'boxmeth',icon = "fas fa-sign-in-alt",label = "Box Up Meth",action = function()	smash()end,
+	AddBoxZoneSingle('boxmeth', vector3(1012.15, -3194.04, -39.20), {name = 'boxmeth',icon = "fas fa-sign-in-alt",label = Lang.targets.meth.box,action = function()	smash()end,
 			canInteract = function()
 				if tray then return true end
 			end})
-	AddBoxZoneSingle('adjustdials',vector3(1007.89, -3201.17, -38.99),{	name = 'adjustdials',	icon = "fas fa-sign-in-alt",	label = "Adjust Dials",	distance = 5,	action = function()		dials()	end,
+	AddBoxZoneSingle('adjustdials',vector3(1007.89, -3201.17, -38.99),{	name = 'adjustdials',	icon = "fas fa-sign-in-alt",	label = Lang.targets.meth.adjust,	
+		distance = 5,	action = function() dials()	end,
 			canInteract = function()
 				if amonia and heated == nil then return true end end
 			})
 	if Config.MethHeist == false then
-		AddBoxZoneMulti('methep', Config.MethEph, {icon = "fas fa-sign-in-alt",	label = "Steal Ephedrine", event = 'md-drugs:client:stealeph'})
-		AddBoxZoneMulti('methace', Config.Methace, {icon = "fas fa-sign-in-alt",	label = "Steal Acetone", event = 'md-drugs:client:stealace'})
+		AddBoxZoneMulti('methep', Config.MethEph, {icon = "fas fa-sign-in-alt",	    label = Lang.targets.meth.eph, event = 'md-drugs:client:stealeph'})
+		AddBoxZoneMulti('methace', Config.Methace, {icon = "fas fa-sign-in-alt",	label = Lang.targets.meth.ace, event = 'md-drugs:client:stealace'})
 	end
 end)
 
@@ -114,7 +123,7 @@ if not Config.MethHeist == false then
 	Freeze(methdealer, true, 220.0)
 	Wait(100)
 	AddSingleModel(methdealer,{
-		label = "Get Mission",
+		label = Lang.targets.meth.mission,
 		icon = "fas fa-eye",
 		action = function()
 			Notify(Lang.meth.mission, "success")
