@@ -286,7 +286,7 @@ function AddRep(source, type, amount)
     return true
 end
 
-RegisterCommand('fixmybrokenshit', function()
+RegisterCommand('addCornerSellingTOREP', function()
     local sql = MySQL.query.await('SELECT * FROM drugrep', {})
     for k, v in pairs (sql) do 
       local new = {}
@@ -304,8 +304,6 @@ RegisterCommand('fixmybrokenshit', function()
                     level = 1
                 }
             })
-        if new[1].coke == 125 then print('work') end
-        if not new[1].cornerselling == 125 then print('fail') return end
       local news = json.encode(new)
       MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {news, v.cid})
     end
@@ -335,7 +333,7 @@ function ChecknRemove(source, table)
        		 if items.count >= v then 
                   	hass = hass + 1
        		 else
-            		Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
+            		Notifys(source, 'You Need ' .. v .. ' Of ' .. GetLabels(k) .. ' To Do This', 'error')
         	end
         end
     end

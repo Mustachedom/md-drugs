@@ -462,7 +462,7 @@ else
 		AddSingleModel(methcar,{
 			name = 'methcar',
 			icon = 'fa-solid fa-car',
-			label = 'Steal From Car',
+			label = Lang.targets.meth.stealfromcar,
 			action = function()
 			 if not minigame() then return end
 			 TriggerServerEvent('md-drugs:server:givemethingridients')

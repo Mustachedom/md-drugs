@@ -160,12 +160,10 @@ function minigame()
 		until successes or time == 100
 	elseif minigametype == 'none' then 
 		return true			
-	else	
-		   print"^1 SCRIPT ERROR: Md-Drugs set your minigame with one of the options!"
+	else
+		print"^1 SCRIPT ERROR: Md-Drugs set your minigame with one of the options!"
 	end
  end
-
-
 
  function Notify(text, type)
 	if notifytype =='ox' then
@@ -174,9 +172,9 @@ function minigame()
 	  QBCore.Functions.Notify(text, type)
 	elseif notifytype == 'okok' then
 	  exports['okokNotify']:Alert('', text, 4000, type, false)
-	else 
+	else
        	print"^1 SCRIPT ERROR: Md-DRUGS set your notification with one of the options!"
-    end   
+    end
   end
 
 function GetImage(img)
@@ -256,7 +254,6 @@ end
 
 
 function ItemCheck(item)
-local success 
 if GetResourceState('ox_inventory') == 'started' then
     if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
 else
@@ -292,7 +289,6 @@ function Email(sender, subject, message)
 			sender = sender,
 			senderDisplayName = sender,
 			content = message,
-			
 		}, 'phoneNumber', receiver)
 	elseif Config.Phone == 'qs' then
 		TriggerServerEvent('qs-smartphone:server:sendNewMail', {
@@ -308,7 +304,7 @@ function Email(sender, subject, message)
 			message = message,
 		})
 	end
-end	  
+end
 
 function PoliceCall(chance)
 	local math = math.random(1,100)
@@ -379,7 +375,7 @@ function AddBoxZoneSingle(name, loc, data)
 			  data = data.data,
 			  canInteract = data.canInteract,
 			}
-		}, 
+		},
 		distance = 2.0
 	 })
 	elseif Config.Target == 'ox' then

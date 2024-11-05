@@ -63,7 +63,8 @@ Lang.targets = {
         adjust = 'Adjust Temperature',
         eph = 'Steal Ephedrine',
         ace = 'Steal Acetone',
-        mission = 'Get Mission'
+        mission = 'Get Mission',
+        stealfromcar = 'Steal From Car',
     },
     oxy = {
         pack = 'Get Oxy Package',
@@ -75,6 +76,9 @@ Lang.targets = {
     },
     shrooms = {
         pick = 'Pick Shrooms',
+    },
+    travel = {
+        travel = 'Open Travelling Merchant',
     },
     xtc = {
         iso = 'Steal Isosafrole',

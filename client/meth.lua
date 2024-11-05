@@ -82,7 +82,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fa-solid fa-door-open", label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
+	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fa-solid fa-door-open",   label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
 	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
 	local options = {
 		{ name = 'methcook', icon = "fa-solid fa-temperature-high", label = Lang.targets.meth.cook, distance = 2.5, action = function() 	startcook() end,
