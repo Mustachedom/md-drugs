@@ -456,7 +456,7 @@ function AddMultiModel(model, data, num)
 	for k, v in pairs (data) do 
 		table.insert(options,{
 			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
-			onSelect = v.action,data = num,canInteract = v.canInteract or nil, distance = 2.0
+			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
 		})
 	end
 	if Config.Target == 'qb' then

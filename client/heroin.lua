@@ -106,7 +106,7 @@ RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data)
 	    heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", dirtylabkitheroin, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
         SetParticleFxLoopedAlpha(heroinkit, 3.0)
 		SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
-        AddMultiModel(dirtylabkitheroin, {event = "md-drugs:client:cleanheroinlabkit",icon = "fa-solid fa-hand-sparkles",label = Lang.target.heroin.clean, data = dirtylabkitheroin}, nil )
+        AddMultiModel(dirtylabkitheroin, {{event = "md-drugs:client:cleanheroinlabkit",icon = "fa-solid fa-hand-sparkles",label = Lang.targets.heroin.clean, data = dirtylabkitheroin}}, nil )
 	return end
     if not progressbar(Lang.Heroin.success, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:heatliquidheroin")
