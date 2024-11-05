@@ -61,13 +61,11 @@ RegisterServerEvent('md-drugs:server:fillprescription', function()
 	elseif mor then
 		RemoveItem(src,'morphine_prescription', 1 ) 
 		AddItem(src,'morphinebottle', 1) 
-		Notifys(src,Lang.Pharma.pills, "success")
-		
+		Notifys(src,Lang.Pharma.pills, "success")	
 	elseif xan then
 		RemoveItem(src,'xanax_prescription', 1 ) 
 		AddItem(src,'xanaxbottle', 1) 
-		Notifys(src,Lang.Pharma.pills, "success")
-		
+		Notifys(src,Lang.Pharma.pills, "success")	
 	else
 		Notifys(src,Lang.Pharma.no, "error")
 	end

@@ -52,9 +52,7 @@ end)
 QBCore.Functions.CreateUseableItem("lsdburner", function(source, item)
 	local src = source
     local Player = getPlayer(source)
-	
 	TriggerClientEvent("md-drugs:client:GetLocation", src, 'lsd', "Bring Me All The lsd You Have")
-    
 end)
 
 RegisterServerEvent('md-drugs:server:wholesalelsd', function()

@@ -286,7 +286,10 @@ function AddRep(source, type, amount)
     return true
 end
 
-RegisterCommand('addCornerSellingTOREP', function()
+lib.addCommand('addCornerSellingTOREP', {
+    help = 'RUN THIS ONCE AND DELETE',
+    restricted = 'group.admin'
+}, function(source, args, raw)
     local sql = MySQL.query.await('SELECT * FROM drugrep', {})
     for k, v in pairs (sql) do 
       local new = {}
@@ -307,7 +310,7 @@ RegisterCommand('addCornerSellingTOREP', function()
       local news = json.encode(new)
       MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {news, v.cid})
     end
-end, false)
+end)
 
 function sortTab(tbl, type)
     table.sort(tbl, function(a, b)

@@ -128,8 +128,10 @@ end)
 
 RegisterServerEvent('md-drugs:server:maketabpaper', function()
 	local src = source
+	local Player = getPlayer(src)
 	if not Itemcheck(src,'tab_paper', 1) then return end
 	local count = 0
+	local items, recieve = nil, nil
 	local vialdata = {
 		{vial = 'lsd_one_vial',   sheet = 'smileyfacesheet', log = 'Made A Smiley Face Sheet'},
 	    {vial = 'lsd_vial_two',   sheet = 'wildcherrysheet', log = 'Made A Wild Cherry Sheet'},
@@ -140,11 +142,19 @@ RegisterServerEvent('md-drugs:server:maketabpaper', function()
 	}
 	sortTab(vialdata, 'vial')
 	for k, v in pairs (vialdata) do
-		if count >= 1 then return end
-		if RemoveItem(src, v.vial, 1) and RemoveItem(src, 'tab_paper', 1) then
-			AddItem(src, v.sheet, 1)
+		if count >= 1 then break end
+		local check = Player.Functions.GetItemByName(v.vial)
+		
+		if check and check.amount >= 1 then
+			items = v.vial
+			recieve = v.sheet
 			Log(GetName(src) ..' ' .. v.log, 'lsd')
 			count = count + 1
+		end
+	end
+	if count >= 1 then
+		if RemoveItem(src, items, 1) and RemoveItem(src, 'tab_paper', 1) then
+			AddItem(src, recieve, 1)
 		end
 	end
 end)

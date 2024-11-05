@@ -20,8 +20,7 @@ function WeedCooldown(loc)
     end)
 end
 
-RegisterNetEvent("weed:pickupCane")
-AddEventHandler("weed:pickupCane", function(loc)
+RegisterNetEvent("weed:pickupCane", function(loc)
 	local src = source
     if not Config.WeedPlant[loc].taken then
         Config.WeedPlant[loc].taken = true
@@ -30,7 +29,6 @@ AddEventHandler("weed:pickupCane", function(loc)
         WeedCooldown(loc)
         AddItem(src, 'wetcannabis', 1)
 		Log(GetName(source) .. ' Picked Weed With a distance of ' .. dist(source, Config.WeedPlant[loc].location) .. ' vectors', 'weed')
-    
     end
 end)
 --------------- events
@@ -91,24 +89,24 @@ end
 end)
 
 QBCore.Functions.CreateUseableItem("weedgrinder", function(source, item)
-local src = source
-if RemoveItem(src, "drycannabis",1 ) then 
-	AddItem(src, "grindedweed", 1)
-	TriggerClientEvent("md-drugs:client:grind", src)
-else
-	Notifys(src,'You Need Dried Weed', 'error')
-end
+	local src = source
+	if RemoveItem(src, "drycannabis",1 ) then 
+		AddItem(src, "grindedweed", 1)
+		TriggerClientEvent("md-drugs:client:grind", src)
+	else
+		Notifys(src,'You Need Dried Weed', 'error')
+	end
 end)
 
 QBCore.Functions.CreateUseableItem("mdwoods", function(source, item)
-local src = source
-local Player = getPlayer(src)
-TriggerClientEvent("md-drugs:client:rollanim", src)
-Wait(4000)
-if RemoveItem(src, "mdwoods",1 ) then 
-	AddItem(src, "bluntwrap", 5)
-	AddItem(src, "tobacco", 5)
-end
+	local src = source
+	local Player = getPlayer(src)
+	TriggerClientEvent("md-drugs:client:rollanim", src)
+	Wait(4000)
+	if RemoveItem(src, "mdwoods",1 ) then 
+		AddItem(src, "bluntwrap", 5)
+		AddItem(src, "tobacco", 5)
+	end
 end)
 
 
