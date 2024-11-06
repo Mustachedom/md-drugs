@@ -57,6 +57,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function()
     local Player = getPlayer(src)
 	local count = 0
     if Config.TierSystem then
+        local tier = ''
         local cokeTiers = {
             {item = 'coke', 		  tier = 'tier1', log = ' Cut Coke'},
             {item = 'cokestagetwo',   tier = 'tier2', log = ' Cut Coke tier 2'},
@@ -65,12 +66,12 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function()
         for _, v in ipairs(cokeTiers) do
 			if count >= 1 then break end
             if Player.Functions.GetItemByName(v.item) then
-                if not GetRecipe(src, 'cocaine', 'cutcoke', v.tier) then return end
-                	Log(GetName(src) .. v.log, 'coke')
-                return
+                tier = v.tier
+                count = count + 1
             end
         end
         Notifys(src, Lang.Coke.nocutcoke, "error")
+        if not GetRecipe(src, 'cocaine', 'cutcoke', tier) then return end
     else
         if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
         Log(GetName(src) .. ' Cut Coke', 'coke')
@@ -81,6 +82,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
     local src = source
     local Player = getPlayer(src)
 	local count = 0
+    local tier = ''
     if Config.TierSystem then
         local coke = getRep(src, 'coke')
         local cokeTiers = {
@@ -91,12 +93,12 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
         for _, v in ipairs(cokeTiers) do
             if Player.Functions.GetItemByName(v.item) then
 				if count >= 1 then break end
-                if not GetRecipe(src, 'cocaine', 'bagcoke', v.tier) then return end
-                AddRep(src, 'coke')
-                Log(GetName(src) .. v.log .. ' and now has a rep of ' .. coke + 1, 'coke')
-                return
+                count = count + 1
+                tier = v.tier 
             end
         end
+        if not GetRecipe(src, 'cocaine', 'bagcoke', tier) then return end
+        AddRep(src, 'coke')
         Notifys(src, Lang.Coke.nobagcoke, "error")
     else
         if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
