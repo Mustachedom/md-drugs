@@ -63,7 +63,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function()
             {item = 'cokestagethree', tier = 'tier3', log = ' Cut Coke tier 3'}
         }
         for _, v in ipairs(cokeTiers) do
-			if count >= 1 then return end
+			if count >= 1 then break end
             if Player.Functions.GetItemByName(v.item) then
                 if not GetRecipe(src, 'cocaine', 'cutcoke', v.tier) then return end
                 	Log(GetName(src) .. v.log, 'coke')
@@ -90,7 +90,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
         }
         for _, v in ipairs(cokeTiers) do
             if Player.Functions.GetItemByName(v.item) then
-				if count >= 1 then return end
+				if count >= 1 then break end
                 if not GetRecipe(src, 'cocaine', 'bagcoke', v.tier) then return end
                 AddRep(src, 'coke')
                 Log(GetName(src) .. v.log .. ' and now has a rep of ' .. coke + 1, 'coke')
