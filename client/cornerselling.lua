@@ -86,7 +86,7 @@ end)
 
 CreateThread(function()
 for k, v in pairs (QBConfig.NoSellZones) do
-    local box = lib.zones.box({ coords = v.loc, size = vec3(v.width, v.length, v.height), rotation = 180.0, debug = true,
+    local box = lib.zones.box({ coords = v.loc, size = vec3(v.width, v.length, v.height), rotation = 180.0, debug = false,
     onEnter = function() inZone = true end, onExit = function() inZone = false end})
 end
 end)
