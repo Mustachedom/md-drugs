@@ -128,10 +128,10 @@ RegisterNetEvent("md-drugs:client:buypress", function()
 	    id = 'buypresses',
 	    title = 'Purchase Presses',
 	    options = {
-        {title  = Lang.xtc.press.title.single,  description  = Lang.xtc.press.des.title.single,   icon = img,    event = 'md-drugs:client:getsinglepress'},
-        {title  = Lang.xtc.press.title.dual,    description  = Lang.xtc.press.des.title.dual,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'dual'}},
-        {title  = Lang.xtc.press.title.triple,  description  = Lang.xtc.press.des.title.triple,   icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'triple'}},
-        {title  = Lang.xtc.press.title.quad,    description  = Lang.xtc.press.des.title.quad,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'quad'}} 
+        {title  = Lang.xtc.press.title.single,  description  = Lang.xtc.press.des.single,   icon = img,    event = 'md-drugs:client:getsinglepress'},
+        {title  = Lang.xtc.press.title.dual,    description  = Lang.xtc.press.des.dual,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'dual'}},
+        {title  = Lang.xtc.press.title.triple,  description  = Lang.xtc.press.des.triple,   icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'triple'}},
+        {title  = Lang.xtc.press.title.quad,    description  = Lang.xtc.press.des.quad,     icon = img,    event = 'md-drugs:client:exchangepresses', args = {data = 'quad'}} 
 	    }	
     })
   lib.showContext('buypresses')	
