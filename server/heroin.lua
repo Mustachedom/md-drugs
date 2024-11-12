@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-GlobalState.PoppyPlants = Config.PoppyPlants
+
 local h = {
 	{ location = vector3(-2251.3, -99.18, 100.11),    heading = 334.49,    model = "prop_plant_01b"},
     { location = vector3(-2249.63, -92.97, 101.8),    heading = 329.56,    model = "prop_plant_01b"},
@@ -15,7 +15,7 @@ local h = {
     { location = vector3(-2250.96, -111.22, 97.50),   heading = 21.52,     model = "prop_plant_01b"},
     { location = vector3(465.95, -1021.32, 31.78),    heading = 21.52,     model = "prop_plant_01b"},
 }
-
+GlobalState.PoppyPlants = h
 Citizen.CreateThread(function()
     for _, v in pairs(h) do
         v.taken = false

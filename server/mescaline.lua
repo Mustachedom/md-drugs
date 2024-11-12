@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-GlobalState.Mescaline = Config.Mescaline
+
 local m = {
     { location = vector3(2598.73, 4207.89, 41.02),    heading = 334.49,    model = "prop_cactus_03"},
     { location = vector3(2601.46, 4199.34, 40.62),    heading = 329.56,    model = "prop_cactus_03"},
@@ -19,6 +19,7 @@ local m = {
     { location = vector3(2614.39, 4188.3, 41.68),     heading = 21.52,     model = "prop_cactus_03"},
     { location = vector3(2623.82, 4189.97, 41.44),    heading = 21.52,     model = "prop_cactus_03"},
 }
+GlobalState.Mescaline = m
 Citizen.CreateThread(function()
     for _, v in pairs(m) do
         v.taken = false

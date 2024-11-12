@@ -13,7 +13,6 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
         }
         for _, v in ipairs(crackTiers) do
             if count >= 1 then break end
-            print(v.item)
             if Player.Functions.GetItemByName(v.item) then
 				tier = v.tier
 				count = count + 1
@@ -21,7 +20,6 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
             end
         end
     end
-    print(tier)
 	if not GetRecipe(src, 'crack', type, tier) then return end
 end)
 

@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-GlobalState.shrooms = Config.shrooms
+
 local s = {
     { location = vector3(2185.14, 5183.81, 57.48),    heading = 334.49,    model = "mushroom"},
     { location = vector3(2174.45, 5187.85, 57.43),    heading = 329.56,    model = "mushroom"},
@@ -19,7 +19,7 @@ local s = {
     { location = vector3(2185.85, 5190.49, 58.1),     heading = 21.52,     model = "mushroom"},
     { location = vector3(2179.95, 5194.19, 58.26),    heading = 21.52,     model = "mushroom"},
 }
-
+GlobalState.shrooms = s
 Citizen.CreateThread(function()
     for _, v in pairs(s) do
         v.taken = false

@@ -26,7 +26,8 @@ lua54 'yes'
 
 dependency 'bob74_ipl'
 files {
-	'stream/mushroom.ytyp'
+    'stream/mushroom.ytyp',
+    'stream/mushroom.ydr'
 }
 
 data_file 'DLC_ITYP_REQUEST' 'stream/mushroom.ytyp'

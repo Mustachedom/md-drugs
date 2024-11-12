@@ -110,8 +110,6 @@ CreateThread(function()
 				if amonia and heated == nil then return true end end
 			})
 	if Config.MethHeist == false then
-		local config = lib.callback.await('md-drugs:server:getLocs', false)
-		if not config then return end
 		AddBoxZoneMulti('methep', config.MethEph, {icon = "fas fa-sign-in-alt",	    label = Lang.targets.meth.eph, event = 'md-drugs:client:stealeph'})
 		AddBoxZoneMulti('methace', config.Methace, {icon = "fas fa-sign-in-alt",	label = Lang.targets.meth.ace, event = 'md-drugs:client:stealace'})
 	end

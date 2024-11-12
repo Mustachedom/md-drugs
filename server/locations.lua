@@ -129,7 +129,10 @@ function checkLoc(source, event, num)
         return false
     end
 end
-
+local loc = Target.Travellingmerchant[math.random(1, #Target.Travellingmerchant)]
 lib.callback.register('md-drugs:server:getLocs', function()
     return Target
+end)
+lib.callback.register('md-drugs:server:GetMerchant', function(source)
+	return loc
 end)

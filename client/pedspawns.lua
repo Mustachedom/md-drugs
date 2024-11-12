@@ -1,8 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local config = lib.callback.await('md-drugs:server:getLocs', false)
+
 
 CreateThread(function()
+    local config = lib.callback.await('md-drugs:server:getLocs', false)
     local model = {"g_m_y_famdnf_01", 's_m_m_doctor_01', 'u_m_m_jesus_01'}
     for k, v in pairs (model) do
         lib.requestModel(v, Config.RequestModelTime)

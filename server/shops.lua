@@ -1,6 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local config = lib.callback.await('md-drugs:server:getLocs', false)
-local loc = config.Travellingmerchant[math.random(1, #config.Travellingmerchant)]
+
 local stores = {
 	travel = {
 		{name = "tab_paper", 	   price = 50, 	amount = 50,	},
@@ -78,8 +77,4 @@ RegisterServerEvent("md-drugs:server:purchaseGoods", function(amount, money, ite
 			end
 		end
 	end
-end)
-
-lib.callback.register('md-drugs:server:GetMerchant', function(source)
-	return loc
 end)
