@@ -14,7 +14,7 @@ lib.callback.register('md-drugs:server:getDealers', function(data)
         return check
     end
 end)
-    
+
 
 lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
     local src = source

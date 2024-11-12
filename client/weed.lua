@@ -57,7 +57,7 @@ end)
 
 CreateThread(function()
 	local config = lib.callback.await('md-drugs:server:getLocs', false)
-	AddBoxZoneMulti('weeddry', Config.WeedDry, {
+	AddBoxZoneMulti('weeddry', config.WeedDry, {
 		name = 'dryweed',
 		icon = "fas fa-sign-in-alt",
 		label = Lang.targets.weed.dry,

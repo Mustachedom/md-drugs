@@ -1,5 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local loc = math.random(1, #Config.Travellingmerchant)
+local config = lib.callback.await('md-drugs:server:getLocs', false)
+local loc = config.Travellingmerchant[math.random(1, #config.Travellingmerchant)]
 local stores = {
 	travel = {
 		{name = "tab_paper", 	   price = 50, 	amount = 50,	},
