@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://discord.gg/sAMzrB4DDx">
-    <img align="center" src="https://i.imgur.com/t65G9Z0.png" width="100">
+    <img align="center" src="https://i.imgur.com/t65G9Z0.png" width="200">
   </a><br>
   <a href="https://discord.gg/sAMzrB4DDx">Mustache Scripts Discord</a><br>
 </div>
@@ -10,26 +10,16 @@
 # Credits
 
 - I used [Samuel's development](https://fivem.samueldev.shop/) Christmas script global states and prop spawning (with permission obtained prior to release) in the development process.
-
 - Shout out to [STACHY225](https://babiczind.tebex.io/category/2103836) for working out the meth network animations!
-
 - Huge credit to [Bostra](https://discord.gg/5ncbwMNq) for sharing free scripts and providing sanity checks during moments of confusion. Those cute mushrooms? His creation!
-
 - Special thanks to [Feisty]() for the stunning visuals. If it looks good, she probably had a hand in it.
-
 - Special shoutout to [Beta Testers]()Your feedback has been invaluable!
-
 - Big Credit to [Bostra](https://discord.gg/5ncbwMNq). if you have been around you may have seen him post some free scripts and help people, There was definetly times I dm'd him saying what the fuck am I doing and he helped keep me sane. He also made the cute mushrooms!
-
 - [Jim's Tebex](https://jimathy666.tebex.io/) for putting out open source resources that I was able to break and fix and learn how to code
-
 - [jixeltay](https://jixeltay.tebex.io/category/scripts) for putting out banger after banger. These people help the community learn so much more
-
 - Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch.
-- Special Thanks To Kamaryn For The Preview
-- Thanks to Kamaryn for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd)
+- Thanks to Kamaryn for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd) join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
 
-- join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
 
 # Dependencies
 
@@ -63,9 +53,43 @@
 - delete `qb-drugs` 
 
 ### STEP 3
-- Inside the config file change **all** the locations for everything.
-	- **ps:  All locations have been changed to make a preview video easier and with how big of a script this is, Im not going to config it for every city. THESE LOCATION DO NOT DO WELL FOR A LIVE SERVER SO CHANGE THEM**
+- all locations are in the server files now utilizing callbacks to build targets
+    - shops.lua
+        - travelling merchant
+        - Weed Store
+        - Dealer Shops
+    - locations.lua
+        - holds all old config options for locations. edit what you need in here
+            - if you previously had them in the config copy and paste the <strong> INTERIOR </strong> guts of the options. example below
+                ```lua
+                    Config.MakePowder = {
+                         {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                         {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                         {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    }
+                ```
+                is now
+                ```lua
+                local Target = {
+                    MakePowder = {
+                        {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                        {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                        {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    }
+                }
+                ```
+                - see its a simple change.
+    - recipes.lua
+        - handles the vast majority of remove X get Y
+    - Cornerselling.lua
+        - now the drug table is inserted into this file. 
+            - copy and paste your data inside of the 
+            ```lua
+                local Drugs = {
 
+                }
+            ```
+    - all plant locations i.e. coke, heroin, weed, shrooms, mescaline are in the respective server files
 ### STEP 4
  - Head to your emote script search for **uncuff** if it's missing add it
     - if rpemotes do this 
