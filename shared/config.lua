@@ -6,6 +6,18 @@ Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
+Config.minigametype = 'ox' -- look above for options or choose none if you dont want any minigames 
+Config.FancyCokeAnims = false -- if you want multi location this needs to be false
+Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
+Config.Joblock = false -- if you want weed to be a job
+Config.weedjob = "" -- what the job name is
+Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
+Config.MethHeist = false
+Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
+Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
+Config.WholesaleTimeout = 600 -- time in seconds to get to the location
+Config.PoliceCount = 0 -- Amount of police required
+Config.PoliceAlertOxy = 90 -- This is a % out of 100 to alert police
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
 Config.Tier1 = 100 -- amount to hit for level 2
@@ -36,20 +48,8 @@ Config.Minigames = {
     glmath =        {timeLimit = 300000},
 }
 
-Config.minigametype = 'ox' -- look above for options or choose none if you dont want any minigames 
 
-Config.FancyCokeAnims = false -- if you want multi location this needs to be false
+--- TODO: Move these to server files
 Config.tabcost = 100 -- price per piece of tab paper event does 10 at a time
 Config.lsdlabkitcost = 10000 -- price of the lsd lab kit
 Config.heroinlabkitprice = 10000 -- price of the lsd lab kit
-Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
-Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
-Config.Joblock = false -- if you want weed to be a job
-Config.weedjob = "" -- what the job name is
-
-Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
-Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
-Config.WholesaleTimeout = 600 -- time in seconds to get to the location
-Config.PoliceCount = 0 -- Amount of police required
-Config.PoliceAlertOxy = 90 -- This is a % out of 100 to alert police
-Config.MethHeist = false

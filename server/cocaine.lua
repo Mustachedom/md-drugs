@@ -38,7 +38,7 @@ end
 RegisterNetEvent("coke:pickupCane")
 AddEventHandler("coke:pickupCane", function(loc)
 	local src = source
-	--if CheckDist(src, Config.CocaPlant[loc].location) then return end
+	if CheckDist(src, cokeplants[loc].location) then return end
     if not cokeplants[loc].taken then
         cokeplants[loc].taken = true
         GlobalState.CocaPlant = cokeplants

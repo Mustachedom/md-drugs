@@ -1,7 +1,6 @@
 QBConfig = {}
 -----------  qb-drugs update built in here below
 ----------- Everything is now a target and not displaytext. Dealers are no longer just doors, they will spawn peds where you place your dealer. This is a literally qb-drugs with SLIGHT edits. mainly added peds for deliveries, made everything a target
------------- and changed the range a ped will walk up to you to be a bigger radius. 
 
 QBConfig.MinimumDrugSalePolice = 0
 QBConfig.MarkedBills = true -- if false on both options below then it auto converts selling to give cash

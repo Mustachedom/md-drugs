@@ -117,7 +117,7 @@ end)
 RegisterServerEvent('md-drugs:server:getlabkit', function()
 	local src = source
 	local Player = getPlayer(src)
-	if CheckDist(source, vector3(Config.buylsdlabkit.x, Config.buylsdlabkit.y, Config.buylsdlabkit.z)) then return end
+	if not checkLoc(src,'singleSpot', 'buylsdlabkit') then return end
 	if Player.Functions.RemoveMoney('cash', Config.lsdlabkitcost) then
 		AddItem(src,'lsdlabkit', 1)
 		Log(GetName(src) ..' Bought A LSD Lab Kit!', 'lsd')
