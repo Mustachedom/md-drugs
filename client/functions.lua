@@ -394,7 +394,7 @@ function AddBoxZoneSingle(name, loc, data)
 	end
 end
 
-function AddBoxZoneMulti(name, table, data) 
+function AddBoxZoneMulti(name, table, data)
 	for k, v in pairs (table) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		if Config.Target == 'qb' then
@@ -557,11 +557,7 @@ end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 	Wait(3000)
-	LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
-	LoadModel('prop_plant_01a') TriggerEvent('coke:init')
-	LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
-	LoadModel('mushroom') TriggerEvent('shrooms:init')
-	LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
+	LoadModel('prop_plant_01b') LoadModel('prop_plant_01a') LoadModel('prop_cactus_03') LoadModel('mushroom') LoadModel('bkr_prop_weed_lrg_01b')
 	local check = lib.callback.await('md-drugs:server:GetRep', false)
 
 	return
@@ -569,11 +565,7 @@ end)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-		LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
-		LoadModel('prop_plant_01a') TriggerEvent('coke:init')
-		LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
-		LoadModel('mushroom') TriggerEvent('shrooms:init')
-		LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
+		LoadModel('prop_plant_01b') LoadModel('prop_plant_01a') LoadModel('prop_cactus_03') LoadModel('mushroom') LoadModel('bkr_prop_weed_lrg_01b')
     end
 end)
 local active = false
@@ -584,4 +576,12 @@ RegisterNetEvent('md-drugs:client:minusTier', function(data)
 	if not progressbar('Cutting This ' ..GetLabel(data.item) .. ' More', 4000, 'uncuff') then return end
 	TriggerServerEvent('md-drugs:server:AddMas', data)
 	active = false
+end)
+
+CreateThread(function()
+	TriggerEvent('heroin:init')
+	TriggerEvent('coke:init')
+	TriggerEvent('Mescaline:init')
+	TriggerEvent('shrooms:init')
+	TriggerEvent('weed:init')
 end)

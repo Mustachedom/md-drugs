@@ -15,15 +15,6 @@ local function createLabKit(coord, head)
     AddMultiModel(labkit, options, labkit)
 end
 
-CreateThread(function() 
-    local Ped = "g_m_y_famdnf_01"
-	lib.requestModel(Ped, Config.RequestModelTime)
-	local tabdealer = CreatePed(0, Ped,Config.buylsdlabkit.x,Config.buylsdlabkit.y,Config.buylsdlabkit.z-1, Config.buylsdlabkit.w, false, false)
-    Freeze(tabdealer, true, Config.buylsdlabkit.w)
-    AddSingleModel(tabdealer,{ type = "client", label = Lang.targets.lsd.buy, icon = "fa-solid fa-money-bill", event = "md-drugs:client:buylabkit", distance = 2.0}, tabdealer )
-end)
-
-
 RegisterNetEvent("md-drugs:client:getlysergic", function(data) 
     if not minigame() then return end
 	if not progressbar(Lang.lsd.steallys, 4000, 'uncuff') then return end

@@ -56,6 +56,7 @@ AddEventHandler('onResourceStop', function(resourceName)
 end)
 
 CreateThread(function()
+	local config = lib.callback.await('md-drugs:server:getLocs', false)
 	AddBoxZoneMulti('weeddry', Config.WeedDry, {
 		name = 'dryweed',
 		icon = "fas fa-sign-in-alt",
@@ -90,17 +91,17 @@ CreateThread(function()
 			if hasJob() then return true end end	
 	})
 
-AddBoxZoneSingle('teleinweedout', Config.Teleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Telein) end,
+AddBoxZoneSingle('teleinweedout', config.singleSpot.weedTeleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTelein) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('teleinweedin', Config.Telein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Teleout) end,
+AddBoxZoneSingle('teleinweedin', config.singleSpot.weedTelein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTeleout) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('MakeButterCrafting', Config.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
+AddBoxZoneSingle('MakeButterCrafting', config.singleSpot.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
 canInteract = function() if hasJob() then return true end end	
 }) 
 
-AddBoxZoneSingle('makeoil',Config.MakeOil, {
+AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
 	name = 'Oil',
 	icon = "fas fa-sign-in-alt",
 	label = Lang.targets.weed.oil,
@@ -156,15 +157,6 @@ end)
 RegisterNetEvent("md-drugs:client:dodabs", function()
 if not progressbar('Doing Dabs', 4000, 'bong2') then return end
 AlienEffect()
-end)
-
-CreateThread(function()
-	local current = "u_m_m_jesus_01"
-	lib.requestModel(current, Config.RequestModelTime)
-	local CurrentLocation = Config.WeedSaleman
-	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
-	Freeze(WeedGuy, true, CurrentLocation.w)
-	AddSingleModel(WeedGuy, {label = "Weed Shop",icon = "fas fa-eye", action = function() makeMenu('WeedShop') lib.showContext('WeedShop')end}, nil)
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)

@@ -82,8 +82,9 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	AddBoxZoneSingle("methTeleOut",Config.MethTeleIn, {name = 'teleout', icon = "fa-solid fa-door-open",   label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	end} )
-	AddBoxZoneSingle("methtelein",Config.MethTeleOut, {name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), Config.MethTeleIn)	end} )
+	local config = lib.callback.await('md-drugs:server:getLocs', false)
+	AddBoxZoneSingle("methTeleOut",config.singleSpot.MethTeleIn, {name = 'teleout', icon = "fa-solid fa-door-open",   label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), config.singleSpot.MethTeleOut)	end} )
+	AddBoxZoneSingle("methtelein",config.singleSpot.MethTeleOut, {name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), config.singleSpot.MethTeleIn)	end} )
 	local options = {
 		{ name = 'methcook', icon = "fa-solid fa-temperature-high", label = Lang.targets.meth.cook, distance = 2.5, action = function() 	startcook() end,
 				canInteract = function()
@@ -109,8 +110,10 @@ CreateThread(function()
 				if amonia and heated == nil then return true end end
 			})
 	if Config.MethHeist == false then
-		AddBoxZoneMulti('methep', Config.MethEph, {icon = "fas fa-sign-in-alt",	    label = Lang.targets.meth.eph, event = 'md-drugs:client:stealeph'})
-		AddBoxZoneMulti('methace', Config.Methace, {icon = "fas fa-sign-in-alt",	label = Lang.targets.meth.ace, event = 'md-drugs:client:stealace'})
+		local config = lib.callback.await('md-drugs:server:getLocs', false)
+		if not config then return end
+		AddBoxZoneMulti('methep', config.MethEph, {icon = "fas fa-sign-in-alt",	    label = Lang.targets.meth.eph, event = 'md-drugs:client:stealeph'})
+		AddBoxZoneMulti('methace', config.Methace, {icon = "fas fa-sign-in-alt",	label = Lang.targets.meth.ace, event = 'md-drugs:client:stealace'})
 	end
 end)
 

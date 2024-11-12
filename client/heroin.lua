@@ -18,15 +18,6 @@ local function pickher(loc)
     TriggerServerEvent("heroin:pickupCane", loc)
 end
 
-CreateThread(function() 
-local Ped = "g_m_y_famdnf_01"
-	lib.requestModel("g_m_y_famdnf_01", Config.RequestModelTime)
-	local labkitlocation = Config.buyheroinlabkit
-	local heroinkitdealer = CreatePed(0, Ped, labkitlocation.x, labkitlocation.y, labkitlocation.z-1, labkitlocation.w, false, false)
-    Freeze(heroinkitdealer, true, labkitlocation.w)
-    AddSingleModel(heroinkitdealer, { label = Lang.targets.heroin.kit, icon = "fa-solid fa-money-bill", event = "md-drugs:client:buyheroinlabkit", distance = 2.0}, nil )
-end)
-
 RegisterNetEvent('heroin:respawnCane', function(loc)
     local v = GlobalState.PoppyPlants[loc]
     local hash = GetHashKey(v.model)

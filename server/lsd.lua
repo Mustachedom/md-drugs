@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
-	if CheckDist(src, Config.lysergicacid[num]['loc']) then return end
+	if not checkLoc(src, 'lysergicacid', num) then return end
 	if AddItem(src,'lysergic_acid', 2) then
 		Log(GetName(src) ..' Got Lysergic acid with a distance of ' .. dist(source, Config.lysergicacid[num]['loc']) .. '!', 'lsd')
 	end
@@ -10,7 +10,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
-	if CheckDist(src, Config.diethylamide[num]['loc']) then return end
+	if not checkLoc(src, 'diethylamide', num) then return end
 	if AddItem(src,'diethylamide', 2) then 
 		Log(GetName(src) ..' Got Diethylamide with a distance of ' .. dist(source, Config.diethylamide[num]['loc']) .. '!', 'lsd')
 	end
@@ -105,7 +105,7 @@ end)
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
 	local Player = getPlayer(src)
-	if CheckDist(source, Config.gettabs[num]['loc']) then return end
+	if not checkLoc(src, 'gettabs', num) then return end
 	if Player.Functions.RemoveMoney('cash', Config.tabcost * 10) then
 		AddItem(src,'tab_paper', 10)
 		Log(GetName(src) ..' Bought Tab Paper!', 'lsd')
