@@ -391,6 +391,24 @@ function AddBoxZoneSingle(name, loc, data)
 			  canInteract = data.canInteract,
 			}
 		}, })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddInteraction({
+			coords = vector3(loc.x, loc.y, loc.z+1),
+			distance = 2.5,
+			interactDst = 2,
+			id = name,
+			options = {
+				{
+					type = data.type or nil, 
+					event = data.event or nil,
+					onSelect = data.action or nil,
+					distance = 2.5,
+					label = data.label,
+					data = data.data,
+					canInteract = data.canInteract,
+				},
+			}
+		})
 	end
 end
 
@@ -427,6 +445,25 @@ function AddBoxZoneMulti(name, table, data)
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 				}
 			}, })
+		elseif Config.Target == 'interact' then
+			exports.interact:AddInteraction({
+				coords = vector3(v.loc.x, v.loc.y, v.loc.z+1),
+				distance = 2.5,
+				interactDst = 2,
+				id = name,
+				options = {
+					{
+						type = data.type or nil, 
+						event = data.event or nil,
+						action = data.action or nil,
+						distance = 2.5,
+						label = data.label,
+						data = k,
+						canInteract = data.canInteract or function()
+							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+					},
+				}
+			})
 		end
 	end
 end
@@ -437,6 +474,8 @@ function AddBoxZoneMultiOptions(name, loc, data)
 			{ options = data, distance = 2.5})
 		elseif Config.Target == 'ox' then
 			exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = data })
+		elseif Config.Target == 'interact' then
+			exports.interact:AddInteraction({coords = vector3(loc.x, loc.y, loc.z+1),distance = 2.5,interactDst = 2,id = name,options = data})
 		end
 	end
 
@@ -448,6 +487,8 @@ function AddSingleModel(model, data, num)
 		}, distance = 2.5})
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, {icon = data.icon, label = data.label, event = data.event or nil, onSelect = data.action or nil, data = num, distance = 2.5 })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddModelInteraction({model = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugs',distance = 2.5,interactDst = 2.5, options = {label = data.label, event = data.event or nil, action = data.action or nil, data = num, distance = 2.5 }})
 	end
 end
 
@@ -463,6 +504,8 @@ function AddMultiModel(model, data, num)
 		exports['qb-target']:AddTargetEntity(model, {options = options, distance = 2.5})
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, options)
+	elseif Config.Target == 'interact' then
+		exports.interact:AddModelInteraction({model = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugsmulti',distance = 2.5,interactDst = 2.5, options = options})
 	end
 end
 
