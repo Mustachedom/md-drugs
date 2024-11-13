@@ -207,7 +207,7 @@ As well as a place to offload images and videos from fivem that doesnt rely on d
 - [Fivemerr Discord](https://discord.com/invite/fivemerr)
 - [Fivemerr Docs](https://docs.fivemerr.com/)
 
-# Radial Menu
+## Radial Menu
 - head to `qb-radial/config.lua` and search for the following event
 ```lua
      event = 'qb-drugs:client:cornerselling',
@@ -218,7 +218,7 @@ As well as a place to offload images and videos from fivem that doesnt rely on d
 ```
 
 
-# For Qb-shops users
+## For Qb-shops users
 
 - Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to OR anywhere else you want them. The Only way in this script to get them is to find the travelling merchant
 
@@ -228,7 +228,7 @@ As well as a place to offload images and videos from fivem that doesnt rely on d
 	{name = 'needle',    	price = 100,   amount = 5000, info = {}, type = 'item'},
 ```
 
-# Tier System
+## Tier System
 - Turn On Config.TierSystem after you run the sql file
 
 [mlo i use](https://www.gta5-mods.com/maps/mlo-4x-drug-lab-interiors-sp-fivem) heres an option. use it or dont. 
