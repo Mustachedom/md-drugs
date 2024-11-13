@@ -391,6 +391,24 @@ function AddBoxZoneSingle(name, loc, data)
 			  canInteract = data.canInteract,
 			}
 		}, })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddInteraction({
+			coords = vector3(loc.x, loc.y, loc.z),
+			distance = 2.5,
+			interactDst = 2,
+			id = name,
+			options = {
+				{
+					type = data.type or nil, 
+					event = data.event or nil,
+					onSelect = data.action or nil,
+					distance = 2.5,
+					label = data.label,
+					data = data.data,
+					canInteract = data.canInteract,
+				},
+			}
+		})
 	end
 end
 
@@ -427,6 +445,25 @@ function AddBoxZoneMulti(name, table, data)
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 				}
 			}, })
+		elseif Config.Target == 'interact' then
+			exports.interact:AddInteraction({
+				coords = vector3(v.loc.x, v.loc.y, v.loc.z),
+				distance = 2.5,
+				interactDst = 2,
+				id = name,
+				options = {
+					{
+						type = data.type or nil, 
+						event = data.event or nil,
+						action = data.action or nil,
+						distance = 2.5,
+						label = data.label,
+						data = k,
+						canInteract = data.canInteract or function()
+							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+					},
+				}
+			})
 		end
 	end
 end
@@ -437,6 +474,8 @@ function AddBoxZoneMultiOptions(name, loc, data)
 			{ options = data, distance = 2.5})
 		elseif Config.Target == 'ox' then
 			exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = data })
+		elseif Config.Target == 'interact' then
+			exports.interact:AddInteraction({coords = vector3(loc.x, loc.y, loc.z),distance = 2.5,interactDst = 2,id = name,options = data})
 		end
 	end
 
@@ -448,21 +487,26 @@ function AddSingleModel(model, data, num)
 		}, distance = 2.5})
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, {icon = data.icon, label = data.label, event = data.event or nil, onSelect = data.action or nil, data = num, distance = 2.5 })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugs'..model,distance = 2.5,interactDst = 2.5, options = {label = data.label, event = data.event or nil, action = data.action or nil, data = num, distance = 2.5 }})
 	end
 end
 
 function AddMultiModel(model, data, num)
+	
 	local options = {}
 	for k, v in pairs (data) do 
-		table.insert(options,{
+		options[#options + 1] = {
 			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
 			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
-		})
+		}
 	end
 	if Config.Target == 'qb' then
 		exports['qb-target']:AddTargetEntity(model, {options = options, distance = 2.5})
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, options)
+	elseif Config.Target == 'interact' then
+		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugsmulti'..model,distance = 2.5,interactDst = 2.5, options = options})
 	end
 end
 
@@ -471,6 +515,7 @@ local heading = 180.0
 function StartRay()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
+	lib.requestModel('v_ret_ml_tablea', 30000)
 	local table = CreateObject('v_ret_ml_tablea', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
         local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
@@ -514,6 +559,7 @@ end
 function StartRay2()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
+	lib.requestModel('v_ret_ml_tablea', 30000)
 	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
         local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)

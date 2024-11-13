@@ -65,62 +65,67 @@ RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(item, amount)
     end
 end)
 
--- Commands
-QBCore.Commands.Add("newdealer", "Place a dealer (Admin Only)", {{ name = "name", help = "Dealer name"},  { name = "min", help = "Minimum Time"}, {name = "max", help = "Maximum Time"}}, true, function(source, args)
+lib.addCommand("newdealer", {
+    help = "Place a dealer (Admin Only)",
+    params = {
+        { name = "name", help = "Dealer Name", type = "string" },
+        { name = "min", help = "Minimum Time", type = "number" },
+        { name = "max", help = "Maximum Time", type = "number" }
+    },
+    restricted = "admin"
+}, function(source, args)
     local ped = GetPlayerPed(source)
     local coords = GetEntityCoords(ped)
     local Player = getPlayer(source)
     if not Player then return end
-    local dealerName = args[1]
-    local minTime = tonumber(args[2])
-    local maxTime = tonumber(args[3])
+
+    local dealerName = args.name
+    local minTime = args.min
+    local maxTime = args.max
     local time = json.encode({min = minTime, max = maxTime})
     local pos = json.encode({x = coords.x, y = coords.y, z = coords.z})
-    local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', {dealerName})
-    if result then return TriggerClientEvent('QBCore:Notify', source, "Already Exists", "error") end
-    MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {dealerName, pos, time, Player.PlayerData.citizenid}, function()
+    
+    local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', { dealerName })
+    if result then
+        return Notifys(source,"Already Exists", "error")
+    end
+
+    MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {
+        dealerName, pos, time, Player.PlayerData.citizenid
+    }, function()
         QBConfig.Dealers[dealerName] = {
-            ["name"] = dealerName,
-            ["coords"] = {
-                ["x"] = coords.x,
-                ["y"] = coords.y,
-                ["z"] = coords.z,
+            name = dealerName,
+            coords = {
+                x = coords.x,
+                y = coords.y,
+                z = coords.z,
+                h = GetEntityHeading(ped)
             },
-            ["time"] = {
-                ["min"] = minTime,
-                ["max"] = maxTime
+            time = {
+                min = minTime,
+                max = maxTime
             },
-            ["products"] = QBConfig.Products
         }
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
     end)
-end, "admin")
+end)
 
-QBCore.Commands.Add("deletedealer", "Delete a dealer (Admin Only)", {{
-    name = "name",
-    help = "Dealer Name"
-}}, true, function(source, args)
-    local dealerName = args[1]
-    local result = MySQL.scalar.await('SELECT * FROM dealers WHERE name = ?', {dealerName})
+lib.addCommand("deletedealer", {
+    help = "Delete a dealer (Admin Only)",
+    params  = {
+        { name = "name", help = "Dealer Name", type = "string" }
+    },
+    restricted = 'group.admin'
+}, function(source, args)
+    local dealerName = args.name
+    local result = MySQL.scalar.await('SELECT * FROM dealers WHERE name = ?', { dealerName })
+
     if result then
-        MySQL.query('DELETE FROM dealers WHERE name = ?', {dealerName})
+        MySQL.query('DELETE FROM dealers WHERE name = ?', { dealerName })
         QBConfig.Dealers[dealerName] = nil
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
-        TriggerClientEvent('QBCore:Notify', source, "Dealer Deleted" , "success")
+        TriggerClientEvent('QBCore:Notify', source, "Dealer Deleted", "success")
     else
         TriggerClientEvent('QBCore:Notify', source, "Who You Tryna Delete", "error")
     end
-end, "admin")
-
-RegisterServerEvent("md-drugs:server:Dealershop", function(amount, value, item,  info)
-	local src = source 
-    local Player = getPlayer(src)
-	local balance = Player.Functions.GetMoney(tostring(value)) 
-	if Player.Functions.RemoveMoney(tostring(value), tonumber(info) * tonumber(amount)) then
-		TriggerClientEvent('inventory:client:ItemBox', src, item.name, "add", amount)
-		Player.Functions.AddItem(item, amount)
-	else
-		TriggerClientEvent('QBCore:Notify', source,  "Can't give item!", "error")
-	end
-
 end)

@@ -3,7 +3,7 @@ local sell = false
 local sold = false
 local targbusy = false
 local inZone = false
-
+local active = false
 local function reset(targ)
     FreezeEntityPosition(targ, false)
     ClearPedTasks(targ)
@@ -11,6 +11,7 @@ local function reset(targ)
     DeletePed(targ)
     targbusy = false
     sold = true
+    active = false
 end
 
 local function sellDrug(item, amount, price, targ)
@@ -33,30 +34,30 @@ local function deny(targ)
 end
 
 function Cornersell()
+    if active then return false end
     local targ = lib.GetClosestPed(GetEntityCoords(PlayerPedId()), 8)
     if targ == nil then return end
     if IsPedInAnyVehicle(targ, false) or GetEntityHealth(targ) == 0 or not IsPedHuman(targ) then return end
+    local data = lib.callback.await('md-drugs:server:cornerselling:getAvailableDrugs', false, targ)
+    if data.item == 'nothing' then Notify(Lang.Cornerselling.nodrugs, 'error') sell = false  FreezeEntityPosition(targ, false)  ClearPedTasks(targ) active = false return false end
     TaskGoToCoordAnyMeans(targ, GetEntityCoords(PlayerPedId()), 1.0, 0, 0, 0, 0)
+    active = true
     repeat
         Wait(1000)
     until #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(targ)) < 2.0
     lib.requestAnimDict("rcmme_tracey1")
     TaskStartScenarioInPlace(targ, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false) FreezeEntityPosition(targ, true)
-    local item, amount, price = lib.callback.await('md-drugs:server:cornerselling:getAvailableDrugs', false)
-        if item == 'nothing' then Notify(Lang.Cornerselling.nodrugs, 'error') sell = false  FreezeEntityPosition(targ, false)  ClearPedTasks(targ) return false end
-            local options = { 
-                { label = string.format(Lang.targets.CornerSell.sell, amount, GetLabel(item), price), icon ="fa-solid fa-money-bill",
-                    action =   function() sellDrug(item, amount, price, targ) end,
-                    canInteract = function()
-                        if not targbusy then return true end end,
-                },
-                { label = Lang.targets.CornerSell.deny, icon = "fa-solid fa-person-harassing",
-                    action =    function() deny(targ) end,
-                    canInteract = function()
-                        if not targbusy then return true end end,
-                },
-            }
-            AddMultiModel(targ, options, nil)
+    AddMultiModel(data.ped, {
+        { label = string.format(Lang.targets.CornerSell.sell, data.amount, GetLabel(data.item), data.price), icon ="fa-solid fa-money-bill",
+            action =   function() sellDrug(data.item, data.amount, data.price, targ) end,
+            canInteract = function()
+                if not targbusy then return true end end,
+        },
+        { label = Lang.targets.CornerSell.deny, icon = "fa-solid fa-person-harassing",
+            action =    function() deny(targ) end,
+            canInteract = function()
+            if not targbusy then return true end end,
+        }}, nil)
     repeat
         Wait(1000)
     until sold
@@ -66,17 +67,19 @@ end
 RegisterNetEvent('md-drugs:client:cornerselling', function()
     if not GetCops(QBConfig.MinimumDrugSalePolice) then return end
     if inZone then Notify(Lang.Cornerselling.no, 'error') return end
-    local item, amount, price = lib.callback.await('md-drugs:server:cornerselling:getAvailableDrugs', false)
-    if item ~= 'nothing' then
+    local has = lib.callback.await('md-drugs:server:hasDrugs', false)
+    if has then
         if sell then
+            TriggerServerEvent('md-drugs:server:cornerselling:stop')
             Notify(Lang.Cornerselling.stop, 'error')
             sell = false
+            active = false
         else
             sell = true
             Notify(Lang.Cornerselling.start, 'success')
             repeat
                 Wait(1000)
-                if not Cornersell() then end
+                Cornersell()
             until not sell
         end
     else
@@ -89,4 +92,8 @@ for k, v in pairs (QBConfig.NoSellZones) do
     local box = lib.zones.box({ coords = v.loc, size = vec3(v.width, v.length, v.height), rotation = 180.0, debug = false,
     onEnter = function() inZone = true end, onExit = function() inZone = false end})
 end
+end)
+
+RegisterNetEvent('md-drugs:client:cornerselling:remove', function(ped)
+DeletePed(ped)
 end)

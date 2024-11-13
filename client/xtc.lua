@@ -10,7 +10,7 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
 	    progressbar('Setting Press On The Ground', 4000, 'uncuff')
 	    local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	    PlaceObjectOnGroundProperly(press)
-      SetEntityHeading(press, head)
+      Freeze(press, true, head)
         local options = {
             { icon = "fas fa-eye", label = Lang.targets.xtc.make, distance = 2.0, action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end, 
             canInteract = function() if xtcpress then return true end end

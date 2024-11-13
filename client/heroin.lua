@@ -6,11 +6,10 @@ local herointable = false
     local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false,false)
     SetEntityHeading(heroinlabkit, head)
     PlaceObjectOnGroundProperly(heroinlabkit)
-    local  options = {
+    AddMultiModel(heroinlabkit, {
         { event = "md-drugs:client:heatliquidheroin", icon = "fa-solid fa-temperature-high", label = Lang.targets.heroin.cook, data = heroinlabkit},
-        { event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.up,   data = heroinlabkit, canInteract = function() if herointable then return true end end},
-     }
-    AddMultiModel(heroinlabkit, options, heroinlabkit)
+        { event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.up,   data = heroinlabkit, canInteract = function() if herointable then return true end end}},
+    heroinlabkit)
 end
 
 local function pickher(loc)

@@ -8,13 +8,13 @@ local Target = {
         {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     BaggingCoke = { -- only active if Config.FancyCokeAnims = false
-        {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(1093.16, -3195.78, -39.19), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     makecrack = { -- make crack with baking soda with cut coke 1-3
-        {loc = vector3(2434.07, 4969.39, 42.35), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2433.47, 4970.02, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     bagcrack = {  ---  bag crack 1-3 stages
-        {loc = vector3(2435.85, 4965.3, 42.35), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2436.55, 4964.96, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     lysergicacid = { -- get lysergic acid
         {loc = vector3(-1381.21, -327.75, 39.85), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
@@ -54,7 +54,7 @@ local Target = {
     },
     singleSpot = {
         cutcoke = vector3(1093.17, -3195.74, -39.19),
-        bagcokepowder = vector3(1090.29, -3195.66, -39.13),
+        bagcokepowder = vector3(1090.28, -3195.65, -39.19),
         CokeTeleIn = vector3(198.16, -1276.92, 29.33), -- where you target to go inside coke
         CokeTeleOut =  vector3(1088.81, -3187.57, -38.99), -- where you target to leave coke
         buylsdlabkit = vector4(2598.47, 5033.06, 105.86, 283.51), --  buy lab kit for lsd
