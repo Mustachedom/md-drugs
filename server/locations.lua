@@ -92,8 +92,8 @@ local Target = {
     },
     Travellingmerchant = { -- where the travelling merchant can spawn
         vector4(-119.66, -977.43, 304.25, 88.21),
-        vector4(-1522.93, 1476.01, 111.45, 41.25),
-        vector4(-3278.98, 973.38, 5.35, 101.53),
+	    vector4(-1522.93, 1476.01, 111.45, 41.25),
+	    vector4(-3278.98, 973.38, 5.35, 101.53),
     },
     oxylocations = {
         vector4(-2352.32, 266.78, 165.3, 23.46),

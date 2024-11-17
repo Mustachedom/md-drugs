@@ -1,5 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local prices = {
+	heroinlabkitprice = 10000
+}
 local h = {
 	{ location = vector3(-2251.3, -99.18, 100.11),    heading = 334.49,    model = "prop_plant_01b"},
     { location = vector3(-2249.63, -92.97, 101.8),    heading = 329.56,    model = "prop_plant_01b"},
@@ -64,17 +66,17 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 		local heroin = getRep(src, 'heroin')
 		if heroin <= Config.Tier1 then
 			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier1') then return end
-			Log(GetName(src) ..' Made Heroin Powder With a distance of ' .. dist(source, Config.dryplant[num]['loc']) .. ' vectors', 'heroin')
+			Log(GetName(src) ..' Made Heroin Powder', 'heroin')
 		elseif heroin >= Config.Tier1 and heroin <= Config.Tier2 then
 			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier2') then return end
-			Log(GetName(src) ..' Made Heroin Powder Tier 2 With a distance of ' .. dist(source, Config.dryplant[num]['loc']) .. ' vectors', 'heroin')
+			Log(GetName(src) ..' Made Heroin Powder Tier 2', 'heroin')
 		else
 			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier3') then return end
-			Log(GetName(src) ..' Made Heroin Powder  Tier 3 With a distance of ' .. dist(source, Config.dryplant[num]['loc']) .. ' vectors', 'heroin')
+			Log(GetName(src) ..' Made Heroin Powder  Tier 3', 'heroin')
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'dryheroin', 'tier1') then return end
-		Log(GetName(src) ..' Made Heroin Powder With a distance of ' .. dist(source, Config.dryplant[num]['loc']) .. ' vectors', 'heroin')
+		Log(GetName(src) ..' Made Heroin Powder With a distance of', 'heroin')
 	end
 end)
 
@@ -90,19 +92,19 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 		local rawh3 = Player.Functions.GetItemByName('heroinstagethree')
 		if rawh then
 			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
-			Log(GetName(src) ..' Cut Heroin With a distance of ' .. dist(source, Config.cutheroinone[num]['loc']) .. ' vectors', 'heroin')
+			Log(GetName(src) ..' Cut Heroin With a distance of', 'heroin')
 		elseif rawh2 then
 			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier2') then return end
-			Log(GetName(src) ..' Cut Heroin Tier 2 With a distance of ' .. dist(source, Config.cutheroinone[num]['loc']) .. ' vectors', 'heroin')
+			Log(GetName(src) ..' Cut Heroin Tier 2 With a distance of', 'heroin')
 		elseif rawh3 then
 			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier3') then return end
-			Log(GetName(src) .. ' Cut Heroin Tier 3 With a distance of ' .. dist(source, Config.cutheroinone[num]['loc']) .. ' vectors', 'heroin')
+			Log(GetName(src) .. ' Cut Heroin Tier 3 With a distance of', 'heroin')
 		else
 			Notifys(src, Lang.Heroin.noheroin, "error")
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
-		Log(GetName(src) ..' Cut Heroin With a distance of ' .. dist(source, Config.cutheroinone[num]['loc']) .. ' vectors', 'heroin')
+		Log(GetName(src) ..' Cut Heroin With a distance of', 'heroin')
 	end
 end)
 
@@ -110,11 +112,11 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	local src = source
 	local Player = getPlayer(src)
 	if not checkLoc(source, 'singleSpot', 'buyheroinlabkit') then return end
-	if Player.Functions.RemoveMoney('cash', Config.heroinlabkitprice) then
+	if Player.Functions.RemoveMoney('cash', prices.heroinlabkitprice) then
 		AddItem(src, 'heroinlabkit', 1)
-		Log(GetName(src) ..' Bought A Heroin lab Kit ' .. dist(source, vector3(Config.buyheroinlabkit.x,Config.buyheroinlabkit.y,Config.buyheroinlabkit.z)) .. ' vectors', 'heroin')
+		Log(GetName(src) ..' Bought A Heroin lab Kit', 'heroin')
 	else
-		Notifys(src, 'You Need '.. Config.heroinlabkitprice .. ' In Cash For This', 'error')
+		Notifys(src, 'You Need '.. prices.heroinlabkitprice .. ' In Cash For This', 'error')
 	end
 end)
 

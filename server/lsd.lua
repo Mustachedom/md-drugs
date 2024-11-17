@@ -1,10 +1,13 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local prices = {
+	tabcost = 100, -- price per piece of tab paper event does 10 at a time
+	lsdlabkitcost = 10000 -- price of the lsd lab kit
+}
 RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
 	if not checkLoc(src, 'lysergicacid', num) then return end
 	if AddItem(src,'lysergic_acid', 2) then
-		Log(GetName(src) ..' Got Lysergic acid with a distance of ' .. dist(source, Config.lysergicacid[num]['loc']) .. '!', 'lsd')
+		Log(GetName(src) ..' Got Lysergic acid!', 'lsd')
 	end
 end)
 
@@ -12,7 +15,7 @@ RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
 	if not checkLoc(src, 'diethylamide', num) then return end
 	if AddItem(src,'diethylamide', 2) then 
-		Log(GetName(src) ..' Got Diethylamide with a distance of ' .. dist(source, Config.diethylamide[num]['loc']) .. '!', 'lsd')
+		Log(GetName(src) ..' Got diethylamide!', 'lsd')
 	end
 end)
 
@@ -106,7 +109,7 @@ RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
 	local Player = getPlayer(src)
 	if not checkLoc(src, 'gettabs', num) then return end
-	if Player.Functions.RemoveMoney('cash', Config.tabcost * 10) then
+	if Player.Functions.RemoveMoney('cash', prices.tabcost * 10) then
 		AddItem(src,'tab_paper', 10)
 		Log(GetName(src) ..' Bought Tab Paper!', 'lsd')
 	else
@@ -118,7 +121,7 @@ RegisterServerEvent('md-drugs:server:getlabkit', function()
 	local src = source
 	local Player = getPlayer(src)
 	if not checkLoc(src,'singleSpot', 'buylsdlabkit') then return end
-	if Player.Functions.RemoveMoney('cash', Config.lsdlabkitcost) then
+	if Player.Functions.RemoveMoney('cash', prices.lsdlabkitcost) then
 		AddItem(src,'lsdlabkit', 1)
 		Log(GetName(src) ..' Bought A LSD Lab Kit!', 'lsd')
 	else

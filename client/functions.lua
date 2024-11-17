@@ -180,6 +180,7 @@ function minigame()
 function GetImage(img)
     if GetResourceState('ox_inventory') == 'started' then
         local Items = exports['ox_inventory']:Items()
+		if not Items[img] then print(' You Are Missing: ' .. img .. ' From Your ox items.lua') return end
         local itemClient = Items[img] and Items[img]['client']
         if itemClient and itemClient['image'] then
             return itemClient['image']
@@ -196,6 +197,7 @@ function GetImage(img)
         ['core_inventory'] = "nui://core_inventory/html/img/"
     }
     for k, v in pairs(invs) do
+		if not QBCore.Shared.Items[img] then print(' You Are Missing: ' .. img .. ' From Your QB items.lua') return end
         if GetResourceState(k) == 'started' then
             return v .. QBCore.Shared.Items[img].image
         end
@@ -205,8 +207,10 @@ end
 function GetLabel(label)
 	if GetResourceState('ox_inventory') == 'started' then
 		local Items = exports['ox_inventory']:Items()
+		if not Items[img] then print(' You Are Missing: ' .. img .. ' From Your ox items.lua') return end
 		return Items[label]['label']
 	else
+		if QBCore.Shared.Items[label] == nil then print("There Is No " .. label .. " In Your QB Items.lua") return end
 		return QBCore.Shared.Items[label]['label']
 	end
 end
