@@ -72,7 +72,7 @@ RegisterNetEvent("md-drugs:client:heatliquid", function(data)
 		PlaceObjectOnGroundProperly(dirtylabkit)
         SetParticleFxLoopedAlpha(exitPtfx, 3.0)
         Wait(100)
-        AddMultiModel(dirtylabkit, {   event = "md-drugs:client:cleanlabkit",   icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = dirtylabkit}, nil )
+        AddMultiModel(dirtylabkit, {{event = "md-drugs:client:cleanlabkit",   icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = dirtylabkit}}, nil )
         return end
     if not progressbar(Lang.lsd.heat, 7000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:heatliquid")
