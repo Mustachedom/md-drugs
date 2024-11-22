@@ -11,7 +11,7 @@ local Target = {
         {loc = vector3(1093.16, -3195.78, -39.19), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     makecrack = { -- make crack with baking soda with cut coke 1-3
-        {loc = vector3(2434.07, 4969.39, 42.35), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2433.47, 4970.02, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     bagcrack = {  ---  bag crack 1-3 stages
         {loc = vector3(2436.55, 4964.96, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
@@ -92,8 +92,8 @@ local Target = {
     },
     Travellingmerchant = { -- where the travelling merchant can spawn
         vector4(-119.66, -977.43, 304.25, 88.21),
-	    vector4(-1522.93, 1476.01, 111.45, 41.25),
-	    vector4(-3278.98, 973.38, 5.35, 101.53),
+        vector4(-1522.93, 1476.01, 111.45, 41.25),
+        vector4(-3278.98, 973.38, 5.35, 101.53),
     },
     oxylocations = {
         vector4(-2352.32, 266.78, 165.3, 23.46),
