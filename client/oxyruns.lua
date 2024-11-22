@@ -15,8 +15,9 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:client:getoxylocationroute", function() 
-    local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
+RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
+	local config = lib.callback.await('md-drugs:server:getLocs', false)
+    local CurrentLocation = config.oxylocations[math.random(#config.oxylocations)]
 	if CurrentLocation ~= nil then
     	SetNewWaypoint(CurrentLocation.x, CurrentLocation.y)
 		local current = "g_m_y_famdnf_01"

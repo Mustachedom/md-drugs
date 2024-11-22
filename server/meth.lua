@@ -30,7 +30,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:geteph', function(num)
 	local src = source
-	if CheckDist(src, Config.MethEph[num]['loc']) then return end
+	if not checkLoc(src, 'MethEph', num) then return end
 	if AddItem(src, 'ephedrine', 1) then
 		Notifys(src, 'Got Ephedrine!', "success")
 		Log(GetName(src) .. ' Got ' .. 1 .. 'Of Ephedrine', 'Meth')
@@ -39,7 +39,7 @@ end)
 	
 RegisterServerEvent('md-drugs:server:getace', function(num)
 	local src = source
-	if CheckDist(src, Config.Methace[num]['loc']) then return end
+	if not checkLoc(src, 'Methace', num) then return end
 	if AddItem(src, 'acetone', 1) then
 		Log(GetName(src) .. ' Got ' .. 1 .. 'Of Acetone', 'Meth')
 		Notifys(src, 'Got Acetone!', "success")
