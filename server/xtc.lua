@@ -40,6 +40,7 @@ local check, loc = lib.callback.await('md-drugs:client:setpress', src, v.data)
 			})
 		end
 	end
+	print(json.encode(activePresses))
 end)
 end
 
@@ -237,4 +238,15 @@ RegisterServerEvent('md-drugs:server:stampblue', function(num)
 	  else 
 		  Notifys('You Dont Have Unstamped blue Pills', 'error')
 	  end
+end)
+
+AddEventHandler('playerDropped', function()
+	local src = source
+	local Player = getPlayer(src)
+	for k, v in pairs (activePresses) do
+		if v.ownerid == Player.PlayerData.citizenid then
+			table.remove(activePresses, k)
+			AddItem(src, v.get, 1)
+		end
+	end
 end)

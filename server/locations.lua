@@ -69,7 +69,7 @@ local Target = {
         WeedSaleman = vector4(1030.77, -3203.18, -38.2, 262.37), -- where the weed saleman is
         MethTeleIn = vector3(-2222.04, 303.99, 174.6),  -- where you target to tele in meth
         MethTeleOut = vector3(996.91, -3200.83, -36.39),  -- where you target to tele out meth
-        MethHeistStart = vector3(-1102.93, -3066.76, 14.00), -- where you get the mission to get ingridients if meth heist = true
+        MethHeistStart = vector4(-1520.84, 827.72, 181.66, 184.13), -- where you get the mission to get ingridients if meth heist = true
         truckspawn = vector4(1450.87, -1482.13, 63.22, 69.95), --- where the truck will spawn when you pay for it 
         Payfortruck = vector3(1437.64, -1491.91, 63.62), --- where you pay for the truck
     },

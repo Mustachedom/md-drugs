@@ -2,6 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local prices = {
 	heroinlabkitprice = 10000
 }
+local heroinLabKits = {}
 local h = {
 	{ location = vector3(-2251.3, -99.18, 100.11),    heading = 334.49,    model = "prop_plant_01b"},
     { location = vector3(-2249.63, -92.97, 101.8),    heading = 329.56,    model = "prop_plant_01b"},
@@ -17,6 +18,7 @@ local h = {
     { location = vector3(-2250.96, -111.22, 97.50),   heading = 21.52,     model = "prop_plant_01b"},
     { location = vector3(465.95, -1021.32, 31.78),    heading = 21.52,     model = "prop_plant_01b"},
 }
+
 GlobalState.PoppyPlants = h
 Citizen.CreateThread(function()
     for _, v in pairs(h) do
@@ -110,28 +112,55 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
-local src = source
-local Player = getPlayer(src)
-	if AddItem(src, "heroinlabkit", 1) then
+local function hasHKit(src)
+	local src = source
+	local Player = getPlayer(src)
+	for k, v in pairs(heroinLabKits) do
+		if v.ownerid == Player.PlayerData.citizenid then
+			return true
+		end
 	end
+	return false
+end
+
+RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
+	local src = source
+	local Player = getPlayer(src)
+	if not hasHKit(src) then return end
+	for k, v in pairs (heroinLabKits) do
+		if v.ownerid == Player.PlayerData.citizenid then
+			table.remove(heroinLabKits, k)
+			AddItem(src, 'heroinlabkit', 1)
+		end
+	end
+	print(json.encode(heroinLabKits))
 end)
 
+
 QBCore.Functions.CreateUseableItem('heroinlabkit', function(source, item)
-local src = source
-local Player = getPlayer(src)
+	local src = source
+	local Player = getPlayer(src)
 	if not Itemcheck(source, 'heroinlabkit', 1) then return end
-	if TriggerClientEvent("md-drugs:client:setheroinlabkit", src) then
-		RemoveItem(src, "heroinlabkit", 1)
-		Log(GetName(src) ..' Placed Their Heroin Lab Kit Back At ' .. GetCoords(src) .. '!', 'heroin')
+	local placed, loc = lib.callback.await('md-drugs:client:setheroinlabkit', src)
+	if placed then 
+		RemoveItem(src, 'heroinlabkit', 1)
+		table.insert(heroinLabKits, {
+			src = src, 
+			ownerid = Player.PlayerData.citizenid,
+			coords = loc,
+			name = GetName(src)
+		})
+		Notifys(src, Lang.Heroin.placed, "success")
 	end
+	print(json.encode(heroinLabKits))	
 end)
 
 
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 local src = source
-local Player = getPlayer(src)
+local Player = getPlayer(src) 
+	if not hasHKit(src) then return end
 	if not Itemcheck(source, 'emptyvial', 1) then return end
 	if Config.TierSystem then
 		local cuth = Player.Functions.GetItemByName('heroincut')
@@ -154,6 +183,7 @@ end)
 RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 local src = source
 local Player = getPlayer(src)
+if not hasHKit(src) then return end
 local cuth = Player.Functions.GetItemByName('heroincut')
 local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
 local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
@@ -216,3 +246,14 @@ RegisterServerEvent('md-drugs:server:failheroin', function()
 	end
 end)
 
+AddEventHandler('playerDropped', function()
+	local src = source
+	local Player = getPlayer(src)
+	for k, v in pairs(heroinLabKits) do
+		if v.src == src then
+			table.remove(heroinLabKits, k)
+			AddItem(src, 'heroinlabkit', 1)
+		end
+	end
+	json.encode(heroinLabKits)
+end)

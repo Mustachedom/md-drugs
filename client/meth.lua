@@ -115,25 +115,6 @@ CreateThread(function()
 	end
 end)
 
-CreateThread(function()
-if not Config.MethHeist == false then
-	local current = "g_m_y_famdnf_01"
-	lib.requestModel(current, Config.RequestModelTime)
-	local CurrentLocation = Config.MethHeistStart
-	local methdealer = CreatePed(0, current, CurrentLocation.x, CurrentLocation.y, CurrentLocation.z - 1, false, false)
-	Freeze(methdealer, true, 220.0)
-	Wait(100)
-	AddSingleModel(methdealer,{
-		label = Lang.targets.meth.mission,
-		icon = "fas fa-eye",
-		action = function()
-			Notify(Lang.meth.mission, "success")
-			SpawnMethCarPedChase()
-		end,
-	},nil )
-end
-end)
-
 RegisterNetEvent("md-drugs:client:stealeph", function(data)
 	if not progressbar('Stealing Ephedrine', 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:geteph", data.data)

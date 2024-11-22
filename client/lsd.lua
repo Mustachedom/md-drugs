@@ -28,17 +28,19 @@ RegisterNetEvent("md-drugs:client:getdiethylamide", function(data)
     TriggerServerEvent('md-drugs:server:getdiethylamide', data.data)
 end)
 
-RegisterNetEvent("md-drugs:client:setlsdlabkit", function()
-if tableout then 
-    Notify(Lang.lsd.tableout, 'error')
-    TriggerServerEvent('md-drugs:server:getlabkitback')
-else
-    tableout = true
-    local loc, head = StartRay()
-    if not loc then tableout = false TriggerServerEvent('md-drugs:server:getlabkitback') return end
-	if not progressbar(Lang.lsd.place, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getlabkitback') return end
-	createLabKit(loc, head)
-end
+
+lib.callback.register("md-drugs:client:setlsdlabkit", function()
+    if tableout then 
+        Notify(Lang.lsd.tableout, 'error')
+        return false
+    else
+        tableout = true
+        local loc, head = StartRay()
+        if not loc then tableout = false return end
+        if not progressbar(Lang.lsd.place, 4000, 'uncuff') then return end
+        createLabKit(loc, head)
+        return true, loc
+    end
 end)
 
 RegisterNetEvent("md-drugs:client:getlabkitback", function(data) 
@@ -63,22 +65,22 @@ RegisterNetEvent("md-drugs:client:heatliquid", function(data)
 		PlaceObjectOnGroundProperly(dirtylabkit)
         SetParticleFxLoopedAlpha(exitPtfx, 3.0)
         Wait(100)
-        AddMultiModel(dirtylabkit, {   event = "md-drugs:client:cleanlabkit",   icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = dirtylabkit}, nil )
+        AddSingleModel(dirtylabkit, {icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = dirtylabkit,
+        action = function()
+            if not ItemCheck('cleaningkit')  then return end
+            if not progressbar(Lang.lsd.clean, 4000, 'clean') then return end
+            local check = lib.callback.await('md-drugs:server:removecleaningkit')
+            if check then 
+                DeleteObject(dirtylabkit)
+                createLabKit(PedCoords, head)
+            end
+        end
+        }, nil )
         return end
     if not progressbar(Lang.lsd.heat, 7000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:heatliquid")
 end)
 
-RegisterNetEvent("md-drugs:client:cleanlabkit", function(data)
-    if not ItemCheck('cleaningkit')  then return end
-    if not progressbar(Lang.lsd.clean, 4000, 'clean') then return end
-    local check = lib.callback.await('md-drugs:server:removecleaningkit')
-    if check then 
-        local coord, head = GetEntityCoords(data.data), GetEntityHeading(data.data)
-        DeleteObject(data.data)
-        createLabKit(coord, head)
-	end
-end)
 
 RegisterNetEvent("md-drugs:client:refinequalityacid", function()
     if not ItemCheck('lsd_one_vial')  then return end 

@@ -71,15 +71,17 @@ RegisterNetEvent("md-drugs:client:buyheroinlabkit", function()
 	TriggerServerEvent("md-drugs:server:getheroinlabkit")
 end)
 
-RegisterNetEvent("md-drugs:client:setheroinlabkit", function() 
+lib.callback.register("md-drugs:client:setheroinlabkit", function() 
     if herointable then   
        Notify(Lang.Heroin.tableout, 'error')
+       return false
     else
         herointable = true
         local location, head = StartRay()
-        if not location then herointable = false TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
-        if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getheroinlabkitback') return end
+        if not location then herointable = false return end
+        if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then return end
     	createLabKit(location, head)
+        return true, location
     end
 end)
 
