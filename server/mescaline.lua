@@ -45,7 +45,6 @@ RegisterNetEvent("Mescaline:pickupCane", function(loc)
         TriggerClientEvent("Mescaline:removeCane", -1, loc)
         MescalineCooldown(loc)
         AddItem(source,'cactusbulb', 1)
-        Log(GetName(source) .. ' Picked Cactus Bulbs With a distance of ' .. dist(source, m[loc].location) .. ' vectors', 'mescaline')
     end
 end)
 
@@ -53,7 +52,6 @@ RegisterNetEvent("md-drugs:server:drymescaline", function()
     local src = source
     if not checkLoc(src, 'singleSpot', 'DryOut') then return end
     if not GetRecipe(src, 'mescaline', 'dry', 'dried') then return end
-    Log(GetName(source) .. ' Dried Mescaline', 'mescaline')
 end)
 
 QBCore.Functions.CreateUseableItem("driedmescaline", function(source, item)

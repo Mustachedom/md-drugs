@@ -45,7 +45,6 @@ AddEventHandler("coke:pickupCane", function(loc)
         TriggerClientEvent("coke:removeCane", -1, loc)
         CaneCooldown(loc)
         AddItem(src, 'coca_leaf', 1)
-		--Log(GetName(src) .. ' Picked A Coca Leaf With a distance of ' .. dist(src, Config.CocaPlant[loc].location) .. ' vectors', 'coke')
     end
 end)
 
@@ -65,7 +64,6 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
         end
     end
     if not GetRecipe(src, 'cocaine', 'cokepowder', tier) then return end
-    Log(GetName(src) .. logMessage .. dist(src, Config.MakePowder[num]['loc']) .. ' vectors', 'coke')
 end)
 
 RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
@@ -94,7 +92,6 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
         if not GetRecipe(src, 'cocaine', 'cutcoke', tier) then return end
     else
         if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
-        Log(GetName(src) .. ' Cut Coke', 'coke')
     end
 end)
 
@@ -126,7 +123,6 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
         AddRep(src, 'coke')
     else
         if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
-        Log(GetName(src) .. ' Bagged Coke', 'coke')
     end
 end)
 

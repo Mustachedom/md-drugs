@@ -123,8 +123,10 @@ function checkLoc(source, event, num)
     end
     local dist = #(coord - loc)
     if dist < 2.5 then
+        Log(GetName(source) .. ' Triggered the table ' .. event .. ' Within The Correct Distance', 'locations')
         return true
     else
+        Log(GetName(source) .. ' Triggered the table ' .. event .. ' Not Within The Correct Distance', 'locations')
         Notifys(source, 'You are not in the correct location', 'error')
         return false
     end

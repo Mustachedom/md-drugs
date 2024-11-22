@@ -318,38 +318,6 @@ function sortTab(tbl, type)
     end)
 end
 
-function ChecknRemove(source, table) 
-    local Player = getPlayer(source) 
-    local hass = 0
-    local need = 0
-    for k, v in pairs (table) do
-        need = need + 1 
-        if inventory == 'qb' then
-            local itemchecks = Player.Functions.GetItemByName(k)
-            if itemchecks and itemchecks.amount >= v then
-                hass = hass + 1
-            else 
-                Notifys(source, 'You Need ' .. v .. ' Of ' .. GetLabels(k)  .. ' To Do this', 'error')
-            end
-        elseif inventory == 'ox' then
-             local items = exports.ox_inventory:GetItem(source, k, nil, false) 
-       		 if items.count >= v then 
-                  	hass = hass + 1
-       		 else
-            		Notifys(source, 'You Need ' .. v .. ' Of ' .. GetLabels(k) .. ' To Do This', 'error')
-        	end
-        end
-    end
-    if hass == need then 
-        for k, v in pairs (table) do 
-            RemoveItem(source, k, v) 
-        end
-        return true
-    else
-        return false
-    end
-end
-
 lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
     local amount = 0
     local players = QBCore.Functions.GetQBPlayers()

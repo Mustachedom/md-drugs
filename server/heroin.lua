@@ -54,7 +54,6 @@ RegisterServerEvent("heroin:pickupCane", function(loc)
         TriggerClientEvent("heroin:removeCane", -1, loc)
         heroinCooldown(loc)
         AddItem(source, 'poppyresin', 1)
-        Log(GetName(source) .. ' Picked A Poppies With a distance of ' .. dist(source, h[loc].location) .. ' vectors', 'heroin')
     end
 end)
 
@@ -66,17 +65,13 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 		local heroin = getRep(src, 'heroin')
 		if heroin <= Config.Tier1 then
 			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier1') then return end
-			Log(GetName(src) ..' Made Heroin Powder', 'heroin')
 		elseif heroin >= Config.Tier1 and heroin <= Config.Tier2 then
 			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier2') then return end
-			Log(GetName(src) ..' Made Heroin Powder Tier 2', 'heroin')
 		else
 			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier3') then return end
-			Log(GetName(src) ..' Made Heroin Powder  Tier 3', 'heroin')
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'dryheroin', 'tier1') then return end
-		Log(GetName(src) ..' Made Heroin Powder With a distance of', 'heroin')
 	end
 end)
 
@@ -92,19 +87,15 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 		local rawh3 = Player.Functions.GetItemByName('heroinstagethree')
 		if rawh then
 			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
-			Log(GetName(src) ..' Cut Heroin With a distance of', 'heroin')
 		elseif rawh2 then
 			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier2') then return end
-			Log(GetName(src) ..' Cut Heroin Tier 2 With a distance of', 'heroin')
 		elseif rawh3 then
 			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier3') then return end
-			Log(GetName(src) .. ' Cut Heroin Tier 3 With a distance of', 'heroin')
 		else
 			Notifys(src, Lang.Heroin.noheroin, "error")
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
-		Log(GetName(src) ..' Cut Heroin With a distance of', 'heroin')
 	end
 end)
 
@@ -114,7 +105,6 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	if not checkLoc(source, 'singleSpot', 'buyheroinlabkit') then return end
 	if Player.Functions.RemoveMoney('cash', prices.heroinlabkitprice) then
 		AddItem(src, 'heroinlabkit', 1)
-		Log(GetName(src) ..' Bought A Heroin lab Kit', 'heroin')
 	else
 		Notifys(src, 'You Need '.. prices.heroinlabkitprice .. ' In Cash For This', 'error')
 	end
@@ -124,7 +114,6 @@ RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 local src = source
 local Player = getPlayer(src)
 	if AddItem(src, "heroinlabkit", 1) then
-		Log(GetName(src) ..' Picked Up Their Heroin Lab Kit Back At ' .. GetCoords(src) .. '!', 'heroin')
 	end
 end)
 
@@ -150,19 +139,15 @@ local Player = getPlayer(src)
 		local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
 		if cuth then
 			if not GetRecipe(src, 'heroin', 'fillvial', 'tier1') then return end
-			Log(GetName(src) ..' Made A Vial Of Heroin', 'heroin')
 		elseif cuth2 then
 			if not GetRecipe(src, 'heroin', 'fillvial', 'tier2') then return end
-			Log(GetName(src) ..' Made A Vial Of Heroin Tier 2', 'heroin')
 		elseif cuth3 then
 			if not GetRecipe(src, 'heroin', 'fillvial', 'tier3') then return end
-			Log(GetName(src) ..' Made A Vial Of Heroin Tier 3', 'heroin')
 		else
 			Notifys(src, 'no cut heroin', "error")
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'fillvial', 'tier1') then return end
-		Log(GetName(src) ..' Made A Vial Of Heroin', 'heroin')
 	end
 end)
 
@@ -172,7 +157,6 @@ local Player = getPlayer(src)
 local cuth = Player.Functions.GetItemByName('heroincut')
 local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
 local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
-Log(GetName(src) ..' Sucks And Burned Their Heroin', 'heroin')
 	if cuth then
 		RemoveItem(src, 'heroincut', 1) 
 		Notifys(src,Lang.Heroin.fail, "error")
@@ -199,21 +183,17 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 		if vh then
 			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier1') then return end
 			AddRep(src, 'heroin')
-			Log(GetName(src) ..' Filled A Needle Of Heroin And Now Has A Rep Of ' .. heroin + 1 .. '!' , 'heroin')
 		elseif vh2 then
 			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier2') then return end
 			AddRep(src, 'heroin')
-			Log(GetName(src) ..' Filled A Needle Of Heroin Tier 2 And Now Has A Rep Of ' .. heroin + 1 .. '!' , 'heroin')
 		elseif vh3 then
 			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier3') then return end
 			AddRep(src, 'heroin')
-			Log(GetName(src) ..' Filled A Needle Of Heroin Tier 3 And Now Has A Rep Of ' .. heroin + 1  .. '!' , 'heroin')
 		else
 			Notifys(src,Lang.Heroin.nofill, "error")
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'fillneedle', 'tier1') then return end
-		Log(GetName(src) ..' Filled A Needle Of Heroin!' , 'heroin')
 	end
 end)
 

@@ -16,7 +16,6 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
             if Player.Functions.GetItemByName(v.item) then
 				tier = v.tier
 				count = count + 1
-                Log(GetName(src) .. v.log, 'crack')
             end
         end
     end
@@ -40,7 +39,6 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
             if Player.Functions.GetItemByName(v.item) then
 				tier = v.tier
 				count = count + 1
-                Log(GetName(src) .. v.log, 'crack') 
             end
         end
     end

@@ -80,9 +80,6 @@ lib.addCommand("newdealer", {
     if not Player then return end
 
     local dealerName = args.name
-    local minTime = args.min
-    local maxTime = args.max
-    local time = json.encode({min = minTime, max = maxTime})
     local pos = json.encode({x = coords.x, y = coords.y, z = coords.z})
     
     local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', { dealerName })
@@ -91,7 +88,7 @@ lib.addCommand("newdealer", {
     end
 
     MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {
-        dealerName, pos, time, Player.PlayerData.citizenid
+        dealerName, pos, 'nil', Player.PlayerData.citizenid
     }, function()
         QBConfig.Dealers[dealerName] = {
             name = dealerName,
@@ -100,10 +97,6 @@ lib.addCommand("newdealer", {
                 y = coords.y,
                 z = coords.z,
                 h = GetEntityHeading(ped)
-            },
-            time = {
-                min = minTime,
-                max = maxTime
             },
         }
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)

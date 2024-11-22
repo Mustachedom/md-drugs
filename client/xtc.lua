@@ -23,6 +23,30 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
     end
 end)
 
+lib.callback.register('md-drugs:client:setpress', function(type)
+  if xtcpress then 
+    Notify(Lang.xtc.out, 'error')
+    return false
+else
+  local coords, head = StartRay2()
+  xtcpress = true
+  progressbar('Setting Press On The Ground', 4000, 'uncuff')
+  local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
+  PlaceObjectOnGroundProperly(press)
+  Freeze(press, true, head)
+    local options = {
+        { icon = "fas fa-eye", label = Lang.targets.xtc.make, distance = 2.0, action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end, 
+        canInteract = function() if xtcpress then return true end end
+        },
+        {icon = "fas fa-eye", label = Lang.targets.xtc.pick, action = function() TriggerEvent("md-drugs:client:GetPressBack", type, press) end, distance = 2.0,
+          canInteract = function() if xtcpress then return true end end
+        },
+    }
+    AddMultiModel(press, options, nil)
+    return true, GetEntityCoords(press)
+end
+end)
+
 RegisterNetEvent("md-drugs:client:XTCMenu", function(type)
   local event =  "md-drugs:client:MakeXTC"
     lib.registerContext({

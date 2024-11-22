@@ -155,8 +155,9 @@ function GetRecipe(source, type, method, tier)
             end
             for k,v in pairs (recipe[type][method][tier].give) do
                 AddItem(src, k, v) 
+                Log(GetName(src) .. ' Made ' .. GetLabels(k) .. '!', 'drugMaking')
             end
-    
+            
             return true
         else
             return false

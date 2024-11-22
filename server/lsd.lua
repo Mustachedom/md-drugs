@@ -7,7 +7,6 @@ RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
 	if not checkLoc(src, 'lysergicacid', num) then return end
 	if AddItem(src,'lysergic_acid', 2) then
-		Log(GetName(src) ..' Got Lysergic acid!', 'lsd')
 	end
 end)
 
@@ -15,7 +14,6 @@ RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
 	if not checkLoc(src, 'diethylamide', num) then return end
 	if AddItem(src,'diethylamide', 2) then 
-		Log(GetName(src) ..' Got diethylamide!', 'lsd')
 	end
 end)
 
@@ -24,7 +22,6 @@ QBCore.Functions.CreateUseableItem('lsdlabkit', function(source, item)
 local src = source
 	if TriggerClientEvent("md-drugs:client:setlsdlabkit", src) then
 		RemoveItem(src, "lsdlabkit", 1)
-		Log(GetName(src) ..' Placed Their LSD Lab Kit Back At ' .. GetCoords(src)  .. '!', 'lsd')
 	end
 end)
 
@@ -33,7 +30,6 @@ lib.callback.register('md-drugs:server:removecleaningkit', function(source)
 	local src = source
 	if not Itemcheck(src, 'cleaningkit', 1) then return end
 	if RemoveItem(src,"cleaningkit", 1) then 
-		Log(GetName(src) ..' Wiped Down Their LSD Lab Kit!' , 'lsd')
 		return true
 	end
 end)
@@ -48,12 +44,12 @@ end)
 RegisterServerEvent('md-drugs:server:heatliquid', function()
 	local src = source
 	if not GetRecipe(src, 'lsd', 'vial', 'heat') then return end
-	Log(GetName(src) ..' Heated Basic LSD!', 'lsd')
 end)
 
 RegisterServerEvent('md-drugs:server:failheating', function()
 	local src = source
-	if not ChecknRemove(source, {lysergic_acid = 1, diethylamide = 1}) then return end
+	RemoveItem(src, 'lysergic_acid', 1)
+	RemoveItem(src, 'diethylamide', 1)
 	Notifys(src,Lang.lsd.failed, "error")
 	Log(GetName(src) ..' Failed Basic LSD Like An Idiot!', 'lsd')
 end)
@@ -111,7 +107,6 @@ RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	if not checkLoc(src, 'gettabs', num) then return end
 	if Player.Functions.RemoveMoney('cash', prices.tabcost * 10) then
 		AddItem(src,'tab_paper', 10)
-		Log(GetName(src) ..' Bought Tab Paper!', 'lsd')
 	else
 		Notifys(Lang.lsd.broke, "error")
 	end
@@ -123,7 +118,6 @@ RegisterServerEvent('md-drugs:server:getlabkit', function()
 	if not checkLoc(src,'singleSpot', 'buylsdlabkit') then return end
 	if Player.Functions.RemoveMoney('cash', prices.lsdlabkitcost) then
 		AddItem(src,'lsdlabkit', 1)
-		Log(GetName(src) ..' Bought A LSD Lab Kit!', 'lsd')
 	else
 		Notifys(src, Lang.lsd.broke, "error")
 	end
