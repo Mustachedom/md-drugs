@@ -12,8 +12,6 @@ end
 
 QBCore.Functions.CreateUseableItem('prescription_pad', function(source, item)
 	local src = source
-	local Player = getPlayer(src)
-	local name = GetName(src)
 	local near = {}
 
 	if GetJob(src) then 
