@@ -12,17 +12,22 @@ end
 
 QBCore.Functions.CreateUseableItem('prescription_pad', function(source, item)
 	local src = source
-	if GetJob(src) then 
-		TriggerClientEvent("md-drugs:client:prescriptionpad", src, item)
-	end	
-end)
+	local Player = getPlayer(src)
+	local name = GetName(src)
+	local near = {}
 
-RegisterServerEvent('md-drugs:server:giveprescription', function(item)
-	local src = source
-	if GetJob(src) then
-		AddItem(src, item, 1)
-		Log(GetName(src) .. ' Made A Prescription Of ' .. item .. '!', 'pharma')
-	end
+	if GetJob(src) then 
+		for k, v in pairs (QBCore.Functions.GetQBPlayers()) do
+			local targ = QBCore.Functions.GetPlayerByCitizenId(v.PlayerData.citizenid) 
+			local tname = GetName(v.PlayerData.source)
+			table.insert(near, {label = tname, value = targ.PlayerData.citizenid})
+		end
+		local data = lib.callback.await('md-drugs:client:prescriptionpad', src, near)
+		if type(data) == 'table' then
+			local give = QBCore.Functions.GetPlayerByCitizenId(data.who)
+			AddItem(give.PlayerData.source, data.what, 1)
+		end
+	end	
 end)
 
 RegisterServerEvent('md-drugs:server:unbottle', function(item)
