@@ -133,7 +133,6 @@ RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 			AddItem(src, 'heroinlabkit', 1)
 		end
 	end
-	print(json.encode(heroinLabKits))
 end)
 
 
@@ -152,7 +151,6 @@ QBCore.Functions.CreateUseableItem('heroinlabkit', function(source, item)
 		})
 		Notifys(src, Lang.Heroin.placed, "success")
 	end
-	print(json.encode(heroinLabKits))	
 end)
 
 

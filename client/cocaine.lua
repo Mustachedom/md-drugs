@@ -79,7 +79,6 @@ end)
 
 CreateThread(function()
     local config = lib.callback.await('md-drugs:server:getLocs', false)
-    if not config then print('why') return end
     if Config.FancyCokeAnims == false then 
         AddBoxZoneMulti('cuttcoke', config.CuttingCoke,  {	type = "client",event = "md-drugs:client:cutcokeone",	icon = "fa-solid fa-mortar-pestle",  label = Lang.targets.coke.cut}) 
         AddBoxZoneMulti('baggcoke', config.BaggingCoke,  {	type = "client",event = "md-drugs:client:bagcoke",	    icon = "fa-solid fa-sack-xmark",  label = Lang.targets.coke.bag})

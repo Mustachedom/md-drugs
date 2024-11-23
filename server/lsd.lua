@@ -34,7 +34,6 @@ QBCore.Functions.CreateUseableItem('lsdlabkit', function(source, item)
 			})
 		end
 	end
-	print(json.encode(lsdTables))
 end)
 
 local function hasLabKit(source) 
@@ -64,7 +63,6 @@ RegisterServerEvent('md-drugs:server:getlabkitback', function()
 			AddItem(src, 'lsdlabkit', 1)
 		end
 	end
-	print(json.encode(lsdTables))
 end)
 
 RegisterServerEvent('md-drugs:server:heatliquid', function()
@@ -217,5 +215,4 @@ AddEventHandler('playerDropped', function()
 			AddItem(src, 'lsdlabkit', 1)
 		end
 	end
-	print(json.encode(lsdTables))
 end)

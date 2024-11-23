@@ -1,14 +1,13 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local isActive = false
-
+local dealer = {}
 RegisterNetEvent('md-drugs:client:opendealermenu', function()
     local rep = GetRep()
     makeMenu('dealermenu', rep)
     lib.showContext('dealermenu')
 end)
 
-CreateThread(function()
-    local dealer = {}
+local function SpawnDealer()
     local getDealers = lib.callback.await('md-drugs:server:getDealers', false)
      for k,v in pairs(getDealers) do
 		local Ped = "g_m_y_famdnf_01"
@@ -30,6 +29,14 @@ CreateThread(function()
             action =   function()   TriggerEvent('md-drugs:client:opendealermenu') end,
          }}, dealer[k])
      end
+end
+
+RegisterNetEvent('md-drugs:client:RefreshDealers', function()
+    SpawnDealer()
+end)
+
+CreateThread(function()
+    SpawnDealer()
 end)
 
 RegisterNetEvent('md-drugs:client:setLocation', function(data)
@@ -55,3 +62,4 @@ RegisterNetEvent('md-drugs:client:setLocation', function(data)
         end
     }, nil)
 end)
+

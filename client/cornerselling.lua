@@ -4,6 +4,7 @@ local sold = false
 local targbusy = false
 local inZone = false
 local active = false
+
 local function reset(targ)
     FreezeEntityPosition(targ, false)
     ClearPedTasks(targ)

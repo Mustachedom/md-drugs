@@ -473,15 +473,22 @@ function AddBoxZoneMulti(name, table, data)
 end
 
 function AddBoxZoneMultiOptions(name, loc, data) 
-		if Config.Target == 'qb' then
-			exports['qb-target']:AddBoxZone(name , loc, 1.5, 1.75, {name = name, minZ = loc.z-1.50,maxZ = loc.z +1.5}, 
-			{ options = data, distance = 2.5})
-		elseif Config.Target == 'ox' then
-			exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = data })
-		elseif Config.Target == 'interact' then
-			exports.interact:AddInteraction({coords = vector3(loc.x, loc.y, loc.z),distance = 2.5,interactDst = 2,id = name,options = data})
-		end
+	local options = {}
+	for k, v in pairs (data) do
+		table.insert(options, {
+			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
+			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
+		})
 	end
+	if Config.Target == 'qb' then
+		exports['qb-target']:AddBoxZone(name , loc, 1.5, 1.75, {name = name, minZ = loc.z-1.50,maxZ = loc.z +1.5}, 
+		{ options = options, distance = 2.5})
+	elseif Config.Target == 'ox' then
+		exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = options })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddInteraction({coords = vector3(loc.x, loc.y, loc.z),distance = 2.5,interactDst = 2,id = name,options = options})
+	end
+end
 
 
 function AddSingleModel(model, data, num)
@@ -497,13 +504,12 @@ function AddSingleModel(model, data, num)
 end
 
 function AddMultiModel(model, data, num)
-	
 	local options = {}
 	for k, v in pairs (data) do 
-		options[#options + 1] = {
+		table.insert(options, {
 			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
 			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
-		}
+		})
 	end
 	if Config.Target == 'qb' then
 		exports['qb-target']:AddTargetEntity(model, {options = options, distance = 2.5})

@@ -138,3 +138,8 @@ end)
 lib.callback.register('md-drugs:server:GetMerchant', function(source)
 	return loc
 end)
+
+function getRandW(src)
+    local rand = math.random(1, #Target.oxylocations)
+    return Target.oxylocations[rand]
+end

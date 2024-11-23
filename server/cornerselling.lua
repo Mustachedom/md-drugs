@@ -213,12 +213,3 @@ RegisterServerEvent('md-drugs:server:cornerselling:stop', function()
         end
     end
 end)
-
-CreateThread(function()
-while true do 
-    for k, v in pairs (DrugDeals) do 
-        print('DrugDeals: ', json.encode(v))
-    end
-    Wait(1000)
-end
-end)

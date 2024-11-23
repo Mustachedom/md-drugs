@@ -40,7 +40,6 @@ local check, loc = lib.callback.await('md-drugs:client:setpress', src, v.data)
 			})
 		end
 	end
-	print(json.encode(activePresses))
 end)
 end
 
