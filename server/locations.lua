@@ -50,7 +50,7 @@ local Target = {
         {loc = vector3(844.71, -900.56, 25.43), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     FillPrescription = { -- where to fill out your prescription
-        {loc = vector3(2432.89, 4252.2, 36.35), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2855.62, 4446.73, 48.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     singleSpot = {
         cutcoke = vector3(1093.17, -3195.74, -39.19),

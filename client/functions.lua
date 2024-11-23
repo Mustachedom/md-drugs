@@ -641,3 +641,8 @@ CreateThread(function()
 	TriggerEvent('shrooms:init')
 	TriggerEvent('weed:init')
 end)
+
+lib.callback.register('md-drugs:client:uncuff', function()
+	if not progressbar('Uncuffing', 4000, 'uncuff') then return end
+	return true
+end)

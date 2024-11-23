@@ -125,6 +125,12 @@ AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
 	if hasJob() and exploded == false then return true end
 	end,
 } )
+	local stove = CreateObject("prop_cooker_03",config.singleSpot.MakeButter.x, config.singleSpot.MakeButter.y, config.singleSpot.MakeButter.z-1, true, false)
+	SetEntityHeading(stove, 270.00)
+	FreezeEntityPosition(stove, true)
+	local stove2 = CreateObject("prop_cooker_03",config.singleSpot.MakeOil.x,config.singleSpot.MakeOil.y, config.singleSpot.MakeOil.z-1, true, false)
+	SetEntityHeading(stove2, 90.00)
+	FreezeEntityPosition(stove2, true)
 end)
 
 CreateThread(function()
@@ -137,12 +143,6 @@ CreateThread(function()
 	BikerWeedFarm.Plant4.Clear(false) BikerWeedFarm.Plant5.Clear(false) BikerWeedFarm.Plant6.Clear(false)
 	BikerWeedFarm.Plant7.Clear(false) BikerWeedFarm.Plant8.Clear(false) BikerWeedFarm.Plant9.Clear(false)
     RefreshInterior(BikerWeedFarm.interiorId)
-	local stove = CreateObject("prop_cooker_03",vector3(1045.49, -3198.46, -38.15-1), true, false)
-	SetEntityHeading(stove, 270.00)
-	FreezeEntityPosition(stove, true)
-	local stove2 = CreateObject("prop_cooker_03",vector3(1038.90, -3198.66, -38.17-1), true, false)
-	SetEntityHeading(stove2, 90.00)
-	FreezeEntityPosition(stove2, true)
 end)
 
 
@@ -155,7 +155,7 @@ RegisterNetEvent("md-drugs:client:grind", function()
 end)
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-if not progressbar('Doing Dabs', 4000, 'bong2') then return end
+if not progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
 AlienEffect()
 end)
 

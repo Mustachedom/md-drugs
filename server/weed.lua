@@ -115,7 +115,6 @@ local Player = getPlayer(src)
 
 if Player.Functions.GetItemByName("butanetorch") then 
 	if RemoveItem(src, "shatter", 1) then
-		Notifys(src, 'test', 'success')
     	TriggerClientEvent("md-drugs:client:dodabs", src)
     end
 end
@@ -123,9 +122,10 @@ end)
 
 QBCore.Functions.CreateUseableItem("weedgrinder", function(source, item)
 	local src = source
+    local check = lib.callback.await('md-drugs:client:uncuff', src)
+    if not check then return end
 	if RemoveItem(src, "drycannabis",1 ) then 
 		AddItem(src, "grindedweed", 1)
-		TriggerClientEvent("md-drugs:client:grind", src)
 	else
 		Notifys(src,'You Need Dried Weed', 'error')
 	end
@@ -134,12 +134,10 @@ end)
 QBCore.Functions.CreateUseableItem("mdwoods", function(source, item)
 	local src = source
 	local Player = getPlayer(src)
-	TriggerClientEvent("md-drugs:client:rollanim", src)
-	Wait(4000)
+    local check = lib.callback.await('md-drugs:client:uncuff', src)
+    if not check then return end
 	if RemoveItem(src, "mdwoods",1 ) then 
 		AddItem(src, "bluntwrap", 5)
 		AddItem(src, "tobacco", 5)
 	end
 end)
-
-

@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 CreateThread(function()
     local config = lib.callback.await('md-drugs:server:getLocs', false)
-    local model = {"g_m_y_famdnf_01", 's_m_m_doctor_01', 'u_m_m_jesus_01'}
+    local model = {"g_m_y_famdnf_01", 's_m_m_doctor_01', 'u_m_m_jesus_01', "prop_cooker_03"}
     for k, v in pairs (model) do
         lib.requestModel(v, Config.RequestModelTime)
     end
@@ -20,4 +20,5 @@ CreateThread(function()
     AddSingleModel(SyrupLocation, { type = "client", label = Lang.targets.lean.git, icon = "fa-solid fa-circle-info", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0}, nil )    
     AddSingleModel(WeedGuy, {label = "Weed Shop",icon = "fas fa-eye", action = function() makeMenu('WeedShop') lib.showContext('WeedShop')end}, nil)
 	AddSingleModel(methdealer,{label = Lang.targets.meth.mission, icon = "fas fa-eye", action = function() Notify(Lang.meth.mission, "success") SpawnMethCarPedChase() end,},nil )
+    
 end)
