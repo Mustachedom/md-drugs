@@ -44,8 +44,8 @@ RegisterNetEvent('md-drugs:client:setLocation', function(data)
     SetNewWaypoint(coord.x, coord.y)
     if isActive then return end
     isActive = true
-    local Buyer = CreatePed(0, "g_m_y_famdnf_01",coord.x, coord.y, coord.z-1, 180.0, false, false)
-    Freeze(Buyer, true, 180)
+    local Buyer = CreatePed(0, "g_m_y_famdnf_01",coord.x, coord.y, coord.z-1, coord.w, false, false)
+    Freeze(Buyer, true, coord.w)
     AddSingleModel(Buyer,  {
         icon = 'fas fa-user-secret',
         label = Lang.targets.Delivery.hand,
@@ -62,4 +62,3 @@ RegisterNetEvent('md-drugs:client:setLocation', function(data)
         end
     }, nil)
 end)
-

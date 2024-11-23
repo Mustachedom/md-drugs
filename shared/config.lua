@@ -1,7 +1,7 @@
 Config = {} --Ignore.
 
 Config.Target = 'ox' -- qb or ox
-Config.respawnTime = 600 -- Seconds
+Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
@@ -48,3 +48,6 @@ Config.Minigames = {
     glmath =        {timeLimit = 300000},
 }
 Config.minigametype = 'blrapidlines' -- look above for options or choose none if you dont want any minigames 
+
+-------- Woah Where did like all the locations go?
+--- read the readme to find out
