@@ -122,7 +122,7 @@ end)
 
 QBCore.Functions.CreateUseableItem("weedgrinder", function(source, item)
 	local src = source
-    local check = lib.callback.await('md-drugs:client:uncuff', src)
+    local check = lib.callback.await('md-drugs:client:uncuff', src, 'Grinding Weed')
     if not check then return end
 	if RemoveItem(src, "drycannabis",1 ) then 
 		AddItem(src, "grindedweed", 1)
@@ -134,7 +134,7 @@ end)
 QBCore.Functions.CreateUseableItem("mdwoods", function(source, item)
 	local src = source
 	local Player = getPlayer(src)
-    local check = lib.callback.await('md-drugs:client:uncuff', src)
+    local check = lib.callback.await('md-drugs:client:uncuff', src, 'Breaking Blunt Open')
     if not check then return end
 	if RemoveItem(src, "mdwoods",1 ) then 
 		AddItem(src, "bluntwrap", 5)

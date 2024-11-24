@@ -1,8 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent("md-drugs:client:getsyruplocationtobuy", function()
-Notify(Lang.Lean.marked, "success")
-SpawnCarPedChase()
+	Notify(Lang.Lean.marked, "success")
+	SpawnCarPedChase()
 end)
 
 RegisterNetEvent('md-drugs:client:leancraft', function()

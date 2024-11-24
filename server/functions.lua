@@ -349,12 +349,3 @@ CreateThread(function()
          end
      end, "GET", "", "")
 end)
-
-RegisterServerEvent('md-drugs:server:AddMas', function(data) 
-    local src = source
-    if not data then return end
-    if not Itemcheck(src, data.xt, 1) then return end
-    if not RemoveItem(src, data.item, 1) then return end
-        RemoveItem(src, data.xt, 1) 
-        AddItem(src, data.recieve, data.amount)
-end)

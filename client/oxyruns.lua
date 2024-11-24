@@ -5,8 +5,9 @@ RegisterNetEvent("md-drugs:client:GetOxyCar", function()
 	lib.requestModel("burrito3", Config.RequestModelTime)
 	local paid = lib.callback.await('md-drugs:server:payfortruck', false)
 	if not paid then return end
-	local loc = lib.callback.await('md-drugs:server:getLocs', false)
-	local oxycar = CreateVehicle("burrito3",loc.singleSpot.truckspawn.x, loc.singleSpot.truckspawn.y,loc.singleSpot.truckspawn.z, loc.singleSpot.truckspawn.w, true, false)
+	local loca = lib.callback.await('md-drugs:server:getLocs', false)
+	local loc = loca.singleSpot.truckspawn
+	local oxycar = CreateVehicle("burrito3",loc.x, loc.y,loc.z, loc.w, true, false)
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(oxycar))
 	Notify(Lang.oxy.truck, 'success')
@@ -14,21 +15,18 @@ RegisterNetEvent("md-drugs:client:GetOxyCar", function()
 	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = Lang.targets.oxy.pack}, nil )
 end)
 
-
-
 RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 	local config = lib.callback.await('md-drugs:server:getLocs', false)
-    local CurrentLocation = config.oxylocations[math.random(#config.oxylocations)]
-	if CurrentLocation ~= nil then
-    	SetNewWaypoint(CurrentLocation.x, CurrentLocation.y)
+    local loc = config.oxylocations[math.random(#config.oxylocations)]
+	if loc ~= nil then
+    	SetNewWaypoint(loc.x, loc.y)
 		local current = "g_m_y_famdnf_01"
 		lib.requestModel(current, Config.RequestModelTime)
-    	local oxybuyer = CreatePed(0, current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
-		Freeze(oxybuyer, true, CurrentLocation.w)
+    	local oxybuyer = CreatePed(0, current,loc.x,loc.y,loc.z-1, loc.w, false, false)
+		Freeze(oxybuyer, true, loc.w)
 		repeat
 			Wait(1000)
-		until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
-		
+		until #(GetEntityCoords(PlayerPedId()) - vector3(loc.x,loc.y,loc.z)) < 5.0
 		PoliceCall(Config.PoliceAlertOxy)
 		AddSingleModel(oxybuyer,  { type = "client", label = Lang.targets.oxy.talk, icon = "fas fa-eye", 
 		action = function()
@@ -50,21 +48,15 @@ end)
 RegisterNetEvent("md-drugs:client:getfromtrunk", function() 
 	if carryPackage then
 		Notify(Lang.oxy.cantcarry, "error")
-	else	
+	else
 		local pos = GetEntityCoords(PlayerPedId(), true)
-		RequestAnimDict('anim@heists@box_carry@')
-		while (not HasAnimDictLoaded('anim@heists@box_carry@')) do
-			Wait(7)
-		end
+		lib.requestAnimDict('anim@heists@box_carry@')
 		TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
-		RequestModel("hei_prop_drug_statue_box_big")
-		while not HasModelLoaded("hei_prop_drug_statue_box_big") do
-			Wait(0)
-		end
+		lib.RequestModel("hei_prop_drug_statue_box_big")
 		local object = CreateObject("hei_prop_drug_statue_box_big", pos.x, pos.y, pos.z, true, true, true)
 		AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.05, 0.1, -0.3, 300.0, 250.0, 20.0, true, true, false, true, 1, true)
 		carryPackage = object
-	end	
+	end
 end)
 
 

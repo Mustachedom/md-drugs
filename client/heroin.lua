@@ -104,7 +104,6 @@ RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data)
     TriggerServerEvent("md-drugs:server:heatliquidheroin")
 end)
 
-
 RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function(data)
     if not ItemCheck('cleaningkit') then return end
     if not progressbar(Lang.Heroin.clean, 4000, 'clean') then return end

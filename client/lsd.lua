@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local tableout = false
 
-
 local function createLabKit(coord, head)
     local labkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false)
     SetEntityHeading(labkit, head)

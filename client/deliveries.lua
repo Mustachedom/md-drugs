@@ -1,6 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local isActive = false
 local dealer = {}
+
 RegisterNetEvent('md-drugs:client:opendealermenu', function()
     local rep = GetRep()
     makeMenu('dealermenu', rep)

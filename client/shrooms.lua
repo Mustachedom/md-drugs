@@ -9,7 +9,6 @@ local function LoadModels(hash)
         Wait(10)
     end
     if HasModelLoaded(hash) then return true end
-    
 end
 
 local function pick(loc)

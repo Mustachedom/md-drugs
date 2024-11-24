@@ -624,15 +624,6 @@ AddEventHandler('onResourceStart', function(resource)
 		LoadModel('prop_plant_01b') LoadModel('prop_plant_01a') LoadModel('prop_cactus_03') LoadModel('bkr_prop_weed_lrg_01b')
     end
 end)
-local active = false
-RegisterNetEvent('md-drugs:client:minusTier', function(data) 
-	if active then return end
-	if not data then return end
-	active = true
-	if not progressbar('Cutting This ' ..GetLabel(data.item) .. ' More', 4000, 'uncuff') then return end
-	TriggerServerEvent('md-drugs:server:AddMas', data)
-	active = false
-end)
 
 CreateThread(function()
 	TriggerEvent('heroin:init')
@@ -642,7 +633,24 @@ CreateThread(function()
 	TriggerEvent('weed:init')
 end)
 
-lib.callback.register('md-drugs:client:uncuff', function()
-	if not progressbar('Uncuffing', 4000, 'uncuff') then return end
+lib.callback.register('md-drugs:client:uncuff', function(data)
+	if not progressbar(data, 4000, 'uncuff') then return end
 	return true
 end)
+
+RegisterCommand('DrugRep', function()
+	if not Config.TierSystem then return end
+	local rep = lib.callback.await('md-drugs:server:GetRep', false)
+	lib.registerContext({
+		id = 'DrugRep',
+		title = 'Drug Reputation',
+		options = {
+		  {icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
+		  {icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
+		  {icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
+		  {icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
+		  {icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
+		}
+	  })
+	  lib.showContext('DrugRep')
+end, false)

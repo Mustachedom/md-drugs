@@ -52,15 +52,12 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
     local src = source
     if not checkLoc(src, 'MakePowder', num) then return end
     local tier = 'tier1'
-    local logMessage = ' Made Raw Coke'
     if Config.TierSystem then
         local coke = getRep(src, 'coke')
         if coke > Config.Tier1 and coke <= Config.Tier2 then
             tier = 'tier2'
-            logMessage = ' Made Raw Coke tier 2'
         elseif coke > Config.Tier2 then
             tier = 'tier3'
-            logMessage = ' Made Raw Coke tier 3'
         end
     end
     if not GetRecipe(src, 'cocaine', 'cokepowder', tier) then return end
@@ -130,10 +127,14 @@ local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
 for k, v in pairs (cokecut) do
 	QBCore.Functions.CreateUseableItem(k, function(source, item)
 		local src = source
-		   local Player = getPlayer(src)
-		if Player.Functions.GetItemByName(item.name) then
-			if not Itemcheck(src, 'bakingsoda', 1) then return end
-			TriggerClientEvent('md-drugs:client:minusTier', src, {type = 'coke', xt = 'bakingsoda', item = k, amount =  v,recieve = 'loosecoke'})
-		end
+		local Player = getPlayer(src)
+		 if Player.Functions.GetItemByName(item.name) then
+		    if not Itemcheck(src, 'bakingsoda', 1) then return end
+             local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting It Further')
+             if not check then return end
+		    if RemoveItem(src, k, 1) then
+                 AddItem(src, 'loosecoke', v)
+             end
+		 end
 	end)
 end

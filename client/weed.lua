@@ -10,6 +10,11 @@ local function hasJob()
 	return true end
  end
 
+ local function pick(loc)
+	if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
+	TriggerServerEvent("weed:pickupCane", loc)
+ end
+
 RegisterNetEvent('weed:respawnCane', function(loc)
     local v = GlobalState.WeedPlant[loc]
     local hash = GetHashKey(v.model)
@@ -17,10 +22,7 @@ RegisterNetEvent('weed:respawnCane', function(loc)
     if not WeedPlant[loc] then
         WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
 		Freeze(WeedPlant[loc],true,  v.heading)
-        AddSingleModel(WeedPlant[loc],  
-			    {icon = "fas fa-hand",label = Lang.targets.weed.pick, 
-				action = function()if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end	TriggerServerEvent("weed:pickupCane", loc) end},
-			loc)
+        AddSingleModel(WeedPlant[loc],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(loc) end}, loc)
     end
 end)
 
@@ -36,10 +38,7 @@ RegisterNetEvent("weed:init", function()
         if not v.taken then
             WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
 			Freeze(WeedPlant[k],true,  v.heading)
-			AddSingleModel(WeedPlant[k],  
-			    {icon = "fas fa-hand",label = Lang.targets.weed.pick, 
-				action = function()if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end	TriggerServerEvent("weed:pickupCane", k) end},
-			k)
+			AddSingleModel(WeedPlant[k],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(k) end}, k)
         end
     end
 end)
@@ -101,30 +100,27 @@ AddBoxZoneSingle('MakeButterCrafting', config.singleSpot.MakeButter, {label = La
 canInteract = function() if hasJob() then return true end end	
 }) 
 
-AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
+	AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
 	name = 'Oil',
 	icon = "fas fa-sign-in-alt",
 	label = Lang.targets.weed.oil,
 	action = function()
 		if not ItemCheckMulti({'butane', 'grindedweed'}) then return end
 		if not minigame() then 
-			local explosion = math.random(1,100)
 			local loc = GetEntityCoords(PlayerPedId())
-			if explosion <= 99 then
-				AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
-				exploded = true
-				Notify(Lang.Weed.stovehot, "error")
-				Wait(1000 * 30)
-				exploded = false
-			end	
+			AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
+			exploded = true
+			Notify(Lang.Weed.stovehot, "error")
+			Wait(1000 * 30)
+			exploded = false	
 		return end
 		if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
-		TriggerServerEvent("md-drugs:server:makeoil")       			
+		TriggerServerEvent("md-drugs:server:makeoil")			
 	end,
 	canInteract = function()
-	if hasJob() and exploded == false then return true end
+		if hasJob() and exploded == false then return true end
 	end,
-} )
+	})
 	local stove = CreateObject("prop_cooker_03",config.singleSpot.MakeButter.x, config.singleSpot.MakeButter.y, config.singleSpot.MakeButter.z-1, true, false)
 	SetEntityHeading(stove, 270.00)
 	FreezeEntityPosition(stove, true)
@@ -143,15 +139,6 @@ CreateThread(function()
 	BikerWeedFarm.Plant4.Clear(false) BikerWeedFarm.Plant5.Clear(false) BikerWeedFarm.Plant6.Clear(false)
 	BikerWeedFarm.Plant7.Clear(false) BikerWeedFarm.Plant8.Clear(false) BikerWeedFarm.Plant9.Clear(false)
     RefreshInterior(BikerWeedFarm.interiorId)
-end)
-
-
-RegisterNetEvent("md-drugs:client:rollanim", function()
-if not progressbar(Lang.Weed.roll, 4000, 'uncuff') then return end
-end)
-
-RegisterNetEvent("md-drugs:client:grind", function()
-	if not progressbar("grinding", 4000, 'uncuff') then return end
 end)
 
 RegisterNetEvent("md-drugs:client:dodabs", function()

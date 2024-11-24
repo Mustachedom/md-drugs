@@ -11,8 +11,6 @@ local started = nil
     SetPtfxAssetNextCall(dict)
 end
 
-
-
 function MethCooking()
 	local animDict, animName = "anim@amb@business@meth@meth_monitoring_cooking@cooking@", "chemical_pour_short_cooker"
 	lib.requestAnimDict(animDict, 500)
@@ -161,8 +159,6 @@ function Tray()
 	local trays = CreateObject("bkr_prop_meth_tray_02a", pos.x, pos.y, pos.z, true, true, true)
 	AttachEntityToEntity(trays, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.01,-0.2, -0.2, 20.0, 0.0, 0.0, true, true, false, true, 1, true)
 end
-
-
 
 function CutCoke()
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
@@ -382,9 +378,9 @@ function SpawnCarPedChase()
     lib.requestModel(`pounder`, Config.RequestModelTime)
     lib.requestModel("ig_priest", Config.RequestModelTime)
     lib.requestModel(`cargobob3`, Config.RequestModelTime)
-    local leancar = CreateVehicle(`pounder`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
-    local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, true, false)
-    local pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
+    local leancar = CreateVehicle(`pounder`, start.x+3, start.y-2, start.z-1, 52.0, false, false)
+    local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, false, false)
+    local pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
 	FreezeEntityPosition(pilot2, true)
 	SetEntityInvincible(pilot2, true)
     SetEntityAsMissionEntity(leancar)
@@ -416,7 +412,7 @@ function SpawnCarPedChase()
 			Wait(1000)
 		until #(GetEntityCoords(driver) - GetEntityCoords(pilot2)) < 25.0
         Wait( 3 * 1000)
-        local heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
+        local heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         Wait(1000)
         if DoesEntityExist(heli) then
 			SetEntityInvincible(pilot2, false)
@@ -426,7 +422,7 @@ function SpawnCarPedChase()
             SetPedIntoVehicle(pilot2, heli, -1)
             TaskHeliMission(pilot2, heli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
         else    
-        	heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
+        	heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         end  
      end        
 end
@@ -446,9 +442,9 @@ else
     lib.requestModel(`journey`, Config.RequestModelTime)
     lib.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
     lib.requestModel(`cargobob3`, Config.RequestModelTime)
-    local methcar = CreateVehicle(`journey`, start.x+3, start.y-2, start.z-1, 52.0, true, true)
-    local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, true, false)
-    local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, true, false)
+    local methcar = CreateVehicle(`journey`, start.x+3, start.y-2, start.z-1, 52.0, false, false)
+    local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, false, false)
+    local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
 	FreezeEntityPosition(methpilot, true)
 	SetEntityInvincible(methpilot, true)
     SetEntityAsMissionEntity(methcar)
@@ -481,7 +477,7 @@ else
 			Wait(1000)
 		until #(GetEntityCoords(methdriver) - GetEntityCoords(methpilot)) < 25.0
         Wait( 3 * 1000)
-        local methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
+        local methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         Wait(1000)
         if DoesEntityExist(methheli) then
 			SetEntityInvincible(methpilot, false)
@@ -492,7 +488,7 @@ else
             SetPedIntoVehicle(methpilot, methheli, -1)
             TaskHeliMission(methpilot, methheli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
         else    
-        	methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, true,true) 
+        	methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         end  
     end        
 end
@@ -520,19 +516,3 @@ function SetUpPeds()
 	end
 end
 
-RegisterCommand('DrugRep', function()
-	if not Config.TierSystem then return end
-	local rep = lib.callback.await('md-drugs:server:GetRep', false)
-	lib.registerContext({
-		id = 'DrugRep',
-		title = 'Drug Reputation',
-		options = {
-		  {icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
-		  {icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
-		  {icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
-		  {icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
-		  {icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
-		}
-	  })
-	  lib.showContext('DrugRep')
-end, false)

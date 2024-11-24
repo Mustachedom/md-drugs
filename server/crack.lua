@@ -52,7 +52,11 @@ for k, v in pairs (cokecut) do
 		local Player = getPlayer(src)
 		if Player.Functions.GetItemByName(item.name) then
 			if not Itemcheck(src, 'bakingsoda', 1) then return end
-			TriggerClientEvent('md-drugs:client:minusTier', src, {type = 'crack', xt = 'bakingsoda', item = k, amount =  v,recieve = 'crackrock'})
+            local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting Crack Rock Further')
+            if not check then return end
+            if RemoveItem(src, k, 1) then
+                AddItem(src, 'crackrock', v)
+            end
 		end
 	end)
 end

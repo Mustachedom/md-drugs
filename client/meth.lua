@@ -3,6 +3,7 @@ local amonia = nil
 local tray = nil
 local heated = nil
 local active = nil
+
 local function startcook()
 	if not ItemCheck('empty_weed_bag') then return end
 	if not ItemCheck('acetone') then return end
@@ -124,5 +125,3 @@ RegisterNetEvent("md-drugs:client:stealace", function(data)
 	if not progressbar('Stealing Acetone', 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:getace", data.data)
 end)
-
-
