@@ -8,10 +8,22 @@ local active = false
 local function reset(targ)
     FreezeEntityPosition(targ, false)
     ClearPedTasks(targ)
+    local coords = GetEntityCoords(targ)
+    TaskWanderInArea(targ, coords.x, coords.y, coords.z, 100.0, 2, 10.0)
+    Wait(10000)
+    DeletePed(targ)
+    sold = true
+    active = false
+end
+
+local function walkAway(targ) 
+    FreezeEntityPosition(targ, false)
+    ClearPedTasks(targ)
+    local coords = GetEntityCoords(targ)
+    TaskWanderInArea(targ, coords.x, coords.y, coords.z, 100.0, 2, 10.0)
     Wait(10000)
     DeletePed(targ)
     targbusy = false
-    sold = true
     active = false
 end
 
@@ -59,10 +71,13 @@ function Cornersell()
             canInteract = function()
             if not targbusy then return true end end,
         }}, nil)
+    local timer = 45
     repeat
         Wait(1000)
-    until sold
+        timer = timer - 1
+    until sold or timer == 0
     if sold then sold = false return true end
+    if timer == 0 then Notify(Lang.Cornerselling.timeout, 'error') targbusy = true walkAway(targ)  return false end
 end
 
 RegisterNetEvent('md-drugs:client:cornerselling', function()

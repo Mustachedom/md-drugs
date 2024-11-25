@@ -159,7 +159,7 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
     local src = source
     local Player = getPlayer(src)
     local isIn = false
-    for k, v in pairs (Drugs) do 
+    for k, v in pairs (Drugs) do
         if item == k then 
             isIn = true
         end
@@ -176,7 +176,7 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
                                     worth = price
                                 }
                                 Player.Functions.AddItem('markedbills', 1, false, info )
-                            elseif QBConfig.CustomDirtyMoney then 
+                            elseif QBConfig.CustomDirtyMoney == true then 
                                 AddItem(src, QBConfig.CustomDirtyMoneyitem, price)
                             else
                                 Player.Functions.AddMoney('cash', price)
