@@ -108,7 +108,7 @@ canInteract = function() if hasJob() then return true end end
 		if not ItemCheckMulti({'butane', 'grindedweed'}) then return end
 		if not minigame() then 
 			local loc = GetEntityCoords(PlayerPedId())
-			AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
+			AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true)
 			exploded = true
 			Notify(Lang.Weed.stovehot, "error")
 			Wait(1000 * 30)

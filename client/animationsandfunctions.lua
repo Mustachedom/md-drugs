@@ -1,7 +1,8 @@
 
 local QBCore = exports['qb-core']:GetCoreObject()
 local started = nil
- function loadParticle(dict)
+
+local function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then
         RequestNamedPtfxAsset(dict)
     end
@@ -21,9 +22,9 @@ function MethCooking()
 	local scenePos, sceneRot = vector3(1010.656, -3198.445, -38.925), vector3(0.0, 0.0, 0.0)
 	local netScene = NetworkCreateSynchronisedScene(scenePos, sceneRot, 2, false, false, 1065353216, 0, 1.3)
 	NetworkAddPedToSynchronisedScene(PlayerPedId(), netScene, animDict, animName, 1.5, -4.0, 1, 16, 1148846080, 0)
-	local sacid = CreateObjectNoOffset(`bkr_prop_meth_sacid`, targetPosition, 1, 1, 0)
+	local sacid = CreateObjectNoOffset("bkr_prop_meth_sacid", targetPosition, 1, 1, 0)
 	NetworkAddEntityToSynchronisedScene(sacid, netScene, animDict, "chemical_pour_short_sacid", 4.0, -8.0, 1)
-	local ammonia = CreateObjectNoOffset(`bkr_prop_meth_ammonia`, targetPosition, 1, 1, 0)
+	local ammonia = CreateObjectNoOffset("bkr_prop_meth_ammonia", targetPosition, 1, 1, 0)
 	NetworkAddEntityToSynchronisedScene(ammonia, netScene, animDict, "chemical_pour_short_ammonia", 4.0, -8.0, 1)
 	NetworkStartSynchronisedScene(netScene)
 	Wait(animDuration)
@@ -56,11 +57,11 @@ function SmashMeth()
 	local netScene = NetworkCreateSynchronisedScene(scenePos, sceneRot, 2, false, false, 1065353216, 0, 1.3)
 	NetworkAddPedToSynchronisedScene(ped, netScene, animDict, animName, 1.5, -4.0, 1, 16, 1148846080, 0)
 	local objects, sceneObjects = {}, {
-		{	hash = `w_me_hammer`,	animName = "break_weigh_" .. ver .. "hammer"},
-		{	hash = `bkr_Prop_Meth_SmashedTray_01_frag_`,	animName = "break_weigh_"..ver.."tray01"},
-		{	hash = `bkr_Prop_Meth_Tray_02a`,	animName = "break_weigh_"..ver.."tray01^1"},
-		{	hash = `bkr_Prop_Meth_Tray_02a`,	animName = "break_weigh_"..ver.."tray01^2"},
-		{	hash = `bkr_Prop_Meth_SmashedTray_01_frag_`,	animName = "break_weigh_"..ver.."tray01^3"},
+		{	hash = "w_me_hammer",	animName = "break_weigh_" .. ver .. "hammer"},
+		{	hash = "bkr_Prop_Meth_SmashedTray_01_frag_",	animName = "break_weigh_"..ver.."tray01"},
+		{	hash = "bkr_Prop_Meth_Tray_02a",	animName = "break_weigh_"..ver.."tray01^1"},
+		{	hash = "bkr_Prop_Meth_Tray_02a",	animName = "break_weigh_"..ver.."tray01^2"},
+		{	hash = "bkr_Prop_Meth_SmashedTray_01_frag_",	animName = "break_weigh_"..ver.."tray01^3"},
 	}
 	for i=1, #sceneObjects, 1 do
 		local obj = CreateObjectNoOffset(sceneObjects[i].hash, targetPosition, true, true, true)
@@ -87,28 +88,28 @@ function BagMeth()
 	local scenePos, sceneRot = vector3(1008.734, -3196.646, -39.99), vector3(0.0, 0.0, 1.08)
 	local scenes = {
 	{
-		{	hash = `bkr_prop_meth_bigbag_04a`,	animName = "break_weigh_"..ver.."box01"},
-		{	hash = `bkr_prop_meth_bigbag_03a`,	animName = "break_weigh_"..ver.."box01^1"},
-		{	hash = `bkr_prop_meth_openbag_02`,	animName = "break_weigh_"..ver.."methbag01"}
+		{	hash = "bkr_prop_meth_bigbag_04a",	animName = "break_weigh_"..ver.."box01"},
+		{	hash = "bkr_prop_meth_bigbag_03a",	animName = "break_weigh_"..ver.."box01^1"},
+		{	hash = "bkr_prop_meth_openbag_02",	animName = "break_weigh_"..ver.."methbag01"}
 	},
 	{
-		{	hash = `bkr_prop_meth_openbag_02`,	animName = "break_weigh_"..ver.."methbag01^1"},
-		{	hash = `bkr_prop_meth_openbag_02`,	animName = "break_weigh_"..ver.."methbag01^2"},
-		{	hash = `bkr_prop_meth_openbag_02`,	animName = "break_weigh_"..ver.."methbag01^3"}
+		{	hash = "bkr_prop_meth_openbag_02",	animName = "break_weigh_"..ver.."methbag01^1"},
+		{	hash = "bkr_prop_meth_openbag_02",	animName = "break_weigh_"..ver.."methbag01^2"},
+		{	hash = "bkr_prop_meth_openbag_02",	animName = "break_weigh_"..ver.."methbag01^3"}
 	},
 	{
-		{	hash = `bkr_prop_meth_openbag_02`,	animName = "break_weigh_"..ver.."methbag01^4"},
-		{	hash = `bkr_prop_meth_openbag_02`,	animName = "break_weigh_"..ver.."methbag01^5"},
-		{	hash = `bkr_prop_meth_openbag_02`,	animName = "break_weigh_"..ver.."methbag01^6"}
+		{	hash = "bkr_prop_meth_openbag_02",	animName = "break_weigh_"..ver.."methbag01^4"},
+		{	hash = "bkr_prop_meth_openbag_02",	animName = "break_weigh_"..ver.."methbag01^5"},
+		{	hash = "bkr_prop_meth_openbag_02",	animName = "break_weigh_"..ver.."methbag01^6"}
 	},
 	{
-		{	hash = `bkr_prop_meth_scoop_01a`,	animName = "break_weigh_"..ver.."scoop"},
-		{	hash = `bkr_prop_coke_scale_01`,	animName = "break_weigh_"..ver.."scale"},
-		{	hash = `bkr_prop_fakeid_penclipboard`,	animName = "break_weigh_"..ver.."pen"}
+		{	hash = "bkr_prop_meth_scoop_01a",	animName = "break_weigh_"..ver.."scoop"},
+		{	hash = "bkr_prop_coke_scale_01",	animName = "break_weigh_"..ver.."scale"},
+		{	hash = "bkr_prop_fakeid_penclipboard",	animName = "break_weigh_"..ver.."pen"}
 	},
 	{
-		{	hash = `bkr_prop_fakeid_clipboard_01a`,	animName = "break_weigh_"..ver.."clipboard"},
-		{	hash = `bkr_Prop_Meth_Tray_02a`,	animName = "break_weigh_"..ver.."tray01^5"}
+		{	hash = "bkr_prop_fakeid_clipboard_01a",	animName = "break_weigh_"..ver.."clipboard"},
+		{	hash = "bkr_Prop_Meth_Tray_02a",	animName = "break_weigh_"..ver.."tray01^5"}
 	}
 }
 local scenesList, entitiesList = {}, {}
@@ -169,9 +170,9 @@ function CutCoke()
 	local scenePos, sceneRot = vector3(1090.37+.9, -3193.61-1.68, -39.60), vector3(0.0, 0.0, 0.00)
 	local scenes = {
 	{
-		{	hash = `bkr_prop_coke_bakingsoda_o`,	animName = "coke_cut_v5_bakingsoda"},
-		{	hash = `prop_cs_credit_card`,	animName = "coke_cut_v5_creditcard"},
-		{	hash = `prop_cs_credit_card`,	animName = "coke_cut_v5_creditcard^1"}
+		{	hash = "bkr_prop_coke_bakingsoda_o",	animName = "coke_cut_v5_bakingsoda"},
+		{	hash = "prop_cs_credit_card",	animName = "coke_cut_v5_creditcard"},
+		{	hash = "prop_cs_credit_card",	animName = "coke_cut_v5_creditcard^1"}
 	},
 }
 	local scenesList, entitiesList = {}, {}
@@ -225,22 +226,22 @@ local ver = ""
 	local scenePos, sceneRot = vector3(1090.62+4.3, -3196.2+3, -38.99-1), vector3(360.0, 360.0, 180.08)
 	local scenes = {
 	{
-		{	hash = `bkr_prop_coke_cutblock_01`,	animName = "break_weigh_"..ver.."box01"},
-		{	hash = `bkr_prop_coke_fullmetalbowl_02`,	animName = "break_weigh_"..ver.."box01^1"},
-		{	hash = `bkr_prop_coke_cutblock_01`,	animName = "break_weigh_"..ver.."methbag01"}
+		{	hash = "bkr_prop_coke_cutblock_01",	animName = "break_weigh_"..ver.."box01"},
+		{	hash = "bkr_prop_coke_fullmetalbowl_02",	animName = "break_weigh_"..ver.."box01^1"},
+		{	hash = "bkr_prop_coke_cutblock_01",	animName = "break_weigh_"..ver.."methbag01"}
 	},
 	{
-		{	hash = `xm3_prop_xm3_bag_coke_01a`,	animName = "break_weigh_"..ver.."methbag01^1"},
-		{	hash = `xm3_prop_xm3_bag_coke_01a`,	animName = "break_weigh_"..ver.."methbag01^2"},
-		{	hash = `xm3_prop_xm3_bag_coke_01a`,	animName = "break_weigh_"..ver.."methbag01^3"}
+		{	hash = "xm3_prop_xm3_bag_coke_01a",	animName = "break_weigh_"..ver.."methbag01^1"},
+		{	hash = "xm3_prop_xm3_bag_coke_01a",	animName = "break_weigh_"..ver.."methbag01^2"},
+		{	hash = "xm3_prop_xm3_bag_coke_01a",	animName = "break_weigh_"..ver.."methbag01^3"}
 	},
 	{
-		{	hash = `bkr_prop_coke_fullscoop_01a`,	animName = "break_weigh_"..ver.."scoop"},
-		{	hash = `bkr_prop_coke_scale_01`,	animName = "break_weigh_"..ver.."scale"},
-		{	hash = `bkr_prop_fakeid_penclipboard`,	animName = "break_weigh_"..ver.."pen"}
+		{	hash = "bkr_prop_coke_fullscoop_01a",	animName = "break_weigh_"..ver.."scoop"},
+		{	hash = "bkr_prop_coke_scale_01",	animName = "break_weigh_"..ver.."scale"},
+		{	hash = "bkr_prop_fakeid_penclipboard",	animName = "break_weigh_"..ver.."pen"}
 	},
 	{
-		{	hash = `bkr_prop_fakeid_clipboard_01a`,	animName = "break_weigh_"..ver.."clipboard"},
+		{	hash = "bkr_prop_fakeid_clipboard_01a",	animName = "break_weigh_"..ver.."clipboard"},
 		
 	}
 }
@@ -375,10 +376,10 @@ function SpawnCarPedChase()
 		Notify(Lang.lean.act,'error')
 	else
     started = true
-    lib.requestModel(`pounder`, Config.RequestModelTime)
+    lib.requestModel("pounder", Config.RequestModelTime)
     lib.requestModel("ig_priest", Config.RequestModelTime)
-    lib.requestModel(`cargobob3`, Config.RequestModelTime)
-    local leancar = CreateVehicle(`pounder`, start.x+3, start.y-2, start.z-1, 52.0, false, false)
+    lib.requestModel("cargobob3", Config.RequestModelTime)
+    local leancar = CreateVehicle("pounder", start.x+3, start.y-2, start.z-1, 52.0, false, false)
     local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, false, false)
     local pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
 	FreezeEntityPosition(pilot2, true)
@@ -412,7 +413,7 @@ function SpawnCarPedChase()
 			Wait(1000)
 		until #(GetEntityCoords(driver) - GetEntityCoords(pilot2)) < 25.0
         Wait( 3 * 1000)
-        local heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
+        local heli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         Wait(1000)
         if DoesEntityExist(heli) then
 			SetEntityInvincible(pilot2, false)
@@ -422,7 +423,7 @@ function SpawnCarPedChase()
             SetPedIntoVehicle(pilot2, heli, -1)
             TaskHeliMission(pilot2, heli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
         else    
-        	heli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
+        	heli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         end  
      end        
 end
@@ -439,10 +440,10 @@ if startedmeth then
 	Notify(Lang.meth.act,'error')
 else
     startedmeth = true
-    lib.requestModel(`journey`, Config.RequestModelTime)
+    lib.requestModel("journey", Config.RequestModelTime)
     lib.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
-    lib.requestModel(`cargobob3`, Config.RequestModelTime)
-    local methcar = CreateVehicle(`journey`, start.x+3, start.y-2, start.z-1, 52.0, false, false)
+    lib.requestModel("cargobob3", Config.RequestModelTime)
+    local methcar = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, false, false)
     local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, false, false)
     local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
 	FreezeEntityPosition(methpilot, true)
@@ -464,7 +465,7 @@ else
 			action = function()
 			 if not minigame() then return end
 			 TriggerServerEvent('md-drugs:server:givemethingridients')
-			 startedmeth = nil
+			 startedmeth = false
 			 if math.random(1,100) <= 30 then
 				DeleteVehicle(methcar)
 				DeleteEntity(methdriver)
@@ -477,7 +478,7 @@ else
 			Wait(1000)
 		until #(GetEntityCoords(methdriver) - GetEntityCoords(methpilot)) < 25.0
         Wait( 3 * 1000)
-        local methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
+        local methheli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         Wait(1000)
         if DoesEntityExist(methheli) then
 			SetEntityInvincible(methpilot, false)
@@ -488,7 +489,7 @@ else
             SetPedIntoVehicle(methpilot, methheli, -1)
             TaskHeliMission(methpilot, methheli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
         else    
-        	methheli = CreateVehicle(`cargobob3`, stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
+        	methheli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
         end  
     end        
 end

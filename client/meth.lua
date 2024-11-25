@@ -21,7 +21,7 @@ end
 local function dials()
 	if amonia == true then
 		if not minigame() then
-			AddExplosion(1005.773, -3200.402, -38.524, 49, 10, true, false, true, true)
+			AddExplosion(1005.773, -3200.402, -38.524, 49, 10, true, false, true)
 			ClearPedTasks(PlayerPedId())
 			amonia = nil
 			active = nil
@@ -37,7 +37,7 @@ local function smash()
 if tray then
 	tray = false
 	DeleteObject(trays)
-	local bucket = CreateObject(`bkr_prop_meth_bigbag_03a`, vector3(1012.85, -3194.29, -39.2), true, true, true)
+	local bucket = CreateObject("bkr_prop_meth_bigbag_03a", vector3(1012.85, -3194.29, -39.2), true, true, true)
 	Freeze(bucket, true, 90.0)
 	SmashMeth()
 	Wait(100)

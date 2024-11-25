@@ -207,7 +207,7 @@ end
 function GetLabel(label)
 	if GetResourceState('ox_inventory') == 'started' then
 		local Items = exports['ox_inventory']:Items()
-		if not Items[img] then print(' You Are Missing: ' .. img .. ' From Your ox items.lua') return end
+		if not Items[label] then print(' You Are Missing: ' .. label .. ' From Your ox items.lua') return end
 		return Items[label]['label']
 	else
 		if QBCore.Shared.Items[label] == nil then print("There Is No " .. label .. " In Your QB Items.lua") return end

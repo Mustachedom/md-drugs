@@ -115,8 +115,8 @@ function checkLoc(source, event, num)
     local ped = source
     local pos = GetPlayerPed(ped)
     local coord = GetEntityCoords(pos)
-    local loc = ''
-    if type(num) =='string' then 
+    local loc
+    if type(num) == 'string' then 
         loc = vector3(Target[event][num].x, Target[event][num].y, Target[event][num].z)
     else
         loc = Target[event][num].loc
