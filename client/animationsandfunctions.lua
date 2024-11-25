@@ -394,7 +394,7 @@ function SpawnCarPedChase()
 	until #(GetEntityCoords(driver) - stoploc) < 20.0 or GetEntityHealth(driver) == 0 
 	RemoveBlip(leancar)
 	if GetEntityHealth(driver) == 0 then 
-		AddSingleModel(leancar, { name = 'leancar', icon = 'fa-solid fa-car', label = 'Steal From Car',
+		AddSingleModel(leancar, { name = 'leancar', icon = 'fa-solid fa-car', label = Lang.targets.lean.st,
 			action = function()
 				hit = hit + 1
 				 if not minigame() then return end

@@ -1,14 +1,12 @@
 Config = {} --Ignore.
 
-Config.Target = 'ox' -- qb or ox
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
-
 Config.FancyCokeAnims = true -- if you want multi location this needs to be false
-Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
+
 Config.Joblock = false -- if you want weed to be a job
 Config.weedjob = "" -- what the job name is
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
@@ -28,7 +26,7 @@ Config.progressbartype = 'oxcir' -- either 'qb', 'oxcir', 'oxbar'
 Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
 Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
-
+Config.Target = 'ox' -- qb or ox
 Config.Minigames = {
     ps_circle =     {amount = 2,     speed = 8,},
     ps_maze =       {timelimit = 15},

@@ -340,7 +340,9 @@ CreateThread(function()
        print('^1 ox_lib Is A Depndancy, Not An Optional ')
     end
 end)
+
 CreateThread(function()
+    if not lib.checkDependency('md-drugs', '1.5.0') then print('You Suck') end
     local url = "https://raw.githubusercontent.com/Mustachedom/md-drugs/main/version.txt"
     local version = GetResourceMetadata('md-drugs', "version" )
      PerformHttpRequest(url, function(err, text, headers)

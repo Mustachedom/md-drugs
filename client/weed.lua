@@ -74,7 +74,7 @@ CreateThread(function()
 				Wait(math.random(1000,5000))
 				Notify(Lang.Weed.take, "success")
 				AddSingleModel(weedplant, {
-					icon = "fas fa-sign-in-alt",
+					icon = "fa-solid fa-cannabis",
 					label = Lang.targets.weed.dpick,
 					action = function()
 						DeleteEntity(weedplant)
@@ -90,19 +90,19 @@ CreateThread(function()
 			if hasJob() then return true end end	
 	})
 
-AddBoxZoneSingle('teleinweedout', config.singleSpot.weedTeleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTelein) end,
+AddBoxZoneSingle('teleinweedout', config.singleSpot.weedTeleout, { name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTelein) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('teleinweedin', config.singleSpot.weedTelein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTeleout) end,
+AddBoxZoneSingle('teleinweedin', config.singleSpot.weedTelein, { name = 'teleout', icon = "fa-solid fa-door-open", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTeleout) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('MakeButterCrafting', config.singleSpot.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
+AddBoxZoneSingle('MakeButterCrafting', config.singleSpot.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fa-solid fa-cookie", 
 canInteract = function() if hasJob() then return true end end	
 }) 
 
 	AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
 	name = 'Oil',
-	icon = "fas fa-sign-in-alt",
+	icon = "fa-solid fa-oil-can",
 	label = Lang.targets.weed.oil,
 	action = function()
 		if not ItemCheckMulti({'butane', 'grindedweed'}) then return end

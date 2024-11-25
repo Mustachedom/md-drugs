@@ -35,7 +35,8 @@ Lang.targets = {
         vial = 'Make Vial',
     },
     lean = {
-        git = 'Get Task'
+        git = 'Get Task',
+        st = 'Steal From Car'
     },
     lsd = {
         buy = 'Buy LSD Lab Kit',

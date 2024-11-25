@@ -12,7 +12,7 @@ RegisterNetEvent("md-drugs:client:GetOxyCar", function()
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(oxycar))
 	Notify(Lang.oxy.truck, 'success')
 	TriggerEvent("md-drugs:client:getoxylocationroute")
-	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = Lang.targets.oxy.pack}, nil )
+	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fa-solid fa-box", label = Lang.targets.oxy.pack}, nil )
 end)
 
 RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
@@ -28,7 +28,7 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 			Wait(1000)
 		until #(GetEntityCoords(PlayerPedId()) - vector3(loc.x,loc.y,loc.z)) < 5.0
 		PoliceCall(Config.PoliceAlertOxy)
-		AddSingleModel(oxybuyer,  { type = "client", label = Lang.targets.oxy.talk, icon = "fas fa-eye", 
+		AddSingleModel(oxybuyer,  { type = "client", label = Lang.targets.oxy.talk, icon = "fa-solid fa-dollar-sign", 
 		action = function()
 			if carryPackage then
 				if not progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end

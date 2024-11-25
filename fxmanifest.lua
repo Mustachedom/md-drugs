@@ -3,7 +3,7 @@ author "mustache_dom"
 description "drugs by mustache dom"
 fx_version "cerulean"
 game "gta5"
-version  '3.8.0'
+version  '3.9.0'
 client_scripts {
 	'client/**.lua',
 }
@@ -11,20 +11,15 @@ client_scripts {
 server_scripts {
    	'server/**.lua',
 	'@oxmysql/lib/MySQL.lua',
-	
 }
 
 shared_scripts {
 	'@ox_lib/init.lua',
 	'shared/**.lua',
-
 }
-
 
 lua54 'yes'
 
-
-dependency 'bob74_ipl'
 files {
     'stream/mushroom.ytyp',
     'stream/mushroom.ydr'

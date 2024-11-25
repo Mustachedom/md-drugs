@@ -374,7 +374,7 @@ function AddBoxZoneSingle(name, loc, data)
 			  type = data.type or nil, 
 			  event = data.event or nil,
 			  action = data.action or nil,
-			  icon = data.icon, 
+			  icon = data.icon or "fa-solid fa-eye", 
 			  label = data.label,
 			  data = data.data,
 			  canInteract = data.canInteract,
@@ -389,7 +389,7 @@ function AddBoxZoneSingle(name, loc, data)
 			  event = data.event or nil,
 			  onSelect = data.action or nil,
 			  distance = 2.5,
-			  icon = data.icon, 
+			  icon = data.icon or "fa-solid fa-eye", 
 			  label = data.label,
 			  data = data.data,
 			  canInteract = data.canInteract,
@@ -426,7 +426,7 @@ function AddBoxZoneMulti(name, table, data)
 				  type = data.type or nil, 
 				  event = data.event or nil,
 				  action = data.action or nil,
-				  icon = data.icon, 
+				  icon = data.icon or "fa-solid fa-eye", 
 				  label = data.label,
 				  data = k,
 				  canInteract = data.canInteract or function()
@@ -441,7 +441,7 @@ function AddBoxZoneMulti(name, table, data)
 				  type = data.type or nil, 
 				  event = data.event or nil,
 				  onSelect = data.action or nil,
-				  icon = data.icon, 
+				  icon = data.icon or "fa-solid fa-eye", 
 				  label = data.label,
 				  data = k,
 				  distance = 2.5,
@@ -461,7 +461,7 @@ function AddBoxZoneMulti(name, table, data)
 						event = data.event or nil,
 						action = data.action or nil,
 						distance = 2.5,
-						label = data.label,
+						label = data.label or "fa-solid fa-eye", 
 						data = k,
 						canInteract = data.canInteract or function()
 							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
@@ -475,8 +475,9 @@ end
 function AddBoxZoneMultiOptions(name, loc, data) 
 	local options = {}
 	for k, v in pairs (data) do
+		
 		table.insert(options, {
-			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
+			icon = v.icon or "fa-solid fa-eye", label = v.label, event = v.event or nil, action = v.action or nil,
 			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
 		})
 	end
@@ -494,7 +495,7 @@ end
 function AddSingleModel(model, data, num)
 	if Config.Target == 'qb' then
 		exports['qb-target']:AddTargetEntity(model, {options = {
-			{icon = data.icon, label = data.label, event = data.event or nil, action = data.action or nil, data = num }
+			{icon = data.icon or "fa-solid fa-eye", label = data.label, event = data.event or nil, action = data.action or nil, data = num }
 		}, distance = 2.5})
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, {icon = data.icon, label = data.label, event = data.event or nil, onSelect = data.action or nil, data = num, distance = 2.5 })
@@ -507,7 +508,7 @@ function AddMultiModel(model, data, num)
 	local options = {}
 	for k, v in pairs (data) do 
 		table.insert(options, {
-			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
+			icon = v.icon or "fa-solid fa-eye",  label = v.label, event = v.event or nil, action = v.action or nil,
 			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
 		})
 	end

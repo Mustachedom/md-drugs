@@ -35,7 +35,7 @@ else
   PlaceObjectOnGroundProperly(press)
   Freeze(press, true, head)
     local options = {
-        { icon = "fas fa-eye", label = Lang.targets.xtc.make, distance = 2.0, action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end, 
+        { icon = "fa-solid fa-tablets", label = Lang.targets.xtc.make, distance = 2.0, action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end, 
         canInteract = function() if xtcpress then return true end end
         },
         {icon = "fas fa-eye", label = Lang.targets.xtc.pick, action = function() TriggerEvent("md-drugs:client:GetPressBack", type, press) end, distance = 2.0,

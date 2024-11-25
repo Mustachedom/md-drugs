@@ -101,18 +101,18 @@ CreateThread(function()
 		},
 	}
 	AddBoxZoneMultiOptions("cookmeth",vector3(1005.72, -3200.33, -38.52), options )
-	AddBoxZoneSingle('boxmeth', vector3(1012.15, -3194.04, -39.20), {name = 'boxmeth',icon = "fas fa-sign-in-alt",label = Lang.targets.meth.box,action = function()	smash()end,
+	AddBoxZoneSingle('boxmeth', vector3(1012.15, -3194.04, -39.20), {name = 'boxmeth',icon = "fa-solid fa-weight-scale",label = Lang.targets.meth.box,action = function()	smash()end,
 			canInteract = function()
 				if tray then return true end
 			end})
-	AddBoxZoneSingle('adjustdials',vector3(1007.89, -3201.17, -38.99),{	name = 'adjustdials',	icon = "fas fa-sign-in-alt",	label = Lang.targets.meth.adjust,	
+	AddBoxZoneSingle('adjustdials',vector3(1007.89, -3201.17, -38.99),{	name = 'adjustdials',	icon = "fa-solid fa-temperature-three-quarters",	label = Lang.targets.meth.adjust,	
 		distance = 5,	action = function() dials()	end,
 			canInteract = function()
 				if amonia and heated == nil then return true end end
 			})
 	if Config.MethHeist == false then
-		AddBoxZoneMulti('methep', config.MethEph, {icon = "fas fa-sign-in-alt",	    label = Lang.targets.meth.eph, event = 'md-drugs:client:stealeph'})
-		AddBoxZoneMulti('methace', config.Methace, {icon = "fas fa-sign-in-alt",	label = Lang.targets.meth.ace, event = 'md-drugs:client:stealace'})
+		AddBoxZoneMulti('methep', config.MethEph, {icon = "fa-solid fa-bucket",	    label = Lang.targets.meth.eph, event = 'md-drugs:client:stealeph'})
+		AddBoxZoneMulti('methace', config.Methace, {icon = "fa-solid fa-bucket",	label = Lang.targets.meth.ace, event = 'md-drugs:client:stealace'})
 	end
 end)
 
