@@ -192,7 +192,7 @@ function GetImage(img)
         ['ps-inventory'] = "nui://ps-inventory/html/images/",
         ['lj-inventory'] = "nui://lj-inventory/html/images/",
         ['qb-inventory'] = "nui://qb-inventory/html/images/",
-        ['qs-inventory'] = "nui://qs-inventory/html/img/",
+        ['qs-inventory'] = "nui://qs-inventory/html/imgages/",
         ['origen_inventory'] = "nui://origen_inventory/html/img/",
         ['core_inventory'] = "nui://core_inventory/html/img/"
     }
