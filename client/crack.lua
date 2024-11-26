@@ -12,4 +12,3 @@ RegisterNetEvent("md-drugs:client:bagcrack", function(data)
 	if not progressbar(Lang.Crack.bagcrack, 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:bagcrack", data.data)
 end)
-

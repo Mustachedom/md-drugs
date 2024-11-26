@@ -26,7 +26,6 @@ Citizen.CreateThread(function()
     end
 end)
 
-
 function heroinCooldown(loc)
     CreateThread(function()
         Wait(Config.respawnTime * 1000)
@@ -47,7 +46,6 @@ local src = source
 		Notifys(src, "You cant clean it with spit alone", "error")
 	end
 end)
-
 
 RegisterServerEvent("heroin:pickupCane", function(loc)
     if not h[loc].taken then
@@ -76,7 +74,6 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 		if not GetRecipe(src, 'heroin', 'dryheroin', 'tier1') then return end
 	end
 end)
-
 
 RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	local src = source
@@ -153,8 +150,6 @@ QBCore.Functions.CreateUseableItem('heroinlabkit', function(source, item)
 	end
 end)
 
-
-
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 local src = source
 local Player = getPlayer(src) 
@@ -197,7 +192,6 @@ local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
 	end
 end)
 
-
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
     local Player = getPlayer(src)
@@ -224,8 +218,6 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 		if not GetRecipe(src, 'heroin', 'fillneedle', 'tier1') then return end
 	end
 end)
-
-
 
 RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source

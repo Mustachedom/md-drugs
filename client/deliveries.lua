@@ -10,7 +10,7 @@ end)
 
 local function SpawnDealer()
     local getDealers = lib.callback.await('md-drugs:server:getDealers', false)
-     for k,v in pairs(getDealers) do
+    for k,v in pairs(getDealers) do
 		local Ped = "g_m_y_famdnf_01"
         lib.requestModel(Ped, Config.RequestModelTime)
         local loc = json.decode(v.coords)
@@ -29,7 +29,7 @@ local function SpawnDealer()
         { icon = "fa-solid fa-store", label = string.format(Lang.targets.Delivery.open, v.name),
             action =   function()   TriggerEvent('md-drugs:client:opendealermenu') end,
          }}, dealer[k])
-     end
+    end
 end
 
 RegisterNetEvent('md-drugs:client:RefreshDealers', function()

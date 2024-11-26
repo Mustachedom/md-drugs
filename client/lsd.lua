@@ -100,7 +100,6 @@ RegisterNetEvent("md-drugs:client:buytabs", function(data)
     TriggerServerEvent("md-drugs:server:gettabpaper", data.data)
 end)
 
-
 RegisterNetEvent("md-drugs:client:buylabkit", function()
     if QBCore.Functions.HasItem('lsdlabkit') then Notify(Lang.lsd.hav, 'error') return end 
 	if not progressbar(Lang.lsd.buykit, 4000, 'uncuff') then return end

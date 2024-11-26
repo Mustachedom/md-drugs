@@ -23,23 +23,23 @@ RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, pr
 end)
 
 RegisterNetEvent('md-drugs:client:recievebuff', function(type, amount)
-if type == 'speed' then
-	local count = 0
-	SetRunSprintMultiplierForPlayer(PlayerPedId(), 1.49)
-	repeat 
-		count = count + 1
-		Wait(1000) 
-	until count == amount
-	SetRunSprintMultiplierForPlayer(PlayerPedId(), 1.00)
-end
-if type == 'strength' then 
-	local strength = 0
-	SetCurrentPedWeapon(PlayerPedId(), 'weapon_unarmed', true)
-	SetWeaponDamageModifier(GetHashKey("WEAPON_UNARMED"), 50.0) 
-	repeat 
-		strength = strength + 1
-		Wait(1000) 
-	until strength == amount
-	SetWeaponDamageModifier(GetHashKey("WEAPON_UNARMED"), 1.0) 
-end
+	if type == 'speed' then
+		local count = 0
+		SetRunSprintMultiplierForPlayer(PlayerPedId(), 1.49)
+		repeat 
+			count = count + 1
+			Wait(1000) 
+		until count == amount
+		SetRunSprintMultiplierForPlayer(PlayerPedId(), 1.00)
+	end
+	if type == 'strength' then 
+		local strength = 0
+		SetCurrentPedWeapon(PlayerPedId(), 'weapon_unarmed', true)
+		SetWeaponDamageModifier(GetHashKey("WEAPON_UNARMED"), 50.0) 
+		repeat 
+			strength = strength + 1
+			Wait(1000) 
+		until strength == amount
+		SetWeaponDamageModifier(GetHashKey("WEAPON_UNARMED"), 1.0) 
+	end
 end)

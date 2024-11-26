@@ -475,7 +475,6 @@ end
 function AddBoxZoneMultiOptions(name, loc, data) 
 	local options = {}
 	for k, v in pairs (data) do
-		
 		table.insert(options, {
 			icon = v.icon or "fa-solid fa-eye", label = v.label, event = v.event or nil, action = v.action or nil,
 			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
@@ -616,7 +615,6 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 	Wait(3000)
 	LoadModel('prop_plant_01b') LoadModel('prop_plant_01a') LoadModel('prop_cactus_03') LoadModel('bkr_prop_weed_lrg_01b')
 	local check = lib.callback.await('md-drugs:server:GetRep', false)
-
 	return
 end)
 

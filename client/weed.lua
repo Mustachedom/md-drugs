@@ -100,7 +100,7 @@ AddBoxZoneSingle('MakeButterCrafting', config.singleSpot.MakeButter, {label = La
 canInteract = function() if hasJob() then return true end end	
 }) 
 
-	AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
+AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
 	name = 'Oil',
 	icon = "fa-solid fa-oil-can",
 	label = Lang.targets.weed.oil,
@@ -142,8 +142,8 @@ CreateThread(function()
 end)
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-if not progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
-AlienEffect()
+	if not progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
+	AlienEffect()
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
@@ -169,11 +169,7 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
         }
     end
     sorter(options, 'title')
-    lib.registerContext({
-        id = contextId,
-        title = contextTitle,
-        options = options
-    })
+    lib.registerContext({    id = contextId,    title = contextTitle,    options = options})
 end
 
 CreateThread(function()

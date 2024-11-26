@@ -3,7 +3,7 @@ local icon = "fa solid fa-eye"
 
 CreateThread(function()
 	local config = lib.callback.await('md-drugs:server:getLocs', false) 
-	if not config then return end
+	if not config then print('Yo Dawg You Broke Your Locations.lua') return end
 	AddBoxZoneSingle('telecokein', 	     config.singleSpot.CokeTeleIn, 	{action = function()tele(config.singleSpot.CokeTeleOut)end,  icon = 'fa-solid fa-door-open', label = Lang.targets.coke.enter}) -- coke
 	AddBoxZoneSingle('telecokeout', 	 config.singleSpot.CokeTeleOut, {action = function()tele(config.singleSpot.CokeTeleIn) end,  icon = "fa-solid fa-door-closed", label = Lang.targets.coke.exit}) -- coke
 	AddBoxZoneMulti('makepowder', 		 config.MakePowder, 	        {event = "md-drugs:client:makepowder",			  icon = "fa-solid fa-scissors", label = Lang.targets.coke.chop}) -- coke
