@@ -14,8 +14,6 @@
 - **[Bostra](https://discord.gg/5ncbwMNq):** Free scripts, sanity checks, and those cute mushrooms!  
 - **[Feisty]():** Stunning visuals that make everything look amazing.  
 - **Beta Testers:** Your invaluable feedback made this possible.  
-- **[Jim's Tebex](https://jimathy666.tebex.io/):** Open-source resources that helped refine coding skills.  
-- **[Jixeltay](https://jixeltay.tebex.io/category/scripts):** For creating scripts that teach and inspire the community.  
 - **[1of1 Servers](https://1of1servers.com/):** Top-notch hosting and support. Join their [Discord](https://discord.gg/1of1servers).  
 - **[Kamaryn](https://discord.gg/KPRmZqFS):** For the [installation guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd).  
 
@@ -49,7 +47,7 @@
 - delete `qb-drugs` 
 
 ### STEP 3
-- all locations are in the server files now utilizing callbacks to build targets
+- all locations, shops, pricings, and recipes are in the server files now utilizing callbacks to build targets and retrieve data
     - shops.lua
         - travelling merchant
         - Weed Store

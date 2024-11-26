@@ -504,6 +504,7 @@ function AddSingleModel(model, data, num)
 end
 
 function AddMultiModel(model, data, num)
+	print(model)
 	local options = {}
 	for k, v in pairs (data) do 
 		table.insert(options, {
@@ -516,7 +517,8 @@ function AddMultiModel(model, data, num)
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, options)
 	elseif Config.Target == 'interact' then
-		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugsmulti'..model,distance = 2.5,interactDst = 2.5, options = options})
+		local loc = GetEntityCoords(model)
+		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugss'..model,distance = 2.5,interactDst = 2.5, options = data})
 	end
 end
 
@@ -569,7 +571,7 @@ end
 function StartRay2()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
-	lib.requestModel('v_ret_ml_tablea', 30000)
+	lib.requestModel('bkr_prop_coke_press_01aa', 30000)
 	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
         local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
