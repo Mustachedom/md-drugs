@@ -23,7 +23,7 @@
 - **[ox_lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0)**  
 - **[qb-target](https://github.com/qbcore-framework/qb-target)** or **[ox_target](https://github.com/overextended/ox_target)**  
 - **Emote Scripts (supports animations):**
-  - [dpemotes](https://github.com/andristum/dpemotes)  
+  - [dpemotes](https://github.com/andristum/dpemotes) <-- seriously just use rpemotes. this is old and outdated
   - [rpemotes](https://github.com/alberttheprince/rpemotes-reborn)  
   - [scully_emotemenu](https://github.com/Scullyy/scully_emotemenu)  
 - **[Read](https://letters.hookedonphonics.com/us/read-guaranteed-G14.html)**  
@@ -47,6 +47,7 @@
 - delete `qb-drugs` 
 
 ### STEP 3
+
 - all locations, shops, pricings, and recipes are in the server files now utilizing callbacks to build targets and retrieve data
     - shops.lua
         - travelling merchant
@@ -79,11 +80,42 @@
         - now the drug table is inserted into this file. 
             - copy and paste your data inside of the 
             ```lua
-                local Drugs = {
-
+                local Drugs = { -- for example
+                    ["weed_white-widow"] =          {rep = 1,min = 15, max = 24 },
+                    ["weed_og-kush"] =              {rep = 1,min = 15, max = 28 },
                 }
             ```
     - all plant locations i.e. coke, heroin, weed, shrooms, mescaline are in the respective server files
+    - check server files to see drug specific settings now. 
+        - heroin/lsd/ and xtc will have a setting table now at the top
+    ### HOW TO CONVERT FROM OLD
+    - its simple really
+        - copy the data from your Config and paste it in locations.lua
+        - if the previous config option was a single location ( Not designed for multiples) then check target.singleSpot
+        - shops.lua will now hold all shops for md-drugs so edit the data needed there
+        - this is simple but tedious, but will handle security better in the long run
+        - if you want to be lazy you can delete everything from 
+            ```lua
+            local Targt = {
+                
+            }
+            ```
+            **besides singleSpot**
+            
+            and copy and paste your 
+            ```lua
+                Config.MakePowder = {
+                    {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                }
+            and change the Config to Target like this BELOW the local Target = {
+                Target.MakePowder = {
+                    {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                }
+            ```
 ### STEP 4
  - Head to your emote script search for **uncuff** if it's missing add it
     - if rpemotes do this 
