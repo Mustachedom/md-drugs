@@ -335,10 +335,19 @@ function PoliceCall(chance)
 			exports["aty_dispatch"]:SendDispatch('Drug Sale', '420-69', 40, {'police'})
 		elseif dispatch == 'qs' then
 			exports['qs-dispatch']:DrugSale()
+		elseif dispatch == 'codem' then
+			local Data = {
+				type = 'Drug Sale',
+				header = 'Someone Selling Drugs',
+				text = 'Hurry up and save the community',
+				code = '420-69',
+			}
+			exports['codem-dispatch']:CustomDispatch(Data)
 		else
 			print('Congrats, You Choose 0 of the options :)')	
 		end
 	else
+		return
 	end
 end
 
