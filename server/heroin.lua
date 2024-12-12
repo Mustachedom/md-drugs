@@ -102,6 +102,8 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	local src = source
 	local Player = getPlayer(src)
 	if not checkLoc(source, 'singleSpot', 'buyheroinlabkit') then return end
+	local has = Player.Functions.GetItemByName('heroinlabkit')
+	if has then Notifys(src, 'You Already Have A Heroin Lab Kit', 'error') return end
 	if Player.Functions.RemoveMoney('cash', prices.heroinlabkitprice) then
 		AddItem(src, 'heroinlabkit', 1)
 	else

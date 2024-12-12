@@ -318,6 +318,17 @@ function sortTab(tbl, type)
     end)
 end
 
+function getCops()
+    local amount = 0
+    local players = QBCore.Functions.GetQBPlayers()
+    for k, v in pairs(players) do
+         if v.PlayerData.job.type == 'leo' and v.PlayerData.job.onduty then
+          amount = amount + 1
+         end
+    end
+   return amount
+end
+
 lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
     local amount = 0
     local players = QBCore.Functions.GetQBPlayers()
