@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local sell = false
 local sold = false
 local targbusy = false

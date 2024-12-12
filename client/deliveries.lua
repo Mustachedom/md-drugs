@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local isActive = false
 local dealer = {}
 

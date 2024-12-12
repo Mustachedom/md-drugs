@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterNetEvent("md-drugs:client:makecrackone", function(data)
 	if not ItemCheck('bakingsoda') then return end
 	if not minigame() then TriggerServerEvent("md-drugs:server:failcrackone", data.data) return end

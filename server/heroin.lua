@@ -48,6 +48,7 @@ local src = source
 end)
 
 RegisterServerEvent("heroin:pickupCane", function(loc)
+	if CheckDist(source, h[loc].location) then return end
     if not h[loc].taken then
 		h[loc].taken = true
         GlobalState.PoppyPlants = h
@@ -103,7 +104,7 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	local Player = getPlayer(src)
 	if not checkLoc(source, 'singleSpot', 'buyheroinlabkit') then return end
 	local has = Player.Functions.GetItemByName('heroinlabkit')
-	if has then Notifys(src, 'You Already Have A Heroin Lab Kit', 'error') return end
+	if has then Notifys(src, Lang.Heroin.haskit, 'error') return end
 	if Player.Functions.RemoveMoney('cash', prices.heroinlabkitprice) then
 		AddItem(src, 'heroinlabkit', 1)
 	else

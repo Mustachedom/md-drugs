@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local CocaPlant = {}
 local cuttingcoke = nil
 local baggingcoke = nil

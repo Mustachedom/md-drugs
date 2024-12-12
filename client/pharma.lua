@@ -1,7 +1,6 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 lib.callback.register("md-drugs:client:prescriptionpad", function(data, op)
-    if not QBCore.Functions.GetPlayerData().job.type == 'ems' then return end
+    if getJobType() ~= 'ems' then return end
     local input = lib.inputDialog('Who To Give A Prescription To?',{
         {type = 'select', label = 'Player Name', options = data},
         {type = 'select', label = 'Prescription', options = op}})

@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
 	if not progressbar(progresstext .. GetLabel(item).. "!", time, anim ) then return end
 	TriggerServerEvent('md-drugs:server:removeconsum', item)

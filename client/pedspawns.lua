@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 CreateThread(function()
     local config = lib.callback.await('md-drugs:server:getLocs', false)
     local num = lib.callback.await('md-drugs:server:GetMerchant', false)

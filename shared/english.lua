@@ -173,7 +173,8 @@ Lang.Heroin = {
     novial = "How Can You Make Heroin Vials Without Heroin Idiot",
     fail = 'You Over Heated Them Idiot',
     fill = 'Filled The Syringe',
-    nofill = 'How Are You Going To Fill Needles Of Heroin Without Heroin'
+    nofill = 'How Are You Going To Fill Needles Of Heroin Without Heroin',
+    haskit = 'You Already Have A Heroin Lab Kit'
 }
 Lang.Lean = {
     marked = ' Car Has Been Marked On Your Map',
@@ -289,5 +290,7 @@ Lang.xtc = {
 }
 
 Lang.Wholesale = {
-    al = 'Already Called Someone!'
+    al = 'You Already Have A Delivery To Make',
+    na = 'No One Answered, Try Again Later',
+
 }

@@ -19,10 +19,10 @@ for k, v in pairs (burners) do
     QBCore.Functions.CreateUseableItem(k, function(source, item)
         local src = source
         local Player = getPlayer(src)
-        if getCops() < Config.PoliceCount then return Notifys(src, 'Nobody Answered, Try Again Later', 'error') end
+        if getCops() < Config.PoliceCount then return Notifys(src, Lang.Wholesale.na, 'error') end
         for m, d in pairs (active) do 
             if d.cid == Player.PlayerData.citizenid then
-                return Notifys(src, 'You Already Have A Delivery To Make', 'error' )
+                return Notifys(src, Lang.Wholesale.al, 'error' )
             end
         end
         local tab = ''

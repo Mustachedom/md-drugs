@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-local icon = "fa solid fa-eye"
 
 CreateThread(function()
 	local config = lib.callback.await('md-drugs:server:getLocs', false) 

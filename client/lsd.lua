@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local tableout = false
 
 local function createLabKit(coord, head)
@@ -101,7 +100,7 @@ RegisterNetEvent("md-drugs:client:buytabs", function(data)
 end)
 
 RegisterNetEvent("md-drugs:client:buylabkit", function()
-    if QBCore.Functions.HasItem('lsdlabkit') then Notify(Lang.lsd.hav, 'error') return end 
+    if hasItem('lsdlabkit') then Notify(Lang.lsd.hav, 'error') return end 
 	if not progressbar(Lang.lsd.buykit, 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:getlabkit")
 end)

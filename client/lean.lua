@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterNetEvent("md-drugs:client:getsyruplocationtobuy", function()
 	Notify(Lang.Lean.marked, "success")
 	SpawnCarPedChase()

@@ -258,12 +258,21 @@ end
 
 
 function ItemCheck(item)
-if GetResourceState('ox_inventory') == 'started' then
-    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
-else
-    if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-    if QBCore.Functions.HasItem(item) then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') return false end
+	if GetResourceState('ox_inventory') == 'started' then
+	    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
+	else
+	    if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
+	    if QBCore.Functions.HasItem(item) then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') return false end
+	end
 end
+
+function hasItem(item)
+	if GetResourceState('ox_inventory') == 'started' then
+		if exports.ox_inventory:GetItemCount(item) >= 1 then return true else return false end
+	else
+		if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
+		if QBCore.Functions.HasItem(item) then return true else return false end
+	end
 end
 
 function ItemCheckMulti(item)
@@ -664,3 +673,11 @@ RegisterCommand('DrugRep', function()
 	  })
 	  lib.showContext('DrugRep')
 end, false)
+
+function getJobType()
+	return QBCore.Functions.GetPlayerData().job.type
+end
+
+function getJobName()
+	return QBCore.Functions.GetPlayerData().job.name
+end

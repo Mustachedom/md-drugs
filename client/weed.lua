@@ -1,10 +1,9 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local WeedPlant = {}
 local exploded, drying = false, false
 
 local function hasJob()
 	if Config.Joblock then
-		if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
+		if  getJobName() == Config.weedjob then
 		return true else return false end
 	else
 	return true end

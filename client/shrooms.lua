@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local shrooms = {}
 
 local function LoadModels(hash)

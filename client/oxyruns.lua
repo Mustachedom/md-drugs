@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local carryPackage = nil
 
 RegisterNetEvent("md-drugs:client:GetOxyCar", function()
@@ -9,7 +8,7 @@ RegisterNetEvent("md-drugs:client:GetOxyCar", function()
 	local loc = loca.singleSpot.truckspawn
 	local oxycar = CreateVehicle("burrito3",loc.x, loc.y,loc.z, loc.w, true, false)
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
-    TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(oxycar))
+    TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(oxycar))
 	Notify(Lang.oxy.truck, 'success')
 	TriggerEvent("md-drugs:client:getoxylocationroute")
 	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fa-solid fa-box", label = Lang.targets.oxy.pack}, nil )

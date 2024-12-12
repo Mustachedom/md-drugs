@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local miss = false
 
 RegisterNetEvent("md-drugs:client:GetLocation", function(drug)

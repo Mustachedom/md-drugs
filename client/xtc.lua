@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local xtcpress = false
 
 RegisterNetEvent("md-drugs:client:setpress", function(type)

@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local amonia = nil
 local tray = nil
 local heated = nil

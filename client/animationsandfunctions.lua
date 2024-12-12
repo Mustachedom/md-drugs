@@ -1,5 +1,3 @@
-
-local QBCore = exports['qb-core']:GetCoreObject()
 local started = nil
 
 local function loadParticle(dict)

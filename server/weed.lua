@@ -54,13 +54,13 @@ function WeedCooldown(loc)
 end
 
 RegisterNetEvent("weed:pickupCane", function(loc)
-	local src = source
+    if CheckDist(source, weedPlant[loc].location) then return end
     if not weedPlant[loc].taken then
         weedPlant[loc].taken = true
         GlobalState.WeedPlant = weedPlant
         TriggerClientEvent("weed:removeCane", -1, loc)
         WeedCooldown(loc)
-        AddItem(src, 'wetcannabis', 1)
+        AddItem(source, 'wetcannabis', 1)
 		Log(GetName(source) .. ' Picked Weed With a distance of ' .. dist(source, weedPlant[loc].location) .. ' vectors', 'weed')
     end
 end)
