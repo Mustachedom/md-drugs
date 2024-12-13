@@ -136,7 +136,7 @@ RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 end)
 
 
-QBCore.Functions.CreateUseableItem('heroinlabkit', function(source, item)
+CUI('heroinlabkit', function(source, item)
 	local src = source
 	local Player = getPlayer(src)
 	if not Itemcheck(source, 'heroinlabkit', 1) then return end

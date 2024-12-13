@@ -6,7 +6,7 @@ Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, hero
 Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
 Config.FancyCokeAnims = true -- if you want multi location this needs to be false
-
+Config.Inventory = 'qb' -- qb or ox, other if you dont use ox just mark as qb
 Config.Joblock = false -- if you want weed to be a job
 Config.weedjob = "" -- what the job name is
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline

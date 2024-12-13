@@ -47,14 +47,14 @@ end)
 
 local cokecut = {crackrockstagetwo = 2, crackrockstagethree = 3}
 for k, v in pairs (cokecut) do
-	QBCore.Functions.CreateUseableItem(k, function(source, item)
+	CUI(k, function(source, item)
 		local src = source
 		local Player = getPlayer(src)
 		if Player.Functions.GetItemByName(item.name) then
 			if not Itemcheck(src, 'bakingsoda', 1) then return end
             local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting Crack Rock Further')
             if not check then return end
-            if RemoveItem(src, k, 1) then
+            if RemoveItem(src, k, 1) and RemoveItem(src, 'bakingsoda', 1) then
                 AddItem(src, 'crackrock', v)
             end
 		end

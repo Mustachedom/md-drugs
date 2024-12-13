@@ -50,7 +50,7 @@ RegisterNetEvent("shrooms:pickupCane", function(loc)
     end
 end)
 
-QBCore.Functions.CreateUseableItem('shrooms', function(source, item)
+CUI('shrooms', function(source, item)
 local src = source
 if TriggerClientEvent('md-drugs:client:takeshrooms', src, item.name) then
 	RemoveItem(src, 'shrooms', 1)

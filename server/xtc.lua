@@ -24,7 +24,7 @@ local presses = {
 	{item = 'quadpress',    data = 'quad'},
 }
 for k, v in pairs (presses) do 
-QBCore.Functions.CreateUseableItem(v.item, function(source, item)
+CUI(v.item, function(source, item)
 local src = source
 local Player = getPlayer(src)
 local check, loc = lib.callback.await('md-drugs:client:setpress', src, v.data)

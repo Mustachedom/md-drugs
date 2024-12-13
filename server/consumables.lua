@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 for k, v in pairs(Consumables.Items) do
-    QBCore.Functions.CreateUseableItem(k, function(source, item)
+    CUI(k, function(source, item)
         if not Itemcheck(source, k, 1) then return end
         local time = v.time or Consumables.defaulttime
         local effect = v.effect or 0

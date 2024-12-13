@@ -10,7 +10,7 @@ local function GetJob(source)
 	end
 end
 
-QBCore.Functions.CreateUseableItem('prescription_pad', function(source, item)
+CUI('prescription_pad', function(source, item)
 	local src = source
 	local near = {}
 	if GetJob(src) then 
@@ -38,7 +38,7 @@ end)
 
 local pharmabottle = {'vicodinbottle', 'adderalbottle','morphinebottle','xanaxbottle'}
 for m, d in pairs (pharmabottle) do
-QBCore.Functions.CreateUseableItem(d, function(source, item)
+CUI(d, function(source, item)
 	local src = source
 	local Player = getPlayer(src)
 	local check = lib.callback.await("md-drugs:client:unbottle", src)

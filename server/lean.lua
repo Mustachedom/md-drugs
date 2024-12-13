@@ -16,7 +16,7 @@ RegisterServerEvent('md-drugs:server:givelean', function()
 	end	
 end)
 
-QBCore.Functions.CreateUseableItem('leancup', function(source, item)
+CUI('leancup', function(source, item)
 	if Itemcheck(source, 'leancup', 1) then 
 		TriggerClientEvent('md-drugs:client:leancraft', source)
 	end

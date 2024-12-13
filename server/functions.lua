@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local notify = Config.Notify -- qb or ox
-
+local inventory = Config.Inventory -- qb or ox
 ------------------------------------------ logging stuff
 local logs = false 
 local logapi = GetConvar("fivemerrLogs", "")
@@ -48,23 +48,13 @@ end
 ---------------------------------------------------- inventory catcher
 local invname = ''
 CreateThread(function()
-if GetResourceState('ps-inventory') == 'started' then
-    invname = 'ps-inventory'
-elseif GetResourceState('qb-inventory') == 'started' then
-    invname = 'qb-inventory'
-else
-    invname = 'inventory'		
-end
-end)
-
-local inventory = ''
-
-CreateThread(function()
-if GetResourceState('ox_inventory') == 'started' then
-    inventory = 'ox'
-else
-    inventory = 'qb'
-end
+    if GetResourceState('ps-inventory') == 'started' then
+        invname = 'ps-inventory'
+    elseif GetResourceState('qb-inventory') == 'started' then
+        invname = 'qb-inventory'
+    else
+        invname = 'inventory'		
+    end
 end)
 ------------------------------------ Player Stuff functions
 function getPlayer(source) 
@@ -114,7 +104,7 @@ function Notifys(source, text, type)
         TriggerClientEvent('okokNotify:Alert', src, '', text, 4000, type, false)
     else
         print"^1 Look At The Config For Proper Alert Options"    
-    end    
+    end
 end
 
 function GetLabels(item) 
@@ -124,6 +114,10 @@ function GetLabels(item)
         local items = exports.ox_inventory:Items()
         return items[item].label
     end
+end
+
+function CUI(item, useFunction)
+    QBCore.Functions.CreateUseableItem(item, useFunction)
 end
 
 function Itemcheck(source, item, amount) 

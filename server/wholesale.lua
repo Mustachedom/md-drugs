@@ -16,7 +16,7 @@ local Price = {
 }
 
 for k, v in pairs (burners) do 
-    QBCore.Functions.CreateUseableItem(k, function(source, item)
+    CUI(k, function(source, item)
         local src = source
         local Player = getPlayer(src)
         if getCops() < Config.PoliceCount then return Notifys(src, Lang.Wholesale.na, 'error') end

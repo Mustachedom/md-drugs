@@ -54,7 +54,7 @@ RegisterNetEvent("md-drugs:server:drymescaline", function()
     if not GetRecipe(src, 'mescaline', 'dry', 'dried') then return end
 end)
 
-QBCore.Functions.CreateUseableItem("driedmescaline", function(source, item)
+CUI("driedmescaline", function(source, item)
     local src = source
     if RemoveItem(src, "driedmescaline", 1) then 
 	    TriggerClientEvent("md-drugs:client:takemescaline", src)

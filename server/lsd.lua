@@ -20,7 +20,7 @@ RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 end)
 
 
-QBCore.Functions.CreateUseableItem('lsdlabkit', function(source, item)
+CUI('lsdlabkit', function(source, item)
 	local src = source
 	local Player = getPlayer(src)
 	local placed, loc = lib.callback.await('md-drugs:client:setlsdlabkit', src)
@@ -195,7 +195,7 @@ local sheets = {
 }
 
 for k, v in pairs (sheets) do 
-	QBCore.Functions.CreateUseableItem(v.item, function(source)
+	CUI(v.item, function(source)
 		local src = source
 		local Player = getPlayer(src)
 		local math = math.random(1,10)
