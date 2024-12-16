@@ -1,6 +1,7 @@
-RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
+
+
+lib.callback.register('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
 	if not progressbar(progresstext .. GetLabel(item).. "!", time, anim ) then return end
-	TriggerServerEvent('md-drugs:server:removeconsum', item)
 	for k, v in pairs (status) do 
 		if k == 'health' then
 			local cur = GetEntityHealth(PlayerPedId())
@@ -17,7 +18,9 @@ RegisterNetEvent('md-drugs:client:consumedrugs', function(time, effect, anim, pr
 			TriggerEvent('md-drugs:client:recievebuff', k, v)
 		end
 	end
-		TriggerEvent('evidence:client:SetStatus', 'widepupils', 200) if effect == "alien" then AlienEffect() elseif effect == "ecstacy" then EcstasyEffect() elseif effect == "meth" then MethBagEffect() elseif effect == "coke" then CokeBaggyEffect() elseif effect == "trevor" then TrevorEffect() else end if status == nil then return end
+	TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
+	TriggerEvent('md-drugs:client:applyFeeling', effect)
+	return true
 end)
 
 RegisterNetEvent('md-drugs:client:recievebuff', function(type, amount)
@@ -39,5 +42,21 @@ RegisterNetEvent('md-drugs:client:recievebuff', function(type, amount)
 			Wait(1000) 
 		until strength == amount
 		SetWeaponDamageModifier(GetHashKey("WEAPON_UNARMED"), 1.0) 
+	end
+end)
+
+RegisterNetEvent('md-drugs:client:applyFeeling', function(effect)
+	if effect == "alien" then 
+		AlienEffect() 
+	elseif effect == "ecstacy" then
+		 EcstasyEffect()
+	elseif effect == "meth" then 
+		MethBagEffect() 
+	elseif effect == "coke" then 
+		CokeBaggyEffect() 
+	elseif effect == "trevor" then 
+		TrevorEffect() 
+	else 
+
 	end
 end)

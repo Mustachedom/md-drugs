@@ -3,9 +3,9 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local activePresses = {}
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	local src = source
-  	local Player = getPlayer(src)
 	if not checkLoc(src, 'isosafrole',num) then return end
   	if AddItem(src, "isosafrole", 1) then 
+		
   	end
 end)
 
