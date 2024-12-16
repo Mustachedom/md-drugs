@@ -60,7 +60,6 @@ function Cornersell()
     until #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(targ)) < 2.0
     lib.requestAnimDict("rcmme_tracey1")
     TaskStartScenarioInPlace(targ, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false) FreezeEntityPosition(targ, true)
-    print(data.ped)
     AddMultiModel(data.ped, {
         { label = string.format(Lang.targets.CornerSell.sell, data.amount, GetLabel(data.item), data.price), icon ="fa-solid fa-money-bill",
             action =   function() sellDrug(data.item, data.amount, data.price, targ) end,

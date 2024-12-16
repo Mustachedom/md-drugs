@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 local coke = { "cokebaggy", "cokebaggystagethree", "cokebaggystagetwo"}
 local crack = {"baggedcracked", "baggedcrackedstagetwo", "baggedcrackedstagethree"}
 local lsd = {'smiley_tabs', 'yinyang_tabs', 'wildcherry_tabs', 'pineapple_tabs', 'bart_tabs', 'gratefuldead_tabs'}

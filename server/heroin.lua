@@ -152,7 +152,6 @@ CUI('heroinlabkit', function(source, item)
 		})
 		Notifys(src, Lang.Heroin.placed, "success")
 	end
-	print(json.encode(heroinLabKits))
 end)
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
@@ -250,5 +249,4 @@ AddEventHandler('playerDropped', function()
 			AddItem(src, 'heroinlabkit', 1)
 		end
 	end
-	json.encode(heroinLabKits)
 end)

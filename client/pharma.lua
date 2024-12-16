@@ -4,6 +4,7 @@ lib.callback.register("md-drugs:client:prescriptionpad", function(data, op)
     local input = lib.inputDialog('Who To Give A Prescription To?',{
         {type = 'select', label = 'Player Name', options = data},
         {type = 'select', label = 'Prescription', options = op}})
+    if not input[1] then return end
   if not progressbar(Lang.Pharma.write, 4000, 'notepad') then return end
   return {who = input[1], what = input[2]} 
 end)

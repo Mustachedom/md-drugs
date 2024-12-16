@@ -92,24 +92,28 @@ function minigame()
 	   exports['ps-ui']:Maze(function(success)
 		   check = success
 	   end, game['ps_maze'].timelimit)
+	   repeat Wait(10) until check ~= nil
 	   return check
    elseif minigametype == 'ps_scrambler' then
 	   local check 
 	   exports['ps-ui']:Scrambler(function(success)
 		   check = success
 	   end, game['ps_scrambler'].type,  game['ps_scrambler'].time, game['ps_scrambler'].mirrored)
+	   repeat Wait(10) until check ~= nil
 	   return check
    elseif minigametype == 'ps_var' then
 	   local check 
 	   exports['ps-ui']:VarHack(function(success)
 		   check = success
 	   end, game['ps_var'].numBlocks,  game['ps_var'].time)
+	   repeat Wait(10) until check ~= nil
 	   return check
    elseif minigametype == 'ps_thermite' then
 	   local check 
 	   exports['ps-ui']:Thermite(function(success)
 		   check = success
 	   end, game['ps_thermite'].time,  game['ps_thermite'].gridsize, game['ps_thermite'].incorrect)
+	   repeat Wait(10) until check ~= nil
 	   return check
 	elseif minigametype == 'ox' then
 		local success = lib.skillCheck(game['ox'], {'1', '2', '3', '4'})
@@ -530,7 +534,6 @@ function AddSingleModel(model, data, num)
 end
 
 function AddMultiModel(model, data, num)
-	print(model)
 	local options = {}
 	for k, v in pairs (data) do 
 		table.insert(options, {
