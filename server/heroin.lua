@@ -37,14 +37,15 @@ function heroinCooldown(loc)
     end)
 end
 
-RegisterServerEvent('md-drugs:server:removecleaningkitheroin', function(data)
-local src = source
-	if RemoveItem(src,"cleaningkit", 1) then
-		TriggerClientEvent("md-drugs:client:deletedirtyheroin", src, data)
-		Log(GetName(src) .. ' Wiped Down Their Heroin Lab Kit!' , 'heroin')
-	else
-		Notifys(src, "You cant clean it with spit alone", "error")
+lib.callback.register('removeCleaningkit', function(source)
+	local Player = getPlayer(source)
+	for k, v in pairs(heroinLabKits) do
+		if v.ownerid == Player.PlayerData.citizenid then
+			RemoveItem(source, 'cleaningkit', 1)
+			return true
+		end
 	end
+	return false
 end)
 
 RegisterServerEvent("heroin:pickupCane", function(loc)
@@ -151,6 +152,7 @@ CUI('heroinlabkit', function(source, item)
 		})
 		Notifys(src, Lang.Heroin.placed, "success")
 	end
+	print(json.encode(heroinLabKits))
 end)
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()

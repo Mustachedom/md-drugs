@@ -377,7 +377,7 @@ function SpawnCarPedChase()
     lib.requestModel("pounder", Config.RequestModelTime)
     lib.requestModel("ig_priest", Config.RequestModelTime)
     lib.requestModel("cargobob3", Config.RequestModelTime)
-    local leancar = CreateVehicle("pounder", start.x+3, start.y-2, start.z-1, 52.0, false, false)
+    local leancar = CreateVehicle("pounder", start.x+3, start.y-2, start.z-1, 52.0, true, false)
     local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, false, false)
     local pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
 	FreezeEntityPosition(pilot2, true)
@@ -407,22 +407,7 @@ function SpawnCarPedChase()
 				 end    
 			end}, nil)
 	else
-		repeat  
-			Wait(1000)
-		until #(GetEntityCoords(driver) - GetEntityCoords(pilot2)) < 25.0
-        Wait( 3 * 1000)
-        local heli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
-        Wait(1000)
-        if DoesEntityExist(heli) then
-			SetEntityInvincible(pilot2, false)
-            DeleteVehicle(leancar)
-            DeleteEntity(driver)
-            SetEntityAsMissionEntity(heli)
-            SetPedIntoVehicle(pilot2, heli, -1)
-            TaskHeliMission(pilot2, heli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
-        else    
-        	heli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
-        end  
+		DeleteVehicle(leancar) DeleteEntity(driver) DeleteEntity(pilot2)
      end        
 end
 end
@@ -441,7 +426,7 @@ else
     lib.requestModel("journey", Config.RequestModelTime)
     lib.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
     lib.requestModel("cargobob3", Config.RequestModelTime)
-    local methcar = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, false, false)
+    local methcar = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, true, false)
     local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, false, false)
     local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
 	FreezeEntityPosition(methpilot, true)
@@ -472,23 +457,9 @@ else
 			end,		
 		}, nil )
 	else
-		repeat
-			Wait(1000)
-		until #(GetEntityCoords(methdriver) - GetEntityCoords(methpilot)) < 25.0
-        Wait( 3 * 1000)
-        local methheli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
-        Wait(1000)
-        if DoesEntityExist(methheli) then
-			SetEntityInvincible(methpilot, false)
-			CreatePickUpRopeForCargobob(methheli, 1)
-            AttachVehicleToCargobob(methheli, methcar, GetEntityBoneIndexByName(methcar, 'bodyshell'), 0.0, 0.0, 0.0)
-            DeleteEntity(methdriver)
-            SetEntityAsMissionEntity(methheli)
-            SetPedIntoVehicle(methpilot, methheli, -1)
-            TaskHeliMission(methpilot, methheli, 0, 0, -3362.05, 589.45, -13.04, 4, 150.0, 20.0, -1.0, 10, 10, 5.0, 0)
-        else    
-        	methheli = CreateVehicle("cargobob3", stoploc.x-20, stoploc.y-20, stoploc.z-1, 80, false,false) 
-        end  
+		DeleteVehicle(methcar)
+		DeleteEntity(methdriver)
+		DeleteEntity(methpilot)
     end        
 end
 end
