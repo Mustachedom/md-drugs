@@ -48,7 +48,7 @@ local recipe = {
         },
         fillneedle = {
             tier1 = {take = {heroinvial = 1,            needle = 1}, give = {heroin_ready = 1}},
-            tier2 = {take = {heroin_readystagetwo = 1,  needle = 1}, give = {heroin_readystagetwo = 1}},
+            tier2 = {take = {heroinvialstagetwo = 1,  needle = 1}, give = {heroin_readystagetwo = 1}},
             tier3 = {take = {heroinvialstagethree = 1,  needle = 1}, give = {heroin_readystagethree = 1}},
         }
      },
