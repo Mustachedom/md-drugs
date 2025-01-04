@@ -373,7 +373,8 @@ end
 local hit = 0
 function SpawnCarPedChase()
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
-	local start = Config.StartLoc[math.random(1,#Config.StartLoc)]
+	local config = lib.callback.await('md-drugs:server:getLocs', false)
+	local start = config.StartLoc[math.random(1,#config.StartLoc)]
 	if started then
 		Notify(Lang.lean.act,'error')
 	else
@@ -434,7 +435,8 @@ end
 function SpawnMethCarPedChase()
 local ped = GetEntityCoords(PlayerPedId())
 local stoploc = vector3(-1157.63, -3056.71, 13.94)
-local start = Config.StartLoc[math.random(1,#Config.StartLoc)]
+local config = lib.callback.await('md-drugs:server:getLocs', false)
+local start = config.StartLoc[math.random(1,#config.StartLoc)]
 local startedmeth = false
 
 if startedmeth then

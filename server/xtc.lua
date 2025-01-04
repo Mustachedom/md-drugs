@@ -3,7 +3,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	local src = source
   	local Player = getPlayer(src)
-	if CheckDist(source, Config.isosafrole[num]['loc']) then return end
+	if not checkLoc(src, 'isosafrole',num) then return end
   	if AddItem(src, "isosafrole", 1) then 
 		Log(GetName(source) .. ' Stole isosafrole with a distance of  ' .. dist(source, Config.isosafrole[num]['loc']) .. ' vectors!', 'xtc')
   	end	
@@ -12,7 +12,7 @@ end)
 RegisterServerEvent('md-drugs:server:stealmdp2p', function(num)
   	local src = source
   	local Player = getPlayer(src)
-	if CheckDist(source, Config.mdp2p[num]['loc']) then return end
+	if not checkLoc(src, 'mdp2p',num) then return end
   	if AddItem(src,"mdp2p", 1) then 
 		Log(GetName(source) .. ' Stole MDP2P with a distance of  ' .. dist(source, Config.mdp2p[num]['loc']) .. ' vectors!', 'xtc')
   	end	
@@ -153,25 +153,25 @@ end)
 
 ------------- making powder
 RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
-  local src = source
-  local Player = getPlayer(src)
-  	if CheckDist(source, Config.rawxtcloc[num]['loc']) then return end
+    local src = source
+    local Player = getPlayer(src)
+    if not checkLoc(src, 'rawxtcloc',num) then return end
   	if not GetRecipe(src, 'xtc', 'raw', 'raw_xtc') then return end
 	Log(GetName(source) .. ' Made Raw XTC With A Distance Of ' .. dist(source, Config.rawxtcloc[num]['loc']) .. '!', 'xtc')
 end)
   
 RegisterServerEvent('md-drugs:server:stampwhite', function(num)
-  local src = source
-  local Player = getPlayer(src)
-  local one = {'white_playboys', 'white_aliens', 'white_pl', 'white_trolls', 'white_cats'}
-  local chance = math.random(#one)
-  local two = {'white_playboys2', 'white_aliens2', 'white_pl2', 'white_trolls2', 'white_cats2'}
-  local chance2 = math.random(#one)
-  local three = {'white_playboys3', 'white_aliens3', 'white_pl3', 'white_trolls3', 'white_cats3'}
-  local chance3 = math.random(#one)
-  local four = {'white_playboys4', 'white_aliens4', 'white_pl4', 'white_trolls4', 'white_cats4'}
-  local chance4 = math.random(#one)
-	if CheckDist(source, Config.stamp[num]['loc']) then return end
+    local src = source
+    local Player = getPlayer(src)
+    local one = {'white_playboys', 'white_aliens', 'white_pl', 'white_trolls', 'white_cats'}
+    local chance = math.random(#one)
+    local two = {'white_playboys2', 'white_aliens2', 'white_pl2', 'white_trolls2', 'white_cats2'}
+    local chance2 = math.random(#one)
+    local three = {'white_playboys3', 'white_aliens3', 'white_pl3', 'white_trolls3', 'white_cats3'}
+    local chance3 = math.random(#one)
+    local four = {'white_playboys4', 'white_aliens4', 'white_pl4', 'white_trolls4', 'white_cats4'}
+    local chance4 = math.random(#one)
+	if not checkLoc(src, 'stamp', num) then return end
 
 	if RemoveItem(src, "white_xtc", 1) then
 		AddItem(src, one[chance], 1)
@@ -202,7 +202,7 @@ RegisterServerEvent('md-drugs:server:stampred', function(num)
 	local four = {'red_playboys4', 'red_aliens4', 'red_pl4', 'red_trolls4', 'red_cats4'}
 	local chance4 = math.random(#one)
 	local playerPed = GetPlayerPed(source)
-	  if CheckDist(source, Config.stamp[num]['loc']) then return end
+	if not checkLoc(src, 'stamp', num) then return end
   
 	  if RemoveItem(src, "red_xtc", 1) then
 		  AddItem(src, one[chance], 1)
@@ -233,7 +233,7 @@ RegisterServerEvent('md-drugs:server:stamporange', function(num)
 	local four = {'orange_playboys4', 'orange_aliens4', 'orange_pl4', 'orange_trolls4', 'orange_cats4'}
 	local chance4 = math.random(#one)
 	local playerPed = GetPlayerPed(source)
-	  if CheckDist(source, Config.stamp[num]['loc']) then return end
+	if not checkLoc(src, 'stamp', num) then return end
   
 	  if RemoveItem(src, "orange_xtc", 1) then
 		  AddItem(src, one[chance], 1)
@@ -264,8 +264,7 @@ RegisterServerEvent('md-drugs:server:stampblue', function(num)
 	local four = {'blue_playboys4', 'blue_aliens4', 'blue_pl4', 'blue_trolls4', 'blue_cats4'}
 	local chance4 = math.random(#one)
 	local playerPed = GetPlayerPed(source)
-	  if CheckDist(source, Config.stamp[num]['loc']) then return  end
-	  Log(GetName(source) .. ' Stamped A Single Blue Pill And Got ' .. one[chance] .. '!', 'xtc')
+	if not checkLoc(src, 'stamp', num) then return end
 	  if RemoveItem(src, "blue_xtc", 1) then
 		  AddItem(src, one[chance], 1)
 	  elseif RemoveItem(src, "blue_xtc2", 1) then
