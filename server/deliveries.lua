@@ -79,7 +79,6 @@ local dloc = {
     {coords = vector4(106.24, -1280.32, 29.24, 350.89)},
     {coords = vector4(223.98, 121.53, 102.76, 259.68)},
     {coords = vector4(102.19, -255.02, 50.05, 83.59)},
-    
 }
 lib.callback.register('md-drugs:server:getDealers', function(data)
     local check = MySQL.query.await('SELECT * FROM dealers', {})

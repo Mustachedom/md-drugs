@@ -6,7 +6,7 @@ Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, hero
 Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
 Config.FancyCokeAnims = true -- if you want multi location this needs to be false
-Config.Inventory = 'qb' -- qb or ox, other if you dont use ox just mark as qb
+
 Config.Joblock = false -- if you want weed to be a job
 Config.weedjob = "" -- what the job name is
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
@@ -14,7 +14,7 @@ Config.MethHeist = false
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
 Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
 Config.WholesaleTimeout = 600 -- time in seconds to get to the location
-Config.PoliceCount = 2 -- Amount of police required
+Config.PoliceCount = 0 -- Amount of police required
 Config.PoliceAlertOxy = 90 -- This is a % out of 100 to alert police
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
@@ -27,6 +27,7 @@ Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
 Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 Config.Target = 'ox' -- qb or ox
+Config.Inventory = 'ox' -- qb or ox, other if you dont use ox just mark as qb
 Config.Minigames = {
     ps_circle =     {amount = 2,     speed = 8,},
     ps_maze =       {timelimit = 15},
@@ -45,7 +46,7 @@ Config.Minigames = {
     glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
     glmath =        {timeLimit = 300000},
 }
-Config.minigametype = 'blrapidlines' -- look above for options or choose none if you dont want any minigames 
+Config.minigametype = 'ox' -- look above for options or choose none if you dont want any minigames 
 
 -------- Woah Where did like all the locations go?
 --- read the readme to find out

@@ -2,10 +2,11 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local function GetJob(source) 
 	local src = source
-	local Player = getPlayer(src) 
+	local Player = getPlayer(src)
 	if Player.PlayerData.job.type == 'ems' then
 		return true
 	else
+		Notifys(src, 'You Must Be EMS To Do This', 'error')
 		return false
 	end
 end
