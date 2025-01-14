@@ -1,13 +1,17 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local WeedPlant = {}
 local exploded, drying = false, false
 
 local function hasJob()
 	if Config.Joblock then
-		if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
+		if  getJobName() == Config.weedjob then
 		return true else return false end
 	else
 	return true end
+ end
+
+ local function pick(loc)
+	if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
+	TriggerServerEvent("weed:pickupCane", loc)
  end
 
 RegisterNetEvent('weed:respawnCane', function(loc)
@@ -17,10 +21,7 @@ RegisterNetEvent('weed:respawnCane', function(loc)
     if not WeedPlant[loc] then
         WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
 		Freeze(WeedPlant[loc],true,  v.heading)
-        AddSingleModel(WeedPlant[loc],  
-			    {icon = "fas fa-hand",label = Lang.targets.weed.pick, 
-				action = function()if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end	TriggerServerEvent("weed:pickupCane", loc) end},
-			loc)
+        AddSingleModel(WeedPlant[loc],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(loc) end}, loc)
     end
 end)
 
@@ -32,14 +33,12 @@ end)
 RegisterNetEvent("weed:init", function()
     for k, v in pairs (GlobalState.WeedPlant) do
         local hash = GetHashKey(v.model)
-        if not HasModelLoaded(hash) then LoadModel(hash) end
+        lib.requestModel('prop_weed_01', 1000)
         if not v.taken then
             WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
+			print(WeedPlant[k])
 			Freeze(WeedPlant[k],true,  v.heading)
-			AddSingleModel(WeedPlant[k],  
-			    {icon = "fas fa-hand",label = Lang.targets.weed.pick, 
-				action = function()if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end	TriggerServerEvent("weed:pickupCane", k) end},
-			k)
+			AddSingleModel(WeedPlant[k],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(k) end}, k)
         end
     end
 end)
@@ -56,7 +55,8 @@ AddEventHandler('onResourceStop', function(resourceName)
 end)
 
 CreateThread(function()
-	AddBoxZoneMulti('weeddry', Config.WeedDry, {
+	local config = lib.callback.await('md-drugs:server:getLocs', false)
+	AddBoxZoneMulti('weeddry', config.WeedDry, {
 		name = 'dryweed',
 		icon = "fas fa-sign-in-alt",
 		label = Lang.targets.weed.dry,
@@ -74,7 +74,7 @@ CreateThread(function()
 				Wait(math.random(1000,5000))
 				Notify(Lang.Weed.take, "success")
 				AddSingleModel(weedplant, {
-					icon = "fas fa-sign-in-alt",
+					icon = "fa-solid fa-cannabis",
 					label = Lang.targets.weed.dpick,
 					action = function()
 						DeleteEntity(weedplant)
@@ -90,40 +90,43 @@ CreateThread(function()
 			if hasJob() then return true end end	
 	})
 
-AddBoxZoneSingle('teleinweedout', Config.Teleout, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Telein) end,
+AddBoxZoneSingle('teleinweedout', config.singleSpot.weedTeleout, { name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTelein) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('teleinweedin', Config.Telein, { name = 'teleout', icon = "fas fa-sign-in-alt", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),Config.Teleout) end,
+AddBoxZoneSingle('teleinweedin', config.singleSpot.weedTelein, { name = 'teleout', icon = "fa-solid fa-door-open", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTeleout) end,
 	canInteract = function() if hasJob() then return true end end	
 }) 
-AddBoxZoneSingle('MakeButterCrafting', Config.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fas fa-sign-in-alt", 
+AddBoxZoneSingle('MakeButterCrafting', config.singleSpot.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fa-solid fa-cookie", 
 canInteract = function() if hasJob() then return true end end	
 }) 
 
-AddBoxZoneSingle('makeoil',Config.MakeOil, {
+AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
 	name = 'Oil',
-	icon = "fas fa-sign-in-alt",
+	icon = "fa-solid fa-oil-can",
 	label = Lang.targets.weed.oil,
 	action = function()
 		if not ItemCheckMulti({'butane', 'grindedweed'}) then return end
 		if not minigame() then 
-			local explosion = math.random(1,100)
 			local loc = GetEntityCoords(PlayerPedId())
-			if explosion <= 99 then
-				AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
-				exploded = true
-				Notify(Lang.Weed.stovehot, "error")
-				Wait(1000 * 30)
-				exploded = false
-			end	
+			AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true)
+			exploded = true
+			Notify(Lang.Weed.stovehot, "error")
+			Wait(1000 * 30)
+			exploded = false	
 		return end
 		if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
-		TriggerServerEvent("md-drugs:server:makeoil")       			
+		TriggerServerEvent("md-drugs:server:makeoil")			
 	end,
 	canInteract = function()
-	if hasJob() and exploded == false then return true end
+		if hasJob() and exploded == false then return true end
 	end,
-} )
+	})
+	local stove = CreateObject("prop_cooker_03",config.singleSpot.MakeButter.x, config.singleSpot.MakeButter.y, config.singleSpot.MakeButter.z-1, true, false)
+	SetEntityHeading(stove, 270.00)
+	FreezeEntityPosition(stove, true)
+	local stove2 = CreateObject("prop_cooker_03",config.singleSpot.MakeOil.x,config.singleSpot.MakeOil.y, config.singleSpot.MakeOil.z-1, true, false)
+	SetEntityHeading(stove2, 90.00)
+	FreezeEntityPosition(stove2, true)
 end)
 
 CreateThread(function()
@@ -136,35 +139,11 @@ CreateThread(function()
 	BikerWeedFarm.Plant4.Clear(false) BikerWeedFarm.Plant5.Clear(false) BikerWeedFarm.Plant6.Clear(false)
 	BikerWeedFarm.Plant7.Clear(false) BikerWeedFarm.Plant8.Clear(false) BikerWeedFarm.Plant9.Clear(false)
     RefreshInterior(BikerWeedFarm.interiorId)
-	local stove = CreateObject("prop_cooker_03",vector3(1045.49, -3198.46, -38.15-1), true, false)
-	SetEntityHeading(stove, 270.00)
-	FreezeEntityPosition(stove, true)
-	local stove2 = CreateObject("prop_cooker_03",vector3(1038.90, -3198.66, -38.17-1), true, false)
-	SetEntityHeading(stove2, 90.00)
-	FreezeEntityPosition(stove2, true)
-end)
-
-
-RegisterNetEvent("md-drugs:client:rollanim", function()
-if not progressbar(Lang.Weed.roll, 4000, 'uncuff') then return end
-end)
-
-RegisterNetEvent("md-drugs:client:grind", function()
-	if not progressbar("grinding", 4000, 'uncuff') then return end
 end)
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-if not progressbar('Doing Dabs', 4000, 'bong2') then return end
-AlienEffect()
-end)
-
-CreateThread(function()
-	local current = "u_m_m_jesus_01"
-	lib.requestModel(current, Config.RequestModelTime)
-	local CurrentLocation = Config.WeedSaleman
-	local WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.w, false, false)
-	Freeze(WeedGuy, true, CurrentLocation.w)
-	AddSingleModel(WeedGuy, {label = "Weed Shop",icon = "fas fa-eye", action = function() makeMenu('WeedShop') lib.showContext('WeedShop')end}, nil)
+	if not progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
+	AlienEffect()
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
@@ -190,11 +169,7 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
         }
     end
     sorter(options, 'title')
-    lib.registerContext({
-        id = contextId,
-        title = contextTitle,
-        options = options
-    })
+    lib.registerContext({    id = contextId,    title = contextTitle,    options = options})
 end
 
 CreateThread(function()

@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local xtcpress = false
 
 RegisterNetEvent("md-drugs:client:setpress", function(type)
@@ -10,7 +9,7 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
 	    progressbar('Setting Press On The Ground', 4000, 'uncuff')
 	    local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	    PlaceObjectOnGroundProperly(press)
-      SetEntityHeading(press, head)
+      Freeze(press, true, head)
         local options = {
             { icon = "fas fa-eye", label = Lang.targets.xtc.make, distance = 2.0, action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end, 
             canInteract = function() if xtcpress then return true end end
@@ -21,6 +20,30 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
         }
         AddMultiModel(press, options, nil)
     end
+end)
+
+lib.callback.register('md-drugs:client:setpress', function(type)
+  if xtcpress then 
+    Notify(Lang.xtc.out, 'error')
+    return false
+  else
+    local coords, head = StartRay2()
+    xtcpress = true
+    progressbar('Setting Press On The Ground', 4000, 'uncuff')
+    local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
+    PlaceObjectOnGroundProperly(press)
+    Freeze(press, true, head)
+    local options = {
+        { icon = "fa-solid fa-tablets", label = Lang.targets.xtc.make, distance = 2.0, action = function()  TriggerEvent("md-drugs:client:XTCMenu", type) end, 
+        canInteract = function() if xtcpress then return true end end
+        },
+        {icon = "fas fa-eye", label = Lang.targets.xtc.pick, action = function() TriggerEvent("md-drugs:client:GetPressBack", type, press) end, distance = 2.0,
+          canInteract = function() if xtcpress then return true end end
+        },
+    }
+    AddMultiModel(press, options, nil)
+    return true, GetEntityCoords(press)
+  end
 end)
 
 RegisterNetEvent("md-drugs:client:XTCMenu", function(type)
@@ -51,13 +74,11 @@ RegisterNetEvent("md-drugs:client:stealisosafrole", function(data)
     TriggerServerEvent("md-drugs:server:stealisosafrole",data.data)
 end)
 
-
 RegisterNetEvent("md-drugs:client:stealmdp2p", function(data) 
     if not minigame() then Notify(Lang.xtc.fail, "error") return end
     if not progressbar(Lang.xtc.mdp2p, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:stealmdp2p", data.data)   
 end)
-
 
 RegisterNetEvent("md-drugs:client:makingrawxtc", function(data) 
     if not ItemCheck('isosafrole') then return end 
@@ -71,8 +92,6 @@ RegisterNetEvent("md-drugs:client:MakeXTC", function(data)
     if not progressbar(Lang.xtc.pressing, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:makextc",data)
 end)
-
------------------------------------------------------------------- Stamping
 
 RegisterNetEvent("md-drugs:client:stampwhite", function(data) 
     lib.registerContext({ id = 'stampxtc', title = 'Stamp XTC Menu',
@@ -109,7 +128,6 @@ RegisterNetEvent("md-drugs:client:stampwhite", function(data)
   })
   lib.showContext('stampxtc')
 end)
-
 
 RegisterNetEvent("md-drugs:client:getsinglepress", function() 
     if not progressbar(Lang.xtc.buyp, 4000, 'uncuff') then return end

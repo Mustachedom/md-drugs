@@ -5,6 +5,14 @@ local minigametype = Config.minigametype
 local notifytype = Config.Notify 
 local dispatch = Config.Dispatch
 
+function getJobType()
+	return QBCore.Functions.GetPlayerData().job.type
+end
+
+function getJobName()
+	return QBCore.Functions.GetPlayerData().job.name
+end
+
 function progressbar(text, time, anim)
 	TriggerEvent('animations:client:EmoteCommandStart', {anim}) 
 	if progressbartype == 'oxbar' then 
@@ -84,24 +92,28 @@ function minigame()
 	   exports['ps-ui']:Maze(function(success)
 		   check = success
 	   end, game['ps_maze'].timelimit)
+	   repeat Wait(10) until check ~= nil
 	   return check
    elseif minigametype == 'ps_scrambler' then
 	   local check 
 	   exports['ps-ui']:Scrambler(function(success)
 		   check = success
 	   end, game['ps_scrambler'].type,  game['ps_scrambler'].time, game['ps_scrambler'].mirrored)
+	   repeat Wait(10) until check ~= nil
 	   return check
    elseif minigametype == 'ps_var' then
 	   local check 
 	   exports['ps-ui']:VarHack(function(success)
 		   check = success
 	   end, game['ps_var'].numBlocks,  game['ps_var'].time)
+	   repeat Wait(10) until check ~= nil
 	   return check
    elseif minigametype == 'ps_thermite' then
 	   local check 
 	   exports['ps-ui']:Thermite(function(success)
 		   check = success
 	   end, game['ps_thermite'].time,  game['ps_thermite'].gridsize, game['ps_thermite'].incorrect)
+	   repeat Wait(10) until check ~= nil
 	   return check
 	elseif minigametype == 'ox' then
 		local success = lib.skillCheck(game['ox'], {'1', '2', '3', '4'})
@@ -180,6 +192,7 @@ function minigame()
 function GetImage(img)
     if GetResourceState('ox_inventory') == 'started' then
         local Items = exports['ox_inventory']:Items()
+		if not Items[img] then print(' You Are Missing: ' .. img .. ' From Your ox items.lua') return end
         local itemClient = Items[img] and Items[img]['client']
         if itemClient and itemClient['image'] then
             return itemClient['image']
@@ -191,11 +204,12 @@ function GetImage(img)
         ['ps-inventory'] = "nui://ps-inventory/html/images/",
         ['lj-inventory'] = "nui://lj-inventory/html/images/",
         ['qb-inventory'] = "nui://qb-inventory/html/images/",
-        ['qs-inventory'] = "nui://qs-inventory/html/img/",
+        ['qs-inventory'] = "nui://qs-inventory/html/imgages/",
         ['origen_inventory'] = "nui://origen_inventory/html/img/",
         ['core_inventory'] = "nui://core_inventory/html/img/"
     }
     for k, v in pairs(invs) do
+		if not QBCore.Shared.Items[img] then print(' You Are Missing: ' .. img .. ' From Your QB items.lua') return end
         if GetResourceState(k) == 'started' then
             return v .. QBCore.Shared.Items[img].image
         end
@@ -205,8 +219,10 @@ end
 function GetLabel(label)
 	if GetResourceState('ox_inventory') == 'started' then
 		local Items = exports['ox_inventory']:Items()
+		if not Items[label] then print(' You Are Missing: ' .. label .. ' From Your ox items.lua') return end
 		return Items[label]['label']
 	else
+		if QBCore.Shared.Items[label] == nil then print("There Is No " .. label .. " In Your QB Items.lua") return end
 		return QBCore.Shared.Items[label]['label']
 	end
 end
@@ -254,12 +270,21 @@ end
 
 
 function ItemCheck(item)
-if GetResourceState('ox_inventory') == 'started' then
-    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
-else
-    if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-    if QBCore.Functions.HasItem(item) then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') return false end
+	if GetResourceState('ox_inventory') == 'started' then
+	    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
+	else
+	    if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
+	    if QBCore.Functions.HasItem(item) then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') return false end
+	end
 end
+
+function hasItem(item)
+	if GetResourceState('ox_inventory') == 'started' then
+		if exports.ox_inventory:GetItemCount(item) >= 1 then return true else return false end
+	else
+		if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
+		if QBCore.Functions.HasItem(item) then return true else return false end
+	end
 end
 
 function ItemCheckMulti(item)
@@ -331,10 +356,19 @@ function PoliceCall(chance)
 			exports["aty_dispatch"]:SendDispatch('Drug Sale', '420-69', 40, {'police'})
 		elseif dispatch == 'qs' then
 			exports['qs-dispatch']:DrugSale()
+		elseif dispatch == 'codem' then
+			local Data = {
+				type = 'Drug Sale',
+				header = 'Someone Selling Drugs',
+				text = 'Hurry up and save the community',
+				code = '420-69',
+			}
+			exports['codem-dispatch']:CustomDispatch(Data)
 		else
 			print('Congrats, You Choose 0 of the options :)')	
 		end
 	else
+		return
 	end
 end
 
@@ -346,11 +380,11 @@ end
 
 
 function Freeze(entity, toggle, head)
-		SetEntityInvincible(entity, toggle)
-		SetEntityAsMissionEntity(entity, toggle, toggle)
-        FreezeEntityPosition(entity, toggle)
-        SetEntityHeading(entity, head)
-		SetBlockingOfNonTemporaryEvents(entity, toggle)
+	SetEntityInvincible(entity, toggle)
+	SetEntityAsMissionEntity(entity, toggle, toggle)
+    FreezeEntityPosition(entity, toggle)
+    SetEntityHeading(entity, head)
+	SetBlockingOfNonTemporaryEvents(entity, toggle)
 end
 
 function tele(coords) 
@@ -370,7 +404,7 @@ function AddBoxZoneSingle(name, loc, data)
 			  type = data.type or nil, 
 			  event = data.event or nil,
 			  action = data.action or nil,
-			  icon = data.icon, 
+			  icon = data.icon or "fa-solid fa-eye", 
 			  label = data.label,
 			  data = data.data,
 			  canInteract = data.canInteract,
@@ -385,16 +419,34 @@ function AddBoxZoneSingle(name, loc, data)
 			  event = data.event or nil,
 			  onSelect = data.action or nil,
 			  distance = 2.5,
-			  icon = data.icon, 
+			  icon = data.icon or "fa-solid fa-eye", 
 			  label = data.label,
 			  data = data.data,
 			  canInteract = data.canInteract,
 			}
 		}, })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddInteraction({
+			coords = vector3(loc.x, loc.y, loc.z),
+			distance = 2.5,
+			interactDst = 2,
+			id = name,
+			options = {
+				{
+					type = data.type or nil, 
+					event = data.event or nil,
+					onSelect = data.action or nil,
+					distance = 2.5,
+					label = data.label,
+					data = data.data,
+					canInteract = data.canInteract,
+				},
+			}
+		})
 	end
 end
 
-function AddBoxZoneMulti(name, table, data) 
+function AddBoxZoneMulti(name, table, data)
 	for k, v in pairs (table) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		if Config.Target == 'qb' then
@@ -404,7 +456,7 @@ function AddBoxZoneMulti(name, table, data)
 				  type = data.type or nil, 
 				  event = data.event or nil,
 				  action = data.action or nil,
-				  icon = data.icon, 
+				  icon = data.icon or "fa-solid fa-eye", 
 				  label = data.label,
 				  data = k,
 				  canInteract = data.canInteract or function()
@@ -419,7 +471,7 @@ function AddBoxZoneMulti(name, table, data)
 				  type = data.type or nil, 
 				  event = data.event or nil,
 				  onSelect = data.action or nil,
-				  icon = data.icon, 
+				  icon = data.icon or "fa-solid fa-eye", 
 				  label = data.label,
 				  data = k,
 				  distance = 2.5,
@@ -427,35 +479,65 @@ function AddBoxZoneMulti(name, table, data)
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 				}
 			}, })
+		elseif Config.Target == 'interact' then
+			exports.interact:AddInteraction({
+				coords = vector3(v.loc.x, v.loc.y, v.loc.z),
+				distance = 2.5,
+				interactDst = 2,
+				id = name,
+				options = {
+					{
+						type = data.type or nil, 
+						event = data.event or nil,
+						action = data.action or nil,
+						distance = 2.5,
+						label = data.label or "fa-solid fa-eye", 
+						data = k,
+						canInteract = data.canInteract or function()
+							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+					},
+				}
+			})
 		end
 	end
 end
 
 function AddBoxZoneMultiOptions(name, loc, data) 
-		if Config.Target == 'qb' then
-			exports['qb-target']:AddBoxZone(name , loc, 1.5, 1.75, {name = name, minZ = loc.z-1.50,maxZ = loc.z +1.5}, 
-			{ options = data, distance = 2.5})
-		elseif Config.Target == 'ox' then
-			exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = data })
-		end
+	local options = {}
+	for k, v in pairs (data) do
+		table.insert(options, {
+			icon = v.icon or "fa-solid fa-eye", label = v.label, event = v.event or nil, action = v.action or nil,
+			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
+		})
 	end
+	if Config.Target == 'qb' then
+		exports['qb-target']:AddBoxZone(name , loc, 1.5, 1.75, {name = name, minZ = loc.z-1.50,maxZ = loc.z +1.5}, 
+		{ options = options, distance = 2.5})
+	elseif Config.Target == 'ox' then
+		exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = options })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddInteraction({coords = vector3(loc.x, loc.y, loc.z),distance = 2.5,interactDst = 2,id = name,options = options})
+	end
+end
 
 
 function AddSingleModel(model, data, num)
 	if Config.Target == 'qb' then
 		exports['qb-target']:AddTargetEntity(model, {options = {
-			{icon = data.icon, label = data.label, event = data.event or nil, action = data.action or nil, data = num }
+			{icon = data.icon or "fa-solid fa-eye", label = data.label, event = data.event or nil, action = data.action or nil, data = num }
 		}, distance = 2.5})
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, {icon = data.icon, label = data.label, event = data.event or nil, onSelect = data.action or nil, data = num, distance = 2.5 })
+	elseif Config.Target == 'interact' then
+		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugs'..model,distance = 2.5,interactDst = 2.5, options = {label = data.label, event = data.event or nil, action = data.action or nil, data = num, distance = 2.5 }})
 	end
 end
 
 function AddMultiModel(model, data, num)
 	local options = {}
 	for k, v in pairs (data) do 
-		table.insert(options,{
-			icon = v.icon, label = v.label, event = v.event or nil, action = v.action or nil,
+		table.insert(options, {
+			icon = v.icon or "fa-solid fa-eye",  label = v.label, event = v.event or nil, action = v.action or nil,
 			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
 		})
 	end
@@ -463,6 +545,9 @@ function AddMultiModel(model, data, num)
 		exports['qb-target']:AddTargetEntity(model, {options = options, distance = 2.5})
 	elseif Config.Target == 'ox' then
 		exports.ox_target:addLocalEntity(model, options)
+	elseif Config.Target == 'interact' then
+		local loc = GetEntityCoords(model)
+		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugss'..model,distance = 2.5,interactDst = 2.5, options = data})
 	end
 end
 
@@ -471,6 +556,7 @@ local heading = 180.0
 function StartRay()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
+	lib.requestModel('v_ret_ml_tablea', 30000)
 	local table = CreateObject('v_ret_ml_tablea', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
         local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
@@ -514,6 +600,7 @@ end
 function StartRay2()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
+	lib.requestModel('bkr_prop_coke_press_01aa', 30000)
 	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
         local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
@@ -554,34 +641,38 @@ function StartRay2()
     until run == false
 end
 
-
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-	Wait(3000)
-	LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
-	LoadModel('prop_plant_01a') TriggerEvent('coke:init')
-	LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
-	LoadModel('mushroom') TriggerEvent('shrooms:init')
-	LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
-	local check = lib.callback.await('md-drugs:server:GetRep', false)
-
-	return
+CreateThread(function()
+	LoadModel('prop_plant_01b')
+	LoadModel('prop_plant_01a')
+	LoadModel('prop_cactus_03')
+	LoadModel('prop_weed_01')
+	TriggerEvent('weed:init')
+	TriggerEvent('heroin:init')
+	TriggerEvent('coke:init')
+	TriggerEvent('Mescaline:init')
+	TriggerEvent('shrooms:init')
+	TriggerEvent('weed:init')
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-		LoadModel('prop_plant_01b') TriggerEvent('heroin:init')
-		LoadModel('prop_plant_01a') TriggerEvent('coke:init')
-		LoadModel('prop_cactus_03') TriggerEvent('Mescaline:init')
-		LoadModel('mushroom') TriggerEvent('shrooms:init')
-		LoadModel('bkr_prop_weed_lrg_01b') TriggerEvent('weed:init')
-    end
+lib.callback.register('md-drugs:client:uncuff', function(data)
+	if not progressbar(data, 4000, 'uncuff') then return end
+	return true
 end)
-local active = false
-RegisterNetEvent('md-drugs:client:minusTier', function(data) 
-	if active then return end
-	if not data then return end
-	active = true
-	if not progressbar('Cutting This ' ..GetLabel(data.item) .. ' More', 4000, 'uncuff') then return end
-	TriggerServerEvent('md-drugs:server:AddMas', data)
-	active = false
-end)
+
+RegisterCommand('DrugRep', function()
+	if not Config.TierSystem then return end
+	local rep = lib.callback.await('md-drugs:server:GetRep', false)
+	lib.registerContext({
+		id = 'DrugRep',
+		title = 'Drug Reputation',
+		options = {
+		  {icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
+		  {icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
+		  {icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
+		  {icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
+		  {icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
+		}
+	  })
+	  lib.showContext('DrugRep')
+end, false)
+

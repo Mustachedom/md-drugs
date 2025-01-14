@@ -4,7 +4,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
     local Player = getPlayer(src)
     local count,type, tier = 0, 'cookcrack', 'tier1'
-	if CheckDist(src, Config.makecrack[num]['loc']) then return end
+	if not checkLoc(src, 'makecrack', num) then return end
     if Config.TierSystem then
         local crackTiers = {
             {item = 'loosecoke', 		 tier = 'tier1', log = ' Cut Crack'},
@@ -13,15 +13,12 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
         }
         for _, v in ipairs(crackTiers) do
             if count >= 1 then break end
-            print(v.item)
             if Player.Functions.GetItemByName(v.item) then
 				tier = v.tier
 				count = count + 1
-                Log(GetName(src) .. v.log, 'crack')
             end
         end
     end
-    print(tier)
 	if not GetRecipe(src, 'crack', type, tier) then return end
 end)
 
@@ -30,6 +27,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
     local src = source
     local Player = getPlayer(src)
     local count,type, tier = 0, 'bagcrack', 'tier1'
+    if not checkLoc(src, 'bagcrack', num) then return end
     if Config.TierSystem then
         local crackTiers = {
             {item = 'crackrock', tier = 'tier1', log = ' Bagged Crack'},
@@ -41,7 +39,6 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
             if Player.Functions.GetItemByName(v.item) then
 				tier = v.tier
 				count = count + 1
-                Log(GetName(src) .. v.log, 'crack') 
             end
         end
     end
@@ -50,12 +47,16 @@ end)
 
 local cokecut = {crackrockstagetwo = 2, crackrockstagethree = 3}
 for k, v in pairs (cokecut) do
-	QBCore.Functions.CreateUseableItem(k, function(source, item)
+	CUI(k, function(source, item)
 		local src = source
 		local Player = getPlayer(src)
 		if Player.Functions.GetItemByName(item.name) then
 			if not Itemcheck(src, 'bakingsoda', 1) then return end
-			TriggerClientEvent('md-drugs:client:minusTier', src, {type = 'crack', xt = 'bakingsoda', item = k, amount =  v,recieve = 'crackrock'})
+            local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting Crack Rock Further')
+            if not check then return end
+            if RemoveItem(src, k, 1) and RemoveItem(src, 'bakingsoda', 1) then
+                AddItem(src, 'crackrock', v)
+            end
 		end
 	end)
 end

@@ -1,16 +1,18 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local shrooms = {}
+
+local function LoadModels(hash)
+    hash = GetHashKey(hash)
+    RequestModel(hash)
+    local timeout = GetGameTimer() + 5000  -- 5-second timeout
+    while not HasModelLoaded(hash) and GetGameTimer() < timeout do
+        Wait(10)
+    end
+    if HasModelLoaded(hash) then return true end
+end
 
 local function pick(loc)
     if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  
     TriggerServerEvent("shrooms:pickupCane", loc)
-end
-
-function LoadModel(hash)
-	RequestModel(hash)
-	while not HasModelLoaded(hash)  do
-		Wait(0)
-	end
 end
 
 RegisterNetEvent('shrooms:respawnCane', function(loc)
@@ -42,7 +44,7 @@ end)
 RegisterNetEvent("shrooms:init", function()
     for k, v in pairs (GlobalState.shrooms) do
         local hash = GetHashKey(v.model)
-        lib.requestModel(v.model, Config.RequestModelTime)  
+        if not HasModelLoaded(hash) then LoadModels(hash) end
         if not v.taken then
             shrooms[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(shrooms[k], true, v.heading)

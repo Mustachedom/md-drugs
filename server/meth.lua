@@ -4,7 +4,6 @@ RegisterServerEvent('md-drugs:server:startcook', function()
   	local src = source
 	if not GetRecipe(source, 'meth', 'cook', 'heat') then return end
 	Notifys(src, "Adding Things To The Mix", "success")
-	Log(GetName(source) .. ' Started A Meth Batch', 'Meth')
 end)
 
 RegisterServerEvent('md-drugs:server:givemethingridients', function()
@@ -25,23 +24,20 @@ end)
 RegisterServerEvent('md-drugs:server:getmeth', function()
   	local src = source
 	if not GetRecipe(src, 'meth', 'bag', 'bags') then return end
-	Log(GetName(src) .. ' Bagged 5 Of Meth', 'Meth')
 end)
 
 RegisterServerEvent('md-drugs:server:geteph', function(num)
 	local src = source
-	if CheckDist(src, Config.MethEph[num]['loc']) then return end
+	if not checkLoc(src, 'MethEph', num) then return end
 	if AddItem(src, 'ephedrine', 1) then
 		Notifys(src, 'Got Ephedrine!', "success")
-		Log(GetName(src) .. ' Got ' .. 1 .. 'Of Ephedrine', 'Meth')
 	end
 end)
 	
 RegisterServerEvent('md-drugs:server:getace', function(num)
 	local src = source
-	if CheckDist(src, Config.Methace[num]['loc']) then return end
+	if not checkLoc(src, 'Methace', num) then return end
 	if AddItem(src, 'acetone', 1) then
 		Log(GetName(src) .. ' Got ' .. 1 .. 'Of Acetone', 'Meth')
-		Notifys(src, 'Got Acetone!', "success")
 	end
 end)

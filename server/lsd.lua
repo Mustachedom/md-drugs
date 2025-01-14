@@ -1,56 +1,81 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local prices = {
+	tabcost = 100, -- price per piece of tab paper event does 10 at a time
+	lsdlabkitcost = 10000 -- price of the lsd lab kit
+}
 
+local lsdTables = {}
 RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
-	if CheckDist(src, Config.lysergicacid[num]['loc']) then return end
+	if not checkLoc(src, 'lysergicacid', num) then return end
 	if AddItem(src,'lysergic_acid', 2) then
-		Log(GetName(src) ..' Got Lysergic acid with a distance of ' .. dist(source, Config.lysergicacid[num]['loc']) .. '!', 'lsd')
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
-	if CheckDist(src, Config.diethylamide[num]['loc']) then return end
+	if not checkLoc(src, 'diethylamide', num) then return end
 	if AddItem(src,'diethylamide', 2) then 
-		Log(GetName(src) ..' Got Diethylamide with a distance of ' .. dist(source, Config.diethylamide[num]['loc']) .. '!', 'lsd')
 	end
 end)
 
 
-QBCore.Functions.CreateUseableItem('lsdlabkit', function(source, item)
-local src = source
-	if TriggerClientEvent("md-drugs:client:setlsdlabkit", src) then
-		RemoveItem(src, "lsdlabkit", 1)
-		Log(GetName(src) ..' Placed Their LSD Lab Kit Back At ' .. GetCoords(src)  .. '!', 'lsd')
+CUI('lsdlabkit', function(source, item)
+	local src = source
+	local Player = getPlayer(src)
+	local placed, loc = lib.callback.await('md-drugs:client:setlsdlabkit', src)
+	if placed then 
+		if RemoveItem(src, 'lsdlabkit', 1) then
+			table.insert(lsdTables, {
+				owner = GetName(src),
+				ownerid = Player.PlayerData.citizenid,
+				src = src,
+				loc = loc
+			})
+		end
 	end
 end)
 
+local function hasLabKit(source) 
+	local src = source 
+	local Player = getPlayer(src)
+	for k, v in pairs (lsdTables) do
+		if v.ownerid == Player.PlayerData.citizenid then
+			return true
+		end
+	end
+end
 
 lib.callback.register('md-drugs:server:removecleaningkit', function(source)
 	local src = source
 	if not Itemcheck(src, 'cleaningkit', 1) then return end
 	if RemoveItem(src,"cleaningkit", 1) then 
-		Log(GetName(src) ..' Wiped Down Their LSD Lab Kit!' , 'lsd')
 		return true
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:getlabkitback', function()
 	local src = source
-	if AddItem(src,"lsdlabkit", 1) then
-		Log(GetName(src) ..' Picked Up Their LSD Lab Kit Back At ' .. GetCoords(src) .. '!', 'lsd')
+	local Player = getPlayer(src)
+	for k, v in pairs (lsdTables) do
+		if v.ownerid == Player.PlayerData.citizenid then
+			table.remove(lsdTables, k)
+			AddItem(src, 'lsdlabkit', 1)
+		end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:heatliquid', function()
 	local src = source
+	if not hasLabKit(src) then return end
 	if not GetRecipe(src, 'lsd', 'vial', 'heat') then return end
-	Log(GetName(src) ..' Heated Basic LSD!', 'lsd')
 end)
 
 RegisterServerEvent('md-drugs:server:failheating', function()
 	local src = source
-	if not ChecknRemove(source, {lysergic_acid = 1, diethylamide = 1}) then return end
+	if not hasLabKit(src) then return end
+	RemoveItem(src, 'lysergic_acid', 1)
+	RemoveItem(src, 'diethylamide', 1)
 	Notifys(src,Lang.lsd.failed, "error")
 	Log(GetName(src) ..' Failed Basic LSD Like An Idiot!', 'lsd')
 end)
@@ -58,6 +83,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:refinequalityacid', function()
 local src = source
+if not hasLabKit(src) then return end
 if not Itemcheck(src, 'lsd_one_vial', 1) then return end
 	if Config.TierSystem then
 		local lsd = getRep(src, 'lsd')
@@ -97,6 +123,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:failrefinequality', function()
 	local src = source
+	if not hasLabKit(src) then return end
 	if not Itemcheck(src, 'lsd_one_vial', 1) then return end
 	RemoveItem(src,'lsd_one_vial', 1)  
 end)
@@ -105,10 +132,9 @@ end)
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
 	local Player = getPlayer(src)
-	if CheckDist(source, Config.gettabs[num]['loc']) then return end
-	if Player.Functions.RemoveMoney('cash', Config.tabcost * 10) then
+	if not checkLoc(src, 'gettabs', num) then return end
+	if Player.Functions.RemoveMoney('cash', prices.tabcost * 10) then
 		AddItem(src,'tab_paper', 10)
-		Log(GetName(src) ..' Bought Tab Paper!', 'lsd')
 	else
 		Notifys(Lang.lsd.broke, "error")
 	end
@@ -117,10 +143,9 @@ end)
 RegisterServerEvent('md-drugs:server:getlabkit', function()
 	local src = source
 	local Player = getPlayer(src)
-	if CheckDist(source, vector3(Config.buylsdlabkit.x, Config.buylsdlabkit.y, Config.buylsdlabkit.z)) then return end
-	if Player.Functions.RemoveMoney('cash', Config.lsdlabkitcost) then
+	if not checkLoc(src,'singleSpot', 'buylsdlabkit') then return end
+	if Player.Functions.RemoveMoney('cash', prices.lsdlabkitcost) then
 		AddItem(src,'lsdlabkit', 1)
-		Log(GetName(src) ..' Bought A LSD Lab Kit!', 'lsd')
 	else
 		Notifys(src, Lang.lsd.broke, "error")
 	end
@@ -129,6 +154,7 @@ end)
 RegisterServerEvent('md-drugs:server:maketabpaper', function()
 	local src = source
 	local Player = getPlayer(src)
+	if not hasLabKit(src) then return end
 	if not Itemcheck(src,'tab_paper', 1) then return end
 	local count = 0
 	local items, recieve = nil, nil
@@ -148,8 +174,8 @@ RegisterServerEvent('md-drugs:server:maketabpaper', function()
 		if check and check.amount >= 1 then
 			items = v.vial
 			recieve = v.sheet
-			Log(GetName(src) ..' ' .. v.log, 'lsd')
 			count = count + 1
+			break
 		end
 	end
 	if count >= 1 then
@@ -169,7 +195,7 @@ local sheets = {
 }
 
 for k, v in pairs (sheets) do 
-	QBCore.Functions.CreateUseableItem(v.item, function(source)
+	CUI(v.item, function(source)
 		local src = source
 		local Player = getPlayer(src)
 		local math = math.random(1,10)
@@ -179,3 +205,14 @@ for k, v in pairs (sheets) do
 		end
 	end)
 end
+
+AddEventHandler('playerDropped', function()
+	local src = source
+	local Player = getPlayer(src)
+	for k, v in pairs (lsdTables) do
+		if v.ownerid == Player.PlayerData.citizenid then
+			table.remove(lsdTables, k)
+			AddItem(src, 'lsdlabkit', 1)
+		end
+	end
+end)

@@ -1,0 +1,26 @@
+{
+    "Lua.diagnostics.disable": [
+        "missing-parameter",
+        "param-type-mismatch"
+    ],
+    "Lua.diagnostics.globals": [
+        "lib",
+        "progressbar",
+        "loadParticle",
+        "makeMenu",
+        "minigame",
+        "tele",
+        "sorter",
+        "MySQL",
+        "trays",
+        "heroinkit",
+        "getPlayer",
+        "dist",
+        "sortTab",
+        "getRep",
+        "heroinCooldown",
+        "checkLoc",
+        "getRandW",
+        "shroomsCooldown"
+    ]
+}

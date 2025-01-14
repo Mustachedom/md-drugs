@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local CocaPlant = {}
 local cuttingcoke = nil
 local baggingcoke = nil
@@ -53,7 +52,7 @@ RegisterNetEvent("md-drugs:client:makepowder", function(data)
 	TriggerServerEvent("md-drugs:server:makepowder", data.data)
 end)
 
-RegisterNetEvent("md-drugs:client:cutcokeone", function()
+RegisterNetEvent("md-drugs:client:cutcokeone", function(data)
     if not ItemCheck('bakingsoda') then return end
 	cuttingcoke = true
     if Config.FancyCokeAnims then
@@ -61,11 +60,11 @@ RegisterNetEvent("md-drugs:client:cutcokeone", function()
     else
          if not progressbar(Lang.Coke.cutting, 5000, 'uncuff') then cuttingcoke = nil return end
     end
-	TriggerServerEvent("md-drugs:server:cutcokeone")
+	TriggerServerEvent("md-drugs:server:cutcokeone", data.data)
 	cuttingcoke = nil
 end)
 
-RegisterNetEvent("md-drugs:client:bagcoke", function() 
+RegisterNetEvent("md-drugs:client:bagcoke", function(data) 
     if not ItemCheck('empty_weed_bag') then return end
 	baggingcoke = true
     if Config.FancyCokeAnims then
@@ -73,18 +72,19 @@ RegisterNetEvent("md-drugs:client:bagcoke", function()
     else
         if not progressbar(Lang.Coke.bagging, 5000, 'uncuff') then baggingcoke = nil return end
     end
-	TriggerServerEvent("md-drugs:server:bagcoke")
+	TriggerServerEvent("md-drugs:server:bagcoke", data.data)
 	baggingcoke = nil
 end)
 
 CreateThread(function()
+    local config = lib.callback.await('md-drugs:server:getLocs', false)
     if Config.FancyCokeAnims == false then 
-        AddBoxZoneMulti('cuttcoke', Config.CuttingCoke,  {	type = "client",	event = "md-drugs:client:cutcokeone",	icon = "fa-solid fa-mortar-pestle",	label = Lang.targets.coke.cut}) 
-        AddBoxZoneMulti('baggcoke', Config.BaggingCoke,  {	type = "client",	event = "md-drugs:client:bagcoke",	    icon = "fa-solid fa-sack-xmark",	label = Lang.targets.coke.bag})
+        AddBoxZoneMulti('cuttcoke', config.CuttingCoke,  {	type = "client",event = "md-drugs:client:cutcokeone",	icon = "fa-solid fa-mortar-pestle",  label = Lang.targets.coke.cut}) 
+        AddBoxZoneMulti('baggcoke', config.BaggingCoke,  {	type = "client",event = "md-drugs:client:bagcoke",	    icon = "fa-solid fa-sack-xmark",  label = Lang.targets.coke.bag})
     else
-        AddBoxZoneSingle('cutcoke', vector3(1093.17, -3195.74, -39.19),
-		    { type = "client", event = "md-drugs:client:cutcokeone", icon = "fa-solid fa-mortar-pestle", label = Lang.targets.coke.cut, canInteract = function()if cuttingcoke == nil and baggingcoke == nil then return true end end })
-        AddBoxZoneSingle('bagcokepowder', vector3(1090.29, -3195.66, -39.13),
-		    { type = "client", event = "md-drugs:client:bagcoke",    icon = "fa-solid fa-sack-xmark", label = Lang.targets.coke.bag, canInteract = function() if baggingcoke == nil and cuttingcoke == nil then return true end end })
+        AddBoxZoneSingle('cutcoke', config.singleSpot.cutcoke,
+		    { data = config.singleSpot.cutcoke,  type = "client", event = "md-drugs:client:cutcokeone", icon = "fa-solid fa-mortar-pestle", label = Lang.targets.coke.cut, canInteract = function() if cuttingcoke == nil and baggingcoke == nil then return true end end })
+        AddBoxZoneSingle('bagcokepowder', config.singleSpot.bagcokepowder,
+		    { data = config.singleSpot.bagcokepowder, type = "client", event = "md-drugs:client:bagcoke",    icon = "fa-solid fa-sack-xmark", label = Lang.targets.coke.bag, canInteract = function() if baggingcoke == nil and cuttingcoke == nil then return true end end })
     end
 end)

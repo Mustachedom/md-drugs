@@ -2,57 +2,41 @@
 
 <div align="center">
   <a href="https://discord.gg/sAMzrB4DDx">
-    <img align="center" src="https://i.imgur.com/t65G9Z0.png" width="100">
+    <img align="center" src="https://i.imgur.com/t65G9Z0.png" width="200">
   </a><br>
-  <a href="https://discord.gg/sAMzrB4DDx">Mustache Scripts Discord</a><br>
+  <a href="https://discord.gg/sAMzrB4DDx"><strong>Mustache Scripts Discord</strong></a><br>
 </div>
 
-# Credits
+## **Credits**
 
-- I used [Samuel's development](https://fivem.samueldev.shop/) Christmas script global states and prop spawning (with permission obtained prior to release) in the development process.
-
-- Shout out to [STACHY225](https://babiczind.tebex.io/category/2103836) for working out the meth network animations!
-
-- Huge credit to [Bostra](https://discord.gg/5ncbwMNq) for sharing free scripts and providing sanity checks during moments of confusion. Those cute mushrooms? His creation!
-
-- Special thanks to [Feisty]() for the stunning visuals. If it looks good, she probably had a hand in it.
-
-- Special shoutout to [Beta Testers]()Your feedback has been invaluable!
-
-- Big Credit to [Bostra](https://discord.gg/5ncbwMNq). if you have been around you may have seen him post some free scripts and help people, There was definetly times I dm'd him saying what the fuck am I doing and he helped keep me sane. He also made the cute mushrooms!
-
-- [Jim's Tebex](https://jimathy666.tebex.io/) for putting out open source resources that I was able to break and fix and learn how to code
-
-- [jixeltay](https://jixeltay.tebex.io/category/scripts) for putting out banger after banger. These people help the community learn so much more
-
-- Our partner [1of1 Servers]( https://1of1servers.com/) and their [discord](https://discord.gg/1of1servers) for their amazing server hosting! absolutely top notch.
-- Special Thanks To Kamaryn For The Preview
-- Thanks to Kamaryn for this [install guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd)
-
-- join their [discord](https://discord.gg/KPRmZqFS)  for other videos updates.
-
-# Dependencies
-
-- [ox_lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0) 
-
-- [qb-target](https://github.com/qbcore-framework/qb-target) **or** [ox_target](https://github.com/overextended/ox_target)
-  
-- emote script that uses the animations event
-    - for example one of these
-        - [dpemotes](https://github.com/andristum/dpemotes) -- should use RP instead
-        - [rpemotes](https://github.com/alberttheprince/rpemotes-reborn) 
-        - [scully_emotemenu](https://github.com/Scullyy/scully_emotemenu)
-
-- [read](https://letters.hookedonphonics.com/us/read-guaranteed-G14.html?vc=HPG1&pc=SHPGBR&tracking_id=102917836048989658da259e8c83e6&url_id=5586&oid=707&vid=1855&cid=4194&hid=14509&utm_source=1855&aff_id2={aff_id2}&utm_campaign=PracticePackHOS&utm_medium=S&utm_content=BrandDollarPacks&gc_id=184380999&h_ad_id=374941048206&src=O&qid=3&msvid=v2)
-
-- GAME BUILD 2944 OR LATER
+- **[Samuel's Development](https://fivem.samueldev.shop/):** Used their Christmas script global states and prop spawning (with permission).  
+- **[STACHY225](https://babiczind.tebex.io/category/2103836):** Meth network animations.  
+- **[Bostra](https://discord.gg/5ncbwMNq):** Free scripts, sanity checks, and those cute mushrooms!  
+- **[Feisty]():** Stunning visuals that make everything look amazing.  
+- **Beta Testers:** Your invaluable feedback made this possible.  
+- **[1of1 Servers](https://1of1servers.com/):** Top-notch hosting and support. Join their [Discord](https://discord.gg/1of1servers).  
+- **[Kamaryn](https://discord.gg/KPRmZqFS):** For the [installation guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd).  
 
 
-# Preview
+## **Dependencies**
 
-### [Preview link](https://www.youtube.com/watch?v=I_x7_oz_SAU) 
+- **[ox_lib](https://github.com/overextended/ox_lib/releases/tag/v3.12.0)**  
+- **[qb-target](https://github.com/qbcore-framework/qb-target)** or **[ox_target](https://github.com/overextended/ox_target)**  
+- **Emote Scripts (supports animations):**
+  - [dpemotes](https://github.com/andristum/dpemotes) <-- seriously just use rpemotes. this is old and outdated
+  - [rpemotes](https://github.com/alberttheprince/rpemotes-reborn)  
+  - [scully_emotemenu](https://github.com/Scullyy/scully_emotemenu)  
+- **[Read](https://letters.hookedonphonics.com/us/read-guaranteed-G14.html)**  
+- **Game Build 2944 or Later**
 
-# How to install like a fuckin boss
+
+
+## **Preview**
+
+- **[Watch Preview](https://www.youtube.com/watch?v=I_x7_oz_SAU)**
+
+
+##  **How to install like a fuckin boss**
 
 ### STEP 1
 
@@ -63,9 +47,75 @@
 - delete `qb-drugs` 
 
 ### STEP 3
-- Inside the config file change **all** the locations for everything.
-	- **ps:  All locations have been changed to make a preview video easier and with how big of a script this is, Im not going to config it for every city. THESE LOCATION DO NOT DO WELL FOR A LIVE SERVER SO CHANGE THEM**
 
+- all locations, shops, pricings, and recipes are in the server files now utilizing callbacks to build targets and retrieve data
+    - shops.lua
+        - travelling merchant
+        - Weed Store
+        - Dealer Shops
+    - locations.lua
+        - holds all old config options for locations. edit what you need in here
+            - if you previously had them in the config copy and paste the <strong> INTERIOR </strong> guts of the options. example below
+                ```lua
+                    Config.MakePowder = {
+                         {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                         {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                         {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    }
+                ```
+                is now
+                ```lua
+                local Target = {
+                    MakePowder = {
+                        {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                        {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                        {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    }
+                }
+                ```
+                - see its a simple change.
+    - recipes.lua
+        - handles the vast majority of remove X get Y
+    - Cornerselling.lua
+        - now the drug table is inserted into this file. 
+            - copy and paste your data inside of the 
+            ```lua
+                local Drugs = { -- for example
+                    ["weed_white-widow"] =          {rep = 1,min = 15, max = 24 },
+                    ["weed_og-kush"] =              {rep = 1,min = 15, max = 28 },
+                }
+            ```
+    - all plant locations i.e. coke, heroin, weed, shrooms, mescaline are in the respective server files
+    - check server files to see drug specific settings now. 
+        - heroin/lsd/ and xtc will have a setting table now at the top
+    ### HOW TO CONVERT FROM OLD
+    - its simple really
+        - copy the data from your Config and paste it in locations.lua
+        - if the previous config option was a single location ( Not designed for multiples) then check target.singleSpot
+        - shops.lua will now hold all shops for md-drugs so edit the data needed there
+        - this is simple but tedious, but will handle security better in the long run
+        - if you want to be lazy you can delete everything from 
+            ```lua
+            local Targt = {
+                
+            }
+            ```
+            **besides singleSpot**
+            
+            and copy and paste your 
+            ```lua
+                Config.MakePowder = {
+                    {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                }
+            and change the Config to Target like this BELOW the local Target = {
+                Target.MakePowder = {
+                    {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                    {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+                }
+            ```
 ### STEP 4
  - Head to your emote script search for **uncuff** if it's missing add it
     - if rpemotes do this 
@@ -163,12 +213,12 @@
 	
 # STEP 6
 - Run SQL
-	
 
-# OPTIONAL STEPS
+
+# **OPTIONAL STEPS**
 
 ## Fivemerr
-This is NOT a requirement but something I personally use and believe in.
+This is **NOT** a requirement but something I personally use and believe in.
 
 
 - to integrate with fivemerr make sure you have  ```set fivemerrLogs "API_KEY"```   in your server.cfg
@@ -177,13 +227,17 @@ This is NOT a requirement but something I personally use and believe in.
   
 - profit
 
-Why integrate with Fivemerr? Its a great place to store logs as it doesnt rely on discord webhooks and its far easier to search through
+<b>Why Integrate with Fivemerr?</b>
 
-As well as a place to offload images and videos from fivem that doesnt rely on discord since discord API will be automatically deleting images and videos after a certain amount of time If you need an invite to their server look below
-- [Fivemerr Discord](https://discord.com/invite/fivemerr)
-- [Fivemerr Docs](https://docs.fivemerr.com/)
+- Efficient Logging: Unlike Discord webhooks, Fivemerr provides an organized and searchable log system.
+- Media Storage: Easily store and access images or videos without relying on Discord. Discord's API often deletes media after a certain time, but Fivemerr keeps them secure and accessible.
+- As well as a place to offload images and videos from fivem that doesnt rely on discord since discord API will be automatically deleting images and videos after a certain amount of time If you need an invite to their server look below
 
-# Radial Menu
+[Fivemerr Discord](https://discord.com/invite/fivemerr)
+
+[Fivemerr Docs](https://docs.fivemerr.com/)
+
+## Radial Menu
 - head to `qb-radial/config.lua` and search for the following event
 ```lua
      event = 'qb-drugs:client:cornerselling',
@@ -194,7 +248,7 @@ As well as a place to offload images and videos from fivem that doesnt rely on d
 ```
 
 
-# For Qb-shops users
+## For Qb-shops users
 
 - Head to `qb-shops/config.lua` **Config.Products** and add the folowing items to OR anywhere else you want them. The Only way in this script to get them is to find the travelling merchant
 
@@ -204,7 +258,7 @@ As well as a place to offload images and videos from fivem that doesnt rely on d
 	{name = 'needle',    	price = 100,   amount = 5000, info = {}, type = 'item'},
 ```
 
-# Tier System
+## Tier System
 - Turn On Config.TierSystem after you run the sql file
 
 [mlo i use](https://www.gta5-mods.com/maps/mlo-4x-drug-lab-interiors-sp-fivem) heres an option. use it or dont. 

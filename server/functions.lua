@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local notify = Config.Notify -- qb or ox
-
+local inventory = Config.Inventory -- qb or ox
 ------------------------------------------ logging stuff
 local logs = false 
 local logapi = GetConvar("fivemerrLogs", "")
@@ -48,23 +48,13 @@ end
 ---------------------------------------------------- inventory catcher
 local invname = ''
 CreateThread(function()
-if GetResourceState('ps-inventory') == 'started' then
-    invname = 'ps-inventory'
-elseif GetResourceState('qb-inventory') == 'started' then
-    invname = 'qb-inventory'
-else
-    invname = 'inventory'		
-end
-end)
-
-local inventory = ''
-
-CreateThread(function()
-if GetResourceState('ox_inventory') == 'started' then
-    inventory = 'ox'
-else
-    inventory = 'qb'
-end
+    if GetResourceState('ps-inventory') == 'started' then
+        invname = 'ps-inventory'
+    elseif GetResourceState('qb-inventory') == 'started' then
+        invname = 'qb-inventory'
+    else
+        invname = 'inventory'		
+    end
 end)
 ------------------------------------ Player Stuff functions
 function getPlayer(source) 
@@ -114,7 +104,7 @@ function Notifys(source, text, type)
         TriggerClientEvent('okokNotify:Alert', src, '', text, 4000, type, false)
     else
         print"^1 Look At The Config For Proper Alert Options"    
-    end    
+    end
 end
 
 function GetLabels(item) 
@@ -124,6 +114,10 @@ function GetLabels(item)
         local items = exports.ox_inventory:Items()
         return items[item].label
     end
+end
+
+function CUI(item, useFunction)
+    QBCore.Functions.CreateUseableItem(item, useFunction)
 end
 
 function Itemcheck(source, item, amount) 
@@ -318,36 +312,15 @@ function sortTab(tbl, type)
     end)
 end
 
-function ChecknRemove(source, table) 
-    local Player = getPlayer(source) 
-    local hass = 0
-    local need = 0
-    for k, v in pairs (table) do
-        need = need + 1 
-        if inventory == 'qb' then
-            local itemchecks = Player.Functions.GetItemByName(k)
-            if itemchecks and itemchecks.amount >= v then
-                hass = hass + 1
-            else 
-                Notifys(source, 'You Need ' .. v .. ' Of ' .. GetLabels(k)  .. ' To Do this', 'error')
-            end
-        elseif inventory == 'ox' then
-             local items = exports.ox_inventory:GetItem(source, k, nil, false) 
-       		 if items.count >= v then 
-                  	hass = hass + 1
-       		 else
-            		Notifys(source, 'You Need ' .. v .. ' Of ' .. GetLabels(k) .. ' To Do This', 'error')
-        	end
-        end
+function getCops()
+    local amount = 0
+    local players = QBCore.Functions.GetQBPlayers()
+    for k, v in pairs(players) do
+         if v.PlayerData.job.type == 'leo' and v.PlayerData.job.onduty then
+          amount = amount + 1
+         end
     end
-    if hass == need then 
-        for k, v in pairs (table) do 
-            RemoveItem(source, k, v) 
-        end
-        return true
-    else
-        return false
-    end
+   return amount
 end
 
 lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
@@ -372,6 +345,7 @@ CreateThread(function()
        print('^1 ox_lib Is A Depndancy, Not An Optional ')
     end
 end)
+
 CreateThread(function()
     local url = "https://raw.githubusercontent.com/Mustachedom/md-drugs/main/version.txt"
     local version = GetResourceMetadata('md-drugs', "version" )
@@ -380,13 +354,4 @@ CreateThread(function()
                 print('^2 Your Version:' .. version .. ' | Current Version:' .. text .. '' )  
          end
      end, "GET", "", "")
-end)
-
-RegisterServerEvent('md-drugs:server:AddMas', function(data) 
-    local src = source
-    if not data then return end
-    if not Itemcheck(src, data.xt, 1) then return end
-    if not RemoveItem(src, data.item, 1) then return end
-        RemoveItem(src, data.xt, 1) 
-        AddItem(src, data.recieve, data.amount)
 end)
