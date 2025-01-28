@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 local dloc = {
     {coords = vector4(282.48, -1814.32, 27.23, 145.11)},
@@ -105,7 +104,7 @@ lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
     local itemnum = math.random(1, #DeliveryItems)
     local item = DeliveryItems[itemnum].item
     local amount = math.random(1,4)
-    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
+    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {getCid(src)})
     local locnum = math.random(1, #dloc)
     local coord = json.encode({
         x = dloc[locnum].coords.x,
@@ -115,14 +114,14 @@ lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
     })
     if not check[1] then
         MySQL.insert('INSERT INTO deliveriesdealer SET cid = ?, itemdata = ?, timestart = ?, maxtime = ?, location = ?', 
-        {Player.PlayerData.citizenid, json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
-        AddItem(Player.PlayerData.source, item, amount)
+        {getCid(src), json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
+        AddItem(src, item, amount)
         return true, item, amount, coord
     else
         local time = os.time()
         local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
         
-        if timeout > 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) Notifys(src, 'You Failed To Make It In Time!', 'error' ) return false end
+        if timeout > 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {getCid(src)}) Notifys(src, 'You Failed To Make It In Time!', 'error' ) return false end
         Notifys(src,'You Already Have A Delivery To Make', 'error' ) return false, item, amount, coord
     end
 end)
@@ -130,23 +129,23 @@ end)
 RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(item, amount)
     local src = source
     local Player = getPlayer(src)
-    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
+    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {getCid(src)})
     if not check[1] then return end
     local time = os.time()
     local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
     local itemData = json.decode(check[1].itemdata)
-    if timeout >= 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) Notifys(source, 'You Failed To Make It In Time!', 'error' )  return end
+    if timeout >= 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {getCid(src)}) Notifys(source, 'You Failed To Make It In Time!', 'error' )  return end
     if item ~= itemData.item then return end
     if amount ~= itemData.amount then return end
     if RemoveItem(src, item, amount) then
        for k, v in pairs (DeliveryItems) do 
             if v.item == item then 
                 local income = math.random(v.payout.min, v.payout.max) 
-                Player.Functions.AddMoney('cash', income) 
-                AddRep(src, 'dealerrep') 
+                addMoney(src, 'cash', income)
+                AddRep(src, 'dealerrep')
             end
         end
-        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
+        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {getCid(src)})
     end
 end)
 
@@ -173,7 +172,7 @@ lib.addCommand("newdealer", {
     end
 
     MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {
-        dealerName, pos, 'nil', Player.PlayerData.citizenid
+        dealerName, pos, 'nil', getCid(source)
     }, function()
         QBConfig.Dealers[dealerName] = {
             name = dealerName,

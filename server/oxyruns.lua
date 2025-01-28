@@ -1,4 +1,4 @@
-QBCore = exports['qb-core']:GetCoreObject()
+
 local prices = {
 	payfortruck = 500,
 	hotchance = 30,

@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 --[[
     effect options
     alien
@@ -158,24 +158,58 @@ for k, v in pairs(Consume) do
 end
 
 RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
-    local Player = getPlayer(source)
-    local hunger, thirst = Player.PlayerData.metadata.hunger, Player.PlayerData.metadata.thirst
-    if stat == "thirst" then
-        local value = thirst + statval
-        Player.Functions.SetMetaData('thirst', value)
-        TriggerClientEvent('hud:client:UpdateNeeds', source, hunger, value)
-    elseif stat == "hunger" then
-        local value = hunger + statval
-        Player.Functions.SetMetaData('hunger', value)
-        TriggerClientEvent('hud:client:UpdateNeeds', source, value, thirst)
-    elseif stat == "stress" then 
-        local value = Player.PlayerData.metadata.stress + statval
-        Player.Functions.SetMetaData('stress', value)
-        TriggerClientEvent('hud:client:UpdateStress', source, Player.PlayerData.metadata.stress, value)
-    elseif stat == "armor" then
-        local value = Player.PlayerData.metadata.armor + statval
-        TriggerEvent('hospital:server:SetArmor', value) 
-        TriggerClientEvent('hud:client:UpdateStress', source, Player.PlayerData.metadata.armor, value)
-    else
+    local source = source
+    local hunger, thirst, stress, armor
+    if Config.Framework == "qb" then
+        local Player = QBCore.Functions.GetPlayer(source)
+        hunger = Player.PlayerData.metadata["hunger"]
+        thirst = Player.PlayerData.metadata["thirst"]
+        stress = Player.PlayerData.metadata["stress"]
+        armor = Player.PlayerData.metadata["armor"]
+
+        if stat == "thirst" then
+            local value = math.min(thirst + statval, 100)
+            Player.Functions.SetMetaData('thirst', value)
+            TriggerClientEvent('hud:client:UpdateNeeds', source, hunger, value)
+        elseif stat == "hunger" then
+            local value = math.min(hunger + statval, 100)
+            Player.Functions.SetMetaData('hunger', value)
+            TriggerClientEvent('hud:client:UpdateNeeds', source, value, thirst)
+        elseif stat == "stress" then
+            local value = math.min(stress + statval, 100)
+            Player.Functions.SetMetaData('stress', value)
+            TriggerClientEvent('hud:client:UpdateStress', source, Player.PlayerData.metadata.stress, value)
+        elseif stat == "armor" then
+            local value = math.min(armor + statval, 100)
+            Player.Functions.SetMetaData('armor', value)
+            TriggerEvent('hospital:server:SetArmor', value)
+            TriggerClientEvent('hud:client:UpdateArmor', source, armor, value)
+        end
+
+    elseif Config.Framework == "esx" then
+        local Player = getPlayer(source)
+        if not Player then return end
+        hunger = Player.get('hunger') or 0
+        thirst = Player.get('thirst') or 0
+        stress = Player.get('stress') or 0
+        armor = GetPedArmour(GetPlayerPed(source))
+
+        if stat == "thirst" then
+            local value = math.min(thirst + statval, 100)
+            Player.set('thirst', value)
+            TriggerClientEvent('hud:client:UpdateNeeds', source, hunger, value)
+        elseif stat == "hunger" then
+            local value = math.min(hunger + statval, 100)
+            Player.set('hunger', value)
+            TriggerClientEvent('hud:client:UpdateNeeds', source, value, thirst)
+        elseif stat == "stress" then
+            local value = math.min(stress + statval, 100)
+            Player.set('stress', value)
+            TriggerClientEvent('hud:client:UpdateStress', source, stress, value)
+        elseif stat == "armor" then
+            local value = math.min(armor + statval, 100)
+            SetPedArmour(GetPlayerPed(source), value)
+            TriggerClientEvent('hud:client:UpdateArmor', source, armor, value)
+        end
     end
 end)

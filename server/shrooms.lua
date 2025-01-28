@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 local s = {
     { location = vector3(2185.14, 5183.81, 57.48),    heading = 334.49,    model = "mushroom"},

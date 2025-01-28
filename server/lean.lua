@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterServerEvent('md-drugs:server:givelean', function()
 	local chance = math.random(1,100)

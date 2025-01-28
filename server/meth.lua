@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterServerEvent('md-drugs:server:startcook', function()
   	local src = source

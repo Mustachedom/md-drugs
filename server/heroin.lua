@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 local prices = {
 	heroinlabkitprice = 10000
 }
@@ -40,7 +40,7 @@ end
 lib.callback.register('removeCleaningkit', function(source)
 	local Player = getPlayer(source)
 	for k, v in pairs(heroinLabKits) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == getCid(source) then
 			RemoveItem(source, 'cleaningkit', 1)
 			return true
 		end
@@ -117,7 +117,7 @@ local function hasHKit(src)
 	local src = source
 	local Player = getPlayer(src)
 	for k, v in pairs(heroinLabKits) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == getCid(source) then
 			return true
 		end
 	end
@@ -129,7 +129,7 @@ RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 	local Player = getPlayer(src)
 	if not hasHKit(src) then return end
 	for k, v in pairs (heroinLabKits) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == getCid(source) then
 			table.remove(heroinLabKits, k)
 			AddItem(src, 'heroinlabkit', 1)
 		end
@@ -146,7 +146,7 @@ CUI('heroinlabkit', function(source, item)
 		RemoveItem(src, 'heroinlabkit', 1)
 		table.insert(heroinLabKits, {
 			src = src, 
-			ownerid = Player.PlayerData.citizenid,
+			ownerid = getCid(source),
 			coords = loc,
 			name = GetName(src)
 		})

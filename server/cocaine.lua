@@ -81,7 +81,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
         }
         for _, v in ipairs(cokeTiers) do
 			if count >= 1 then break end
-            if Player.Functions.GetItemByName(v.item) then
+            if hasItem(src, v.item, 1) then
                 tier = v.tier
                 count = count + 1
             end
@@ -110,7 +110,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
             {item = 'loosecokestagethree', tier = 'tier3', log = ' Bagged Coke tier 3'}
         }
         for _, v in ipairs(cokeTiers) do
-            if Player.Functions.GetItemByName(v.item) then
+            if hasItem(src, v.item, 1) then
 				if count >= 1 then break end
                 count = count + 1
                 tier = v.tier 
@@ -128,14 +128,14 @@ for k, v in pairs (cokecut) do
 	CUI(k, function(source, item)
 		local src = source
 		local Player = getPlayer(src)
-        if not Player.Functions.GetItemByName('bakingsoda') then Notifys(src, 'You Need Baking Soda For this', 'error') return end
-		 if Player.Functions.GetItemByName(item.name) then
+        if not hasItem(src, 'bakingsoda', 1) then Notifys(src, 'You Need Baking Soda For this', 'error') return end
+		 if hasItem(src, k, 1) then
 		    if not Itemcheck(src, 'bakingsoda', 1) then return end
-             local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting It Further')
-             if not check then return end
+            local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting It Further')
+            if not check then return end
 		    if RemoveItem(src, k, 1) and RemoveItem(src, 'bakingsoda', 1) then
-                 AddItem(src, 'loosecoke', v)
-             end
+                AddItem(src, 'loosecoke', v)
+            end
 		 end
 	end)
 end

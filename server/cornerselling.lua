@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 local DrugDeals = {}
 local Drugs = {
     ["weed_white-widow"] =          {rep = 1,min = 15, max = 24 },
@@ -125,29 +125,26 @@ lib.callback.register('md-drugs:server:cornerselling:getAvailableDrugs', functio
     local Player = getPlayer(source)
     local rep = getRep(source, 'cornerselling')
     if not Player then return nil end
-    local type = 0
     for k, v in pairs(Drugs) do
-        local item = Player.Functions.GetItemByName(k)
-        if item and type == 0 then
-            type = type + 1
-            Log(GetName(source)  .. ' Allowed To Sell ' .. item.name .. '!' , 'cornerselling')
-            local amount = math.random(1,item.amount)
+        local item = getItemCount(source, k)
+        if item >= 1 then
+            if item > 15 then item = 15 end
+            Log(GetName(source)  .. ' Allowed To Sell ' .. k .. '!' , 'cornerselling')
+            local amount = math.random(1, item)
             if amount >= 15 then amount = 15 end
             local price = math.random(Drugs[k]['min'], Drugs[k]['max']) * amount
             local result = math.floor(price * rep.price)
-            table.insert(DrugDeals, {item = item.name, amount = amount, price = result, cid = Player.PlayerData.citizenid, ped = ped})
-            return {item = item.name, amount = amount, price = result, ped = ped}
+            table.insert(DrugDeals, {item = k, amount = amount, price = result, cid = getCid(source), ped = ped})
+            return {item = k, amount = amount, price = result, ped = ped}
         end
     end
-    if type == 0 then 
-        return {item = 'nothing', amount = 0, price = 0, ped = ped}
-    end
+    return {item = 'nothing', amount = 0, price = 0, ped = ped}
 end)
 
 lib.callback.register('md-drugs:server:hasDrugs', function(source)
     local Player = getPlayer(source)
     for k, v in pairs(Drugs) do
-        local item = Player.Functions.GetItemByName(k)
+        local item = hasItem(source, k, 1)
         if item then
             return true
         end
@@ -165,28 +162,12 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
         end
     end
     if not isIn then return end
-    for k, v in pairs (DrugDeals) do 
-        if v.cid == Player.PlayerData.citizenid then 
-            if v.item == item then
-                if v.amount == amount then  
-                    if v.price == price then
-                        if RemoveItem(src, item, amount) then
-                            if QBConfig.MarkedBills then
-                                local info = {
-                                    worth = price
-                                }
-                                Player.Functions.AddItem('markedbills', 1, false, info )
-                            elseif QBConfig.CustomDirtyMoney == true then 
-                                AddItem(src, QBConfig.CustomDirtyMoneyitem, price)
-                            else
-                                Player.Functions.AddMoney('cash', price)
-                            end
-                            AddRep(src, 'cornerselling', Drugs[item].rep * amount)
-                            Log(GetName(src)  .. ' Sold ' .. amount .. ' Of ' .. item .. ' For A Price Of ' .. price .. '!' , 'cornerselling')
-                            table.remove(DrugDeals, k)
-                        end
-                    end
-                end
+    for k, v in pairs (DrugDeals) do
+        if v.cid == getCid(source)  and v.item == item and v.amount == amount and v.price == price then
+            if handleCornersell(src, item, amount, price) then
+                AddRep(src, 'cornerselling', Drugs[item].rep * amount)
+                Log(GetName(src)  .. ' Sold ' .. amount .. ' Of ' .. item .. ' For A Price Of ' .. price .. '!' , 'cornerselling')
+                table.remove(DrugDeals, k)
             end
         end
     end
@@ -207,7 +188,7 @@ RegisterServerEvent('md-drugs:server:cornerselling:stop', function()
     local src = source
     local Player = getPlayer(src)
     for k, v in pairs (DrugDeals) do 
-        if v.cid == Player.PlayerData.citizenid then 
+        if v.cid == getCid(source) then 
             TriggerClientEvent('md-drugs:client:cornerselling:remove', src, DrugDeals[k].ped)
             table.remove(DrugDeals, k)
         end

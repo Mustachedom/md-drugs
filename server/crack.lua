@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
@@ -13,7 +12,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
         }
         for _, v in ipairs(crackTiers) do
             if count >= 1 then break end
-            if Player.Functions.GetItemByName(v.item) then
+            if hasItem(src, v.item, 1) then
 				tier = v.tier
 				count = count + 1
             end
@@ -36,7 +35,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
         }
         for _, v in ipairs(crackTiers) do
             if count >= 1 then break end
-            if Player.Functions.GetItemByName(v.item) then
+            if hasItem(src, v.item, 1) then
 				tier = v.tier
 				count = count + 1
             end
@@ -50,7 +49,7 @@ for k, v in pairs (cokecut) do
 	CUI(k, function(source, item)
 		local src = source
 		local Player = getPlayer(src)
-		if Player.Functions.GetItemByName(item.name) then
+		if hasItem(src, k, 1) then
 			if not Itemcheck(src, 'bakingsoda', 1) then return end
             local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting Crack Rock Further')
             if not check then return end

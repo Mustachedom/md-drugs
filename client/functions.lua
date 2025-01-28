@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 local progressbartype = Config.progressbartype 
 local minigametype = Config.minigametype
@@ -6,11 +5,19 @@ local notifytype = Config.Notify
 local dispatch = Config.Dispatch
 
 function getJobType()
-	return QBCore.Functions.GetPlayerData().job.type
+	if Config.Framework == 'qb' then 
+		return QBCore.Functions.GetPlayerData().job.type
+	elseif Config.Framework == 'esx' then
+		return ESX.PlayerData.job.type
+	end
 end
 
 function getJobName()
-	return QBCore.Functions.GetPlayerData().job.name
+	if Config.Framework == 'qb' then 
+		return QBCore.Functions.GetPlayerData().job.name
+	elseif Config.Framework == 'esx' then
+		return ESX.PlayerData.job.name
+	end
 end
 
 function progressbar(text, time, anim)
@@ -240,6 +247,7 @@ end
 function makeMenu(name, rep)
 	local menu = {}
 	local data = lib.callback.await('md-drugs:server:menu', false, name)
+	print(data)
 	for k, v in pairs (data.table) do
 		local allow = false
 		if rep == nil then 
@@ -249,9 +257,9 @@ function makeMenu(name, rep)
 		end
 		if allow then 
 			menu[#menu + 1] = {
-				icon =  GetImage(v.name),
-				description = '$'.. v.price,
-				title = GetLabel(v.name),
+				icon =  GetImage(v.name) or 'missing Item',
+				description = '$'.. v.price or 'Missing Item',
+				title = GetLabel(v.name) or 'Missing Item',
 				onSelect = function()
 					local settext = "Cost: $"..v.price
 					local dialog = exports.ox_lib:inputDialog(v.name .."!",   {
@@ -445,7 +453,13 @@ function AddBoxZoneSingle(name, loc, data)
 		})
 	end
 end
-
+local function getGang() 
+	if Config.Framework == 'qb' then 
+		return QBCore.Functions.GetPlayerData().gang.name
+	elseif Config.Framework == 'esx' then
+		return ESX.GetPlayerData().job.name
+	end
+end
 function AddBoxZoneMulti(name, table, data)
 	for k, v in pairs (table) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
@@ -460,7 +474,7 @@ function AddBoxZoneMulti(name, table, data)
 				  label = data.label,
 				  data = k,
 				  canInteract = data.canInteract or function()
-					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+					if getGang() == v.gang or v.gang == 1 then return true end end
 				}
 			}, 
 			distance = 2.5
@@ -476,7 +490,7 @@ function AddBoxZoneMulti(name, table, data)
 				  data = k,
 				  distance = 2.5,
 				  canInteract = data.canInteract or function()
-					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+					if getGang() == v.gang or v.gang == 1 then return true end end
 				}
 			}, })
 		elseif Config.Target == 'interact' then
@@ -494,7 +508,7 @@ function AddBoxZoneMulti(name, table, data)
 						label = data.label or "fa-solid fa-eye", 
 						data = k,
 						canInteract = data.canInteract or function()
-							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
+							if getGang() == v.gang or v.gang == 1 then return true end end
 					},
 				}
 			})

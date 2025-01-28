@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 -------------------- stealing ingridients 
 local activePresses = {}
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
@@ -34,7 +34,7 @@ local check, loc = lib.callback.await('md-drugs:client:setpress', src, v.data)
 				press = v.data,
 				get = v.item,
 				owner = GetName(src),
-				ownerid = Player.PlayerData.citizenid,
+				ownerid = GetCid(source),
 				src = src,
 				loc = loc
 			})
@@ -47,7 +47,7 @@ RegisterServerEvent('md-drugs:server:getpressback', function(type)
 local src = source
 local Player = getPlayer(src)
 	for k, v in pairs (activePresses) do 
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == GetCid(source) then
 			if v.press == type then
 				table.remove(activePresses, k)
 				AddItem(src, v.get, 1)
@@ -62,7 +62,7 @@ local function pressout(source)
 	local ped = GetPlayerPed(src)
 	local coords = GetEntityCoords(ped)
 	for k, v in pairs (activePresses) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == GetCid(source) then
 			if  #(coords - v.loc) < 3.0 then
 				return v.press
 			end
@@ -243,7 +243,7 @@ AddEventHandler('playerDropped', function()
 	local src = source
 	local Player = getPlayer(src)
 	for k, v in pairs (activePresses) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == GetCid(source) then
 			table.remove(activePresses, k)
 			AddItem(src, v.get, 1)
 		end

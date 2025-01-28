@@ -21,7 +21,7 @@ for k, v in pairs (burners) do
         local Player = getPlayer(src)
         if getCops() < Config.PoliceCount then return Notifys(src, Lang.Wholesale.na, 'error') end
         for m, d in pairs (active) do 
-            if d.cid == Player.PlayerData.citizenid then
+            if d.cid == GetCid(source) then
                 return Notifys(src, Lang.Wholesale.al, 'error' )
             end
         end
@@ -36,12 +36,12 @@ for k, v in pairs (burners) do
                 src = src,
                 item = k,
                 location = getRandW(src),
-                cid = Player.PlayerData.citizenid,
+                cid = GetCid(source),
                 type = v,
                 price = Price[tab]
             })
             for m, d in pairs (active) do 
-                if d.cid == Player.PlayerData.citizenid then
+                if d.cid == GetCid(source) then
                     TriggerClientEvent("md-drugs:client:GetLocation", src, active[m])
                 end
             end
@@ -53,7 +53,7 @@ RegisterNetEvent('md-drugs:server:SuccessSale', function(data)
     local src = source
     local Player = getPlayer(src)
     for k, v in pairs (active) do 
-        if v.cid == Player.PlayerData.citizenid then
+        if v.cid == GetCid(source) then
             local payout = math.random(v.price.min, v.price.max)
             for m, d in pairs (v.type) do 
                 local git = Player.Functions.GetItemByName(d)

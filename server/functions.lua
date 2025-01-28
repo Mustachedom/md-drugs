@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore, ESX = {}, {}
 local notify = Config.Notify -- qb or ox
 local inventory = Config.Inventory -- qb or ox
 ------------------------------------------ logging stuff
@@ -6,9 +6,15 @@ local logs = false
 local logapi = GetConvar("fivemerrLogs", "")
 local endpoint = 'https://api.fivemerr.com/v1/logs'
 local headers = {
-            ['Authorization'] = logapi,
-            ['Content-Type'] = 'application/json',
-    }
+    ['Authorization'] = logapi,
+    ['Content-Type'] = 'application/json',
+}
+
+if Config.Framework == 'qb' then 
+    QBCore = exports['qb-core']:GetCoreObject()
+elseif Config.Framework == 'esx' then
+    ESX = exports['es_extended']:getSharedObject()
+end
 
 CreateThread(function()
 if logs then 
@@ -53,21 +59,42 @@ CreateThread(function()
     elseif GetResourceState('qb-inventory') == 'started' then
         invname = 'qb-inventory'
     else
-        invname = 'inventory'		
+        invname = 'inventory'
     end
 end)
 ------------------------------------ Player Stuff functions
-function getPlayer(source) 
+function getPlayer(source)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    return Player
+    if Config.Framework == 'qb' then
+        local Player = QBCore.Functions.GetPlayer(src)
+        return Player
+    elseif Config.Framework == 'esx' then
+        local Player = ESX.GetPlayerFromId(src)
+        return Player
+    end
 end
 
-function GetName(source) 
-    local Player = getPlayer(source) 
-    return Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
+function GetName(source)
+    local src = source
+    if Config.Framework == 'qb' then
+        local Player = getPlayer(src)
+        return Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
+    elseif Config.Framework == 'esx' then
+        local Player = getPlayer(src)
+        return Player.getName()
+    end
 end
 
+function getCid(source) 
+    local src = source
+    if Config.Framework == 'qb' then
+        local Player = getPlayer(src)
+        return Player.PlayerData.citizenid
+    elseif Config.Framework == 'esx' then
+        local Player = getPlayer(src)
+        return Player.getIdentifier()
+    end
+end
 function GetCoords(source) 
     local ped = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(ped)
@@ -117,7 +144,11 @@ function GetLabels(item)
 end
 
 function CUI(item, useFunction)
-    QBCore.Functions.CreateUseableItem(item, useFunction)
+    if Config.Framework == 'qb' then
+        QBCore.Functions.CreateUseableItem(item, useFunction)
+    elseif Config.Framework == 'esx' then
+        ESX.RegisterUsableItem(item, useFunction)
+    end
 end
 
 function Itemcheck(source, item, amount) 
@@ -131,9 +162,9 @@ function Itemcheck(source, item, amount)
             return false   
         end
     elseif inventory == 'ox' then
-       local items = exports.ox_inventory:GetItem(source, item, nil, false) 
+       local items = exports.ox_inventory:GetItem(source, item, nil, false)
         if items.count >= amount then 
-                return true
+            return true
         else
             Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
             return false
@@ -141,6 +172,48 @@ function Itemcheck(source, item, amount)
     end
 end
 
+function hasItem(source, item, amount) 
+    if inventory == 'qb' then
+        local Player = getPlayer(source)
+        local itemchecks = Player.Functions.GetItemByName(item)
+        if itemchecks and itemchecks.amount >= amount then
+            return true
+        else
+            return false
+        end
+    elseif inventory == 'ox' then
+       local items = exports.ox_inventory:GetItem(source, item, nil, false)
+        if items == nil then return false end
+        if items.count >= amount then 
+            return true
+        else
+            return false
+        end
+    end
+end
+
+function getItemCount(source, item) 
+    if inventory == 'qb' then
+        local Player = getPlayer(source)
+        local itemchecks = Player.Functions.GetItemByName(item)
+        if itemchecks then
+            return itemchecks.amount
+        else
+            return false
+        end
+    elseif inventory == 'ox' then
+       local items = exports.ox_inventory:GetItem(source, item, nil, false)
+        if items == nil then 
+            print('You are missing ' .. item)
+            return 0
+        end
+        if items.count >= 1 then
+            return items.count
+        else
+            return 0
+        end
+    end
+end
 function RemoveItem(source, item, amount) 
     if inventory == 'qb' then
         local Player = getPlayer(source)
@@ -162,16 +235,14 @@ end
 function AddItem(source, item, amount) 
     if inventory == 'qb' then
         local Player = getPlayer(source)
-        if Player.Functions.AddItem(item, amount) then 
+        if Player.Functions.AddItem(item, amount) then
             TriggerClientEvent(invname ..":client:ItemBox", source, QBCore.Shared.Items[item], "add", amount) 
             return true
-         else 
+         else
             print('Failed To Give Item: ' .. item .. ' Check Your qb-core/shared/items.lua')
             return false
         end
     else
-        local carry = exports.ox_inventory:CanCarryItem(source, item, amount)
-        if not carry then Notifys(source, 'You Cant Carry that Much Weight!', 'error') return false end
         if exports.ox_inventory:AddItem(source, item, amount) then
             return true
         else
@@ -181,66 +252,69 @@ function AddItem(source, item, amount)
     end
 end
 
+function addMoney(source, type, amount) 
+    if Config.Framework == 'qb' then 
+        local Player = getPlayer(source)
+        if Player.Functions.AddMoney(type, amount) then
+            return true
+        else
+            return false
+        end
+    elseif Config.Framework == 'esx' then
+        local Player = getPlayer(source)
+        if Player.addMoney(amount) then
+            return true
+        else
+            return false
+        end
+    end
+end
 
-function getRep(source, type) 
-    local Player = getPlayer(source) 
-    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
+function removeMoney(source, type, amount) 
+    if Config.Framework == 'qb' then 
+        local Player = getPlayer(source)
+        if Player.Functions.RemoveMoney(type, amount) then
+            return true
+        else
+            return false
+        end
+    elseif Config.Framework == 'esx' then
+        local Player = getPlayer(source)
+         Player.removeMoney(amount)
+         print(Player.removeMoney(amount))
+            return true
+    end
+end
+local function handleFresh(source)
+    local table = json.encode({
+        coke = 0,lsd = 0,heroin = 0,dealerrep = 0,
+        cornerselling = { price = QBConfig.SellLevel[1].price,rep = 0,label = QBConfig.SellLevel[1].label,level = 1}
+    })
+    MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {getCid(source), table, GetName(source)})
+    Wait(1000)
+    return json.decode(table)
+end
+
+function getRep(source, type)
+    local Player = getPlayer(source)
+    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
     if not sql[1] then
-        local table = json.encode({
-            coke = Player.PlayerData.metadata.coke or 0,
-            lsd = Player.PlayerData.metadata.lsd or 0,
-            heroin = Player.PlayerData.metadata.heroin or 0,
-            dealerrep = Player.PlayerData.metadata.dealerrep or 0,
-            cornerselling = {
-                price = QBConfig.SellLevel[1].price,
-                rep = 0,
-                label = QBConfig.SellLevel[1].label,
-                level = 1
-            }
-        })
-        MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {Player.PlayerData.citizenid, table, GetName(source)})
-        Wait(1000)
-        return json.decode(table)
+        local new = handleFresh(source)
+        return new[type]
     else
         local reps = json.decode(sql[1].drugrep)
         local rep = ''
         if reps.coke == nil then rep = reps[1] else rep = reps end
-        if type == 'coke' then
-            return rep.coke
-        elseif type == 'heroin' then
-            return rep.heroin
-        elseif type == 'lsd' then
-            return rep.lsd
-        elseif type == 'dealerrep' then
-            return rep.dealerrep
-        elseif type == 'cornerselling' then
-            return rep.cornerselling
-        else
-            print('^1 Error: No Valid Drug Rep Option Chosen') 
-        end
-        return false
+        return  rep[type]
     end
 end
 
-function GetAllRep(source) 
-    local Player = getPlayer(source) 
-    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
+function GetAllRep(source)
+    local Player = getPlayer(source)
+    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
     if not sql[1] then
-        local table = json.encode({
-            coke = Player.PlayerData.metadata.coke or 0,
-            lsd = Player.PlayerData.metadata.lsd or 0,
-            heroin = Player.PlayerData.metadata.heroin or 0,
-            dealerrep = Player.PlayerData.metadata.dealerrep or 0,
-            cornerselling = {
-                price = QBConfig.SellLevel[1].price,
-                rep = 0,
-                label = QBConfig.SellLevel[1].label,
-                level = 1
-            }
-        })
-        MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {Player.PlayerData.citizenid, table, GetName(source)})
-        Wait(1000)
-        return json.decode(table)
+        local new = handleFresh(source)
+        return new
     else
         local rep = json.decode(sql[1].drugrep)
         if rep.coke == nil then return rep[1] end
@@ -251,7 +325,7 @@ end
 function AddRep(source, type, amount) 
     if not amount then amount = 1 end
     local Player = getPlayer(source) 
-    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {Player.PlayerData.citizenid}) 
+    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
     local reps = json.decode(sql[1].drugrep)
     local update
     local rep = ''
@@ -265,19 +339,15 @@ function AddRep(source, type, amount)
                     update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = {label = v.label, price = v.price, rep = rep.cornerselling.rep + amount, level = k}})
                 end
             end
-        end 
-    elseif type == 'coke' then
-         update = json.encode({coke = rep.coke + amount, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = rep.cornerselling})
-    elseif type == 'heroin' then
-        update = json.encode({coke = rep.coke, heroin = rep.heroin + amount, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = rep.cornerselling})
-    elseif type == 'lsd' then
-        update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd +amount , dealerrep = rep.dealerrep, cornerselling = rep.cornerselling})
-    elseif type == 'dealerrep' then
-        update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep + amount, cornerselling = rep.cornerselling})
+        end
+        if update == '' then return false end
+        MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {update, getCid(source)})
+        return true
+    else
+        rep[type] = rep[type] + amount
+        MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {json.encode(rep), getCid(source)})
+        return true
     end
-    if update == '' then return false end
-        MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {update, Player.PlayerData.citizenid})
-    return true
 end
 
 lib.addCommand('addCornerSellingTOREP', {
@@ -321,6 +391,27 @@ function getCops()
          end
     end
    return amount
+end
+
+function handleCornersell(source, item, amount, price) 
+    if RemoveItem(source, item, amount) then
+        if inventory == 'qb' then
+            local Player = getPlayer(source)
+            if QBConfig.MarkedBills == true then 
+                Player.Functions.AddItem('markedbills',1,false, {worth = price})
+                return true
+            end
+            if QBConfig.CustomDirtyMoney == true then
+                AddItem(source, QBConfig.CustomDirtyMoneyitem,price)
+                return true
+            end
+            Player.Functions.AddMoney('cash', price)
+        elseif inventory == 'ox' then
+            AddItem(source, 'black_money', price)
+            return true
+        end
+    end
+    return false
 end
 
 lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)

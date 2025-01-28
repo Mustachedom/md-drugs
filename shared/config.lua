@@ -50,3 +50,9 @@ Config.minigametype = 'ox' -- look above for options or choose none if you dont 
 
 -------- Woah Where did like all the locations go?
 --- read the readme to find out
+Config.Framework = 'esx'
+if Config.Framework == 'qb' then 
+    QBCore = exports['qb-core']:GetCoreObject()
+elseif Config.Framework == 'esx' then
+    ESX = exports['es_extended']:getSharedObject()
+end

@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 local prices = {
 	tabcost = 100, -- price per piece of tab paper event does 10 at a time
 	lsdlabkitcost = 10000 -- price of the lsd lab kit
@@ -28,7 +28,7 @@ CUI('lsdlabkit', function(source, item)
 		if RemoveItem(src, 'lsdlabkit', 1) then
 			table.insert(lsdTables, {
 				owner = GetName(src),
-				ownerid = Player.PlayerData.citizenid,
+				ownerid = getCid(source),
 				src = src,
 				loc = loc
 			})
@@ -40,7 +40,7 @@ local function hasLabKit(source)
 	local src = source 
 	local Player = getPlayer(src)
 	for k, v in pairs (lsdTables) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == getCid(source) then
 			return true
 		end
 	end
@@ -58,7 +58,7 @@ RegisterServerEvent('md-drugs:server:getlabkitback', function()
 	local src = source
 	local Player = getPlayer(src)
 	for k, v in pairs (lsdTables) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == getCid(source) then
 			table.remove(lsdTables, k)
 			AddItem(src, 'lsdlabkit', 1)
 		end
@@ -210,7 +210,7 @@ AddEventHandler('playerDropped', function()
 	local src = source
 	local Player = getPlayer(src)
 	for k, v in pairs (lsdTables) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == getCid(source) then
 			table.remove(lsdTables, k)
 			AddItem(src, 'lsdlabkit', 1)
 		end

@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 local recipe = {
     cocaine = {
@@ -141,8 +140,8 @@ function GetRecipe(source, type, method, tier)
     local has = 0
     local need = 0 
     for k, v in pairs (recipe[type][method][tier].take) do 
-        local item = Player.Functions.GetItemByName(k) 
-        if item and item.amount >= v then 
+        local item = hasItem(src, k, v)
+        if item == true then
             has = has + 1
         else
             Notifys(src, ' You Need ' .. v .. ' Of '  .. GetLabels(k) .. ' To Do This', 'error')
@@ -151,10 +150,10 @@ function GetRecipe(source, type, method, tier)
     end
     if has == need then 
         for k, v in pairs (recipe[type][method][tier].take) do
-            RemoveItem(src, k, v) 
+            RemoveItem(src, k, v)
         end
         for k,v in pairs (recipe[type][method][tier].give) do
-            AddItem(src, k, v) 
+            AddItem(src, k, v)
             Log(GetName(src) .. ' Made ' .. GetLabels(k) .. '!', 'drugMaking')
         end  
         return true

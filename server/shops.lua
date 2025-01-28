@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
 local stores = {
 	travel = {
@@ -67,11 +66,12 @@ lib.callback.register('md-drugs:server:menu', function(source, data)
 end)
 
 RegisterServerEvent("md-drugs:server:purchaseGoods", function(amount, money, item, price,table,num)
-	local src = source local Player = getPlayer(src)
+	local src = source 
+	local Player = getPlayer(src)
 	for i = 1, #table do 
 		if table[i].name == item then
 		if not table[i].price == price then return end
-			if Player.Functions.RemoveMoney(tostring(money), tonumber(table[i].price) * tonumber(amount)) then
+			if removeMoney(src, tostring(money), tonumber(table[i].price) * tonumber(amount)) then
 				AddItem(src, item, amount)
 				Log(GetName(src) .. ' Bought ' .. amount .. ' Of ' .. item .. ' For ' .. tonumber(price) * tonumber(amount) .. '!', 'merchant')
 			end

@@ -112,6 +112,10 @@ local Target = {
 }
 
 function checkLoc(source, event, num)
+    print('Checking Location')
+    print('Event: ' .. event)
+    print('Num: ' .. num)
+    
     local ped = source
     local pos = GetPlayerPed(ped)
     local coord = GetEntityCoords(pos)
@@ -123,6 +127,7 @@ function checkLoc(source, event, num)
     end
     local dist = #(coord - loc)
     if dist < 2.5 then
+        print(GetName(source) .. ' Triggered the table ' .. event .. ' Within The Correct Distance')
         Log(GetName(source) .. ' Triggered the table ' .. event .. ' Within The Correct Distance', 'locations')
         return true
     else
