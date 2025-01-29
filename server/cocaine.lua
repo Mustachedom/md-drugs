@@ -65,28 +65,23 @@ end)
 
 RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
     local src = source
-    local Player = getPlayer(src)
-	local count = 0
     if Config.FancyCokeAnims then
         if not checkLoc(src, 'singleSpot', 'cutcoke') then return end
     else
         if not checkLoc(src, 'CuttingCoke', num) then return end
     end
     if Config.TierSystem then
-        local tier = ''
         local cokeTiers = {
             {item = 'coke', 		  tier = 'tier1', log = ' Cut Coke'},
             {item = 'cokestagetwo',   tier = 'tier2', log = ' Cut Coke tier 2'},
             {item = 'cokestagethree', tier = 'tier3', log = ' Cut Coke tier 3'}
         }
         for _, v in ipairs(cokeTiers) do
-			if count >= 1 then break end
             if hasItem(src, v.item, 1) then
-                tier = v.tier
-                count = count + 1
+                if not GetRecipe(src, 'cocaine', 'cutcoke', v.tier) then return end
+                return
             end
         end
-        if not GetRecipe(src, 'cocaine', 'cutcoke', tier) then return end
     else
         if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
     end
@@ -94,16 +89,12 @@ end)
 
 RegisterServerEvent('md-drugs:server:bagcoke', function(num)
     local src = source
-    local Player = getPlayer(src)
-	local count = 0
-    local tier = ''
     if Config.FancyCokeAnims then
         if not checkLoc(src, 'singleSpot', 'bagcokepowder') then return end
     else
         if not checkLoc(src, 'BaggingCoke', num) then return end
     end
     if Config.TierSystem then
-        local coke = getRep(src, 'coke')
         local cokeTiers = {
             {item = 'loosecoke', 		   tier = 'tier1', log = ' Bagged Coke'},
             {item = 'loosecokestagetwo',   tier = 'tier2', log = ' Bagged Coke tier 2'},
@@ -111,13 +102,11 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
         }
         for _, v in ipairs(cokeTiers) do
             if hasItem(src, v.item, 1) then
-				if count >= 1 then break end
-                count = count + 1
-                tier = v.tier 
+                if not GetRecipe(src, 'cocaine', 'bagcoke', v.tier) then return end
+                AddRep(src, 'coke')
+                return
             end
         end
-        if not GetRecipe(src, 'cocaine', 'bagcoke', tier) then return end
-        AddRep(src, 'coke')
     else
         if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
     end
@@ -127,7 +116,6 @@ local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
 for k, v in pairs (cokecut) do
 	CUI(k, function(source, item)
 		local src = source
-		local Player = getPlayer(src)
         if not hasItem(src, 'bakingsoda', 1) then Notifys(src, 'You Need Baking Soda For this', 'error') return end
 		 if hasItem(src, k, 1) then
 		    if not Itemcheck(src, 'bakingsoda', 1) then return end
