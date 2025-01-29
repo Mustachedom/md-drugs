@@ -1,6 +1,6 @@
 
 lib.callback.register("md-drugs:client:prescriptionpad", function(data, op)
-    if getJobType() ~= 'ems' then return end
+    if not getAmbo() then return end
     local input = lib.inputDialog('Who To Give A Prescription To?',{
         {type = 'select', label = 'Player Name', options = data},
         {type = 'select', label = 'Prescription', options = op}})
@@ -18,3 +18,4 @@ lib.callback.register("md-drugs:client:unbottle", function()
     if not progressbar(Lang.Pharma.open, 4000, 'uncuff') then return end
     return true
 end)
+

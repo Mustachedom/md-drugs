@@ -64,8 +64,8 @@ function progressbar(text, time, anim)
 	  until cancelled or test
 	  if test then return true end
 	else
-			print"^1 SCRIPT ERROR: Md-DRUGS set your progressbar with one of the options!"
-	end	  
+		print"^1 SCRIPT ERROR: Md-DRUGS set your progressbar with one of the options!"
+	end
   end
 
 function loadParticle(dict)
@@ -653,6 +653,24 @@ function StartRay2()
 		end
         Wait(0)
     until run == false
+end
+
+function getAmbo() 
+	if Config.Framework == 'qb' then 
+		local Player = QBCore.Functions.GetPlayerData()
+		if Player.PlayerData.job.type == 'ems' then 
+			return true
+		else
+			return false
+		end
+	elseif Config.Framework == 'esx' then
+		local Player = ESX.GetPlayerData()
+		if Player.job.name == 'ambulance' then 
+			return true
+		else
+			return false
+		end
+	end
 end
 
 CreateThread(function()

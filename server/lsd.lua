@@ -22,13 +22,12 @@ end)
 
 CUI('lsdlabkit', function(source, item)
 	local src = source
-	local Player = getPlayer(src)
 	local placed, loc = lib.callback.await('md-drugs:client:setlsdlabkit', src)
 	if placed then 
 		if RemoveItem(src, 'lsdlabkit', 1) then
 			table.insert(lsdTables, {
 				owner = GetName(src),
-				ownerid = getCid(source),
+				ownerid = getCid(src),
 				src = src,
 				loc = loc
 			})
@@ -37,8 +36,6 @@ CUI('lsdlabkit', function(source, item)
 end)
 
 local function hasLabKit(source) 
-	local src = source 
-	local Player = getPlayer(src)
 	for k, v in pairs (lsdTables) do
 		if v.ownerid == getCid(source) then
 			return true
@@ -56,7 +53,6 @@ end)
 
 RegisterServerEvent('md-drugs:server:getlabkitback', function()
 	local src = source
-	local Player = getPlayer(src)
 	for k, v in pairs (lsdTables) do
 		if v.ownerid == getCid(source) then
 			table.remove(lsdTables, k)
@@ -104,19 +100,21 @@ if not Itemcheck(src, 'lsd_one_vial', 1) then return end
 		end
 	else
 		local randomchance = math.random(1,100)
-		if RemoveItem(src,'lsd_one_vial', 1) then 
-			if randomchance <= 60 then 
-				AddItem(src,'lsd_vial_two', 1)
-			elseif randomchance >= 61 and randomchance <= 75 then 
-				AddItem(src,'lsd_vial_three', 1)
-			elseif randomchance >= 76 and randomchance <= 85 then
-				AddItem(src,'lsd_vial_four', 1)	
-			elseif randomchance >= 86 and randomchance <= 93 then
-				AddItem(src,'lsd_vial_five', 1)	
-			else 
-				AddItem(src,'lsd_vial_six', 1)
+		local items = {
+			{chance = 60, item = 'lsd_vial_two'},
+			{chance = 75, item = 'lsd_vial_three'},
+			{chance = 85, item = 'lsd_vial_four'},
+			{chance = 93, item = 'lsd_vial_five'},
+			{chance = 100, item = 'lsd_vial_six'}
+		}
+		if RemoveItem(src, 'lsd_one_vial', 1) then
+			for k, v in ipairs(items) do
+				if randomchance <= v.chance then
+					AddItem(src, v.item, 1)
+					break
+				end
 			end
-			Log(GetName(src) ..' Refined Acid!', 'lsd')
+			Log(GetName(src) .. ' Refined Acid!', 'lsd')
 		end
 	end
 end)
@@ -125,26 +123,24 @@ RegisterServerEvent('md-drugs:server:failrefinequality', function()
 	local src = source
 	if not hasLabKit(src) then return end
 	if not Itemcheck(src, 'lsd_one_vial', 1) then return end
-	RemoveItem(src,'lsd_one_vial', 1)  
+	RemoveItem(src,'lsd_one_vial', 1)
 end)
 
 
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
-	local Player = getPlayer(src)
 	if not checkLoc(src, 'gettabs', num) then return end
-	if Player.Functions.RemoveMoney('cash', prices.tabcost * 10) then
+	if removeMoney(src, 'cash', prices.tabcost * 10) then
 		AddItem(src,'tab_paper', 10)
 	else
 		Notifys(Lang.lsd.broke, "error")
 	end
 end)
- 
+
 RegisterServerEvent('md-drugs:server:getlabkit', function()
 	local src = source
-	local Player = getPlayer(src)
 	if not checkLoc(src,'singleSpot', 'buylsdlabkit') then return end
-	if Player.Functions.RemoveMoney('cash', prices.lsdlabkitcost) then
+	if removeMoney(src,'cash', prices.lsdlabkitcost) then
 		AddItem(src,'lsdlabkit', 1)
 	else
 		Notifys(src, Lang.lsd.broke, "error")
@@ -169,9 +165,7 @@ RegisterServerEvent('md-drugs:server:maketabpaper', function()
 	sortTab(vialdata, 'vial')
 	for k, v in pairs (vialdata) do
 		if count >= 1 then break end
-		local check = Player.Functions.GetItemByName(v.vial)
-		
-		if check and check.amount >= 1 then
+		if hasItem(src, v.vial, 1) then
 			items = v.vial
 			recieve = v.sheet
 			count = count + 1
@@ -197,7 +191,6 @@ local sheets = {
 for k, v in pairs (sheets) do 
 	CUI(v.item, function(source)
 		local src = source
-		local Player = getPlayer(src)
 		local math = math.random(1,10)
 		if RemoveItem(src, v.item, 1) then
 			AddItem(src, v.recieve, math)
@@ -208,7 +201,6 @@ end
 
 AddEventHandler('playerDropped', function()
 	local src = source
-	local Player = getPlayer(src)
 	for k, v in pairs (lsdTables) do
 		if v.ownerid == getCid(source) then
 			table.remove(lsdTables, k)

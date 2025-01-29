@@ -1,13 +1,13 @@
 local carryPackage = nil
 
 RegisterNetEvent("md-drugs:client:GetOxyCar", function()
+	print("oxy")
 	lib.requestModel("burrito3", Config.RequestModelTime)
 	local paid = lib.callback.await('md-drugs:server:payfortruck', false)
 	if not paid then return end
 	local loca = lib.callback.await('md-drugs:server:getLocs', false)
 	local loc = loca.singleSpot.truckspawn
 	local oxycar = CreateVehicle("burrito3",loc.x, loc.y,loc.z, loc.w, true, false)
-    exports[Config.Fuel]:SetFuel(oxycar, 100.0)
     TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(oxycar))
 	Notify(Lang.oxy.truck, 'success')
 	TriggerEvent("md-drugs:client:getoxylocationroute")

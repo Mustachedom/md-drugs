@@ -74,6 +74,16 @@ function getPlayer(source)
     end
 end
 
+function getPlayerByCid(cid)
+    if Config.Framework == 'qb' then
+        local Player = QBCore.Functions.GetPlayerByCitizenId(cid)
+        return Player
+    elseif Config.Framework == 'esx' then
+        local Player = ESX.GetPlayerFromIdentifier(cid)
+        return Player
+    end
+end
+
 function GetName(source)
     local src = source
     if Config.Framework == 'qb' then
@@ -279,10 +289,16 @@ function removeMoney(source, type, amount)
             return false
         end
     elseif Config.Framework == 'esx' then
+        if type == 'bank' then
+           print('Does Not Support Bank Funds Removing From ESX Defaulted To Cash')
+        end
         local Player = getPlayer(source)
-         Player.removeMoney(amount)
-         print(Player.removeMoney(amount))
+        if Player.getMoney() >= amount then
+            Player.removeMoney(amount)
             return true
+        else
+            return false
+        end
     end
 end
 local function handleFresh(source)
@@ -393,6 +409,35 @@ function getCops()
    return amount
 end
 
+function getNear(src)
+    if Config.Framework == 'qb' then
+        local near = {}
+        local players = QBCore.Functions.GetPlayers()
+        for k, v in pairs (players) do
+            local targ = QBCore.Functions.GetPlayerByCitizenId(v.PlayerData.citizenid) 
+			local tname = GetName(v.PlayerData.source)
+			local ped, tped = GetPlayerPed(src), GetPlayerPed(v.PlayerData.source)
+			local dist = #(GetEntityCoords(ped) - GetEntityCoords(tped)) 
+			if dist < 5.0 then
+				table.insert(near, {label = tname, value = targ.PlayerData.citizenid})
+			end
+        end
+        return near
+    elseif Config.Framework == 'esx' then
+        local near = {}
+        local players = ESX.GetPlayers()
+        for k, v in pairs (players) do
+            local targ = ESX.GetPlayerFromId(v)
+            local tname = GetName(v)
+            local ped, tped = GetPlayerPed(src), GetPlayerPed(v)
+            local dist = #(GetEntityCoords(ped) - GetEntityCoords(tped))
+            if dist < 5.0 then
+                table.insert(near, {label = tname, value = getCid(v)})
+            end
+        end
+        return near
+    end
+end
 function handleCornersell(source, item, amount, price) 
     if RemoveItem(source, item, amount) then
         if inventory == 'qb' then

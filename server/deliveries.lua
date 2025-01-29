@@ -201,8 +201,8 @@ lib.addCommand("deletedealer", {
         MySQL.query('DELETE FROM dealers WHERE name = ?', { dealerName })
         QBConfig.Dealers[dealerName] = nil
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
-        TriggerClientEvent('QBCore:Notify', source, "Dealer Deleted", "success")
+        Notifys(source, "Dealer Deleted", "success")
     else
-        TriggerClientEvent('QBCore:Notify', source, "Who You Tryna Delete", "error")
+       Notifys(source, "Who You Tryna Delete", "error")
     end
 end)

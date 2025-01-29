@@ -18,10 +18,9 @@ local Price = {
 for k, v in pairs (burners) do 
     CUI(k, function(source, item)
         local src = source
-        local Player = getPlayer(src)
         if getCops() < Config.PoliceCount then return Notifys(src, Lang.Wholesale.na, 'error') end
         for m, d in pairs (active) do 
-            if d.cid == GetCid(source) then
+            if d.cid == getCid(source) then
                 return Notifys(src, Lang.Wholesale.al, 'error' )
             end
         end
@@ -36,12 +35,12 @@ for k, v in pairs (burners) do
                 src = src,
                 item = k,
                 location = getRandW(src),
-                cid = GetCid(source),
+                cid = getCid(source),
                 type = v,
                 price = Price[tab]
             })
             for m, d in pairs (active) do 
-                if d.cid == GetCid(source) then
+                if d.cid == getCid(source) then
                     TriggerClientEvent("md-drugs:client:GetLocation", src, active[m])
                 end
             end
@@ -53,13 +52,13 @@ RegisterNetEvent('md-drugs:server:SuccessSale', function(data)
     local src = source
     local Player = getPlayer(src)
     for k, v in pairs (active) do 
-        if v.cid == GetCid(source) then
+        if v.cid == getCid(source) then
             local payout = math.random(v.price.min, v.price.max)
             for m, d in pairs (v.type) do 
                 local git = Player.Functions.GetItemByName(d)
                 if git and git.amount >= 1 then 
                     RemoveItem(src, d, git.amount)
-                    Player.Functions.AddMoney('cash', git.amount * payout)
+                    addMoney(src, 'cash', git.amount * payout)
                 end
                 table.remove(active, k)
             end

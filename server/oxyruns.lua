@@ -6,8 +6,7 @@ local prices = {
 }
 lib.callback.register('md-drugs:server:payfortruck', function()
 	local src = source
-    local Player = getPlayer(src)
-	if Player.Functions.RemoveMoney('cash', prices.payfortruck) or Player.Functions.RemoveMoney('bank', prices.payfortruck) then
+	if removeMoney(src, 'cash', prices.payfortruck) or removeMoney(src, 'bank', prices.payfortruck) then
 		Log(GetName(src) .. ' Rented A Van For OxyRuns', 'oxy')
 		return true
 	else
@@ -19,7 +18,6 @@ end)
 
 RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local src = source
-    local Player = getPlayer(src)
 	local chance = math.random(1,100)
 	local cash = 200
 	local itemchance = math.random(1,100)
@@ -30,10 +28,10 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local item = itemList[math.random(1, #itemList)]
 	if chance <= prices.hotchance then 
 		Notifys(src, Lang.oxy.hot, "error")
-		Player.Functions.AddMoney("cash", cash * 0.5)
+		addMoney(src, "cash", cash * 0.5)
 		if itemchance <= prices.itemChance then 
 			AddItem(src, item.item, item.amount)
-		end	
+		end
 	else
 		Notifys(Lang.oxy.next, "success")
 		TriggerClientEvent("md-drugs:client:getoxylocationroute", src)
@@ -42,6 +40,5 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 			AddItem(src, item.item, item.amount)
 		end
 	end
-	
 end)
 

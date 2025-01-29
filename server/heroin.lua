@@ -83,18 +83,18 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	if not checkLoc(source, 'cutheroinone', num) then return end
 	if not Itemcheck(src, 'bakingsoda', 1) then return end
 	if Config.TierSystem then
-		local rawh = Player.Functions.GetItemByName('heroin')
-		local rawh2 = Player.Functions.GetItemByName('heroinstagetwo')
-		local rawh3 = Player.Functions.GetItemByName('heroinstagethree')
-		if rawh then
-			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
-		elseif rawh2 then
-			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier2') then return end
-		elseif rawh3 then
-			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier3') then return end
-		else
-			Notifys(src, Lang.Heroin.noheroin, "error")
+		local heroin = {
+			heroin = 'tier1',
+			heroinstagetwo = 'tier2',
+			heroinstagethree = 'tier3'
+		}
+		for k, v in pairs (heroin) do
+			if hasItem(src, k, 1) then
+				if not GetRecipe(src, 'heroin', 'cutheroin', v) then return end
+				return
+			end
 		end
+		Notifys(src, Lang.Heroin.noheroin, "error")
 	else
 		if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
 	end
@@ -102,11 +102,9 @@ end)
 
 RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	local src = source
-	local Player = getPlayer(src)
-	if not checkLoc(source, 'singleSpot', 'buyheroinlabkit') then return end
-	local has = Player.Functions.GetItemByName('heroinlabkit')
-	if has then Notifys(src, Lang.Heroin.haskit, 'error') return end
-	if Player.Functions.RemoveMoney('cash', prices.heroinlabkitprice) then
+	if not checkLoc(src, 'singleSpot', 'buyheroinlabkit') then return end
+	if hasItem(src, 'heroinlabkit', 1) then Notifys(src, Lang.Heroin.haskit, 'error') return end
+	if removeMoney(src, 'cash', prices.heroinlabkitprice) then
 		AddItem(src, 'heroinlabkit', 1)
 	else
 		Notifys(src, 'You Need '.. prices.heroinlabkitprice .. ' In Cash For This', 'error')
@@ -126,7 +124,6 @@ end
 
 RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 	local src = source
-	local Player = getPlayer(src)
 	if not hasHKit(src) then return end
 	for k, v in pairs (heroinLabKits) do
 		if v.ownerid == getCid(source) then
@@ -139,7 +136,6 @@ end)
 
 CUI('heroinlabkit', function(source, item)
 	local src = source
-	local Player = getPlayer(src)
 	if not Itemcheck(source, 'heroinlabkit', 1) then return end
 	local placed, loc = lib.callback.await('md-drugs:client:setheroinlabkit', src)
 	if placed then 
@@ -156,67 +152,55 @@ end)
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 local src = source
-local Player = getPlayer(src) 
 	if not hasHKit(src) then return end
 	if not Itemcheck(source, 'emptyvial', 1) then return end
 	if Config.TierSystem then
-		local cuth = Player.Functions.GetItemByName('heroincut')
-		local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
-		local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
-		if cuth then
-			if not GetRecipe(src, 'heroin', 'fillvial', 'tier1') then return end
-		elseif cuth2 then
-			if not GetRecipe(src, 'heroin', 'fillvial', 'tier2') then return end
-		elseif cuth3 then
-			if not GetRecipe(src, 'heroin', 'fillvial', 'tier3') then return end
-		else
-			Notifys(src, 'no cut heroin', "error")
+		local heroin = {
+			heroincut = 'tier1',
+			heroincutstagetwo = 'tier2',
+			heroincutstagethree = 'tier3'
+		}
+		for k, v in pairs (heroin) do
+			if hasItem(src, k, 1) then
+				if not GetRecipe(src, 'heroin', 'fillvial', v) then return end
+				return
+			end
 		end
+		Notifys(src, 'no cut heroin', "error")
 	else
 		if not GetRecipe(src, 'heroin', 'fillvial', 'tier1') then return end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:failheatingheroin', function()
-local src = source
-local Player = getPlayer(src)
-if not hasHKit(src) then return end
-local cuth = Player.Functions.GetItemByName('heroincut')
-local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
-local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
-	if cuth then
-		RemoveItem(src, 'heroincut', 1) 
-		Notifys(src,Lang.Heroin.fail, "error")
-	elseif cuth2 then
-		RemoveItem(src, 'heroincutstagetwo', 1) 
-		Notifys(src,Lang.Heroin.fail, "error")
-	elseif cuth3 then
-		RemoveItem(src, 'heroincutstagethree', 1)
-		Notifys(src,Lang.Heroin.fail, "error")
+	local src = source
+	if not hasHKit(src) then return end
+	local heroin = {'heroincut', 'heroincutstagetwo', 'heroincutstagethree'}
+	for k, v in pairs (heroin) do 
+		if hasItem(src, v, 1) then
+			RemoveItem(src, v, 1)
+			Notifys(src, Lang.Heroin.fail, "error")
+			return
+		end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
-    local Player = getPlayer(src)
 	if not checkLoc(source, 'fillneedle', num) then return end
 	if not Itemcheck(src, 'needle', 1) then return end
 	if Config.TierSystem then
-		local heroin = getRep(src, 'heroin')
-		local vh = Player.Functions.GetItemByName('heroinvial')
-		local vh2 = Player.Functions.GetItemByName('heroinvialstagetwo')
-		local vh3 = Player.Functions.GetItemByName('heroinvialstagethree')
-		if vh then
-			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier1') then return end
-			AddRep(src, 'heroin')
-		elseif vh2 then
-			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier2') then return end
-			AddRep(src, 'heroin')
-		elseif vh3 then
-			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier3') then return end
-			AddRep(src, 'heroin')
-		else
-			Notifys(src,Lang.Heroin.nofill, "error")
+		local vials = {
+			heroinvial = 'tier1',
+			heroinvialstagetwo = 'tier2',
+			heroinvialstagethree = 'tier3'
+		}
+		for k, v in  pairs (vials) do
+			if hasItem(src, k, 1) then
+				if not GetRecipe(src, 'heroin', 'fillneedle', v) then return end
+				AddRep(src, 'heroin')
+				return
+			end
 		end
 	else
 		if not GetRecipe(src, 'heroin', 'fillneedle', 'tier1') then return end
@@ -225,15 +209,15 @@ end)
 
 RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source
-    local Player = getPlayer(src)
 	Log(GetName(src) ..' Sucks And Burned Their Heroin', 'heroin')
 	if Config.TierSystem then
-		local vh = Player.Functions.GetItemByName('heroinvial')
-		local vh2 = Player.Functions.GetItemByName('heroinvialstagetwo')
-		local vh3 = Player.Functions.GetItemByName('heroinvialstagethree')
-		if vh then RemoveItem(src, 'heroinvialstagethree', 1 ) 
-		elseif vh2 then RemoveItem(src, 'heroinvialstagetwo', 1) 
-		elseif vh3 then RemoveItem(src, 'heroinvial', 1)
+		local heroin = {'heroinvial', 'heroinvialstagetwo', 'heroinvialstagethree'}
+		for k, v in pairs (heroin) do 
+			if hasItem(src, v, 1) then
+				RemoveItem(src, v, 1)
+				Notifys(src, Lang.Heroin.fail, "error")
+				return
+			end
 		end
 	else
 		RemoveItem(src, 'heroinvial', 1)
