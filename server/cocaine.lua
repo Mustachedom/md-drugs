@@ -82,6 +82,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
                 return
             end
         end
+        if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
     else
         if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
     end
@@ -107,6 +108,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
                 return
             end
         end
+        if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
     else
         if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
     end
