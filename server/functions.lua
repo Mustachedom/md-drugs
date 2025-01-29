@@ -400,13 +400,24 @@ end
 
 function getCops()
     local amount = 0
-    local players = QBCore.Functions.GetQBPlayers()
-    for k, v in pairs(players) do
-         if v.PlayerData.job.type == 'leo' and v.PlayerData.job.onduty then
-          amount = amount + 1
-         end
+    if Config.Framework == 'qb' then 
+        local players = QBCore.Functions.GetQBPlayers()
+        for k, v in pairs(players) do
+             if v.PlayerData.job.type == 'leo' and v.PlayerData.job.onduty then
+              amount = amount + 1
+             end
+        end
+        return amount
+    elseif Config.Framework == 'esx' then
+        local players = ESX.GetPlayers()
+        for k, v in pairs(players) do
+            local xPlayer = ESX.GetPlayerFromId(v)
+            if xPlayer.job.name == 'police' and xPlayer.job.onduty then
+                amount = amount + 1
+            end
+        end
+        return amount
     end
-   return amount
 end
 
 function getNear(src)
