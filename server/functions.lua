@@ -1,6 +1,8 @@
-local QBCore, ESX = {}, {}
+local QBCore, ESX, qbx = {}, {}, nil
 local notify = Config.Notify -- qb or ox
 local inventory = Config.Inventory -- qb or ox
+local invname = ''
+
 ------------------------------------------ logging stuff
 local logs = false 
 local logapi = GetConvar("fivemerrLogs", "")
@@ -14,7 +16,10 @@ if Config.Framework == 'qb' then
     QBCore = exports['qb-core']:GetCoreObject()
 elseif Config.Framework == 'esx' then
     ESX = exports['es_extended']:getSharedObject()
+elseif Config.Framework == 'qbx' then
+    qbx = exports.qbx_core
 end
+
 
 CreateThread(function()
 if logs then 
@@ -30,17 +35,11 @@ end
 end)
 
 function Log(message, type)
-if logs == false then return end	
-    local buffer = {
-        level = "info",
-        message = message,
-        resource = GetCurrentResourceName(),
-        metadata = {
-            drugs = type,
-            playerid = source
-        }
+if logs == false then return end
+    local buffer = { level = "info", message = message, resource = GetCurrentResourceName(),
+        metadata = { drugs = type,   playerid = source}
     }
-     SetTimeout(500, function()
+    SetTimeout(500, function()
          PerformHttpRequest(endpoint, function(status, _, _, response)
              if status ~= 200 then 
                  if type(response) == 'string' then
@@ -49,19 +48,8 @@ if logs == false then return end
              end
          end, 'POST', json.encode(buffer), headers)
          buffer = nil
-     end)
+    end)
 end
----------------------------------------------------- inventory catcher
-local invname = ''
-CreateThread(function()
-    if GetResourceState('ps-inventory') == 'started' then
-        invname = 'ps-inventory'
-    elseif GetResourceState('qb-inventory') == 'started' then
-        invname = 'qb-inventory'
-    else
-        invname = 'inventory'
-    end
-end)
 ------------------------------------ Player Stuff functions
 function getPlayer(source)
     local src = source
@@ -70,6 +58,9 @@ function getPlayer(source)
         return Player
     elseif Config.Framework == 'esx' then
         local Player = ESX.GetPlayerFromId(src)
+        return Player
+    elseif Config.Framework == 'qbx' then
+        local Player = qbx:GetPlayer(source)
         return Player
     end
 end
@@ -80,6 +71,9 @@ function getPlayerByCid(cid)
         return Player
     elseif Config.Framework == 'esx' then
         local Player = ESX.GetPlayerFromIdentifier(cid)
+        return Player
+    elseif Config.Framework == 'qbx' then
+        local Player = qbx:GetPlayerByCitizenId(cid)
         return Player
     end
 end
@@ -92,10 +86,13 @@ function GetName(source)
     elseif Config.Framework == 'esx' then
         local Player = getPlayer(src)
         return Player.getName()
+    elseif Config.Framework == 'qbx' then
+        local Player = getPlayer(src)
+        return Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
     end
 end
 
-function getCid(source) 
+function getCid(source)
     local src = source
     if Config.Framework == 'qb' then
         local Player = getPlayer(src)
@@ -103,8 +100,12 @@ function getCid(source)
     elseif Config.Framework == 'esx' then
         local Player = getPlayer(src)
         return Player.getIdentifier()
+    elseif Config.Framework == 'qbx' then
+        local Player = getPlayer(src)
+        return Player.PlayerData.citizenid
     end
 end
+
 function GetCoords(source) 
     local ped = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(ped)
@@ -115,7 +116,8 @@ function dist(source, coords)
     local playerPed = GetPlayerPed(source)
     local pcoords = GetEntityCoords(playerPed)
     local dist = #(pcoords - coords)
-        return dist
+
+    return dist
 end
 
 function CheckDist(source, coords)
@@ -124,7 +126,7 @@ function CheckDist(source, coords)
     local ok 
     if #(pcoords - coords) < 4.0 then
         return ok
-    else    
+    else
         DropPlayer(source, 'md-drugs: You Were A Total Of ' .. #(pcoords - coords) .. ' Too Far Away To Trigger This Event') 
         return false
     end
@@ -144,7 +146,7 @@ function Notifys(source, text, type)
     end
 end
 
-function GetLabels(item) 
+function GetLabels(item)
     if inventory == 'qb' then
         return QBCore.Shared.Items[item].label
     elseif inventory == 'ox' then
@@ -158,6 +160,8 @@ function CUI(item, useFunction)
         QBCore.Functions.CreateUseableItem(item, useFunction)
     elseif Config.Framework == 'esx' then
         ESX.RegisterUsableItem(item, useFunction)
+    elseif Config.Framework == 'qbx' then
+        qbx:CreateUseableItem(item, useFunction)
     end
 end
 
@@ -230,7 +234,7 @@ function RemoveItem(source, item, amount)
         if Player.Functions.RemoveItem(item, amount) then 
             TriggerClientEvent(invname ..":client:ItemBox", source, QBCore.Shared.Items[item], "remove", amount)  
             return true
-        else 
+        else
             Notifys(source, 'You Need ' .. amount .. ' Of ' .. GetLabels(item) .. ' To Do This', 'error')
         end
     elseif inventory == 'ox' then
@@ -277,6 +281,12 @@ function addMoney(source, type, amount)
         else
             return false
         end
+    elseif Config.Framework == 'qbx' then
+        if qbx:AddMoney(source, type, amount) then
+            return true
+        else
+            return false
+        end
     end
 end
 
@@ -299,6 +309,12 @@ function removeMoney(source, type, amount)
         else
             return false
         end
+    elseif Config.Framework == 'qbx' then
+        if qbx:RemoveMoney(source, type, amount) then
+            return true
+        else
+            return false
+        end
     end
 end
 local function handleFresh(source)
@@ -312,7 +328,6 @@ local function handleFresh(source)
 end
 
 function getRep(source, type)
-    local Player = getPlayer(source)
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
     if not sql[1] then
         local new = handleFresh(source)
@@ -326,7 +341,6 @@ function getRep(source, type)
 end
 
 function GetAllRep(source)
-    local Player = getPlayer(source)
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
     if not sql[1] then
         local new = handleFresh(source)
@@ -338,9 +352,9 @@ function GetAllRep(source)
     end
 end
 
-function AddRep(source, type, amount) 
+function AddRep(source, type, amount)
+    if not Config.TierSystem then return false end
     if not amount then amount = 1 end
-    local Player = getPlayer(source) 
     local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
     local reps = json.decode(sql[1].drugrep)
     local update
@@ -376,17 +390,17 @@ lib.addCommand('addCornerSellingTOREP', {
       local old = json.decode(v.drugrep)
       local get = old[1] or old
       table.insert(new, {
-                coke = get.coke,
-                lsd = get.lsd,
-                heroin = get.heroin,
-                dealerrep = get.dealerrep,
-                cornerselling = {
-                    price = QBConfig.SellLevel[1].price,
-                    rep = 0,
-                    label = QBConfig.SellLevel[1].label,
-                    level = 1
-                }
-            })
+        coke = get.coke,
+        lsd = get.lsd,
+        heroin = get.heroin,
+        dealerrep = get.dealerrep,
+        cornerselling = {
+            price = QBConfig.SellLevel[1].price,
+            rep = 0,
+            label = QBConfig.SellLevel[1].label,
+            level = 1
+        }
+      })
       local news = json.encode(new)
       MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {news, v.cid})
     end
@@ -417,6 +431,8 @@ function getCops()
             end
         end
         return amount
+    elseif Config.Framework == 'qbx' then
+        return qbx:GetDutyCountType('leo')
     end
 end
 
@@ -447,9 +463,23 @@ function getNear(src)
             end
         end
         return near
+    elseif Config.Framework == 'qbx' then
+        local near = {}
+        local players = qbx:GetPlayers()
+        for k, v in pairs (players) do
+            local targ = qbx:GetPlayer(v)
+            local tname = GetName(v)
+            local ped, tped = GetPlayerPed(src), GetPlayerPed(v)
+            local dist = #(GetEntityCoords(ped) - GetEntityCoords(tped))
+            if dist < 5.0 then
+                table.insert(near, {label = tname, value = getCid(v)})
+            end
+        end
+        return near
     end
 end
-function handleCornersell(source, item, amount, price) 
+
+function handleCornersell(source, item, amount, price)
     if RemoveItem(source, item, amount) then
         if inventory == 'qb' then
             local Player = getPlayer(source)
@@ -466,34 +496,28 @@ function handleCornersell(source, item, amount, price)
             AddItem(source, 'black_money', price)
             return true
         end
+    else
+        return false
     end
-    return false
 end
 
 lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
-    local amount = 0
-    local players = QBCore.Functions.GetQBPlayers()
-    for k, v in pairs(players) do
-         if v.PlayerData.job.type == 'leo' and v.PlayerData.job.onduty then
-          amount = amount + 1
-         end
-    end
-   return amount
+   return getCops()
 end)
 
 lib.callback.register('md-drugs:server:GetRep', function(source, cb, args)
-    local src = source
     local rep = GetAllRep(source) 
     return rep
 end)
 
 CreateThread(function()
-    if not GetResourceState('ox_lib'):find("start") then 
-       print('^1 ox_lib Is A Depndancy, Not An Optional ')
+    if GetResourceState('ps-inventory') == 'started' then
+        invname = 'ps-inventory'
+    elseif GetResourceState('qb-inventory') == 'started' then
+        invname = 'qb-inventory'
+    else
+        invname = 'inventory'
     end
-end)
-
-CreateThread(function()
     local url = "https://raw.githubusercontent.com/Mustachedom/md-drugs/main/version.txt"
     local version = GetResourceMetadata('md-drugs', "version" )
      PerformHttpRequest(url, function(err, text, headers)
@@ -501,4 +525,7 @@ CreateThread(function()
                 print('^2 Your Version:' .. version .. ' | Current Version:' .. text .. '' )  
          end
      end, "GET", "", "")
+     if GetResourceState('ox_lib') ~= 'started' then 
+        print('^1 ox_lib Is A Depndancy, Not An Optional ')
+     end
 end)

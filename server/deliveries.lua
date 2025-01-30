@@ -84,7 +84,7 @@ lib.callback.register('md-drugs:server:getDealers', function(data)
     local loc = json.encode({x = 899.98, y = -2603.24, z = 6.11, h = 176.12 })
     if not check[1] then 
         MySQL.insert('INSERT INTO dealers SET name = ?, coords = ?, time = ?, createdby = ?', {'MD', loc, 'any', 'code Newb'})
-	Wait(2000)
+	    Wait(2000)
 	local check2 = MySQL.query.await('SELECT * FROM dealers', {})
         return check2
     else
@@ -94,24 +94,19 @@ end)
 
 
 local DeliveryItems = {
-    {    item = "weed_brick",    minrep = 0,    payout = {min = 10, max = 50}},
-    {    item = "coke_brick",    minrep = 0,    payout = {min = 10, max = 50}},
+    {item = "weed_brick",    minrep = 0,    payout = {min = 10, max = 50}},
+    {item = "coke_brick",    minrep = 0,    payout = {min = 10, max = 50}},
 }
 
 lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
     local src = source
-    local Player = getPlayer(src)
     local itemnum = math.random(1, #DeliveryItems)
     local item = DeliveryItems[itemnum].item
     local amount = math.random(1,4)
     local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {getCid(src)})
     local locnum = math.random(1, #dloc)
-    local coord = json.encode({
-        x = dloc[locnum].coords.x,
-        y = dloc[locnum].coords.y,
-        z = dloc[locnum].coords.z ,
-        w = dloc[locnum].coords.w
-    })
+    local coord = json.encode({ x = dloc[locnum].coords.x, y = dloc[locnum].coords.y, z = dloc[locnum].coords.z , w = dloc[locnum].coords.w })
+
     if not check[1] then
         MySQL.insert('INSERT INTO deliveriesdealer SET cid = ?, itemdata = ?, timestart = ?, maxtime = ?, location = ?', 
         {getCid(src), json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
@@ -165,7 +160,7 @@ lib.addCommand("newdealer", {
 
     local dealerName = args.name
     local pos = json.encode({x = coords.x, y = coords.y, z = coords.z})
-    
+
     local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', { dealerName })
     if result then
         return Notifys(source,"Already Exists", "error")
@@ -176,12 +171,7 @@ lib.addCommand("newdealer", {
     }, function()
         QBConfig.Dealers[dealerName] = {
             name = dealerName,
-            coords = {
-                x = coords.x,
-                y = coords.y,
-                z = coords.z,
-                h = GetEntityHeading(ped)
-            },
+            coords = { x = coords.x, y = coords.y, z = coords.z, h = GetEntityHeading(ped) },
         }
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
     end)

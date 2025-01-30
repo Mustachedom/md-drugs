@@ -9,6 +9,8 @@ function getJobType()
 		return QBCore.Functions.GetPlayerData().job.type
 	elseif Config.Framework == 'esx' then
 		return ESX.PlayerData.job.type
+	elseif Config.Framework == 'qbx' then
+		return QBX.PlayerData.job.type
 	end
 end
 
@@ -17,6 +19,18 @@ function getJobName()
 		return QBCore.Functions.GetPlayerData().job.name
 	elseif Config.Framework == 'esx' then
 		return ESX.PlayerData.job.name
+	elseif Config.Framework == 'qbx' then
+		return QBX.PlayerData.job.name
+	end
+end
+
+function getGang() 
+	if Config.Framework == 'qb' then 
+		return QBCore.Functions.GetPlayerData().gang.name
+	elseif Config.Framework == 'esx' then
+		return ESX.GetPlayerData().job.name
+	elseif Config.Framework == 'qbx' then
+		return QBX.PlayerData.gang.name
 	end
 end
 
@@ -186,15 +200,15 @@ function minigame()
 
  function Notify(text, type)
 	if notifytype =='ox' then
-	  lib.notify({title = text, type = type})
-        elseif notifytype == 'qb' then
-	  QBCore.Functions.Notify(text, type)
+	  	lib.notify({title = text, type = type})
+    elseif notifytype == 'qb' then
+	 	QBCore.Functions.Notify(text, type)
 	elseif notifytype == 'okok' then
-	  exports['okokNotify']:Alert('', text, 4000, type, false)
+	  	exports['okokNotify']:Alert('', text, 4000, type, false)
 	else
        	print"^1 SCRIPT ERROR: Md-DRUGS set your notification with one of the options!"
     end
-  end
+end
 
 function GetImage(img)
     if GetResourceState('ox_inventory') == 'started' then
@@ -247,10 +261,9 @@ end
 function makeMenu(name, rep)
 	local menu = {}
 	local data = lib.callback.await('md-drugs:server:menu', false, name)
-	print(data)
 	for k, v in pairs (data.table) do
 		local allow = false
-		if rep == nil then 
+		if rep == nil then
 			allow = true
 		else
 			if rep.dealerrep >= v.minrep then allow = true end
@@ -403,7 +416,6 @@ function tele(coords)
 	DoScreenFadeIn(500)
 end
 
-
 function AddBoxZoneSingle(name, loc, data)
 	if Config.Target == 'qb' then
 		exports['qb-target']:AddBoxZone(name, loc, 1.5, 1.75, {name = name, minZ = loc.z-1,maxZ = loc.z +1}, 
@@ -453,13 +465,7 @@ function AddBoxZoneSingle(name, loc, data)
 		})
 	end
 end
-local function getGang() 
-	if Config.Framework == 'qb' then 
-		return QBCore.Functions.GetPlayerData().gang.name
-	elseif Config.Framework == 'esx' then
-		return ESX.GetPlayerData().job.name
-	end
-end
+
 function AddBoxZoneMulti(name, table, data)
 	for k, v in pairs (table) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
@@ -655,7 +661,7 @@ function StartRay2()
     until run == false
 end
 
-function getAmbo() 
+function getAmbo()
 	if Config.Framework == 'qb' then 
 		local Player = QBCore.Functions.GetPlayerData()
 		if Player.PlayerData.job.type == 'ems' then 
@@ -665,6 +671,13 @@ function getAmbo()
 		end
 	elseif Config.Framework == 'esx' then
 		local Player = ESX.GetPlayerData()
+		if Player.job.name == 'ambulance' then 
+			return true
+		else
+			return false
+		end
+	elseif Config.Framework == 'qbx' then
+		local Player = QBX.PlayerData
 		if Player.job.name == 'ambulance' then 
 			return true
 		else

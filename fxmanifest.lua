@@ -4,7 +4,9 @@ description "drugs by mustache dom"
 fx_version "cerulean"
 game "gta5"
 version  '3.9.0'
+
 client_scripts {
+	--'@qbx_core/modules/playerdata.lua',
 	'client/**.lua',
 }
 

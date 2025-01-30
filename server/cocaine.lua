@@ -70,6 +70,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
     else
         if not checkLoc(src, 'CuttingCoke', num) then return end
     end
+    local tier = 'tier1'
     if Config.TierSystem then
         local cokeTiers = {
             {item = 'coke', 		  tier = 'tier1', log = ' Cut Coke'},
@@ -78,14 +79,12 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
         }
         for _, v in ipairs(cokeTiers) do
             if hasItem(src, v.item, 1) then
-                if not GetRecipe(src, 'cocaine', 'cutcoke', v.tier) then return end
-                return
+                tier = v.tier
+                break
             end
         end
-        if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
-    else
-        if not GetRecipe(src, 'cocaine', 'cutcoke', 'tier1') then return end
     end
+    if not GetRecipe(src, 'cocaine', 'cutcoke', tier) then return end
 end)
 
 RegisterServerEvent('md-drugs:server:bagcoke', function(num)
@@ -95,6 +94,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
     else
         if not checkLoc(src, 'BaggingCoke', num) then return end
     end
+    local tier = 'tier1'
     if Config.TierSystem then
         local cokeTiers = {
             {item = 'loosecoke', 		   tier = 'tier1', log = ' Bagged Coke'},
@@ -103,22 +103,19 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
         }
         for _, v in ipairs(cokeTiers) do
             if hasItem(src, v.item, 1) then
-                if not GetRecipe(src, 'cocaine', 'bagcoke', v.tier) then return end
-                AddRep(src, 'coke')
-                return
+                tier = v.tier
+                break
             end
         end
-        if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
-    else
-        if not GetRecipe(src, 'cocaine', 'bagcoke', 'tier1') then return end
     end
+    if not GetRecipe(src, 'cocaine', 'bagcoke', tier) then return end
+    AddRep(src, 'coke', 1)
 end)
 
 local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
 for k, v in pairs (cokecut) do
 	CUI(k, function(source, item)
 		local src = source
-        if not hasItem(src, 'bakingsoda', 1) then Notifys(src, 'You Need Baking Soda For this', 'error') return end
 		 if hasItem(src, k, 1) then
 		    if not Itemcheck(src, 'bakingsoda', 1) then return end
             local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting It Further')
