@@ -36,7 +36,6 @@ RegisterNetEvent("weed:init", function()
         lib.requestModel('prop_weed_01', 1000)
         if not v.taken then
             WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
-			print(WeedPlant[k])
 			Freeze(WeedPlant[k],true,  v.heading)
 			AddSingleModel(WeedPlant[k],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(k) end}, k)
         end
