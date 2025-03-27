@@ -73,7 +73,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
         if not checkLoc(src, 'CuttingCoke', num) then return end
     end
     if Config.TierSystem then
-        local tier = ''
+        local tier = 'tier1'
         local cokeTiers = {
             {item = 'coke', 		  tier = 'tier1', log = ' Cut Coke'},
             {item = 'cokestagetwo',   tier = 'tier2', log = ' Cut Coke tier 2'},
@@ -96,7 +96,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
     local src = source
     local Player = getPlayer(src)
 	local count = 0
-    local tier = ''
+    local tier = 'tier1'
     if Config.FancyCokeAnims then
         if not checkLoc(src, 'singleSpot', 'bagcokepowder') then return end
     else
