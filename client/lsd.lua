@@ -70,8 +70,16 @@ RegisterNetEvent("md-drugs:client:heatliquid", function(data)
 	    local exitPtfx = StartParticleFxLoopedOnEntity("scr_dst_cocaine", data.data, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
         SetParticleFxLoopedAlpha(exitPtfx, 3.0)
         Wait(100)
-        AddMultiModel(dirtylabkit, {{event = "md-drugs:client:cleanlabkit",   icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = dirtylabkit}}, nil )
-        return end
+        RegisterNetEvent("md-drugs:client:cleanlabkit", function(data)
+            if not ItemCheck('cleaningkit') then return end
+            if not progressbar(Lang.lsd.clean, 4000, 'clean') then return end
+            local check = lib.callback.await('md-drugs:server:removecleaningkit')
+            if check then 
+                dirtylsd = false
+                Notify(Lang.lsd.cleaned, 'success')
+            end
+        end)
+        return
     if not progressbar(Lang.lsd.heat, 7000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:heatliquid")
 end)
