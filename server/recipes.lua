@@ -136,31 +136,7 @@ local recipe = {
 }
 
 function GetRecipe(source, type, method, tier)
-    local src = source
-    local Player = getPlayer(source) 
-    local has = 0
-    local need = 0 
-    for k, v in pairs (recipe[type][method][tier].take) do 
-        local item = Player.Functions.GetItemByName(k) 
-        if item and item.amount >= v then 
-            has = has + 1
-        else
-            Notifys(src, ' You Need ' .. v .. ' Of '  .. GetLabels(k) .. ' To Do This', 'error')
-        end
-        need = need + 1
-    end
-    if has == need then 
-        for k, v in pairs (recipe[type][method][tier].take) do
-            RemoveItem(src, k, v) 
-        end
-        for k,v in pairs (recipe[type][method][tier].give) do
-            AddItem(src, k, v) 
-            Log(GetName(src) .. ' Made ' .. GetLabels(k) .. '!', 'drugMaking')
-        end  
-        return true
-    else
-        return false
-    end
+    ps.craftItem(source,recipe[type][method][tier])
 end
 
 lib.callback.register('md-drugs:server:GetRecipe', function(source, type, cat)

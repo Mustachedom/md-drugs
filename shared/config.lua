@@ -1,5 +1,5 @@
 Config = {} --Ignore.
-
+ps = exports.ps_lib:init()
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
@@ -26,7 +26,7 @@ Config.progressbartype = 'oxcir' -- either 'qb', 'oxcir', 'oxbar'
 Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
 Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
-Config.Target = 'ox' -- qb or ox
+Config.Target = 'qb' -- qb or ox
 Config.Inventory = 'ox' -- qb or ox, other if you dont use ox just mark as qb
 Config.Minigames = {
     ps_circle =     {amount = 2,     speed = 8,},

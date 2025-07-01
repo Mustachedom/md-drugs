@@ -676,3 +676,8 @@ RegisterCommand('DrugRep', function()
 	  lib.showContext('DrugRep')
 end, false)
 
+function handleGang(gang)
+	if gang == nil or gang == '' or gang == "" then return true end
+	if ps.getGangName() == gang or gang == 1 then return true end
+	return false
+end

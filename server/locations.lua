@@ -1,14 +1,16 @@
 local Target = {
     MakePowder = { -- where you chop your coca leaves to make powder
-        {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = "ballas"},
         {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
         {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     CuttingCoke = { -- only active if Config.FancyCokeAnims = false
-        {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-1.782227, 0.445068, -0.502701), rotation = vector3(0,0,0), gang = ""},
+        {loc = vector3(1092.74, -3196.68, -38.99), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(1.983398, 0.407959, -0.642696), rotation = vector3(0,0,180.0), gang = ""},
     },
     BaggingCoke = { -- only active if Config.FancyCokeAnims = false
-        {loc = vector3(1093.16, -3195.78, -39.19), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(1093.16, -3195.78, -39.19), l = 1.0, w = 1.0, rot = 45.0,offset = vec3(4.515137, 2.542969, -0.814194), rotation = vector3(0,0,180.0), gang = ""},
+        {loc = vector3(1090.17, -3196.59, -38.99), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-5.207642, -1.666504, -1.014198), rotation = vector3(0,0, 0.0), gang = ""},
     },
     makecrack = { -- make crack with baking soda with cut coke 1-3
         {loc = vector3(2433.47, 4970.02, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
@@ -53,8 +55,7 @@ local Target = {
         {loc = vector3(2855.62, 4446.73, 48.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     singleSpot = {
-        cutcoke = vector3(1093.17, -3195.74, -39.19),
-        bagcokepowder = vector3(1090.28, -3195.65, -39.19),
+       
         CokeTeleIn = vector3(198.16, -1276.92, 29.33), -- where you target to go inside coke
         CokeTeleOut =  vector3(1088.81, -3187.57, -38.99), -- where you target to leave coke
         buylsdlabkit = vector4(2598.47, 5033.06, 105.86, 283.51), --  buy lab kit for lsd
@@ -110,7 +111,7 @@ local Target = {
 	    vector4(474.88, 2609.56, 44.48, 357.0),
     }
 }
-
+GlobalState.MDDrugsLocs = Target
 function checkLoc(source, event, num)
     local ped = source
     local pos = GetPlayerPed(ped)

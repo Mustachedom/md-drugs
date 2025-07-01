@@ -4,7 +4,7 @@ local baggingcoke = nil
 
 local function pick(loc)
     if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
-        TriggerServerEvent("coke:pickupCane", loc)  
+        TriggerServerEvent("coke:pickupCane", loc)
     return true
 end
 
@@ -14,7 +14,15 @@ RegisterNetEvent('coke:respawnCane', function(loc)
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(CocaPlant[loc], true, v.heading)
-        AddSingleModel(CocaPlant[loc], {icon = "fa-solid fa-seedling", label = Lang.targets.coke.pick, action = function() if not pick(loc) then return end end}, loc)
+        ps.entityTarget(CocaPlant[loc], {
+            {
+                icon = "fa-solid fa-seedling",
+                label = Lang.targets.coke.pick,
+                action = function()
+                    if not pick(loc) then return end
+                end
+            }
+        })
     end
 end)
 
@@ -30,7 +38,15 @@ RegisterNetEvent("coke:init", function()
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)
-            AddSingleModel(CocaPlant[k], {icon = "fa-solid fa-seedling", label = Lang.targets.coke.pick, action = function() if not pick(k) then return end end}, k)
+            ps.entityTarget(CocaPlant[k], {
+                {
+                    icon = "fa-solid fa-seedling",
+                    label = Lang.targets.coke.pick,
+                    action = function()
+                        if not pick(k) then return end
+                    end
+                }
+            })
         end
     end
 end)
@@ -46,45 +62,52 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
-RegisterNetEvent("md-drugs:client:makepowder", function(data)
-    if not ItemCheck('coca_leaf') then return end
-    if not progressbar(Lang.Coke.makepow, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:makepowder", data.data)
-end)
+for k, v in pairs (GlobalState.MDDrugsLocs.MakePowder) do
+    ps.boxTarget('cocaplant'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = Lang.targets.coke.pick,
+            icon = 'fa-solid fa-seedling',
+            action = function()
+                if not ps.hasItem('coca_leaf') then return end
+                if not ps.progressbar(Lang.Coke.makepow, 4000, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:makepowder", k)
+            end,
+            canInteract = function()
+                return handleGang(v.gang)
+            end
+        }
+    })
+end
 
-RegisterNetEvent("md-drugs:client:cutcokeone", function(data)
-    if not ItemCheck('bakingsoda') then return end
-	cuttingcoke = true
-    if Config.FancyCokeAnims then
-	    CutCoke()
-    else
-         if not progressbar(Lang.Coke.cutting, 5000, 'uncuff') then cuttingcoke = nil return end
-    end
-	TriggerServerEvent("md-drugs:server:cutcokeone", data.data)
-	cuttingcoke = nil
-end)
-
-RegisterNetEvent("md-drugs:client:bagcoke", function(data) 
-    if not ItemCheck('empty_weed_bag') then return end
-	baggingcoke = true
-    if Config.FancyCokeAnims then
-	    BagCoke()
-    else
-        if not progressbar(Lang.Coke.bagging, 5000, 'uncuff') then baggingcoke = nil return end
-    end
-	TriggerServerEvent("md-drugs:server:bagcoke", data.data)
-	baggingcoke = nil
-end)
-
-CreateThread(function()
-    local config = lib.callback.await('md-drugs:server:getLocs', false)
-    if Config.FancyCokeAnims == false then 
-        AddBoxZoneMulti('cuttcoke', config.CuttingCoke,  {	type = "client",event = "md-drugs:client:cutcokeone",	icon = "fa-solid fa-mortar-pestle",  label = Lang.targets.coke.cut}) 
-        AddBoxZoneMulti('baggcoke', config.BaggingCoke,  {	type = "client",event = "md-drugs:client:bagcoke",	    icon = "fa-solid fa-sack-xmark",  label = Lang.targets.coke.bag})
-    else
-        AddBoxZoneSingle('cutcoke', config.singleSpot.cutcoke,
-		    { data = config.singleSpot.cutcoke,  type = "client", event = "md-drugs:client:cutcokeone", icon = "fa-solid fa-mortar-pestle", label = Lang.targets.coke.cut, canInteract = function() if cuttingcoke == nil and baggingcoke == nil then return true end end })
-        AddBoxZoneSingle('bagcokepowder', config.singleSpot.bagcokepowder,
-		    { data = config.singleSpot.bagcokepowder, type = "client", event = "md-drugs:client:bagcoke",    icon = "fa-solid fa-sack-xmark", label = Lang.targets.coke.bag, canInteract = function() if baggingcoke == nil and cuttingcoke == nil then return true end end })
-    end
-end)
+for k, v in pairs (GlobalState.MDDrugsLocs.CuttingCoke) do
+    ps.boxTarget('cutcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
+        {
+            label = 'cutCoke',
+            icon = 'fa-solid fa-mortar-pestle',
+            action = function()
+                CutCoke(v.loc, v.offset, v.rotation)
+            end,
+            canInteract = function()
+                if not handleGang(v.gang) then return false end
+                if cuttingcoke ~= nil or baggingcoke ~= nil then return false end
+                return true
+            end,
+        }
+    })
+end
+for k, v in pairs (GlobalState.MDDrugsLocs.BaggingCoke) do
+    ps.boxTarget('bagcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
+        {
+            label = 'bagCoke',
+            icon = 'fa-solid fa-sack-xmark',
+            action = function()
+                BagCoke(v.loc, v.offset, v.rotation)
+            end,
+            canInteract = function()
+                if not handleGang(v.gang) then return false end
+                if cuttingcoke ~= nil or baggingcoke ~= nil then return false end
+                return true
+            end
+        }
+    })
+end

@@ -159,13 +159,12 @@ function Tray()
 	AttachEntityToEntity(trays, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.01,-0.2, -0.2, 20.0, 0.0, 0.0, true, true, false, true, 1, true)
 end
 
-function CutCoke()
+function CutCoke(coords, offset, rotation)
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
 	lib.requestAnimDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
-	local coords = GetEntityCoords(ped)
-	local scenePos, sceneRot = vector3(1090.37+.9, -3193.61-1.68, -39.60), vector3(0.0, 0.0, 0.00)
+	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
 	local scenes = {
 	{
 		{	hash = "bkr_prop_coke_bakingsoda_o",	animName = "coke_cut_v5_bakingsoda"},
@@ -214,14 +213,13 @@ CreateThread(function()
     BikerCocaine.Details.Enable({BikerCocaine.Details.cokeBasic1, BikerCocaine.Details.cokeBasic2, BikerCocaine.Details.cokeBasic3}, true)
 end)
 
-function BagCoke()
+function BagCoke(coords, offset, rotation)
 local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
 	lib.requestAnimDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
-	local coords = GetEntityCoords(ped)
-	local scenePos, sceneRot = vector3(1090.62+4.3, -3196.2+3, -38.99-1), vector3(360.0, 360.0, 180.08)
+	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
 	local scenes = {
 	{
 		{	hash = "bkr_prop_coke_cutblock_01",	animName = "break_weigh_"..ver.."box01"},
