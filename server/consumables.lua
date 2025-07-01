@@ -150,7 +150,7 @@ for k, v in pairs(Consume) do
         local anim = v.anim or Consumables.defaultanim
         local progressbartext = v.progressbartext or Consumables.defaultprogresstext
         local add = v.add or {hunger = 0}
-        local done = lib.callback.await('md-drugs:client:consumedrugs', source, time, effect, anim, progressbartext, add, k)
+        local done = ps.callback('md-drugs:client:consumedrugs', source, time, effect, anim, progressbartext, add, k)
         if done then
             RemoveItem(source, k, 1)
         end

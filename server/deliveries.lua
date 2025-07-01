@@ -80,7 +80,7 @@ local dloc = {
     {coords = vector4(223.98, 121.53, 102.76, 259.68)},
     {coords = vector4(102.19, -255.02, 50.05, 83.59)},
 }
-lib.callback.register('md-drugs:server:getDealers', function(data)
+ps.registerCallback('md-drugs:server:getDealers', function(data)
     local check = MySQL.query.await('SELECT * FROM dealers', {})
     local loc = json.encode({x = 899.98, y = -2603.24, z = 6.11, h = 176.12 })
     if not check[1] then 
@@ -99,7 +99,7 @@ local DeliveryItems = {
     {    item = "coke_brick",    minrep = 0,    payout = {min = 10, max = 50}},
 }
 
-lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
+ps.registerCallback('md-drugs:server:GetDeliveryItem', function(data)
     local src = source
     local Player = getPlayer(src)
     local itemnum = math.random(1, #DeliveryItems)

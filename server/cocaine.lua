@@ -50,9 +50,8 @@ end)
 
 RegisterServerEvent('md-drugs:server:makepowder', function(num)
     local src = source
-    ps.debug(#(GetEntityCoords(GetPlayerPed(src)) - GlobalState.MDDrugsLocs.MakePowder[num].loc))
     if not ps.checkDistance(src, GlobalState.MDDrugsLocs.MakePowder[num].loc, 3.5) then
-        Notifys(src, 'You are not in the correct location', 'error')
+        ps.notify(src, 'You are not in the correct location', 'error')
         return
     end
     local tier = 'tier1'
@@ -71,7 +70,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
     local src = source
     local tier = 'tier1'
     if not ps.checkDistance(src, GlobalState.MDDrugsLocs.CuttingCoke[num].loc, 2.5) then
-        Notifys(src, 'You are not in the correct location', 'error')
+        ps.notify(src, 'You are not in the correct location', 'error')
         return
     end
     if Config.TierSystem then
@@ -94,7 +93,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
     local src = source
     local tier = 'tier1'
     if not ps.checkDistance(src, GlobalState.MDDrugsLocs.BaggingCoke[num].loc, 2.5) then
-        Notifys(src, 'You are not in the correct location', 'error')
+        ps.notify(src, 'You are not in the correct location', 'error')
         return
     end
     if Config.TierSystem then
@@ -120,10 +119,9 @@ local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
 for k, v in pairs (cokecut) do
 	ps.createUseable(k, function(source, item)
 		local src = source
-		local Player = getPlayer(src)
         if not ps.hasItem(src, 'bakingsoda') then ps.notify(src, 'You Need Baking Soda For this', 'error') return end
 		 if ps.hasItem(src,item.name) then
-             local check = lib.callback.await('md-drugs:client:uncuff', src, 'Cutting It Further')
+              local check = ps.callback('md-drugs:client:uncuff', src, 'Cutting It Further')
              if not check then return end
 		     if ps.removeItem(src, k, 1) and ps.removeItem(src, 'bakingsoda', 1) then
                  ps.addItem(src, 'loosecoke', v)

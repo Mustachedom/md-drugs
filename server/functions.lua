@@ -323,7 +323,7 @@ function getCops()
    return amount
 end
 
-lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
+ps.registerCallback('md-drugs:server:GetCoppers', function(source, cb, args)
     local amount = 0
     local players = QBCore.Functions.GetQBPlayers()
     for k, v in pairs(players) do
@@ -334,7 +334,7 @@ lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
    return amount
 end)
 
-lib.callback.register('md-drugs:server:GetRep', function(source, cb, args)
+ps.registerCallback('md-drugs:server:GetRep', function(source, cb, args)
     local src = source
     local rep = GetAllRep(source) 
     return rep

@@ -121,7 +121,7 @@ local Drugs = {
     ["cupofdextro"] =               {rep = 1,min = 18, max = 40},
 }
 
-lib.callback.register('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
+ps.registerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
     local Player = getPlayer(source)
     local rep = getRep(source, 'cornerselling')
     if not Player then return nil end
@@ -144,7 +144,7 @@ lib.callback.register('md-drugs:server:cornerselling:getAvailableDrugs', functio
     end
 end)
 
-lib.callback.register('md-drugs:server:hasDrugs', function(source)
+ps.registerCallback('md-drugs:server:hasDrugs', function(source)
     local Player = getPlayer(source)
     for k, v in pairs(Drugs) do
         local item = Player.Functions.GetItemByName(k)

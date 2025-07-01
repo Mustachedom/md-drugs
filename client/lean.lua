@@ -6,7 +6,7 @@ end)
 RegisterNetEvent('md-drugs:client:leancraft', function()
 local store = {} 
 local label = {}
-local items = lib.callback.await('md-drugs:server:GetRecipe', false,'lean', 'cups')
+local items = ps.callback('md-drugs:server:GetRecipe', false,'lean', 'cups')
 for k, v in pairs (items) do
 	label = {}
 	local item = ''

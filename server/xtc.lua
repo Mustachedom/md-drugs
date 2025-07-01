@@ -27,7 +27,7 @@ for k, v in pairs (presses) do
 CUI(v.item, function(source, item)
 local src = source
 local Player = getPlayer(src)
-local check, loc = lib.callback.await('md-drugs:client:setpress', src, v.data)
+local check, loc = ps.callback('md-drugs:client:setpress', src, v.data)
 	if check then
 		if RemoveItem(src, v.item, 1) then
 			table.insert(activePresses, {

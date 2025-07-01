@@ -122,7 +122,7 @@ CUI("weedgrinder", function(source, item)
     local Player = getPlayer(src)
     local has = Player.Functions.GetItemByName("drycannabis")
     if not has then Notifys(src, 'You Need Dried Cannabis', 'error') return end
-    local check = lib.callback.await('md-drugs:client:uncuff', src, 'Grinding Weed')
+     local check = ps.callback('md-drugs:client:uncuff', src, 'Grinding Weed')
     if not check then return end
     if RemoveItem(src, "drycannabis",1 ) then 
     	AddItem(src, "grindedweed", 1)
@@ -132,7 +132,7 @@ end)
 CUI("mdwoods", function(source, item)
 	local src = source
 	local Player = getPlayer(src)
-    local check = lib.callback.await('md-drugs:client:uncuff', src, 'Breaking Blunt Open')
+     local check = ps.callback('md-drugs:client:uncuff', src, 'Breaking Blunt Open')
     if not check then return end
 	if RemoveItem(src, "mdwoods",1 ) then 
 		AddItem(src, "bluntwrap", 5)

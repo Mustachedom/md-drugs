@@ -4,7 +4,7 @@ local prices = {
 	hotchance = 30,
 	itemChance = 20,
 }
-lib.callback.register('md-drugs:server:payfortruck', function()
+ps.registerCallback('md-drugs:server:payfortruck', function()
 	local src = source
     local Player = getPlayer(src)
 	if Player.Functions.RemoveMoney('cash', prices.payfortruck) or Player.Functions.RemoveMoney('bank', prices.payfortruck) then

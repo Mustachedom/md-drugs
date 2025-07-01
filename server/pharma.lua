@@ -25,7 +25,7 @@ CUI('prescription_pad', function(source, item)
 			end
 		end
 		local options = { {label = 'Vicodin', value = 'vicodin_prescription'}, {label = 'Adderal', value = 'adderal_prescription'}, {label = 'Morphine', value = 'morphine_prescription'},{label = 'Xanax', value = 'xanax_prescription'}}
-		local data = lib.callback.await('md-drugs:client:prescriptionpad', src, near, options)
+		local data = ps.callback('md-drugs:client:prescriptionpad', src, near, options)
 		if type(data) == 'table' then
 			local give = QBCore.Functions.GetPlayerByCitizenId(data.who)
 			for i = 1, #options do
@@ -42,7 +42,7 @@ for m, d in pairs (pharmabottle) do
 CUI(d, function(source, item)
 	local src = source
 	local Player = getPlayer(src)
-	local check = lib.callback.await("md-drugs:client:unbottle", src)
+	local check = ps.callback("md-drugs:client:unbottle", src)
 	if check then
 		local get = {
 			['vicodinbottle'] = 'vicodin',

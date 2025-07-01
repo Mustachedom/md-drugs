@@ -1,5 +1,6 @@
 Config = {} --Ignore.
 ps = exports.ps_lib:init()
+ps.insertLang("en")
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
@@ -22,12 +23,10 @@ Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3
 
 ---------------------------------- BRIDGE 
-Config.progressbartype = 'oxcir' -- either 'qb', 'oxcir', 'oxbar'
-Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
+
 Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
-Config.Target = 'qb' -- qb or ox
-Config.Inventory = 'ox' -- qb or ox, other if you dont use ox just mark as qb
+
 Config.Minigames = {
     ps_circle =     {amount = 2,     speed = 8,},
     ps_maze =       {timelimit = 15},
@@ -50,3 +49,22 @@ Config.minigametype = 'ox' -- look above for options or choose none if you dont 
 
 -------- Woah Where did like all the locations go?
 --- read the readme to find out
+--- 
+Config.Drugs = {
+    cocaine = true,
+    consumables =false,
+    crack = true,
+    cornerselling = false,
+    heroin = false,
+    deliveries = false,
+    lean = false,
+    lsd = false,
+    mescaline = false,
+    meth = false,
+    oxyruns = false,
+    pharma = false,
+    shrooms = false,
+    weed = false,
+    wholesale = false,
+    xtc = false,
+}

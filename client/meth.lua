@@ -82,7 +82,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	local config = lib.callback.await('md-drugs:server:getLocs', false)
+	local config = ps.callback('md-drugs:server:getLocs', false)
 	AddBoxZoneSingle("methTeleOut",config.singleSpot.MethTeleIn, {name = 'teleout', icon = "fa-solid fa-door-open",   label = Lang.targets.meth.enter,	action = function()		SetEntityCoords(PlayerPedId(), config.singleSpot.MethTeleOut)	end} )
 	AddBoxZoneSingle("methtelein",config.singleSpot.MethTeleOut, {name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.meth.exit,	action = function()		SetEntityCoords(PlayerPedId(), config.singleSpot.MethTeleIn)	end} )
 	local options = {

@@ -139,7 +139,7 @@ function GetRecipe(source, type, method, tier)
     ps.craftItem(source,recipe[type][method][tier])
 end
 
-lib.callback.register('md-drugs:server:GetRecipe', function(source, type, cat)
+ps.registerCallback('md-drugs:server:GetRecipe', function(source, type, cat)
     if not source then return false end
     return recipe[type][cat]
 end)

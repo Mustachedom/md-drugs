@@ -71,7 +71,7 @@ RegisterNetEvent("md-drugs:client:buyheroinlabkit", function()
 	TriggerServerEvent("md-drugs:server:getheroinlabkit")
 end)
 
-lib.callback.register("md-drugs:client:setheroinlabkit", function() 
+ps.registerCallback("md-drugs:client:setheroinlabkit", function() 
     if herointable then   
        Notify(Lang.Heroin.tableout, 'error')
        return false
@@ -103,7 +103,7 @@ end)
 RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function(data)
     if not ItemCheck('cleaningkit') then return end
     if not progressbar(Lang.Heroin.clean, 4000, 'clean') then return end
-	local done = lib.callback.await('removeCleaningkit', false)
+	local done = ps.callback('removeCleaningkit', false)
     if done then dirty = false end
 end)
 

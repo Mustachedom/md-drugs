@@ -22,7 +22,7 @@ RegisterNetEvent("md-drugs:client:setpress", function(type)
     end
 end)
 
-lib.callback.register('md-drugs:client:setpress', function(type)
+ps.registerCallback('md-drugs:client:setpress', function(type)
   if xtcpress then 
     Notify(Lang.xtc.out, 'error')
     return false

@@ -8,7 +8,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
 end)
 
 local function SpawnDealer()
-    local getDealers = lib.callback.await('md-drugs:server:getDealers', false)
+    local getDealers = ps.callback('md-drugs:server:getDealers')
     for k,v in pairs(getDealers) do
 		local Ped = "g_m_y_famdnf_01"
         lib.requestModel(Ped, Config.RequestModelTime)
@@ -18,7 +18,7 @@ local function SpawnDealer()
         AddMultiModel(dealer[k], {
         { icon = 'fas fa-user-secret', label = string.format(Lang.targets.Delivery.Deliver, v.name),
             action = function()
-                local bool, item, amount, coords = lib.callback.await('md-drugs:server:GetDeliveryItem', false, k)
+                local bool, item, amount, coords = ps.callback('md-drugs:server:GetDeliveryItem', false, k)
                 if bool then 
                     Email(Lang.Delivery.emailn, Lang.Delivery.emailsub, string.format(Lang.Delivery.emailcon, amount, GetLabel(item)))
                     TriggerEvent('md-drugs:client:setLocation', {bool = bool, item = item, amount = amount, coords = coords})

@@ -4,41 +4,169 @@ local function createLabKit(coord, head)
     local labkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false)
     SetEntityHeading(labkit, head)
     PlaceObjectOnGroundProperly(labkit)
+    FreezeEntityPosition(labkit, true)
+    tableout = true
     local options = {
-        { event = "md-drugs:client:heatliquid", icon = "fa-solid fa-temperature-high", label = Lang.targets.lsd.heat, data = labkit, canInteract = function() if not dirtylsd then return true end end },
-        { event = "md-drugs:client:refinequalityacid", icon = "fa-solid fa-temperature-high", label = Lang.targets.lsd.refine, data = labkit,canInteract = function() if not dirtylsd then return true end end },
-        { event = "md-drugs:client:maketabpaper", icon = "fa-regular fa-note-sticky", label = Lang.targets.lsd.dab, data = labkit, canInteract = function() if not dirtylsd then return true end end },
-        { event = "md-drugs:client:getlabkitback", icon = "fas fa-box-circle-check", label = Lang.targets.lsd.back, data = labkit, canInteract = function() if not dirtylsd then return true end end },
-        {icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = labkit,
+        {
+            icon = "fa-solid fa-temperature-high",
+            label = Lang.targets.lsd.heat,
             action = function()
-                if not ItemCheck('cleaningkit')  then return end
-                if not progressbar(Lang.lsd.clean, 4000, 'clean') then return end
-                local check = lib.callback.await('md-drugs:server:removecleaningkit')
-                if check then 
+	            local dict = "scr_ie_svm_technical2"
+                if not ps.hasItems({
+                    {name = 'lysergic_acid', amount = 1},
+                    {name = 'diethylamide', amount = 1}
+                }) then
+                    Notify(Lang.lsd.need, 'error')
+                    return
+                end
+	            if not minigame() then
+                    dirtylsd = true
+	            	loadParticle(dict)
+	                local exitPtfx = StartParticleFxLoopedOnEntity("scr_dst_cocaine", labkit, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
+                    SetParticleFxLoopedAlpha(exitPtfx, 3.0)
+                    return
+                end
+                if not progressbar(Lang.lsd.heat, 7000, 'uncuff') then return end
+                TriggerServerEvent("md-drugs:server:heatliquid")
+            end,
+            canInteract = function()
+                if not dirtylsd then return true end
+            end
+        },
+        {
+            icon = "fa-solid fa-temperature-high",
+            label = Lang.targets.lsd.refine,
+            action = function()
+                if not ps.hasItem('lsd_one_vial') then return end 
+                if not minigame() then TriggerServerEvent("md-drugs:server:failrefinequality") return end
+                if not ps.progressbar(Lang.lsd.refine, 4000, 'uncuff') then return end
+                TriggerServerEvent("md-drugs:server:refinequalityacid")
+            end,
+            canInteract = function()
+                if not dirtylsd then return true end
+            end
+        },
+        {
+            icon = "fa-regular fa-note-sticky",
+            label = Lang.targets.lsd.dab,
+            action = function()
+                if not ps.hasItem('tab_paper') then return end 
+                if not minigame() then TriggerServerEvent("md-drugs:server:failtabs") return end
+                if not ps.progressbar(Lang.lsd.dip, 4000, 'uncuff') then return end
+                TriggerServerEvent("md-drugs:server:maketabpaper")
+            end,
+            canInteract = function()
+                if not dirtylsd then return true end
+            end
+        },
+        {
+            event = "md-drugs:client:getlabkitback",
+            icon = "fas fa-box-circle-check",
+            label = Lang.targets.lsd.back,
+            action = function()
+                if not progressbar(Lang.lsd.tablepack, 4000, 'uncuff') then return end
+	            DeleteObject(labkit)
+	            TriggerServerEvent('md-drugs:server:getlabkitback')
+                tableout = false
+            end,
+            canInteract = function()
+                if not dirtylsd then return true end
+            end
+        },
+        {
+            icon = "fa-solid fa-hand-sparkles",
+            label = Lang.targets.lsd.clean,
+            action = function()
+                if not ps.hasItem('cleaningkit') then 
+                    Notify(Lang.lsd.needclean, 'error')
+                    return 
+                end
+                if not ps.progressbar(Lang.lsd.clean, 4000, 'clean') then return end
+                local check = ps.callback('md-drugs:server:removecleaningkit')
+                if check then
                     dirtylsd = false
                 end
             end,
             canInteract = function() if dirtylsd then return true end end
         }
     }
-    AddMultiModel(labkit, options, labkit)
+    ps.targetEntity(labkit, options)
 end
 
-RegisterNetEvent("md-drugs:client:getlysergic", function(data) 
-    if not minigame() then return end
-	if not progressbar(Lang.lsd.steallys, 4000, 'uncuff') then return end
-    TriggerServerEvent("md-drugs:server:getlysergic",data.data)
-end)
+for k, v in pairs (GlobalState.MDDrugsLocs.lysergicacid) do 
+    ps.boxTarget('lysergicacid'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = Lang.targets.lsd.lys,
+            icon = 'fa-solid fa-temperature-high',
+            action = function()
+                if not ps.hasItem('empty_weed_bag') then return end
+                if not minigame() then TriggerServerEvent("md-drugs:server:faillysergic") return end
+                if not ps.progressbar(Lang.lsd.steallys, 4000, 'uncuff') then return end
+                TriggerServerEvent("md-drugs:server:getlysergic", k)
+            end,
+            canInteract = function()
+                if not handleGang(v.gang) then return false end
+                return true
+            end
+        }
+    })
+end
 
+for k, v in pairs (GlobalState.MDDrugsLocs.diethylamide) do 
+    ps.boxTarget('diethylamide'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = Lang.targets.lsd.die,
+            icon = 'fa-solid fa-temperature-high',
+            action = function()
+                if not ps.hasItem('empty_weed_bag') then return end
+                if not minigame() then TriggerServerEvent("md-drugs:server:faildiethylamide") return end
+                if not ps.progressbar(Lang.lsd.stealdie, 4000, 'uncuff') then return end
+                TriggerServerEvent("md-drugs:server:getdiethylamide", k)
+            end,
+            canInteract = function()
+                if not handleGang(v.gang) then return false end
+                return true
+            end
+        }
+    })
+end
 
-RegisterNetEvent("md-drugs:client:getdiethylamide", function(data) 
-    if not minigame() then return end
-	if not progressbar(Lang.lsd.stealdie, 4000, 'uncuff') then return end
-    TriggerServerEvent('md-drugs:server:getdiethylamide', data.data)
-end)
+for k,v in pairs (GlobalState.MDDrugsLocs.gettabs) do
+    ps.boxTarget('gettabs'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = Lang.targets.lsd.buyt,
+            icon = 'fa-solid fa-hand-holding-dollar',
+            action = function()
+                if not ps.hasItem('lsdlabkit') then ps.notify(Lang.lsd.havlabkit, 'error') return end
+                TriggerEvent("md-drugs:client:buytabs", k)
+            end,
+            canInteract = function()
+                if not handleGang(v.gang) then return false end
+                return true
+            end
+        }
+    })
+end
 
+for k, v in pairs (GlobalState.MDDrugsLocs.buykit) do
+    ps.boxTarget('buykit'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = Lang.targets.lsd.buy,
+            icon = 'fa-solid fa-hand-holding-dollar',
+            action = function()
+                if ps.hasItem('lsdlabkit') then ps.notify(Lang.lsd.havlabkit, 'error') return end
+                if not ps.progressbar(Lang.lsd.buykit, 4000, 'uncuff') then return end
+                TriggerEvent("md-drugs:client:buylabkit")
+            end,
+            canInteract = function()
+                if not handleGang(v.gang) then return false end
+                return true
+            end
+        }
+    })
+end
 
-lib.callback.register("md-drugs:client:setlsdlabkit", function()
+ps.registerCallback("md-drugs:client:setlsdlabkit", function()
     if tableout then 
         Notify(Lang.lsd.tableout, 'error')
         return false
@@ -50,54 +178,4 @@ lib.callback.register("md-drugs:client:setlsdlabkit", function()
         createLabKit(loc, head)
         return true, loc
     end
-end)
-
-RegisterNetEvent("md-drugs:client:getlabkitback", function(data) 
-    if not progressbar(Lang.lsd.tablepack, 4000, 'uncuff') then return end
-	DeleteObject(data.data)
-	TriggerServerEvent('md-drugs:server:getlabkitback')
-    tableout = false
-end)
-
-RegisterNetEvent("md-drugs:client:heatliquid", function(data) 
-	local PedCoords, head = GetEntityCoords(data.data), GetEntityHeading(data.data)
-	local dict = "scr_ie_svm_technical2"
-    if not ItemCheck('lysergic_acid') then return end
-    if not ItemCheck('diethylamide') then return end
-	if not minigame() then
-        dirtylsd = true
-		loadParticle(dict)
-	    local exitPtfx = StartParticleFxLoopedOnEntity("scr_dst_cocaine", data.data, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
-        SetParticleFxLoopedAlpha(exitPtfx, 3.0)
-        Wait(100)
-        AddMultiModel(dirtylabkit, {{event = "md-drugs:client:cleanlabkit",   icon = "fa-solid fa-hand-sparkles",   label = Lang.targets.lsd.clean, data = dirtylabkit}}, nil )
-        return end
-    if not progressbar(Lang.lsd.heat, 7000, 'uncuff') then return end
-    TriggerServerEvent("md-drugs:server:heatliquid")
-end)
-
-
-RegisterNetEvent("md-drugs:client:refinequalityacid", function()
-    if not ItemCheck('lsd_one_vial')  then return end 
-    if not minigame() then TriggerServerEvent("md-drugs:server:failrefinequality") return end
-    if not progressbar(Lang.lsd.refine, 4000, 'uncuff') then return end
-    TriggerServerEvent("md-drugs:server:refinequalityacid")
-end)
-
-RegisterNetEvent("md-drugs:client:maketabpaper", function()
-    if not ItemCheck('tab_paper')  then return end 
-    if not minigame() then TriggerServerEvent("md-drugs:server:failtabs") return end
-	if not progressbar(Lang.lsd.dip, 4000, 'uncuff') then return end
-    TriggerServerEvent("md-drugs:server:maketabpaper")
-end)
-
-RegisterNetEvent("md-drugs:client:buytabs", function(data) 
-	if not progressbar(Lang.lsd.buypaper, 4000, 'uncuff') then return end
-    TriggerServerEvent("md-drugs:server:gettabpaper", data.data)
-end)
-
-RegisterNetEvent("md-drugs:client:buylabkit", function()
-    if hasItem('lsdlabkit') then Notify(Lang.lsd.hav, 'error') return end 
-	if not progressbar(Lang.lsd.buykit, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:getlabkit")
 end)

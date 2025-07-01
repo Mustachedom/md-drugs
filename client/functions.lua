@@ -228,7 +228,7 @@ function GetLabel(label)
 end
 
 function GetRep()
-	local rep = lib.callback.await('md-drugs:server:GetRep', false)
+	local rep = ps.callback('md-drugs:server:GetRep')
 	return rep
 end
 
@@ -239,7 +239,7 @@ end
 
 function makeMenu(name, rep)
 	local menu = {}
-	local data = lib.callback.await('md-drugs:server:menu', false, name)
+	local data = ps.callback('md-drugs:server:menu', name)
 	for k, v in pairs (data.table) do
 		local allow = false
 		if rep == nil then 
@@ -374,7 +374,7 @@ end
 
 function GetCops(number)
 	if number == 0 then return true end
-	local amount = lib.callback.await('md-drugs:server:GetCoppers', false)
+	local amount = ps.callback('md-drugs:server:GetCoppers')
 	if amount >= number then return true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
 end
 
@@ -396,160 +396,6 @@ function tele(coords)
 end
 
 
-function AddBoxZoneSingle(name, loc, data)
-	if Config.Target == 'qb' then
-		exports['qb-target']:AddBoxZone(name, loc, 1.5, 1.75, {name = name, minZ = loc.z-1,maxZ = loc.z +1}, 
-		{ options = {
-			{
-			  type = data.type or nil, 
-			  event = data.event or nil,
-			  action = data.action or nil,
-			  icon = data.icon or "fa-solid fa-eye", 
-			  label = data.label,
-			  data = data.data,
-			  canInteract = data.canInteract,
-			}
-		},
-		distance = 2.0
-	 })
-	elseif Config.Target == 'ox' then
-		exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = {
-			{
-			  type = data.type or nil, 
-			  event = data.event or nil,
-			  onSelect = data.action or nil,
-			  distance = 2.5,
-			  icon = data.icon or "fa-solid fa-eye", 
-			  label = data.label,
-			  data = data.data,
-			  canInteract = data.canInteract,
-			}
-		}, })
-	elseif Config.Target == 'interact' then
-		exports.interact:AddInteraction({
-			coords = vector3(loc.x, loc.y, loc.z),
-			distance = 2.5,
-			interactDst = 2,
-			id = name,
-			options = {
-				{
-					type = data.type or nil, 
-					event = data.event or nil,
-					onSelect = data.action or nil,
-					distance = 2.5,
-					label = data.label,
-					data = data.data,
-					canInteract = data.canInteract,
-				},
-			}
-		})
-	end
-end
-
-function AddBoxZoneMulti(name, table, data)
-	for k, v in pairs (table) do
-		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
-		if Config.Target == 'qb' then
-			exports['qb-target']:AddBoxZone(name .. k, v.loc, 1.5, 1.75, {name = name..k, minZ = v.loc.z-1.50,maxZ = v.loc.z +1.5}, 
-			{ options = {
-				{
-				  type = data.type or nil, 
-				  event = data.event or nil,
-				  action = data.action or nil,
-				  icon = data.icon or "fa-solid fa-eye", 
-				  label = data.label,
-				  data = k,
-				  canInteract = data.canInteract or function()
-					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
-				}
-			}, 
-			distance = 2.5
-		 })
-		elseif Config.Target == 'ox' then
-			exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1), options = {
-				{
-				  type = data.type or nil, 
-				  event = data.event or nil,
-				  onSelect = data.action or nil,
-				  icon = data.icon or "fa-solid fa-eye", 
-				  label = data.label,
-				  data = k,
-				  distance = 2.5,
-				  canInteract = data.canInteract or function()
-					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
-				}
-			}, })
-		elseif Config.Target == 'interact' then
-			exports.interact:AddInteraction({
-				coords = vector3(v.loc.x, v.loc.y, v.loc.z),
-				distance = 2.5,
-				interactDst = 2,
-				id = name,
-				options = {
-					{
-						type = data.type or nil, 
-						event = data.event or nil,
-						action = data.action or nil,
-						distance = 2.5,
-						label = data.label or "fa-solid fa-eye", 
-						data = k,
-						canInteract = data.canInteract or function()
-							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
-					},
-				}
-			})
-		end
-	end
-end
-
-function AddBoxZoneMultiOptions(name, loc, data) 
-	local options = {}
-	for k, v in pairs (data) do
-		table.insert(options, {
-			icon = v.icon or "fa-solid fa-eye", label = v.label, event = v.event or nil, action = v.action or nil,
-			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
-		})
-	end
-	if Config.Target == 'qb' then
-		exports['qb-target']:AddBoxZone(name , loc, 1.5, 1.75, {name = name, minZ = loc.z-1.50,maxZ = loc.z +1.5}, 
-		{ options = options, distance = 2.5})
-	elseif Config.Target == 'ox' then
-		exports.ox_target:addBoxZone({coords = loc, size = vec3(1,1,1), options = options })
-	elseif Config.Target == 'interact' then
-		exports.interact:AddInteraction({coords = vector3(loc.x, loc.y, loc.z),distance = 2.5,interactDst = 2,id = name,options = options})
-	end
-end
-
-
-function AddSingleModel(model, data, num)
-	if Config.Target == 'qb' then
-		exports['qb-target']:AddTargetEntity(model, {options = {
-			{icon = data.icon or "fa-solid fa-eye", label = data.label, event = data.event or nil, action = data.action or nil, data = num }
-		}, distance = 2.5})
-	elseif Config.Target == 'ox' then
-		exports.ox_target:addLocalEntity(model, {icon = data.icon, label = data.label, event = data.event or nil, onSelect = data.action or nil, data = num, distance = 2.5 })
-	elseif Config.Target == 'interact' then
-		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugs'..model,distance = 2.5,interactDst = 2.5, options = {label = data.label, event = data.event or nil, action = data.action or nil, data = num, distance = 2.5 }})
-	end
-end
-
-function AddMultiModel(model, data, num)
-	local options = {}
-	for k, v in pairs (data) do 
-		table.insert(options, {
-			icon = v.icon or "fa-solid fa-eye",  label = v.label, event = v.event or nil, action = v.action or nil,
-			onSelect = v.action,data = v.data,canInteract = v.canInteract or nil, distance = 2.0,
-		})
-	end
-	if Config.Target == 'qb' then
-		exports['qb-target']:AddTargetEntity(model, {options = options, distance = 2.5})
-	elseif Config.Target == 'ox' then
-		exports.ox_target:addLocalEntity(model, options)
-	elseif Config.Target == 'interact' then
-		local loc = GetEntityCoords(model)
-		exports.interact:AddLocalEntityInteraction({entity = model,offset = vec3(0.0, 0.0, 1.0),id = 'mddrugss'..model,distance = 2.5,interactDst = 2.5, options = data})
-	end
-end
 
 local created = false
 local heading = 180.0
@@ -654,14 +500,14 @@ CreateThread(function()
 	TriggerEvent('weed:init')
 end)
 
-lib.callback.register('md-drugs:client:uncuff', function(data)
+ps.registerCallback('md-drugs:client:uncuff', function(data)
 	if not progressbar(data, 4000, 'uncuff') then return end
 	return true
 end)
 
 RegisterCommand('DrugRep', function()
 	if not Config.TierSystem then return end
-	local rep = lib.callback.await('md-drugs:server:GetRep', false)
+	local rep = ps.callback('md-drugs:server:GetRep', false)
 	lib.registerContext({
 		id = 'DrugRep',
 		title = 'Drug Reputation',

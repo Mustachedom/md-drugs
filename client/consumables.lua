@@ -1,6 +1,6 @@
 
 
-lib.callback.register('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
+ps.registerCallback('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
 	if not progressbar(progresstext .. GetLabel(item).. "!", time, anim ) then return end
 	for k, v in pairs (status) do 
 		if k == 'health' then

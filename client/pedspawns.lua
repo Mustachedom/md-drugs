@@ -1,7 +1,7 @@
 
 CreateThread(function()
-    local config = lib.callback.await('md-drugs:server:getLocs', false)
-    local num = lib.callback.await('md-drugs:server:GetMerchant', false)
+    local config = ps.callback('md-drugs:server:getLocs', false)
+    local num = ps.callback('md-drugs:server:GetMerchant', false)
     local model = {"g_m_y_famdnf_01", 's_m_m_doctor_01', 'u_m_m_jesus_01', "prop_cooker_03"}
     for k, v in pairs (model) do
         lib.requestModel(v, Config.RequestModelTime)

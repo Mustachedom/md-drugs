@@ -1,7 +1,6 @@
 local CocaPlant = {}
 local cuttingcoke = nil
 local baggingcoke = nil
-
 local function pick(loc)
     if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
         TriggerServerEvent("coke:pickupCane", loc)
@@ -17,7 +16,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
         ps.entityTarget(CocaPlant[loc], {
             {
                 icon = "fa-solid fa-seedling",
-                label = Lang.targets.coke.pick,
+                label = ps.lang('targets.coke.pick'),
                 action = function()
                     if not pick(loc) then return end
                 end
@@ -34,14 +33,14 @@ end)
 RegisterNetEvent("coke:init", function()
     for k, v in pairs (GlobalState.CocaPlant) do
         local hash = GetHashKey(v.model)
-        LoadModel(hash) 
+        ps.requestModel(hash)
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)
             ps.entityTarget(CocaPlant[k], {
                 {
                     icon = "fa-solid fa-seedling",
-                    label = Lang.targets.coke.pick,
+                    label = ps.lang('targets.coke.pick'),
                     action = function()
                         if not pick(k) then return end
                     end
@@ -65,11 +64,11 @@ end)
 for k, v in pairs (GlobalState.MDDrugsLocs.MakePowder) do
     ps.boxTarget('cocaplant'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
-            label = Lang.targets.coke.pick,
+            label = ps.lang('.targets.coke.pick'),
             icon = 'fa-solid fa-seedling',
             action = function()
                 if not ps.hasItem('coca_leaf') then return end
-                if not ps.progressbar(Lang.Coke.makepow, 4000, 'uncuff') then return end
+                if not ps.progressbar(ps.lang('Coke.makepow'), 4000, 'uncuff') then return end
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
             canInteract = function()
@@ -82,7 +81,7 @@ end
 for k, v in pairs (GlobalState.MDDrugsLocs.CuttingCoke) do
     ps.boxTarget('cutcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
         {
-            label = 'cutCoke',
+            label = ps.lang('targets.coke.cut'),
             icon = 'fa-solid fa-mortar-pestle',
             action = function()
                 CutCoke(v.loc, v.offset, v.rotation)
@@ -98,7 +97,7 @@ end
 for k, v in pairs (GlobalState.MDDrugsLocs.BaggingCoke) do
     ps.boxTarget('bagcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
         {
-            label = 'bagCoke',
+            label = ps.lang('targets.coke.bag'),
             icon = 'fa-solid fa-sack-xmark',
             action = function()
                 BagCoke(v.loc, v.offset, v.rotation)

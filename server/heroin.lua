@@ -37,7 +37,7 @@ function heroinCooldown(loc)
     end)
 end
 
-lib.callback.register('removeCleaningkit', function(source)
+ps.registerCallback('removeCleaningkit', function(source)
 	local Player = getPlayer(source)
 	for k, v in pairs(heroinLabKits) do
 		if v.ownerid == Player.PlayerData.citizenid then
@@ -141,7 +141,7 @@ CUI('heroinlabkit', function(source, item)
 	local src = source
 	local Player = getPlayer(src)
 	if not Itemcheck(source, 'heroinlabkit', 1) then return end
-	local placed, loc = lib.callback.await('md-drugs:client:setheroinlabkit', src)
+	local placed, loc = ps.callback('md-drugs:client:setheroinlabkit', src)
 	if placed then 
 		RemoveItem(src, 'heroinlabkit', 1)
 		table.insert(heroinLabKits, {

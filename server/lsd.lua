@@ -1,29 +1,44 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 local prices = {
 	tabcost = 100, -- price per piece of tab paper event does 10 at a time
 	lsdlabkitcost = 10000 -- price of the lsd lab kit
 }
-
+local timedOut = {}
+local function timeout(src, time)
+	timedOut[src] = true
+	CreateThread(function()
+		Wait(time)
+		timedOut[src] = nil
+	end)
+end
 local lsdTables = {}
 RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
-	if not checkLoc(src, 'lysergicacid', num) then return end
-	if AddItem(src,'lysergic_acid', 2) then
+	if timedOut[src] then return end
+	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.lysergicacid[num].loc, 2.0) then
+		Notifys(src, Lang.lsd.notinloc, "error")
+		return
 	end
+	timeout(src, 3000)
+	ps.addItem(src, 'lysergic_acid', 2)
 end)
 
 RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
-	if not checkLoc(src, 'diethylamide', num) then return end
-	if AddItem(src,'diethylamide', 2) then 
+	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.diethylamide[num].loc, 2.0) then
+		Notifys(src, Lang.lsd.notinloc, "error")
+		return
 	end
+	if timedOut[src] then return end
+	timeout(src, 3000)
+	ps.addItem(src, 'diethylamide', 2)
 end)
 
 
 CUI('lsdlabkit', function(source, item)
 	local src = source
 	local Player = getPlayer(src)
-	local placed, loc = lib.callback.await('md-drugs:client:setlsdlabkit', src)
+	local placed, loc = ps.callback('md-drugs:client:setlsdlabkit', src)
 	if placed then 
 		if RemoveItem(src, 'lsdlabkit', 1) then
 			table.insert(lsdTables, {
@@ -46,7 +61,7 @@ local function hasLabKit(source)
 	end
 end
 
-lib.callback.register('md-drugs:server:removecleaningkit', function(source)
+ps.registerCallback('md-drugs:server:removecleaningkit', function(source)
 	local src = source
 	if not Itemcheck(src, 'cleaningkit', 1) then return end
 	if RemoveItem(src,"cleaningkit", 1) then 

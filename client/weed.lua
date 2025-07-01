@@ -54,7 +54,7 @@ AddEventHandler('onResourceStop', function(resourceName)
 end)
 
 CreateThread(function()
-	local config = lib.callback.await('md-drugs:server:getLocs', false)
+	local config = ps.callback('md-drugs:server:getLocs', false)
 	AddBoxZoneMulti('weeddry', config.WeedDry, {
 		name = 'dryweed',
 		icon = "fas fa-sign-in-alt",
@@ -147,7 +147,7 @@ end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
     local options = {}
-	local items = lib.callback.await('md-drugs:server:GetRecipe', false,'weed',tableName)
+	local items = ps.callback('md-drugs:server:GetRecipe', false,'weed',tableName)
     for k, v in pairs(items) do
         local label = {}
         local item = ''

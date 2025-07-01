@@ -51,7 +51,7 @@ function Cornersell()
     local targ = lib.GetClosestPed(GetEntityCoords(PlayerPedId()), 8)
     if targ == nil then return end
     if IsPedInAnyVehicle(targ, false) or GetEntityHealth(targ) == 0 or not IsPedHuman(targ) then return end
-    local data = lib.callback.await('md-drugs:server:cornerselling:getAvailableDrugs', false, targ)
+    local data = ps.callback('md-drugs:server:cornerselling:getAvailableDrugs', false, targ)
     if data.item == 'nothing' then Notify(Lang.Cornerselling.nodrugs, 'error') sell = false  FreezeEntityPosition(targ, false)  ClearPedTasks(targ) active = false return false end
     TaskGoToCoordAnyMeans(targ, GetEntityCoords(PlayerPedId()), 1.0, 0, 0, 0, 0)
     active = true
@@ -83,7 +83,7 @@ end
 RegisterNetEvent('md-drugs:client:cornerselling', function()
     if not GetCops(QBConfig.MinimumDrugSalePolice) then return end
     if inZone then Notify(Lang.Cornerselling.no, 'error') return end
-    local has = lib.callback.await('md-drugs:server:hasDrugs', false)
+    local has = ps.callback('md-drugs:server:hasDrugs', false)
     if has then
         if sell then
             TriggerServerEvent('md-drugs:server:cornerselling:stop')

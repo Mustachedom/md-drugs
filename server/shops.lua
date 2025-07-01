@@ -53,7 +53,7 @@ local stores = {
 	}
 }
 
-lib.callback.register('md-drugs:server:menu', function(source, data)
+ps.registerCallback('md-drugs:server:menu', function(source, data)
     local src = source
     if data == 'travellingMerchant' then 
         return {table = stores.travel, des = '$',  id = 'travellingMerchant', title = 'travelling Merchant'}

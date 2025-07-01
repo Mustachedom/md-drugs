@@ -2,9 +2,9 @@ local carryPackage = nil
 
 RegisterNetEvent("md-drugs:client:GetOxyCar", function()
 	lib.requestModel("burrito3", Config.RequestModelTime)
-	local paid = lib.callback.await('md-drugs:server:payfortruck', false)
+	local paid = ps.callback('md-drugs:server:payfortruck', false)
 	if not paid then return end
-	local loca = lib.callback.await('md-drugs:server:getLocs', false)
+	local loca = ps.callback('md-drugs:server:getLocs', false)
 	local loc = loca.singleSpot.truckspawn
 	local oxycar = CreateVehicle("burrito3",loc.x, loc.y,loc.z, loc.w, true, false)
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
@@ -15,7 +15,7 @@ RegisterNetEvent("md-drugs:client:GetOxyCar", function()
 end)
 
 RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
-	local config = lib.callback.await('md-drugs:server:getLocs', false)
+	local config = ps.callback('md-drugs:server:getLocs', false)
     local loc = config.oxylocations[math.random(#config.oxylocations)]
 	if loc ~= nil then
     	SetNewWaypoint(loc.x, loc.y)

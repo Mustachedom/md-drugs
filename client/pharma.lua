@@ -1,5 +1,5 @@
 
-lib.callback.register("md-drugs:client:prescriptionpad", function(data, op)
+ps.registerCallback("md-drugs:client:prescriptionpad", function(data, op)
     if getJobType() ~= 'ems' then return end
     local input = lib.inputDialog('Who To Give A Prescription To?',{
         {type = 'select', label = 'Player Name', options = data},
@@ -14,7 +14,7 @@ RegisterNetEvent("md-drugs:client:fillprescription", function(data)
 	TriggerServerEvent("md-drugs:server:fillprescription", data.data)    
 end)
 
-lib.callback.register("md-drugs:client:unbottle", function() 
+ps.registerCallback("md-drugs:client:unbottle", function() 
     if not progressbar(Lang.Pharma.open, 4000, 'uncuff') then return end
     return true
 end)
