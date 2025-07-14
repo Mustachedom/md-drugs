@@ -1,10 +1,23 @@
 local CocaPlant = {}
 local cuttingcoke = nil
 local baggingcoke = nil
+
 local function pick(loc)
     if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
         TriggerServerEvent("coke:pickupCane", loc)
     return true
+end
+
+local function targetOps(loc)
+    return {
+        {
+            icon = "fa-solid fa-seedling",
+            label = ps.lang('targets.coke.pick'),
+            action = function()
+                if not pick(loc) then return end
+            end
+        }
+    }
 end
 
 RegisterNetEvent('coke:respawnCane', function(loc)
@@ -13,15 +26,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
     if not CocaPlant[loc] then
         CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
         Freeze(CocaPlant[loc], true, v.heading)
-        ps.entityTarget(CocaPlant[loc], {
-            {
-                icon = "fa-solid fa-seedling",
-                label = ps.lang('targets.coke.pick'),
-                action = function()
-                    if not pick(loc) then return end
-                end
-            }
-        })
+        ps.entityTarget(CocaPlant[loc], targetOps(loc))
     end
 end)
 
@@ -37,15 +42,7 @@ RegisterNetEvent("coke:init", function()
         if not v.taken then
             CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
             Freeze(CocaPlant[k], true, v.heading)
-            ps.entityTarget(CocaPlant[k], {
-                {
-                    icon = "fa-solid fa-seedling",
-                    label = ps.lang('targets.coke.pick'),
-                    action = function()
-                        if not pick(k) then return end
-                    end
-                }
-            })
+            ps.entityTarget(CocaPlant[k], targetOps(k))
         end
     end
 end)
@@ -67,7 +64,10 @@ for k, v in pairs (GlobalState.MDDrugsLocs.MakePowder) do
             label = ps.lang('.targets.coke.pick'),
             icon = 'fa-solid fa-seedling',
             action = function()
-                if not ps.hasItem('coca_leaf') then return end
+                if not ps.hasItem('coca_leaf') then
+                    ps.notify('You Need A Coke Leaf')
+                    return
+                end
                 if not ps.progressbar(ps.lang('Coke.makepow'), 4000, 'uncuff') then return end
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
@@ -94,6 +94,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.CuttingCoke) do
         }
     })
 end
+
 for k, v in pairs (GlobalState.MDDrugsLocs.BaggingCoke) do
     ps.boxTarget('bagcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
         {

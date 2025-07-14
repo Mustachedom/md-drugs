@@ -1,6 +1,6 @@
 Config = {} --Ignore.
 ps = exports.ps_lib:init()
-ps.insertLang("en")
+ps.loadLangs("en")
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
@@ -54,8 +54,8 @@ Config.Drugs = {
     cocaine = true,
     consumables =false,
     crack = true,
-    cornerselling = false,
-    heroin = false,
+    cornerselling = true,
+    heroin = true,
     deliveries = false,
     lean = false,
     lsd = false,
