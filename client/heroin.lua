@@ -1,21 +1,6 @@
-local PoppyPlants = {}
+
 local herointable = false
 local dirty = false
-
-local function pickher(loc)
-    if not ps.progressbar(Lang.Heroin.pick, 4000, 'uncuff') then return end
-    TriggerServerEvent("heroin:pickupCane", loc)
-end
-
-local function pickOps(loc)
-    return {
-        {
-            icon = "fa-solid fa-seedling",
-            label = ps.lang('Heroin.pick'),
-            action = function() pickher(loc) end
-        }
-    }
-end
 
 local function createLabKit(coord, head)
     local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false,false)
@@ -31,6 +16,7 @@ local function createLabKit(coord, head)
                 dirty = true
                 TriggerServerEvent("md-drugs:server:failheatingheroin")
 	        	ps.requestPTFX("core")
+                lib.requestNamedPtfxAsset("core")
 	            local heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", heroinlabkit, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
                 SetParticleFxLoopedAlpha(heroinkit, 3.0)
 	        	SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
@@ -39,9 +25,8 @@ local function createLabKit(coord, head)
             TriggerServerEvent("md-drugs:server:heatliquidheroin")
         end,
         canInteract = function()
-             if not dirty then return true end
-                return false
-            end
+            if not dirty then return true end
+        end
     },
     {
         icon = "fas fa-box-circle-check",
@@ -73,46 +58,6 @@ local function createLabKit(coord, head)
         end
     }})
 end
-
-
-
-RegisterNetEvent('heroin:respawnCane', function(loc)
-    local v = GlobalState.PoppyPlants[loc]
-    local hash = GetHashKey(v.model)
-    if not PoppyPlants[loc] then
-        PoppyPlants[loc] = CreateObject(hash, v.location, false, true, true)
-        Freeze(PoppyPlants[loc], true, v.heading)
-        ps.entityTarget(PoppyPlants[loc], pickOps(loc), loc)
-    end
-end)
-
-RegisterNetEvent('heroin:removeCane', function(loc)
-    if DoesEntityExist(PoppyPlants[loc]) then DeleteEntity(PoppyPlants[loc]) end
-    PoppyPlants[loc] = nil
-end)
-
-RegisterNetEvent("heroin:init", function()
-    for k, v in pairs (GlobalState.PoppyPlants) do
-        local hash = GetHashKey(v.model)
-        if not HasModelLoaded(hash) then LoadModel(hash) end
-        if not v.taken then
-            PoppyPlants[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
-            Freeze(PoppyPlants[k], true, v.heading)
-            ps.entityTarget(PoppyPlants[k], pickOps(k))
-        end
-    end
-end)
-
- AddEventHandler('onResourceStop', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01b'))
-        for k, v in pairs(PoppyPlants) do
-            if DoesEntityExist(v) then
-                DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
-            end
-        end
-    end
-end)
 
 for k, v in pairs (GlobalState.MDDrugsLocs.dryplant) do
     ps.boxTarget('dryHeroin'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {

@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 local m = {
     { location = vector3(2598.73, 4207.89, 41.02),    heading = 334.49,    model = "prop_cactus_03"},
@@ -44,7 +44,7 @@ RegisterNetEvent("Mescaline:pickupCane", function(loc)
         GlobalState.Mescaline = m
         TriggerClientEvent("Mescaline:removeCane", -1, loc)
         MescalineCooldown(loc)
-        AddItem(source,'cactusbulb', 1)
+        ps.addItem(source,'cactusbulb', 1)
     end
 end)
 

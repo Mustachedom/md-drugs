@@ -1,28 +1,23 @@
 
 local cokeplants = {
-    { location = vector3(1474.25, -2643.87, 42.88),    heading = 334.49,     model = "prop_plant_01a" },
-    { location = vector3(1472.35, -2649.3, 41.87),     heading = 329.56,     model = "prop_plant_01a" }, 
-    { location = vector3(1475.7, -2652.9, 40.8),       heading = 25.16,      model = "prop_plant_01a" }, 
-    { location = vector3(1481.0, -2654.99, 39.86),     heading = 21.52,      model = "prop_plant_01a" }, 
-    { location = vector3(1480.9, -2660.63, 38.68),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1477.18, -2666.53, 38.19),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1477.58, -2670.82, 37.73),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1476.56, -2675.82, 37.46),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1474.8, -2680.19, 37.03),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1471.52, -2685.0, 36.82),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1462.82, -2676.58, 38.83),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1461.31, -2667.74, 39.67),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1456.3, -2647.61, 43.39),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1453.65, -2641.56, 45.0),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(1474.25, -2643.87, 42.88),    heading = 334.49,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1472.35, -2649.3, 41.87),     heading = 329.56,     model = "prop_plant_01a", taken = false }, 
+    { location = vector3(1475.7, -2652.9, 40.8),       heading = 25.16,      model = "prop_plant_01a", taken = false }, 
+    { location = vector3(1481.0, -2654.99, 39.86),     heading = 21.52,      model = "prop_plant_01a", taken = false }, 
+    { location = vector3(1480.9, -2660.63, 38.68),     heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1477.18, -2666.53, 38.19),    heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1477.58, -2670.82, 37.73),    heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1476.56, -2675.82, 37.46),    heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1474.8, -2680.19, 37.03),     heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1471.52, -2685.0, 36.82),     heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1462.82, -2676.58, 38.83),    heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1461.31, -2667.74, 39.67),    heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1456.3, -2647.61, 43.39),     heading = 202.97,     model = "prop_plant_01a", taken = false },
+    { location = vector3(1453.65, -2641.56, 45.0),     heading = 202.97,     model = "prop_plant_01a", taken = false },
 }
 
 GlobalState.CocaPlant = cokeplants
 
-Citizen.CreateThread(function()
-    for _, v in pairs(cokeplants) do
-        v.taken = false
-    end
-end)
 
 function CaneCooldown(loc)
     CreateThread(function()
@@ -44,7 +39,7 @@ AddEventHandler("coke:pickupCane", function(loc)
         GlobalState.CocaPlant = cokeplants
         TriggerClientEvent("coke:removeCane", -1, loc)
         CaneCooldown(loc)
-        AddItem(src, 'coca_leaf', 1)
+        ps.addItem(src, 'coca_leaf', 1)
     end
 end)
 

@@ -1,9 +1,7 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
+local heroinLabKits = {}
 local prices = {
 	heroinlabkitprice = 10000
 }
-local heroinLabKits = {}
 local h = {
 	{ location = vector3(-2251.3, -99.18, 100.11),    heading = 334.49,    model = "prop_plant_01b"},
     { location = vector3(-2249.63, -92.97, 101.8),    heading = 329.56,    model = "prop_plant_01b"},
@@ -50,7 +48,7 @@ end)
 
 RegisterServerEvent("heroin:pickupCane", function(loc)
 	local src = source
-	if ps.checkDistance(src, h[loc].location, 3.0) then return end
+	if not ps.checkDistance(src, h[loc].location, 3.0) then return end
     if not h[loc].taken then
 		h[loc].taken = true
         GlobalState.PoppyPlants = h
@@ -146,14 +144,14 @@ ps.createUseable('heroinlabkit', function(source, item)
 			coords = loc,
 			name = ps.getPlayerName(src)
 		})
-		ps.notify(src, Lang.Heroin.placed, "success")
+		ps.notify(src, ps.lang('Heroin.placed'), "success")
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 	local src = source
 	if not hasHKit(src) then return end
-	if not ps.itemCheck(src, 'emptyvial', 1) then return end
+	if not ps.hasItem(src, 'emptyvial', 1) then return end
 	if Config.TierSystem then
 		local itemList = {
 			heroincut = 'tier1',
@@ -185,7 +183,7 @@ RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 		local cuth = ps.hasItem(src, k)
 		if cuth then
 			ps.removeItem(src, k, v)
-			ps.notify(src, Lang.Heroin.fail, "error")
+			ps.notify(src, ps.lang('Heroin.fail'), "error")
 			return
 		end
 	end
@@ -194,7 +192,7 @@ end)
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
 	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.fillneedle[num].loc, 3.0) then
-		ps.notify(src, Lang.Heroin.noloc, 'error')
+		ps.notify(src, ps.lang('Heroin.noloc'), 'error')
 		return
 	end
 	if not ps.hasItem(src, 'needle', 1) then return end
@@ -232,7 +230,7 @@ RegisterServerEvent('md-drugs:server:failheroin', function()
 			local cuth = ps.hasItem(src, k)
 			if cuth then
 				ps.removeItem(src, k, v)
-				ps.notify(src, Lang.Heroin.failneedle, "error")
+				ps.notify(src, ps.lang('Heroin.failneedle'), "error")
 				return
 			end
 		end

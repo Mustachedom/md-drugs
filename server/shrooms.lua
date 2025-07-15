@@ -45,7 +45,7 @@ RegisterNetEvent("shrooms:pickupCane", function(loc)
         GlobalState.shrooms = s
         TriggerClientEvent("shrooms:removeCane", -1, loc)
         shroomsCooldown(loc)
-        AddItem(source, 'shrooms', 1)
+        ps.addItem(source, 'shrooms', 1)
         Log(GetName(source) .. ' Picked A Shroom With a distance of ' .. dist(source,s[loc].location) .. ' vectors', 'shrooms')
     end
 end)

@@ -7,6 +7,7 @@ version  '3.9.0'
 client_scripts {
 	'client/functions.lua',
 	'client/animationsandfunctions.lua',
+	'client/plantSpawns.lua',
 	'clientRun.lua',
 }
 

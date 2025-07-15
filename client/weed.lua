@@ -1,4 +1,3 @@
-local WeedPlant = {}
 local exploded, drying = false, false
 
 local function hasJob()
@@ -9,49 +8,6 @@ local function hasJob()
 	return true end
  end
 
- local function pick(loc)
-	if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
-	TriggerServerEvent("weed:pickupCane", loc)
- end
-
-RegisterNetEvent('weed:respawnCane', function(loc)
-    local v = GlobalState.WeedPlant[loc]
-    local hash = GetHashKey(v.model)
-    if not HasModelLoaded(hash) then LoadModel(hash) end
-    if not WeedPlant[loc] then
-        WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
-		Freeze(WeedPlant[loc],true,  v.heading)
-        AddSingleModel(WeedPlant[loc],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(loc) end}, loc)
-    end
-end)
-
-RegisterNetEvent('weed:removeCane', function(loc)
-    if DoesEntityExist(WeedPlant[loc]) then DeleteEntity(WeedPlant[loc]) end
-    WeedPlant[loc] = nil
-end)
-
-RegisterNetEvent("weed:init", function()
-    for k, v in pairs (GlobalState.WeedPlant) do
-        local hash = GetHashKey(v.model)
-        lib.requestModel('prop_weed_01', 1000)
-        if not v.taken then
-            WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
-			Freeze(WeedPlant[k],true,  v.heading)
-			AddSingleModel(WeedPlant[k],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(k) end}, k)
-        end
-    end
-end)
-
-AddEventHandler('onResourceStop', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('bkr_prop_weed_lrg_01b'))
-        for k, v in pairs(WeedPlant) do
-            if DoesEntityExist(v) then
-                DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
-            end
-        end
-    end
-end)
 
 CreateThread(function()
 	local config = ps.callback('md-drugs:server:getLocs', false)

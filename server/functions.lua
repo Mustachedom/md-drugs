@@ -322,26 +322,22 @@ local function handleFresh(source)
         coke = 0,lsd = 0,heroin = 0,dealerrep = 0,
         cornerselling = { price = QBConfig.SellLevel[1].price,rep = 0,label = QBConfig.SellLevel[1].label,level = 1}
     })
-    MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {getCid(source), table, GetName(source)})
-    Wait(1000)
+    MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {ps.getIdentifier(source), table, ps.getPlayerName(source)})
     return json.decode(table)
 end
 
 function getRep(source, type)
-    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
+    local sql = MySQL.query.await('SELECT JSON_UNQUOTE(JSON_EXTRACT(drugrep, ?)) AS rep FROM drugrep WHERE cid = ?', {'$.' .. type, ps.getIdentifier(source)})
     if not sql[1] then
         local new = handleFresh(source)
         return new[type]
     else
-        local reps = json.decode(sql[1].drugrep)
-        local rep = ''
-        if reps.coke == nil then rep = reps[1] else rep = reps end
-        return  rep[type]
+        return tonumber(sql[1].rep)
     end
 end
 
 function GetAllRep(source)
-    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {getCid(source)}) 
+    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {ps.getIdentifier(source)})
     if not sql[1] then
         local new = handleFresh(source)
         return new
