@@ -10,6 +10,7 @@ local DrugPlants = {
             icon = "fa-solid fa-seedling",
             label = ps.lang('targets.coke.pick'),
         },
+        allow = Config.Drugs.coke,
     },
     {model = 'prop_plant_01b', label = 'heroin', tbl = GlobalState.PoppyPlants, plantTbl = {},
         pick = function(loc)
@@ -21,6 +22,7 @@ local DrugPlants = {
             icon = "fa-solid fa-seedling",
             label = ps.lang('targets.heroin.pick'),
         },
+        allow = Config.Drugs.heroin,
     },
     {model = 'prop_cactus_03', label = 'Mescaline', tbl = GlobalState.Mescaline, plantTbl = {},
         pick = function(loc)
@@ -32,6 +34,8 @@ local DrugPlants = {
             icon = "fa-solid fa-seedling",
             label = ps.lang('targets.mescaline.pick'),
         },
+        allow = Config.Drugs.mescaline,
+
     },
     {model = 'prop_weed_01', label = 'weed', tbl = GlobalState.WeedPlant, plantTbl = {},
         pick = function(loc)
@@ -43,6 +47,7 @@ local DrugPlants = {
             icon = "fa-solid fa-seedling",
             label = ps.lang('targets.weed.pick'),
         },
+        allow = Config.Drugs.weed,
     },
     {model = 'mushroom', label = 'shrooms', tbl = GlobalState.shrooms, plantTbl = {},
         pick = function(loc)
@@ -54,10 +59,12 @@ local DrugPlants = {
             icon = "fa-solid fa-hand",
             label = ps.lang('targets.shrooms.pick'),
         },
+        allow = Config.Drugs.shrooms,
     },
 }
 
 for k, v in pairs (DrugPlants) do
+    if not v.allow then goto continue end
     RegisterNetEvent(v.label ..':respawnCane', function(loc)
         local plant = v.tbl[loc]
         local hash = GetHashKey(plant.model)
@@ -102,6 +109,7 @@ for k, v in pairs (DrugPlants) do
             end
         end
     end)
+    ::continue::
 end
 
 AddEventHandler('onResourceStop', function(resourceName)
