@@ -1,3 +1,1 @@
-
-Newest Build: 3.9.1
-- `tested` version checker
+3.9.0
