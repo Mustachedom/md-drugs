@@ -10,7 +10,7 @@ local DrugPlants = {
             icon = "fa-solid fa-seedling",
             label = ps.lang('targets.coke.pick'),
         },
-        allow = Config.Drugs.coke,
+        allow = Config.Drugs.cocaine,
     },
     {model = 'prop_plant_01b', label = 'heroin', tbl = GlobalState.PoppyPlants, plantTbl = {},
         pick = function(loc)
@@ -85,7 +85,6 @@ for k, v in pairs (DrugPlants) do
     end)
 
     RegisterNetEvent(v.label ..':removeCane', function(loc)
-        ps.debug(v.plantTbl)
         DeleteEntity(v.plantTbl[loc])
         v.plantTbl[loc] = nil
     end)

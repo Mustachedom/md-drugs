@@ -1,65 +1,7 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 
-local progressbartype = Config.progressbartype 
 local minigametype = Config.minigametype
-local notifytype = Config.Notify 
 local dispatch = Config.Dispatch
 
-function getJobType()
-	return QBCore.Functions.GetPlayerData().job.type
-end
-
-function getJobName()
-	return QBCore.Functions.GetPlayerData().job.name
-end
-
-function progressbar(text, time, anim)
-	TriggerEvent('animations:client:EmoteCommandStart', {anim}) 
-	if progressbartype == 'oxbar' then 
-	  if lib.progressBar({ duration = time, label = text, useWhileDead = false, canCancel = true, disable = { car = true, move = true},}) then 
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		else
-			TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-		end
-		return true
-	  end	 
-	elseif progressbartype == 'oxcir' then
-	  if lib.progressCircle({ duration = time, label = text, useWhileDead = false, canCancel = true, position = 'bottom', disable = { car = true,move = true},}) then 
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		else
-			TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-		end
-		return true
-	  end
-	elseif progressbartype == 'qb' then
-	local test = false
-		local cancelled = false
-	  QBCore.Functions.Progressbar("drink_something", text, time, false, true, { disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, disableInventory = true,
-	  }, {}, {}, {}, function()-- Done
-		test = true
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		else
-			TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-		end
-	  end, function()
-		cancelled = true
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		else
-			TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-		end
-	end)
-	  repeat 
-		Wait(100)
-	  until cancelled or test
-	  if test then return true end
-	else
-			print"^1 SCRIPT ERROR: Md-DRUGS set your progressbar with one of the options!"
-	end	  
-  end
 
 function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then
@@ -175,57 +117,7 @@ function minigame()
 	else
 		print"^1 SCRIPT ERROR: Md-Drugs set your minigame with one of the options!"
 	end
- end
-
- function Notify(text, type)
-	if notifytype =='ox' then
-	  lib.notify({title = text, type = type})
-        elseif notifytype == 'qb' then
-	  QBCore.Functions.Notify(text, type)
-	elseif notifytype == 'okok' then
-	  exports['okokNotify']:Alert('', text, 4000, type, false)
-	else
-       	print"^1 SCRIPT ERROR: Md-DRUGS set your notification with one of the options!"
-    end
-  end
-
-function GetImage(img)
-    if GetResourceState('ox_inventory') == 'started' then
-        local Items = exports['ox_inventory']:Items()
-		if not Items[img] then print(' You Are Missing: ' .. img .. ' From Your ox items.lua') return end
-        local itemClient = Items[img] and Items[img]['client']
-        if itemClient and itemClient['image'] then
-            return itemClient['image']
-        else
-            return "nui://ox_inventory/web/images/" .. img .. '.png'
-        end
-    end
-    local invs = {
-        ['ps-inventory'] = "nui://ps-inventory/html/images/",
-        ['lj-inventory'] = "nui://lj-inventory/html/images/",
-        ['qb-inventory'] = "nui://qb-inventory/html/images/",
-        ['qs-inventory'] = "nui://qs-inventory/html/imgages/",
-        ['origen_inventory'] = "nui://origen_inventory/html/img/",
-        ['core_inventory'] = "nui://core_inventory/html/img/"
-    }
-    for k, v in pairs(invs) do
-		if not QBCore.Shared.Items[img] then print(' You Are Missing: ' .. img .. ' From Your QB items.lua') return end
-        if GetResourceState(k) == 'started' then
-            return v .. QBCore.Shared.Items[img].image
-        end
-    end
-end
-
-function GetLabel(label)
-	if GetResourceState('ox_inventory') == 'started' then
-		local Items = exports['ox_inventory']:Items()
-		if not Items[label] then print(' You Are Missing: ' .. label .. ' From Your ox items.lua') return end
-		return Items[label]['label']
-	else
-		if QBCore.Shared.Items[label] == nil then print("There Is No " .. label .. " In Your QB Items.lua") return end
-		return QBCore.Shared.Items[label]['label']
-	end
-end
+end 
 
 function GetRep()
 	local rep = ps.callback('md-drugs:server:GetRep')
@@ -268,43 +160,6 @@ function makeMenu(name, rep)
 	lib.registerContext({id = data.id, title = data.title, options = menu})
 end
 
-
-function ItemCheck(item)
-	if GetResourceState('ox_inventory') == 'started' then
-	    if exports.ox_inventory:GetItemCount(item) >= 1 then return true else Notify('You Need ' .. GetLabel(item) .. " !", 'error') return false end
-	else
-	    if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-	    if QBCore.Functions.HasItem(item) then return true else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') return false end
-	end
-end
-
-function hasItem(item)
-	if GetResourceState('ox_inventory') == 'started' then
-		if exports.ox_inventory:GetItemCount(item) >= 1 then return true else return false end
-	else
-		if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-		if QBCore.Functions.HasItem(item) then return true else return false end
-	end
-end
-
-function ItemCheckMulti(item)
-	local need = 0
-	local has = 0
-	for k,v in pairs (item) do 
-		need = need + 1
-		if GetResourceState('ox_inventory') == 'started' then
-			if exports.ox_inventory:GetItemCount(v) >= 1 then has = has + 1 else Notify('You Need ' .. GetLabel(v) .. " !", 'error') end
-		else
-			if QBCore.Shared.Items[v] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-			if QBCore.Functions.HasItem(v) then has = has + 1  else Notify('You Need ' .. QBCore.Shared.Items[v].label .. " !", 'error') end
-		end
-	end
-	if need == has then 
-		return true
-	else
-		return false
-	end
-end
 
 function Email(sender, subject, message)
 	if Config.Phone == 'yflip' then
@@ -498,7 +353,6 @@ CreateThread(function()
 	TriggerEvent('Mescaline:init')
 	ps.requestModel(GetHashKey('mushroom'))
 	TriggerEvent('shrooms:init')
-	TriggerEvent('weed:init')
 end)
 
 ps.registerCallback('md-drugs:client:uncuff', function(data)

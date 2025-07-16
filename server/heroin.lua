@@ -2,39 +2,6 @@ local heroinLabKits = {}
 local prices = {
 	heroinlabkitprice = 10000
 }
-local h = {
-	{ location = vector3(-2251.3, -99.18, 100.11),    heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2249.63, -92.97, 101.8),    heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2245.57, -85.12, 104.5),    heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2240.81, -88.48, 105.88),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(-2240.87, -93.36, 103.88),   heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2236.0, -95.34, 102.55),    heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2240.6, -100.01, 100.49),   heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2246.29, -104.92, 99.27),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(-2243.64, -107.99, 96.71),   heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2254.22, -108.76, 97.25),   heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2247.33, -108.92, 97.70),   heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2250.96, -111.22, 97.50),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(465.95, -1021.32, 31.78),    heading = 21.52,     model = "prop_plant_01b"},
-}
-
-GlobalState.PoppyPlants = h
-Citizen.CreateThread(function()
-    for _, v in pairs(h) do
-        v.taken = false
-    end
-end)
-
-function heroinCooldown(loc)
-    CreateThread(function()
-        Wait(Config.respawnTime * 1000)
-		h[loc].taken = false
-        GlobalState.PoppyPlants = h
-        Wait(1000)
-        TriggerClientEvent('heroin:respawnCane', -1, loc)
-		Log('Heroin Plant Respawned At ' .. h[loc].location, 'heroin')
-    end)
-end
 
 ps.registerCallback('removeCleaningkit', function(source)
 	for k, v in pairs(heroinLabKits) do
@@ -46,17 +13,7 @@ ps.registerCallback('removeCleaningkit', function(source)
 	return false
 end)
 
-RegisterServerEvent("heroin:pickupCane", function(loc)
-	local src = source
-	if not ps.checkDistance(src, h[loc].location, 3.0) then return end
-    if not h[loc].taken then
-		h[loc].taken = true
-        GlobalState.PoppyPlants = h
-        TriggerClientEvent("heroin:removeCane", -1, loc)
-        heroinCooldown(loc)
-        ps.addItem(src, 'poppyresin', 1)
-    end
-end)
+
 
 RegisterServerEvent('md-drugs:server:dryplant', function(num)
 	local src = source

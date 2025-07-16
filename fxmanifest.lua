@@ -15,6 +15,7 @@ server_scripts {
 	'server/functions.lua',
 	'server/locations.lua',
 	'server/recipes.lua',
+	'server/plantSpawns.lua',
 	'serverRun.lua',
 	'@oxmysql/lib/MySQL.lua',
 }

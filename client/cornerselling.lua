@@ -10,12 +10,12 @@ end
 local function sellDrug(item, amount, price, targ)
    -- PoliceCall(20)
     if ps.vehicleData() then
-        Notify(ps.lang('Cornerselling.inveh', 'error'))
+        ps.notify(ps.lang('Cornerselling.inveh', 'error'))
         walkAway(targ)
         return
     end
 
-    if not ps.progressbar(string.format(ps.lang('Cornerselling.selling', GetLabel(item), price)), 4000, 'uncuff') then walkAway(targ) return end
+    if not ps.progressbar(string.format(ps.lang('Cornerselling.selling', ps.getLabel(item), price)), 4000, 'uncuff') then walkAway(targ) return end
     buyers[targ] = 'sold'
     TriggerServerEvent('md-drugs:server:sellCornerDrugs', item, amount, price)
     walkAway(targ)
@@ -46,6 +46,7 @@ local function findPed()
     until targ ~= nil
 
     buyers[targ] = true
+
     ps.drawText('Waiting For Customer')
 
     repeat
@@ -79,7 +80,7 @@ function Cornersell()
     if inZone then sell = false return end
 
     if not sell then
-         return
+        return
     end
 
     local hasDrugs = checkItems()
@@ -123,7 +124,7 @@ function Cornersell()
         FreezeEntityPosition(targ, true)
         ps.entityTarget(data.ped, {
             {
-                label = string.format(ps.lang('targets.CornerSell.sell', data.amount, GetLabel(data.item), data.price)),
+                label = string.format(ps.lang('targets.CornerSell.sell', data.amount, ps.getLabel(data.item), data.price)),
                 icon ="fa-solid fa-money-bill",
                 action =   function()
                     sellDrug(data.item, data.amount, data.price, targ)

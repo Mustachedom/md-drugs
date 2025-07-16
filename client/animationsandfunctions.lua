@@ -12,7 +12,7 @@ end
 
 function MethCooking()
 	local animDict, animName = "anim@amb@business@meth@meth_monitoring_cooking@cooking@", "chemical_pour_short_cooker"
-	lib.requestAnimDict(animDict, 500)
+	ps.requestAnim(animDict, 500)
 	SetEntityCoords(PlayerPedId(), vector3(1005.773, -3200.402, -38.524))
 	local targetPosition = GetEntityCoords(PlayerPedId())
 	local animDuration = GetAnimDuration(animDict, animName) * 800
@@ -29,7 +29,7 @@ function MethCooking()
 	NetworkStopSynchronisedScene(netScene)
 	DeleteObject(sacid) DeleteObject(ammonia)
 	FreezeEntityPosition(PlayerPedId(), false)
-	lib.requestModel('hei_prop_heist_thermite', 2000)
+	ps.requestModel('hei_prop_heist_thermite', 2000)
 	loadParticle('scr_ornate_heist')
 	local thermite = CreateObject('hei_prop_heist_thermite', vector3(1005.76, -3201.3, -39.25), true, false, false)
 	FreezeEntityPosition(thermite, true)
@@ -44,7 +44,7 @@ end
 function SmashMeth()
 	local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char02"
-	lib.requestAnimDict(animDict, 500)
+	ps.requestAnim(animDict, 500)
 	local ped = PlayerPedId()
 	local targetPosition = vector3(1012.628, -3194.619, -39.589)
 	SetEntityCoords(ped, targetPosition)
@@ -79,7 +79,7 @@ end
 function BagMeth()
 	local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
-	lib.requestAnimDict(animDict, 500)
+	ps.requestAnim(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
 	local coords = GetEntityCoords(ped)
@@ -161,7 +161,7 @@ end
 
 function CutCoke(coords, offset, rotation)
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
-	lib.requestAnimDict(animDict, 500)
+	ps.requestAnim(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
 	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
@@ -216,7 +216,7 @@ end)
 function BagCoke(coords, offset, rotation)
 local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
-	lib.requestAnimDict(animDict, 500)
+	ps.requestAnim(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
 	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
@@ -372,9 +372,9 @@ function SpawnCarPedChase()
 		Notify(Lang.lean.act,'error')
 	else
     started = true
-    lib.requestModel("pounder", Config.RequestModelTime)
-    lib.requestModel("ig_priest", Config.RequestModelTime)
-    lib.requestModel("cargobob3", Config.RequestModelTime)
+    ps.requestModel("pounder", Config.RequestModelTime)
+    ps.requestModel("ig_priest", Config.RequestModelTime)
+    ps.requestModel("cargobob3", Config.RequestModelTime)
     local leancar = CreateVehicle("pounder", start.x+3, start.y-2, start.z-1, 52.0, true, false)
     local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, false, false)
     local pilot2 = CreatePed(26, "ig_priest", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
@@ -418,12 +418,12 @@ local start = config.StartLoc[math.random(1,#config.StartLoc)]
 local startedmeth = false
 
 if startedmeth then
-	Notify(Lang.meth.act,'error')
+	ps.notify(Lang.meth.act,'error')
 else
     startedmeth = true
-    lib.requestModel("journey", Config.RequestModelTime)
-    lib.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
-    lib.requestModel("cargobob3", Config.RequestModelTime)
+    ps.requestModel("journey", Config.RequestModelTime)
+    ps.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
+    ps.requestModel("cargobob3", Config.RequestModelTime)
     local methcar = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, true, false)
     local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, false, false)
     local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
@@ -483,4 +483,3 @@ function SetUpPeds()
 		SetPedCombatAttributes(i, 46, true)
 	end
 end
-

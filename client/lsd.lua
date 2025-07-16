@@ -16,7 +16,7 @@ local function createLabKit(coord, head)
                     {name = 'lysergic_acid', amount = 1},
                     {name = 'diethylamide', amount = 1}
                 }) then
-                    Notify(ps.lang('lsd.need'), 'error')
+                    ps.notify(ps.lang('lsd.need'), 'error')
                     return
                 end
 	            if not minigame() then
@@ -26,7 +26,7 @@ local function createLabKit(coord, head)
                     SetParticleFxLoopedAlpha(exitPtfx, 3.0)
                     return
                 end
-                if not progressbar(ps.lang('lsd.heat'), 7000, 'uncuff') then return end
+                if not ps.progressbar(ps.lang('lsd.heat'), 7000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:heatliquid")
             end,
             canInteract = function()
@@ -64,7 +64,7 @@ local function createLabKit(coord, head)
             icon = "fas fa-box-circle-check",
             label = ps.lang('targets.lsd.back'),
             action = function()
-                if not progressbar(ps.lang('lsd.tablepack'), 4000, 'uncuff') then return end
+                if not ps.progressbar(ps.lang('lsd.tablepack'), 4000, 'uncuff') then return end
 	            DeleteObject(labkit)
 	            TriggerServerEvent('md-drugs:server:getlabkitback')
                 tableout = false
@@ -78,7 +78,7 @@ local function createLabKit(coord, head)
             label = ps.lang('targets.lsd.clean'),
             action = function()
                 if not ps.hasItem('cleaningkit') then 
-                    Notify(ps.lang('lsd.needclean'), 'error')
+                    ps.notify(ps.lang('lsd.needclean'), 'error')
                     return 
                 end
                 if not ps.progressbar(ps.lang('lsd.clean'), 4000, 'clean') then return end
@@ -168,13 +168,13 @@ end
 
 ps.registerCallback("md-drugs:client:setlsdlabkit", function()
     if tableout then 
-        Notify(ps.lang('lsd.tableout'), 'error')
+        ps.notify(ps.lang('lsd.tableout'), 'error')
         return false
     else
         tableout = true
         local loc, head = StartRay()
         if not loc then tableout = false return end
-        if not progressbar(ps.lang('lsd.place'), 4000, 'uncuff') then return end
+        if not ps.progressbar(ps.lang('lsd.place'), 4000, 'uncuff') then return end
         createLabKit(loc, head)
         return true, loc
     end

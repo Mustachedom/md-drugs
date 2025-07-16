@@ -126,6 +126,7 @@ for k, v in pairs(Drugs) do
     table.insert(drugsNames, k)
 end
 GlobalState.DrugNames = drugsNames
+
 local robChance = 1 -- Chance To Be Robbed
 local RobbedDrugs = {}
 
@@ -211,11 +212,10 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
         DrugDeals[ps.getIdentifier(src)] = nil
         return
     end
-    --AddRep(src, 'cornerselling', Drugs[item].rep * amount)
+    AddRep(src, 'cornerselling', Drugs[item].rep * amount)
     Log(string.format('%s Sold %s Of %s For A Price Of $%s !', GetName(src),amount, item, price), 'cornerselling')
     DrugDeals[ps.getIdentifier(src)] = nil
     ps.addMoney(src, 'cash', price)
-    
 end)
 
 RegisterNetEvent('md-drugs:server:getBackRobbed', function() 
