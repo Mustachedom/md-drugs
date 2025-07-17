@@ -213,7 +213,7 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
         return
     end
     AddRep(src, 'cornerselling', Drugs[item].rep * amount)
-    Log(string.format('%s Sold %s Of %s For A Price Of $%s !', GetName(src),amount, item, price), 'cornerselling')
+    --Log(string.format('%s Sold %s Of %s For A Price Of $%s !', GetName(src),amount, item, price), 'cornerselling')
     DrugDeals[ps.getIdentifier(src)] = nil
     ps.addMoney(src, 'cash', price)
 end)

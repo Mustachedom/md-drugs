@@ -1,16 +1,27 @@
 
-
-RegisterNetEvent("md-drugs:client:drymescaline", function()
-    if not ItemCheck('cactusbulb')  then return end 
-	if not progressbar(Lang.mescaline.dry, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:drymescaline")
-end)
+for k, v in pairs (GlobalState.MDDrugsLocs.DryOutMescaline) do
+	ps.boxTarget('dryoutMesc'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+		{
+			label = ps.lang('mescaline.dry'),
+			icon = 'fa-solid fa-temperature-high',
+			action = function()
+				if not ps.hasItem('cactusbulb') then ps.notify(ps.lang('mescaline.needbulb'), 'error') return end
+				if not ps.progressbar(ps.lang('mescaline.dry'), 4000, 'drymescaline') then return end
+				TriggerServerEvent("md-drugs:server:drymescaline", k)
+			end,
+			canInteract = function()
+				if not handleGang(v.gang) then return false end
+				return true
+			end
+		}
+	})
+end
 
 RegisterNetEvent("md-drugs:client:takemescaline", function()
     local chance, chance2 = math.random(1,100), math.random(1,100)
     local weapon = ''
     if chance2 == 100 then weapon = 'weapon_rpg' else weapon = 'weapon_flaregun' end
-    if not progressbar(Lang.mescaline.eat, 4000, 'uncuff') then return end
+    if not ps.progressbar(ps.lang('mescaline.eat'), 4000, 'uncuff') then return end
 	if chance <= Config.Badtrip then 
 		AlienEffect()
 		local clone = ClonePed(PlayerPedId(), false, false, true)

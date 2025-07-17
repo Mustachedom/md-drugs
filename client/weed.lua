@@ -19,15 +19,15 @@ CreateThread(function()
 		action = function()
 			if not ItemCheck('wetcannabis') then return end
 			if drying then
-				Notify(Lang.Weed.busy, "error")
+				ps.notify(Lang.Weed.busy, "error")
 			else
 				local loc = GetEntityCoords(PlayerPedId())
 				local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)
 				drying = true
 				FreezeEntityPosition(weedplant, true)
-				Notify(Lang.Weed.wait, "success")
+				ps.notify(Lang.Weed.wait, "success")
 				Wait(math.random(1000,5000))
-				Notify(Lang.Weed.take, "success")
+				ps.notify(Lang.Weed.take, "success")
 				AddSingleModel(weedplant, {
 					icon = "fa-solid fa-cannabis",
 					label = Lang.targets.weed.dpick,
@@ -65,11 +65,11 @@ AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
 			local loc = GetEntityCoords(PlayerPedId())
 			AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true)
 			exploded = true
-			Notify(Lang.Weed.stovehot, "error")
+			ps.notify(Lang.Weed.stovehot, "error")
 			Wait(1000 * 30)
 			exploded = false	
 		return end
-		if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
+		if not ps.progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
 		TriggerServerEvent("md-drugs:server:makeoil")			
 	end,
 	canInteract = function()
@@ -97,7 +97,7 @@ CreateThread(function()
 end)
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-	if not progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
+	if not ps.progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
 	AlienEffect()
 end)
 
@@ -128,14 +128,14 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
 end
 
 CreateThread(function()
-createBluntOptions('ButterCraft', "Edible Cooking", 'Cooking A ', 'edibles')
-createBluntOptions('mddrugsblunts', "Roll Blunts", 'Rolling A ', 'blunts')
-createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", 'Dipping Syrup To Make ', 'bluntwrap')
+--createBluntOptions('ButterCraft', "Edible Cooking", 'Cooking A ', 'edibles')
+--createBluntOptions('mddrugsblunts', "Roll Blunts", 'Rolling A ', 'blunts')
+--createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", 'Dipping Syrup To Make ', 'bluntwrap')
 end)
 
 RegisterNetEvent("md-drugs:client:MakeWeedItems", function(data)
 	if not minigame() then return end
-	if not progressbar('Making ' .. data.item, 4000, 'uncuff') then return end
+	if not ps.progressbar('Making ' .. data.item, 4000, 'uncuff') then return end
 	TriggerServerEvent('md-drugs:server:MakeWeedItems', data)
 end)
 

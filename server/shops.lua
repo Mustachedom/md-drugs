@@ -73,7 +73,7 @@ RegisterServerEvent("md-drugs:server:purchaseGoods", function(amount, money, ite
 		if not table[i].price == price then return end
 			if Player.Functions.RemoveMoney(tostring(money), tonumber(table[i].price) * tonumber(amount)) then
 				AddItem(src, item, amount)
-				Log(GetName(src) .. ' Bought ' .. amount .. ' Of ' .. item .. ' For ' .. tonumber(price) * tonumber(amount) .. '!', 'merchant')
+				--Log(GetName(src) .. ' Bought ' .. amount .. ' Of ' .. item .. ' For ' .. tonumber(price) * tonumber(amount) .. '!', 'merchant')
 			end
 		end
 	end

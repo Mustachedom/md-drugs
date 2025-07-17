@@ -30,6 +30,9 @@ local Target = {
         {loc = vector3(-1370.77, -314.51, 39.58), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
         {loc = vector3(2409.59, 5012.45, 46.09), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
+    buyLSDkit = {
+        {ped = 'g_f_y_families_01', loc = vector4(2598.47, 5033.06, 105.86, 283.51), l = 1.0, w = 1.0, rot = 283.51, gang = ""},
+    },
     dryplant = {  -- turn resin into powder
         {loc = vector3(-1353.77, -335.58, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
@@ -54,15 +57,47 @@ local Target = {
     FillPrescription = { -- where to fill out your prescription
         {loc = vector3(2855.62, 4446.73, 48.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
+    DryOutMescaline = { -- where to dry out mescaline
+        {loc = vector3(2638.22, 4237.93, 44.78), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    MakeLean = {
+        {
+            loc = vector3(2635.81, 4240.57, 45.32),
+            checks = { -- these can be arrays like {'police', 'ambulance'} or just a single string like 'police'
+                --gang = {},
+                --item = {},
+                --job = {},
+                --citizenid = {}
+            }
+        },
+    },
+    CookMeth = {
+        {loc = vector3(1006.09, -3200.59, -38.52), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(4.79, 2.13, -0.41), rotation = vector3(0,0,0.0), gang = ""},
+    },
+    MethDials = {
+        {loc = vector3(1007.89, -3201.17, -38.99),l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    MethSmash = {
+        {loc = vector3(1012.04, -3194.96, -38.99), bucket = vector4(1012.86, -3194.13, -39.20, 90.00), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-3.143311, -1.666748, -1.010128), rotation = vector3(0,0,0.0), gang = ""},
+    },
+    BagMeth = {
+        {loc = vector3(1014.25, -3194.93, -38.99), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-4.9, -1.70, -1.01), rotation = vector3(0,0,0.0), gang = ""},
+    },
+    MethEph = { -- get ephedrine
+        {loc = vector3(3559.86, 3673.9, 28.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    Methace = { -- get acetone
+        {loc = vector3(3535.41, 3661.05, 28.12), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    SyrupVendor = {
+        {ped = 'a_m_m_farmer_01', loc = vector4(365.21, -578.77, 39.30, 347.23), l = 1.0, w = 1.0, rot = 347.23, gang = ""},
+    },
     singleSpot = {
-       
         CokeTeleIn = vector3(198.16, -1276.92, 29.33), -- where you target to go inside coke
         CokeTeleOut =  vector3(1088.81, -3187.57, -38.99), -- where you target to leave coke
         buylsdlabkit = vector4(2598.47, 5033.06, 105.86, 283.51), --  buy lab kit for lsd
         buyheroinlabkit = vector4(-1358.77, -339.12, 43.92, 302.13), --  buy lab kit for heroin
         buypress = vector3(845.82, -884.79, 25.18), --  buy lab kit for xtc
-        DryOut = vector3(2638.22, 4237.93, 44.78), -- Place to dry out mescaline into usuable drug
-        SyrupVendor = vector4(365.21, -578.77, 39.30, 347.23), -- where the mission ped starts
         weedTelein = vector3(244.74, 374.54, 105.74), -- where you target to tele in
         weedTeleout = vector3(1066.31, -3183.36, -39.16),  -- where you target to tele out
         MakeButter = vector3(1045.48, -3198.49, -38.22), -- where you make cannabutter and baked edibles
@@ -74,12 +109,7 @@ local Target = {
         truckspawn = vector4(1450.87, -1482.13, 63.22, 69.95), --- where the truck will spawn when you pay for it 
         Payfortruck = vector3(1437.64, -1491.91, 63.62), --- where you pay for the truck
     },
-    MethEph = { -- get ephedrine
-        {loc = vector3(3559.86, 3673.9, 28.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-    },
-    Methace = { -- get acetone
-        {loc = vector3(3535.41, 3661.05, 28.12), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-    },
+    
     StartLoc = { -- where truck spawns for lean and meth missions
         vector3(-2307.22, 434.77, 174.47),
         vector3(614.75, 1786.26, 199.39),
@@ -112,31 +142,8 @@ local Target = {
     }
 }
 GlobalState.MDDrugsLocs = Target
-function checkLoc(source, event, num)
-    local ped = source
-    local pos = GetPlayerPed(ped)
-    local coord = GetEntityCoords(pos)
-    local loc
-    if type(num) == 'string' then 
-        loc = vector3(Target[event][num].x, Target[event][num].y, Target[event][num].z)
-    else
-        loc = Target[event][num].loc
-    end
-    local dist = #(coord - loc)
-    if dist < 2.5 then
-        Log(GetName(source) .. ' Triggered the table ' .. event .. ' Within The Correct Distance', 'locations')
-        return true
-    else
-        Log(GetName(source) .. ' Triggered the table ' .. event .. ' Not Within The Correct Distance', 'locations')
-        Notifys(source, 'You are not in the correct location', 'error')
-        return false
-    end
-end
 
 local loc = Target.Travellingmerchant[math.random(1, #Target.Travellingmerchant)]
-ps.registerCallback('md-drugs:server:getLocs', function()
-    return Target
-end)
 
 ps.registerCallback('md-drugs:server:GetMerchant', function(source)
 	return loc

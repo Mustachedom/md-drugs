@@ -3,7 +3,7 @@ local miss = false
 RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
     if not GetCops(Config.PoliceCount) then return end
     if miss then
-       Notify(Lang.Wholesale.al, 'error')
+       ps.notify(Lang.Wholesale.al, 'error')
     else   
        local loc = drug.location
        local timer = 0
@@ -20,10 +20,10 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
            action = function()
                 local luck = math.random(1,100)
                 if luck <= Config.SuccessfulChance then
-                    if not progressbar("Wholesaling Drugs", 4000, 'uncuff') then return end
+                    if not ps.progressbar("Wholesaling Drugs", 4000, 'uncuff') then return end
                     TriggerServerEvent("md-drugs:server:SuccessSale", drug)
                 else
-                    progressbar("YOU FUCKED NOW", 4000, 'uncuff')
+                    ps.progressbar("YOU FUCKED NOW", 4000, 'uncuff')
                     SetUpPeds() 
                 end
                 Wait(3000)
@@ -39,7 +39,7 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
        if timer <= Config.WholesaleTimeout or #(GetEntityCoords(PlayerPedId()) - vector3(loc.x, loc.y, loc.z) ) < 4.0  then
            timer = 0
        else
-           Notify('The Buyer Waited To Long', 'error')
+           ps.notify('The Buyer Waited To Long', 'error')
            DeleteEntity(drugdealer)
        end
     end

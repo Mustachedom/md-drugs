@@ -13,8 +13,8 @@ local function createLabKit(coord, head)
             action = function()
 	            local dict = "scr_ie_svm_technical2"
                 if not ps.hasItems({
-                    {name = 'lysergic_acid', amount = 1},
-                    {name = 'diethylamide', amount = 1}
+                    lysergic_acid = 1,
+                    diethylamide = 1
                 }) then
                     ps.notify(ps.lang('lsd.need'), 'error')
                     return
@@ -90,7 +90,7 @@ local function createLabKit(coord, head)
             canInteract = function() if dirtylsd then return true end end
         }
     }
-    ps.targetEntity(labkit, options)
+    ps.entityTarget(labkit, options)
 end
 
 for k, v in pairs (GlobalState.MDDrugsLocs.lysergicacid) do 
@@ -131,7 +131,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.diethylamide) do
     })
 end
 
-for k,v in pairs (GlobalState.MDDrugsLocs.gettabs) do
+for k, v in pairs (GlobalState.MDDrugsLocs.gettabs) do
     ps.boxTarget('gettabs'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('targets.lsd.buyt'),
@@ -147,16 +147,19 @@ for k,v in pairs (GlobalState.MDDrugsLocs.gettabs) do
         }
     })
 end
-
-for k, v in pairs (GlobalState.MDDrugsLocs.buykit) do
-    ps.boxTarget('buykit'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+local seller = {}
+for k, v in pairs (GlobalState.MDDrugsLocs.buyLSDkit) do
+    ps.requestModel(v.ped, 1000)
+    seller[k] = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, false)
+    Freeze(seller[k], true, v.loc.w)
+    ps.entityTarget(seller[k], {
         {
             label = ps.lang('targets.lsd.buy'),
             icon = 'fa-solid fa-hand-holding-dollar',
             action = function()
                 if ps.hasItem('lsdlabkit') then ps.notify(ps.lang('lsd.havlabkit'), 'error') return end
                 if not ps.progressbar(ps.lang('lsd.buykit'), 4000, 'uncuff') then return end
-                TriggerEvent("md-drugs:client:buylabkit")
+                TriggerServerEvent('md-drugs:server:getlabkit', k)
             end,
             canInteract = function()
                 if not handleGang(v.gang) then return false end
@@ -167,7 +170,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.buykit) do
 end
 
 ps.registerCallback("md-drugs:client:setlsdlabkit", function()
-    if tableout then 
+    if tableout then
         ps.notify(ps.lang('lsd.tableout'), 'error')
         return false
     else

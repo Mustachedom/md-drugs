@@ -1,15 +1,18 @@
 
 
-RegisterNetEvent("md-drugs:server:drymescaline", function()
+RegisterNetEvent("md-drugs:server:drymescaline", function(num)
     local src = source
-    if not checkLoc(src, 'singleSpot', 'DryOut') then return end
+    if not ps.checkDistance(src, GlobalState.MDDrugsLocs.DryOutMescaline[num].loc, 3.0) then
+        ps.notify(src, "You are not in the right location", "error")
+        return
+    end
     if not GetRecipe(src, 'mescaline', 'dry', 'dried') then return end
 end)
 
-CUI("driedmescaline", function(source, item)
+ps.createUseable("driedmescaline", function(source, item)
     local src = source
-    if RemoveItem(src, "driedmescaline", 1) then 
+    if ps.removeItem(src, "driedmescaline", 1) then 
 	    TriggerClientEvent("md-drugs:client:takemescaline", src)
-        Log(GetName(source) .. ' Consumed Mescaline', 'consume')
+        --Log(GetName(source) .. ' Consumed Mescaline', 'consume')
     end
 end)

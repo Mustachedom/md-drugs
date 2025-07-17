@@ -136,7 +136,8 @@ local recipe = {
 }
 
 function GetRecipe(source, type, method, tier)
-    ps.craftItem(source,recipe[type][method][tier])
+    print(ps.craftItem(source,recipe[type][method][tier]))
+    return ps.craftItem(source,recipe[type][method][tier])
 end
 
 ps.registerCallback('md-drugs:server:GetRecipe', function(source, type, cat)

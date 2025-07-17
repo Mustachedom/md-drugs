@@ -164,7 +164,7 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 			if vh then
 				if not GetRecipe(src, 'heroin', 'fillneedle', v.tier) then return end
 				AddRep(src, 'heroin')
-				Log(ps.getPlayerName(src) .. v.log, 'heroin')
+				--Log(ps.getPlayerName(src) .. v.log, 'heroin')
 				return
 			end
 		end
@@ -176,7 +176,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source
-	Log(ps.getPlayerName(src) ..' Sucks And Burned Their Heroin', 'heroin')
+	--Log(ps.getPlayerName(src) ..' Sucks And Burned Their Heroin', 'heroin')
 	if Config.TierSystem then
 		local itemList = {
 			heroinvial = 1,

@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 --[[
     effect options
     alien
@@ -21,7 +21,7 @@ strength = number -- how long you are strong boi
 ]]
 local Consume = {
     -- meth
-methbags =                { time = 4000, effect = 'meth', anim = "smoke", progressbartext = "Injesting", 
+methbags =                { time = 4000, effect = 'meth', anim = "smoke", ps.progressbartext = "Injesting", 
                                     add = {health = -20, stress = -10, speed = 40, strength = 10, thirst = -30}},
 cokebaggy =               { anim = 'smell', time = 1000, effect = 'coke', add = { stress = -10 }},
 cokebaggystagetwo =       { anim = 'smell', time = 1000, effect = 'coke', add = { stress = -10 }},
@@ -148,9 +148,9 @@ for k, v in pairs(Consume) do
         local time = v.time or Consumables.defaulttime
         local effect = v.effect or 0
         local anim = v.anim or Consumables.defaultanim
-        local progressbartext = v.progressbartext or Consumables.defaultprogresstext
+        local ps.progressbartext = v.ps.progressbartext or Consumables.defaultprogresstext
         local add = v.add or {hunger = 0}
-        local done = ps.callback('md-drugs:client:consumedrugs', source, time, effect, anim, progressbartext, add, k)
+        local done = ps.callback('md-drugs:client:consumedrugs', source, time, effect, anim, ps.progressbartext, add, k)
         if done then
             RemoveItem(source, k, 1)
         end

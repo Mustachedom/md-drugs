@@ -125,9 +125,9 @@ RegisterServerEvent('md-drugs:server:buypress', function()
 	
 	  if Player.Functions.RemoveMoney("cash", 20000) then
 		  AddItem(src, "singlepress", 1)
-		  Log(GetName(source) .. ' Bought A Pill Press', 'xtc')
+		  --Log(GetName(source) .. ' Bought A Pill Press', 'xtc')
 	  else
-		  Notifys(Lang.xtc.cash, "error")
+		  ps.notify(Lang.xtc.cash, "error")
 	  end
   end)
 
@@ -140,7 +140,7 @@ RegisterServerEvent('md-drugs:server:upgradepress', function(data)
     elseif data == 'quad' then
 		if not GetRecipe(src, 'xtc', 'press', 'quad') then return end
 	else
-		Notifys(src, 'huh', 'error')
+		ps.notify(src, 'huh', 'error')
 	end
 end)
 
@@ -170,7 +170,7 @@ RegisterServerEvent('md-drugs:server:stampwhite', function(num)
 	elseif RemoveItem(src, "white_xtc4", 1) then
 		AddItem(src, four[chance], 1) 
 	else 
-		Notifys('You Dont Have Unstamped White Pills', 'error')
+		ps.notify('You Dont Have Unstamped White Pills', 'error')
 	end
 end)
 
@@ -192,7 +192,7 @@ RegisterServerEvent('md-drugs:server:stampred', function(num)
 	  elseif RemoveItem(src, "red_xtc4", 1) then
 		  AddItem(src, four[chance], 1) 
 	  else 
-		  Notifys('You Dont Have Unstamped red Pills', 'error')
+		  ps.notify('You Dont Have Unstamped red Pills', 'error')
 	  end
 end)
 
@@ -214,7 +214,7 @@ RegisterServerEvent('md-drugs:server:stamporange', function(num)
 	  elseif RemoveItem(src, "orange_xtc4", 1) then
 		  AddItem(src, four[chance], 1) 
 	  else 
-		  Notifys('You Dont Have Unstamped orange Pills', 'error')
+		  ps.notify('You Dont Have Unstamped orange Pills', 'error')
 	  end
 end)
 
@@ -235,7 +235,7 @@ RegisterServerEvent('md-drugs:server:stampblue', function(num)
 	  elseif RemoveItem(src, "blue_xtc4", 1) then
 		  AddItem(src, four[chance], 1) 
 	  else 
-		  Notifys('You Dont Have Unstamped blue Pills', 'error')
+		  ps.notify('You Dont Have Unstamped blue Pills', 'error')
 	  end
 end)
 

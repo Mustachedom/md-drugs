@@ -30,7 +30,7 @@ RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
 	if timedOut[src] then return end
 	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.diethylamide[num].loc, 2.0) then
-		Notifys(src, Lang.lsd.notinloc, "error")
+		ps.notify(src, Lang.lsd.notinloc, "error")
 		return
 	end
 	timeout(src, 3000)
@@ -41,7 +41,7 @@ end)
 ps.createUseable('lsdlabkit', function(source, item)
 	local src = source
 	local placed, loc = ps.callback('md-drugs:client:setlsdlabkit', src)
-	if placed then 
+	if placed then
 		if ps.removeItem(src, 'lsdlabkit', 1) then
 			table.insert(lsdTables, {
 				owner = ps.getPlayerName(src),
@@ -64,7 +64,7 @@ end
 
 ps.registerCallback('md-drugs:server:removecleaningkit', function(source)
 	local src = source
-	return ps.removeItem(src,"cleaningkit", 1)
+	return ps.removeItem(src, "cleaningkit", 1)
 end)
 
 RegisterServerEvent('md-drugs:server:getlabkitback', function()
@@ -89,18 +89,18 @@ RegisterServerEvent('md-drugs:server:failheating', function()
 	ps.removeItem(src, 'lysergic_acid', 1)
 	ps.removeItem(src, 'diethylamide', 1)
 	ps.notify(src, ps.lang('prices.lsd.failed'), "error")
-	Log(ps.getPlayerName(src) ..' Failed Basic LSD Like An Idiot!', 'lsd')
+	--Log(ps.getPlayerName(src) ..' Failed Basic LSD Like An Idiot!', 'lsd')
 end)
 
 
 RegisterServerEvent('md-drugs:server:refinequalityacid', function()
 local src = source
 if not hasLabKit(src) then return end
-if not ps.itemCheck(src, 'lsd_one_vial', 1) then return end
+if not ps.hasItem(src, 'lsd_one_vial', 1) then return end
 	if Config.TierSystem then
 		local lsd = getRep(src, 'lsd')
 		if ps.removeItem(src, 'lsd_one_vial', 1) then
-			if lsd <= 30 then 
+			if lsd <= 30 then
 				ps.addItem(src,'lsd_vial_two', 1)
 			elseif lsd >= 31 and lsd <= 60 then 
 				ps.addItem(src,'lsd_vial_three', 1)
@@ -112,7 +112,7 @@ if not ps.itemCheck(src, 'lsd_one_vial', 1) then return end
 				ps.addItem(src,'lsd_vial_six', 1)
 			end
 			AddRep(src,'lsd')
-			ps.log(ps.getPlayerName(src) ..' Refined Acid and Now Has A Rep Of ' .. lsd + 1 .. '!', 'lsd')
+			--ps.log(ps.getPlayerName(src) ..' Refined Acid and Now Has A Rep Of ' .. lsd + 1 .. '!', 'lsd')
 		end
 	else
 		local randomchance = math.random(1,100)
@@ -128,7 +128,7 @@ if not ps.itemCheck(src, 'lsd_one_vial', 1) then return end
 			else 
 				ps.addItem(src,'lsd_vial_six', 1)
 			end
-			ps.log(ps.getPlayerName(src) ..' Refined Acid!', 'lsd')
+			--ps.log(ps.getPlayerName(src) ..' Refined Acid!', 'lsd')
 		end
 	end
 end)
@@ -136,25 +136,28 @@ end)
 RegisterServerEvent('md-drugs:server:failrefinequality', function()
 	local src = source
 	if not hasLabKit(src) then return end
-	if not ps.hasItem(src, 'lsd_one_vial', 1) then return end
-	ps.removeItem(src,'lsd_one_vial', 1) 
+	ps.removeItem(src,'lsd_one_vial', 1)
 end)
 
 
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
 	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.gettabs[num].loc, 3.0) then return end
-	if ps.removeMoney('cash', prices.tabcost * 10) then
+	if ps.removeMoney(src, 'cash', prices.tabcost * 10) then
 		ps.addItem(src,'tab_paper', 10)
 	else
 		ps.notify(src, Lang.lsd.broke, "error")
 	end
 end)
  
-RegisterServerEvent('md-drugs:server:getlabkit', function()
+RegisterServerEvent('md-drugs:server:getlabkit', function(num)
 	local src = source
-	if not ps.checkDistance(src,'singleSpot', 'buylsdlabkit') then return end
-	if ps.removeMoney('cash', prices.lsdlabkitcost) then
+	if ps.hasItem(src,'lsdlabkit', 1) then 
+		ps.notify(src, ps.lang('lsd.havlabkit'), 'error')
+		return
+	end
+	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.buyLSDkit[num].loc, 3.0) then return end
+	if ps.removeMoney(src, 'cash', prices.lsdlabkitcost) then
 		ps.addItem(src,'lsdlabkit', 1)
 	else
 		ps.notify(src, Lang.lsd.broke, "error")
@@ -174,8 +177,8 @@ RegisterServerEvent('md-drugs:server:maketabpaper', function()
 	    {vial = 'lsd_vial_six',   sheet = 'gratefuldeadsheet', log = 'Made A Maze Sheet'}
 	}
 	for k, v in ipairs (vialdata) do
-		local check = ps.hasItem(src, v.vial)
-		if check then 
+		local check = ps.hasItem(src, v.vial) and ps.hasItem(src, 'tab_paper')
+		if check then
 			if ps.removeItem(src, v.vial, 1) and ps.removeItem(src, 'tab_paper', 1) then
 				ps.addItem(src, v.sheet, 1)
 			end
@@ -193,12 +196,12 @@ local sheets = {
 }
 
 for k, v in pairs (sheets) do
-	CUI(v.item, function(source)
+	ps.createUseable(v.item, function(source)
 		local src = source
 		local math = math.random(1,10)
 		if ps.removeItem(src, v.item, 1) then
 			ps.addItem(src, v.recieve, math)
-			ps.log(ps.getPlayerName(src) ..' Made ' .. math .. 'Tabs of ' .. v.recieve .. '!', 'lsd')
+			--ps.log(ps.getPlayerName(src) ..' Made ' .. math .. 'Tabs of ' .. v.recieve .. '!', 'lsd')
 		end
 	end)
 end

@@ -230,7 +230,7 @@ end
 function GetCops(number)
 	if number == 0 then return true end
 	local amount = ps.callback('md-drugs:server:GetCoppers')
-	if amount >= number then return true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
+	if amount >= number then return true else ps.notify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
 end
 
 

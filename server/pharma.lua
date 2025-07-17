@@ -6,7 +6,7 @@ local function GetJob(source)
 	if Player.PlayerData.job.type == 'ems' then
 		return true
 	else
-		Notifys(src, 'You Must Be EMS To Do This', 'error')
+		ps.notify(src, 'You Must Be EMS To Do This', 'error')
 		return false
 	end
 end
@@ -54,8 +54,8 @@ CUI(d, function(source, item)
 			if d == k then
 				RemoveItem(src, d, 1)
 				AddItem(src, v, math.random(10,30))
-				Notifys(src,Lang.Pharma.unbottle, "success")
-				Log(GetName(src) .. ' Unbottled 30 Of ' .. v .. '!', 'pharma')
+				ps.notify(src,Lang.Pharma.unbottle, "success")
+				--Log(GetName(src) .. ' Unbottled 30 Of ' .. v .. '!', 'pharma')
 			end
 		end
 	end
@@ -73,5 +73,5 @@ RegisterServerEvent('md-drugs:server:fillprescription', function()
 			break
 		end
 	end
-	Log(GetName(src) .. ' Filled A Prescription!', 'pharma')
+	--Log(GetName(src) .. ' Filled A Prescription!', 'pharma')
 end)

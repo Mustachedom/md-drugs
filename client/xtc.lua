@@ -2,11 +2,11 @@ local xtcpress = false
 
 RegisterNetEvent("md-drugs:client:setpress", function(type)
     if xtcpress then 
-        Notify(Lang.xtc.out, 'error')
+        ps.notify(Lang.xtc.out, 'error')
     else
       local coords, head = StartRay2()
       xtcpress = true
-	    progressbar('Setting Press On The Ground', 4000, 'uncuff')
+	    ps.progressbar('Setting Press On The Ground', 4000, 'uncuff')
 	    local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	    PlaceObjectOnGroundProperly(press)
       Freeze(press, true, head)
@@ -24,12 +24,12 @@ end)
 
 ps.registerCallback('md-drugs:client:setpress', function(type)
   if xtcpress then 
-    Notify(Lang.xtc.out, 'error')
+    ps.notify(Lang.xtc.out, 'error')
     return false
   else
     local coords, head = StartRay2()
     xtcpress = true
-    progressbar('Setting Press On The Ground', 4000, 'uncuff')
+    ps.progressbar('Setting Press On The Ground', 4000, 'uncuff')
     local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
     PlaceObjectOnGroundProperly(press)
     Freeze(press, true, head)
@@ -62,34 +62,34 @@ RegisterNetEvent("md-drugs:client:XTCMenu", function(type)
 end)
 
 RegisterNetEvent("md-drugs:client:GetPressBack", function(type, press)
-    if not progressbar(Lang.xtc.pickup, 5000, 'uncuff') then return end
+    if not ps.progressbar(Lang.xtc.pickup, 5000, 'uncuff') then return end
     DeleteObject(press)
     xtcpress = false
     TriggerServerEvent("md-drugs:server:getpressback", type)
 end)
 
 RegisterNetEvent("md-drugs:client:stealisosafrole", function(data) 
-    if not minigame() then Notify(Lang.xtc.fail, "error") return end
-    if not progressbar(Lang.xtc.iso, 4000, 'uncuff') then return end
+    if not minigame() then ps.notify(Lang.xtc.fail, "error") return end
+    if not ps.progressbar(Lang.xtc.iso, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:stealisosafrole",data.data)
 end)
 
 RegisterNetEvent("md-drugs:client:stealmdp2p", function(data) 
-    if not minigame() then Notify(Lang.xtc.fail, "error") return end
-    if not progressbar(Lang.xtc.mdp2p, 4000, 'uncuff') then return end
+    if not minigame() then ps.notify(Lang.xtc.fail, "error") return end
+    if not ps.progressbar(Lang.xtc.mdp2p, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:stealmdp2p", data.data)   
 end)
 
 RegisterNetEvent("md-drugs:client:makingrawxtc", function(data) 
     if not ItemCheck('isosafrole') then return end 
     if not ItemCheck('mdp2p') then return end
-    if not progressbar(Lang.xtc.raw, 4000, 'uncuff') then return end
+    if not ps.progressbar(Lang.xtc.raw, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:makingrawxtc",data.data)
 end)
 
 RegisterNetEvent("md-drugs:client:MakeXTC", function(data) 
     if not ItemCheck('raw_xtc') then return end
-    if not progressbar(Lang.xtc.pressing, 4000, 'uncuff') then return end
+    if not ps.progressbar(Lang.xtc.pressing, 4000, 'uncuff') then return end
     TriggerServerEvent("md-drugs:server:makextc",data)
 end)
 
@@ -98,29 +98,29 @@ RegisterNetEvent("md-drugs:client:stampwhite", function(data)
     options = {
       { icon = GetImage('white_xtc'), title = 'White XTC',
         onSelect = function()
-            if not minigame() then Notify(Lang.xtc.fail, "error") return end
-            if not progressbar(string.format(Lang.xtc.stamp, 'White'), 4000, 'uncuff') then return end
+            if not minigame() then ps.notify(Lang.xtc.fail, "error") return end
+            if not ps.progressbar(string.format(Lang.xtc.stamp, 'White'), 4000, 'uncuff') then return end
             TriggerServerEvent("md-drugs:server:stampwhite",data.data)
         end   
       },
       { icon = GetImage('red_xtc'), title = 'Red XTC',
         onSelect = function()
-            if not minigame() then Notify(Lang.xtc.fail, "error") return end
-            if not progressbar(string.format(Lang.xtc.stamp, 'Red'), 4000, 'uncuff') then return end
+            if not minigame() then ps.notify(Lang.xtc.fail, "error") return end
+            if not ps.progressbar(string.format(Lang.xtc.stamp, 'Red'), 4000, 'uncuff') then return end
             TriggerServerEvent("md-drugs:server:stampred", data.data)
         end
       },
       { icon = GetImage('orange_xtc'), title = 'Orange XTC',
         onSelect = function()
-            if not minigame() then Notify(Lang.xtc.fail, "error") return end
-            if not progressbar(string.format(Lang.xtc.stamp, 'Orange'), 4000, 'uncuff') then return end
+            if not minigame() then ps.notify(Lang.xtc.fail, "error") return end
+            if not ps.progressbar(string.format(Lang.xtc.stamp, 'Orange'), 4000, 'uncuff') then return end
             TriggerServerEvent("md-drugs:server:stamporange", data.data)
         end,
       },
       { icon = GetImage('blue_xtc'), title = 'Blue XTC',
         onSelect = function()
-            if not minigame() then Notify(Lang.xtc.fail, "error") return end
-            if not progressbar(string.format(Lang.xtc.stamp, 'Blue'), 4000, 'uncuff') then return end
+            if not minigame() then ps.notify(Lang.xtc.fail, "error") return end
+            if not ps.progressbar(string.format(Lang.xtc.stamp, 'Blue'), 4000, 'uncuff') then return end
             TriggerServerEvent("md-drugs:server:stampblue", data.data)
         end
       },
@@ -130,13 +130,13 @@ RegisterNetEvent("md-drugs:client:stampwhite", function(data)
 end)
 
 RegisterNetEvent("md-drugs:client:getsinglepress", function() 
-    if not progressbar(Lang.xtc.buyp, 4000, 'uncuff') then return end
+    if not ps.progressbar(Lang.xtc.buyp, 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:buypress")
 end)
 
 
 RegisterNetEvent("md-drugs:client:exchangepresses", function(data) 
-   if not progressbar(Lang.xtc.buyp, 4000, 'uncuff') then return end
+   if not ps.progressbar(Lang.xtc.buyp, 4000, 'uncuff') then return end
 	TriggerServerEvent("md-drugs:server:upgradepress", data.data)
 end)
 

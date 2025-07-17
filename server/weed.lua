@@ -7,9 +7,9 @@ RegisterServerEvent('md-drugs:server:dryoutweed', function()
     local Player = getPlayer(src)
 	if RemoveItem(src,"wetcannabis", 1) then
     	AddItem(src,"drycannabis", 1)
-		Log(GetName(source) .. ' Dried Weed', 'weed')
+		--Log(GetName(source) .. ' Dried Weed', 'weed')
     else
-		Notifys(src, Lang.Weed.nodry, "error")
+		ps.notify(src, Lang.Weed.nodry, "error")
 	end
 end)
 
@@ -49,7 +49,7 @@ CUI("dabrig", function(source, item)
         	TriggerClientEvent("md-drugs:client:dodabs", src)
         end
     else
-    	Notifys(src, 'You Need A Butane Torch', 'error')
+    	ps.notify(src, 'You Need A Butane Torch', 'error')
     end
 end)
 
@@ -57,7 +57,7 @@ CUI("weedgrinder", function(source, item)
     local src = source
     local Player = getPlayer(src)
     local has = Player.Functions.GetItemByName("drycannabis")
-    if not has then Notifys(src, 'You Need Dried Cannabis', 'error') return end
+    if not has then ps.notify(src, 'You Need Dried Cannabis', 'error') return end
      local check = ps.callback('md-drugs:client:uncuff', src, 'Grinding Weed')
     if not check then return end
     if RemoveItem(src, "drycannabis",1 ) then 

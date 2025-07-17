@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 local dloc = {
     {coords = vector4(282.48, -1814.32, 27.23, 145.11)},
@@ -122,8 +122,8 @@ ps.registerCallback('md-drugs:server:GetDeliveryItem', function(data)
         local time = os.time()
         local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
         
-        if timeout > 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) Notifys(src, 'You Failed To Make It In Time!', 'error' ) return false end
-        Notifys(src,'You Already Have A Delivery To Make', 'error' ) return false, item, amount, coord
+        if timeout > 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) ps.notify(src, 'You Failed To Make It In Time!', 'error' ) return false end
+        ps.notify(src,'You Already Have A Delivery To Make', 'error' ) return false, item, amount, coord
     end
 end)
 
@@ -135,7 +135,7 @@ RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(item, amount)
     local time = os.time()
     local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
     local itemData = json.decode(check[1].itemdata)
-    if timeout >= 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) Notifys(source, 'You Failed To Make It In Time!', 'error' )  return end
+    if timeout >= 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) ps.notify(source, 'You Failed To Make It In Time!', 'error' )  return end
     if item ~= itemData.item then return end
     if amount ~= itemData.amount then return end
     if RemoveItem(src, item, amount) then
@@ -169,7 +169,7 @@ lib.addCommand("newdealer", {
     
     local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', { dealerName })
     if result then
-        return Notifys(source,"Already Exists", "error")
+        return ps.notify(source,"Already Exists", "error")
     end
 
     MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {
@@ -202,8 +202,8 @@ lib.addCommand("deletedealer", {
         MySQL.query('DELETE FROM dealers WHERE name = ?', { dealerName })
         QBConfig.Dealers[dealerName] = nil
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
-        TriggerClientEvent('QBCore:Notify', source, "Dealer Deleted", "success")
+        TriggerClientEvent('QBCore:ps.notify', source, "Dealer Deleted", "success")
     else
-        TriggerClientEvent('QBCore:Notify', source, "Who You Tryna Delete", "error")
+        TriggerClientEvent('QBCore:ps.notify', source, "Who You Tryna Delete", "error")
     end
 end)
