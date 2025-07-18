@@ -76,7 +76,7 @@ local function checkItems()
     return true
 end
 
-function Cornersell()
+local function Cornersell()
     if inZone then sell = false return end
 
     if not sell then

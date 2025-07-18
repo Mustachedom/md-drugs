@@ -2,11 +2,13 @@
 local started = false
 local hit = 0
 
-function SpawnCarPedChase()
+local function SpawnCarPedChase()
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
 	local start = GlobalState.MDDrugsLocs.StartLoc[math.random(1,#GlobalState.MDDrugsLocs.StartLoc)]
+
 	if started then ps.notify(Lang.lean.act,'error') return end
     started = true
+
 	ps.callback('md-drugs:server:RegisterLean')
     ps.requestModel("pounder", Config.RequestModelTime)
     ps.requestModel("ig_priest", Config.RequestModelTime)

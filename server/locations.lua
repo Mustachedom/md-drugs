@@ -89,8 +89,14 @@ local Target = {
     Methace = { -- get acetone
         {loc = vector3(3535.41, 3661.05, 28.12), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
+    MethHeist = {
+        {loc = vector4(-1520.84, 827.72, 181.66, 184.13), ped = 'a_m_m_farmer_01', gang = ""},
+    },
     SyrupVendor = {
         {ped = 'a_m_m_farmer_01', loc = vector4(365.21, -578.77, 39.30, 347.23), l = 1.0, w = 1.0, rot = 347.23, gang = ""},
+    },
+    OxyPayForTruck = {
+        {loc = vector3(1437.64, -1491.91, 63.62), truckSpawn = vector4(1450.87, -1482.13, 63.22, 69.95), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     singleSpot = {
         CokeTeleIn = vector3(198.16, -1276.92, 29.33), -- where you target to go inside coke

@@ -3,6 +3,86 @@ local tray = false
 local heated = false
 local active = false
 local trays = nil
+
+--- meth heist 
+local startedmeth = false
+
+local function SpawnMethCarPedChase()
+	local stoploc = vector3(-1157.63, -3056.71, 13.94)
+	local start = GlobalState.MDDrugsLocs.StartLoc[math.random(1,#GlobalState.MDDrugsLocs.StartLoc)]
+	if startedmeth then
+		ps.notify(ps.lang('meth.act'),'error')
+	else
+	    startedmeth = true
+		ps.callback('md-drugs:server:RegisterMeth')
+
+	    ps.requestModel("journey", Config.RequestModelTime)
+	    ps.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
+	    ps.requestModel("cargobob3", Config.RequestModelTime)
+
+	    local methcar = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, true, false)
+	    local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, false, false)
+	    local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
+
+		FreezeEntityPosition(methpilot, true)
+		SetEntityInvincible(methpilot, true)
+	    SetEntityAsMissionEntity(methcar)
+	    AddBlipForEntity(methcar)
+	    SetPedIntoVehicle(methdriver, methcar, -1)
+	    SetPedFleeAttributes(methdriver,false)
+	    TaskVehicleDriveToCoordLongrange(methdriver, methcar, stoploc.x, stoploc.y, stoploc.z-1, 50.0, 524288, 25.0)
+	    SetPedKeepTask(methdriver, true)
+
+		repeat
+			Wait(1000)
+		until #(GetEntityCoords(methdriver) - stoploc) < 20.0 or GetEntityHealth(methdriver) == 0
+
+		if GetEntityHealth(methdriver) == 0 then
+			ps.entityTarget(methcar, {
+				{
+					name = 'methcar',
+					icon = 'fa-solid fa-car',
+					label = Lang.targets.meth.stealfromcar,
+					action = function()
+						if not minigame() then return end
+				 		TriggerServerEvent('md-drugs:server:givemethingridients')
+				 		startedmeth = false
+				 		if math.random(1,100) <= 30 then
+							DeleteVehicle(methcar)
+							DeleteEntity(methdriver)
+							DeleteEntity(methpilot)
+				 		end
+					end,
+				}
+			})
+		else
+			DeleteVehicle(methcar)
+			DeleteEntity(methdriver)
+			DeleteEntity(methpilot)
+	    end
+	end
+end
+
+local peds = {}
+for k, v in pairs (GlobalState.MDDrugsLocs.MethHeist) do
+	peds[k] = CreatePed(4, GetHashKey(v.ped), v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, true)
+	Freeze(peds[k], true, v.loc.w)
+	ps.entityTarget(peds[k], {
+		{
+			name = 'methheist'..k,
+			icon = 'fa-solid fa-user-secret',
+			label = ps.lang('targets.meth.heist'),
+			action = function()
+				if startedmeth then ps.notify(ps.lang('meth.act'),'error') return end
+				SpawnMethCarPedChase()
+			end,
+			canInteract = function()
+				return handleGang(v.gang)
+			end
+		}
+	})
+end
+
 ---- start animation shit
 local function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then

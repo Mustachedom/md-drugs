@@ -1,74 +1,90 @@
 local carryPackage = nil
+local onMission = false
 
-RegisterNetEvent("md-drugs:client:GetOxyCar", function()
-	lib.requestModel("burrito3", Config.RequestModelTime)
-	local paid = ps.callback('md-drugs:server:payfortruck', false)
-	if not paid then return end
-	local loca = ps.callback('md-drugs:server:getLocs', false)
-	local loc = loca.singleSpot.truckspawn
-	local oxycar = CreateVehicle("burrito3",loc.x, loc.y,loc.z, loc.w, true, false)
-    exports[Config.Fuel]:SetFuel(oxycar, 100.0)
-    TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(oxycar))
-	ps.notify(Lang.oxy.truck, 'success')
-	TriggerEvent("md-drugs:client:getoxylocationroute")
-	AddSingleModel(oxycar,  { event = "md-drugs:client:getfromtrunk", icon = "fa-solid fa-box", label = Lang.targets.oxy.pack}, nil )
-end)
+local function getRoute()
+	local Route = ps.callback('md-drugs:server:getRoute')
+    if not Route then
+		ps.notify(ps.lang('oxy.done'), "success")
+		onMission = false
+		return false
+	end
 
-RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
-	local config = ps.callback('md-drugs:server:getLocs', false)
-    local loc = config.oxylocations[math.random(#config.oxylocations)]
-	if loc ~= nil then
-    	SetNewWaypoint(loc.x, loc.y)
-		local current = "g_m_y_famdnf_01"
-		lib.requestModel(current, Config.RequestModelTime)
-    	local oxybuyer = CreatePed(0, current,loc.x,loc.y,loc.z-1, loc.w, false, false)
-		Freeze(oxybuyer, true, loc.w)
-		repeat
-			Wait(1000)
-		until #(GetEntityCoords(PlayerPedId()) - vector3(loc.x,loc.y,loc.z)) < 5.0
-		PoliceCall(Config.PoliceAlertOxy)
-		AddSingleModel(oxybuyer,  { type = "client", label = Lang.targets.oxy.talk, icon = "fa-solid fa-dollar-sign", 
-		action = function()
-			if carryPackage then
-				if not ps.progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
-				TriggerServerEvent("md-drugs:server:giveoxybox")
-				DeleteEntity(oxybuyer)
-				DetachEntity(carryPackage, true, true)
-				DeleteObject(carryPackage)
-				carryPackage = nil
-			else
-				ps.notify(Lang.oxy.empty, "error")
+    SetNewWaypoint(Route.x, Route.y)
+	ps.requestModel('g_m_y_famdnf_01', Config.RequestModelTime)
+    local oxybuyer = CreatePed(0, 'g_m_y_famdnf_01',Route.x,Route.y,Route.z-1, Route.w, false, false)
+	Freeze(oxybuyer, true, Route.w)
+	local timeOut = 300
+
+	repeat
+		Wait(1000)
+		timeOut = timeOut - 1
+	until #(GetEntityCoords(PlayerPedId()) - vector3(Route.x,Route.y,Route.z)) < 5.0 or timeOut == 0
+
+	PoliceCall(Config.PoliceAlertOxy)
+	ps.entityTarget(oxybuyer,{
+		{ 
+			label = ps.lang('targets.oxy.talk'),
+			icon = "fa-solid fa-dollar-sign",
+			action = function()
+				if carryPackage then
+					if not ps.progressbar(ps.lang('oxy.hand'), 4000, 'uncuff') then return end
+					TriggerServerEvent("md-drugs:server:giveoxybox")
+					DeleteEntity(oxybuyer)
+					DetachEntity(carryPackage, true, true)
+					DeleteObject(carryPackage)
+					carryPackage = nil
+					getRoute()
+				else
+					ps.notify(ps.lang('oxy.empty'), "error")
+				end
 			end
-		end}, oxybuyer)
-	end
-end)
+		}
+	})
+end
 
+for k, v in pairs(GlobalState.MDDrugsLocs.OxyPayForTruck) do
+	ps.boxTarget('oxyTruckPur' ..k , v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-truck-fast',
+			label = ps.lang('targets.oxy.buytruck'),
+			action = function()
+				ps.requestModel("burrito3", Config.RequestModelTime)
 
-RegisterNetEvent("md-drugs:client:getfromtrunk", function() 
-	if carryPackage then
-		ps.notify(Lang.oxy.cantcarry, "error")
-	else
-		local pos = GetEntityCoords(PlayerPedId(), true)
-		lib.requestAnimDict('anim@heists@box_carry@')
-		TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
-		lib.RequestModel("hei_prop_drug_statue_box_big")
-		local object = CreateObject("hei_prop_drug_statue_box_big", pos.x, pos.y, pos.z, true, true, true)
-		AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.05, 0.1, -0.3, 300.0, 250.0, 20.0, true, true, false, true, 1, true)
-		carryPackage = object
-	end
-end)
+				local paid = ps.callback('md-drugs:server:payfortruck', false)
+				if not paid then return end
+				local oxycar = CreateVehicle("burrito3",v.truckSpawn.x, v.truckSpawn.y, v.truckSpawn.z, v.truckSpawn.w, true, false)
 
+    			exports[Config.Fuel]:SetFuel(oxycar, 100.0)
+    			TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(oxycar))
+				ps.notify(ps.lang('oxy.truck'), 'success')
+				onMission = true
+				getRoute()
 
-RegisterNetEvent("md-drugs:client:giveoxybox", function(data) 
-	if carryPackage then
-		if not ps.progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
-		TriggerServerEvent("md-drugs:server:giveoxybox")
-		DeleteEntity(data.ped)
-		DetachEntity(carryPackage, true, true)
-		DeleteObject(carryPackage)
-	    carryPackage = nil
-	else
-		ps.notify(Lang.oxy.empty, "error")
-	end
-end)
-
+				ps.entityTarget(oxycar,  {
+					{
+						icon = "fa-solid fa-box",
+						label = ps.lang('targets.oxy.pack'),
+						action = function()
+							if carryPackage then
+								ps.notify(ps.lang('oxy.cantcarry'), "error")
+							else
+								local pos = GetEntityCoords(PlayerPedId(), true)
+								ps.requestAnim('anim@heists@box_carry@')
+								TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
+								ps.requestModel("hei_prop_drug_statue_box_big")
+								carryPackage = CreateObject("hei_prop_drug_statue_box_big", pos.x, pos.y, pos.z, true, true, true)
+								AttachEntityToEntity(carryPackage, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.05, 0.1, -0.3, 300.0, 250.0, 20.0, true, true, false, true, 1, true)
+							end
+						end,
+					}
+				})
+			end,
+			canInteract = function()
+				if onMission then
+					return false
+				end
+				return true
+			end
+		}
+	})
+end

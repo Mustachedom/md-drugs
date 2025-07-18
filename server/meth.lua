@@ -1,12 +1,25 @@
 
 local onRun = {}
-
+local cool = {}
 local function setTimeout(identifier)
 	if onRun[identifier] then
 		CreateThread(function()
 			Wait(10 * 60 * 1000)
 			onRun[identifier] = nil
 		end)
+	end
+end
+
+local function coolDown(identifier)
+	if cool[identifier] then
+		return false
+	else
+		cool[identifier] = true
+		CreateThread(function()
+			Wait(3500)
+			cool[identifier] = nil
+		end)
+		return true
 	end
 end
 
@@ -38,17 +51,19 @@ end)
 
 RegisterServerEvent('md-drugs:server:geteph', function(num)
 	local src = source
-	if not checkLoc(src, 'MethEph', num) then return end
-	if AddItem(src, 'ephedrine', 1) then
+	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.MethEph[num].loc, 2.5) then return end
+	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.wait'), "error") end
+	if ps.addItem(src, 'ephedrine', 1) then
 		ps.notify(src, 'Got Ephedrine!', "success")
 	end
 end)
-	
+
 RegisterServerEvent('md-drugs:server:getace', function(num)
 	local src = source
-	if not checkLoc(src, 'Methace', num) then return end
-	if AddItem(src, 'acetone', 1) then
-		--Log(GetName(src) .. ' Got ' .. 1 .. 'Of Acetone', 'Meth')
+	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.MethAce[num].loc, 2.5) then return end
+	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.wait'), "error") end
+	if ps.addItem(src, 'acetone', 1) then
+		ps.notify(src, 'Got Acetone!', "success")
 	end
 end)
 
@@ -56,6 +71,17 @@ ps.registerCallback('md-drugs:server:startcook', function(source, num)
 	local src = source
 	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.CookMeth[num].loc, 2.5) then return false end
 	local recipe = GetRecipe(src, 'meth', 'cook', 'heat')
-	ps.debug(recipe)
 	return recipe
+end)
+
+ps.registerCallback('md-drugs:server:registerMeth', function(source)
+	local identifier = ps.getIdentifier(source)
+	if not identifier then return false end
+	if onRun[identifier] then
+		return false
+	else
+		onRun[identifier] = 0
+		setTimeout(identifier)
+		return true
+	end
 end)
