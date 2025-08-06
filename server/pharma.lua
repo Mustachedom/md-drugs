@@ -1,5 +1,12 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local pharmaLocations = {
+    FillPrescription = { -- where to fill out your prescription
+        {loc = vector3(2855.62, 4446.73, 48.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+}
 
+ps.registerCallback('md-drugs:server:GetPharmaLocs', function()
+	return pharmaLocations
+end)
 local function GetJob(source)
 	local src = source
 	return ps.getJobType(src) == 'ems'
@@ -9,7 +16,7 @@ ps.createUseable('prescription_pad', function(source, item)
 	local src = source
 	local near = {}
 	if GetJob(src) then
-		local near = ps.getNearbyPlayers(src, 5.0)
+		near = ps.getNearbyPlayers(src, 5.0)
 
 		local options = { 
 			{label = 'Vicodin',  value = 'vicodin_prescription'},
@@ -37,10 +44,10 @@ for m, d in pairs (pharmabottle) do
 			}
 			for k, v in pairs (get) do 
 				if d == k then
-					ps.removeItem(src, d, 1)
-					ps.addItem(src, v, math.random(10,30))
-					ps.notify(src,ps.lang('Pharma.unbottle'), "success")
-					--Log(GetName(src) .. ' Unbottled 30 Of ' .. v .. '!', 'pharma')
+					if ps.removeItem(src, d, 1) then
+						ps.addItem(src, v, math.random(10,30))
+						ps.notify(src,ps.lang('Pharma.unbottle'), "success")
+					end
 				end
 			end
 		end
@@ -49,7 +56,7 @@ end
 
 RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
-	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.FillPrescription[num].loc, 3.5) then
+	if not ps.checkDistance(src, pharmaLocations.FillPrescription[num].loc, 3.5) then
 		return ps.notify(src, ps.lang('Pharma.toofar'), "error")
 	end
 	local pres = {
@@ -65,5 +72,4 @@ RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 			break
 		end
 	end
-	--Log(GetName(src) .. ' Filled A Prescription!', 'pharma')
 end)

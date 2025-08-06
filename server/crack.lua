@@ -1,8 +1,32 @@
+local crackRecipe = {
+    cookcrack = {
+         tier1 = {take = {loosecoke = 1,          bakingsoda = 1}, give = {crackrock = 1}},
+         tier2 = {take = {loosecokestagetwo = 1,  bakingsoda = 1}, give = {crackrockstagetwo = 1}},
+         tier3 = {take = {loosecokestagethree = 1,bakingsoda = 1}, give = {crackrockstagethree = 1}},
+    },
+    bagcrack = {
+         tier1 = {take = {crackrock = 1,           empty_weed_bag = 1}, give = {baggedcracked = 1}},
+         tier2 = {take = {crackrockstagetwo = 1,   empty_weed_bag = 1}, give = {baggedcrackedstagetwo = 1}},
+         tier3 = {take = {crackrockstagethree = 1, empty_weed_bag = 1}, give = {baggedcrackedstagethree = 1}},
+    }
+}
 
+local CrackLocations = {
+    makecrack = { -- make crack with baking soda with cut coke 1-3
+        {loc = vector3(2433.47, 4970.02, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    bagcrack = {  ---  bag crack 1-3 stages
+        {loc = vector3(2436.55, 4964.96, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+}
+
+ps.registerCallback('md-drugs:server:GetCrackLocations', function()
+    return CrackLocations
+end)
 RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
     local tier = 'tier1'
-    if not ps.checkDistance(src, GlobalState.MDDrugsLocs.makecrack[num].loc, 2.0) then
+    if not ps.checkDistance(src, CrackLocations.makecrack[num].loc, 2.0) then
         ps.notify(src, 'You are not in the correct location', 'error')
         return
     end
@@ -19,14 +43,17 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
             end
         end
     end
-	if not GetRecipe(src, 'crack', 'cookcrack', tier) then return end
+    if not ps.craftItem(src, crackRecipe['crack']['cookcrack'][tier]) then
+        ps.notify(src, 'You do not have the required items', 'error')
+        return
+    end
 end)
 
 
 RegisterServerEvent('md-drugs:server:bagcrack', function(num)
     local src = source
     local tier = 'tier1'
-    if not ps.checkDistance(src, GlobalState.MDDrugsLocs.bagcrack[num].loc, 2.0) then
+    if not ps.checkDistance(src, CrackLocations.bagcrack[num].loc, 2.0) then
         ps.notify(src, 'You are not in the correct location', 'error')
         return
     end
@@ -43,7 +70,10 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
             end
         end
     end
-	if not GetRecipe(src, 'crack', 'bagcrack', tier) then return end
+    if not ps.craftItem(src, crackRecipe['crack']['bagcrack'][tier]) then
+        ps.notify(src, 'You do not have the required items', 'error')
+        return
+    end
 end)
 
 local cokecut = {crackrockstagetwo = 2, crackrockstagethree = 3}

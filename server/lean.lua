@@ -1,5 +1,30 @@
 
 local onRun = {}
+local leanLocs = {
+	MakeLean = {
+        {
+            loc = vector3(2635.81, 4240.57, 45.32),
+            checks = { -- these can be arrays like {'police', 'ambulance'} or just a single string like 'police'
+                --gang = {},
+                --item = {},
+                --job = {},
+                --citizenid = {}
+            }
+        },
+    },
+	SyrupVendor = {
+        {ped = 'a_m_m_farmer_01', loc = vector4(365.21, -578.77, 39.30, 347.23), l = 1.0, w = 1.0, rot = 347.23, gang = ""},
+    },
+	StartLoc = { -- where truck spawns for lean and meth missions
+        vector3(-2307.22, 434.77, 174.47),
+        vector3(614.75, 1786.26, 199.39),
+        vector3(-224.89, 6388.32, 31.59)
+    },
+}
+
+ps.registerCallback('md-drugs:server:GetLeanLocs', function(source)
+	return leanLocs
+end)
 
 local function setTimeout(identifier)
 	if onRun[identifier] then
@@ -25,7 +50,7 @@ RegisterServerEvent('md-drugs:server:givelean', function()
 end)
 
 exports.ps_lib:registerCrafter({
-    loc = GlobalState.MDDrugsLocs.MakeLean,
+    loc = leanLocs.MakeLean,
     recipes = {
 		cupoflean = {
 			amount = 1,

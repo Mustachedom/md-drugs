@@ -1,5 +1,5 @@
-
-for k, v in pairs (GlobalState.MDDrugsLocs.makecrack) do
+local locations = ps.callback('md-drugs:server:GetCrackLocations')
+for k, v in pairs (locations.makecrack) do
 	ps.boxTarget('makeCrack'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
 		{
 			label = ps.lang('targets.crack.makecrack'),
@@ -18,7 +18,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.makecrack) do
 	})
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.bagcrack) do
+for k, v in pairs (locations.bagcrack) do
 	ps.boxTarget('bagCrack'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
 		{
 			label = ps.lang('targets.crack.bagcrack'),

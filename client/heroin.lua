@@ -1,7 +1,7 @@
 
 local herointable = false
 local dirty = false
-
+local locations = ps.callback('md-drugs:server:GetHeroinLocations')
 local function createLabKit(coord, head)
     local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false,false)
     SetEntityHeading(heroinlabkit, head)
@@ -59,7 +59,7 @@ local function createLabKit(coord, head)
     }})
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.dryplant) do
+for k, v in pairs (locations.dryplant) do
     ps.boxTarget('dryHeroin'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('targets.heroin.dry'),
@@ -75,7 +75,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.dryplant) do
     })
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.cutheroinone) do
+for k, v in pairs (locations.cutheroinone) do
     ps.boxTarget('cutHeroin'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('targets.heroin.cut'),
@@ -91,11 +91,28 @@ for k, v in pairs (GlobalState.MDDrugsLocs.cutheroinone) do
         }
     })
 end
+local peds = {}
+for k, v in pairs (locations.buyKit) do
+    ps.requestModel(v.ped, 1000)
+    peds[k] = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, false)
+    Freeze(peds[k], true, v.loc.w)
+    SetBlockingOfNonTemporaryEvents(peds[k], true)
+    SetEntityInvincible(peds[k], true)
+    ps.entityTarget(peds[k], {
+        {
+            label = ps.lang('targets.heroin.buykit'),
+            icon = 'fa-solid fa-box-open',
+            action = function()
+               if not ps.progressbar(ps.lang('Heroin.secret'), 4000, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:getheroinlabkit", k)
+            end,
+            canInteract = function()
+                return true
+            end
+        }
+    })
+end
 
-RegisterNetEvent("md-drugs:client:buyheroinlabkit", function()
-    if not ps.progressbar(ps.lang('Heroin.secret'), 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:getheroinlabkit")
-end)
 
 ps.registerCallback("md-drugs:client:setheroinlabkit", function() 
     if herointable then
@@ -111,7 +128,7 @@ ps.registerCallback("md-drugs:client:setheroinlabkit", function()
     end
 end)
 
-for k, v in pairs (GlobalState.MDDrugsLocs.fillneedle) do
+for k, v in pairs (locations.fillneedle) do
     ps.boxTarget('fillNeedle'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('targets.heroin.fill'),

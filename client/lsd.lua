@@ -1,5 +1,7 @@
 local tableout = false
 local dirtylsd = false
+local locations = ps.callback('md-drugs:server:GetLSDLocations')
+
 local function createLabKit(coord, head)
     local labkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false)
     SetEntityHeading(labkit, head)
@@ -93,7 +95,7 @@ local function createLabKit(coord, head)
     ps.entityTarget(labkit, options)
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.lysergicacid) do 
+for k, v in pairs (locations.lysergicacid) do 
     ps.boxTarget('lysergicacid'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('targets.lsd.lys'),
@@ -112,7 +114,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.lysergicacid) do
     })
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.diethylamide) do 
+for k, v in pairs (locations.diethylamide) do 
     ps.boxTarget('diethylamide'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('targets.lsd.die'),
@@ -131,7 +133,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.diethylamide) do
     })
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.gettabs) do
+for k, v in pairs (locations.gettabs) do
     ps.boxTarget('gettabs'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('targets.lsd.buyt'),
@@ -148,7 +150,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.gettabs) do
     })
 end
 local seller = {}
-for k, v in pairs (GlobalState.MDDrugsLocs.buyLSDkit) do
+for k, v in pairs (locations.buyLSDkit) do
     ps.requestModel(v.ped, 1000)
     seller[k] = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, false)
     Freeze(seller[k], true, v.loc.w)

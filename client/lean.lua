@@ -1,10 +1,10 @@
 
 local started = false
 local hit = 0
-
+local location = ps.callback('md-drugs:server:GetLeanLocs')
 local function SpawnCarPedChase()
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
-	local start = GlobalState.MDDrugsLocs.StartLoc[math.random(1,#GlobalState.MDDrugsLocs.StartLoc)]
+	local start = location.StartLoc[math.random(1,#location.StartLoc)]
 
 	if started then ps.notify(Lang.lean.act,'error') return end
     started = true
@@ -61,7 +61,7 @@ local function SpawnCarPedChase()
 end
 
 local leanPeds = {}
-for k, v in pairs (GlobalState.MDDrugsLocs.SyrupVendor) do
+for k, v in pairs (location.SyrupVendor) do
 	ps.requestModel(v.ped)
 	leanPeds[k] = CreatePed(0, v.ped, v.loc.x, v.loc.y, v.loc.z, false, false)
 	Freeze(leanPeds[k], true, v.loc.w)

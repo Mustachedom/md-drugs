@@ -1,5 +1,5 @@
-
-for k, v in pairs (GlobalState.MDDrugsLocs.DryOutMescaline) do
+local locations = ps.callback('md-drugs:server:GetMescalineLocs')
+for k, v in pairs (locations.DryOutMescaline) do
 	ps.boxTarget('dryoutMesc'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
 		{
 			label = ps.lang('mescaline.dry'),

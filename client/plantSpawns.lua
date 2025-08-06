@@ -1,6 +1,6 @@
 
 local DrugPlants = {
-    {model = 'prop_plant_01a', label = 'coke', tbl = GlobalState.CocaPlant, plantTbl = {},
+    {model = 'prop_plant_01a', label = 'coke', langs = ps.lang('targets.coke.pick'), tbl = GlobalState.CocaPlant, plantTbl = {},
         pick = function(loc)
             if not ps.progressbar(ps.lang('Coke.picking'), 4000, 'uncuff') then return end
                 TriggerServerEvent("coke:pickupCane", loc)
@@ -12,7 +12,7 @@ local DrugPlants = {
         },
         allow = Config.Drugs.cocaine,
     },
-    {model = 'prop_plant_01b', label = 'heroin', tbl = GlobalState.PoppyPlants, plantTbl = {},
+    {model = 'prop_plant_01b', label = 'heroin',langs = ps.lang('targets.heroin.pick'), tbl = GlobalState.PoppyPlants, plantTbl = {},
         pick = function(loc)
             if not ps.progressbar(ps.lang('Heroin.pick'), 4000, 'uncuff') then return end
                 TriggerServerEvent("heroin:pickupCane", loc)
@@ -24,7 +24,7 @@ local DrugPlants = {
         },
         allow = Config.Drugs.heroin,
     },
-    {model = 'prop_cactus_03', label = 'Mescaline', tbl = GlobalState.Mescaline, plantTbl = {},
+    {model = 'prop_cactus_03', label = 'Mescaline', langs = ps.lang('targets.mescaline.pick'), tbl = GlobalState.Mescaline, plantTbl = {},
         pick = function(loc)
             if not ps.progressbar(ps.lang('mescaline.pick'), 4000, 'uncuff') then return end
                 TriggerServerEvent("Mescaline:pickupCane", loc)
@@ -37,7 +37,7 @@ local DrugPlants = {
         allow = Config.Drugs.mescaline,
 
     },
-    {model = 'prop_weed_01', label = 'weed', tbl = GlobalState.WeedPlant, plantTbl = {},
+    {model = 'prop_weed_01', label = 'weed', langs = ps.lang('targets.weed.pick'), tbl = GlobalState.WeedPlant, plantTbl = {},
         pick = function(loc)
             if not ps.progressbar(ps.lang('Weed.picking'), 4000, 'uncuff') then return end
                 TriggerServerEvent("weed:pickupCane", loc)
@@ -49,7 +49,7 @@ local DrugPlants = {
         },
         allow = Config.Drugs.weed,
     },
-    {model = 'mushroom', label = 'shrooms', tbl = GlobalState.shrooms, plantTbl = {},
+    {model = 'mushroom', label = 'shrooms', langs = ps.lang('targets.shrooms.pick'), tbl = GlobalState.shrooms, plantTbl = {},
         pick = function(loc)
             if not ps.progressbar(ps.lang('Shrooms.pick'), 4000, 'uncuff') then return end
                 TriggerServerEvent("shrooms:pickupCane", loc)
@@ -75,7 +75,7 @@ for k, v in pairs (DrugPlants) do
             ps.entityTarget(v.plantTbl[loc], {
                 {
                     icon = v.icon,
-                    label = v.label,
+                    label = v.langs,
                     action = function()
                         if not v.pick(loc) then return end
                     end
@@ -99,7 +99,7 @@ for k, v in pairs (DrugPlants) do
                 ps.entityTarget(v.plantTbl[key], {
                     {
                         icon = v.icon,
-                        label = v.label,
+                        label = v.langs,
                         action = function()
                             if not v.pick(key) then return end
                         end

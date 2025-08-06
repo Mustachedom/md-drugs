@@ -1,7 +1,7 @@
 
 local cuttingcoke = nil
 local baggingcoke = nil
-
+local locations = ps.callback('md-drugs:server:GetCokeLocations')
 local function CutCoke(coords, offset, rotation)
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
 	ps.requestAnim(animDict, 500)
@@ -111,7 +111,7 @@ local function BagCoke(coords, offset, rotation)
     FreezeEntityPosition(ped, false)
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.MakePowder) do
+for k, v in pairs (locations.MakePowder) do
     ps.boxTarget('cocaplant'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
             label = ps.lang('.targets.coke.pick'),
@@ -131,7 +131,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.MakePowder) do
     })
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.CuttingCoke) do
+for k, v in pairs (locations.CuttingCoke) do
     ps.boxTarget('cutcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
         {
             label = ps.lang('targets.coke.cut'),
@@ -148,7 +148,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.CuttingCoke) do
     })
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.BaggingCoke) do
+for k, v in pairs (locations.BaggingCoke) do
     ps.boxTarget('bagcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
         {
             label = ps.lang('targets.coke.bag'),
@@ -163,6 +163,27 @@ for k, v in pairs (GlobalState.MDDrugsLocs.BaggingCoke) do
             end
         }
     })
+end
+
+for k, v in pairs (locations.cokeTele) do
+	ps.boxTarget('coke_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-door-open',
+			label = ps.lang('targets.coke.telein'),
+			action = function()
+				SetEntityCoords(PlayerPedId(), v.outside)
+			end
+		}
+	})
+	ps.boxTarget('coke_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-door-closed',
+			label = ps.lang('targets.coke.teleout'),
+			action = function()
+				SetEntityCoords(PlayerPedId(), v.inside)
+			end
+		}
+	})
 end
 
 CreateThread(function()

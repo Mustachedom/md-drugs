@@ -1,4 +1,4 @@
-
+local locations = ps.callback('md-drugs:server:GetPharmaLocs')
 ps.registerCallback("md-drugs:client:prescriptionpad", function(data, op)
     if ps.getJobType() ~= 'ems' then return end
     local input = exports.ps_lib:input('Who To Give A Prescription To?',{
@@ -7,12 +7,7 @@ ps.registerCallback("md-drugs:client:prescriptionpad", function(data, op)
     })
     if not input[1] then return end
     if not ps.progressbar(ps.lang('Pharma.write'), 4000, 'notepad') then return end
-    return {who = input[1], what = input[2]} 
-end)
-
-RegisterNetEvent("md-drugs:client:fillprescription", function(data) 
-    if not ps.progressbar(ps.lang('Pharma.fill'), 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:fillprescription", data.data)    
+    return {who = input[1], what = input[2]}
 end)
 
 ps.registerCallback("md-drugs:client:unbottle", function() 
@@ -21,7 +16,7 @@ ps.registerCallback("md-drugs:client:unbottle", function()
 end)
 
 
-for k, v in pairs (GlobalState.MDDrugsLocs.FillPrescription) do
+for k, v in pairs (locations.FillPrescription) do
     ps.boxTarget('pharma' ..k , v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-capsules',

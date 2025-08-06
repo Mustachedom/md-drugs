@@ -1,6 +1,6 @@
 local carryPackage = nil
 local onMission = false
-
+local locations = ps.callback('md-drugs:server:GetOxyLocs')
 local function getRoute()
 	local Route = ps.callback('md-drugs:server:getRoute')
     if not Route then
@@ -42,7 +42,7 @@ local function getRoute()
 	})
 end
 
-for k, v in pairs(GlobalState.MDDrugsLocs.OxyPayForTruck) do
+for k, v in pairs(locations.OxyPayForTruck) do
 	ps.boxTarget('oxyTruckPur' ..k , v.loc, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-truck-fast',

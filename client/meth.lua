@@ -3,13 +3,13 @@ local tray = false
 local heated = false
 local active = false
 local trays = nil
-
+local locations = ps.callback('md-drugs:server:GetMethLocs')
 --- meth heist 
 local startedmeth = false
 
 local function SpawnMethCarPedChase()
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
-	local start = GlobalState.MDDrugsLocs.StartLoc[math.random(1,#GlobalState.MDDrugsLocs.StartLoc)]
+	local start = locations.StartLoc[math.random(1,#locations.StartLoc)]
 	if startedmeth then
 		ps.notify(ps.lang('meth.act'),'error')
 	else
@@ -64,7 +64,7 @@ local function SpawnMethCarPedChase()
 end
 
 local peds = {}
-for k, v in pairs (GlobalState.MDDrugsLocs.MethHeist) do
+for k, v in pairs (locations.MethHeist) do
 	peds[k] = CreatePed(4, GetHashKey(v.ped), v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, true)
 	Freeze(peds[k], true, v.loc.w)
 	ps.entityTarget(peds[k], {
@@ -276,7 +276,7 @@ local function smash(coords, offset, rotation, buckets, k)
 					amonia = false
 					heated = false
 					tray = false
-					BagMeth(GlobalState.MDDrugsLocs.BagMeth[k].loc, GlobalState.MDDrugsLocs.BagMeth[k].offset, GlobalState.MDDrugsLocs.BagMeth[k].rotation)
+					BagMeth(locations.BagMeth[k].loc, locations.BagMeth[k].offset, locations.BagMeth[k].rotation)
 					TriggerServerEvent('md-drugs:server:getmeth', k)
 				end,
 			}
@@ -306,7 +306,7 @@ CreateThread(function()
 	RefreshInterior(BikerMethLab.interiorId)
 end)
 
-for k, v in pairs (GlobalState.MDDrugsLocs.CookMeth) do
+for k, v in pairs (locations.CookMeth) do
 	ps.boxTarget('cookMeth'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
 		{
 			label = 'Cook Meth',
@@ -333,14 +333,14 @@ for k, v in pairs (GlobalState.MDDrugsLocs.CookMeth) do
 	})
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.MethDials) do 
+for k, v in pairs (locations.MethDials) do
 	ps.boxTarget('adjustMethDials'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
 		{
 			name = 'adjustdials',
 			icon = "fa-solid fa-temperature-three-quarters",
 			label = ps.lang('targets.meth.adjust'),
 			action = function()
-				dials(GlobalState.MDDrugsLocs.CookMeth[k].loc)
+				dials(locations.CookMeth[k].loc)
 			end,
 			canInteract = function()
 				if amonia and heated == false then return true end
@@ -349,7 +349,7 @@ for k, v in pairs (GlobalState.MDDrugsLocs.MethDials) do
 	})
 end
 
-for k, v in pairs (GlobalState.MDDrugsLocs.MethSmash) do
+for k, v in pairs (locations.MethSmash) do
 	ps.boxTarget('smashMeth'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
 		{
 			name = 'smash',
@@ -373,7 +373,7 @@ RegisterCommand('offset', function()
 end)
 
 if not Config.MethHeist then
-	for k, v in pairs (GlobalState.MDDrugsLocs.MethEph) do
+	for k, v in pairs (locations.MethEph) do
 		ps.boxTarget('stealMethEph'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
 			{
 				label = 'Steal Ephedrine',
@@ -386,7 +386,7 @@ if not Config.MethHeist then
 		})
 	end
 
-	for k, v in pairs (GlobalState.MDDrugsLocs.Methace) do
+	for k, v in pairs (locations.Methace) do
 		ps.boxTarget('stealMethAce'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
 			{
 				label = 'Steal Acetone',

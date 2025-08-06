@@ -3,6 +3,34 @@ local prices = {
 	tabcost = 100, -- price per piece of tab paper event does 10 at a time
 	lsdlabkitcost = 10000 -- price of the lsd lab kit
 }
+local lsdRecipes = {
+	vial = {
+        heat = {take = {lysergic_acid = 1, diethylamide = 1,}, give = {lsd_one_vial = 1}}
+    },
+}
+
+local lsdLocations = {
+	lysergicacid = { -- get lysergic acid
+        {loc = vector3(-1381.21, -327.75, 39.85), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2405.53, 5008.39, 46.02), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    diethylamide = {  -- get diethylamide
+        {loc = vector3(-1371.71, -316.02, 39.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2408.38, 5011.18, 46.08), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    gettabs = { -- buy tab paper
+        {loc = vector3(-1370.77, -314.51, 39.58), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2409.59, 5012.45, 46.09), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    buyLSDkit = {
+        {ped = 'g_f_y_families_01', loc = vector4(2598.47, 5033.06, 105.86, 283.51), l = 1.0, w = 1.0, rot = 283.51, gang = ""},
+    },
+}
+
+ps.registerCallback('md-drugs:server:GetLSDLocations', function(source)
+	return lsdLocations
+end)
+
 local timedOut = {}
 
 local function timeout(src, time)
@@ -18,7 +46,7 @@ local lsdTables = {}
 RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
 	if timedOut[src] then return end
-	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.lysergicacid[num].loc, 2.0) then
+	if not ps.checkDistance(src, lsdLocations.lysergicacid[num].loc, 2.0) then
 		ps.notify(src, ps.lang('lsd.notinloc'), "error")
 		return
 	end
@@ -29,7 +57,7 @@ end)
 RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
 	if timedOut[src] then return end
-	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.diethylamide[num].loc, 2.0) then
+	if not ps.checkDistance(src, lsdLocations.diethylamide[num].loc, 2.0) then
 		ps.notify(src, Lang.lsd.notinloc, "error")
 		return
 	end
@@ -80,7 +108,10 @@ end)
 RegisterServerEvent('md-drugs:server:heatliquid', function()
 	local src = source
 	if not hasLabKit(src) then return end
-	if not GetRecipe(src, 'lsd', 'vial', 'heat') then return end
+	if not ps.craftItem(src, lsdRecipes['vial']['heat']) then
+		ps.notify(src, ps.lang('lsd.noliquid'), "error")
+		return
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:failheating', function()
@@ -89,7 +120,6 @@ RegisterServerEvent('md-drugs:server:failheating', function()
 	ps.removeItem(src, 'lysergic_acid', 1)
 	ps.removeItem(src, 'diethylamide', 1)
 	ps.notify(src, ps.lang('prices.lsd.failed'), "error")
-	--Log(ps.getPlayerName(src) ..' Failed Basic LSD Like An Idiot!', 'lsd')
 end)
 
 
@@ -107,28 +137,26 @@ if not ps.hasItem(src, 'lsd_one_vial', 1) then return end
 			elseif lsd >= 61 and lsd <= 90 then
 				ps.addItem(src,'lsd_vial_four', 1)
 			elseif lsd >= 91 and lsd <= 120 then
-				ps.addItem(src,'lsd_vial_five', 1)	
+				ps.addItem(src,'lsd_vial_five', 1)
 			else 
 				ps.addItem(src,'lsd_vial_six', 1)
 			end
 			AddRep(src,'lsd')
-			--ps.log(ps.getPlayerName(src) ..' Refined Acid and Now Has A Rep Of ' .. lsd + 1 .. '!', 'lsd')
 		end
 	else
 		local randomchance = math.random(1,100)
-		if ps.removeItem(src,'lsd_one_vial', 1) then 
+		if ps.removeItem(src,'lsd_one_vial', 1) then
 			if randomchance <= 60 then 
 				ps.addItem(src,'lsd_vial_two', 1)
 			elseif randomchance >= 61 and randomchance <= 75 then 
 				ps.addItem(src,'lsd_vial_three', 1)
 			elseif randomchance >= 76 and randomchance <= 85 then
-				ps.addItem(src,'lsd_vial_four', 1)	
+				ps.addItem(src,'lsd_vial_four', 1)
 			elseif randomchance >= 86 and randomchance <= 93 then
-				ps.addItem(src,'lsd_vial_five', 1)	
-			else 
+				ps.addItem(src,'lsd_vial_five', 1)
+			else
 				ps.addItem(src,'lsd_vial_six', 1)
 			end
-			--ps.log(ps.getPlayerName(src) ..' Refined Acid!', 'lsd')
 		end
 	end
 end)
@@ -142,7 +170,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
-	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.gettabs[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, lsdLocations.gettabs[num].loc, 3.0) then return end
 	if ps.removeMoney(src, 'cash', prices.tabcost * 10) then
 		ps.addItem(src,'tab_paper', 10)
 	else
@@ -156,7 +184,7 @@ RegisterServerEvent('md-drugs:server:getlabkit', function(num)
 		ps.notify(src, ps.lang('lsd.havlabkit'), 'error')
 		return
 	end
-	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.buyLSDkit[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, lsdLocations.buyLSDkit[num].loc, 3.0) then return end
 	if ps.removeMoney(src, 'cash', prices.lsdlabkitcost) then
 		ps.addItem(src,'lsdlabkit', 1)
 	else
@@ -201,7 +229,6 @@ for k, v in pairs (sheets) do
 		local math = math.random(1,10)
 		if ps.removeItem(src, v.item, 1) then
 			ps.addItem(src, v.recieve, math)
-			--ps.log(ps.getPlayerName(src) ..' Made ' .. math .. 'Tabs of ' .. v.recieve .. '!', 'lsd')
 		end
 	end)
 end
