@@ -68,3 +68,10 @@ Config.Drugs = {
     wholesale = false,
     xtc = true,
 }
+
+Config.Bzz = {
+    cocaine = false,
+    heroin =false,
+    shrooms = false,
+    weed = false,
+}
