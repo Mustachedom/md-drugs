@@ -16,7 +16,6 @@ function loadFile(filePath)
         ps.error("Error executing Lua chunk from '" .. filePath .. "': " .. tostring(execErr))
         return false
     end
-    ps.success("Successfully loaded module '" .. filePath .. "' from resource '" .. resourceName .. "'.")
     return true
 end
 

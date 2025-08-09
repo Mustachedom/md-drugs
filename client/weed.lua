@@ -4,10 +4,10 @@ for k, v in pairs (locations.WeedDry) do
 	ps.boxTarget('weed_dry'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-cannabis',
-			label = ps.lang('targets.weed.dry'),
+			label = ps.lang('weed.targetDry'),
 			action = function()
 				if not ps.hasItem('wetcannabis', 1) then
-					ps.notify(ps.lang('Weed.nodry'), "error")
+					ps.notify(ps.lang('weed.nodry'), "error")
 					return
 				end
 				if drying then return end
@@ -15,12 +15,12 @@ for k, v in pairs (locations.WeedDry) do
 				local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)
 				drying = true
 				FreezeEntityPosition(weedplant, true)
-				ps.notify(ps.lang('Weed.wait'), "success")
+				ps.notify(ps.lang('weed.wait'), "success")
 				Wait(math.random(1000,5000))
-				ps.notify(ps.lang('Weed.take'), "success")
+				ps.notify(ps.lang('weed.take'), "success")
 				ps.entityTarget(weedplant, {
 					icon = "fa-solid fa-cannabis",
-					label = ps.lang('targets.weed.dpick'),
+					label = ps.lang('weed.targetDryed'),
 					action = function()
 						DeleteEntity(weedplant)
 						drying = false
@@ -36,7 +36,7 @@ for k, v in pairs (locations.WeedTele) do
 	ps.boxTarget('weed_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-door-open',
-			label = ps.lang('targets.weed.telein'),
+			label = ps.lang('weed.teleportOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
 			end
@@ -45,7 +45,7 @@ for k, v in pairs (locations.WeedTele) do
 	ps.boxTarget('weed_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-door-closed',
-			label = ps.lang('targets.weed.teleout'),
+			label = ps.lang('weed.teleportIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)
 			end
@@ -66,13 +66,13 @@ CreateThread(function()
 end)
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-	if not ps.progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
+	if not ps.progressbar(ps.lang('weed.dabs'), 4000, 'bong2') then AlienEffect() return end
 	AlienEffect()
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
     local options = {}
-	local items = ps.callback('md-drugs:server:GetRecipe', 'weed',tableName)
+	local items = ps.callback('md-drugs:server:GetWeedRecipe', 'weed', tableName)
     for k, v in pairs(items) do
         local label = {}
         local item = ''
@@ -94,11 +94,11 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
 end
 
 RegisterNetEvent('md-drugs:client:makeBluntWrap', function(data)
-	createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", 'Dipping Syrup To Make ', 'bluntwrap')
+	createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", ps.lang('weed.bluntWrap'), 'bluntwrap')
 end)
 
 RegisterNetEvent('md-drugs:client:rollBlunt', function(data)
-	createBluntOptions('mddrugsblunts', "Roll Blunts", 'Rolling A ', 'blunts')
+	createBluntOptions('mddrugsblunts', "Roll Blunts", ps.lang('weed.blunts'), 'blunts')
 end)
 
 for k, v in pairs (locations.WeedSalesman) do
@@ -110,7 +110,7 @@ for k, v in pairs (locations.WeedSalesman) do
 	ps.entityTarget(ped, {
 		{
 			icon = "fa-solid fa-cannabis",
-			label = ps.lang('targets.weed.salesman'),
+			label = ps.lang('weed.targetSales'),
 			action = function()
 				local itemList = ps.callback('md-drugs:server:getWeedItems')
 				local options = {}
@@ -124,7 +124,7 @@ for k, v in pairs (locations.WeedSalesman) do
 								{type = 'number', title = 'How Many To Buy', min = 1, max = 1000}
 							})
 							if not input and input[1] then return end
-							if not ps.progressbar('Buying ' .. ps.getLabel(m), 2000, 'uncuff') then return end
+							if not ps.progressbar(ps.lang('weed.buying', ps.getLabel(m)), 2000, 'uncuff') then return end
 							TriggerServerEvent('md-drugs:server:buyWeedItem', k, m, input[1])
 						end
 					}

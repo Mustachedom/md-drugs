@@ -53,9 +53,30 @@ local xtcLocations = {
         {loc = vector3(844.71, -900.56, 25.43), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
 }
+
 ps.registerCallback('md-drugs:server:GetXtcLocs', function(source)
 	return xtcLocations
 end)
+
+local function craft(source, tbl, item)
+    local src = source
+    local need, have = 0,0
+    for k, v in pairs(tbl.take) do
+        if ps.hasItem(src, k, v) then
+            have = have + v
+        end
+        need = need + v
+    end
+    if need == have then
+        for k, v in pairs (tbl.take) do
+            ps.removeItem(src, k, v)
+        end
+        ps.addItem(src, item , tbl.amount)
+        return true
+    end
+    return false
+end
+
 local activePresses = {}
 local timeout = {}
 
@@ -69,20 +90,26 @@ end
 
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	local src = source
-	if not ps.checkDistance(src, xtcLocations.isosafrole[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, xtcLocations.isosafrole[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Checks.notIn'), "error")
+		return
+	end
 	if timeout[ps.getIdentifier(src)] then
-		ps.notify(src, 'You are still waiting for the last minigame to finish',	 'error')
+		ps.notify(src, ps.lang('Catches.cooldown'),	 'error')
 		return
 	end
 	timeOut(src)
-  	ps.addItem(src, "isosafrole", 1) 
+  	ps.addItem(src, "isosafrole", 1)
 end)
 
 RegisterServerEvent('md-drugs:server:stealmdp2p', function(num)
   	local src = source
-	if not ps.checkDistance(src, xtcLocations.mdp2p[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, xtcLocations.mdp2p[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Checks.notIn'), "error")
+		return
+	end
   	if timeout[ps.getIdentifier(src)] then
-		ps.notify(src, 'You are still waiting for the last minigame to finish',	 'error')
+		ps.notify(src, ps.lang('Catches.cooldown'),	 'error')
 		return
 	end
 	timeOut(src)
@@ -126,7 +153,7 @@ end)
 RegisterServerEvent('md-drugs:server:makextc', function(data)
   	local src = source
   	if not activePresses[ps.getIdentifier(src)] then
-		ps.notify(src, 'You Dont Have A Pill Press', 'error')
+		ps.notify(src, ps.lang('xtc.noPressOut'), 'error')
 		return
   	end
   	craft(src, RecipeList[activePresses[ps.getIdentifier(src)].press][data], data)
@@ -137,14 +164,14 @@ RegisterServerEvent('md-drugs:server:buypress', function()
 	if ps.removeMoney(src,"cash", RecipeList.presses['singlepress'].cash) then
 		ps.addItem(src, "singlepress", 1)
 	else
-		ps.notify(ps.lang('xtc.cash'), "error")
+		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:upgradepress', function(data)
   	local src = source
   	if not ps.checkDistance(src, xtcLocations.xtcpress[data].loc, 2.0) then
-		ps.notify(src, ps.lang('xtc.toofar'), "error")
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
   	end
     craft(src, RecipeList.presses[data], data)
@@ -156,9 +183,12 @@ end)
 ------------- making powder
 RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
     local src = source
-	if not ps.checkDistance(src, xtcLocations.rawxtcloc[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, xtcLocations.rawxtcloc[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Checks.notIn'), "error")
+		return
+	end
 	if timeout[ps.getIdentifier(src)] then
-		ps.notify(src, 'You are still waiting for the last minigame to finish', 'error')
+		ps.notify(src, ps.lang('Catches.cooldown'), 'error')
 		return
 	end
 	timeOut(src)
@@ -174,10 +204,8 @@ local function getColor(color)
 	}
 	if colors[color] then
 		return colors[color][math.random(#colors[color])]
-	else
-		ps.notify('Invalid color specified', 'error')
-		return nil
 	end
+	return nil
 end
 
 RegisterServerEvent('md-drugs:server:stamp', function(num, color)
@@ -199,7 +227,7 @@ RegisterServerEvent('md-drugs:server:stamp', function(num, color)
 	elseif ps.removeItem(src, colors[color].."4", 1) then
 		ps.addItem(src, item..'4', 1) 
 	else
-		ps.notify('You Dont Have Unstamped '..color..' Pills', 'error')
+		ps.notify(src, ps.lang('xtc.noPills'), 'error')
 	end
 end)
 

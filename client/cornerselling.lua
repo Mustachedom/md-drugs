@@ -10,7 +10,7 @@ end
 local function sellDrug(item, amount, price, targ)
    -- PoliceCall(20)
     if ps.vehicleData() then
-        ps.notify(ps.lang('Cornerselling.inveh', 'error'))
+        ps.notify(ps.lang('Cornerselling.inVeh'), 'error')
         walkAway(targ)
         return
     end
@@ -47,7 +47,7 @@ local function findPed()
 
     buyers[targ] = true
 
-    ps.drawText('Waiting For Customer')
+    ps.drawText(ps.lang('Cornerselling.wait'))
 
     repeat
         Wait(1000)
@@ -89,7 +89,7 @@ local function Cornersell()
         return
     end
 
-    ps.drawText('Searching For Nearby Customers')
+    ps.drawText(ps.lang('Cornerselling.searching'))
     
     local targ = findPed()
     local data = ps.callback('md-drugs:server:cornerselling:getAvailableDrugs', targ)
@@ -105,7 +105,7 @@ local function Cornersell()
         local got = false
         ps.entityTarget(targ, {
             {
-                label = "Take Back Drugs",
+                label = ps.lang('Cornerselling.targetTakeBack'),
                 icon ="fa-solid fa-money-bill",
                 action =   function()
                     got = true
@@ -124,7 +124,7 @@ local function Cornersell()
         FreezeEntityPosition(targ, true)
         ps.entityTarget(data.ped, {
             {
-                label = string.format(ps.lang('targets.CornerSell.sell', data.amount, ps.getLabel(data.item), data.price)),
+                label = string.format(ps.lang('Cornerselling.targetSell'), data.amount, ps.getLabel(data.item), data.price),
                 icon ="fa-solid fa-money-bill",
                 action =   function()
                     sellDrug(data.item, data.amount, data.price, targ)
@@ -137,7 +137,7 @@ local function Cornersell()
                 end,
             },
             {
-                label = ps.lang('targets.CornerSell.deny'),
+                label = ps.lang('Cornerselling.targetDeny'),
                 icon = "fa-solid fa-person-harassing",
                 action = function()
                     deny(targ)
@@ -161,14 +161,14 @@ RegisterNetEvent('md-drugs:client:cornerselling', function()
         ps.notify(ps.lang('Cornerselling.stopped', 'error'))
     else
         sell = true
-        ps.notify(ps.lang('Cornerselling.started', 'success'))
+        ps.notify(ps.lang('Cornerselling.start', 'success'))
         Cornersell()
     end
 end)
 
 CreateThread(function()
     for k, v in pairs (QBConfig.NoSellZones) do
-        local box = lib.zones.box({ coords = v.loc, size = vec3(v.width, v.length, v.height), rotation = 180.0, debug = false,
+        local box = ps.zones.box({ coords = v.loc, size = vec3(v.width, v.length, v.height), rotation = 180.0, debug = false,
         onEnter = function() inZone = true end, onExit = function() inZone = false end})
     end
 end)

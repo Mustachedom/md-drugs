@@ -11,7 +11,7 @@ local function SpawnMethCarPedChase()
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
 	local start = locations.StartLoc[math.random(1,#locations.StartLoc)]
 	if startedmeth then
-		ps.notify(ps.lang('meth.act'),'error')
+		ps.notify(ps.lang('meth.alreadyChasing'),'error')
 	else
 	    startedmeth = true
 		ps.callback('md-drugs:server:RegisterMeth')
@@ -42,7 +42,7 @@ local function SpawnMethCarPedChase()
 				{
 					name = 'methcar',
 					icon = 'fa-solid fa-car',
-					label = Lang.targets.meth.stealfromcar,
+					label = ps.lang('meth.targetStealFromCar'),
 					action = function()
 						if not minigame() then return end
 				 		TriggerServerEvent('md-drugs:server:givemethingridients')
@@ -71,9 +71,9 @@ for k, v in pairs (locations.MethHeist) do
 		{
 			name = 'methheist'..k,
 			icon = 'fa-solid fa-user-secret',
-			label = ps.lang('targets.meth.heist'),
+			label = ps.lang('meth.targetHeist'),
 			action = function()
-				if startedmeth then ps.notify(ps.lang('meth.act'),'error') return end
+				if startedmeth then ps.notify(ps.lang('meth.alreadyChasing'),'error') return end
 				SpawnMethCarPedChase()
 			end,
 			canInteract = function()
@@ -239,7 +239,7 @@ local function startcook(num, coords, offset, rotation)
 		MethCooking(coords, offset, rotation)
 		amonia = true
 	else
-		ps.notify(ps.lang('meth.inside'), "error")
+		ps.notify(ps.lang('meth.started'), "error")
 	end
 end
 
@@ -251,7 +251,7 @@ local function dials(coords)
 			amonia = false
 			active = false
 		return end
-		ps.notify(ps.lang('meth.increaseheat'), "success")
+		ps.notify(ps.lang('meth.increaseHeat'), "success")
 		heated = true
 	end
 end
@@ -266,7 +266,7 @@ local function smash(coords, offset, rotation, buckets, k)
 			{
 				name = 'bucket',
 				icon = "fa-solid fa-sack-xmark",
-				label = ps.lang('targets.meth.bag'),
+				label = ps.lang('meth.targetBag'),
 				canInteract = function()
 					if active == false then return false end
 				end,
@@ -309,22 +309,25 @@ end)
 for k, v in pairs (locations.CookMeth) do
 	ps.boxTarget('cookMeth'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
 		{
-			label = 'Cook Meth',
+			label = ps.lang('meth.targetCook'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
 				 startcook(k, v.loc, v.offset or vec3(0,0,0), v.rotation or vector3(0,0,180.0))
 			end,
 			canInteract = function()
+				if not handleGang(v.gang) then return false end
 				if not amonia and not active then
 					return true
 				end
+				
 			end,
 		},
 		{
 			icon = "fas fa-sign-in-alt",
-			label = ps.lang('targets.meth.tray'),
+			label = ps.lang('meth.targetGrabTray'),
 			action = function() trayscarry() end,
 		  	canInteract = function()
+				if not handleGang(v.gang) then return false end
 				if heated and amonia and not tray then
 					return true
 				end
@@ -338,11 +341,12 @@ for k, v in pairs (locations.MethDials) do
 		{
 			name = 'adjustdials',
 			icon = "fa-solid fa-temperature-three-quarters",
-			label = ps.lang('targets.meth.adjust'),
+			label = ps.lang('meth.targetHeat'),
 			action = function()
 				dials(locations.CookMeth[k].loc)
 			end,
 			canInteract = function()
+				if not handleGang(v.gang) then return false end
 				if amonia and heated == false then return true end
 			end
 		}
@@ -354,11 +358,12 @@ for k, v in pairs (locations.MethSmash) do
 		{
 			name = 'smash',
 			icon = "fa-solid fa-weight-scale",
-			label = ps.lang('targets.meth.smash'),
+			label = ps.lang('meth.targetSmash'),
 			action = function()
 				smash(v.loc, v.offset, v.rotation, v.bucket,k)
 			end,
 			canInteract = function()
+				if not handleGang(v.gang) then return false end
 				if heated and amonia and tray then return true end
 			end
 		}
@@ -372,30 +377,33 @@ RegisterCommand('offset', function()
 	print("Offset: ", offset)
 end)
 
-if not Config.MethHeist then
-	for k, v in pairs (locations.MethEph) do
-		ps.boxTarget('stealMethEph'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
-			{
-				label = 'Steal Ephedrine',
-				icon = 'fa-solid fa-bucket',
-				action = function()
-					if not ps.progressbar('Stealing Ephedrine', 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:geteph", k)
-				end,
-			}
-		})
-	end
-
-	for k, v in pairs (locations.Methace) do
-		ps.boxTarget('stealMethAce'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
-			{
-				label = 'Steal Acetone',
-				icon = 'fa-solid fa-bucket',
-				action = function()
-					if not ps.progressbar('Stealing Acetone', 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:getace", k)
-				end,
-			}
-		})
-	end
+for k, v in pairs (locations.MethEph) do
+	ps.boxTarget('stealMethEph'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
+		{
+			label = ps.lang('meth.targetStealEPH'),
+			icon = 'fa-solid fa-bucket',
+			action = function()
+				if not ps.progressbar(ps.lang('meth.stealingEPH'), 4000, 'uncuff') then return end
+				TriggerServerEvent("md-drugs:server:geteph", k)
+			end,
+			canInteract = function()
+				return handleGang(v.gang)
+			end
+		}
+	})
+end
+for k, v in pairs (locations.Methace) do
+	ps.boxTarget('stealMethAce'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
+		{
+			label = ps.lang('meth.targetStealACE'),
+			icon = 'fa-solid fa-bucket',
+			action = function()
+				if not ps.progressbar(ps.lang('meth.stealingACE'), 4000, 'uncuff') then return end
+				TriggerServerEvent("md-drugs:server:getace", k)
+			end,
+			canInteract = function()
+				return handleGang(v.gang)
+			end
+		}
+	})
 end

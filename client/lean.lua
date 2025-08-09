@@ -38,7 +38,7 @@ local function SpawnCarPedChase()
 			{
 				name = 'leancar',
 				icon = 'fa-solid fa-car',
-				label = Lang.targets.lean.st,
+				label = ps.lang('lean.stealFromTruck'),
 				action = function()
 					hit = hit + 1
 					 if not minigame() then return end
@@ -68,10 +68,14 @@ for k, v in pairs (location.SyrupVendor) do
 	ps.entityTarget(leanPeds[k], {
 		{
 			icon = "fa-solid fa-hand-holding-medical",
-			label = ps.lang('Lean.buylean'),
+			label = ps.lang('lean.startMission'),
 			action = function()
 				SpawnCarPedChase()
 			end,
+			canInteract = function()
+				if not handleGang(v.gang) then return false end
+				return true
+			end
 		},
 	})
 end

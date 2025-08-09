@@ -59,8 +59,11 @@ end)
 
 RegisterServerEvent('md-drugs:server:dryplant', function(num)
 	local src = source
-	if not ps.checkDistance(src, heroinLocations.dryplant[num].loc, 3.0) then return end
-	if not ps.hasItem(src, 'poppyresin', 1) then return end
+	if not ps.checkDistance(src, heroinLocations.dryplant[num].loc, 3.0) then 
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+		return
+	end
+
 	local tier = 'tier1'
 	if Config.TierSystem then
 		local heroin = getRep(src, 'heroin')
@@ -73,15 +76,17 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 		end
 	end
 	if not ps.craftItem(src, heroinRecipes['dryheroin'][tier]) then
-		ps.notify(src, 'You do not have the required items', 'error')
+		verifyHas(src, heroinRecipes['dryheroin'][tier].take)
 		return
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	local src = source
-	if not ps.checkDistance(src, heroinLocations.cutheroinone[num].loc, 3.0) then return end
-	if not ps.hasItem(src, 'bakingsoda', 1) then return end
+	if not ps.checkDistance(src, heroinLocations.cutheroinone[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+		return
+	end
 	if Config.TierSystem then
 		local itemList = {
 			heroin = 'tier1',
@@ -92,7 +97,7 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 			local cuth = ps.hasItem(src, k)
 			if cuth then
 				if not ps.craftItem(src, heroinRecipes['cutheroin'][v]) then
-					ps.notify(src, 'You do not have the required items', 'error')
+					verifyHas(src, heroinRecipes['cutheroin'][v].take)
 					return
 				end
 				AddRep(src, 'heroin')
@@ -101,7 +106,7 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 		end
 	else
 		if not ps.craftItem(src, heroinRecipes['cutheroin']['tier1']) then
-			ps.notify(src, 'You do not have the required items', 'error')
+			verifyHas(src, heroinRecipes['cutheroin']['tier1'].take)
 			return
 		end
 	end
@@ -109,13 +114,16 @@ end)
 
 RegisterServerEvent('md-drugs:server:getheroinlabkit', function(num)
 	local src = source
-	if not ps.checkDistance(src, heroinLocations.buyKit[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, heroinLocations.buyKit[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+		return
+	end
 	local has = ps.hasItem(src, 'heroinlabkit')
-	if has then ps.notify(src, Lang.Heroin.haskit, 'error') return end
+	if has then ps.notify(src, ps.lang('heroin.hasKitAlready'), 'error') return end
 	if ps.removeMoney(src, 'cash', prices.heroinlabkitprice) then
 		ps.addItem(src, 'heroinlabkit', 1)
 	else
-		ps.notify(src, 'You Need '.. prices.heroinlabkitprice .. ' In Cash For This', 'error')
+		ps.notify(src, ps.lang('heroin.notEnoughMoney', prices.heroinlabkitprice), 'error')
 	end
 end)
 
@@ -152,7 +160,7 @@ ps.createUseable('heroinlabkit', function(source, item)
 			coords = loc,
 			name = ps.getPlayerName(src)
 		})
-		ps.notify(src, ps.lang('Heroin.placed'), "success")
+		ps.notify(src, ps.lang('heroin.placedKit'), "success")
 	end
 end)
 
@@ -170,7 +178,7 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 			local cuth = ps.hasItem(src, k)
 			if cuth then
 				if not ps.craftItem(src, heroinRecipes['fillvial'][v]) then
-					ps.notify(src, 'You do not have the required items', 'error')
+					verifyHas(src, heroinRecipes['fillvial'][v].take)
 					return
 				end
 				AddRep(src, 'heroin')
@@ -178,7 +186,10 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 			end
 		end
 	else
-		if not ps.craftItem(src, heroinRecipes['fillvial']['tier1']) then return end
+		if not ps.craftItem(src, heroinRecipes['fillvial']['tier1']) then
+			verifyHas(src, heroinRecipes['fillvial']['tier1'].take)
+			return
+		end
 	end
 end)
 
@@ -194,7 +205,7 @@ RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 		local cuth = ps.hasItem(src, k)
 		if cuth then
 			ps.removeItem(src, k, v)
-			ps.notify(src, ps.lang('Heroin.fail'), "error")
+			ps.notify(src, ps.lang('heroin.failed'), "error")
 			return
 		end
 	end
@@ -202,8 +213,8 @@ end)
 
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
-	if not ps.checkDistance(src, GlobalState.MDDrugsLocs.fillneedle[num].loc, 3.0) then
-		ps.notify(src, ps.lang('Heroin.noloc'), 'error')
+	if not ps.checkDistance(src, heroinLocations.fillNeedle[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
 		return
 	end
 	if not ps.hasItem(src, 'needle', 1) then return end
@@ -216,14 +227,19 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 		for k, v in pairs(itemList) do
 			local vh = ps.hasItem(src, v.item)
 			if vh then
-				if not ps.craftItem(src, heroinRecipes['fillneedle'][v.tier]) then return end
+				if not ps.craftItem(src, heroinRecipes['fillneedle'][v.tier]) then
+					verifyHas(src, heroinRecipes['fillneedle'][v.tier].take)
+					return
+				end
 				AddRep(src, 'heroin')
 				return
 			end
 		end
-		ps.notify(src,Lang.Heroin.nofill, "error")
 	else
-		if not ps.craftItem(src, heroinRecipes['fillneedle']['tier1']) then return end
+		if not ps.craftItem(src, heroinRecipes['fillneedle']['tier1']) then
+			verifyHas(src, heroinRecipes['fillneedle']['tier1'].take)
+			return
+		end
 	end
 end)
 

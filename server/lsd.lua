@@ -47,7 +47,7 @@ RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
 	if timedOut[src] then return end
 	if not ps.checkDistance(src, lsdLocations.lysergicacid[num].loc, 2.0) then
-		ps.notify(src, ps.lang('lsd.notinloc'), "error")
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
 	end
 	timeout(src, 3000)
@@ -58,7 +58,7 @@ RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
 	if timedOut[src] then return end
 	if not ps.checkDistance(src, lsdLocations.diethylamide[num].loc, 2.0) then
-		ps.notify(src, Lang.lsd.notinloc, "error")
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
 	end
 	timeout(src, 3000)
@@ -109,7 +109,7 @@ RegisterServerEvent('md-drugs:server:heatliquid', function()
 	local src = source
 	if not hasLabKit(src) then return end
 	if not ps.craftItem(src, lsdRecipes['vial']['heat']) then
-		ps.notify(src, ps.lang('lsd.noliquid'), "error")
+		verifyHas(src, lsdRecipes['vial']['heat'].take)
 		return
 	end
 end)
@@ -119,14 +119,14 @@ RegisterServerEvent('md-drugs:server:failheating', function()
 	if not hasLabKit(src) then return end
 	ps.removeItem(src, 'lysergic_acid', 1)
 	ps.removeItem(src, 'diethylamide', 1)
-	ps.notify(src, ps.lang('prices.lsd.failed'), "error")
+	ps.notify(src, ps.lang('lsd.failed'), "error")
 end)
 
 
 RegisterServerEvent('md-drugs:server:refinequalityacid', function()
-local src = source
-if not hasLabKit(src) then return end
-if not ps.hasItem(src, 'lsd_one_vial', 1) then return end
+	local src = source
+	if not hasLabKit(src) then return end
+	if not ps.hasItem(src, 'lsd_one_vial', 1) then return end
 	if Config.TierSystem then
 		local lsd = getRep(src, 'lsd')
 		if ps.removeItem(src, 'lsd_one_vial', 1) then
@@ -170,25 +170,30 @@ end)
 
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
-	if not ps.checkDistance(src, lsdLocations.gettabs[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, lsdLocations.gettabs[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return
+	end
 	if ps.removeMoney(src, 'cash', prices.tabcost * 10) then
 		ps.addItem(src,'tab_paper', 10)
 	else
-		ps.notify(src, Lang.lsd.broke, "error")
+		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
 	end
 end)
  
 RegisterServerEvent('md-drugs:server:getlabkit', function(num)
 	local src = source
 	if ps.hasItem(src,'lsdlabkit', 1) then 
-		ps.notify(src, ps.lang('lsd.havlabkit'), 'error')
 		return
 	end
-	if not ps.checkDistance(src, lsdLocations.buyLSDkit[num].loc, 3.0) then return end
+	if not ps.checkDistance(src, lsdLocations.buyLSDkit[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return
+	end
 	if ps.removeMoney(src, 'cash', prices.lsdlabkitcost) then
 		ps.addItem(src,'lsdlabkit', 1)
 	else
-		ps.notify(src, Lang.lsd.broke, "error")
+		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
 	end
 end)
 

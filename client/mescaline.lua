@@ -2,11 +2,11 @@ local locations = ps.callback('md-drugs:server:GetMescalineLocs')
 for k, v in pairs (locations.DryOutMescaline) do
 	ps.boxTarget('dryoutMesc'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
 		{
-			label = ps.lang('mescaline.dry'),
+			label = ps.lang('mesc.targetDry'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
-				if not ps.hasItem('cactusbulb') then ps.notify(ps.lang('mescaline.needbulb'), 'error') return end
-				if not ps.progressbar(ps.lang('mescaline.dry'), 4000, 'drymescaline') then return end
+				if not ps.hasItem('cactusbulb') then ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('cactusbulb')), 'error') return end
+				if not ps.progressbar(ps.lang('mescaline.dry'), 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:drymescaline", k)
 			end,
 			canInteract = function()

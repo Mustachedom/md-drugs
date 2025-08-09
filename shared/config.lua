@@ -1,17 +1,12 @@
 Config = {} --Ignore.
 ps = exports.ps_lib:init()
-ps.loadLangs("wookie")
-Config.respawnTime = 3 -- Seconds
+ps.loadLangs("en")
+
+Config.respawnTime = 100 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
-Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
-Config.FancyCokeAnims = true -- if you want multi location this needs to be false
-
-Config.Joblock = false -- if you want weed to be a job
-Config.weedjob = "" -- what the job name is
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
-Config.MethHeist = false
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
 Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
 Config.WholesaleTimeout = 600 -- time in seconds to get to the location
@@ -52,11 +47,11 @@ Config.minigametype = 'ox' -- look above for options or choose none if you dont 
 --- 
 Config.Drugs = {
     cocaine = true,
-    consumables =false,
-    crack = true,
+    consumables = true,
     cornerselling = true,
+    crack = true,
+    deliveries = true,
     heroin = true,
-    deliveries = false,
     lean = true,
     lsd = true,
     mescaline = true,
@@ -64,6 +59,7 @@ Config.Drugs = {
     oxyruns = true,
     pharma = true,
     shrooms = true,
+    TravelingMerchant = true,
     weed = true,
     wholesale = false,
     xtc = true,

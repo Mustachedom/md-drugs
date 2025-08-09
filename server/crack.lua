@@ -27,7 +27,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
     local tier = 'tier1'
     if not ps.checkDistance(src, CrackLocations.makecrack[num].loc, 2.0) then
-        ps.notify(src, 'You are not in the correct location', 'error')
+        ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
     if Config.TierSystem then
@@ -44,7 +44,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
         end
     end
     if not ps.craftItem(src, crackRecipe['crack']['cookcrack'][tier]) then
-        ps.notify(src, 'You do not have the required items', 'error')
+        verifyHas(src, crackRecipe['crack']['cookcrack'][tier].take)
         return
     end
 end)
@@ -54,7 +54,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
     local src = source
     local tier = 'tier1'
     if not ps.checkDistance(src, CrackLocations.bagcrack[num].loc, 2.0) then
-        ps.notify(src, 'You are not in the correct location', 'error')
+        ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
     if Config.TierSystem then
@@ -71,7 +71,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
         end
     end
     if not ps.craftItem(src, crackRecipe['crack']['bagcrack'][tier]) then
-        ps.notify(src, 'You do not have the required items', 'error')
+        verifyHas(src, crackRecipe['crack']['bagcrack'][tier].take)
         return
     end
 end)
@@ -93,8 +93,8 @@ end
 
 RegisterNetEvent("md-drugs:server:failcrackone", function(num)
     local src = source
-    if not ps.checkDistance(src, GlobalState.MDDrugsLocs.makecrack[num].loc, 2.0) then
-        ps.notify(src, 'You are not in the correct location', 'error')
+    if not ps.checkDistance(src, CrackLocations.makecrack[num].loc, 2.0) then
+        ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
     local items = {

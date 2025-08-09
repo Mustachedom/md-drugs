@@ -13,8 +13,6 @@ client_scripts {
 
 server_scripts {
 	'server/functions.lua',
-	'server/locations.lua',
-	'server/recipes.lua',
 	'server/plantSpawns.lua',
 	'serverRun.lua',
 	'@oxmysql/lib/MySQL.lua',
@@ -22,7 +20,6 @@ server_scripts {
 
 shared_scripts {
 	'shared/**.lua',
-	'@ox_lib/init.lua',
 }
 
 lua54 'yes'

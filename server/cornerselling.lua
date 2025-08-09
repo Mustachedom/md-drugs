@@ -135,7 +135,7 @@ local function beingRobbed(source, item, amount, ped)
     local math = math.random(1,100)
     if math <= robChance then
         ps.removeItem(src, item, amount)
-        ps.notify(src, 'You Got Robbed Nerd', 'error')
+        ps.notify(src, ps.lang('Cornerselling.gotRobbed'), 'error')
         RobbedDrugs[ps.getIdentifier(source)] = {item = item, amount = amount, ped = ped}
         return true
     else
@@ -148,7 +148,7 @@ local function getDrugBack(source, item, amount)
     if RobbedDrugs[ps.getIdentifier(source)] then
         if RobbedDrugs[ps.getIdentifier(source)].item == item and RobbedDrugs[ps.getIdentifier(source)].amount == amount then
             ps.addItem(src, item, amount)
-            ps.notify(src, 'You Got Your Drugs Back', 'success')
+            ps.notify(src, ps.lang('Cornerselling.gotBack'), 'success')
             RobbedDrugs[ps.getIdentifier(source)] = nil
             return true
         end
@@ -170,7 +170,7 @@ ps.registerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(
                 if item > 15 then item = 15 end
                 local amount = math.random(1, item)
                 local price = (math.random(Drugs[k]['min'], Drugs[k]['max']) * amount) * rep.price
-                DrugDeals[ps.getIdentifier(source)] = {item = k, amount = amount, price = math.floor(price), ped = ped}     
+                DrugDeals[ps.getIdentifier(source)] = {item = k, amount = amount, price = math.floor(price), ped = ped}
                 return DrugDeals[ps.getIdentifier(source)]
             end
         end
@@ -180,7 +180,7 @@ end)
 
 ps.registerCallback('md-drugs:server:hasDrugs', function(source)
     for k, v in pairs(Drugs) do
-        if hasItem(source, k, 1) then
+        if ps.hasItem(source, k, 1) then
             return true
         end
     end
@@ -204,16 +204,15 @@ local function csCheck(src, item, amount, price)
     return false
 end
 
-RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price) 
+RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price)
     local src = source
     if not csCheck(src, item, amount, price) then return end
     if not ps.removeItem(src, item, amount) then
-        ps.notify(src, 'You Do Not Have Enough Of This Item', 'error')
+        ps.notify(src, ps.lang('Cornerselling.notEnough'), 'error')
         DrugDeals[ps.getIdentifier(src)] = nil
         return
     end
     AddRep(src, 'cornerselling', Drugs[item].rep * amount)
-    --Log(string.format('%s Sold %s Of %s For A Price Of $%s !', GetName(src),amount, item, price), 'cornerselling')
     DrugDeals[ps.getIdentifier(src)] = nil
     ps.addMoney(src, 'cash', price)
 end)
@@ -225,8 +224,8 @@ RegisterNetEvent('md-drugs:server:getBackRobbed', function()
     RobbedDrugs[ps.getIdentifier(source)] = nil
 end)
 
-lib.addCommand('cornersell', {
-    help = 'Sell Things On The Corner',
+ps.registerCommand('cornersell', {
+    help = ps.lang('Cornerselling.comDes'),
     params = {
     },
 }, function(source, args, raw)

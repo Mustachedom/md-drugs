@@ -42,7 +42,7 @@ end)
 RegisterServerEvent('md-drugs:server:makepowder', function(num)
     local src = source
     if not ps.checkDistance(src, cocaineLocations.MakePowder[num].loc, 3.5) then
-        ps.notify(src, 'You are not in the correct location', 'error')
+        ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
     local tier = 'tier1'
@@ -55,7 +55,7 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
         end
     end
     if not ps.craftItem(src, cocaineRecipes['cocaine']['cokepowder'][tier]) then
-        ps.notify(src, 'You do not have the required items', 'error')
+        verifyHas(src, cocaineRecipes['cocaine']['cokepowder'][tier].take)
         return
     end
 end)
@@ -64,7 +64,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
     local src = source
     local tier = 'tier1'
     if not ps.checkDistance(src, cocaineLocations.CuttingCoke[num].loc, 2.5) then
-        ps.notify(src, 'You are not in the correct location', 'error')
+        ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
     if Config.TierSystem then
@@ -81,7 +81,7 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
         end
     end
     if not ps.craftItem(src, cocaineRecipes['cocaine']['cutcoke'][tier]) then
-        ps.notify(src, 'You do not have the required items', 'error')
+        verifyHas(src, cocaineRecipes['cocaine']['cutcoke'][tier].take)
         return
     end
 end)
@@ -90,7 +90,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
     local src = source
     local tier = 'tier1'
     if not ps.checkDistance(src, cocaineLocations.BaggingCoke[num].loc, 2.5) then
-        ps.notify(src, 'You are not in the correct location', 'error')
+        ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
     if Config.TierSystem then
@@ -106,13 +106,13 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
             end
         end
         if not ps.craftItem(src, cocaineRecipes['cocaine']['bagcoke'][tier]) then
-            ps.notify(src, 'You do not have the required items', 'error')
+            verifyHas(src, cocaineRecipes['cocaine']['bagcoke'][tier].take)
             return
         end
         AddRep(src, 'coke')
     else
         if not ps.craftItem(src, cocaineRecipes['cocaine']['bagcoke'][tier]) then
-            ps.notify(src, 'You do not have the required items', 'error')
+            verifyHas(src, cocaineRecipes['cocaine']['bagcoke'][tier].take)
             return
         end
     end
@@ -122,7 +122,7 @@ local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
 for k, v in pairs (cokecut) do
 	ps.createUseable(k, function(source, item)
 		local src = source
-        if not ps.hasItem(src, 'bakingsoda') then ps.notify(src, 'You Need Baking Soda For this', 'error') return end
+        if not ps.hasItem(src, 'bakingsoda') then ps.notify(src, ps.lang('coke.needBakingSoda'), 'error') return end
 		 if ps.hasItem(src,item.name) then
               local check = ps.callback('md-drugs:client:uncuff', src, 'Cutting It Further')
              if not check then return end

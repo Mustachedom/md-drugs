@@ -14,15 +14,33 @@ local Price = {
     heroin = {min = 20, max = 60},
     xtc =    {min = 20, max = 60},
 }
+local locs = {
+    vector4(-2352.32, 266.78, 165.3, 23.46),
+    vector4(-1467.49, 874.01, 183.59, 298.45),
+    vector4(-856.71, 874.26, 202.85, 205.3),
+    vector4(950.58, -128.49, 74.42, 205.3),
+    vector4(1152.71, -328.43, 69.21, 205.3),
+	vector4(112.66, -1955.67, 20.75, 37.94),
+	vector4(-544.4, -1684.8, 19.89, 252.07),
+	vector4(-1185.02, -1805.4, 3.91, 184.83),
+	vector4(-1641.4, -981.99, 7.58, 35.38),
+	vector4(-1827.93, 782.36, 138.29, 219.99),
+	vector4(-320.84, 2818.73, 59.45, 337.22),
+	vector4(474.88, 2609.56, 44.48, 357.0),
+}
+function getRandW(src)
+    local rand = math.random(1, #locs)
+    return locs[rand]
+end
 
 for k, v in pairs (burners) do 
-    CUI(k, function(source, item)
+    ps.createUseable(k, function(source, item)
         local src = source
         local Player = getPlayer(src)
-        if getCops() < Config.PoliceCount then return ps.notify(src, Lang.Wholesale.na, 'error') end
+        if getCops() < Config.PoliceCount then return ps.notify(src, ps.lang('wholesale.notEnoughCops'), 'error') end
         for m, d in pairs (active) do 
             if d.cid == Player.PlayerData.citizenid then
-                return ps.notify(src, Lang.Wholesale.al, 'error' )
+                return ps.notify(src, ps.lang('wholesale.alreadyWholesale'), 'error' )
             end
         end
         local tab = ''
@@ -31,17 +49,17 @@ for k, v in pairs (burners) do
         if k == 'lsdburner' then tab = 'lsd' end
         if k == 'heroinburner' then tab = 'heroin' end
         if k == 'xtcburner' then tab = 'xtc' end
-        if RemoveItem(src, k, 1) then
+        if ps.removeItem(src, k, 1) then
             table.insert(active, {
                 src = src,
                 item = k,
                 location = getRandW(src),
-                cid = Player.PlayerData.citizenid,
+                cid = ps.getIdentifier(src),
                 type = v,
                 price = Price[tab]
             })
             for m, d in pairs (active) do 
-                if d.cid == Player.PlayerData.citizenid then
+                if d.cid == ps.getIdentifier(src) then
                     TriggerClientEvent("md-drugs:client:GetLocation", src, active[m])
                 end
             end
@@ -51,15 +69,18 @@ end
 
 RegisterNetEvent('md-drugs:server:SuccessSale', function(data)
     local src = source
-    local Player = getPlayer(src)
-    for k, v in pairs (active) do 
-        if v.cid == Player.PlayerData.citizenid then
+    for k, v in pairs (active) do
+        if v.cid == ps.getIdentifier(src) then
+            if not ps.checkDistance(src, v.location, 4.0) then 
+                return ps.notify(src, ps.lang('Catches.notIn'), "error")
+            end
             local payout = math.random(v.price.min, v.price.max)
-            for m, d in pairs (v.type) do 
-                local git = Player.Functions.GetItemByName(d)
-                if git and git.amount >= 1 then 
-                    RemoveItem(src, d, git.amount)
-                    Player.Functions.AddMoney('cash', git.amount * payout)
+            for m, d in pairs (v.type) do
+                local git = ps.getItemCount(src, d)
+                if git >= 1 then 
+                    if ps.removeItem(src, d, git) then
+                        ps.addMoney('cash', git * payout)
+                    end
                 end
                 table.remove(active, k)
             end

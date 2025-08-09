@@ -114,14 +114,14 @@ end
 for k, v in pairs (locations.MakePowder) do
     ps.boxTarget('cocaplant'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
-            label = ps.lang('.targets.coke.pick'),
+            label = ps.lang('coke.makePow'),
             icon = 'fa-solid fa-seedling',
             action = function()
                 if not ps.hasItem('coca_leaf') then
-                    ps.notify('You Need A Coke Leaf')
+                    ps.notify(ps.lang('coke.noleaf'), 'error')
                     return
                 end
-                if not ps.progressbar(ps.lang('Coke.makepow'), 4000, 'uncuff') then return end
+                if not ps.progressbar(ps.lang('coke.makePow'), 4000, 'uncuff') then return end
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
             canInteract = function()
@@ -134,7 +134,7 @@ end
 for k, v in pairs (locations.CuttingCoke) do
     ps.boxTarget('cutcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
         {
-            label = ps.lang('targets.coke.cut'),
+            label = ps.lang('coke.targetCutCoke'),
             icon = 'fa-solid fa-mortar-pestle',
             action = function()
                 CutCoke(v.loc, v.offset, v.rotation)
@@ -151,7 +151,7 @@ end
 for k, v in pairs (locations.BaggingCoke) do
     ps.boxTarget('bagcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
         {
-            label = ps.lang('targets.coke.bag'),
+            label = ps.lang('coke.targetBagCoke'),
             icon = 'fa-solid fa-sack-xmark',
             action = function()
                 BagCoke(v.loc, v.offset, v.rotation)
@@ -169,19 +169,25 @@ for k, v in pairs (locations.cokeTele) do
 	ps.boxTarget('coke_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-door-open',
-			label = ps.lang('targets.coke.telein'),
+			label = ps.lang('coke.teleOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
-			end
+			end,
+			canInteract = function()
+                return handleGang(v.gang)
+            end
 		}
 	})
 	ps.boxTarget('coke_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-door-closed',
-			label = ps.lang('targets.coke.teleout'),
+			label = ps.lang('coke.teleIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)
-			end
+			end,
+			canInteract = function()
+                return handleGang(v.gang)
+            end
 		}
 	})
 end

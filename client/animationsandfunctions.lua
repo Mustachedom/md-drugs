@@ -87,25 +87,3 @@ function AlienEffect()
     StopScreenEffect("DrugsMichaelAliensFight")
     StopScreenEffect("DrugsMichaelAliensFightOut")
 end
-
-function SetUpPeds()
-	AddRelationshipGroup('setups')
-	local ped = GetEntityCoords(PlayerPedId())
-	local peds = {
-		{x = ped.x+3, y = ped.y-5,  z = ped.z-1, },
-		{x = ped.x+6, y = ped.y-10, z =  ped.z-1,},
-		{x = ped.x+-2,y =  ped.y+5, z =  ped.z-1,},
-		{x = ped.x+8, y = ped.y-12, z =  ped.z-1,},
-		{x = ped.x+5, y = ped.y-2,  z = ped.z-1, },
-		{x = ped.x+2, y = ped.y-20, z =  ped.z-1,},
-		{x = ped.x+1, y = ped.y-10, z =  ped.z-1,},
-	}
-	for i = 1, #peds do 
-		local k = peds[i] 
-		i = CreatePed(0, "g_m_y_famdnf_01", k.x, k.y, k.z, 90.0, true, true)
-		SetPedRelationshipGroupHash(i, 'setups')
-		GiveWeaponToPed(i, "weapon_pistol", 1, false, true)
-		TaskCombatPed(i, PlayerPedId(), 0, 16)
-		SetPedCombatAttributes(i, 46, true)
-	end
-end

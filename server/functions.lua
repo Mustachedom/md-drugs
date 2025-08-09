@@ -1,13 +1,36 @@
+function verifyHas(source, items)
+    local need = 0
+    local have = 0
+    local missingList = {}
 
------------------------------------------- logging stuff
-local logs = false 
-local logapi = GetConvar("fivemerrLogs", "")
-local endpoint = 'https://api.fivemerr.com/v1/logs'
-local headers = {
-    ['Authorization'] = logapi,
-    ['Content-Type'] = 'application/json',
-}
+    for k, v in pairs(items) do
+        need = need + 1
+        if ps.hasItem(source, k, v) then
+            have = have + 1
+        else
+            local label = ps.getItemLabel(k) or k
+            table.insert(missingList, v .. " " .. label)
+        end
+    end
 
+    if need == have then
+        return true
+    end
+
+    local message = ps.lang('Catches.itemMissings') .. table.concat(missingList, "\n")
+    ps.notify(source, message, 'error')
+    return false
+end
+
+RegisterCommand('TestMissing', function(source)
+    local items = {
+        coke = 5,
+        heroin = 2,
+        lsd = 1
+    }
+    local src = source
+    verifyHas(src, items)
+end)
 
 local function handleFresh(source)
     local table = json.encode({
@@ -68,66 +91,12 @@ function AddRep(source, type, amount)
     end
 end
 
-lib.addCommand('addCornerSellingTOREP', {
-    help = 'RUN THIS ONCE AND DELETE',
-    restricted = 'group.admin'
-}, function(source, args, raw)
-    local sql = MySQL.query.await('SELECT * FROM drugrep', {})
-    for k, v in pairs (sql) do 
-      local new = {}
-      local old = json.decode(v.drugrep)
-      local get = old[1] or old
-      table.insert(new, {
-        coke = get.coke,
-        lsd = get.lsd,
-        heroin = get.heroin,
-        dealerrep = get.dealerrep,
-        cornerselling = {
-            price = QBConfig.SellLevel[1].price,
-            rep = 0,
-            label = QBConfig.SellLevel[1].label,
-            level = 1
-        }
-      })
-      local news = json.encode(new)
-      MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {news, v.cid})
-    end
-end)
-
-function sortTab(tbl, type)
-    table.sort(tbl, function(a, b)
-        return a[type] < b[type]
-    end)
-end
-
-function handleCornersell(source, item, amount, price)
-    if RemoveItem(source, item, amount) then
-        if inventory == 'qb' then
-            local Player = getPlayer(source)
-            if QBConfig.MarkedBills == true then 
-                Player.Functions.AddItem('markedbills',1,false, {worth = price})
-                return true
-            end
-            if QBConfig.CustomDirtyMoney == true then
-                AddItem(source, QBConfig.CustomDirtyMoneyitem,price)
-                return true
-            end
-            Player.Functions.AddMoney('cash', price)
-        elseif inventory == 'ox' then
-            AddItem(source, 'black_money', price)
-            return true
-        end
-    else
-        return false
-    end
-end
-
-lib.callback.register('md-drugs:server:GetCoppers', function(source, cb, args)
-   return getCops()
+ps.registerCallback('md-drugs:server:GetCoppers', function(source, cb, args)
+   return ps.getJobTypeCount('leo')
 end)
 
 ps.registerCallback('md-drugs:server:GetRep', function(source, cb, args)
-    local rep = GetAllRep(source) 
+    local rep = GetAllRep(source)
     return rep
 end)
 

@@ -13,50 +13,24 @@ function loadParticle(dict)
     SetPtfxAssetNextCall(dict)
 end
 
-function LoadModel(hash)
-	RequestModel(hash)
-	while not HasModelLoaded(hash)  do
-		Wait(0)
-	end
-end
-
 function minigame()
 	local time = 0
 	local game = Config.Minigames
 	if minigametype == 'ps_circle' then
-		local check 
-		exports['ps-ui']:Circle(function(success)
-			check = success
-		end, game['ps_circle'].amount, game['ps_circle'].speed) 
+		local check = exports['ps-ui']:Circle(false, game['ps_circle'].amount, game['ps_circle'].speed)
 		return check
 	elseif minigametype == 'ps_maze' then
-	   local check 
-	   exports['ps-ui']:Maze(function(success)
-		   check = success
-	   end, game['ps_maze'].timelimit)
-	   repeat Wait(10) until check ~= nil
+	   local check = exports['ps-ui']:Maze(false, game['ps_maze'].timelimit)
 	   return check
    elseif minigametype == 'ps_scrambler' then
-	   local check 
-	   exports['ps-ui']:Scrambler(function(success)
-		   check = success
-	   end, game['ps_scrambler'].type,  game['ps_scrambler'].time, game['ps_scrambler'].mirrored)
-	   repeat Wait(10) until check ~= nil
+	   local check = exports['ps-ui']:Scrambler(false, game['ps_scrambler'].type,  game['ps_scrambler'].time, game['ps_scrambler'].mirrored)
 	   return check
    elseif minigametype == 'ps_var' then
-	   local check 
-	   exports['ps-ui']:VarHack(function(success)
-		   check = success
-	   end, game['ps_var'].numBlocks,  game['ps_var'].time)
-	   repeat Wait(10) until check ~= nil
+	   local check = exports['ps-ui']:VarHack(false, game['ps_var'].numBlocks,  game['ps_var'].time)
 	   return check
    elseif minigametype == 'ps_thermite' then
-	   local check 
-	   exports['ps-ui']:Thermite(function(success)
-		   check = success
-	   end, game['ps_thermite'].time,  game['ps_thermite'].gridsize, game['ps_thermite'].incorrect)
-	   repeat Wait(10) until check ~= nil
-	   return check
+	   local check = exports['ps-ui']:Thermite(false, game['ps_thermite'].time,  game['ps_thermite'].gridsize, game['ps_thermite'].incorrect)
+	   return check	
 	elseif minigametype == 'ox' then
 		local success = lib.skillCheck(game['ox'], {'1', '2', '3', '4'})
 		return success 
@@ -129,63 +103,6 @@ function sorter(sorting, value)
 	table.sort(sorting, function(a, b) return a[value] < b[value] end)
 end
 
-function makeMenu(name, rep)
-	local menu = {}
-	local data = ps.callback('md-drugs:server:menu', name)
-	for k, v in pairs (data.table) do
-		local allow = false
-		if rep == nil then 
-			allow = true
-		else
-			if rep.dealerrep >= v.minrep then allow = true end
-		end
-		if allow then 
-			menu[#menu + 1] = {
-				icon =  GetImage(v.name),
-				description = '$'.. v.price,
-				title = GetLabel(v.name),
-				onSelect = function()
-					local settext = "Cost: $"..v.price
-					local dialog = exports.ox_lib:inputDialog(v.name .."!",   {
-						{ type = 'select', label = "Payment Type", default = "cash", options = {	{ value = "cash"},	{ value = "bank"},}},
-						{ type = 'number', label = "Amount to buy", description = settext, min = 0, max = v.amount, default = 1 },
-					})
-					if not dialog[1] then return end
-					TriggerServerEvent("md-drugs:server:purchaseGoods", dialog[2], dialog[1], v.name, v.price, data.table, k)
-				end,
-			}
-		end
-	end
-	sorter(menu, 'title')
-	lib.registerContext({id = data.id, title = data.title, options = menu})
-end
-
-
-function Email(sender, subject, message)
-	if Config.Phone == 'yflip' then
-		local receiver = GetPlayerServerId(PlayerId())
-		local insertId, received = exports["yflip-phone"]:SendMail({
-			title = subject,
-			sender = sender,
-			senderDisplayName = sender,
-			content = message,
-		}, 'phoneNumber', receiver)
-	elseif Config.Phone == 'qs' then
-		TriggerServerEvent('qs-smartphone:server:sendNewMail', {
-   		sender = sender,
-   		subject = subject,
-    		message = message,
-    		button = {}
-		})
-	else
-		TriggerServerEvent('qb-phone:server:sendNewMail', {
-			sender = sender,
-			subject = subject,
-			message = message,
-		})
-	end
-end
-
 function PoliceCall(chance)
 	local math = math.random(1,100)
 	if math <= chance then
@@ -242,28 +159,18 @@ function Freeze(entity, toggle, head)
 	SetBlockingOfNonTemporaryEvents(entity, toggle)
 end
 
-function tele(coords) 
-	DoScreenFadeOut(500)
-	Wait(1000)
-	SetEntityCoords(PlayerPedId(),coords.x, coords.y, coords.z)
-	Wait(1000)
-	DoScreenFadeIn(500)
-end
-
-
-
 local created = false
 local heading = 180.0
 function StartRay()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
-	lib.requestModel('v_ret_ml_tablea', 30000)
+	ps.requestModel('v_ret_ml_tablea', 30000)
 	local table = CreateObject('v_ret_ml_tablea', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
-        local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
+        local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
 		if not created then 
 			created = true
-			lib.showTextUI([[[E] To Place   
+			ps.drawText([[[E] To Place   
 			[DEL] To Cancel  
 			[<-] To Move Left  
 			[->] To Move Right]])
@@ -280,7 +187,7 @@ function StartRay()
             heading = heading + 2
         end
         if IsControlPressed(0, 38) then
-            lib.hideTextUI()
+            ps.hideText()
             run = false
 			DeleteObject(table)
 			created = false
@@ -288,7 +195,7 @@ function StartRay()
         end
 
         if IsControlPressed(0, 178) then
-            lib.hideTextUI()
+            ps.hideText()
             run = false
 			created = false
 			DeleteObject(table)
@@ -301,13 +208,13 @@ end
 function StartRay2()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
-	lib.requestModel('bkr_prop_coke_press_01aa', 30000)
+	ps.requestModel('bkr_prop_coke_press_01aa', 30000)
 	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
-        local hit, entityHit, endCoords, surfaceNormal, matHash = lib.raycast.cam(511, 4, 10)
+        local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
 		if not created then 
 			created = true
-			lib.showTextUI([[[E] To Place   
+			ps.drawText([[[E] To Place   
 			[DEL] To Cancel  
 			[<-] To Move Left  
 			[->] To Move Right]])
@@ -324,7 +231,7 @@ function StartRay2()
             heading = heading + 2
         end
         if IsControlPressed(0, 38) then
-            lib.hideTextUI()
+            ps.hideText()
             run = false
 			DeleteObject(table)
 			created = false
@@ -332,7 +239,7 @@ function StartRay2()
         end
 
         if IsControlPressed(0, 178) then
-            lib.hideTextUI()
+            ps.hideText()
             run = false
 			created = false
 			DeleteObject(table)
@@ -343,10 +250,10 @@ function StartRay2()
 end
 
 CreateThread(function()
-	LoadModel('prop_plant_01b')
-	LoadModel('prop_plant_01a')
-	LoadModel('prop_cactus_03')
-	LoadModel('prop_weed_01')
+	ps.requestModel('prop_plant_01b')
+	ps.requestModel('prop_plant_01a')
+	ps.requestModel('prop_cactus_03')
+	ps.requestModel('prop_weed_01')
 	TriggerEvent('weed:init')
 	TriggerEvent('heroin:init')
 	TriggerEvent('coke:init')
@@ -363,18 +270,13 @@ end)
 RegisterCommand('DrugRep', function()
 	if not Config.TierSystem then return end
 	local rep = ps.callback('md-drugs:server:GetRep', false)
-	lib.registerContext({
-		id = 'DrugRep',
-		title = 'Drug Reputation',
-		options = {
-		  {icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
-		  {icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
-		  {icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
-		  {icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
-		  {icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
-		}
-	  })
-	  lib.showContext('DrugRep')
+	ps.menu('Drug Rep', 'Drug Rep', {
+		{icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
+		{icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
+		{icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
+		{icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
+		{icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
+	})
 end, false)
 
 function handleGang(gang)

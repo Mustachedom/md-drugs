@@ -9,19 +9,19 @@ end
 
 ps.registerCallback('md-drugs:client:setpress', function(xtcData)
     if xtcpress then
-        ps.notify(Lang.xtc.out, 'error')
+        ps.notify(ps.lang('xtc.alreadyOut'), 'error')
         return
     end
     local coords, head = StartRay2()
     xtcpress = true
-	if not ps.progressbar('Setting Press On The Ground', 4000, 'uncuff') then return end
+	if not ps.progressbar(ps.lang('xtc.settingDown'), 4000, 'uncuff') then return end
 	local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	PlaceObjectOnGroundProperly(press)
     Freeze(press, true, head)
       local options = {
           {
             icon = "fas fa-eye",
-            label = ps.lang('targets.xtc.make'),
+            label = ps.lang('xtc.targetMake'),
             distance = 2.0,
             action = function()
                 local options = {}
@@ -33,7 +33,7 @@ ps.registerCallback('md-drugs:client:setpress', function(xtcData)
                         description = descript,
                         action = function()
                             if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                            if not ps.progressbar(string.format(ps.lang('xtc.make'), ps.getLabel(k)), 4000, 'uncuff') then return end
+                            if not ps.progressbar(ps.lang('xtc.making', ps.getLabel(k)), 4000, 'uncuff') then return end
                             TriggerServerEvent("md-drugs:server:makextc", k)
                         end,
                         distance = 2.0
@@ -47,9 +47,9 @@ ps.registerCallback('md-drugs:client:setpress', function(xtcData)
           },
           {
             icon = "fas fa-eye",
-            label = ps.lang('targets.xtc.pick'),
+            label = ps.lang('xtc.targetPickup'),
             action = function()
-               if not ps.progressbar(ps.lang('xtc.pickup'), 5000, 'uncuff') then return end
+               if not ps.progressbar(ps.lang('xtc.picking'), 5000, 'uncuff') then return end
                DeleteObject(press)
                xtcpress = false
                TriggerServerEvent("md-drugs:server:getpressback")
@@ -67,11 +67,14 @@ for k, v in pairs(locations.mdp2p) do
     ps.boxTarget('mdp2p'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('targets.xtc.mdp2p'),
+            label = ps.lang('xtc.targetStealMDP2P'),
             action = function()
                 if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.mdp2p'), 4000, 'uncuff') then return end
+                if not ps.progressbar(ps.lang('xtc.stealingMDP2P'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:stealmdp2p", k)
+            end,
+            canInteract = function()
+                return handleGang(v.gang)
             end
         }
     })
@@ -80,11 +83,14 @@ for k, v in pairs(locations.isosafrole) do
     ps.boxTarget('isosafrole'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('targets.xtc.isosafrole'),
+            label = ps.lang('xtc.targetStealIsosafrole'),
             action = function()
                 if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.isosafrole'), 4000, 'uncuff') then return end
+                if not ps.progressbar(ps.lang('xtc.stealingIsosafrole'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:stealisosafrole", k)
+            end,
+            canInteract = function()
+                return handleGang(v.gang)
             end
         }
     })
@@ -94,11 +100,14 @@ for k, v in pairs(locations.rawxtcloc) do
     ps.boxTarget('xtc'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('targets.xtc.raw'),
+            label = ps.lang('xtc.targetRaw'),
             action = function()
                 if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.raw'), 4000, 'uncuff') then return end
+                if not ps.progressbar(ps.lang('xtc.makingRaw'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:makingrawxtc", k)
+            end,
+            canInteract = function()
+                return handleGang(v.gang)
             end
         }
     })
@@ -111,7 +120,7 @@ for k, v in pairs(locations.xtcpress) do
     ps.entityTarget(ped, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('targets.xtc.press'),
+            label = ps.lang('xtc.getPress'),
             action = function()
                 local options = {}
                 local recipeList = ps.callback('md-drugs:server:getpressrecipes')
@@ -120,14 +129,13 @@ for k, v in pairs(locations.xtcpress) do
                         options[#options + 1] = {
                           icon = ps.getImage(m),
                           title = ps.getLabel(m),
-                          description = ps.lang('xtc.press.buysingle', d.cash),
+                          description = ps.lang('xtc.buySingle', d.cash),
                           action = function()
                             if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
                             TriggerServerEvent('md-drugs:server:buypress', m)
                           end,
                         }
                     else
-                        ps.debug(d.take)
                         local descript = getRecipeList(d.take)
                         options[#options + 1] = {
                             icon = ps.getImage(m),
@@ -142,7 +150,8 @@ for k, v in pairs(locations.xtcpress) do
                     end
                 end
                 ps.menu('XTC Presses', 'XTC Presses', options)
-            end
+            end,
+             canInteract = function() return handleGang(v.gang) end
         }
     })
 end
@@ -151,7 +160,7 @@ for k, v in pairs (locations.stamp) do
     ps.boxTarget('xtc'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('targets.xtc.' .. k),
+            label = ps.lang('xtc.targetStamp'),
             action = function()
                 local item = {
                     {item = 'white_xtc', label = ps.getLabel('white_xtc'), color = 'white'},
@@ -167,14 +176,15 @@ for k, v in pairs (locations.stamp) do
                         description = ps.lang('xtc.stamp_desc', d.color),
                         action = function()
                             if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                            if not ps.progressbar(string.format(ps.lang('xtc.stamp'), d.label), 4000, 'uncuff') then return end
+                            if not ps.progressbar(ps.lang('xtc.stamping'), d.label, 4000, 'uncuff') then return end
                             TriggerServerEvent("md-drugs:server:stamp", k, d.color)
                         end,
                         distance = 2.0
                     }
                 end
                 ps.menu('Stamp Pills', 'Stamp Pills', options)
-            end
+            end,
+            canInteract = function() return handleGang(v.gang) end
         }
     })
 end

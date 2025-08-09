@@ -1,10 +1,11 @@
 local carryPackage = nil
 local onMission = false
 local locations = ps.callback('md-drugs:server:GetOxyLocs')
+
 local function getRoute()
 	local Route = ps.callback('md-drugs:server:getRoute')
     if not Route then
-		ps.notify(ps.lang('oxy.done'), "success")
+		ps.notify(ps.lang('oxy.ditchCar'), "error")
 		onMission = false
 		return false
 	end
@@ -23,11 +24,11 @@ local function getRoute()
 	PoliceCall(Config.PoliceAlertOxy)
 	ps.entityTarget(oxybuyer,{
 		{ 
-			label = ps.lang('targets.oxy.talk'),
+			label = ps.lang('oxy.targetHandoff'),
 			icon = "fa-solid fa-dollar-sign",
 			action = function()
 				if carryPackage then
-					if not ps.progressbar(ps.lang('oxy.hand'), 4000, 'uncuff') then return end
+					if not ps.progressbar(ps.lang('oxy.handingoff'), 4000, 'uncuff') then return end
 					TriggerServerEvent("md-drugs:server:giveoxybox")
 					DeleteEntity(oxybuyer)
 					DetachEntity(carryPackage, true, true)
@@ -35,7 +36,7 @@ local function getRoute()
 					carryPackage = nil
 					getRoute()
 				else
-					ps.notify(ps.lang('oxy.empty'), "error")
+					ps.notify(ps.lang('oxy.emptyHands'), "error")
 				end
 			end
 		}
@@ -46,7 +47,7 @@ for k, v in pairs(locations.OxyPayForTruck) do
 	ps.boxTarget('oxyTruckPur' ..k , v.loc, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-truck-fast',
-			label = ps.lang('targets.oxy.buytruck'),
+			label = ps.lang('oxy.targetPay'),
 			action = function()
 				ps.requestModel("burrito3", Config.RequestModelTime)
 
@@ -56,17 +57,17 @@ for k, v in pairs(locations.OxyPayForTruck) do
 
     			exports[Config.Fuel]:SetFuel(oxycar, 100.0)
     			TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(oxycar))
-				ps.notify(ps.lang('oxy.truck'), 'success')
+				ps.notify(ps.lang('oxy.keys'), 'success')
 				onMission = true
 				getRoute()
 
 				ps.entityTarget(oxycar,  {
 					{
 						icon = "fa-solid fa-box",
-						label = ps.lang('targets.oxy.pack'),
+						label = ps.lang('oxy.targetGetPackage'),
 						action = function()
 							if carryPackage then
-								ps.notify(ps.lang('oxy.cantcarry'), "error")
+								ps.notify(ps.lang('oxy.alreadyCarrying'), "error")
 							else
 								local pos = GetEntityCoords(PlayerPedId(), true)
 								ps.requestAnim('anim@heists@box_carry@')
@@ -76,6 +77,9 @@ for k, v in pairs(locations.OxyPayForTruck) do
 								AttachEntityToEntity(carryPackage, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.05, 0.1, -0.3, 300.0, 250.0, 20.0, true, true, false, true, 1, true)
 							end
 						end,
+						canInteract = function()
+							return handleGang(v.gang)
+						end
 					}
 				})
 			end,

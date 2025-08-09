@@ -7,6 +7,7 @@ local pharmaLocations = {
 ps.registerCallback('md-drugs:server:GetPharmaLocs', function()
 	return pharmaLocations
 end)
+
 local function GetJob(source)
 	local src = source
 	return ps.getJobType(src) == 'ems'
@@ -17,15 +18,14 @@ ps.createUseable('prescription_pad', function(source, item)
 	local near = {}
 	if GetJob(src) then
 		near = ps.getNearbyPlayers(src, 5.0)
-
 		local options = { 
-			{label = 'Vicodin',  value = 'vicodin_prescription'},
-			{label = 'Adderal',  value = 'adderal_prescription'},
-			{label = 'Morphine', value = 'morphine_prescription'},
-			{label = 'Xanax',    value = 'xanax_prescription'}
+			{label = ps.getItemLabel('vicodin_prescription'),  value = 'vicodin_prescription'},
+			{label = ps.getItemLabel('adderal_prescription'),  value = 'adderal_prescription'},
+			{label = ps.getItemLabel('morphine_prescription'), value = 'morphine_prescription'},
+			{label = ps.getItemLabel('xanax_prescription'),    value = 'xanax_prescription'}
 		}
 		local data = ps.callback('md-drugs:client:prescriptionpad', src, near, options)
-		if not data then return ps.notify(src, ps.lang('Pharma.cancel'), "error") end
+		if not data then return ps.notify(src, ps.lang('pharma.canceled'), "error") end
 		ps.addItem(ps.getSource(data.who), data.what, 1)
 	end
 end)
@@ -46,7 +46,7 @@ for m, d in pairs (pharmabottle) do
 				if d == k then
 					if ps.removeItem(src, d, 1) then
 						ps.addItem(src, v, math.random(10,30))
-						ps.notify(src,ps.lang('Pharma.unbottle'), "success")
+						ps.notify(src,ps.lang('pharma.unbottle'), "success")
 					end
 				end
 			end
@@ -57,7 +57,7 @@ end
 RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
 	if not ps.checkDistance(src, pharmaLocations.FillPrescription[num].loc, 3.5) then
-		return ps.notify(src, ps.lang('Pharma.toofar'), "error")
+		return ps.notify(src, ps.lang('Catches.notIn'), "error")
 	end
 	local pres = {
 		vicodin_prescription = 'vicodinbottle',

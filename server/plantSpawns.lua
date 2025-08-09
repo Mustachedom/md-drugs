@@ -12,7 +12,7 @@ local drugModelsBuzz = {
     weed = "bzzz_plant_weed_pot_green_d"
 }
 local function propsLabels(drugType)
-    if Config.Buzz[drugType] then
+    if Config.Bzz[drugType] then
         return drugModelsBuzz[drugType]
     else
         return drugModels[drugType]

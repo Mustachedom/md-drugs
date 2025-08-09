@@ -34,9 +34,19 @@ local methLocs = {
 	}
 }
 
+local methRecipes = {
+	cook = {
+		heat = {take = {ephedrine = 1, acetone = 1}, give = {}}
+	},
+	bag = {
+		bags = {take = {empty_weed_bag = 5}, give = {methbags = 5} }
+	}
+}
+
 ps.registerCallback('md-drugs:server:GetMethLocs', function(source)
 	return methLocs
 end)
+
 local function setTimeout(identifier)
 	if onRun[identifier] then
 		CreateThread(function()
@@ -62,7 +72,7 @@ end
 RegisterServerEvent('md-drugs:server:givemethingridients', function()
 	local src = source
 	local amount = math.random(1,5)
-	if not onRun[ps.getIdentifier(src)] then return ps.notify(src, Lang.lean.err, "error") end
+	if not onRun[ps.getIdentifier(src)] then return ps.notify(src, ps.lang('meth.notOnRun'), "error") end
 	onRun[ps.getIdentifier(src)] = onRun[ps.getIdentifier(src)] + 1
 	if math.random(1,100) <= 50 then
 		ps.addItem(src, "ephedrine", amount)
@@ -74,41 +84,51 @@ RegisterServerEvent('md-drugs:server:givemethingridients', function()
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:startcook', function(num)
-  	local src = source
-	if not GetRecipe(source, 'meth', 'cook', 'heat') then return end
-	ps.notify(src, "Adding Things To The Mix", "success")
-end)
 
 RegisterServerEvent('md-drugs:server:getmeth', function(num)
   	local src = source
-	if not ps.checkDistance(src, methLocs.BagMeth[num].loc, 2.5) then return end
-	if not GetRecipe(src, 'meth', 'bag', 'bags') then return end
+	if not ps.checkDistance(src, methLocs.BagMeth[num].loc, 2.5) then
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return
+	end
+	if not ps.craftItem(src, methRecipes.meth.bag.bags) then
+		verifyHas(src, methRecipes.meth.bag.bags.take)
+		return
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:geteph', function(num)
 	local src = source
-	if not ps.checkDistance(src, methLocs.MethEph[num].loc, 2.5) then return end
-	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.wait'), "error") end
-	if ps.addItem(src, 'ephedrine', 1) then
-		ps.notify(src, 'Got Ephedrine!', "success")
+	if not ps.checkDistance(src, methLocs.MethEph[num].loc, 2.5) then
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return
 	end
+	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.onCooldown'), "error") end
+	ps.addItem(src, 'ephedrine', 1) 
 end)
 
 RegisterServerEvent('md-drugs:server:getace', function(num)
 	local src = source
-	if not ps.checkDistance(src, methLocs.MethAce[num].loc, 2.5) then return end
-	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.wait'), "error") end
-	if ps.addItem(src, 'acetone', 1) then
-		ps.notify(src, 'Got Acetone!', "success")
+	if not ps.checkDistance(src, methLocs.MethAce[num].loc, 2.5) then
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return
 	end
+	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.onCooldown'), "error") end
+	ps.addItem(src, 'acetone', 1)
 end)
 
 ps.registerCallback('md-drugs:server:startcook', function(source, num)
 	local src = source
-	if not ps.checkDistance(src, methLocs.CookMeth[num].loc, 2.5) then return false end
-	local recipe = GetRecipe(src, 'meth', 'cook', 'heat')
-	return recipe
+	if not ps.checkDistance(src, methLocs.CookMeth[num].loc, 2.5) then
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return false
+	end
+	local recipe = ps.craftItem(src, methRecipes.meth.cook.heat)
+	if not recipe then
+		verifyHas(src, methRecipes.meth.cook.heat.take)
+		return false
+	end
+	return true
 end)
 
 ps.registerCallback('md-drugs:server:registerMeth', function(source)

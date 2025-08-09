@@ -1,8 +1,8 @@
 
 
 ps.registerCallback('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
-	if not progressbar(progresstext .. GetLabel(item).. "!", time, anim ) then return end
-	for k, v in pairs (status) do 
+	if not progressbar(progresstext .. ps.getLabel(item).. "!", time, anim ) then return end
+	for k, v in pairs (status) do
 		if k == 'health' then
 			local cur = GetEntityHealth(PlayerPedId())
 			SetEntityHealth(PlayerPedId(), cur + v)
@@ -56,7 +56,5 @@ RegisterNetEvent('md-drugs:client:applyFeeling', function(effect)
 		CokeBaggyEffect() 
 	elseif effect == "trevor" then 
 		TrevorEffect() 
-	else 
-
 	end
 end)

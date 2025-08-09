@@ -21,8 +21,8 @@ strength = number -- how long you are strong boi
 ]]
 local Consume = {
     -- meth
-methbags =                { time = 4000, effect = 'meth', anim = "smoke", ps.progressbartext = "Injesting", 
-                                    add = {health = -20, stress = -10, speed = 40, strength = 10, thirst = -30}},
+methbags =                { time = 4000, effect = 'meth', anim = "smoke", progressbartext = "Injesting",
+                                add = {health = -20, stress = -10, speed = 40, strength = 10, thirst = -30}},
 cokebaggy =               { anim = 'smell', time = 1000, effect = 'coke', add = { stress = -10 }},
 cokebaggystagetwo =       { anim = 'smell', time = 1000, effect = 'coke', add = { stress = -10 }},
 cokebaggystagethree =     { anim = 'smell', time = 1000, effect = 'coke', add = { stress = -10 }},
@@ -143,22 +143,22 @@ xanax =                   { anim = 'pill', effect = 'none', add = { stress = -40
 }
 
 for k, v in pairs(Consume) do
-    CUI(k, function(source, item)
-        if not Itemcheck(source, k, 1) then return end
+    ps.createUseable(k, function(source, item)
+        if not ps.hasItem(source, k, 1) then return end
         local time = v.time or Consumables.defaulttime
         local effect = v.effect or 0
         local anim = v.anim or Consumables.defaultanim
-        local ps.progressbartext = v.ps.progressbartext or Consumables.defaultprogresstext
+        local progressbartext = v.progressbartext or Consumables.defaultprogresstext
         local add = v.add or {hunger = 0}
-        local done = ps.callback('md-drugs:client:consumedrugs', source, time, effect, anim, ps.progressbartext, add, k)
+        local done = ps.callback('md-drugs:client:consumedrugs', source, time, effect, anim, progressbartext, add, k)
         if done then
-            RemoveItem(source, k, 1)
+            ps.removeItem(source, k, 1)
         end
     end)
 end
 
 RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
-    local Player = getPlayer(source)
+    local Player = ps.getPlayer(source)
     local hunger, thirst = Player.PlayerData.metadata.hunger, Player.PlayerData.metadata.thirst
     if stat == "thirst" then
         local value = thirst + statval
@@ -176,6 +176,5 @@ RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
         local value = Player.PlayerData.metadata.armor + statval
         TriggerEvent('hospital:server:SetArmor', value) 
         TriggerClientEvent('hud:client:UpdateStress', source, Player.PlayerData.metadata.armor, value)
-    else
     end
 end)
