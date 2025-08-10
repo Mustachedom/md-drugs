@@ -158,6 +158,7 @@ end
 ps.registerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
     local Player = ps.getPlayer(source)
     local rep = getRep(source, 'cornerselling')
+    local priceAdjust = json.decode(rep).price
     if not Player then return nil end
     for k, v in pairs(Drugs) do
         local item = ps.getItemCount(source, k) or 0
@@ -169,7 +170,7 @@ ps.registerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(
             else
                 if item > 15 then item = 15 end
                 local amount = math.random(1, item)
-                local price = (math.random(Drugs[k]['min'], Drugs[k]['max']) * amount) * rep.price
+                local price = (math.random(Drugs[k]['min'], Drugs[k]['max']) * amount) * priceAdjust
                 DrugDeals[ps.getIdentifier(source)] = {item = k, amount = amount, price = math.floor(price), ped = ped}
                 return DrugDeals[ps.getIdentifier(source)]
             end

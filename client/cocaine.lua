@@ -114,11 +114,11 @@ end
 for k, v in pairs (locations.MakePowder) do
     ps.boxTarget('cocaplant'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
         {
-            label = ps.lang('coke.makePow'),
+            label = ps.lang('coke.targetMakePow'),
             icon = 'fa-solid fa-seedling',
             action = function()
                 if not ps.hasItem('coca_leaf') then
-                    ps.notify(ps.lang('coke.noleaf'), 'error')
+                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('coca_leaf')), 'error')
                     return
                 end
                 if not ps.progressbar(ps.lang('coke.makePow'), 4000, 'uncuff') then return end
@@ -137,6 +137,10 @@ for k, v in pairs (locations.CuttingCoke) do
             label = ps.lang('coke.targetCutCoke'),
             icon = 'fa-solid fa-mortar-pestle',
             action = function()
+                if not ps.hasItem('bakingsoda') then
+                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
+                    return
+                end
                 CutCoke(v.loc, v.offset, v.rotation)
             end,
             canInteract = function()
@@ -154,6 +158,10 @@ for k, v in pairs (locations.BaggingCoke) do
             label = ps.lang('coke.targetBagCoke'),
             icon = 'fa-solid fa-sack-xmark',
             action = function()
+                if not ps.hasItem('empty_weed_bag') then
+                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('empty_weed_bag')), 'error')
+                    return
+                end
                 BagCoke(v.loc, v.offset, v.rotation)
             end,
             canInteract = function()

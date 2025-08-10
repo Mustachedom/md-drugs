@@ -19,16 +19,14 @@ local cocaineRecipes = {
 local cocaineLocations = {
     MakePowder = {
         {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = "ballas"},
-        {loc = vector3(1090.15, -3199.5, -39.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-        {loc = vector3(1093.09, -3199.53, -39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     CuttingCoke = {
         {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-1.782227, 0.445068, -0.502701), rotation = vector3(0,0,0), gang = ""},
-        {loc = vector3(1092.74, -3196.68, -38.99), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(1.983398, 0.407959, -0.642696), rotation = vector3(0,0,180.0), gang = ""},
+        --{loc = vector3(1092.74, -3196.68, -38.99), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(1.983398, 0.407959, -0.642696), rotation = vector3(0,0,180.0), gang = ""},
     },
     BaggingCoke = {
         {loc = vector3(1093.16, -3195.78, -39.19), l = 1.0, w = 1.0, rot = 45.0,offset = vec3(4.515137, 2.542969, -0.814194), rotation = vector3(0,0,180.0), gang = ""},
-        {loc = vector3(1090.17, -3196.59, -38.99), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-5.207642, -1.666504, -1.014198), rotation = vector3(0,0, 0.0), gang = ""},
+        --{loc = vector3(1090.17, -3196.59, -38.99), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-5.207642, -1.666504, -1.014198), rotation = vector3(0,0, 0.0), gang = ""},
     },
     cokeTele = {
         {inside = vector3(1088.81, -3187.57, -38.99), outside = vector3(198.16, -1276.92, 29.33), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
@@ -54,8 +52,8 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
             tier = 'tier3'
         end
     end
-    if not ps.craftItem(src, cocaineRecipes['cocaine']['cokepowder'][tier]) then
-        verifyHas(src, cocaineRecipes['cocaine']['cokepowder'][tier].take)
+    if not ps.craftItem(src, cocaineRecipes['cokepowder'][tier]) then
+        verifyHas(src, cocaineRecipes['cokepowder'][tier].take)
         return
     end
 end)
@@ -80,8 +78,8 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
             end
         end
     end
-    if not ps.craftItem(src, cocaineRecipes['cocaine']['cutcoke'][tier]) then
-        verifyHas(src, cocaineRecipes['cocaine']['cutcoke'][tier].take)
+    if not ps.craftItem(src, cocaineRecipes['cutcoke'][tier]) then
+        verifyHas(src, cocaineRecipes['cutcoke'][tier].take)
         return
     end
 end)
@@ -105,14 +103,14 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
                 break
             end
         end
-        if not ps.craftItem(src, cocaineRecipes['cocaine']['bagcoke'][tier]) then
-            verifyHas(src, cocaineRecipes['cocaine']['bagcoke'][tier].take)
+        if not ps.craftItem(src, cocaineRecipes['bagcoke'][tier]) then
+            verifyHas(src, cocaineRecipes['bagcoke'][tier].take)
             return
         end
         AddRep(src, 'coke')
     else
-        if not ps.craftItem(src, cocaineRecipes['cocaine']['bagcoke'][tier]) then
-            verifyHas(src, cocaineRecipes['cocaine']['bagcoke'][tier].take)
+        if not ps.craftItem(src, cocaineRecipes['bagcoke'][tier]) then
+            verifyHas(src, cocaineRecipes['bagcoke'][tier].take)
             return
         end
     end

@@ -2,6 +2,7 @@
 local herointable = false
 local dirty = false
 local locations = ps.callback('md-drugs:server:GetHeroinLocations')
+
 local function createLabKit(coord, head)
     local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false,false)
     SetEntityHeading(heroinlabkit, head)
@@ -11,7 +12,11 @@ local function createLabKit(coord, head)
             icon = "fa-solid fa-temperature-high",
             label = ps.lang('heroin.targetCook'),
             action = function()
-            if not ps.hasItem('emptyvial') then return end
+            if not ps.hasItem('emptyvial') then
+                ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('emptyvial')), 'error')
+                return
+            end
+
             if not minigame() then
                 dirty = true
                 TriggerServerEvent("md-drugs:server:failheatingheroin")
@@ -20,6 +25,7 @@ local function createLabKit(coord, head)
                 SetParticleFxLoopedAlpha(heroinkit, 3.0)
 	        	SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
 	        return end
+
             if not ps.progressbar(ps.lang('heroin.pbCook'), 4000, 'uncuff') then return end
             TriggerServerEvent("md-drugs:server:heatliquidheroin")
         end,
@@ -45,7 +51,10 @@ local function createLabKit(coord, head)
         icon = "fa-solid fa-hand-sparkles",
         label = ps.lang('heroin.targetClean'),
         action = function()
-            if not ps.hasItem('cleaningkit') then return end
+            if not ps.hasItem('cleaningkit') then
+                ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('cleaningkit')), 'error')
+                return
+            end
             if not ps.progressbar(ps.lang('heroin.pbClean'), 4000, 'clean') then return end
 	        local done = ps.callback('removeCleaningkit', false)
             if done then dirty = false end

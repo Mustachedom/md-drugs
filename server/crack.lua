@@ -43,8 +43,8 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
             end
         end
     end
-    if not ps.craftItem(src, crackRecipe['crack']['cookcrack'][tier]) then
-        verifyHas(src, crackRecipe['crack']['cookcrack'][tier].take)
+    if not ps.craftItem(src, crackRecipe['cookcrack'][tier]) then
+        verifyHas(src, crackRecipe['cookcrack'][tier].take)
         return
     end
 end)
@@ -70,8 +70,8 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
             end
         end
     end
-    if not ps.craftItem(src, crackRecipe['crack']['bagcrack'][tier]) then
-        verifyHas(src, crackRecipe['crack']['bagcrack'][tier].take)
+    if not ps.craftItem(src, crackRecipe['bagcrack'][tier]) then
+        verifyHas(src, crackRecipe['bagcrack'][tier].take)
         return
     end
 end)

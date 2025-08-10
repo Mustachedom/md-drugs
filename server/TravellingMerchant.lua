@@ -9,8 +9,6 @@ local Target = {
 
 local loc = Target.Travellingmerchant[math.random(1, #Target.Travellingmerchant)]
 
-
-
 local stores = {
 	travel = {
 		tab_paper 	     	= 50,

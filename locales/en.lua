@@ -100,7 +100,8 @@ Lang.heroin = {
 Lang.lean = {
     stealFromTruck = 'Steal From Truck',
     startMission = 'Start Lean Mission',
-    notOnRun = 'You Are Not On A Lean Run'
+    notOnRun = 'You Are Not On A Lean Run',
+    alreadyChasing = 'You Are Already Chasing A Truck',
 }
 
 Lang.lsd = {

@@ -32,7 +32,10 @@ local function createLabKit(coord, head)
             icon = "fa-solid fa-temperature-high",
             label = ps.lang('lsd.targetRefine'),
             action = function()
-                if not ps.hasItem('lsd_one_vial') then return end 
+                if not ps.hasItem('lsd_one_vial') then
+                    ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('lsd_one_vial')), 'error')
+                    return
+                end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failrefinequality") return end
                 if not ps.progressbar(ps.lang('lsd.refining'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:refinequalityacid")
@@ -45,7 +48,10 @@ local function createLabKit(coord, head)
             icon = "fa-regular fa-note-sticky",
             label = ps.lang('lsd.targetDipping'),
             action = function()
-                if not ps.hasItem('tab_paper') then return end
+                if not ps.hasItem('tab_paper') then
+                    ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('tab_paper')), 'error')
+                    return
+                end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failtabs") return end
                 if not ps.progressbar(ps.lang('lsd.dipping'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:maketabpaper")
@@ -72,9 +78,9 @@ local function createLabKit(coord, head)
             icon = "fa-solid fa-hand-sparkles",
             label = ps.lang('lsd.targetClean'),
             action = function()
-                if not ps.hasItem('cleaningkit') then 
-                    ps.notify(ps.lang('lsd.needCleaning'), 'error')
-                    return 
+                if not ps.hasItem('cleaningkit') then
+                    ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('cleaningkit')), 'error')
+                    return
                 end
                 if not ps.progressbar(ps.lang('lsd.cleaning'), 4000, 'clean') then return end
                 local check = ps.callback('md-drugs:server:removecleaningkit')
@@ -112,7 +118,6 @@ for k, v in pairs (locations.diethylamide) do
             label = ps.lang('lsd.targetDie'),
             icon = 'fa-solid fa-temperature-high',
             action = function()
-                if not ps.hasItem('empty_weed_bag') then return end
                 if not minigame() then TriggerServerEvent("md-drugs:server:faildiethylamide") return end
                 if not ps.progressbar(ps.lang('lsd.stealDie'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:getdiethylamide", k)
@@ -150,7 +155,10 @@ for k, v in pairs (locations.buyLSDkit) do
             label = ps.lang('lsd.targetBuyKit'),
             icon = 'fa-solid fa-hand-holding-dollar',
             action = function()
-                if ps.hasItem('lsdlabkit') then ps.notify(ps.lang('lsd.alreadyOwn'), 'error') return end
+                if ps.hasItem('lsdlabkit') then
+                    ps.notify(ps.lang('lsd.alreadyOwn'), 'error')
+                    return
+                end
                 if not ps.progressbar(ps.lang('lsd.buyingKit'), 4000, 'uncuff') then return end
                 TriggerServerEvent('md-drugs:server:getlabkit', k)
             end,

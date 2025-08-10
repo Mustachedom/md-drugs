@@ -2,11 +2,12 @@
 local started = false
 local hit = 0
 local location = ps.callback('md-drugs:server:GetLeanLocs')
+
 local function SpawnCarPedChase()
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
 	local start = location.StartLoc[math.random(1,#location.StartLoc)]
 
-	if started then ps.notify(Lang.lean.act,'error') return end
+	if started then ps.notify(ps.lang('lean.alreadyChasing'), 'error') return end
     started = true
 
 	ps.callback('md-drugs:server:RegisterLean')
@@ -41,15 +42,15 @@ local function SpawnCarPedChase()
 				label = ps.lang('lean.stealFromTruck'),
 				action = function()
 					hit = hit + 1
-					 if not minigame() then return end
-						TriggerServerEvent('md-drugs:server:givelean')
-						started = false
-						if math.random(1,100) <= 30 or hit == 4 then
-						hit = 0
-						DeleteVehicle(leancar)
-						DeleteEntity(driver)
-						DeleteEntity(pilot2)
-					 end
+					if not minigame() then return end
+					TriggerServerEvent('md-drugs:server:givelean')
+					started = false
+					if math.random(1,100) <= 30 or hit == 4 then
+					hit = 0
+					DeleteVehicle(leancar)
+					DeleteEntity(driver)
+					DeleteEntity(pilot2)
+					end
 				end
 			}
 		})

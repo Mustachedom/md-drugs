@@ -5,7 +5,10 @@ for k, v in pairs (locations.DryOutMescaline) do
 			label = ps.lang('mesc.targetDry'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
-				if not ps.hasItem('cactusbulb') then ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('cactusbulb')), 'error') return end
+				if not ps.hasItem('cactusbulb') then 
+					ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('cactusbulb')), 'error') 
+					return 
+				end
 				if not ps.progressbar(ps.lang('mescaline.dry'), 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:drymescaline", k)
 			end,

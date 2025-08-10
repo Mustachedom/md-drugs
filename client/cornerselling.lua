@@ -8,7 +8,7 @@ local function walkAway(targ)
 end
 
 local function sellDrug(item, amount, price, targ)
-   -- PoliceCall(20)
+    PoliceCall(20)
     if ps.vehicleData() then
         ps.notify(ps.lang('Cornerselling.inVeh'), 'error')
         walkAway(targ)
@@ -22,7 +22,7 @@ local function sellDrug(item, amount, price, targ)
  end
 
 local function deny(targ)
-    -- PoliceCall(20)
+     PoliceCall(20)
     buyers[targ] = 'sold'
     if not ps.progressbar(ps.lang('Cornerselling.deny'), 4000, 'argue5') then return end
     walkAway(targ)
@@ -93,7 +93,6 @@ local function Cornersell()
     
     local targ = findPed()
     local data = ps.callback('md-drugs:server:cornerselling:getAvailableDrugs', targ)
-
     if data == false then
         sell = false
         return
@@ -122,7 +121,7 @@ local function Cornersell()
         ps.requestAnim("rcmme_tracey1")
         TaskStartScenarioInPlace(targ, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false)
         FreezeEntityPosition(targ, true)
-        ps.entityTarget(data.ped, {
+        ps.entityTarget(targ, {
             {
                 label = string.format(ps.lang('Cornerselling.targetSell'), data.amount, ps.getLabel(data.item), data.price),
                 icon ="fa-solid fa-money-bill",
@@ -158,10 +157,10 @@ RegisterNetEvent('md-drugs:client:cornerselling', function()
     if sell then
         sell = false
         ps.hideText()
-        ps.notify(ps.lang('Cornerselling.stopped', 'error'))
+        ps.notify(ps.lang('Cornerselling.stopped'), 'error')
     else
         sell = true
-        ps.notify(ps.lang('Cornerselling.start', 'success'))
+        ps.notify(ps.lang('Cornerselling.start'), 'success')
         Cornersell()
     end
 end)

@@ -222,6 +222,9 @@ for k, v in pairs (plantData) do
                 v.coolDown(loc)
                 v.itemGive(src)
             end
+        else
+            ps.notify(src, ps.lang('Catches.notIn'), 'error')
+            return
         end
     end)
     ::continue::

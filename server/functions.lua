@@ -47,7 +47,7 @@ function getRep(source, type)
         local new = handleFresh(source)
         return new[type]
     else
-        return tonumber(sql[1].rep)
+        return sql[1].rep
     end
 end
 

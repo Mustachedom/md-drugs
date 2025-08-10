@@ -1,6 +1,6 @@
 Config = {} --Ignore.
 ps = exports.ps_lib:init()
-ps.loadLangs("en")
+ps.loadLangs("uwu")
 
 Config.respawnTime = 100 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
@@ -18,8 +18,6 @@ Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3
 
 ---------------------------------- BRIDGE 
-
-Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 
 Config.Minigames = {
@@ -40,12 +38,10 @@ Config.Minigames = {
     glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
     glmath =        {timeLimit = 300000},
 }
-Config.minigametype = 'ox' -- look above for options or choose none if you dont want any minigames 
+Config.minigametype = 'ps_circle' -- look above for options or choose none if you dont want any minigames 
 
--------- Woah Where did like all the locations go?
---- read the readme to find out
---- 
-Config.Drugs = {
+
+Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark it false
     cocaine = true,
     consumables = true,
     cornerselling = true,
@@ -59,13 +55,13 @@ Config.Drugs = {
     oxyruns = true,
     pharma = true,
     shrooms = true,
-    TravelingMerchant = true,
+    TravellingMerchant = true,
     weed = true,
     wholesale = false,
     xtc = true,
 }
 
-Config.Bzz = {
+Config.Bzz = { -- if you have BZZZ props for these turn it on if you want
     cocaine = false,
     heroin =false,
     shrooms = false,
