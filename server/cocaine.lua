@@ -45,7 +45,7 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
     end
     local tier = 'tier1'
     if Config.TierSystem then
-        local coke = getRep(src, 'coke')
+        local coke = tonumber(getRep(src, 'coke'))
         if coke > Config.Tier1 and coke <= Config.Tier2 then
             tier = 'tier2'
         elseif coke > Config.Tier2 then

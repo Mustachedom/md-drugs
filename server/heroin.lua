@@ -55,8 +55,6 @@ ps.registerCallback('removeCleaningkit', function(source)
 	return false
 end)
 
-
-
 RegisterServerEvent('md-drugs:server:dryplant', function(num)
 	local src = source
 	if not ps.checkDistance(src, heroinLocations.dryplant[num].loc, 3.0) then 
@@ -66,7 +64,7 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 
 	local tier = 'tier1'
 	if Config.TierSystem then
-		local heroin = getRep(src, 'heroin')
+		local heroin = tonumber(getRep(src, 'heroin'))
 		if heroin <= Config.Tier1 then
 			tier = 'tier1'
 		elseif heroin >= Config.Tier1 and heroin <= Config.Tier2 then
@@ -153,14 +151,15 @@ ps.createUseable('heroinlabkit', function(source, item)
 	if not ps.hasItem(src, 'heroinlabkit', 1) then return end
 	local placed, loc = ps.callback('md-drugs:client:setheroinlabkit', src)
 	if placed then
-		ps.removeItem(src, 'heroinlabkit', 1)
-		table.insert(heroinLabKits, {
-			src = src,
-			ownerid = ps.getIdentifier(src),
-			coords = loc,
-			name = ps.getPlayerName(src)
-		})
-		ps.notify(src, ps.lang('heroin.placedKit'), "success")
+		if ps.removeItem(src, 'heroinlabkit', 1) then
+			table.insert(heroinLabKits, {
+				src = src,
+				ownerid = ps.getIdentifier(src),
+				coords = loc,
+				name = ps.getPlayerName(src)
+			})
+			ps.notify(src, ps.lang('heroin.placedKit'), "success")
+		end
 	end
 end)
 

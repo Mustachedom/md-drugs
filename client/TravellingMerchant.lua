@@ -1,19 +1,20 @@
 
 local function spawn()
-    local location, menus = ps.callback('md-drugs:server:GetMerchant')
+    local data = ps.callback('md-drugs:server:GetMerchant')
     local model = 's_m_m_trucker_01'
     ps.requestModel(model)
-    local ped = CreatePed(4, model, location.x, location.y, location.z, location.w, false, true)
-    Freeze(ped, true, location.w)
+    local ped = CreatePed(4, model, data.loc.x, data.loc.y, data.loc.z, data.loc.w, false, true)
+    Freeze(ped, true, data.loc.w)
     ps.entityTarget(ped, {
         {
             label = ps.lang('merchant.targetOpen'),
             action = function()
                 local options = {}
-                for k, v in pairs (menus) do
+                for k, v in pairs (data.items) do
                     options[#options+1] = {
                         title = ps.getLabel(k),
                         description = '$'..v,
+                        icon = ps.getImage(k),
                         action = function()
                             ps.triggerServerEvent('md-drugs:server:purchaseGoods', k)
                         end

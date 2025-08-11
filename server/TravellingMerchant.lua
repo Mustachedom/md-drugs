@@ -39,7 +39,7 @@ local stores = {
 }
 
 ps.registerCallback('md-drugs:server:GetMerchant', function(source)
-	return loc, stores.travel
+	return {loc = loc, items = stores.travel}
 end)
 
 

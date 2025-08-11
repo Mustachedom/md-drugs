@@ -243,6 +243,12 @@ Lang.xtc = {
     noPills = 'You Dont Have Any Unstamped Pills'
 }
 
-
+Lang.merchant = {
+    targetOpen = 'Open Merchant Menu',
+    targetClose = 'Close Merchant Menu',
+    notEnoughMoney = 'You Do Not Have Enough Money',
+    purchased = 'You Purchased %s For $%s',
+    canceled = 'You Canceled The Purchase'
+}
 
 return Lang

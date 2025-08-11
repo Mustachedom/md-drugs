@@ -97,7 +97,7 @@ for k, v in pairs(locations.isosafrole) do
 end
 
 for k, v in pairs(locations.rawxtcloc) do
-    ps.boxTarget('xtc'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+    ps.boxTarget('xtcraw'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
             label = ps.lang('xtc.targetRaw'),
@@ -157,7 +157,7 @@ for k, v in pairs(locations.xtcpress) do
 end
 
 for k, v in pairs (locations.stamp) do
-    ps.boxTarget('xtc'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+    ps.boxTarget('xtcstamp'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
             label = ps.lang('xtc.targetStamp'),
