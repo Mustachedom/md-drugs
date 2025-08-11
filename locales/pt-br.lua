@@ -243,4 +243,7 @@ Lang.xtc = {
     noPills = 'Você não tem comprimidos não carimbados'
 }
 
+Lang.merchant = {
+    targetOpen = 'Abrir menu do comerciante',
+}
 return Lang

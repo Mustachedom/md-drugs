@@ -243,4 +243,7 @@ Lang.xtc = {
     noPills = 'Damgasız hapın yok'
 }
 
+Lang.merchant = {
+    targetOpen = 'Açık Tüccar Menüsü',
+}
 return Lang

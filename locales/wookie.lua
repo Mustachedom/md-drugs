@@ -241,4 +241,8 @@ Lang.xtc = {
     noPills = 'Pills no oogar!',
 }
 
+Lang.merchant = {
+    targetOpen = 'Rraa raw!',
+}
+
 return Lang

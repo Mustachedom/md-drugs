@@ -242,5 +242,7 @@ Lang.xtc = {
     stamping = 'Označování %s pilulek',
     noPills = 'Nemáš žádné neočíslované pilulky',
 }
-
+Lang.merchant = {
+    targetOpen = 'Otevřít nabídku obchodníka',
+}
 return Lang

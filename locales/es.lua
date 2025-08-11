@@ -242,5 +242,7 @@ Lang.xtc = {
     stamping = 'Marcando %s pastillas',
     noPills = 'No tienes pastillas sin marcar',
 }
-
+Lang.merchant = {
+    targetOpen = 'Abrir menú de comerciante`',
+}
 return Lang

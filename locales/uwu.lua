@@ -242,4 +242,7 @@ Lang.xtc = {
     noPills = 'You got no unstamped pills... 🫙',
 }
 
+Lang.merchant = {
+    targetOpen = 'Open Wopen Store',
+}
 return Lang

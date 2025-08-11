@@ -242,5 +242,8 @@ Lang.xtc = {
     stamping = 'Stemple %s Pillen',
     noPills = 'Du hast keine ungestempelten Pillen',
 }
+Lang.merchant = {
+    targetOpen = 'Öffne das Händler-Menü',
+}
 
 return Lang

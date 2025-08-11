@@ -242,5 +242,7 @@ Lang.xtc = {
     stamping = 'Stempel %s pillen',
     noPills = 'Je hebt geen ongestempelde pillen'
 }
-
+Lang.merchant = {
+    targetOpen = 'Open Merchant Menu',
+}
 return Lang
