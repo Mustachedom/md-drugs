@@ -128,7 +128,7 @@ RegisterServerEvent('md-drugs:server:refinequalityacid', function()
 	if not hasLabKit(src) then return end
 	if not ps.hasItem(src, 'lsd_one_vial', 1) then return end
 	if Config.TierSystem then
-		local lsd = getRep(src, 'lsd')
+		local lsd = tonumber(getRep(src, 'lsd'))
 		if ps.removeItem(src, 'lsd_one_vial', 1) then
 			if lsd <= 30 then
 				ps.addItem(src,'lsd_vial_two', 1)
