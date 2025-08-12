@@ -141,6 +141,7 @@ for k, v in pairs (locations.CuttingCoke) do
                     ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
                     return
                 end
+				TriggerServerEvent("md-drugs:server:cutcokeone", k)
                 CutCoke(v.loc, v.offset, v.rotation)
             end,
             canInteract = function()
@@ -162,6 +163,7 @@ for k, v in pairs (locations.BaggingCoke) do
                     ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('empty_weed_bag')), 'error')
                     return
                 end
+				TriggerServerEvent("md-drugs:server:bagcoke", k)
                 BagCoke(v.loc, v.offset, v.rotation)
             end,
             canInteract = function()
@@ -206,3 +208,4 @@ CreateThread(function()
     BikerCocaine.Security.Set(BikerCocaine.Security.upgrade)
     BikerCocaine.Details.Enable({BikerCocaine.Details.cokeBasic1, BikerCocaine.Details.cokeBasic2, BikerCocaine.Details.cokeBasic3}, true)
 end)
+
