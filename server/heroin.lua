@@ -212,7 +212,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
-	if not ps.checkDistance(src, heroinLocations.fillNeedle[num].loc, 3.0) then
+	if not ps.checkDistance(src, heroinLocations.fillneedle[num].loc, 3.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), 'error')
 		return
 	end
@@ -272,4 +272,5 @@ AddEventHandler('playerDropped', function()
 			ps.addItem(src, 'heroinlabkit', 1)
 		end
 	end
+
 end)
