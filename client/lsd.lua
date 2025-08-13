@@ -136,7 +136,7 @@ for k, v in pairs (locations.gettabs) do
             label = ps.lang('lsd.targetBuyTab'),
             icon = 'fa-solid fa-hand-holding-dollar',
             action = function()
-                TriggerEvent("md-drugs:client:buytabs", k)
+                TriggerServerEvent("md-drugs:server:gettabpaper", k)
             end,
             canInteract = function()
                 if not handleGang(v.gang) then return false end
@@ -182,4 +182,5 @@ ps.registerCallback("md-drugs:client:setlsdlabkit", function()
         createLabKit(loc, head)
         return true, loc
     end
+
 end)

@@ -14,7 +14,7 @@ local function SpawnMethCarPedChase()
 		ps.notify(ps.lang('meth.alreadyChasing'),'error')
 	else
 	    startedmeth = true
-		ps.callback('md-drugs:server:RegisterMeth')
+		ps.callback('md-drugs:server:registerMeth')
 
 	    ps.requestModel("journey", Config.RequestModelTime)
 	    ps.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
@@ -406,4 +406,5 @@ for k, v in pairs (locations.Methace) do
 			end
 		}
 	})
+
 end
