@@ -152,7 +152,9 @@ Lang.meth = {
     targetStealACE = 'Steal Acetone',
     stealingACE = 'Stealing Acetone',
     notOnRun = 'You Are Not On A Meth Run',
-    onCooldown = 'You Are On A Cooldown'
+    onCooldown = 'You Are On A Cooldown',
+    teleIn = 'Enter the Lab',
+    teleOut = 'Exit the Lab',
 }
 
 Lang.oxy = {
