@@ -36,7 +36,7 @@ local methLocs = {
 
 local methRecipes = {
 	cook = {
-		heat = {take = {ephedrine = 1, acetone = 1}, give = {}}
+		heat = {take = {ephedrine = 1, acetone = 1}, give = {}} --Missing item
 	},
 	bag = {
 		bags = {take = {empty_weed_bag = 5}, give = {methbags = 5} }
@@ -142,5 +142,6 @@ ps.registerCallback('md-drugs:server:registerMeth', function(source)
 		return true
 	end
 end)
+
 
 
