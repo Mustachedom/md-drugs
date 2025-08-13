@@ -18,7 +18,7 @@ local methLocs = {
     MethEph = { -- get ephedrine
         {loc = vector3(3559.86, 3673.9, 28.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
-    Methace = { -- get acetone
+    MethAce = { -- get acetone
         {loc = vector3(3535.41, 3661.05, 28.12), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     MethHeist = {
@@ -142,4 +142,5 @@ ps.registerCallback('md-drugs:server:registerMeth', function(source)
 		return true
 	end
 end)
+
 
