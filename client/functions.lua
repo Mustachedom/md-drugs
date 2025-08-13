@@ -266,18 +266,7 @@ function StartRay2()
     until run == false
 end
 
-CreateThread(function()
-	ps.requestModel('prop_plant_01b')
-	ps.requestModel('prop_plant_01a')
-	ps.requestModel('prop_cactus_03')
-	ps.requestModel('prop_weed_01')
-	TriggerEvent('weed:init')
-	TriggerEvent('heroin:init')
-	TriggerEvent('coke:init')
-	TriggerEvent('Mescaline:init')
-	ps.requestModel(GetHashKey('mushroom'))
-	TriggerEvent('shrooms:init')
-end)
+
 
 ps.registerCallback('md-drugs:client:uncuff', function(data)
 	if not progressbar(data, 4000, 'uncuff') then return end

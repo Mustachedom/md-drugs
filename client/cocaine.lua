@@ -141,8 +141,8 @@ for k, v in pairs (locations.CuttingCoke) do
                     ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
                     return
                 end
-				TriggerServerEvent("md-drugs:server:cutcokeone", k)
                 CutCoke(v.loc, v.offset, v.rotation)
+				TriggerServerEvent("md-drugs:server:cutcokeone", k)
             end,
             canInteract = function()
                 if not handleGang(v.gang) then return false end
@@ -163,8 +163,8 @@ for k, v in pairs (locations.BaggingCoke) do
                     ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('empty_weed_bag')), 'error')
                     return
                 end
-				TriggerServerEvent("md-drugs:server:bagcoke", k)
                 BagCoke(v.loc, v.offset, v.rotation)
+				TriggerServerEvent("md-drugs:server:bagcoke", k)
             end,
             canInteract = function()
                 if not handleGang(v.gang) then return false end

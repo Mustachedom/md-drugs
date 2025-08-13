@@ -88,7 +88,9 @@ for k, v in pairs (DrugPlants) do
             end
         end
     end)
+    TriggerEvent(v.label ..":init")
     ::continue::
+    
 end
 
 AddEventHandler('onResourceStop', function(resourceName)

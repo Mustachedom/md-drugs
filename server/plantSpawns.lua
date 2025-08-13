@@ -2,7 +2,7 @@ local drugModels = {
     cocaine = "prop_plant_01a",
     heroin = "prop_plant_01b",
     mescaline = "prop_cactus_03",
-    shrooms = "mushroom",
+    shrooms = "prop_stoneshroom2",
     weed = "bkr_prop_weed_lrg_01b"
 }
 local drugModelsBuzz = {
@@ -70,23 +70,23 @@ local plants = {
         { location = vector3(2623.82, 4189.97, 41.44),    heading = 21.52,     model = "prop_cactus_03", taken = false},
     },
     shrooms = {
-        { location = vector3(2185.14, 5183.81, 57.48),    heading = 334.49,    model = propsLabels('shroom'), taken = false},
-        { location = vector3(2174.45, 5187.85, 57.43),    heading = 329.56,    model = propsLabels('shroom'), taken = false},
-        { location = vector3(2166.22, 5196.56, 58.0),     heading = 25.16,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2166.82, 5204.83, 58.63),    heading = 21.52,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2174.84, 5205.82, 59.19),    heading = 334.49,    model = propsLabels('shroom'), taken = false},
-        { location = vector3(2184.46, 5201.23, 59.2),     heading = 329.56,    model = propsLabels('shroom'), taken = false},
-        { location = vector3(2192.45, 5194.89, 58.86),    heading = 25.16,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2207.53, 5187.81, 58.95),    heading = 21.52,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2213.46, 5191.11, 59.81),    heading = 334.49,    model = propsLabels('shroom'), taken = false},
-        { location = vector3(2218.31, 5180.0, 58.18),     heading = 329.56,    model = propsLabels('shroom'), taken = false},
-        { location = vector3(2212.75, 5172.35, 57.2),     heading = 25.16,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2208.56, 5167.06, 56.34),    heading = 21.52,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2196.9, 5158.59, 54.84),     heading = 21.52,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2191.62, 5174.91, 56.68),    heading = 21.52,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2190.18, 5182.54, 57.47),    heading = 21.52,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2185.85, 5190.49, 58.1),     heading = 21.52,     model = propsLabels('shroom'), taken = false},
-        { location = vector3(2179.95, 5194.19, 58.26),    heading = 21.52,     model = propsLabels('shroom'), taken = false},
+        { location = vector3(2185.14, 5183.81, 57.48),    heading = 334.49,    model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2174.45, 5187.85, 57.43),    heading = 329.56,    model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2166.22, 5196.56, 58.0),     heading = 25.16,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2166.82, 5204.83, 58.63),    heading = 21.52,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2174.84, 5205.82, 59.19),    heading = 334.49,    model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2184.46, 5201.23, 59.2),     heading = 329.56,    model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2192.45, 5194.89, 58.86),    heading = 25.16,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2207.53, 5187.81, 58.95),    heading = 21.52,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2213.46, 5191.11, 59.81),    heading = 334.49,    model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2218.31, 5180.0, 58.18),     heading = 329.56,    model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2212.75, 5172.35, 57.2),     heading = 25.16,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2208.56, 5167.06, 56.34),    heading = 21.52,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2196.9, 5158.59, 54.84),     heading = 21.52,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2191.62, 5174.91, 56.68),    heading = 21.52,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2190.18, 5182.54, 57.47),    heading = 21.52,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2185.85, 5190.49, 58.1),     heading = 21.52,     model = propsLabels('shrooms'), taken = false},
+        { location = vector3(2179.95, 5194.19, 58.26),    heading = 21.52,     model = propsLabels('shrooms'), taken = false},
     },
     weed = {
         { location = vector3(1064.84, -3199.84, -42.70),    heading = 334.49,    model = propsLabels('weed'), taken = false},
@@ -114,6 +114,7 @@ local plantData = {
             GlobalState.CocaPlant = plants.cocaine
         end,
         itemGive = function(src)
+            ps.debug("Giving Coca Leaf")
             ps.addItem(src, 'coca_leaf', 1)
         end,
         coolDown = function(loc)
