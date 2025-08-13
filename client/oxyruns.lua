@@ -55,7 +55,11 @@ for k, v in pairs(locations.OxyPayForTruck) do
 				if not paid then return end
 				local oxycar = CreateVehicle("burrito3",v.truckSpawn.x, v.truckSpawn.y, v.truckSpawn.z, v.truckSpawn.w, true, false)
 
-    			exports[Config.Fuel]:SetFuel(oxycar, 100.0)
+    			if Config.Fuel == "ox_fuel" then
+					Entity(oxycar).state.fuel = 100.0
+				else
+    				exports[Config.Fuel]:SetFuel(oxycar, 100.0)
+				end
     			TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(oxycar))
 				ps.notify(ps.lang('oxy.keys'), 'success')
 				onMission = true
@@ -91,4 +95,5 @@ for k, v in pairs(locations.OxyPayForTruck) do
 			end
 		}
 	})
+
 end
