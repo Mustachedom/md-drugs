@@ -370,6 +370,33 @@ for k, v in pairs (locations.MethSmash) do
 	})
 end
 
+for k, v in pairs (locations.MethTele) do
+	ps.boxTarget('meth_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-door-open',
+			label = ps.lang('coke.teleOut'),
+			action = function()
+				SetEntityCoords(PlayerPedId(), v.outside)
+			end,
+			canInteract = function()
+                return handleGang(v.gang)
+            end
+		}
+	})
+	ps.boxTarget('meth_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-door-closed',
+			label = ps.lang('coke.teleIn'),
+			action = function()
+				SetEntityCoords(PlayerPedId(), v.inside)
+			end,
+			canInteract = function()
+                return handleGang(v.gang)
+            end
+		}
+	})
+end
+
 RegisterCommand('offset', function()
 	local pos = GetEntityCoords(PlayerPedId())
 	Wait(4000)
@@ -408,3 +435,4 @@ for k, v in pairs (locations.Methace) do
 	})
 
 end
+
