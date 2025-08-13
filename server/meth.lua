@@ -91,8 +91,8 @@ RegisterServerEvent('md-drugs:server:getmeth', function(num)
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
 	end
-	if not ps.craftItem(src, methRecipes.meth.bag.bags) then
-		verifyHas(src, methRecipes.meth.bag.bags.take)
+	if not ps.craftItem(src, methRecipes.bag.bags) then
+		verifyHas(src, methRecipes.bag.bags.take)
 		return
 	end
 end)
@@ -123,9 +123,9 @@ ps.registerCallback('md-drugs:server:startcook', function(source, num)
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return false
 	end
-	local recipe = ps.craftItem(src, methRecipes.meth.cook.heat)
+	local recipe = ps.craftItem(src, methRecipes.cook.heat)
 	if not recipe then
-		verifyHas(src, methRecipes.meth.cook.heat.take)
+		verifyHas(src, methRecipes.cook.heat.take)
 		return false
 	end
 	return true
@@ -142,3 +142,4 @@ ps.registerCallback('md-drugs:server:registerMeth', function(source)
 		return true
 	end
 end)
+
