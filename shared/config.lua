@@ -3,7 +3,7 @@ ps = exports.ps_lib:init()
 ps.loadLangs("uwu")
 
 Config.respawnTime = 100 -- Seconds
-Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
+Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel, ox_fuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
@@ -66,4 +66,5 @@ Config.Bzz = { -- if you have BZZZ props for these turn it on if you want
     heroin =false,
     shrooms = false,
     weed = false,
+
 }
