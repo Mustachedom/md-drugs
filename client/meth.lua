@@ -419,7 +419,7 @@ for k, v in pairs (locations.MethEph) do
 		}
 	})
 end
-for k, v in pairs (locations.Methace) do
+for k, v in pairs (locations.MethAce) do
 	ps.boxTarget('stealMethAce'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
 		{
 			label = ps.lang('meth.targetStealACE'),

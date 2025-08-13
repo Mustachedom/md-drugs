@@ -69,7 +69,7 @@ end)
 ps.registerCallback('md-drugs:server:getRoute', function(source)
 	if not onRoute[source] then return false end
 	local giveLocation = math.random(1, 10)
-	if giveLocation == 10 then
+	if giveLocation >= 8 then
 		onRoute[source] = nil
 		return false
 	else
