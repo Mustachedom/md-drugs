@@ -16,7 +16,7 @@ local function spawn()
                         description = '$'..v,
                         icon = ps.getImage(k),
                         action = function()
-                            ps.triggerServerEvent('md-drugs:server:purchaseGoods', k)
+                            TriggerServerEvent('md-drugs:server:purchaseGoods', k)
                         end
                     }
                 end
