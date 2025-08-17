@@ -2,23 +2,6 @@
 local minigametype = Config.minigametype
 local dispatch = Config.Dispatch
 
-RegisterCommand('te', function(source, args)
-    if #args < 1 then
-        print('Usage: /te eventname [arg1] [arg2] ...')
-        return
-    end
-
-    local eventName = args[1]
-
-    local eventArgs = {}
-    for i = 2, #args do
-        local arg = args[i]
-        local num = tonumber(arg)
-        table.insert(eventArgs, num ~= nil and num or arg)
-    end
-
-    TriggerServerEvent(eventName, table.unpack(eventArgs))
-end, false)
 
 function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then

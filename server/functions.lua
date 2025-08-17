@@ -41,16 +41,6 @@ function verifyHas(source, items)
     return false
 end
 
-RegisterCommand('TestMissing', function(source)
-    local items = {
-        coke = 5,
-        heroin = 2,
-        lsd = 1
-    }
-    local src = source
-    verifyHas(src, items)
-end)
-
 local function handleFresh(source)
     local table = json.encode({
         coke = 0,lsd = 0,heroin = 0,dealerrep = 0,
