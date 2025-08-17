@@ -56,6 +56,7 @@ end
 
 RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
+	if timeOut(src, 'md-drugs:server:fillprescription') then return end
 	if not ps.checkDistance(src, pharmaLocations.FillPrescription[num].loc, 3.5) then
 		return ps.notify(src, ps.lang('Catches.notIn'), "error")
 	end

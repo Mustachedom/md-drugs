@@ -87,6 +87,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:getmeth', function(num)
   	local src = source
+	if timeOut(src, 'md-drugs:server:getmeth') then return end
 	if not ps.checkDistance(src, methLocs.BagMeth[num].loc, 2.5) then
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
@@ -103,8 +104,8 @@ RegisterServerEvent('md-drugs:server:geteph', function(num)
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
 	end
-	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.onCooldown'), "error") end
-	ps.addItem(src, 'ephedrine', 1) 
+	if timeOut(src, 'md-drugs:server:geteph') then return end
+	ps.addItem(src, 'ephedrine', 1)
 end)
 
 RegisterServerEvent('md-drugs:server:getace', function(num)
@@ -113,7 +114,7 @@ RegisterServerEvent('md-drugs:server:getace', function(num)
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
 	end
-	if not coolDown(ps.getIdentifier(src)) then return ps.notify(src, ps.lang('meth.onCooldown'), "error") end
+	if timeOut(src, 'md-drugs:server:getace') then return end
 	ps.addItem(src, 'acetone', 1)
 end)
 

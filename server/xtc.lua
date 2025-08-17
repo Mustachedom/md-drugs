@@ -78,15 +78,6 @@ local function craft(source, tbl, item)
 end
 
 local activePresses = {}
-local timeout = {}
-
-local function timeOut(src)
-	CreateThread(function()
-		timeout[ps.getIdentifier(src)] = true
-		Wait(3000)
-		timeout[ps.getIdentifier(src)] = nil
-	end)
-end
 
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	local src = source
@@ -94,11 +85,7 @@ RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
 		ps.notify(src, ps.lang('Checks.notIn'), "error")
 		return
 	end
-	if timeout[ps.getIdentifier(src)] then
-		ps.notify(src, ps.lang('Catches.cooldown'),	 'error')
-		return
-	end
-	timeOut(src)
+	if timeOut(src, 'md-drugs:server:stealisosafrole') then return end
   	ps.addItem(src, "isosafrole", 1)
 end)
 
@@ -108,11 +95,7 @@ RegisterServerEvent('md-drugs:server:stealmdp2p', function(num)
 		ps.notify(src, ps.lang('Checks.notIn'), "error")
 		return
 	end
-  	if timeout[ps.getIdentifier(src)] then
-		ps.notify(src, ps.lang('Catches.cooldown'),	 'error')
-		return
-	end
-	timeOut(src)
+	if timeOut(src, 'md-drugs:server:stealmdp2p') then return end
   	ps.addItem(src, "mdp2p", 1)
 end)
 
@@ -146,6 +129,7 @@ RegisterServerEvent('md-drugs:server:getpressback', function()
 	local src = source
 	if not activePresses[ps.getIdentifier(src)] then return end
 	local press = activePresses[ps.getIdentifier(src)]
+	if not ps.checkDistance(src, press.loc, 2.0) then return end
 	ps.addItem(src, press.get, 1)
 	activePresses[ps.getIdentifier(src)] = nil
 end)
@@ -156,11 +140,18 @@ RegisterServerEvent('md-drugs:server:makextc', function(data)
 		ps.notify(src, ps.lang('xtc.noPressOut'), 'error')
 		return
   	end
+	if timeOut(src, 'md-drugs:server:makextc') then return end
+	if not ps.checkDistance(src, activePresses[ps.getIdentifier(src)].loc, 2.0) then return end
   	craft(src, RecipeList[activePresses[ps.getIdentifier(src)].press][data], data)
 end)
 
-RegisterServerEvent('md-drugs:server:buypress', function()
+RegisterServerEvent('md-drugs:server:buypress', function(loc, item)
 	local src = source
+	if not ps.checkDistance(src, xtcLocations.xtcpress[loc].loc, 2.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return
+	end
+	if timeOut(src, 'md-drugs:server:buypress') then return end
 	if ps.removeMoney(src,"cash", RecipeList.presses['singlepress'].cash) then
 		ps.addItem(src, "singlepress", 1)
 	else
@@ -170,6 +161,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:upgradepress', function(data)
   	local src = source
+	if timeOut(src, 'md-drugs:server:upgradepress') then return end
   	if not ps.checkDistance(src, xtcLocations.xtcpress[data].loc, 2.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
@@ -187,11 +179,7 @@ RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
 		ps.notify(src, ps.lang('Checks.notIn'), "error")
 		return
 	end
-	if timeout[ps.getIdentifier(src)] then
-		ps.notify(src, ps.lang('Catches.cooldown'), 'error')
-		return
-	end
-	timeOut(src)
+	if timeOut(src, 'md-drugs:server:makingrawxtc') then return end
   	if not ps.craftItem(src, RecipeList.raw.raw_xtc) then return end
 end)
 
@@ -211,6 +199,7 @@ end
 RegisterServerEvent('md-drugs:server:stamp', function(num, color)
     local src = source
 	if not ps.checkDistance(src, xtcLocations.stamp[num].loc, 3.0) then return end
+	if timeOut(src, 'md-drugs:server:stamp') then return end
     local item = getColor(color)
 	local colors = {
 		white = 'white_xtc',

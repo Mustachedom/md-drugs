@@ -18,6 +18,7 @@ local function propsLabels(drugType)
         return drugModels[drugType]
     end
 end
+
 local plants = {
     cocaine = {
         { location = vector3(1474.25, -2643.87, 42.88),    heading = 334.49,     model = propsLabels('cocaine'), taken = false },
@@ -123,7 +124,6 @@ local plantData = {
                 plants.cocaine[loc].taken = false
                 GlobalState.CocaPlant = plants.cocaine
                 TriggerClientEvent('coke:respawnCane', -1, loc)
-	        	--Log('Coca Plant Respawned At ' .. plants.cocaine[loc].location, 'coke')
             end)
         end,
         allow = Config.Drugs.cocaine
@@ -143,7 +143,6 @@ local plantData = {
                 plants.heroin[loc].taken = false
                 GlobalState.PoppyPlants = plants.heroin
                 TriggerClientEvent('heroin:respawnCane', -1, loc)
-            	--Log('Heroin Plant Respawned At ' .. plants.heroin[loc].location, 'heroin')
             end)
         end,
         allow = Config.Drugs.heroin
@@ -163,7 +162,6 @@ local plantData = {
                 plants.mescaline[loc].taken = false
                 GlobalState.Mescaline = plants.mescaline
                 TriggerClientEvent('Mescaline:respawnCane', -1, loc)
-            	--Log('Mescaline Plant Respawned At ' .. plants.mescaline[loc].location, 'mescaline')
             end)
         end,
         allow = Config.Drugs.mescaline
@@ -183,7 +181,6 @@ local plantData = {
                 plants.shrooms[loc].taken = false
                 GlobalState.shrooms = plants.shrooms
                 TriggerClientEvent('shrooms:respawnCane', -1, loc)
-            	--Log('Shroom Respawned At ' .. plants.shrooms[loc].location, 'shrooms')
             end)
         end,
         allow = Config.Drugs.shrooms
@@ -203,7 +200,6 @@ local plantData = {
                 plants.weed[loc].taken = false
                 GlobalState.WeedPlant = plants.weed
                 TriggerClientEvent('weed:respawnCane', -1, loc)
-            	--Log('Weed Plant Respawned At ' .. plants.weed[loc].location, 'weed')
             end)
         end,
         allow = Config.Drugs.weed
@@ -215,6 +211,7 @@ for k, v in pairs (plantData) do
     v.globalState()
     RegisterNetEvent(v.label ..":pickupCane", function(loc)
         local src = source
+        if timeOut(src, v.label .. ":pickupCane") then return end
         if ps.checkDistance(src, v.plants[loc].location, 5.0) then
             if not v.plants[loc].taken then
                 v.plants[loc].taken = true

@@ -16,9 +16,10 @@ local cocaineRecipes = {
         tier3 = {take = {loosecokestagethree = 1,   empty_weed_bag = 1}, give = {cokebaggystagethree = 1}},
    }
 }
+
 local cocaineLocations = {
     MakePowder = {
-        {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = "ballas"},
+        {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     CuttingCoke = {
         {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-1.782227, 0.445068, -0.502701), rotation = vector3(0,0,0), gang = ""},
@@ -39,8 +40,9 @@ end)
 
 RegisterServerEvent('md-drugs:server:makepowder', function(num)
     local src = source
+    if timeOut(src, 'md-drugs:server:makepowder') then return end
     if not ps.checkDistance(src, cocaineLocations.MakePowder[num].loc, 3.5) then
-        ps.notify(src, ps.lang('Catches.notIn'), 'error')
+        ps.warn(ps.lang('Catches.notIn', ps.getPlayerName(src)), 'md-drugs:server:makepowder')
         return
     end
     local tier = 'tier1'
@@ -61,6 +63,7 @@ end)
 RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
     local src = source
     local tier = 'tier1'
+    if timeOut(src, 'md-drugs:server:cutcokeone') then return end
     if not ps.checkDistance(src, cocaineLocations.CuttingCoke[num].loc, 2.5) then
         ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
@@ -87,6 +90,7 @@ end)
 RegisterServerEvent('md-drugs:server:bagcoke', function(num)
     local src = source
     local tier = 'tier1'
+    if timeOut(src, 'md-drugs:server:bagcoke') then return end
     if not ps.checkDistance(src, cocaineLocations.BaggingCoke[num].loc, 2.5) then
         ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return

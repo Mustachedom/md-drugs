@@ -31,37 +31,25 @@ ps.registerCallback('md-drugs:server:GetLSDLocations', function(source)
 	return lsdLocations
 end)
 
-local timedOut = {}
-
-local function timeout(src, time)
-	timedOut[src] = true
-	CreateThread(function()
-		Wait(time)
-		timedOut[src] = nil
-	end)
-end
-
 local lsdTables = {}
 
 RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 	local src = source
-	if timedOut[src] then return end
+	if timeOut(src, 'md-drugs:server:getlysergic') then return end
 	if not ps.checkDistance(src, lsdLocations.lysergicacid[num].loc, 2.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
 	end
-	timeout(src, 3000)
 	ps.addItem(src, 'lysergic_acid', 2)
 end)
 
 RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
-	if timedOut[src] then return end
+	if timeOut(src, 'md-drugs:server:getdiethylamide') then return end
 	if not ps.checkDistance(src, lsdLocations.diethylamide[num].loc, 2.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
 	end
-	timeout(src, 3000)
 	ps.addItem(src, 'diethylamide', 2)
 end)
 
@@ -108,6 +96,7 @@ end)
 RegisterServerEvent('md-drugs:server:heatliquid', function()
 	local src = source
 	if not hasLabKit(src) then return end
+	if timeOut(src, 'md-drugs:server:heatliquid') then return end
 	if not ps.craftItem(src, lsdRecipes['vial']['heat']) then
 		verifyHas(src, lsdRecipes['vial']['heat'].take)
 		return
@@ -126,6 +115,7 @@ end)
 RegisterServerEvent('md-drugs:server:refinequalityacid', function()
 	local src = source
 	if not hasLabKit(src) then return end
+	if timeOut(src, 'md-drugs:server:refinequalityacid') then return end
 	if not ps.hasItem(src, 'lsd_one_vial', 1) then return end
 	if Config.TierSystem then
 		local lsd = tonumber(getRep(src, 'lsd'))
@@ -170,6 +160,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	local src = source
+	if timeOut(src, 'md-drugs:server:gettabpaper') then return end
 	if not ps.checkDistance(src, lsdLocations.gettabs[num].loc, 3.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
@@ -183,6 +174,7 @@ end)
  
 RegisterServerEvent('md-drugs:server:getlabkit', function(num)
 	local src = source
+	if timeOut(src, 'md-drugs:server:getlabkit') then return end
 	if ps.hasItem(src,'lsdlabkit', 1) then 
 		return
 	end
@@ -199,6 +191,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:maketabpaper', function()
 	local src = source
+	if timeOut(src, 'md-drugs:server:maketabpaper') then return end
 	if not hasLabKit(src) then return end
 	if not ps.hasItem(src,'tab_paper', 1) then return end
 	local vialdata = {

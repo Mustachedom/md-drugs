@@ -37,13 +37,14 @@ local heroinLocations = {
 	}
 }
 
+local prices = {
+	heroinlabkitprice = 10000
+}
+
 ps.registerCallback('md-drugs:server:GetHeroinLocations', function(source)
 	return heroinLocations
 end)
 
-local prices = {
-	heroinlabkitprice = 10000
-}
 
 ps.registerCallback('removeCleaningkit', function(source)
 	for k, v in pairs(heroinLabKits) do
@@ -57,6 +58,8 @@ end)
 
 RegisterServerEvent('md-drugs:server:dryplant', function(num)
 	local src = source
+
+	if timeOut(src, 'md-drugs:server:dryplant') then return end
 	if not ps.checkDistance(src, heroinLocations.dryplant[num].loc, 3.0) then 
 		ps.notify(src, ps.lang('Catches.notIn'), 'error')
 		return
@@ -81,6 +84,9 @@ end)
 
 RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	local src = source
+
+	if timeOut(src, 'md-drugs:server:cutheroin') then return end
+
 	if not ps.checkDistance(src, heroinLocations.cutheroinone[num].loc, 3.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), 'error')
 		return
@@ -112,6 +118,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:getheroinlabkit', function(num)
 	local src = source
+	if timeOut(src, 'md-drugs:server:getheroinlabkit') then return end
 	if not ps.checkDistance(src, heroinLocations.buyKit[num].loc, 3.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), 'error')
 		return
@@ -165,8 +172,12 @@ end)
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 	local src = source
+
+	if timeOut(src, 'md-drugs:server:heatliquidheroin') then return end
+
 	if not hasHKit(src) then return end
 	if not ps.hasItem(src, 'emptyvial', 1) then return end
+	
 	if Config.TierSystem then
 		local itemList = {
 			heroincut = 'tier1',
@@ -212,6 +223,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
+	if timeOut(src, 'md-drugs:server:fillneedle') then return end
 	if not ps.checkDistance(src, heroinLocations.fillneedle[num].loc, 3.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), 'error')
 		return
@@ -244,7 +256,6 @@ end)
 
 RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source
-	--Log(ps.getPlayerName(src) ..' Sucks And Burned Their Heroin', 'heroin')
 	if Config.TierSystem then
 		local itemList = {
 			heroinvial = 1,

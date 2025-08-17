@@ -1,6 +1,6 @@
 Config = {} --Ignore.
 ps = exports.ps_lib:init()
-ps.loadLangs("uwu")
+ps.loadLangs("en")
 
 Config.respawnTime = 100 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel, ox_fuel

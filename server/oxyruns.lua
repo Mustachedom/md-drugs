@@ -28,6 +28,7 @@ local oxyLocs = {
 ps.registerCallback('md-drugs:server:GetOxyLocs', function(source)
 	return oxyLocs
 end)
+
 ps.registerCallback('md-drugs:server:payfortruck', function(source)
 	local src = source
 	if ps.removeMoney(src, 'cash', prices.payfortruck) or ps.removeMoney(src, 'bank', prices.payfortruck) then
@@ -43,6 +44,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local src = source
+	if timeOut(src, 'md-drugs:server:giveoxybox') then return end
 	if not onRoute[src] then
 		ps.notify(src, ps.lang('oxy.notOn'), "error")
 		return

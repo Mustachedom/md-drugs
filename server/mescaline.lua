@@ -17,6 +17,7 @@ end)
 
 RegisterNetEvent("md-drugs:server:drymescaline", function(num)
     local src = source
+    if timeOut(src, 'md-drugs:server:drymescaline') then return end
     if not ps.checkDistance(src, mescalineLocation.DryOutMescaline[num].loc, 3.0) then
         ps.notify(src, ps.lang('Catches.notIn'), "error")
         return

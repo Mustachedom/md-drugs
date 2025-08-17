@@ -75,6 +75,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:dryoutweed', function()
 	local src = source
+    if timeOut(src, 'md-drugs:server:dryoutweed') then return end
 	if ps.removeItem(src,"wetcannabis", 1) then
     	ps.addItem(src,"drycannabis", 1)
     else
@@ -96,6 +97,7 @@ end
 
 RegisterServerEvent('md-drugs:server:MakeWeedItems', function(data)
 	local src = source
+    if timeOut(src, 'md-drugs:server:MakeWeedItems') then return end
 	if not ps.craftItem(src, weed[data.table][data.item]) then
         verifyHas(src, weed[data.table][data.item].take)
 		return
@@ -126,7 +128,7 @@ end)
 
 ps.createUseable("mdwoods", function(source, item)
 	local src = source
-     local check = ps.callback('md-drugs:client:uncuff', src, ps.lang('weed.crackBlunt'))
+    local check = ps.callback('md-drugs:client:uncuff', src, ps.lang('weed.crackBlunt'))
     if not check then return end
 	if ps.removeItem(src, "mdwoods",1 ) then
 		ps.addItem(src, "bluntwrap", 5)

@@ -1,3 +1,22 @@
+local timeOutPlayers = {}
+
+local function timeOutThread(src)
+    CreateThread(function()
+        timeOutPlayers[ps.getIdentifier(src)] = true
+        Wait(3000)
+        timeOutPlayers[ps.getIdentifier(src)] = nil
+    end)
+end
+
+function timeOut(src, event)
+    if timeOutPlayers[ps.getIdentifier(src)] then
+        ps.warn(ps.lang('Catches.onCooldownWarn', ps.getPlayerName(src), event))
+        return true
+    end
+    timeOutThread(src)
+    return false
+end
+
 function verifyHas(source, items)
     local need = 0
     local have = 0

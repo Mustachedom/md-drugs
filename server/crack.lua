@@ -20,16 +20,20 @@ local CrackLocations = {
     },
 }
 
+
 ps.registerCallback('md-drugs:server:GetCrackLocations', function()
     return CrackLocations
 end)
+
 RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
     local tier = 'tier1'
+    if timeOut(src, 'md-drugs:server:makecrackone') then return end
     if not ps.checkDistance(src, CrackLocations.makecrack[num].loc, 2.0) then
         ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
+
     if Config.TierSystem then
         local crackTiers = {
             {item = 'loosecoke', 		 tier = 'tier1'},
@@ -53,6 +57,7 @@ end)
 RegisterServerEvent('md-drugs:server:bagcrack', function(num)
     local src = source
     local tier = 'tier1'
+    if timeOut(src, 'md-drugs:server:bagcrack') then return end
     if not ps.checkDistance(src, CrackLocations.bagcrack[num].loc, 2.0) then
         ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
