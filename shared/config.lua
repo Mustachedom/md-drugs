@@ -52,6 +52,7 @@ Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark 
     lsd = true,
     mescaline = true,
     meth = true,
+    methlab = true,
     oxyruns = true,
     pharma = true,
     shrooms = true,
