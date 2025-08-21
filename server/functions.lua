@@ -16,6 +16,39 @@ function timeOut(src, event)
     timeOutThread(src)
     return false
 end
+-- Drug Labs Functions
+local Buckets = {}
+function setBucket(src, bucket)
+    if src and bucket then
+        Player(src).state:set('instance', bucket, true)
+        SetPlayerRoutingBucket(src, bucket)
+        return true
+    else
+        return false
+    end
+end
+
+function saveBucket(src, bucket)
+    Buckets[ps.getIdentifier(src)] = {original = GetEntityRoutingBucket(GetPlayerPed(src)), new = bucket}
+    setBucket(src, bucket)
+end
+
+function restoreBucket(src)
+    local id = ps.getIdentifier(src)
+    if Buckets[id] then
+        setBucket(src, Buckets[id].original)
+        Buckets[id] = nil
+    end
+end
+
+local firstNames = {'John', 'Jacob', 'Matt', 'Michael', 'Chris', 'David', 'James', 'Robert', 'William', 'Joseph', 'Daniel', 'Lucas', 'Mason', 'Ethan', 'Alexander', 'Liam'}
+local lastNames = {'Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin'}
+
+function generateRandomName()
+    local firstName = firstNames[math.random(#firstNames)]
+    local lastName = lastNames[math.random(#lastNames)]
+    return firstName .. ' ' .. lastName
+end
 
 function verifyHas(source, items)
     local need = 0

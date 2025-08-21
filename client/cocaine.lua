@@ -2,6 +2,8 @@
 local cuttingcoke = nil
 local baggingcoke = nil
 local locations = ps.callback('md-drugs:server:GetCokeLocations')
+
+
 local function CutCoke(coords, offset, rotation)
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
 	ps.requestAnim(animDict, 500)
@@ -125,8 +127,9 @@ for k, v in pairs (locations.MakePowder) do
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
             canInteract = function()
-                return handleGang(v.gang)
-            end
+				if cocaineLab then return false end
+				return handleGang(v.gang)
+			end
         }
     })
 end
@@ -145,6 +148,7 @@ for k, v in pairs (locations.CuttingCoke) do
 				TriggerServerEvent("md-drugs:server:cutcokeone", k)
             end,
             canInteract = function()
+				if cocaineLab then return false end
                 if not handleGang(v.gang) then return false end
                 if cuttingcoke ~= nil or baggingcoke ~= nil then return false end
                 return true
@@ -167,6 +171,7 @@ for k, v in pairs (locations.BaggingCoke) do
 				TriggerServerEvent("md-drugs:server:bagcoke", k)
             end,
             canInteract = function()
+				if cocaineLab then return false end
                 if not handleGang(v.gang) then return false end
                 if cuttingcoke ~= nil or baggingcoke ~= nil then return false end
                 return true
@@ -184,6 +189,7 @@ for k, v in pairs (locations.cokeTele) do
 				SetEntityCoords(PlayerPedId(), v.outside)
 			end,
 			canInteract = function()
+				if cocaineLab then return false end
                 return handleGang(v.gang)
             end
 		}
@@ -196,6 +202,7 @@ for k, v in pairs (locations.cokeTele) do
 				SetEntityCoords(PlayerPedId(), v.inside)
 			end,
 			canInteract = function()
+				if cocaineLab then return false end
                 return handleGang(v.gang)
             end
 		}

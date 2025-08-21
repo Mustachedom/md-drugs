@@ -43,6 +43,7 @@ Config.minigametype = 'ps_circle' -- look above for options or choose none if yo
 
 Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark it false
     cocaine = true,
+    cocainelab = true,
     consumables = true,
     cornerselling = true,
     crack = true,
