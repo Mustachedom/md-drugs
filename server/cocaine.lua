@@ -38,11 +38,11 @@ ps.registerCallback('md-drugs:server:GetCokeLocations', function()
     return cocaineLocations
 end)
 
-RegisterServerEvent('md-drugs:server:makepowder', function(num)
+RegisterServerEvent('md-drugs:server:makepowder', function(num, qty)
     local src = source
     if timeOut(src, 'md-drugs:server:makepowder') then return end
     if not ps.checkDistance(src, cocaineLocations.MakePowder[num].loc, 3.5) then
-        ps.warn(ps.lang('Catches.notIn', ps.getPlayerName(src)), 'md-drugs:server:makepowder')
+        ps.notify(src, ps.lang('Catches.notIn'), 'error')
         return
     end
     local tier = 'tier1'
@@ -54,13 +54,14 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
             tier = 'tier3'
         end
     end
-    if not ps.craftItem(src, cocaineRecipes['cokepowder'][tier]) then
-        verifyHas(src, cocaineRecipes['cokepowder'][tier].take)
+    local scaled = scaleRecipe(cocaineRecipes['cokepowder'][tier], qty)
+    if not ps.craftItem(src, scaled) then
+        verifyHas(src, scaled.take)
         return
     end
 end)
 
-RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
+RegisterServerEvent('md-drugs:server:cutcokeone', function(num, qty)
     local src = source
     local tier = 'tier1'
     if timeOut(src, 'md-drugs:server:cutcokeone') then return end
@@ -81,13 +82,14 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
             end
         end
     end
-    if not ps.craftItem(src, cocaineRecipes['cutcoke'][tier]) then
-        verifyHas(src, cocaineRecipes['cutcoke'][tier].take)
+    local scaled = scaleRecipe(cocaineRecipes['cutcoke'][tier], qty)
+    if not ps.craftItem(src, scaled) then
+        verifyHas(src, scaled.take)
         return
     end
 end)
 
-RegisterServerEvent('md-drugs:server:bagcoke', function(num)
+RegisterServerEvent('md-drugs:server:bagcoke', function(num, qty)
     local src = source
     local tier = 'tier1'
     if timeOut(src, 'md-drugs:server:bagcoke') then return end
@@ -107,14 +109,16 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
                 break
             end
         end
-        if not ps.craftItem(src, cocaineRecipes['bagcoke'][tier]) then
-            verifyHas(src, cocaineRecipes['bagcoke'][tier].take)
+        local scaled = scaleRecipe(cocaineRecipes['bagcoke'][tier], qty)
+        if not ps.craftItem(src, scaled) then
+            verifyHas(src, scaled.take)
             return
         end
-        AddRep(src, 'coke')
+        AddRep(src, 'coke', clampQuantity(qty))
     else
-        if not ps.craftItem(src, cocaineRecipes['bagcoke'][tier]) then
-            verifyHas(src, cocaineRecipes['bagcoke'][tier].take)
+        local scaled = scaleRecipe(cocaineRecipes['bagcoke'][tier], qty)
+        if not ps.craftItem(src, scaled) then
+            verifyHas(src, scaled.take)
             return
         end
     end

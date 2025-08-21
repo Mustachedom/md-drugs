@@ -219,7 +219,16 @@ Lang.wholesale = {
     wholesaling = 'Wholesaling Drugs',
     uhoh = 'The Buyer Is Getting Sketchy',
     tooLong = 'The Buyer Waited Too Long',
-    notEnoughCops = 'Not Enough Cops On Duty'
+    notEnoughCops = 'Not Enough Cops On Duty',
+    -- Added keys for enhanced wholesale flow
+    count = 'Quantity detected: %s',
+    bonus = 'Quantity bonus: +%s%%',
+    estimate = 'Estimated payout: $%s - $%s',
+    no_drugs = 'You do not have any of this drug to sell',
+    ambush = 'Ambush! %s attackers with %s weapons are approaching!',
+    complete = 'Sold %s items for $%s%s',
+    min_quantity = 'You must sell at least %s items to wholesale',
+    deal_failed_cleanup = 'Deal failed - you can try again'
 }
 
 Lang.xtc = {

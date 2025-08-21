@@ -26,8 +26,10 @@ local function createLabKit(coord, head)
 	        	SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
 	        return end
 
-            if not ps.progressbar(ps.lang('heroin.pbCook'), 4000, 'uncuff') then return end
-            TriggerServerEvent("md-drugs:server:heatliquidheroin")
+            local qty = promptBatchQuantity('Select Quantity')
+            if not qty then return end
+            if not progressbarScaled(ps.lang('heroin.pbCook'), qty, 'uncuff') then return end
+            TriggerServerEvent("md-drugs:server:heatliquidheroin", qty)
         end,
         canInteract = function()
             if not dirty then return true end
@@ -72,8 +74,10 @@ for k, v in pairs (locations.dryplant) do
             label = ps.lang('heroin.targetDry'),
             icon = 'fa-solid fa-temperature-high',
             action = function()
-                if not ps.progressbar(ps.lang('heroin.pbDry'), 4000, 'uncuff') then return end
-	            TriggerServerEvent("md-drugs:server:dryplant", k)
+                local qty = promptBatchQuantity('Select Quantity')
+                if not qty then return end
+                if not progressbarScaled(ps.lang('heroin.pbDry'), qty, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:dryplant", k, qty)
             end,
             canInteract = function()
                 return handleGang(v.gang)
@@ -89,8 +93,10 @@ for k, v in pairs (locations.cutheroinone) do
             icon = 'fa-solid fa-seedling',
             action = function()
                 if not ps.hasItem('bakingsoda') then return end
-	            if not ps.progressbar(ps.lang('heroin.pbCutHeroin'), 4000, 'uncuff') then return end
-	            TriggerServerEvent("md-drugs:server:cutheroin", k)
+                local qty = promptBatchQuantity('Select Quantity')
+                if not qty then return end
+	            if not progressbarScaled(ps.lang('heroin.pbCutHeroin'), qty, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:cutheroin", k, qty)
             end,
             canInteract = function()
                 return handleGang(v.gang)
@@ -143,8 +149,10 @@ for k, v in pairs (locations.fillneedle) do
             icon = 'fa-solid fa-syringe',
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:failheroin", k) return end
-                if not ps.progressbar(ps.lang('heroin.pbFill'), 4000, 'uncuff') then return end
-                TriggerServerEvent("md-drugs:server:fillneedle", k)
+                local qty = promptBatchQuantity('Select Quantity')
+                if not qty then return end
+                if not progressbarScaled(ps.lang('heroin.pbFill'), qty, 'uncuff') then return end
+                TriggerServerEvent("md-drugs:server:fillneedle", k, qty)
             end,
             canInteract = function()
                 return handleGang(v.gang)

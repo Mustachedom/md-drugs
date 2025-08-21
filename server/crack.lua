@@ -24,8 +24,7 @@ local CrackLocations = {
 ps.registerCallback('md-drugs:server:GetCrackLocations', function()
     return CrackLocations
 end)
-
-RegisterServerEvent('md-drugs:server:makecrackone', function(num)
+RegisterServerEvent('md-drugs:server:makecrackone', function(num, qty)
     local src = source
     local tier = 'tier1'
     if timeOut(src, 'md-drugs:server:makecrackone') then return end
@@ -36,7 +35,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
 
     if Config.TierSystem then
         local crackTiers = {
-            {item = 'loosecoke', 		 tier = 'tier1'},
+            {item = 'loosecoke',          tier = 'tier1'},
             {item = 'loosecokestagetwo', tier = 'tier2'},
             {item = 'loosecokestagethree', tier = 'tier3'}
         }
@@ -47,14 +46,15 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
             end
         end
     end
-    if not ps.craftItem(src, crackRecipe['cookcrack'][tier]) then
-        verifyHas(src, crackRecipe['cookcrack'][tier].take)
+    local scaled = scaleRecipe(crackRecipe['cookcrack'][tier], qty)
+    if not ps.craftItem(src, scaled) then
+        verifyHas(src, scaled.take)
         return
     end
 end)
 
 
-RegisterServerEvent('md-drugs:server:bagcrack', function(num)
+RegisterServerEvent('md-drugs:server:bagcrack', function(num, qty)
     local src = source
     local tier = 'tier1'
     if timeOut(src, 'md-drugs:server:bagcrack') then return end
@@ -75,17 +75,18 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
             end
         end
     end
-    if not ps.craftItem(src, crackRecipe['bagcrack'][tier]) then
-        verifyHas(src, crackRecipe['bagcrack'][tier].take)
+    local scaled = scaleRecipe(crackRecipe['bagcrack'][tier], qty)
+    if not ps.craftItem(src, scaled) then
+        verifyHas(src, scaled.take)
         return
     end
 end)
 
 local cokecut = {crackrockstagetwo = 2, crackrockstagethree = 3}
 for k, v in pairs (cokecut) do
-	ps.createUseable(k, function(source, item)
-		local src = source
-		if ps.hasItem(src, item.name) then
+    ps.createUseable(k, function(source, item)
+        local src = source
+        if ps.hasItem(src, item.name) then
 			if not ps.hasItem(src, 'bakingsoda', 1) then return end
             local check = ps.callback('md-drugs:client:uncuff', src, 'Cutting Crack Rock Further')
             if not check then return end

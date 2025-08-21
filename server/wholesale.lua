@@ -8,11 +8,30 @@ local burners = {cokeburner = coke, crackburner = crack, lsdburner = lsd, heroin
 local active = {}
 
 local Price = {
-    coke =   {min = 20, max = 60},
-    crack =  {min = 20, max = 60},
-    lsd =    {min = 20, max = 60},
-    heroin = {min = 20, max = 60},
-    xtc =    {min = 20, max = 60},
+    coke = {
+        min = math.floor(250 * 0.80), -- 250 * 0.80 = 200
+        max = math.floor(450 * 0.80)  -- 450 * 0.80 = 360
+    },
+    crack = {
+        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
+        max = math.floor(400 * 0.80)  -- 400 * 0.80 = 320
+    },
+    lsd = {
+        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
+        max = math.floor(350 * 0.80)  -- 350 * 0.80 = 280
+    },
+    heroin = {
+        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
+        max = math.floor(400 * 0.80)  -- 400 * 0.80 = 320
+    },
+    xtc = {
+        min = math.floor(350 * 0.80), -- 350 * 0.80 = 280
+        max = math.floor(665 * 0.80)  -- 665 * 0.80 = 532
+    },
+    meth = {
+        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
+        max = math.floor(400 * 0.80)  -- 400 * 0.80 = 320
+    }
 }
 local locs = {
     vector4(-2352.32, 266.78, 165.3, 23.46),
@@ -28,19 +47,18 @@ local locs = {
 	vector4(-320.84, 2818.73, 59.45, 337.22),
 	vector4(474.88, 2609.56, 44.48, 357.0),
 }
-function getRandW(src)
+function getRandW(source)
     local rand = math.random(1, #locs)
     return locs[rand]
 end
 
 for k, v in pairs (burners) do 
     ps.createUseable(k, function(source, item)
-        local src = source
-        local Player = getPlayer(src)
-        if getCops() < Config.PoliceCount then return ps.notify(src, ps.lang('wholesale.notEnoughCops'), 'error') end
+        local Player = ps.getPlayer(source)
+        if ps.getJobTypeCount('leo') < Config.PoliceCount then return ps.notify(source, ps.lang('wholesale.notEnoughCops'), 'error') end
         for m, d in pairs (active) do 
-            if d.cid == Player.PlayerData.citizenid then
-                return ps.notify(src, ps.lang('wholesale.alreadyWholesale'), 'error' )
+            if d.cid == ps.getIdentifier(source) then
+                return ps.notify(source, ps.lang('wholesale.alreadyWholesale'), 'error')
             end
         end
         local tab = ''
@@ -49,18 +67,31 @@ for k, v in pairs (burners) do
         if k == 'lsdburner' then tab = 'lsd' end
         if k == 'heroinburner' then tab = 'heroin' end
         if k == 'xtcburner' then tab = 'xtc' end
-        if ps.removeItem(src, k, 1) then
+        if k == 'methburner' then tab = 'meth' end
+        if ps.removeItem(source, k, 1) then
+            -- Count how many of this drug type the player has
+            local Player = ps.getPlayer(source)
+            local drugCount = 0
+            
+            for m, d in pairs (v) do
+                local amt = ps.getItemCount(source, d) or 0
+                if amt > 0 then
+                    drugCount = drugCount + amt
+                end
+            end
+            
             table.insert(active, {
-                src = src,
+                src = source,
                 item = k,
-                location = getRandW(src),
-                cid = ps.getIdentifier(src),
+                location = getRandW(source),
+                cid = ps.getIdentifier(source),
                 type = v,
-                price = Price[tab]
+                price = Price[tab],
+                count = drugCount
             })
             for m, d in pairs (active) do 
-                if d.cid == ps.getIdentifier(src) then
-                    TriggerClientEvent("md-drugs:client:GetLocation", src, active[m])
+                if d.cid == ps.getIdentifier(source) then
+                    TriggerClientEvent("md-drugs:client:GetLocation", source, active[m])
                 end
             end
         end
@@ -68,22 +99,68 @@ for k, v in pairs (burners) do
 end
 
 RegisterNetEvent('md-drugs:server:SuccessSale', function(data)
-    local src = source
-    for k, v in pairs (active) do
-        if v.cid == ps.getIdentifier(src) then
-            if not ps.checkDistance(src, v.location, 4.0) then 
-                return ps.notify(src, ps.lang('Catches.notIn'), "error")
-            end
-            local payout = math.random(v.price.min, v.price.max)
-            for m, d in pairs (v.type) do
-                local git = ps.getItemCount(src, d)
-                if git >= 1 then 
-                    if ps.removeItem(src, d, git) then
-                        ps.addMoney('cash', git * payout)
-                    end
+    local Player = ps.getPlayer(source)
+    for k, v in pairs (active) do 
+        if v.cid == ps.getIdentifier(source) then
+            local totalQuantity = 0
+            local itemCounts = {}
+            
+            -- First pass: count all items
+            for m, d in pairs (v.type) do 
+                local count = ps.getItemCount(source, d) or 0
+                if count >= 1 then
+                    totalQuantity = totalQuantity + count
+                    itemCounts[d] = count
                 end
-                table.remove(active, k)
             end
+            
+            -- Check minimum quantity requirement
+            if totalQuantity < Config.WholesaleMinQuantity then
+                ps.notify(source, string.format(ps.lang('wholesale.min_quantity'), Config.WholesaleMinQuantity), 'error')
+                return
+            end
+            
+            -- Calculate quantity bonus (5% per 10 items up to max bonus)
+            local bonusTiers = math.floor(totalQuantity / 10)
+            local quantityBonus = math.min(bonusTiers * Config.WholesaleQuantityBonus, Config.WholesaleMaxBonus)
+            local bonusMultiplier = 1 + quantityBonus
+            
+            -- Base payout calculation
+            local basePayout = math.random(v.price.min, v.price.max)
+            local finalPayout = math.floor(basePayout * bonusMultiplier)
+            
+            -- Process items and calculate total payout
+            local totalPayout = 0
+            for drug, amount in pairs(itemCounts) do
+                ps.removeItem(source, drug, amount)
+                totalPayout = totalPayout + (amount * finalPayout)
+            end
+            
+            -- Add money to player
+            ps.addMoney(source, 'cash', totalPayout)
+            
+            -- Notify player of successful sale with details
+            TriggerClientEvent('md-drugs:client:WholesaleComplete', source, {
+                quantity = totalQuantity,
+                bonus = math.floor(quantityBonus * 100),
+                payout = totalPayout
+            })
+            
+            -- Remove active wholesale entry
+            table.remove(active, k)
+            break
+        end
+    end
+end)
+
+-- Add event to clean up failed wholesale deals
+RegisterNetEvent('md-drugs:server:CleanupWholesale', function()
+    local Player = ps.getPlayer(source)
+    for k, v in pairs(active) do
+        if v.cid == ps.getIdentifier(source) then
+            table.remove(active, k)
+            ps.notify(source, ps.lang('wholesale.deal_failed_cleanup') or 'Deal failed - you can try again', 'error')
+            break
         end
     end
 end)

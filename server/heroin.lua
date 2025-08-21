@@ -56,7 +56,7 @@ ps.registerCallback('removeCleaningkit', function(source)
 	return false
 end)
 
-RegisterServerEvent('md-drugs:server:dryplant', function(num)
+RegisterServerEvent('md-drugs:server:dryplant', function(num, qty)
 	local src = source
 
 	if timeOut(src, 'md-drugs:server:dryplant') then return end
@@ -76,13 +76,14 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 			tier = 'tier3'
 		end
 	end
-	if not ps.craftItem(src, heroinRecipes['dryheroin'][tier]) then
-		verifyHas(src, heroinRecipes['dryheroin'][tier].take)
+	local scaled = scaleRecipe(heroinRecipes['dryheroin'][tier], qty)
+	if not ps.craftItem(src, scaled) then
+		verifyHas(src, scaled.take)
 		return
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:cutheroin', function(num)
+RegisterServerEvent('md-drugs:server:cutheroin', function(num, qty)
 	local src = source
 
 	if timeOut(src, 'md-drugs:server:cutheroin') then return end
@@ -100,17 +101,19 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 		for k, v in pairs(itemList) do
 			local cuth = ps.hasItem(src, k)
 			if cuth then
-				if not ps.craftItem(src, heroinRecipes['cutheroin'][v]) then
-					verifyHas(src, heroinRecipes['cutheroin'][v].take)
+				local scaled = scaleRecipe(heroinRecipes['cutheroin'][v], qty)
+				if not ps.craftItem(src, scaled) then
+					verifyHas(src, scaled.take)
 					return
 				end
-				AddRep(src, 'heroin')
+				AddRep(src, 'heroin', clampQuantity(qty))
 				return
 			end
 		end
 	else
-		if not ps.craftItem(src, heroinRecipes['cutheroin']['tier1']) then
-			verifyHas(src, heroinRecipes['cutheroin']['tier1'].take)
+		local scaled = scaleRecipe(heroinRecipes['cutheroin']['tier1'], qty)
+		if not ps.craftItem(src, scaled) then
+			verifyHas(src, scaled.take)
 			return
 		end
 	end
@@ -170,7 +173,7 @@ ps.createUseable('heroinlabkit', function(source, item)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
+RegisterServerEvent('md-drugs:server:heatliquidheroin', function(qty)
 	local src = source
 
 	if timeOut(src, 'md-drugs:server:heatliquidheroin') then return end
@@ -187,17 +190,19 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 		for k, v in pairs(itemList) do
 			local cuth = ps.hasItem(src, k)
 			if cuth then
-				if not ps.craftItem(src, heroinRecipes['fillvial'][v]) then
-					verifyHas(src, heroinRecipes['fillvial'][v].take)
+				local scaled = scaleRecipe(heroinRecipes['fillvial'][v], qty)
+				if not ps.craftItem(src, scaled) then
+					verifyHas(src, scaled.take)
 					return
 				end
-				AddRep(src, 'heroin')
+				AddRep(src, 'heroin', clampQuantity(qty))
 				return
 			end
 		end
 	else
-		if not ps.craftItem(src, heroinRecipes['fillvial']['tier1']) then
-			verifyHas(src, heroinRecipes['fillvial']['tier1'].take)
+		local scaled = scaleRecipe(heroinRecipes['fillvial']['tier1'], qty)
+		if not ps.craftItem(src, scaled) then
+			verifyHas(src, scaled.take)
 			return
 		end
 	end
@@ -221,7 +226,7 @@ RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:fillneedle', function(num)
+RegisterServerEvent('md-drugs:server:fillneedle', function(num, qty)
 	local src = source
 	if timeOut(src, 'md-drugs:server:fillneedle') then return end
 	if not ps.checkDistance(src, heroinLocations.fillneedle[num].loc, 3.0) then
@@ -238,17 +243,19 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 		for k, v in pairs(itemList) do
 			local vh = ps.hasItem(src, v.item)
 			if vh then
-				if not ps.craftItem(src, heroinRecipes['fillneedle'][v.tier]) then
-					verifyHas(src, heroinRecipes['fillneedle'][v.tier].take)
+				local scaled = scaleRecipe(heroinRecipes['fillneedle'][v.tier], qty)
+				if not ps.craftItem(src, scaled) then
+					verifyHas(src, scaled.take)
 					return
 				end
-				AddRep(src, 'heroin')
+				AddRep(src, 'heroin', clampQuantity(qty))
 				return
 			end
 		end
 	else
-		if not ps.craftItem(src, heroinRecipes['fillneedle']['tier1']) then
-			verifyHas(src, heroinRecipes['fillneedle']['tier1'].take)
+		local scaled = scaleRecipe(heroinRecipes['fillneedle']['tier1'], qty)
+		if not ps.craftItem(src, scaled) then
+			verifyHas(src, scaled.take)
 			return
 		end
 	end
@@ -256,6 +263,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source
+	--Log(ps.getPlayerName(src) ..' Sucks And Burned Their Heroin', 'heroin')
 	if Config.TierSystem then
 		local itemList = {
 			heroinvial = 1,

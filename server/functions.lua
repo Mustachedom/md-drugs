@@ -100,6 +100,32 @@ function AddRep(source, type, amount)
     end
 end
 
+-- Batch crafting helpers
+function clampQuantity(qty)
+    local max = Config.MaxBatchSize or 50
+    qty = tonumber(qty) or 1
+    if qty < 1 then qty = 1 end
+    if qty > max then qty = max end
+    return math.floor(qty)
+end
+
+function scaleRecipe(recipe, qty)
+    local scaled = { take = {}, give = {} }
+    if not recipe then return scaled end
+    qty = clampQuantity(qty)
+    if recipe.take then
+        for item, amt in pairs(recipe.take) do
+            scaled.take[item] = (amt or 0) * qty
+        end
+    end
+    if recipe.give then
+        for item, amt in pairs(recipe.give) do
+            scaled.give[item] = (amt or 0) * qty
+        end
+    end
+    return scaled
+end
+
 ps.registerCallback('md-drugs:server:GetCoppers', function(source, cb, args)
    return ps.getJobTypeCount('leo')
 end)

@@ -121,8 +121,10 @@ for k, v in pairs (locations.MakePowder) do
                     ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('coca_leaf')), 'error')
                     return
                 end
-                if not ps.progressbar(ps.lang('coke.makePow'), 4000, 'uncuff') then return end
-	            TriggerServerEvent("md-drugs:server:makepowder", k)
+                local qty = promptBatchQuantity('Select Quantity')
+                if not qty then return end
+                if not progressbarScaled(ps.lang('coke.makePow'), qty, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:makepowder", k, qty)
             end,
             canInteract = function()
                 return handleGang(v.gang)
@@ -141,8 +143,10 @@ for k, v in pairs (locations.CuttingCoke) do
                     ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
                     return
                 end
+                local qty = promptBatchQuantity('Select Quantity')
+                if not qty then return end
                 CutCoke(v.loc, v.offset, v.rotation)
-				TriggerServerEvent("md-drugs:server:cutcokeone", k)
+				TriggerServerEvent("md-drugs:server:cutcokeone", k, qty)
             end,
             canInteract = function()
                 if not handleGang(v.gang) then return false end
@@ -163,8 +167,10 @@ for k, v in pairs (locations.BaggingCoke) do
                     ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('empty_weed_bag')), 'error')
                     return
                 end
+                local qty = promptBatchQuantity('Select Quantity')
+                if not qty then return end
                 BagCoke(v.loc, v.offset, v.rotation)
-				TriggerServerEvent("md-drugs:server:bagcoke", k)
+				TriggerServerEvent("md-drugs:server:bagcoke", k, qty)
             end,
             canInteract = function()
                 if not handleGang(v.gang) then return false end

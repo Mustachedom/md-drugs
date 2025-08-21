@@ -1,31 +1,35 @@
 local exploded, drying = false, false
 local locations = ps.callback('md-drugs:server:GetWeedLocs')
 for k, v in pairs (locations.WeedDry) do
-	ps.boxTarget('weed_dry'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+	ps.boxTarget('weed_dry'..k, v.loc, {length = v.l or 1.5, width = v.w or 1.5, height = 1.0, rotation = v.rot or 0.0}, {
 		{
 			icon = 'fa-solid fa-cannabis',
 			label = ps.lang('weed.targetDry'),
 			action = function()
 				if not ps.hasItem('wetcannabis', 1) then
-					ps.notify(ps.lang('weed.nodry'), "error")
+					ps.notify(ps.lang('weed.noDry'), "error")
 					return
 				end
 				if drying then return end
 				local loc = GetEntityCoords(PlayerPedId())
-				local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)
+				if not ps.requestModel(GetHashKey('bkr_prop_weed_drying_01a')) then return end
+				local weedplant = CreateObject(GetHashKey('bkr_prop_weed_drying_01a'), loc.x, loc.y + 0.2, loc.z, true, true, false)
 				drying = true
 				FreezeEntityPosition(weedplant, true)
+				PlaceObjectOnGroundProperly(weedplant)
 				ps.notify(ps.lang('weed.wait'), "success")
 				Wait(math.random(1000,5000))
 				ps.notify(ps.lang('weed.take'), "success")
 				ps.entityTarget(weedplant, {
-					icon = "fa-solid fa-cannabis",
-					label = ps.lang('weed.targetDryed'),
-					action = function()
-						DeleteEntity(weedplant)
-						drying = false
-						TriggerServerEvent('md-drugs:server:dryoutweed')
-					end,
+					{
+						icon = "fa-solid fa-cannabis",
+						label = ps.lang('weed.targetDryed'),
+						action = function()
+							DeleteEntity(weedplant)
+							drying = false
+							TriggerServerEvent('md-drugs:server:dryoutweed')
+						end,
+					}
 				})
 			end
 		}
@@ -33,7 +37,7 @@ for k, v in pairs (locations.WeedDry) do
 end
 
 for k, v in pairs (locations.WeedTele) do
-	ps.boxTarget('weed_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+	ps.boxTarget('weed_tele'..k, v.inside, {length = v.l, width = v.w, rotation = v.rot}, {
 		{
 			icon = 'fa-solid fa-door-open',
 			label = ps.lang('weed.teleportOut'),
@@ -42,7 +46,7 @@ for k, v in pairs (locations.WeedTele) do
 			end
 		}
 	})
-	ps.boxTarget('weed_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+	ps.boxTarget('weed_teleout'..k, v.outside, {length = v.l, width = v.w, rotation = v.rot}, {
 		{
 			icon = 'fa-solid fa-door-closed',
 			label = ps.lang('weed.teleportIn'),
@@ -54,15 +58,22 @@ for k, v in pairs (locations.WeedTele) do
 end
 
 CreateThread(function()
-    BikerWeedFarm = exports['bob74_ipl']:GetBikerWeedFarmObject()
-    BikerWeedFarm.Style.Set(BikerWeedFarm.Style.upgrade)
-    BikerWeedFarm.Security.Set(BikerWeedFarm.Security.upgrade)
-    BikerWeedFarm.Details.Enable(BikerWeedFarm.Details.chairs, true)
-    BikerWeedFarm.Details.Enable({BikerWeedFarm.Details.production, BikerWeedFarm.Details.chairs, BikerWeedFarm.Details.drying}, true)
-	BikerWeedFarm.Plant1.Clear(false) BikerWeedFarm.Plant2.Clear(false) BikerWeedFarm.Plant3.Clear(false)
-	BikerWeedFarm.Plant4.Clear(false) BikerWeedFarm.Plant5.Clear(false) BikerWeedFarm.Plant6.Clear(false)
-	BikerWeedFarm.Plant7.Clear(false) BikerWeedFarm.Plant8.Clear(false) BikerWeedFarm.Plant9.Clear(false)
-    RefreshInterior(BikerWeedFarm.interiorId)
+    if GetResourceState and GetResourceState('bob74_ipl') == 'started' then
+        local ipl = exports['bob74_ipl']
+        if ipl and ipl.GetBikerWeedFarmObject then
+            BikerWeedFarm = ipl:GetBikerWeedFarmObject()
+            if BikerWeedFarm then
+                BikerWeedFarm.Style.Set(BikerWeedFarm.Style.upgrade)
+                BikerWeedFarm.Security.Set(BikerWeedFarm.Security.upgrade)
+                BikerWeedFarm.Details.Enable(BikerWeedFarm.Details.chairs, true)
+                BikerWeedFarm.Details.Enable({BikerWeedFarm.Details.production, BikerWeedFarm.Details.chairs, BikerWeedFarm.Details.drying}, true)
+				BikerWeedFarm.Plant1.Clear(false) BikerWeedFarm.Plant2.Clear(false) BikerWeedFarm.Plant3.Clear(false)
+				BikerWeedFarm.Plant4.Clear(false) BikerWeedFarm.Plant5.Clear(false) BikerWeedFarm.Plant6.Clear(false)
+				BikerWeedFarm.Plant7.Clear(false) BikerWeedFarm.Plant8.Clear(false) BikerWeedFarm.Plant9.Clear(false)
+                RefreshInterior(BikerWeedFarm.interiorId)
+            end
+        end
+    end
 end)
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
@@ -102,8 +113,8 @@ RegisterNetEvent('md-drugs:client:rollBlunt', function(data)
 end)
 
 for k, v in pairs (locations.WeedSalesman) do
-	ps.requestModel(v.ped)
-	local ped = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z - 1.0, v.loc.w, false, true)
+	ps.requestModel(GetHashKey(v.ped))
+	local ped = CreatePed(4, GetHashKey(v.ped), v.loc.x, v.loc.y, v.loc.z - 1.0, v.loc.w, false, true)
 	FreezeEntityPosition(ped, true)
 	SetEntityInvincible(ped, true)
 	SetBlockingOfNonTemporaryEvents(ped, true)
@@ -123,7 +134,7 @@ for k, v in pairs (locations.WeedSalesman) do
 							local input = ps.input('Amount To Buy',{
 								{type = 'number', title = 'How Many To Buy', min = 1, max = 1000}
 							})
-							if not input and input[1] then return end
+							if not input or not input[1] then return end
 							if not ps.progressbar(ps.lang('weed.buying', ps.getLabel(m)), 2000, 'uncuff') then return end
 							TriggerServerEvent('md-drugs:server:buyWeedItem', k, m, input[1])
 						end

@@ -1,0 +1,103 @@
+Notes from 3.5.2 -> 3.5.3
+
+added easier calls for GetCops 
+
+added support for qs phone emails
+
+added option for minigames 'none' so its not required
+
+
+3.5.3 - > 3.5.4
+
+1) Removed Config.imagelink - too tired of people not changing that and then asking me why images wont load.
+  - should work for qb, ps, lj, ox, qs, core, origen. if you use another inventory go to line 147 of the functions.lua in the client folder 
+      - make this adjustment
+        ```
+          elseif GetResourceState('yourinventoryname') == 'started' then
+		          return "nui:/yourinventoryname/folder1/folder2/".. QBCore.Shared.Items[img].image
+        ```
+2 )small bug fixes in meth.lua client side
+3) small bug fixes in pharma.lua server side
+4) bug allowing to see target for drying weed when waiting for the weed to dry patched
+
+3.5.4 - > 3.5.5
+Updated small tweaks to client and server functions.lua
+
+
+3.5.5 - > 3.5.6
+updated mainly client/server functions.lua to include a check for if using scully emotes then use the export to cancel emote once done with progressbar, added support for a few other inventories and dispatch
+
+added new item box events for additem and removeitem functions in the server/functions.lua
+I left the original itembox event in, if you dont use the old event it will just trigger to a blank event and the next event will trigger, its a duct tape backwards compat method
+
+3.5.6 - > 3.5.7
+
+added a couple new functions to cut back on repeating natives needed ( Freeze() ) will now set an entitys heading, block temp events, freeze, and set invincible)
+added better calls for GetImage and GetLabel for ox inventory
+converted all callbacks to lib.callback to increase optimization
+should be fully compatible with qbx without needing to make a couple edits now
+
+3.5.7 - > 3.5.8 
+Added support for fivemerr logs
+3.5.8 -> 3.5.9 
+added command /cornersell **you only need to update server/cornserselling.lua** from previous update
+
+3.5.9 - > 3.7.0
+
+im bad at numbers sue me kek
+
+a lot has been changed with this version 
+The main thing to update from 3.5.9 to 3.7.0 is a couple things in your config 
+SAVE YOUR SHARED FOLDER AND COPY AND PASTE IT TO YOUR DESKTOP SO YOU HAVE A SECOND COPY
+
+```
+Config.oxtarget:
+ no longer exists in new version. Change it to 
+
+Config.Target = 'qb' -- qb or ox
+
+Config.minigametype:
+changed a little bit. you need to add this table to make things work now
+
+Config.Minigames = {
+    ps =            {    amount = 2,     speed = 8,},
+    ox =            { 'easy', 'easy'},   --easy medium or hard each one corresponds to how many skillchecks and the difficulty
+    blcirprog =     {    amount = 2,     speed = 50},       -- speed = 1-100
+    blprog =        {    amount = 1,     speed = 50},       -- speed = 1-100
+    blkeyspam =     {    amount = 1,     difficulty = 50}, -- difficulty = 1-100
+    blkeycircle =   {    amount = 1,     difficulty = 50, keynumbers = 3},
+    blnumberslide = {    amount = 1,     difficulty = 50, keynumbers = 3},
+    blrapidlines =  {    amount = 1,     difficulty = 50, numberofline = 3},
+    blcircleshake = {    amount = 1,     difficulty = 50, stages = 3},
+    glpath =        {    gridsize = 10,  lives = 3,     timelimit = 999999},
+    glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
+    glmath =        {timeLimit = 300000},
+
+}
+
+what does this do, adds 10 more minigames than before you can use. How to set it, change Config.minigametype to the key of that table like ps ox blcirprog
+
+```
+
+Now thats the config changes so you dont need to reconfig everything as I do my best to not change much in the config and work around what has been done 
+
+Whats been added
+```
+i moved tier system to SQL as its better than using metadata
+run the SQL and it will autopopulate your metadata for rep so people wont lose anything
+
+I added a new sql table for deliveries
+
+it not checks overall time for deliveries regardless if you crash or not.
+
+Added new server file called recipes.lua
+
+its what you imagine, about 80-90% of the recipes for md-drugs
+
+```
+
+Is there bugs, probably. But im tired of beta testing it over and over so please report bugs to my discord where i can see them and patch them quickly. 
+
+
+3.7.0 -> 3.7.1
+slight bug fixes with ox items, meth targeting 

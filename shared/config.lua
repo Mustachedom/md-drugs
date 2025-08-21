@@ -8,14 +8,53 @@ Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, hero
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
 Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
-Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
-Config.WholesaleTimeout = 600 -- time in seconds to get to the location
+Config.AlertPoliceWholesale = 25 -- 1-100 of how often it will alert police
+Config.WholesaleTimeout = 900 -- time in seconds to get to the location
 Config.PoliceCount = 0 -- Amount of police required
 Config.PoliceAlertOxy = 90 -- This is a % out of 100 to alert police
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
-Config.Tier1 = 100 -- amount to hit for level 2
-Config.Tier2 = 300 -- amount to hit for level 3
+Config.Tier1 = 200 -- amount to hit for level 2
+Config.Tier2 = 600 -- amount to hit for level 3
+
+----------------------------------- Wholesale System
+Config.WholesaleQuantityBonus = 0.05 -- 5% bonus per 10 units sold (up to 20%)
+Config.WholesaleMaxBonus = 0.20 -- Maximum 20% bonus
+Config.WholesaleMinQuantity = 1 -- Minimum quantity required for wholesale
+Config.WholesaleAmbushEnabled = true -- Enable or disable ambush on failed deals
+Config.WholesaleAmbushBase = 2 -- Base number of attackers on failed deals
+Config.WholesaleAmbushScale = true -- Scale number of attackers based on drug quantity
+Config.WholesaleAmbushTier1 = 10 -- Drug quantity threshold for 3 attackers
+Config.WholesaleAmbushTier2 = 20 -- Drug quantity threshold for 4 attackers
+Config.WholesaleAmbushTier3 = 30 -- Drug quantity threshold for 5 attackers
+Config.WholesaleWeaponTiers = true -- Scale weapon difficulty based on drug quantity
+Config.WholesaleWeaponsTier1 = { -- Basic weapons (default)
+    "WEAPON_PISTOL", 
+    "WEAPON_BAT", 
+    "WEAPON_KNIFE", 
+    "WEAPON_MACHETE"
+}
+Config.WholesaleWeaponsTier2 = { -- Medium weapons (10+ drugs)
+    "WEAPON_COMBATPISTOL", 
+    "WEAPON_MICROSMG", 
+    "WEAPON_SAWNOFFSHOTGUN", 
+    "WEAPON_CROWBAR"
+}
+Config.WholesaleWeaponsTier3 = { -- Advanced weapons (20+ drugs)
+    "WEAPON_APPISTOL", 
+    "WEAPON_SMG", 
+    "WEAPON_PUMPSHOTGUN", 
+    "WEAPON_CARBINERIFLE"
+}
+Config.WholesaleWeaponsTier4 = { -- Elite weapons (30+ drugs)
+    "WEAPON_HEAVYPISTOL", 
+    "WEAPON_ASSAULTSMG", 
+    "WEAPON_ASSAULTSHOTGUN", 
+    "WEAPON_SPECIALCARBINE"
+}
+Config.WholesaleShowEstimates = true -- Show estimated value before deal
+Config.WholesaleFailPoliceAlert = 75 -- Chance to alert police on failed deals (0-100)
+Config.WholesaleResetOnTimeout = true -- Reset wholesale flag when buyer times out
 
 ---------------------------------- BRIDGE 
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
@@ -38,7 +77,15 @@ Config.Minigames = {
     glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
     glmath =        {timeLimit = 300000},
 }
-Config.minigametype = 'ps_circle' -- look above for options or choose none if you dont want any minigames 
+Config.minigametype = 'blrapidlines' -- look above for options or choose none if you dont want any minigames 
+
+-- Batch crafting settings
+-- Max items allowed to craft in a single batch
+Config.MaxBatchSize = 50
+-- Base progress time per item (ms) used when scaling progress bars client-side
+Config.ProgressPerItemMs = 4000
+-- Max progress time cap (ms) to prevent excessively long progress bars
+Config.MaxProgressTimeMs = 60000
 
 
 Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark it false
@@ -57,7 +104,7 @@ Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark 
     shrooms = true,
     TravellingMerchant = true,
     weed = true,
-    wholesale = false,
+    wholesale = true,
     xtc = true,
 }
 

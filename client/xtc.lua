@@ -132,7 +132,7 @@ for k, v in pairs(locations.xtcpress) do
                           description = ps.lang('xtc.buySingle', d.cash),
                           action = function()
                             if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
-                            TriggerServerEvent('md-drugs:server:buypress',k, m)
+                            TriggerServerEvent('md-drugs:server:buypress', m)
                           end,
                         }
                     else

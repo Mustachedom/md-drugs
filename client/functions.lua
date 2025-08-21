@@ -273,3 +273,32 @@ function handleGang(gang)
 	if ps.getGangName() == gang or gang == 1 then return true end
 	return false
 end
+
+-- Batch quantity input using ps_lib input UI
+function promptBatchQuantity(title)
+    local max = Config.MaxBatchSize or 50
+    local result = exports.ps_lib:input(title or 'Select Quantity', {
+        { type = 'number', title = 'Quantity', placeholder = '1-'..max, required = true, min = 1, max = max }
+    })
+    if not result or not result[1] then return nil end
+    local qty = tonumber(result[1])
+    if not qty then return nil end
+    if qty < 1 then qty = 1 end
+    if qty > max then qty = max end
+    return math.floor(qty)
+end
+
+-- Compute scaled progressbar duration for a batch
+function progressTimeForQuantity(qty)
+    local base = Config.ProgressPerItemMs or 4000
+    local cap = Config.MaxProgressTimeMs or 60000
+    if not qty or qty < 1 then qty = 1 end
+    local duration = base * qty
+    if duration > cap then duration = cap end
+    return duration
+end
+
+-- Convenience wrapper to run a scaled progressbar
+function progressbarScaled(label, qty, anim)
+    return ps.progressbar(label, progressTimeForQuantity(qty), anim or 'uncuff')
+end
