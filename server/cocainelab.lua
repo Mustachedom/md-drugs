@@ -8,7 +8,12 @@ RegisterNetEvent('TestCokeLab', function(num)
     local src = source
     saveBucket(src, num)
     SetEntityCoords(GetPlayerPed(src), vector3(1088.62, -3187.54, -38.99))
-    TriggerClientEvent('md-drugs:client:EnterCokeLab', src)
+    local labData = MySQL.query.await('SELECT * FROM druglabs WHERE id = ?', {num})
+    if labData and #labData > 0 then
+        TriggerClientEvent('md-drugs:client:EnterCokeLab', src, labData[1])
+    else
+        ps.notify(src, 'Lab data not found.', 'error')
+    end
 end)
 
 RegisterNetEvent('RestoreCokeLab', function(num)

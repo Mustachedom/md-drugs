@@ -1,5 +1,6 @@
 local inside = false
 local peds = {}
+local labData = {}
 cocaineLab = false
 local insideLocation = nil
 
@@ -134,16 +135,6 @@ local function BagCoke(coords, offset, rotation)
     end)
 end
 
-RegisterCommand('TestMethLab', function()
-    TriggerServerEvent('TestMethLab')
-    Wait(2000)
-    SetEntityCoords(PlayerPedId(), vector3(1004.66, -3199.98, -38.99)) -- Example coordinates
-end)
-
-RegisterCommand('RestoreMethLab', function()
-    TriggerServerEvent('RestoreMethLab')
-end)
-
 RegisterCommand('cocaineMake', function()
     inside = true
     CutCoke(vector3(1095.61, -3195.62, -39.13), vector3(-1.782227, 0.445068, -0.502701), vector3(0,0,0))
@@ -205,6 +196,7 @@ ps.boxTarget('cokelabLeave', vector3(1088.64, -3187.21, -38.24), {length = 1.0, 
 			for k, v in pairs(peds) do
 				DeleteEntity(v)
 			end
+			labData = {}
         end,
         canInteract = function()
             return inside and cocaineLab
@@ -273,72 +265,214 @@ local function getDescript(employee)
 	end
 	return strings
 end
+local function openDrugLabMenu()
+	local options = {
+		{
+			title = 'Lab Management',
+			description = 'Manage the overall operations of your drug lab',
+			action = function()
+				local options = {
+					{
+						title = 'Add Funds',
+						description = 'Add money to your drug lab\'s budget',
+						action = function()
+							local input = ps.input('Enter the amount of money to add:', {
+								{type = 'number', min = 0, required = true}
+							})
+							if input and input[1] then
+								TriggerServerEvent('md-drugs:server:AddLabFunds', tonumber(input[1]))
+							end
+						end
+					},
+					{
+						title = 'Withdraw Funds',
+						description = 'Withdraw money from your drug lab\'s budget',
+						action = function()
+							local input = ps.input('Enter the amount of money to withdraw:', {
+								{type = 'number', min = 0, required = true}
+							})
+							if input and input[1] then
+								TriggerServerEvent('md-drugs:server:WithdrawLabFunds', tonumber(input[1]))
+							end
+						end
+					},
+					{
+						title = 'Give Access',
+						description = 'Grant other players access to your drug lab',
+						action = function()
+							local input = ps.input('Enter the player ID to give access:', {
+								{type = 'number', min = 1, required = true}
+							})
+							if input and input[1] then
+								TriggerServerEvent('md-drugs:server:GiveLabAccess', tonumber(input[1]))
+							end
+						end
+					},
+					{
+						title = 'Revoke Access',
+						description = 'Remove other players\' access to your drug lab',
+						action = function()
+							local input = ps.input('Enter the player ID to revoke access:', {
+								{type = 'number', min = 1, required = true}
+							})
+							if input and input[1] then
+								TriggerServerEvent('md-drugs:server:RevokeLabAccess', tonumber(input[1]))
+							end
+						end
+					}
+				}
+				ps.menu('Lab Management', 'Manage your drug lab', options)
+			end,
+		},
+		{
+			title = 'Manage Employees',
+			description = 'View and manage your current drug lab employees',
+			action = function()
+				local options = {
+					{
+        				title = 'Hire Employees',
+						description = 'Manage your drug lab employees',
+        				action = function()
+        				    local employees = ps.callback('md-drugs:server:GetAvailableEmployees')
+   							local options = {}
+							for k,v in pairs (employees) do
+								options[#options+1] = {
+									title = v.name,
+									description = getDescript(v),
+									action = function()
+										TriggerServerEvent('md-drugs:server:HireEmployee', v.id)
+									end,
+								}
+							end
+							ps.menu('Drug Employees', 'Drug Employees', options)
+        				end,
+    				},
+					{
+						title = 'Fire Employees',
+						description = 'Manage your drug lab employees',
+						action = function()
+							local employees = ps.callback('md-drugs:server:GetAvailableEmployees')
+							local options = {}
+							for k,v in pairs (employees) do
+								options[#options+1] = {
+									title = v.name,
+									description = getDescript(v),
+									action = function()
+										local input = ps.input('Are you sure you want to fire this employee?', {
+											{type = 'select', title = 'Confirm', options = {{label = 'Yes', value = true}, {label = 'No', value = false}}, required = true}
+										})
+										if input and input[1] == true then
+											TriggerServerEvent('md-drugs:server:FireEmployee', v.id)
+										end
+									end,
+								}
+							end
+							ps.menu('Drug Employees', 'Drug Employees', options)
+						end,
+					},
+					{
+						title = 'Train Employees',
+						description = 'Improve the skills of your drug lab employees',
+						action = function()
+							local employees = ps.callback('md-drugs:server:GetAvailableEmployees')
+							local options = {}
+							for k,v in pairs (employees) do
+								options[#options+1] = {
+									title = v.name,
+									description = getDescript(v),
+									action = function()
+										TriggerServerEvent('md-drugs:server:TrainEmployee', v.id)
+									end,
+								}
+							end
+							ps.menu('Train Employees', 'Select an employee to train', options)
+						end,
+					}
+				}
+				ps.menu('Manage Employees', 'Manage your drug lab employees', options)
+			end,
+		},
+		{
+			title = 'Input Stock Management',
+			description = 'Manage the raw materials and supplies for your drug lab',
+			action = function()
+				local options = {
+					{
+						title = 'Input Stock',
+						description = 'Add raw materials to your drug lab inventory',
+						action = function()
+							local input = ps.input('Enter the amount of stock to add:',getInputData())
+							if not input or not input[1] then return end
+							TriggerServerEvent('md-drugs:server:cokeAddStock', returnResults(input))
+						end,
+					},
+					{
+						title = 'Take Drug Ingredients',
+						description = 'Withdraw finished products from your drug lab',
+						action = function()
+								local itemData = ps.callback('md-drugs:server:getCokeLabItemCount')
+								if not itemData.input or #itemData.input == 0 then
+									ps.notify('No drugs available to take.', 'error')
+								return
+							end
+							local input = ps.input('Enter the amount of drugs to take:', itemData.input)
+							if not input or not input[1] then return end
+							local itemList = {}
+					    	for i = 1, #input do
+					        	local itemInfo = itemData.input[i]
+					        	local value = tonumber(input[i])
+
+					        	if not value or value < 0 then
+					        	    ps.notify('Invalid amount entered.', 'error')
+					        	    return
+					        	end
+
+					        	if value > 0 and itemInfo and itemInfo.item then
+					        	    itemList[itemInfo.item] = value
+					        	end
+					    	end
+							TriggerServerEvent('md-drugs:server:cokeTakeDrugs', itemList)
+						end,
+					}
+				}
+				ps.menu('Input Stock Management', 'Manage your drug lab\'s raw materials and supplies', options)
+			end,
+		},
+	}
+	ps.menu('Cocaine Lab Management', 'Cocaine Lab Management', options)
+end
 
 ps.boxTarget('cokeLabManagement', vector3(1099.67, -3193.13, -38.99), {length = 1.0, width = 1.0, height = 1.0, rotation = 0.0}, {
     {
-        label = 'Hire Employees',
+        label = 'Open Coke Management',
         action = function()
-            local employees = ps.callback('md-drugs:server:GetAvailableEmployees')
-   			local options = {}
-			for k,v in pairs (employees) do
-				options[#options+1] = {
-					title = v.name,
-					description = getDescript(v),
-					action = function()
-						TriggerServerEvent('md-drugs:server:HireEmployee', v.id)
-					end,
-				}
-			end
-			ps.menu('Drug Employees', 'Drug Employees', options)
+           openDrugLabMenu()
         end,
-        --canInteract = function()
-        --    return inside and cocaineLab
-        --end
-    },
-	{
-		label = 'Input Stock',
-		action = function()
-			local input = ps.input('Enter the amount of stock to add:',getInputData())
-			if not input or not input[1] then return end
-			TriggerServerEvent('md-drugs:server:cokeAddStock', returnResults(input))
-		end,
-	},
-	{
-		label = 'Take Drugs',
-		action = function()
-			local itemData = ps.callback('md-drugs:server:getCokeLabItemCount')
-			if not itemData.input or #itemData.input == 0 then
-				ps.notify('No drugs available to take.', 'error')
-				return
+		canInteract = function()
+			if inside and cocaineLab and ps.getIdentifier() == labData.owner then
+				return true
 			end
-			local input = ps.input('Enter the amount of drugs to take:', itemData.input)
-			if not input or not input[1] then return end
-			local itemList = {}
-	    	for i = 1, #input do
-	        	local itemInfo = itemData.input[i]
-	        	local value = tonumber(input[i])
-
-	        	if not value or value < 0 then
-	        	    ps.notify('Invalid amount entered.', 'error')
-	        	    return
-	        	end
-
-	        	if value > 0 and itemInfo and itemInfo.item then
-	        	    itemList[itemInfo.item] = value
-	        	end
-	    	end
-			ps.debug(itemList)
-			TriggerServerEvent('md-drugs:server:cokeTakeDrugs', itemList)
-		end,
-		--canInteract = function()
-		--	return inside and cocaineLab
-		--end
-	}
+			if labData and labData.allowedIn and ps.tableContains(labData.allowedIn, ps.getIdentifier()) then
+				return true
+			end
+			return false
+		end
+    },
 })
 
-RegisterNetEvent('md-drugs:client:EnterCokeLab', function()
+RegisterNetEvent('md-drugs:client:EnterCokeLab', function(data)
 	inside = true
 	cocaineLab = true
-	CutCoke( vector3(1095.61, -3195.62, -39.13), vector3(-1.782227, 0.445068, -0.502701), vector3(0,0,0))
-	BagCoke(vector3(1093.16, -3195.78, -39.19), vector3(4.515137, 2.542969, -0.814194), vector3(0,0,180.0))
+	labData = data
+	labData.coords = json.decode(labData.coords)
+	labData.allowedIn = json.decode(labData.allowedIn) or {}
+	labData.employees = json.decode(labData.employees) or {}
+	for k, v in pairs (labData.employees) do
+		if v.type == 'packer' then
+			BagCoke(vector3(1093.16, -3195.78, -39.19), vector3(4.515137, 2.542969, -0.814194), vector3(0,0,180.0))
+		end
+		if v.type == 'mixer' then
+			CutCoke(vector3(1095.61, -3195.62, -39.13), vector3(-1.782227, 0.445068, -0.502701), vector3(0,0,0))
+		end
+	end
 end)
