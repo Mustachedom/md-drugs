@@ -3,10 +3,9 @@ author "mustache_dom"
 description "drugs by mustache dom"
 fx_version "cerulean"
 game "gta5"
-version  '3.9.0'
+version  '4.0.0'
 client_scripts {
 	'client/functions.lua',
-	'client/animationsandfunctions.lua',
 	'client/plantSpawns.lua',
 	'clientRun.lua',
 }
@@ -25,11 +24,7 @@ shared_scripts {
 lua54 'yes'
 
 files {
-    'stream/mushroom.ytyp',
-    'stream/mushroom.ydr',
 	'client/**.lua',
 	'server/**.lua',
 	'locales/**.lua'
 }
-
-data_file 'DLC_ITYP_REQUEST' 'stream/mushroom.ytyp'

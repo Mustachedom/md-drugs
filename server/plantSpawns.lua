@@ -107,6 +107,14 @@ local plants = {
     }
 }
 
+local plantRespawnTimers = {
+    coke = 100,
+    heroin = 100,
+    mescaline = 100,
+    shrooms = 100,
+    weed = 100
+}
+
 local plantData = {
     {
         label = 'coke',
@@ -120,7 +128,7 @@ local plantData = {
         end,
         coolDown = function(loc)
             CreateThread(function()
-                Wait(Config.respawnTime * 1000)
+                Wait(plantRespawnTimers.coke * 1000)
                 plants.cocaine[loc].taken = false
                 GlobalState.CocaPlant = plants.cocaine
                 TriggerClientEvent('coke:respawnCane', -1, loc)
@@ -139,7 +147,7 @@ local plantData = {
         end,
         coolDown = function(loc)
             CreateThread(function()
-                Wait(Config.respawnTime * 1000)
+                Wait(plantRespawnTimers.heroin * 1000)
                 plants.heroin[loc].taken = false
                 GlobalState.PoppyPlants = plants.heroin
                 TriggerClientEvent('heroin:respawnCane', -1, loc)
@@ -158,7 +166,7 @@ local plantData = {
         end,
         coolDown = function(loc)
             CreateThread(function()
-                Wait(Config.respawnTime * 1000)
+                Wait(plantRespawnTimers.mescaline * 1000)
                 plants.mescaline[loc].taken = false
                 GlobalState.Mescaline = plants.mescaline
                 TriggerClientEvent('Mescaline:respawnCane', -1, loc)
@@ -177,7 +185,7 @@ local plantData = {
         end,
         coolDown = function(loc)
             CreateThread(function()
-                Wait(Config.respawnTime * 1000)
+                Wait(plantRespawnTimers.shrooms * 1000)
                 plants.shrooms[loc].taken = false
                 GlobalState.shrooms = plants.shrooms
                 TriggerClientEvent('shrooms:respawnCane', -1, loc)
@@ -196,7 +204,7 @@ local plantData = {
         end,
         coolDown = function(loc)
             CreateThread(function()
-                Wait(Config.respawnTime * 1000)
+                Wait(plantRespawnTimers.weed * 1000)
                 plants.weed[loc].taken = false
                 GlobalState.WeedPlant = plants.weed
                 TriggerClientEvent('weed:respawnCane', -1, loc)

@@ -19,6 +19,13 @@ thirst = number -- same shit
 strength = number -- how long you are strong boi
 
 ]]
+
+local Consumables = {}
+Consumables.defaulttime = 4000
+Consumables.defaultanim = 'pflag2'
+Consumables.defaultprogresstext = 'Consuming ' -- it will always show the label of the item being used after what you put here, make sure to keep the space at the end :)
+Consumables.defaultstatval = 0
+
 local Consume = {
     -- meth
 methbags =                { time = 4000, effect = 'meth', anim = "smoke", progressbartext = "Injesting",
@@ -158,23 +165,25 @@ for k, v in pairs(Consume) do
 end
 
 RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
-    local Player = ps.getPlayer(source)
+    local src = source
+    local Player = ps.getPlayer(src)
+    if GetResourceState('es_extended') == 'started' then return end
     local hunger, thirst = Player.PlayerData.metadata.hunger, Player.PlayerData.metadata.thirst
     if stat == "thirst" then
         local value = thirst + statval
         Player.Functions.SetMetaData('thirst', value)
-        TriggerClientEvent('hud:client:UpdateNeeds', source, hunger, value)
+        TriggerClientEvent('hud:client:UpdateNeeds', src, hunger, value)
     elseif stat == "hunger" then
         local value = hunger + statval
         Player.Functions.SetMetaData('hunger', value)
-        TriggerClientEvent('hud:client:UpdateNeeds', source, value, thirst)
-    elseif stat == "stress" then 
+        TriggerClientEvent('hud:client:UpdateNeeds', src, value, thirst)
+    elseif stat == "stress" then
         local value = Player.PlayerData.metadata.stress + statval
         Player.Functions.SetMetaData('stress', value)
-        TriggerClientEvent('hud:client:UpdateStress', source, Player.PlayerData.metadata.stress, value)
+        TriggerClientEvent('hud:client:UpdateStress', src, Player.PlayerData.metadata.stress, value)
     elseif stat == "armor" then
         local value = Player.PlayerData.metadata.armor + statval
-        TriggerEvent('hospital:server:SetArmor', value) 
-        TriggerClientEvent('hud:client:UpdateStress', source, Player.PlayerData.metadata.armor, value)
+        TriggerEvent('hospital:server:SetArmor', value)
+        TriggerClientEvent('hud:client:UpdateStress', src, Player.PlayerData.metadata.armor, value)
     end
 end)

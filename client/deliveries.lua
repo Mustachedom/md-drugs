@@ -5,7 +5,7 @@ local function SpawnDealer()
     local getDealers = ps.callback('md-drugs:server:getDealers')
     for k,v in pairs(getDealers) do
 		local Ped = "g_m_y_famdnf_01"
-        ps.requestModel(Ped, Config.RequestModelTime)
+        ps.requestModel(Ped, 30000)
         local loc = json.decode(v.coords)
         dealer[k] = CreatePed(0, Ped,loc.x,loc.y, loc.z-1, loc.h, false, false)
         Freeze(dealer[k], true, loc.h)

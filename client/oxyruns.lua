@@ -1,6 +1,7 @@
 local carryPackage = nil
 local onMission = false
 local locations = ps.callback('md-drugs:server:GetOxyLocs')
+local pdAlert =  90
 
 local function getRoute()
 	local Route = ps.callback('md-drugs:server:getRoute')
@@ -11,7 +12,7 @@ local function getRoute()
 	end
 
     SetNewWaypoint(Route.x, Route.y)
-	ps.requestModel('g_m_y_famdnf_01', Config.RequestModelTime)
+	ps.requestModel('g_m_y_famdnf_01', 30000)
     local oxybuyer = CreatePed(0, 'g_m_y_famdnf_01',Route.x,Route.y,Route.z-1, Route.w, false, false)
 	Freeze(oxybuyer, true, Route.w)
 	local timeOut = 300
@@ -21,7 +22,7 @@ local function getRoute()
 		timeOut = timeOut - 1
 	until #(GetEntityCoords(PlayerPedId()) - vector3(Route.x,Route.y,Route.z)) < 5.0 or timeOut == 0
 
-	PoliceCall(Config.PoliceAlertOxy)
+	PoliceCall(pdAlert)
 	ps.entityTarget(oxybuyer,{
 		{ 
 			label = ps.lang('oxy.targetHandoff'),
@@ -49,7 +50,7 @@ for k, v in pairs(locations.OxyPayForTruck) do
 			icon = 'fa-solid fa-truck-fast',
 			label = ps.lang('oxy.targetPay'),
 			action = function()
-				ps.requestModel("burrito3", Config.RequestModelTime)
+				ps.requestModel("burrito3", 30000)
 
 				local paid = ps.callback('md-drugs:server:payfortruck', false)
 				if not paid then return end

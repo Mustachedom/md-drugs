@@ -2,6 +2,16 @@ local tableout = false
 local dirtylsd = false
 local locations = ps.callback('md-drugs:server:GetLSDLocations')
 
+local function loadParticle(dict)
+    if not HasNamedPtfxAssetLoaded(dict) then
+        RequestNamedPtfxAsset(dict)
+    end
+    while not HasNamedPtfxAssetLoaded(dict) do
+        Wait(0)
+    end
+    SetPtfxAssetNextCall(dict)
+end
+
 local function createLabKit(coord, head)
     local labkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false)
     SetEntityHeading(labkit, head)

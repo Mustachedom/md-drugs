@@ -16,9 +16,9 @@ local function SpawnMethCarPedChase()
 	    startedmeth = true
 		ps.callback('md-drugs:server:registerMeth')
 
-	    ps.requestModel("journey", Config.RequestModelTime)
-	    ps.requestModel("a_m_m_hillbilly_02", Config.RequestModelTime)
-	    ps.requestModel("cargobob3", Config.RequestModelTime)
+	    ps.requestModel("journey", 30000)
+	    ps.requestModel("a_m_m_hillbilly_02", 30000)
+	    ps.requestModel("cargobob3", 30000)
 
 	    local methcar = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, true, false)
 	    local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, false, false)

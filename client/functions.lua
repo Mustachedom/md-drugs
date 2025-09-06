@@ -2,17 +2,6 @@
 local minigametype = Config.minigametype
 local dispatch = Config.Dispatch
 
-
-function loadParticle(dict)
-    if not HasNamedPtfxAssetLoaded(dict) then
-        RequestNamedPtfxAsset(dict)
-    end
-    while not HasNamedPtfxAssetLoaded(dict) do
-        Wait(0)
-    end
-    SetPtfxAssetNextCall(dict)
-end
-
 function minigame()
 	local time = 0
 	local game = Config.Minigames
@@ -86,21 +75,16 @@ function minigame()
 		   Wait(1000)
 		   time = time + 1
 		until successes or time == 100
-	elseif minigametype == 'none' then 
-		return true			
+	elseif minigametype == 'none' then
+		return true
 	else
 		print"^1 SCRIPT ERROR: Md-Drugs set your minigame with one of the options!"
 	end
-end 
+end
 
 function GetRep()
 	local rep = ps.callback('md-drugs:server:GetRep')
 	return rep
-end
-
-
-function sorter(sorting, value) 
-	table.sort(sorting, function(a, b) return a[value] < b[value] end)
 end
 
 function PoliceCall(chance)
@@ -149,7 +133,6 @@ function GetCops(number)
 	local amount = ps.callback('md-drugs:server:GetCoppers')
 	if amount >= number then return true else ps.notify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
 end
-
 
 function Freeze(entity, toggle, head)
 	SetEntityInvincible(entity, toggle)
@@ -249,10 +232,8 @@ function StartRay2()
     until run == false
 end
 
-
-
 ps.registerCallback('md-drugs:client:uncuff', function(data)
-	if not progressbar(data, 4000, 'uncuff') then return end
+	if not ps.progressbar(data, 4000, 'uncuff') then return end
 	return true
 end)
 

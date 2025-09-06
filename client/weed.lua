@@ -65,9 +65,19 @@ CreateThread(function()
     RefreshInterior(BikerWeedFarm.interiorId)
 end)
 
+local function AlienEffect()
+    StartScreenEffect("DrugsMichaelAliensFightIn", 3.0, 0)
+    Wait(math.random(5000, 8000))
+    StartScreenEffect("DrugsMichaelAliensFight", 3.0, 0)
+    Wait(math.random(5000, 8000))
+    StartScreenEffect("DrugsMichaelAliensFightOut", 3.0, 0)
+    StopScreenEffect("DrugsMichaelAliensFightIn")
+    StopScreenEffect("DrugsMichaelAliensFight")
+    StopScreenEffect("DrugsMichaelAliensFightOut")
+end
+
 RegisterNetEvent("md-drugs:client:dodabs", function()
 	if not ps.progressbar(ps.lang('weed.dabs'), 4000, 'bong2') then AlienEffect() return end
-	AlienEffect()
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
@@ -89,7 +99,7 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
 			end
         }
     end
-    sorter(options, 'title')
+    ps.sorter(options, 'title')
     ps.menu(contextTitle, contextTitle, options)
 end
 

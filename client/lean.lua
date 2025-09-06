@@ -11,9 +11,9 @@ local function SpawnCarPedChase()
     started = true
 
 	ps.callback('md-drugs:server:RegisterLean')
-    ps.requestModel("pounder", Config.RequestModelTime)
-    ps.requestModel("ig_priest", Config.RequestModelTime)
-    ps.requestModel("cargobob3", Config.RequestModelTime)
+    ps.requestModel("pounder", 30000)
+    ps.requestModel("ig_priest", 30000)
+    ps.requestModel("cargobob3", 30000)
 
     local leancar = CreateVehicle("pounder", start.x+3, start.y-2, start.z-1, 52.0, true, false)
     local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, false, false)

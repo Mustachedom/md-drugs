@@ -1,23 +1,14 @@
 Config = {} --Ignore.
-ps = exports.ps_lib:init()
-ps.loadLangs("en")
+ps = exports.ps_lib:init()  --Ignore.
+ps.loadLangs("en") -- set your language
 
-Config.respawnTime = 100 -- Seconds
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel, ox_fuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
-Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
-Config.Badtrip = 20 -- number means % chance to spawn a clone that chases and attacks while on mescaline
-Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
-Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
-Config.WholesaleTimeout = 600 -- time in seconds to get to the location
-Config.PoliceCount = 0 -- Amount of police required
-Config.PoliceAlertOxy = 90 -- This is a % out of 100 to alert police
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
 Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3
 
----------------------------------- BRIDGE 
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 
 Config.Minigames = {
