@@ -1,5 +1,1 @@
-
-Newest Build:4.0.0
-- updated everything to ps_lib
-- a lot of updates
-- Credit to @fatman2778 for their rework of wholesale
+3.9.0
