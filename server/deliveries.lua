@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 local dloc = {
     {coords = vector4(282.48, -1814.32, 27.23, 145.11)},
@@ -80,13 +80,25 @@ local dloc = {
     {coords = vector4(223.98, 121.53, 102.76, 259.68)},
     {coords = vector4(102.19, -255.02, 50.05, 83.59)},
 }
-lib.callback.register('md-drugs:server:getDealers', function(data)
+local Products = {
+	{name = "weed_whitewidow_seed",    price = 15, amount = 150,  minrep = 0},
+	{name = "weed_skunk_seed", 		    price = 15, amount = 150,  minrep = 0},
+	{name = "weed_purplehaze_seed",	price = 15, amount = 150,  minrep = 0},
+	{name = "weed_ogkush_seed", 	    price = 15, amount = 150,  minrep = 0},
+	{name = "weed_amnesia_seed", 		price = 15, amount = 150,  minrep = 0},
+}
+
+ps.registerCallback('md-drugs:server:dealerList', function()
+    return Products
+end)
+
+ps.registerCallback('md-drugs:server:getDealers', function(source)
     local check = MySQL.query.await('SELECT * FROM dealers', {})
     local loc = json.encode({x = 899.98, y = -2603.24, z = 6.11, h = 176.12 })
-    if not check[1] then 
+    if not check[1] then
         MySQL.insert('INSERT INTO dealers SET name = ?, coords = ?, time = ?, createdby = ?', {'MD', loc, 'any', 'code Newb'})
-	Wait(2000)
-	local check2 = MySQL.query.await('SELECT * FROM dealers', {})
+	    Wait(2000)
+	    local check2 = MySQL.query.await('SELECT * FROM dealers', {})
         return check2
     else
         return check
@@ -99,9 +111,9 @@ local DeliveryItems = {
     {    item = "coke_brick",    minrep = 0,    payout = {min = 10, max = 50}},
 }
 
-lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
+ps.registerCallback('md-drugs:server:GetDeliveryItem', function(source, data)
     local src = source
-    local Player = getPlayer(src)
+    local Player = ps.getPlayer(src)
     local itemnum = math.random(1, #DeliveryItems)
     local item = DeliveryItems[itemnum].item
     local amount = math.random(1,4)
@@ -115,61 +127,70 @@ lib.callback.register('md-drugs:server:GetDeliveryItem', function(data)
     })
     if not check[1] then
         MySQL.insert('INSERT INTO deliveriesdealer SET cid = ?, itemdata = ?, timestart = ?, maxtime = ?, location = ?', 
-        {Player.PlayerData.citizenid, json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
-        AddItem(Player.PlayerData.source, item, amount)
+        {ps.getIdentifier(src), json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
+        ps.addItem(src, item, amount)
         return true, item, amount, coord
     else
         local time = os.time()
         local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
-        
-        if timeout > 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) Notifys(src, 'You Failed To Make It In Time!', 'error' ) return false end
-        Notifys(src,'You Already Have A Delivery To Make', 'error' ) return false, item, amount, coord
+
+        if timeout > 15 then
+            MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
+            ps.notify(src, ps.lang('Deliveries.slowAf'), 'error' ) 
+            return false
+        end
+        ps.notify(src,ps.lang('Deliveries.alreadyDelivering'), 'error' )
+        return false, item, amount, coord
     end
 end)
 
 RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(item, amount)
     local src = source
-    local Player = getPlayer(src)
-    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
+    local Player = ps.getPlayer(src)
+    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
     if not check[1] then return end
     local time = os.time()
     local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
     local itemData = json.decode(check[1].itemdata)
-    if timeout >= 15 then MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid}) Notifys(source, 'You Failed To Make It In Time!', 'error' )  return end
+    if timeout >= 15 then
+        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
+        ps.notify(src, ps.lang('Deliveries.slowAf'), 'error' )
+        return
+    end
     if item ~= itemData.item then return end
     if amount ~= itemData.amount then return end
-    if RemoveItem(src, item, amount) then
+    if ps.removeItem(src, item, amount) then
        for k, v in pairs (DeliveryItems) do 
             if v.item == item then 
                 local income = math.random(v.payout.min, v.payout.max) 
-                Player.Functions.AddMoney('cash', income) 
+                ps.addMoney(src, 'cash', income) 
                 AddRep(src, 'dealerrep') 
             end
         end
-        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
+        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
     end
 end)
 
-lib.addCommand("newdealer", {
-    help = "Place a dealer (Admin Only)",
-    params = {
-        { name = "name", help = "Dealer Name", type = "string" },
-        { name = "min", help = "Minimum Time", type = "number" },
-        { name = "max", help = "Maximum Time", type = "number" }
+ps.registerCommand("newdealer", {
+    help = ps.lang('Deliveries.newDealerHelp.help'),
+    description  = {
+        { name = "name", help = ps.lang('Deliveries.newDealerHelp.name'), type = "string" },
+        { name = "min", help = ps.lang('Deliveries.newDealerHelp.timeMin'), type = "number" },
+        { name = "max", help = ps.lang('Deliveries.newDealerHelp.timeMax'), type = "number" }
     },
-    restricted = "admin"
+    admin = true,
 }, function(source, args)
     local ped = GetPlayerPed(source)
     local coords = GetEntityCoords(ped)
-    local Player = getPlayer(source)
+    local Player = ps.getPlayer(source)
     if not Player then return end
 
     local dealerName = args.name
     local pos = json.encode({x = coords.x, y = coords.y, z = coords.z})
-    
+
     local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', { dealerName })
     if result then
-        return Notifys(source,"Already Exists", "error")
+        return ps.notify(source,ps.lang('Deliveries.DealerExists'), "error")
     end
 
     MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {
@@ -188,12 +209,12 @@ lib.addCommand("newdealer", {
     end)
 end)
 
-lib.addCommand("deletedealer", {
-    help = "Delete a dealer (Admin Only)",
-    params  = {
-        { name = "name", help = "Dealer Name", type = "string" }
+ps.registerCommand("deletedealer", {
+    help = ps.lang('Deliveries.deleteDealerHelp.help'),
+    description  = {
+        { name = "name", help = ps.lang('Deliveries.deleteDealerHelp.name'), type = "string" }
     },
-    restricted = 'group.admin'
+    admin = true
 }, function(source, args)
     local dealerName = args.name
     local result = MySQL.scalar.await('SELECT * FROM dealers WHERE name = ?', { dealerName })
@@ -202,8 +223,22 @@ lib.addCommand("deletedealer", {
         MySQL.query('DELETE FROM dealers WHERE name = ?', { dealerName })
         QBConfig.Dealers[dealerName] = nil
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
-        TriggerClientEvent('QBCore:Notify', source, "Dealer Deleted", "success")
+        ps.notify(source, ps.lang('Deliveries.deleteDealerSuccess'), "success")
     else
-        TriggerClientEvent('QBCore:Notify', source, "Who You Tryna Delete", "error")
+        ps.notify(source, ps.lang('Deliveries.deleteDealerFail'), "error")
     end
+end)
+
+RegisterNetEvent('md-drugs:server:buyItemDealer', function(num)
+    local src = source
+    local itemData = Products[num]
+    if not itemData then return end
+    local Player = ps.getPlayer(src)
+    if not Player then return end
+    if not ps.removeMoney(src, 'cash', itemData.price) or not ps.removeMoney(src,'bank', itemData.price) then 
+        ps.notify(src, ps.lang('Catches.notEnoughMoney'), 'error')
+        return
+    end
+    ps.addItem(src, itemData.name, 1)
+    ps.notify(src, string.format(ps.lang('Deliveries.buyItemSuccess'), 1, ps.getLabel(itemData.name), itemData.price), 'success')
 end)

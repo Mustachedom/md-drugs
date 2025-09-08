@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 local DrugDeals = {}
 local Drugs = {
     ["weed_white-widow"] =          {rep = 1,min = 15, max = 24 },
@@ -108,108 +108,147 @@ local Drugs = {
     ["specialmuffin"] =             {rep = 1,min = 18, max = 40},
     ["shatter"] =                   {rep = 1,min = 18, max = 40},
     ["ciggie"] =                    {rep = 1,min = 18, max = 40},
-    ["methbags"] =                  {rep = 1,min = 18, max = 40},	
+    ["methbags"] =                  {rep = 1,min = 18, max = 40},
     ["driedmescaline"] =            {rep = 1,min = 18, max = 40},
     ["shrooms"] =                   {rep = 1,min = 18, max = 40},
     ["gratefuldead_tabs"] =         {rep = 1,min = 18, max = 40},
     ["bart_tabs"] =                 {rep = 1,min = 18, max = 40},
     ["pineapple_tabs"] =            {rep = 1,min = 18, max = 40},
     ["yinyang_tabs"] =              {rep = 1,min = 18, max = 40},
-    ["wildcherry_tabs"] =           {rep = 1,min = 18, max = 40},	
+    ["wildcherry_tabs"] =           {rep = 1,min = 18, max = 40},
     ["smiley_tabs"] =               {rep = 1,min = 18, max = 40},
     ["cupoflean"] =                 {rep = 1,min = 18, max = 40},
     ["cupofdextro"] =               {rep = 1,min = 18, max = 40},
 }
 
-lib.callback.register('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
-    local Player = getPlayer(source)
-    local rep = getRep(source, 'cornerselling')
-    if not Player then return nil end
-    local type = 0
-    for k, v in pairs(Drugs) do
-        local item = Player.Functions.GetItemByName(k)
-        if item and type == 0 then
-            type = type + 1
-            Log(GetName(source)  .. ' Allowed To Sell ' .. item.name .. '!' , 'cornerselling')
-            local amount = math.random(1,item.amount)
-            if amount >= 15 then amount = 15 end
-            local price = math.random(Drugs[k]['min'], Drugs[k]['max']) * amount
-            local result = math.floor(price * rep.price)
-            table.insert(DrugDeals, {item = item.name, amount = amount, price = result, cid = Player.PlayerData.citizenid, ped = ped})
-            return {item = item.name, amount = amount, price = result, ped = ped}
+local drugsNames = {}
+for k, v in pairs(Drugs) do
+    table.insert(drugsNames, k)
+end
+GlobalState.DrugNames = drugsNames
+
+local RobbedDrugs = {}
+local cornsellConfig = {
+    MarkedBills = false, -- if you want to use qb markedbills for selling set to true, if you want to use a custom item or cash set to false
+    CustomItem = '', -- If you want to use a custom item for selling, put the item name here, if not leave it blank '' 
+    --- if MarkedBills is false and CustomItem is blank it will pay cash
+    policeRequired = 0, -- if you want cops to be required to sell set this to a number above 0
+    robChance = 1, -- Chance To Be Robbed 1 = 1%
+}
+local function beingRobbed(source, item, amount, ped)
+    local src = source
+    ps.removeItem(src, item, amount)
+    ps.notify(src, ps.lang('Cornerselling.gotRobbed'), 'error')
+    RobbedDrugs[ps.getIdentifier(source)] = {item = item, amount = amount, ped = ped}
+    return true
+end
+
+local function getDrugBack(source, item, amount)
+    local src = source
+    if RobbedDrugs[ps.getIdentifier(source)] then
+        if RobbedDrugs[ps.getIdentifier(source)].item == item and RobbedDrugs[ps.getIdentifier(source)].amount == amount then
+            ps.addItem(src, item, amount)
+            ps.notify(src, ps.lang('Cornerselling.gotBack'), 'success')
+            RobbedDrugs[ps.getIdentifier(source)] = nil
+            return true
         end
     end
-    if type == 0 then 
-        return {item = 'nothing', amount = 0, price = 0, ped = ped}
+end
+
+ps.registerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
+    local Player = ps.getPlayer(source)
+    local rep = getRep(source, 'cornerselling')
+    local priceAdjust = json.decode(rep).price
+    if not Player then return nil end
+    for k, v in pairs(Drugs) do
+        local item = ps.getItemCount(source, k) or 0
+        if item >= 1 then
+            local maths = math.random(1,100)
+            if maths <= cornsellConfig.robChance then
+                beingRobbed(source, k, item, ped)
+                return 'robbed'
+            else
+                if item > 15 then item = 15 end
+                local amount = math.random(1, item)
+                local price = (math.random(Drugs[k]['min'], Drugs[k]['max']) * amount) * priceAdjust
+                DrugDeals[ps.getIdentifier(source)] = {item = k, amount = amount, price = math.floor(price), ped = ped}
+                return DrugDeals[ps.getIdentifier(source)]
+            end
+        end
     end
+    return false
 end)
 
-lib.callback.register('md-drugs:server:hasDrugs', function(source)
-    local Player = getPlayer(source)
+ps.registerCallback('md-drugs:server:hasDrugs', function(source)
     for k, v in pairs(Drugs) do
-        local item = Player.Functions.GetItemByName(k)
-        if item then
+        if ps.hasItem(source, k, 1) then
             return true
         end
     end
     return false
 end)
 
-RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price)
-    local src = source
-    local Player = getPlayer(src)
+local function csCheck(src, item, amount, price)
     local isIn = false
     for k, v in pairs (Drugs) do
-        if item == k then 
+        if item == k then
             isIn = true
         end
     end
-    if not isIn then return end
-    for k, v in pairs (DrugDeals) do 
-        if v.cid == Player.PlayerData.citizenid then 
-            if v.item == item then
-                if v.amount == amount then  
-                    if v.price == price then
-                        if RemoveItem(src, item, amount) then
-                            if QBConfig.MarkedBills then
-                                local info = {
-                                    worth = price
-                                }
-                                Player.Functions.AddItem('markedbills', 1, false, info )
-                            elseif QBConfig.CustomDirtyMoney == true then 
-                                AddItem(src, QBConfig.CustomDirtyMoneyitem, price)
-                            else
-                                Player.Functions.AddMoney('cash', price)
-                            end
-                            AddRep(src, 'cornerselling', Drugs[item].rep * amount)
-                            Log(GetName(src)  .. ' Sold ' .. amount .. ' Of ' .. item .. ' For A Price Of ' .. price .. '!' , 'cornerselling')
-                            table.remove(DrugDeals, k)
-                        end
-                    end
-                end
-            end
+    if not isIn then return false end
+    if DrugDeals[ps.getIdentifier(src)] then
+        if DrugDeals[ps.getIdentifier(src)].item == item and DrugDeals[ps.getIdentifier(src)].amount == amount and DrugDeals[ps.getIdentifier(src)].price == price then
+            return true
         end
     end
+    return false
+end
+
+RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price)
+    local src = source
+    if not csCheck(src, item, amount, price) then return end
+    if not ps.removeItem(src, item, amount) then
+        ps.notify(src, ps.lang('Cornerselling.notEnough'), 'error')
+        DrugDeals[ps.getIdentifier(src)] = nil
+        return
+    end
+    AddRep(src, 'cornerselling', Drugs[item].rep * amount)
+    DrugDeals[ps.getIdentifier(src)] = nil
+    if cornsellConfig.MarkedBills then
+        ps.addItem(src, 'markedbills', price, {worth = price})
+        return
+    end
+    if cornsellConfig.CustomItem ~= '' then
+        ps.addItem(src, cornsellConfig.CustomItem, price)
+        return
+    end
+    ps.addMoney(src, 'cash', price)
 end)
 
-lib.addCommand('cornersell', {
-    help = 'Sell Things On The Corner',
+RegisterNetEvent('md-drugs:server:getBackRobbed', function() 
+    local tabl = RobbedDrugs[ps.getIdentifier(source)]
+    if tabl == nil then return end
+    getDrugBack(source, tabl.item, tabl.amount)
+    RobbedDrugs[ps.getIdentifier(source)] = nil
+end)
+
+ps.registerCommand('cornersell', {
+    help = ps.lang('Cornerselling.comDes'),
     params = {
     },
 }, function(source, args, raw)
     local src = source
-    local Player = getPlayer(src)
-    Log(GetName(source)  .. ' Used Command cornersell!' , 'cornerselling')
+    local jobCount = ps.getJobTypeCount('leo')
+    if jobCount < cornsellConfig.policeRequired then
+        ps.notify(src, ps.lang('Catches.noCops'), 'error')
+        return
+    end
     TriggerClientEvent('md-drugs:client:cornerselling', src)
 end)
 
 RegisterServerEvent('md-drugs:server:cornerselling:stop', function()
     local src = source
-    local Player = getPlayer(src)
-    for k, v in pairs (DrugDeals) do 
-        if v.cid == Player.PlayerData.citizenid then 
-            TriggerClientEvent('md-drugs:client:cornerselling:remove', src, DrugDeals[k].ped)
-            table.remove(DrugDeals, k)
-        end
+    if DrugDeals[ps.getIdentifier(src)] then
+        DrugDeals[ps.getIdentifier(src)] = nil
     end
 end)

@@ -1,141 +1,208 @@
-
-local QBCore = exports['qb-core']:GetCoreObject()
-local weedPlant = {
-    { location = vector3(1049.63, -3202.12, -36.75),    heading = 334.49,    model = "prop_weed_01"},
-    { location = vector3(1050.85, -3202.15, -36.75),    heading = 329.56,    model = "prop_weed_01"},
-    { location = vector3(1052.01, -3202.22, -36.75),    heading = 25.16,     model = "prop_weed_01"},
-    { location = vector3(1052.99, -3202.15, -36.75),    heading = 21.52,     model = "prop_weed_01"},
-    { location = vector3(1053.08, -3201.11, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1052.91, -3199.99, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1053.02, -3198.97, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1051.95, -3198.93, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1051.96, -3199.86, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1051.93, -3201.17, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1050.98, -3201.13, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1050.89, -3200.07, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1050.89, -3198.95, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1049.72, -3198.95, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1049.98, -3200.1,  -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1049.82, -3201.01, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1053.07, -3194.51, -36.75),    heading = 334.49,    model = "prop_weed_01"},
-    { location = vector3(1052.97, -3195.55, -36.75),    heading = 329.56,    model = "prop_weed_01"},
-    { location = vector3(1052.82, -3196.58, -36.75),    heading = 25.16,     model = "prop_weed_01"},
-    { location = vector3(1052.94, -3197.59, -36.75),    heading = 21.52,     model = "prop_weed_01"},
-    { location = vector3(1051.92, -3197.54, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1051.88, -3196.61, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1051.82, -3195.52, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1051.95, -3194.38, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1050.88, -3194.31, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1050.78, -3195.29, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1050.76, -3196.49, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1050.77, -3197.62, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1049.64, -3197.61, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1049.64, -3196.59, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1049.62, -3195.51, -36.75),    heading = 202.97,    model = "prop_weed_01"},
-    { location = vector3(1049.66, -3194.36, -36.75),    heading = 202.97,    model = "prop_weed_01"},
+local weedLocs = {
+    WeedTele = { -- where you tele out of weed
+        {inside = vector3(1066.31, -3183.36, -39.16), outside = vector3(244.74, 374.54, 105.74), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    MakeButter = {
+        {loc = vector3(1045.48, -3198.49, -38.22), checks = {}},
+    },
+    MakeOil = {
+        {loc = vector3(1038.90, -3198.66, -38.17), checks = {}},
+    },
+    WeedDry = {
+        {loc = vector3(1043.0, -3191.59, -38.39),},
+        {loc = vector3(1041.0, -3191.59, -38.39),},
+        {loc = vector3(1045.0, -3191.59, -38.39),},
+        {loc = vector3(1039.0, -3191.59, -38.39),},
+    },
+    WeedSalesman = {
+        {loc = vector4(1030.77, -3203.18, -38.2, 262.37), ped = 'a_m_m_farmer_01', gang = ""},
+    },
 }
-GlobalState.WeedPlant = weedPlant
 
-Citizen.CreateThread(function()
-    for _, v in pairs(weedPlant) do
-        v.taken = false
-    end
+local weedStore = {
+	weedgrinder =25,
+	mdbutter =25,
+	flour =25,
+	chocolate =25,
+	butane =25,
+	butanetorch =2,
+	dabrig =2,
+	mdwoods =2,
+}
+
+local weed = {
+    blunts = {
+        blunt = {take = {bluntwrap = 1, grindedweed = 1}, give = {blunt = 1}},
+        chewyblunt = {take = {bluntwrap = 1, grindedweed = 1, loosecoke = 1}, give = {chewyblunt = 1}},
+        leanblunts = {take = {leanbluntwrap = 1, grindedweed = 1}, give = {leanblunts = 1}},
+        dextroblunts = {take = {dextrobluntwrap = 1, grindedweed = 1}, give = {dextroblunts = 1}}
+    },
+    bluntwrap = {
+        leanbluntwrap = {take = {bluntwrap = 5, mdlean = 1}, give = {leanbluntwrap = 5}},
+        dextrobluntwrap = {take = {bluntwrap = 5, mdreddextro = 1}, give = {dextrobluntwrap = 5}},
+    }
+}
+
+ps.registerCallback('md-drugs:server:GetWeedRecipe', function(source, tableName)
+    if not source then return false end
+    return weed[tableName]
 end)
 
-function WeedCooldown(loc)
-    CreateThread(function()
-        Wait(Config.respawnTime * 1000)
-        weedPlant[loc].taken = false
-        GlobalState.WeedPlant = weedPlant
-        Wait(1000)
-        TriggerClientEvent('weed:respawnCane', -1, loc)
-		Log('Weed Plant Respawned At ' .. weedPlant[loc].location, 'weed')
-    end)
-end
-
-RegisterNetEvent("weed:pickupCane", function(loc)
-    if CheckDist(source, weedPlant[loc].location) then return end
-    if not weedPlant[loc].taken then
-        weedPlant[loc].taken = true
-        GlobalState.WeedPlant = weedPlant
-        TriggerClientEvent("weed:removeCane", -1, loc)
-        WeedCooldown(loc)
-        AddItem(source, 'wetcannabis', 1)
-		Log(GetName(source) .. ' Picked Weed With a distance of ' .. dist(source, weedPlant[loc].location) .. ' vectors', 'weed')
-    end
+ps.registerCallback('md-drugs:server:GetWeedLocs', function(source)
+    return weedLocs
 end)
---------------- events
+
+ps.registerCallback('md-drugs:server:getWeedItems', function(source)
+    return weedStore
+end)
+
+RegisterNetEvent('md-drugs:server:buyWeedItem', function(loc, name, amount)
+	local src = source
+    if not ps.checkDistance(src, weedLocs.WeedSalesman[loc].loc, 3.5) then
+        ps.notify(src, ps.lang('Checks.notIn'), "error")
+        return
+    end
+    if not weedStore[name] then
+        ps.notify(src, ps.lang('weed.itemDoesntExist'), "error")
+        return
+    end
+	if ps.removeMoney(src, 'cash', weedStore[name] * amount) or ps.removeMoney(src, 'bank', weedStore[name] * amount) then
+		ps.addItem(src, name, amount)
+	else
+		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
+	end
+end)
 
 RegisterServerEvent('md-drugs:server:dryoutweed', function()
 	local src = source
-    local Player = getPlayer(src)
-	if RemoveItem(src,"wetcannabis", 1) then
-    	AddItem(src,"drycannabis", 1)
-		Log(GetName(source) .. ' Dried Weed', 'weed')
+    if timeOut(src, 'md-drugs:server:dryoutweed') then return end
+	if ps.removeItem(src,"wetcannabis", 1) then
+    	ps.addItem(src,"drycannabis", 1)
     else
-		Notifys(src, Lang.Weed.nodry, "error")
+		ps.notify(src, ps.lang('weed.noDry'), "error")
 	end
 end)
 
 local bluntwrap = {'mdreddextro','mdlean'}
-for k, v in pairs (bluntwrap) do 
-	CUI(v, function(source, item) TriggerClientEvent('md-drugs:client:makeBluntWrap', source) end)
+for k, v in pairs (bluntwrap) do
+	ps.createUseable(v, function(source, item) TriggerClientEvent('md-drugs:client:makeBluntWrap', source) end)
 end
 
 local bluntwraps = {'leanbluntwrap', 'dextrobluntwrap', 'bluntwrap'}
 
 for k, v in pairs (bluntwraps) do 
-	CUI(v, function(source, item) TriggerClientEvent('md-drugs:client:rollBlunt', source) end)
+	ps.createUseable(v, function(source, item) TriggerClientEvent('md-drugs:client:rollBlunt', source) end)
 end
 
 
 RegisterServerEvent('md-drugs:server:MakeWeedItems', function(data)
 	local src = source
-	local Player = getPlayer(src) 
-	if not Player then return end
-	if not GetRecipe(src, data.recipe, data.table, data.item) then return end
-end)
-
-RegisterServerEvent('md-drugs:server:makeoil', function(data)
-	local src = source
-	local Player = getPlayer(src) 
-	if not Player then return end
-	if not GetRecipe(src, 'weed', 'oil', 'shatter') then return end
+    if timeOut(src, 'md-drugs:server:MakeWeedItems') then return end
+	if not ps.craftItem(src, weed[data.table][data.item]) then
+        verifyHas(src, weed[data.table][data.item].take)
+		return
+	end
 end)
 
 
-CUI("dabrig", function(source, item)
+ps.createUseable("dabrig", function(source, item)
     local src = source
-    local Player = getPlayer(src)
-
-    if Player.Functions.GetItemByName("butanetorch") then 
-    	if RemoveItem(src, "shatter", 1) then
+    if ps.hasItem(src, "butanetorch") then
+    	if ps.removeItem(src, "shatter", 1) then
         	TriggerClientEvent("md-drugs:client:dodabs", src)
         end
     else
-    	Notifys(src, 'You Need A Butane Torch', 'error')
+    	ps.notify(src, ps.lang('weed.needItem', ps.getItemLabel("butanetorch")), 'error')
     end
 end)
 
-CUI("weedgrinder", function(source, item)
+ps.createUseable("weedgrinder", function(source, item)
     local src = source
-    local Player = getPlayer(src)
-    local has = Player.Functions.GetItemByName("drycannabis")
-    if not has then Notifys(src, 'You Need Dried Cannabis', 'error') return end
-    local check = lib.callback.await('md-drugs:client:uncuff', src, 'Grinding Weed')
+    if not ps.hasItem(src, "drycannabis") then ps.notify(src, ps.lang('weed.needItem', ps.getItemLabel("drycannabis")), 'error') return end
+    local check = ps.callback('md-drugs:client:uncuff', src, 'Grinding Weed')
     if not check then return end
-    if RemoveItem(src, "drycannabis",1 ) then 
-    	AddItem(src, "grindedweed", 1)
+    if ps.removeItem(src, "drycannabis",1 ) then
+    	ps.addItem(src, "grindedweed", 1)
     end
 end)
 
-CUI("mdwoods", function(source, item)
+ps.createUseable("mdwoods", function(source, item)
 	local src = source
-	local Player = getPlayer(src)
-    local check = lib.callback.await('md-drugs:client:uncuff', src, 'Breaking Blunt Open')
+    local check = ps.callback('md-drugs:client:uncuff', src, ps.lang('weed.crackBlunt'))
     if not check then return end
-	if RemoveItem(src, "mdwoods",1 ) then 
-		AddItem(src, "bluntwrap", 5)
-		AddItem(src, "tobacco", 5)
+	if ps.removeItem(src, "mdwoods",1 ) then
+		ps.addItem(src, "bluntwrap", 5)
+		ps.addItem(src, "tobacco", 5)
 	end
 end)
+
+
+exports['ps_lib']:registerCrafter({
+    loc = weedLocs.MakeButter,
+    recipes = {
+        cannabutter = {
+            amount = 1, 
+            time = 4000,
+            anim = 'uncuff',
+            recipe = {
+               mdbutter = 1,
+               grindedweed = 1
+            }
+        },
+        specialbrownie = {
+            amount = 1,
+            time = 4000,
+            anim = 'uncuff',
+            recipe = {
+                cannabutter = 1,
+                flour = 1,
+                chocolate = 1
+            }
+        },
+        specialcookie = {
+            amount = 1,
+            time = 4000,
+            anim = 'uncuff',
+            recipe = {
+                cannabutter = 1,
+                flour = 1
+            }
+        },
+        specialchocolate = {
+            amount = 1,
+            time = 4000,
+            anim = 'uncuff',
+            recipe = {
+                cannabutter = 1,
+                chocolate = 1
+            }
+        },
+        specialmuffin = {
+            amount = 1,
+            time = 4000,
+            anim = 'uncuff',
+            recipe = {
+                cannabutter = 1,
+                flour = 1
+            }
+        }
+
+    }
+})
+
+exports['ps_lib']:registerCrafter({
+    loc = weedLocs.MakeOil,
+    recipes = {
+        shatter = {
+            amount = 1, 
+            time = 4000,
+            anim = 'uncuff',
+            recipe = {
+                butane = 1,
+                grindedweed = 1
+            }
+        }
+    }
+})
+
+

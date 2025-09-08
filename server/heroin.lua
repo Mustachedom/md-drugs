@@ -1,123 +1,140 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local heroinLabKits = {}
+local heroinRecipes = {
+   dryheroin = {
+       tier1 = {take = {poppyresin = 1}, give = {heroin = 1}},
+       tier2 = {take = {poppyresin = 1}, give = {heroinstagetwo = 1}},
+       tier3 = {take = {poppyresin = 1}, give = {heroinstagethree = 1}},
+   },
+   cutheroin = {
+       tier1 = {take = {heroin = 1,            bakingsoda = 1}, give = {heroincut = 1}},
+       tier2 = {take = {heroinstagetwo = 1,    bakingsoda = 1}, give = {heroincutstagetwo = 1}},
+       tier3 = {take = {heroinstagethree = 1,  bakingsoda = 1}, give = {heroincutstagethree = 1}},
+   },
+   fillvial = {
+       tier1 = {take = {heroincut = 1,            emptyvial = 1}, give = {heroinvial = 1}},
+       tier2 = {take = {heroincutstagetwo = 1,    emptyvial = 1}, give = {heroinvialstagetwo = 1}},
+       tier3 = {take = {heroincutstagethree = 1,  emptyvial = 1}, give = {heroinvialstagethree = 1}},
+   },
+   fillneedle = {
+       tier1 = {take = {heroinvial = 1,            needle = 1}, give = {heroin_ready = 1}},
+       tier2 = {take = {heroinvialstagetwo = 1,  needle = 1}, give = {heroin_readystagetwo = 1}},
+       tier3 = {take = {heroinvialstagethree = 1,  needle = 1}, give = {heroin_readystagethree = 1}},
+   }
+}
+
+local heroinLocations = {
+    dryplant = {  -- turn resin into powder
+        {loc = vector3(-1353.77, -335.58, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+    cutheroinone = {  -- cut heroin stage 1-3 with baking soda
+        {loc = vector3(-1360.14, -337.03, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    }, 
+    fillneedle = { -- fill needles with heroin
+        {loc = vector3(-1366.32, -334.40, 44.44), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+	buyKit = {
+		{ped = 'a_m_m_farmer_01',loc = vector4(-1366.32, -334.40, 44.44,180.0), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+	}
+}
+
 local prices = {
 	heroinlabkitprice = 10000
 }
-local heroinLabKits = {}
-local h = {
-	{ location = vector3(-2251.3, -99.18, 100.11),    heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2249.63, -92.97, 101.8),    heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2245.57, -85.12, 104.5),    heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2240.81, -88.48, 105.88),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(-2240.87, -93.36, 103.88),   heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2236.0, -95.34, 102.55),    heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2240.6, -100.01, 100.49),   heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2246.29, -104.92, 99.27),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(-2243.64, -107.99, 96.71),   heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2254.22, -108.76, 97.25),   heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2247.33, -108.92, 97.70),   heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2250.96, -111.22, 97.50),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(465.95, -1021.32, 31.78),    heading = 21.52,     model = "prop_plant_01b"},
-}
 
-GlobalState.PoppyPlants = h
-Citizen.CreateThread(function()
-    for _, v in pairs(h) do
-        v.taken = false
-    end
+ps.registerCallback('md-drugs:server:GetHeroinLocations', function(source)
+	return heroinLocations
 end)
 
-function heroinCooldown(loc)
-    CreateThread(function()
-        Wait(Config.respawnTime * 1000)
-		h[loc].taken = false
-        GlobalState.PoppyPlants = h
-        Wait(1000)
-        TriggerClientEvent('heroin:respawnCane', -1, loc)
-		Log('Heroin Plant Respawned At ' .. h[loc].location, 'heroin')
-    end)
-end
 
-lib.callback.register('removeCleaningkit', function(source)
-	local Player = getPlayer(source)
+ps.registerCallback('removeCleaningkit', function(source)
 	for k, v in pairs(heroinLabKits) do
-		if v.ownerid == Player.PlayerData.citizenid then
-			RemoveItem(source, 'cleaningkit', 1)
+		if v.ownerid == ps.getIdentifier(source) then
+			ps.removeItem(source, 'cleaningkit', 1)
 			return true
 		end
 	end
 	return false
 end)
 
-RegisterServerEvent("heroin:pickupCane", function(loc)
-	if CheckDist(source, h[loc].location) then return end
-    if not h[loc].taken then
-		h[loc].taken = true
-        GlobalState.PoppyPlants = h
-        TriggerClientEvent("heroin:removeCane", -1, loc)
-        heroinCooldown(loc)
-        AddItem(source, 'poppyresin', 1)
-    end
-end)
-
 RegisterServerEvent('md-drugs:server:dryplant', function(num)
 	local src = source
-	if not checkLoc(source, 'dryplant', num) then return end
-	if not Itemcheck(source, 'poppyresin', 1) then return end
+
+	if timeOut(src, 'md-drugs:server:dryplant') then return end
+	if not ps.checkDistance(src, heroinLocations.dryplant[num].loc, 3.0) then 
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+		return
+	end
+
+	local tier = 'tier1'
 	if Config.TierSystem then
-		local heroin = getRep(src, 'heroin')
+		local heroin = tonumber(getRep(src, 'heroin'))
 		if heroin <= Config.Tier1 then
-			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier1') then return end
+			tier = 'tier1'
 		elseif heroin >= Config.Tier1 and heroin <= Config.Tier2 then
-			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier2') then return end
+			tier = 'tier2'
 		else
-			if not GetRecipe(src, 'heroin', 'dryheroin', 'tier3') then return end
+			tier = 'tier3'
 		end
-	else
-		if not GetRecipe(src, 'heroin', 'dryheroin', 'tier1') then return end
+	end
+	if not ps.craftItem(src, heroinRecipes['dryheroin'][tier]) then
+		verifyHas(src, heroinRecipes['dryheroin'][tier].take)
+		return
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	local src = source
-    local Player = getPlayer(src)
-	if not checkLoc(source, 'cutheroinone', num) then return end
-	if not Itemcheck(src, 'bakingsoda', 1) then return end
+
+	if timeOut(src, 'md-drugs:server:cutheroin') then return end
+
+	if not ps.checkDistance(src, heroinLocations.cutheroinone[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+		return
+	end
 	if Config.TierSystem then
-		local rawh = Player.Functions.GetItemByName('heroin')
-		local rawh2 = Player.Functions.GetItemByName('heroinstagetwo')
-		local rawh3 = Player.Functions.GetItemByName('heroinstagethree')
-		if rawh then
-			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
-		elseif rawh2 then
-			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier2') then return end
-		elseif rawh3 then
-			if not GetRecipe(src, 'heroin', 'cutheroin', 'tier3') then return end
-		else
-			Notifys(src, Lang.Heroin.noheroin, "error")
+		local itemList = {
+			heroin = 'tier1',
+			heroinstagetwo = 'tier2',
+			heroinstagethree = 'tier3'
+		}
+		for k, v in pairs(itemList) do
+			local cuth = ps.hasItem(src, k)
+			if cuth then
+				if not ps.craftItem(src, heroinRecipes['cutheroin'][v]) then
+					verifyHas(src, heroinRecipes['cutheroin'][v].take)
+					return
+				end
+				AddRep(src, 'heroin')
+				return
+			end
 		end
 	else
-		if not GetRecipe(src, 'heroin', 'cutheroin', 'tier1') then return end
+		if not ps.craftItem(src, heroinRecipes['cutheroin']['tier1']) then
+			verifyHas(src, heroinRecipes['cutheroin']['tier1'].take)
+			return
+		end
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
+RegisterServerEvent('md-drugs:server:getheroinlabkit', function(num)
 	local src = source
-	local Player = getPlayer(src)
-	if not checkLoc(source, 'singleSpot', 'buyheroinlabkit') then return end
-	local has = Player.Functions.GetItemByName('heroinlabkit')
-	if has then Notifys(src, Lang.Heroin.haskit, 'error') return end
-	if Player.Functions.RemoveMoney('cash', prices.heroinlabkitprice) then
-		AddItem(src, 'heroinlabkit', 1)
+	if timeOut(src, 'md-drugs:server:getheroinlabkit') then return end
+	if not ps.checkDistance(src, heroinLocations.buyKit[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+		return
+	end
+	local has = ps.hasItem(src, 'heroinlabkit')
+	if has then ps.notify(src, ps.lang('heroin.hasKitAlready'), 'error') return end
+	if ps.removeMoney(src, 'cash', prices.heroinlabkitprice) then
+		ps.addItem(src, 'heroinlabkit', 1)
 	else
-		Notifys(src, 'You Need '.. prices.heroinlabkitprice .. ' In Cash For This', 'error')
+		ps.notify(src, ps.lang('heroin.notEnoughMoney', prices.heroinlabkitprice), 'error')
 	end
 end)
 
 local function hasHKit(src)
-	local src = source
-	local Player = getPlayer(src)
 	for k, v in pairs(heroinLabKits) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == ps.getIdentifier(src) then
 			return true
 		end
 	end
@@ -126,127 +143,145 @@ end
 
 RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 	local src = source
-	local Player = getPlayer(src)
 	if not hasHKit(src) then return end
 	for k, v in pairs (heroinLabKits) do
-		if v.ownerid == Player.PlayerData.citizenid then
+		if v.ownerid == ps.getIdentifier(src) then
 			table.remove(heroinLabKits, k)
-			AddItem(src, 'heroinlabkit', 1)
+			ps.addItem(src, 'heroinlabkit', 1)
 		end
 	end
 end)
 
 
-CUI('heroinlabkit', function(source, item)
+ps.createUseable('heroinlabkit', function(source, item)
 	local src = source
-	local Player = getPlayer(src)
-	if not Itemcheck(source, 'heroinlabkit', 1) then return end
-	local placed, loc = lib.callback.await('md-drugs:client:setheroinlabkit', src)
-	if placed then 
-		RemoveItem(src, 'heroinlabkit', 1)
-		table.insert(heroinLabKits, {
-			src = src, 
-			ownerid = Player.PlayerData.citizenid,
-			coords = loc,
-			name = GetName(src)
-		})
-		Notifys(src, Lang.Heroin.placed, "success")
+	if not ps.hasItem(src, 'heroinlabkit', 1) then return end
+	local placed, loc = ps.callback('md-drugs:client:setheroinlabkit', src)
+	if placed then
+		if ps.removeItem(src, 'heroinlabkit', 1) then
+			table.insert(heroinLabKits, {
+				src = src,
+				ownerid = ps.getIdentifier(src),
+				coords = loc,
+				name = ps.getPlayerName(src)
+			})
+			ps.notify(src, ps.lang('heroin.placedKit'), "success")
+		end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
-local src = source
-local Player = getPlayer(src) 
+	local src = source
+
+	if timeOut(src, 'md-drugs:server:heatliquidheroin') then return end
+
 	if not hasHKit(src) then return end
-	if not Itemcheck(source, 'emptyvial', 1) then return end
+	if not ps.hasItem(src, 'emptyvial', 1) then return end
+	
 	if Config.TierSystem then
-		local cuth = Player.Functions.GetItemByName('heroincut')
-		local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
-		local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
-		if cuth then
-			if not GetRecipe(src, 'heroin', 'fillvial', 'tier1') then return end
-		elseif cuth2 then
-			if not GetRecipe(src, 'heroin', 'fillvial', 'tier2') then return end
-		elseif cuth3 then
-			if not GetRecipe(src, 'heroin', 'fillvial', 'tier3') then return end
-		else
-			Notifys(src, 'no cut heroin', "error")
+		local itemList = {
+			heroincut = 'tier1',
+			heroincutstagetwo = 'tier2',
+			heroincutstagethree = 'tier3'
+		}
+		for k, v in pairs(itemList) do
+			local cuth = ps.hasItem(src, k)
+			if cuth then
+				if not ps.craftItem(src, heroinRecipes['fillvial'][v]) then
+					verifyHas(src, heroinRecipes['fillvial'][v].take)
+					return
+				end
+				AddRep(src, 'heroin')
+				return
+			end
 		end
 	else
-		if not GetRecipe(src, 'heroin', 'fillvial', 'tier1') then return end
+		if not ps.craftItem(src, heroinRecipes['fillvial']['tier1']) then
+			verifyHas(src, heroinRecipes['fillvial']['tier1'].take)
+			return
+		end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:failheatingheroin', function()
-local src = source
-local Player = getPlayer(src)
-if not hasHKit(src) then return end
-local cuth = Player.Functions.GetItemByName('heroincut')
-local cuth2 = Player.Functions.GetItemByName('heroincutstagetwo')
-local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
-	if cuth then
-		RemoveItem(src, 'heroincut', 1) 
-		Notifys(src,Lang.Heroin.fail, "error")
-	elseif cuth2 then
-		RemoveItem(src, 'heroincutstagetwo', 1) 
-		Notifys(src,Lang.Heroin.fail, "error")
-	elseif cuth3 then
-		RemoveItem(src, 'heroincutstagethree', 1)
-		Notifys(src,Lang.Heroin.fail, "error")
+	local src = source
+	if not hasHKit(src) then return end
+	local itemList = {
+		heroincut = 1,
+		heroincutstagetwo = 1,
+		heroincutstagethree = 1
+	}
+	for k, v in pairs(itemList) do
+		local cuth = ps.hasItem(src, k)
+		if cuth then
+			ps.removeItem(src, k, v)
+			ps.notify(src, ps.lang('heroin.failed'), "error")
+			return
+		end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
-    local Player = getPlayer(src)
-	if not checkLoc(source, 'fillneedle', num) then return end
-	if not Itemcheck(src, 'needle', 1) then return end
+	if timeOut(src, 'md-drugs:server:fillneedle') then return end
+	if not ps.checkDistance(src, heroinLocations.fillneedle[num].loc, 3.0) then
+		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+		return
+	end
+	if not ps.hasItem(src, 'needle', 1) then return end
 	if Config.TierSystem then
-		local heroin = getRep(src, 'heroin')
-		local vh = Player.Functions.GetItemByName('heroinvial')
-		local vh2 = Player.Functions.GetItemByName('heroinvialstagetwo')
-		local vh3 = Player.Functions.GetItemByName('heroinvialstagethree')
-		if vh then
-			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier1') then return end
-			AddRep(src, 'heroin')
-		elseif vh2 then
-			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier2') then return end
-			AddRep(src, 'heroin')
-		elseif vh3 then
-			if not GetRecipe(src, 'heroin', 'fillneedle', 'tier3') then return end
-			AddRep(src, 'heroin')
-		else
-			Notifys(src,Lang.Heroin.nofill, "error")
+		local itemList = {
+			{item = 'heroinvial', 		  	tier = 'tier1',   log = ' Filled Heroin Needle'},
+			{item = 'heroinvialstagetwo',   tier = 'tier2', log = ' Filled Heroin Needle tier 2'},
+			{item = 'heroinvialstagethree', tier = 'tier3', log = ' Filled Heroin Needle tier 3'}
+		}
+		for k, v in pairs(itemList) do
+			local vh = ps.hasItem(src, v.item)
+			if vh then
+				if not ps.craftItem(src, heroinRecipes['fillneedle'][v.tier]) then
+					verifyHas(src, heroinRecipes['fillneedle'][v.tier].take)
+					return
+				end
+				AddRep(src, 'heroin')
+				return
+			end
 		end
 	else
-		if not GetRecipe(src, 'heroin', 'fillneedle', 'tier1') then return end
+		if not ps.craftItem(src, heroinRecipes['fillneedle']['tier1']) then
+			verifyHas(src, heroinRecipes['fillneedle']['tier1'].take)
+			return
+		end
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:failheroin', function()
 	local src = source
-    local Player = getPlayer(src)
-	Log(GetName(src) ..' Sucks And Burned Their Heroin', 'heroin')
 	if Config.TierSystem then
-		local vh = Player.Functions.GetItemByName('heroinvial')
-		local vh2 = Player.Functions.GetItemByName('heroinvialstagetwo')
-		local vh3 = Player.Functions.GetItemByName('heroinvialstagethree')
-		if vh then RemoveItem(src, 'heroinvialstagethree', 1 ) 
-		elseif vh2 then RemoveItem(src, 'heroinvialstagetwo', 1) 
-		elseif vh3 then RemoveItem(src, 'heroinvial', 1)
+		local itemList = {
+			heroinvial = 1,
+			heroinvialstagetwo = 1,
+			heroinvialstagethree = 1
+		}
+		for k, v in pairs (itemList) do
+			local cuth = ps.hasItem(src, k)
+			if cuth then
+				ps.removeItem(src, k, v)
+				ps.notify(src, ps.lang('Heroin.failneedle'), "error")
+				return
+			end
 		end
 	else
-		RemoveItem(src, 'heroinvial', 1)
+		ps.removeItem(src, 'heroinvial', 1)
 	end
 end)
 
 AddEventHandler('playerDropped', function()
 	local src = source
-	local Player = getPlayer(src)
 	for k, v in pairs(heroinLabKits) do
 		if v.src == src then
 			table.remove(heroinLabKits, k)
-			AddItem(src, 'heroinlabkit', 1)
+			ps.addItem(src, 'heroinlabkit', 1)
 		end
 	end
+
 end)

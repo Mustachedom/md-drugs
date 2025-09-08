@@ -1,11 +1,6 @@
 QBConfig = {}
 -----------  qb-drugs update built in here below
 ----------- Everything is now a target and not displaytext. Dealers are no longer just doors, they will spawn peds where you place your dealer. This is a literally qb-drugs with SLIGHT edits. mainly added peds for deliveries, made everything a target
-
-QBConfig.MinimumDrugSalePolice = 0
-QBConfig.MarkedBills = false -- if false on both options below then it auto converts selling to give cash
-QBConfig.CustomDirtyMoney = false
-QBConfig.CustomDirtyMoneyitem = ''
 QBConfig.Dealers = {}
 
 -- Delivery locations and items is now in server/deliveries.lua 

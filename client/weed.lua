@@ -1,132 +1,57 @@
-local WeedPlant = {}
 local exploded, drying = false, false
-
-local function hasJob()
-	if Config.Joblock then
-		if  getJobName() == Config.weedjob then
-		return true else return false end
-	else
-	return true end
- end
-
- local function pick(loc)
-	if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
-	TriggerServerEvent("weed:pickupCane", loc)
- end
-
-RegisterNetEvent('weed:respawnCane', function(loc)
-    local v = GlobalState.WeedPlant[loc]
-    local hash = GetHashKey(v.model)
-    if not HasModelLoaded(hash) then LoadModel(hash) end
-    if not WeedPlant[loc] then
-        WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
-		Freeze(WeedPlant[loc],true,  v.heading)
-        AddSingleModel(WeedPlant[loc],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(loc) end}, loc)
-    end
-end)
-
-RegisterNetEvent('weed:removeCane', function(loc)
-    if DoesEntityExist(WeedPlant[loc]) then DeleteEntity(WeedPlant[loc]) end
-    WeedPlant[loc] = nil
-end)
-
-RegisterNetEvent("weed:init", function()
-    for k, v in pairs (GlobalState.WeedPlant) do
-        local hash = GetHashKey(v.model)
-        lib.requestModel('prop_weed_01', 1000)
-        if not v.taken then
-            WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
-			Freeze(WeedPlant[k],true,  v.heading)
-			AddSingleModel(WeedPlant[k],   {icon = "fas fa-hand",label = Lang.targets.weed.pick, action = function() pick(k) end}, k)
-        end
-    end
-end)
-
-AddEventHandler('onResourceStop', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('bkr_prop_weed_lrg_01b'))
-        for k, v in pairs(WeedPlant) do
-            if DoesEntityExist(v) then
-                DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
-            end
-        end
-    end
-end)
-
-CreateThread(function()
-	local config = lib.callback.await('md-drugs:server:getLocs', false)
-	AddBoxZoneMulti('weeddry', config.WeedDry, {
-		name = 'dryweed',
-		icon = "fas fa-sign-in-alt",
-		label = Lang.targets.weed.dry,
-		distance = 1,
-		action = function()
-			if not ItemCheck('wetcannabis') then return end
-			if drying then
-				Notify(Lang.Weed.busy, "error")
-			else
+local locations = ps.callback('md-drugs:server:GetWeedLocs')
+for k, v in pairs (locations.WeedDry) do
+	ps.boxTarget('weed_dry'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-cannabis',
+			label = ps.lang('weed.targetDry'),
+			action = function()
+				if not ps.hasItem('wetcannabis', 1) then
+					ps.notify(ps.lang('weed.nodry'), "error")
+					return
+				end
+				if drying then return end
 				local loc = GetEntityCoords(PlayerPedId())
 				local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)
 				drying = true
 				FreezeEntityPosition(weedplant, true)
-				Notify(Lang.Weed.wait, "success")
+				ps.notify(ps.lang('weed.wait'), "success")
 				Wait(math.random(1000,5000))
-				Notify(Lang.Weed.take, "success")
-				AddSingleModel(weedplant, {
+				ps.notify(ps.lang('weed.take'), "success")
+				ps.entityTarget(weedplant, {
 					icon = "fa-solid fa-cannabis",
-					label = Lang.targets.weed.dpick,
+					label = ps.lang('weed.targetDryed'),
 					action = function()
 						DeleteEntity(weedplant)
 						drying = false
 						TriggerServerEvent('md-drugs:server:dryoutweed')
 					end,
-					canInteract = function()
-						if hasJob() then return true end end									
-				}, nil)
+				})
 			end
-		end,
-		canInteract = function()
-			if hasJob() then return true end end	
+		}
 	})
+end
 
-AddBoxZoneSingle('teleinweedout', config.singleSpot.weedTeleout, { name = 'teleout', icon = "fa-solid fa-door-closed", label = Lang.targets.coke.exit, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTelein) end,
-	canInteract = function() if hasJob() then return true end end	
-}) 
-AddBoxZoneSingle('teleinweedin', config.singleSpot.weedTelein, { name = 'teleout', icon = "fa-solid fa-door-open", label = Lang.targets.coke.enter, distance = 2.0, action = function() SetEntityCoords(PlayerPedId(),config.singleSpot.weedTeleout) end,
-	canInteract = function() if hasJob() then return true end end	
-}) 
-AddBoxZoneSingle('MakeButterCrafting', config.singleSpot.MakeButter, {label = Lang.targets.weed.butt, action = function() lib.showContext('ButterCraft') end, icon = "fa-solid fa-cookie", 
-canInteract = function() if hasJob() then return true end end	
-}) 
-
-AddBoxZoneSingle('makeoil',config.singleSpot.MakeOil, {
-	name = 'Oil',
-	icon = "fa-solid fa-oil-can",
-	label = Lang.targets.weed.oil,
-	action = function()
-		if not ItemCheckMulti({'butane', 'grindedweed'}) then return end
-		if not minigame() then 
-			local loc = GetEntityCoords(PlayerPedId())
-			AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true)
-			exploded = true
-			Notify(Lang.Weed.stovehot, "error")
-			Wait(1000 * 30)
-			exploded = false	
-		return end
-		if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
-		TriggerServerEvent("md-drugs:server:makeoil")			
-	end,
-	canInteract = function()
-		if hasJob() and exploded == false then return true end
-	end,
+for k, v in pairs (locations.WeedTele) do
+	ps.boxTarget('weed_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-door-open',
+			label = ps.lang('weed.teleportOut'),
+			action = function()
+				SetEntityCoords(PlayerPedId(), v.outside)
+			end
+		}
 	})
-	local stove = CreateObject("prop_cooker_03",config.singleSpot.MakeButter.x, config.singleSpot.MakeButter.y, config.singleSpot.MakeButter.z-1, true, false)
-	SetEntityHeading(stove, 270.00)
-	FreezeEntityPosition(stove, true)
-	local stove2 = CreateObject("prop_cooker_03",config.singleSpot.MakeOil.x,config.singleSpot.MakeOil.y, config.singleSpot.MakeOil.z-1, true, false)
-	SetEntityHeading(stove2, 90.00)
-	FreezeEntityPosition(stove2, true)
-end)
+	ps.boxTarget('weed_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+		{
+			icon = 'fa-solid fa-door-closed',
+			label = ps.lang('weed.teleportIn'),
+			action = function()
+				SetEntityCoords(PlayerPedId(), v.inside)
+			end
+		}
+	})
+end
 
 CreateThread(function()
     BikerWeedFarm = exports['bob74_ipl']:GetBikerWeedFarmObject()
@@ -140,53 +65,83 @@ CreateThread(function()
     RefreshInterior(BikerWeedFarm.interiorId)
 end)
 
+local function AlienEffect()
+    StartScreenEffect("DrugsMichaelAliensFightIn", 3.0, 0)
+    Wait(math.random(5000, 8000))
+    StartScreenEffect("DrugsMichaelAliensFight", 3.0, 0)
+    Wait(math.random(5000, 8000))
+    StartScreenEffect("DrugsMichaelAliensFightOut", 3.0, 0)
+    StopScreenEffect("DrugsMichaelAliensFightIn")
+    StopScreenEffect("DrugsMichaelAliensFight")
+    StopScreenEffect("DrugsMichaelAliensFightOut")
+end
+
 RegisterNetEvent("md-drugs:client:dodabs", function()
-	if not progressbar('Doing Dabs', 4000, 'bong2') then AlienEffect() return end
-	AlienEffect()
+	if not ps.progressbar(ps.lang('weed.dabs'), 4000, 'bong2') then AlienEffect() return end
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
     local options = {}
-	local items = lib.callback.await('md-drugs:server:GetRecipe', false,'weed',tableName)
+	local items = ps.callback('md-drugs:server:GetWeedRecipe', 'weed', tableName)
     for k, v in pairs(items) do
         local label = {}
         local item = ''
-        for m, d in pairs(v.take) do table.insert(label, GetLabel(m) .. ' X ' .. d) end 
+        for m, d in pairs(v.take) do table.insert(label, ps.getLabel(m) .. ' X ' .. d) end 
 		for m, d in pairs(v.give) do item = m end
         options[#options + 1] = {
-            icon = GetImage(item),
+            icon = ps.getImage(item),
             description = table.concat(label, ", "),
-            title = GetLabel(item),
-            event = "md-drugs:client:MakeWeedItems",
-            args = {
-                item = item, 
-                recipe = 'weed',
-                num = k,
-                label = eventLabelPrefix .. GetLabel(item),
-                table = tableName
-            }
+            title = ps.getLabel(item),
+			action = function()
+				if not minigame() then return end
+				if not ps.progressbar(eventLabelPrefix .. ps.getLabel(item), 4000, 'uncuff') then return end
+				TriggerServerEvent('md-drugs:server:MakeWeedItems', {item = item, recipe = 'weed', num = k, table = tableName})
+			end
         }
     end
-    sorter(options, 'title')
-    lib.registerContext({    id = contextId,    title = contextTitle,    options = options})
+    ps.sorter(options, 'title')
+    ps.menu(contextTitle, contextTitle, options)
 end
 
-CreateThread(function()
-createBluntOptions('ButterCraft', "Edible Cooking", 'Cooking A ', 'edibles')
-createBluntOptions('mddrugsblunts', "Roll Blunts", 'Rolling A ', 'blunts')
-createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", 'Dipping Syrup To Make ', 'bluntwrap')
-end)
-
-RegisterNetEvent("md-drugs:client:MakeWeedItems", function(data)
-	if not minigame() then return end
-	if not progressbar('Making ' .. data.item, 4000, 'uncuff') then return end
-	TriggerServerEvent('md-drugs:server:MakeWeedItems', data)
-end)
-
 RegisterNetEvent('md-drugs:client:makeBluntWrap', function(data)
-	lib.showContext('mddrugsbluntwraps')
+	createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", ps.lang('weed.bluntWrap'), 'bluntwrap')
 end)
 
 RegisterNetEvent('md-drugs:client:rollBlunt', function(data)
-	lib.showContext('mddrugsblunts')
+	createBluntOptions('mddrugsblunts', "Roll Blunts", ps.lang('weed.blunts'), 'blunts')
 end)
+
+for k, v in pairs (locations.WeedSalesman) do
+	ps.requestModel(v.ped)
+	local ped = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z - 1.0, v.loc.w, false, true)
+	FreezeEntityPosition(ped, true)
+	SetEntityInvincible(ped, true)
+	SetBlockingOfNonTemporaryEvents(ped, true)
+	ps.entityTarget(ped, {
+		{
+			icon = "fa-solid fa-cannabis",
+			label = ps.lang('weed.targetSales'),
+			action = function()
+				local itemList = ps.callback('md-drugs:server:getWeedItems')
+				local options = {}
+				for m, d in pairs (itemList) do
+					options[#options + 1] = {
+						icon = ps.getImage(m),
+						title = ps.getLabel(m),
+						description = '$' .. d,
+						action = function()
+							local input = ps.input('Amount To Buy',{
+								{type = 'number', title = 'How Many To Buy', min = 1, max = 1000}
+							})
+							if not input and input[1] then return end
+							if not ps.progressbar(ps.lang('weed.buying', ps.getLabel(m)), 2000, 'uncuff') then return end
+							TriggerServerEvent('md-drugs:server:buyWeedItem', k, m, input[1])
+						end
+					}
+				end
+				ps.menu('Weed Shop', 'Weed Shop', options)
+			end
+		}
+	})
+end
+

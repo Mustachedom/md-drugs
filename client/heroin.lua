@@ -1,127 +1,154 @@
-local PoppyPlants = {}
+
 local herointable = false
 local dirty = false
+local locations = ps.callback('md-drugs:server:GetHeroinLocations')
 
 local function createLabKit(coord, head)
     local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false,false)
     SetEntityHeading(heroinlabkit, head)
     PlaceObjectOnGroundProperly(heroinlabkit)
-    AddMultiModel(heroinlabkit, {
-        {data = heroinlabkit, event = "md-drugs:client:heatliquidheroin", icon = "fa-solid fa-temperature-high", label = Lang.targets.heroin.cook, canInteract = function() if not dirty then return true end end},
-        {data = heroinlabkit, event = "md-drugs:client:getheroinkitback", icon = "fas fa-box-circle-check", label = Lang.targets.heroin.up, canInteract = function() if not dirty then return true end end},
-        {data = heroinlabkit, event = "md-drugs:client:cleanheroinlabkit",icon = "fa-solid fa-hand-sparkles",label = Lang.targets.heroin.clean,canInteract = function() if dirty then return true end end}},heroinlabkit)
-end
-
-local function pickher(loc)
-    if not progressbar(Lang.Heroin.pick, 4000, 'uncuff') then return end
-    TriggerServerEvent("heroin:pickupCane", loc)
-end
-
-RegisterNetEvent('heroin:respawnCane', function(loc)
-    local v = GlobalState.PoppyPlants[loc]
-    local hash = GetHashKey(v.model)
-    if not PoppyPlants[loc] then
-        PoppyPlants[loc] = CreateObject(hash, v.location, false, true, true)
-        Freeze(PoppyPlants[loc], true, v.heading)
-        AddSingleModel(PoppyPlants[loc], {icon = "fa-solid fa-seedling", label = Lang.targets.heroin.pick, action = function() pickher(loc) end}, loc )
-    end
-end)
-
-RegisterNetEvent('heroin:removeCane', function(loc)
-    if DoesEntityExist(PoppyPlants[loc]) then DeleteEntity(PoppyPlants[loc]) end
-    PoppyPlants[loc] = nil
-end)
-
-RegisterNetEvent("heroin:init", function()
-    for k, v in pairs (GlobalState.PoppyPlants) do
-        local hash = GetHashKey(v.model)
-        if not HasModelLoaded(hash) then LoadModel(hash) end
-        if not v.taken then
-            PoppyPlants[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
-            Freeze(PoppyPlants[k], true, v.heading)
-            AddSingleModel(PoppyPlants[k], {icon = "fa-solid fa-seedling", label = Lang.targets.heroin.pick, action = function() pickher(k) end}, k )
-        end
-    end
-end)
-
- AddEventHandler('onResourceStop', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01b'))
-        for k, v in pairs(PoppyPlants) do
-            if DoesEntityExist(v) then
-                DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
+    ps.entityTarget(heroinlabkit, {
+        {
+            icon = "fa-solid fa-temperature-high",
+            label = ps.lang('heroin.targetCook'),
+            action = function()
+            if not ps.hasItem('emptyvial') then
+                ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('emptyvial')), 'error')
+                return
             end
+
+            if not minigame() then
+                dirty = true
+                TriggerServerEvent("md-drugs:server:failheatingheroin")
+	        	ps.requestPTFX("core")
+	            local heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", heroinlabkit, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
+                SetParticleFxLoopedAlpha(heroinkit, 3.0)
+	        	SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
+	        return end
+
+            if not ps.progressbar(ps.lang('heroin.pbCook'), 4000, 'uncuff') then return end
+            TriggerServerEvent("md-drugs:server:heatliquidheroin")
+        end,
+        canInteract = function()
+            if not dirty then return true end
         end
-    end
-end)
+    },
+    {
+        icon = "fas fa-box-circle-check",
+        label = ps.lang('heroin.targetPickup'),
+        action = function()
+            if not ps.progressbar(ps.lang('heroin.pbPickup'), 4000, 'uncuff') then return end
+            herointable = false
+            DeleteObject(heroinlabkit)
+            TriggerServerEvent("md-drugs:server:getheroinlabkitback")
+        end,
+        canInteract = function()
+            if not dirty then return true end
+            return false
+        end
+    },
+    {
+        icon = "fa-solid fa-hand-sparkles",
+        label = ps.lang('heroin.targetClean'),
+        action = function()
+            if not ps.hasItem('cleaningkit') then
+                ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('cleaningkit')), 'error')
+                return
+            end
+            if not ps.progressbar(ps.lang('heroin.pbClean'), 4000, 'clean') then return end
+	        local done = ps.callback('removeCleaningkit', false)
+            if done then dirty = false end
+        end,
+        canInteract = function()
+            if dirty then return true end
+            return false
+        end
+    }})
+end
 
-RegisterNetEvent("md-drugs:client:dryplant", function(data) 
-    if not progressbar(Lang.Heroin.dryout, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:dryplant",data.data)
-end)
+for k, v in pairs (locations.dryplant) do
+    ps.boxTarget('dryHeroin'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = ps.lang('heroin.targetDry'),
+            icon = 'fa-solid fa-temperature-high',
+            action = function()
+                if not ps.progressbar(ps.lang('heroin.pbDry'), 4000, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:dryplant", k)
+            end,
+            canInteract = function()
+                return handleGang(v.gang)
+            end
+        }
+    })
+end
 
-RegisterNetEvent("md-drugs:client:cutheroin", function(data) 
-    if not ItemCheck('bakingsoda') then return end
-	if not progressbar(Lang.Heroin.cutting, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:cutheroin", data.data)   
-end)
+for k, v in pairs (locations.cutheroinone) do
+    ps.boxTarget('cutHeroin'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = ps.lang('heroin.targetCutHeroin'),
+            icon = 'fa-solid fa-seedling',
+            action = function()
+                if not ps.hasItem('bakingsoda') then return end
+	            if not ps.progressbar(ps.lang('heroin.pbCutHeroin'), 4000, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:cutheroin", k)
+            end,
+            canInteract = function()
+                return handleGang(v.gang)
+            end
+        }
+    })
+end
+local peds = {}
+for k, v in pairs (locations.buyKit) do
+    ps.requestModel(v.ped, 1000)
+    peds[k] = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, false)
+    Freeze(peds[k], true, v.loc.w)
+    SetBlockingOfNonTemporaryEvents(peds[k], true)
+    SetEntityInvincible(peds[k], true)
+    ps.entityTarget(peds[k], {
+        {
+            label = ps.lang('heroin.targetBuyKit'),
+            icon = 'fa-solid fa-box-open',
+            action = function()
+               if not ps.progressbar(ps.lang('heroin.pbBuyKit'), 4000, 'uncuff') then return end
+	            TriggerServerEvent("md-drugs:server:getheroinlabkit", k)
+            end,
+            canInteract = function()
+				if not handleGang(v.gang) then return false end
+				return true
+			end
+        }
+    })
+end
 
-RegisterNetEvent("md-drugs:client:buyheroinlabkit", function()
-   if not progressbar(Lang.Heroin.secret, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:getheroinlabkit")
-end)
 
-lib.callback.register("md-drugs:client:setheroinlabkit", function() 
-    if herointable then   
-       Notify(Lang.Heroin.tableout, 'error')
+ps.registerCallback("md-drugs:client:setheroinlabkit", function() 
+    if herointable then
+       ps.notify(ps.lang('heroin.tableout'), 'error')
        return false
     else
         herointable = true
         local location, head = StartRay()
         if not location then herointable = false return end
-        if not progressbar(Lang.Heroin.table, 4000, 'uncuff') then return end
+        if not ps.progressbar(ps.lang('heroin.placing'), 4000, 'uncuff') then return end
     	createLabKit(location, head)
         return true, location
     end
 end)
 
-RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data) 
-    local loc, head = GetEntityCoords(data.data), GetEntityHeading(data.data)
-    if not ItemCheck('emptyvial') then return end
-    if not minigame() then
-        dirty = true
-        TriggerServerEvent("md-drugs:server:failheatingheroin")
-		loadParticle("core")
-	    local heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", data.data, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
-        SetParticleFxLoopedAlpha(heroinkit, 3.0)
-		SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
-	return end
-    if not progressbar(Lang.Heroin.success, 4000, 'uncuff') then return end
-    TriggerServerEvent("md-drugs:server:heatliquidheroin")
-end)
-
-RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function(data)
-    if not ItemCheck('cleaningkit') then return end
-    if not progressbar(Lang.Heroin.clean, 4000, 'clean') then return end
-	local done = lib.callback.await('removeCleaningkit', false)
-    if done then dirty = false end
-end)
-
-RegisterNetEvent("md-drugs:client:deletedirtyheroin", function(data)
-    local location,head = GetEntityCoords(data), GetEntityHeading(data)
-    DeleteObject(data)
-	createLabKit(location, head)
-end)
-
-RegisterNetEvent("md-drugs:client:getheroinkitback", function(data) 
-   if not progressbar(Lang.Heroin.pickup, 4000, 'uncuff') then return end
-    herointable = false
-    DeleteObject(data.data)
-    TriggerServerEvent("md-drugs:server:getheroinlabkitback")
-end)
-
-RegisterNetEvent("md-drugs:client:fillneedle", function(data)
-    if not minigame() then TriggerServerEvent("md-drugs:server:failheroin", data.data) return end
-    if not progressbar(Lang.Heroin.needles, 4000, 'uncuff') then return end
-    TriggerServerEvent("md-drugs:server:fillneedle", data.data)
-end)
+for k, v in pairs (locations.fillneedle) do
+    ps.boxTarget('fillNeedle'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+        {
+            label = ps.lang('heroin.targetFill'),
+            icon = 'fa-solid fa-syringe',
+            action = function()
+                if not minigame() then TriggerServerEvent("md-drugs:server:failheroin", k) return end
+                if not ps.progressbar(ps.lang('heroin.pbFill'), 4000, 'uncuff') then return end
+                TriggerServerEvent("md-drugs:server:fillneedle", k)
+            end,
+            canInteract = function()
+                return handleGang(v.gang)
+            end
+        }
+    })
+end

@@ -1,77 +1,76 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local pharmaLocations = {
+    FillPrescription = { -- where to fill out your prescription
+        {loc = vector3(2855.62, 4446.73, 48.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    },
+}
 
-local function GetJob(source) 
+ps.registerCallback('md-drugs:server:GetPharmaLocs', function()
+	return pharmaLocations
+end)
+
+local function GetJob(source)
 	local src = source
-	local Player = getPlayer(src)
-	if Player.PlayerData.job.type == 'ems' then
-		return true
-	else
-		Notifys(src, 'You Must Be EMS To Do This', 'error')
-		return false
-	end
+	return ps.getJobType(src) == 'ems'
 end
 
-CUI('prescription_pad', function(source, item)
+ps.createUseable('prescription_pad', function(source, item)
 	local src = source
 	local near = {}
-	if GetJob(src) then 
-		for k, v in pairs (QBCore.Functions.GetQBPlayers()) do
-			local targ = QBCore.Functions.GetPlayerByCitizenId(v.PlayerData.citizenid) 
-			local tname = GetName(v.PlayerData.source)
-			local ped, tped = GetPlayerPed(src), GetPlayerPed(v.PlayerData.source)
-			local dist = #(GetEntityCoords(ped) - GetEntityCoords(tped)) 
-			if dist < 5.0 then
-				table.insert(near, {label = tname, value = targ.PlayerData.citizenid})
-			end
-		end
-		local options = { {label = 'Vicodin', value = 'vicodin_prescription'}, {label = 'Adderal', value = 'adderal_prescription'}, {label = 'Morphine', value = 'morphine_prescription'},{label = 'Xanax', value = 'xanax_prescription'}}
-		local data = lib.callback.await('md-drugs:client:prescriptionpad', src, near, options)
-		if type(data) == 'table' then
-			local give = QBCore.Functions.GetPlayerByCitizenId(data.who)
-			for i = 1, #options do
-				if data.what == options[i].value then
-					AddItem(give.PlayerData.source, data.what, 1)
-				end
-			end
-		end
+	if GetJob(src) then
+		near = ps.getNearbyPlayers(src, 5.0)
+		local options = { 
+			{label = ps.getItemLabel('vicodin_prescription'),  value = 'vicodin_prescription'},
+			{label = ps.getItemLabel('adderal_prescription'),  value = 'adderal_prescription'},
+			{label = ps.getItemLabel('morphine_prescription'), value = 'morphine_prescription'},
+			{label = ps.getItemLabel('xanax_prescription'),    value = 'xanax_prescription'}
+		}
+		local data = ps.callback('md-drugs:client:prescriptionpad', src, near, options)
+		if not data then return ps.notify(src, ps.lang('pharma.canceled'), "error") end
+		ps.addItem(ps.getSource(data.who), data.what, 1)
 	end
 end)
 
 local pharmabottle = {'vicodinbottle', 'adderalbottle','morphinebottle','xanaxbottle'}
 for m, d in pairs (pharmabottle) do
-CUI(d, function(source, item)
-	local src = source
-	local Player = getPlayer(src)
-	local check = lib.callback.await("md-drugs:client:unbottle", src)
-	if check then
-		local get = {
-			['vicodinbottle'] = 'vicodin',
-			['adderalbottle'] = 'adderal',
-			['morphinebottle'] = 'morphine',
-			['xanaxbottle'] = 'xanax'
-		}
-		for k, v in pairs (get) do 
-			if d == k then
-				RemoveItem(src, d, 1)
-				AddItem(src, v, math.random(10,30))
-				Notifys(src,Lang.Pharma.unbottle, "success")
-				Log(GetName(src) .. ' Unbottled 30 Of ' .. v .. '!', 'pharma')
+	ps.createUseable(d, function(source, item)
+		local src = source
+		local check = ps.callback("md-drugs:client:unbottle", src)
+		if check then
+			local get = {
+				['vicodinbottle'] = 'vicodin',
+				['adderalbottle'] = 'adderal',
+				['morphinebottle'] = 'morphine',
+				['xanaxbottle'] = 'xanax'
+			}
+			for k, v in pairs (get) do 
+				if d == k then
+					if ps.removeItem(src, d, 1) then
+						ps.addItem(src, v, math.random(10,30))
+						ps.notify(src,ps.lang('pharma.unbottle'), "success")
+					end
+				end
 			end
 		end
-	end
-end)
+	end)
 end
 
-RegisterServerEvent('md-drugs:server:fillprescription', function()
+RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
-    local Player = getPlayer(src)
-	local pres = {vicodin_prescription = 'vicodinbottle', adderal_prescription = 'adderalbottle', morphine_prescription = 'morphinebottle', xanax_prescription = 'xanaxbottle'}
+	if timeOut(src, 'md-drugs:server:fillprescription') then return end
+	if not ps.checkDistance(src, pharmaLocations.FillPrescription[num].loc, 3.5) then
+		return ps.notify(src, ps.lang('Catches.notIn'), "error")
+	end
+	local pres = {
+		vicodin_prescription = 'vicodinbottle',
+		adderal_prescription = 'adderalbottle',
+		morphine_prescription = 'morphinebottle',
+		xanax_prescription = 'xanaxbottle'
+	}
 	for k, v in pairs (pres) do
-		if Player.Functions.GetItemByName(k) then
-			RemoveItem(src, k, 1 ) 
-			AddItem(src,v, 1)
+		if ps.hasItem(src, k, 1) then
+			ps.removeItem(src, k, 1)
+			ps.addItem(src, v, 1)
 			break
 		end
 	end
-	Log(GetName(src) .. ' Filled A Prescription!', 'pharma')
 end)
