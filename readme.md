@@ -1,6 +1,6 @@
 # 🌿 MD-Drugs – Advanced Drug System for FiveM
 
-A fully customizable, immersive drug system for FiveM servers using QBCore or OX_Inventory. Features include drug processing, corner selling, edible/syringe animations, plant growth, and more.
+A fully customizable, immersive drug system for FiveM servers.
 
 <div align="center">
   <a href="https://discord.gg/sAMzrB4DDx">
@@ -56,7 +56,10 @@ A fully customizable, immersive drug system for FiveM servers using QBCore or OX
 ### Step 2: Configure Drug Locations & Recipes
 
 - All **processing locations and recipes** are located in their respective drug type files:
-  - `cocaine.lua`, `meth.lua`, `weed.lua`, etc.
+  - `cocaine.lua`,
+  - `meth.lua`,
+  - `weed.lua`,
+  - etc.
 - **Plant spawns** are managed in `server/plantSpawns.lua`.
 
 > ✏️ Modify these files to customize spawn points, yields, and processing times.
@@ -157,7 +160,7 @@ A fully customizable, immersive drug system for FiveM servers using QBCore or OX
             }
         ```
 	
-### STEP 6
+### STEP 5
 - Run SQL
     - if you dont know how, click this image below
         - [![YouTube Video](https://img.youtube.com/vi/8QpFOluK_xo/hqdefault.jpg)](https://www.youtube.com/watch?v=8QpFOluK_xo)
