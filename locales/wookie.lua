@@ -9,6 +9,8 @@ Lang.Catches = {
     itemNeeded = 'Rraa %s!',
     cooldown = 'Whhrrroooaannn!',
     invalidItem = 'Khhrrrnnngh!',
+    onCooldownWarn = '%s RRRRAAAAAAAAUGGGGHHH %s \n WHHHRRROOOAAANNN!',
+    noCops = 'WROAH RaW RRRRRRA!'
 }
 
 Lang.coke = {
@@ -152,6 +154,8 @@ Lang.meth = {
     stealingACE = 'Ace rraa!',
     notOnRun = 'Run no oogar!',
     onCooldown = 'Rraa cool!',
+    teleIn = 'SSSNNNAAARRR!!',
+    teleOut = 'WRRROOOOWW!!',
 }
 
 Lang.oxy = {
@@ -216,6 +220,14 @@ Lang.wholesale = {
     uhoh = 'Buyer rraa!',
     tooLong = 'Time rraa!',
     notEnoughCops = 'Cops no oogar!',
+    count = '%s RRRAAAUGH!!',
+    bonus = ' +%s%% — GRRROWL!!',
+    estimate = '$%s - $%s — BWAAAAARRGH!!',
+    no_drugs = ' NNAARRGH!!',
+    ambush = ' %s  WRAAAAAGH!!  %s!!',
+    complete = ' %s — $%s%s — RRROWWR!!',
+    min_quantity = ' %s — BWAAAAH!!',
+    deal_failed_cleanup = ' MMMRRR...',
 }
 
 Lang.xtc = {

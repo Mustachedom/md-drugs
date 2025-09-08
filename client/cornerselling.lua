@@ -43,8 +43,8 @@ local function findPed()
         if inZone then
             targ = nil
         end
-    until targ ~= nil
-
+    until targ ~= nil or sell == false
+    if not sell then return end
     buyers[targ] = true
 
     ps.drawText(ps.lang('Cornerselling.wait'))
@@ -52,8 +52,8 @@ local function findPed()
     repeat
         Wait(1000)
         TaskGoToCoordAnyMeans(targ, GetEntityCoords(PlayerPedId()), 1.0, 0, 0, 0, 0)
-    until #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(targ)) < 2.0
-
+    until #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(targ)) < 2.0 or sell == false or inZone
+    if not sell then return end
     TaskTurnPedToFaceEntity(targ, PlayerPedId(), -1)
     ps.hideText()
     CreateThread(function()
@@ -90,7 +90,7 @@ local function Cornersell()
     end
 
     ps.drawText(ps.lang('Cornerselling.searching'))
-    
+
     local targ = findPed()
     local data = ps.callback('md-drugs:server:cornerselling:getAvailableDrugs', targ)
     if data == false then

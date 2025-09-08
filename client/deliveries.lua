@@ -50,9 +50,7 @@ RegisterNetEvent('md-drugs:client:RefreshDealers', function()
     SpawnDealer()
 end)
 
-CreateThread(function()
-    SpawnDealer()
-end)
+SpawnDealer()
 
 RegisterNetEvent('md-drugs:client:setLocation', function(data)
     local coord = json.decode(data.coords)

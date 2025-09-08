@@ -9,7 +9,8 @@ Lang.Catches = {
     itemNeeded = 'Ye be needin’ %s',
     cooldown = 'Avast! Slow yer sails, sailor!',
     invalidItem = 'This booty ain’t sold on these seas',
-    onCooldownWarn = '%s tried to run the voyage %s \n while the crew be restin’'
+    onCooldownWarn = '%s tried to run the voyage %s \n while the crew be restin’',
+    noCops = 'Not enough watchmen on duty, yarrr!'
 }
 
 Lang.coke = {

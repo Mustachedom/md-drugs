@@ -9,6 +9,8 @@ Lang.Catches = {
     itemNeeded = 'You need %s... plz go get it! 🥺',
     cooldown = 'Silly baka, slow down! ⏳',
     invalidItem = 'Eh? This item isn’t sold here, silly! 🙃',
+    onCooldownWarn = '%s tried to run %s but is on cooldown, oopsie! ❄️',
+    noCops = 'Nosa! Not enough cops online, okeeday!',
 }
 
 Lang.coke = {
@@ -152,6 +154,8 @@ Lang.meth = {
     stealingACE = 'Grabbin’ da acetone... 🧫',
     notOnRun = 'You’re not on a run, silly! 🙅‍♂️',
     onCooldown = 'You’re on cooldown, take a nap~ 😴',
+    teleIn = 'Enter da lab... secretly~ 🔐',
+    teleOut = 'Leave da lab... for now~ 👋',
 }
 
 Lang.oxy = {
@@ -216,6 +220,14 @@ Lang.wholesale = {
     uhoh = 'The buyer looks sketchy... 👀',
     tooLong = 'Buyer got impatient... bye bye~ 👋',
     notEnoughCops = 'Not enough cops on duty... safe! 🚔',
+    count = 'Found %s itemies~',
+    bonus = 'Bonus: +%s%% mowe sparkwes~ ✨',
+    estimate = 'You get $%s - $%s monies~ 💖',
+    no_drugs = 'No dwugies to seww, sadge~',
+    ambush = 'AMBUSCH! %s bad guys wif %s bang-bangs~ 💥',
+    complete = 'Sowd %s itemies fow $%s%s~ 🎉',
+    min_quantity = 'Need to seww %s itemies min~',
+    deal_failed_cleanup = 'Deaw faiwed... twy again? 💔'
 }
 
 Lang.xtc = {

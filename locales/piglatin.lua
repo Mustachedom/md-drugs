@@ -9,7 +9,8 @@ Lang.Catches = {
     itemNeeded = 'ouYay Eednay %s',
     cooldown = 'owSlay OwnDay Eedspay AcerRay',
     invalidItem = 'isThay Itemyay Isyay Otnay Oldsay EreHay',
-    onCooldownWarn = '%s Attemptedyay Otay Unray Eventyay %s \n  ilewhay onyay ooldowncay'
+    onCooldownWarn = '%s Attemptedyay Otay Unray Eventyay %s \n  ilewhay onyay ooldowncay',
+    noCops = 'Nosa! Not enough cops online, okeeday!'
 }
 
 Lang.coke = {

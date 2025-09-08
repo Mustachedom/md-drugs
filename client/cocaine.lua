@@ -2,6 +2,7 @@
 local cuttingcoke = nil
 local baggingcoke = nil
 local locations = ps.callback('md-drugs:server:GetCokeLocations')
+
 local function CutCoke(coords, offset, rotation)
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
 	ps.requestAnim(animDict, 500)
@@ -74,7 +75,6 @@ local function BagCoke(coords, offset, rotation)
     	},
     	{
     		{	hash = "bkr_prop_fakeid_clipboard_01a",	animName = "break_weigh_"..ver.."clipboard"},
-        
     	}
     }
     local scenesList, entitiesList = {}, {}

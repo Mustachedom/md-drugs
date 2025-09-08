@@ -110,7 +110,6 @@ RegisterNetEvent("md-drugs:server:failcrackone", function(num)
     for k,v in pairs(items) do
         if ps.hasItem(src, k, v) then
             ps.removeItem(src, k, v)
-            ps.notify(src, 'You failed to make crack and lost '..v..' '..k, 'error')
             return
         end
     end

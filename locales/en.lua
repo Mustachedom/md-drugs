@@ -9,7 +9,8 @@ Lang.Catches = {
     itemNeeded = 'You Need %s',
     cooldown = 'Slow Down Speed Racer',
     invalidItem = 'This Item Is Not Sold Here',
-    onCooldownWarn = '%s Attempted To Run Event %s \n  while on cooldown'
+    onCooldownWarn = '%s Attempted To Run Event %s \n  while on cooldown',
+    noCops = 'Not Enough Police Online',
 }
 
 Lang.coke = {

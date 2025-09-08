@@ -108,14 +108,14 @@ local Drugs = {
     ["specialmuffin"] =             {rep = 1,min = 18, max = 40},
     ["shatter"] =                   {rep = 1,min = 18, max = 40},
     ["ciggie"] =                    {rep = 1,min = 18, max = 40},
-    ["methbags"] =                  {rep = 1,min = 18, max = 40},	
+    ["methbags"] =                  {rep = 1,min = 18, max = 40},
     ["driedmescaline"] =            {rep = 1,min = 18, max = 40},
     ["shrooms"] =                   {rep = 1,min = 18, max = 40},
     ["gratefuldead_tabs"] =         {rep = 1,min = 18, max = 40},
     ["bart_tabs"] =                 {rep = 1,min = 18, max = 40},
     ["pineapple_tabs"] =            {rep = 1,min = 18, max = 40},
     ["yinyang_tabs"] =              {rep = 1,min = 18, max = 40},
-    ["wildcherry_tabs"] =           {rep = 1,min = 18, max = 40},	
+    ["wildcherry_tabs"] =           {rep = 1,min = 18, max = 40},
     ["smiley_tabs"] =               {rep = 1,min = 18, max = 40},
     ["cupoflean"] =                 {rep = 1,min = 18, max = 40},
     ["cupofdextro"] =               {rep = 1,min = 18, max = 40},
@@ -127,20 +127,20 @@ for k, v in pairs(Drugs) do
 end
 GlobalState.DrugNames = drugsNames
 
-local robChance = 1 -- Chance To Be Robbed
 local RobbedDrugs = {}
-
+local cornsellConfig = {
+    MarkedBills = false, -- if you want to use qb markedbills for selling set to true, if you want to use a custom item or cash set to false
+    CustomItem = '', -- If you want to use a custom item for selling, put the item name here, if not leave it blank '' 
+    --- if MarkedBills is false and CustomItem is blank it will pay cash
+    policeRequired = 0, -- if you want cops to be required to sell set this to a number above 0
+    robChance = 1, -- Chance To Be Robbed 1 = 1%
+}
 local function beingRobbed(source, item, amount, ped)
     local src = source
-    local math = math.random(1,100)
-    if math <= robChance then
-        ps.removeItem(src, item, amount)
-        ps.notify(src, ps.lang('Cornerselling.gotRobbed'), 'error')
-        RobbedDrugs[ps.getIdentifier(source)] = {item = item, amount = amount, ped = ped}
-        return true
-    else
-        return false
-    end
+    ps.removeItem(src, item, amount)
+    ps.notify(src, ps.lang('Cornerselling.gotRobbed'), 'error')
+    RobbedDrugs[ps.getIdentifier(source)] = {item = item, amount = amount, ped = ped}
+    return true
 end
 
 local function getDrugBack(source, item, amount)
@@ -164,7 +164,7 @@ ps.registerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(
         local item = ps.getItemCount(source, k) or 0
         if item >= 1 then
             local maths = math.random(1,100)
-            if maths <= robChance then
+            if maths <= cornsellConfig.robChance then
                 beingRobbed(source, k, item, ped)
                 return 'robbed'
             else
@@ -196,7 +196,6 @@ local function csCheck(src, item, amount, price)
         end
     end
     if not isIn then return false end
-
     if DrugDeals[ps.getIdentifier(src)] then
         if DrugDeals[ps.getIdentifier(src)].item == item and DrugDeals[ps.getIdentifier(src)].amount == amount and DrugDeals[ps.getIdentifier(src)].price == price then
             return true
@@ -215,6 +214,14 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
     end
     AddRep(src, 'cornerselling', Drugs[item].rep * amount)
     DrugDeals[ps.getIdentifier(src)] = nil
+    if cornsellConfig.MarkedBills then
+        ps.addItem(src, 'markedbills', price, {worth = price})
+        return
+    end
+    if cornsellConfig.CustomItem ~= '' then
+        ps.addItem(src, cornsellConfig.CustomItem, price)
+        return
+    end
     ps.addMoney(src, 'cash', price)
 end)
 
@@ -231,6 +238,11 @@ ps.registerCommand('cornersell', {
     },
 }, function(source, args, raw)
     local src = source
+    local jobCount = ps.getJobTypeCount('leo')
+    if jobCount < cornsellConfig.policeRequired then
+        ps.notify(src, ps.lang('Catches.noCops'), 'error')
+        return
+    end
     TriggerClientEvent('md-drugs:client:cornerselling', src)
 end)
 

@@ -124,13 +124,16 @@ local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
 for k, v in pairs (cokecut) do
 	ps.createUseable(k, function(source, item)
 		local src = source
-        if not ps.hasItem(src, 'bakingsoda') then ps.notify(src, ps.lang('coke.needBakingSoda'), 'error') return end
-		 if ps.hasItem(src,item.name) then
-              local check = ps.callback('md-drugs:client:uncuff', src, 'Cutting It Further')
-             if not check then return end
-		     if ps.removeItem(src, k, 1) and ps.removeItem(src, 'bakingsoda', 1) then
-                 ps.addItem(src, 'loosecoke', v)
-             end
-		 end
+        if not ps.hasItem(src, 'bakingsoda') then
+            ps.notify(src, ps.lang('coke.needBakingSoda'), 'error')
+            return
+        end
+		if ps.hasItem(src,item.name) then
+            local check = ps.callback('md-drugs:client:uncuff', src, 'Cutting It Further')
+            if not check then return end
+		    if ps.removeItem(src, k, 1) and ps.removeItem(src, 'bakingsoda', 1) then
+               ps.addItem(src, 'loosecoke', v)
+            end
+		end
 	end)
 end

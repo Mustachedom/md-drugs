@@ -2,21 +2,23 @@ Lang = {}
 
 Lang.Catches = {
     notIn = 'No estás en la ubicación correcta',
-    needItems = 'No tienes los artículos requeridos',
+    needItems = 'No tienes los objetos requeridos',
     notEnoughMoney = 'Estás demasiado pobre',
     buySuccess = 'Compraste %s %s por $%s',
     itemMissings = 'Necesitas \n',
     itemNeeded = 'Necesitas %s',
-    cooldown = 'Calma, corredor de carreras',
+    cooldown = 'Despacio, Speed Racer',
     invalidItem = 'Este artículo no se vende aquí',
+    onCooldownWarn = '%s intentó ejecutar el evento %s \n  mientras estaba en cooldown',
+    noCops = 'No hay suficientes policías en línea',
 }
 
 Lang.coke = {
-    targetPick = 'Recoger hoja de coca',
-    picking = 'Recogiendo hoja de coca',
+    targetPick = 'Recoger hojas de coca',
+    picking = 'Recogiendo hojas de coca',
     targetMakePow = 'Hacer polvo de cocaína',
     noleaf = 'Necesitas una hoja de coca',
-    makePow = 'Picando hojas en polvo',
+    makePow = 'Triturando hojas en polvo',
     targetCutCoke = 'Cortar cocaína',
     targetBagCoke = 'Empaquetar cocaína',
     teleIn = 'Entrar al laboratorio',
@@ -25,9 +27,9 @@ Lang.coke = {
 }
 
 Lang.Cornerselling = {
-    inVeh = '¡Peligro desconocido!',
+    inVeh = '¡Peligro de desconocidos!',
     selling = 'Vendiendo %s por $%s',
-    deny = 'Rechazar oferta',
+    deny = 'A la mierda esa oferta',
     wait = 'Esperando cliente',
     nodrugs = 'No tienes drogas para vender',
     searching = 'Buscando clientes cercanos',
@@ -35,7 +37,7 @@ Lang.Cornerselling = {
     targetSell = 'Vender %s de %s por $%s',
     targetDeny = 'Rechazar oferta',
     stopped = '¡Tu perezoso trasero ni siquiera puede vender drogas!',
-    start = 'Ve a hacer que tu mamá se sienta orgullosa',
+    start = 'Ve a hacer sentir orgullosa a tu mamá',
     gotRobbed = '¡Te robaron, nerd!',
     gotBack = '¡Recuperaste tus cosas!',
     notEnough = 'No tienes suficiente de este artículo',
@@ -43,7 +45,7 @@ Lang.Cornerselling = {
 }
 
 Lang.crack = {
-    targetMake = 'Cocinar algo de crack',
+    targetMake = 'Cocinar crack',
     cook = 'Cocinando crack',
     targetBag = 'Empaquetar crack',
     bag = 'Empaquetando crack',
@@ -54,9 +56,9 @@ Lang.Deliveries = {
     targetOpenShop = 'Abrir tienda de dealer',
     shopHeader = 'Tienda de Dealer',
     targetHandOff = 'Entregar paquete',
-    delivering = 'Entregando el paquete al dealer de drogas',
+    delivering = 'Entregando el paquete al dealer',
     alreadyDelivering = 'Ya estás entregando un paquete',
-    slowAf = '¡Te tardaste demasiado!',
+    slowAf = '¡Te tomó demasiado tiempo!',
     newDealerHelp = {
         help = 'Colocar un dealer',
         name = 'Nombre del dealer',
@@ -76,7 +78,7 @@ Lang.heroin = {
     targetPick = 'Recoger heroína',
     picking = 'Recogiendo heroína',
     targetCook = 'Cocinar heroína',
-    pbCook = 'Preparando heroína',
+    pbCook = 'Cocinando heroína',
     targetPickup = 'Recoger laboratorio',
     pbPickup = 'Recogiendo laboratorio',
     targetClean = 'Limpiar laboratorio',
@@ -88,19 +90,19 @@ Lang.heroin = {
     targetBuyKit = 'Comprar kit de laboratorio de heroína',
     pbBuyKit = 'Comprando kit de laboratorio de heroína',
     tableout = 'Ya tienes una mesa colocada',
-    placing = 'Colocando la mesa',
+    placing = 'Colocando mesa',
     targetFill = 'Llenar jeringa',
     pbFill = 'Llenando jeringa',
     hasKitAlready = 'Ya tienes un kit de laboratorio de heroína',
     notEnoughMoney = 'Necesitas $%s en efectivo para esto',
-    placedKit = 'Has colocado tu kit de laboratorio de heroína',
-    failed = 'Fallaste al hacer heroína y perdiste tus ingredientes',
+    placedKit = 'Colocaste tu kit de laboratorio de heroína',
+    failed = 'Fallaste al hacer heroína y perdiste los ingredientes',
 }
 
 Lang.lean = {
     stealFromTruck = 'Robar del camión',
-    startMission = 'Iniciar misión de lean',
-    notOnRun = 'No estás en una misión de lean',
+    startMission = 'Iniciar misión de Lean',
+    notOnRun = 'No estás en una misión de Lean',
     alreadyChasing = 'Ya estás persiguiendo un camión',
 }
 
@@ -109,10 +111,10 @@ Lang.lsd = {
     heating = 'Calentando LSD',
     targetRefine = 'Refinar el ácido',
     refining = 'Refinando el ácido',
-    targetDipping = 'Sumergir papeles',
-    dipping = 'Sumergiendo papeles',
+    targetDipping = 'Sumergir pastillas',
+    dipping = 'Sumergiendo pastillas',
     targetPickup = 'Recoger kit de laboratorio',
-    packup = 'Guardando kit de laboratorio',
+    packup = 'Empacando kit de laboratorio',
     targetClean = 'Limpiar kit de laboratorio',
     needCleaning = 'Necesitas un kit de limpieza para limpiar el laboratorio',
     cleaning = 'Limpiando kit de laboratorio',
@@ -120,13 +122,13 @@ Lang.lsd = {
     stealLys = 'Robando ácido lisérgico',
     targetDie = 'Robar dietilamida',
     stealDie = 'Robando dietilamida',
-    targetBuyTab = 'Comprar papel para papeletas',
+    targetBuyTab = 'Comprar papel para pastillas',
     targetBuyKit = 'Comprar kit de laboratorio de LSD',
     alreadyOwn = 'Ya posees este artículo',
     buyingKit = 'Comprando kit de laboratorio de LSD',
     tableout = 'Ya tienes una mesa colocada',
-    placing = '¡Colocando el kit de laboratorio!',
-    failed = 'Eres malo haciendo drogas',
+    placing = '¡Colocando kit de laboratorio!',
+    failed = 'Eres pésimo haciendo drogas',
 }
 
 Lang.mesc = {
@@ -137,86 +139,97 @@ Lang.mesc = {
 }
 
 Lang.meth = {
-    alreadyChasing = 'Ya estás persiguiendo un camión',
-    targetStealFromCar = 'Robar del coche de metanfetamina',
+    alreadyChasing = 'Ya estás persiguiendo un auto',
+    targetStealFromCar = 'Robar del auto de metanfetamina',
     targetHeist = 'Iniciar misión de metanfetamina',
     started = 'Ya tienes metanfetamina cocinándose',
     increaseHeat = 'Aumentaste el calor',
     targetBag = 'Empaquetar metanfetamina',
     targetCook = 'Cocinar metanfetamina',
     targetGrabTray = 'Agarrar bandeja de metanfetamina',
-    targetHeat = 'Ajustar los controles',
+    targetHeat = 'Ajustar las perillas',
     targetSmash = 'Romper la bandeja',
     targetStealEPH = 'Robar efedrina',
     stealingEPH = 'Robando efedrina',
     targetStealACE = 'Robar acetona',
     stealingACE = 'Robando acetona',
     notOnRun = 'No estás en una misión de metanfetamina',
-    onCooldown = 'Estás en periodo de enfriamiento',
+    onCooldown = 'Estás en cooldown',
+    teleIn = 'Entrar al laboratorio',
+    teleOut = 'Salir del laboratorio',
 }
 
 Lang.oxy = {
-    ditchCar = 'La furgoneta está caliente, déjala en algún lugar',
-    targetHandoff = 'Entregar paquete',
+    ditchCar = 'La camioneta está caliente, déjala en algún lugar',
+    targetHandoff = 'Entregar el paquete',
     handingoff = 'Entregando el paquete',
     emptyHands = 'No estás cargando nada',
-    targetPay = 'Alquilar furgoneta de oxys',
-    keys = 'Las llaves están en la furgoneta',
+    targetPay = 'Alquilar camioneta de Oxy',
+    keys = 'Las llaves están en la camioneta',
     targetGetPackage = 'Agarrar paquete',
     alreadyCarrying = 'Ya estás cargando un paquete',
-    paid = 'Pagaste $%s para alquilar la furgoneta',
+    paid = 'Pagaste $%s para alquilar la camioneta',
     notOn = 'No estás en una ruta',
 }
 
 Lang.pharma = {
     input = {
-        header = '¿A quién darle una receta?',
+        header = '¿A quién recetar?',
         title1 = 'Nombre del jugador',
         title2 = 'Receta',
     },
     write = 'Escribiendo receta',
     opening = 'Abriendo frasco de receta',
     targetFill = 'Llenar receta',
-    fill = 'Obteniendo receta',
+    fill = 'Llenando receta',
     canceled = 'Cancelaste la receta',
     unbottle = 'Abriste el frasco',
 }
 
 Lang.shrooms = {
-    targetPick = 'Recoger setas',
-    picking = 'Recogiendo setas',
-    eat = 'Comiendo setas',
-    cancel = 'Decidiste no tomar setas',
-    took = '¡Tomaste algunas setas!',
+    targetPick = 'Recoger hongos',
+    picking = 'Recogiendo hongos',
+    eat = 'Comiendo hongos',
+    cancel = 'Decidiste no tomar hongos',
+    took = '¡Tomaste algunos hongos!'
 }
 
 Lang.weed = {
-    targetPick = 'Recoger marihuana',
-    picking = 'Recogiendo marihuana',
-    targetDry = 'Secar marihuana',
-    noDry = 'Necesitas marihuana húmeda para esto',
-    wait = 'Esperando a que la marihuana se seque...',
-    take = 'Listo para recoger la marihuana',
-    targetDryed = 'Recoger marihuana',
+    targetPick = 'Recoger hierba',
+    picking = 'Recogiendo hierba',
+    targetDry = 'Secar hierba',
+    noDry = 'Necesitas hierba mojada para esto',
+    wait = 'Esperando a que la hierba se seque...',
+    take = 'Listo para tomar la hierba',
+    targetDryed = 'Recoger hierba',
     teleportIn = 'Entrar a la casa de cultivo',
     teleportOut = 'Salir de la casa de cultivo',
-    dabs = 'Haciendo algunos dabs',
-    bluntWrap = 'Doblando sirope para hacer %s',
-    rollBlunt = 'Enrollando un %s',
-    targetSales = 'Comprar al dealer',
-    buying = 'Comprando %s al dealer',
+    dabs = 'Haciendo dabs',
+    bluntWrap = 'Mojando jarabe para hacer %s',
+    rollBlunt = 'Armando un %s',
+    targetSales = 'Comprar del dealer',
+    buying = 'Comprando %s del dealer',
     itemDoesntExist = 'Este artículo no existe aquí',
     needItem = 'Necesitas un %s para esto',
-    crackBlunt = 'Abriendo un blunt',
+    crackBlunt = 'Rompiendo un porro'
 }
 
 Lang.wholesale = {
-    alreadyWholesale = 'Ya estás haciendo venta al por mayor',
+    alreadyWholesale = 'Ya estás vendiendo al por mayor',
     targetBuyer = 'Hablar con el comprador',
     wholesaling = 'Vendiendo drogas al por mayor',
     uhoh = 'El comprador se está poniendo sospechoso',
-    tooLong = 'El comprador esperó demasiado tiempo',
+    tooLong = 'El comprador esperó demasiado',
     notEnoughCops = 'No hay suficientes policías de servicio',
+
+    count = 'Cantidad detectada: %s',
+    bonus = 'Bono de cantidad: +%s%%',
+    estimate = 'Pago estimado: $%s - $%s',
+    no_drugs = 'No tienes ninguna de estas drogas para vender',
+    ambush = '¡Emboscada! ¡%s atacantes con %s armas se acercan!',
+    complete = 'Vendiste %s artículos por $%s%s',
+    min_quantity = 'Debes vender al menos %s artículos para vender al por mayor',
+    deal_failed_cleanup = 'El trato falló: puedes intentarlo de nuevo'
 }
 
 Lang.xtc = {
@@ -224,25 +237,27 @@ Lang.xtc = {
     settingDown = 'Colocando la prensa',
     noPressOut = 'No tienes una prensa colocada',
     targetMake = 'Prensar pastillas',
-    making = 'Prensando %s',
+    making = 'Prensando una %s',
     targetPickup = 'Recoger prensa',
     picking = 'Recogiendo prensa',
     targetStealMDP2P = 'Robar MDP2P',
     stealingMDP2P = 'Robando MDP2P',
-    fail = 'Caray, eres malo',
+    fail = 'Maldita sea, eres pésimo en esto',
     targetStealIsosafrole = 'Robar isosafrol',
     stealingIsosafrole = 'Robando isosafrol',
     targetRaw = 'Hacer XTC crudo',
     makingRaw = 'Haciendo XTC crudo',
-    getPress = 'Conseguir prensa',
+    getPress = 'Obtener prensa',
     buySingle = 'Comprar prensa individual por $%s',
     buyp = 'Comprando prensa',
-    targetStamp = 'Marcar XTC',
-    stamp_desc = 'Marcar %s pastillas',
-    stamping = 'Marcando %s pastillas',
-    noPills = 'No tienes pastillas sin marcar',
+    targetStamp = 'Estampar XTC',
+    stamp_desc = 'Estampar %s pastillas',
+    stamping = 'Estampando %s pastillas',
+    noPills = 'No tienes pastillas sin estampar'
 }
+
 Lang.merchant = {
-    targetOpen = 'Abrir menú de comerciante`',
+    targetOpen = 'Abrir menú de comerciante',
 }
+
 return Lang

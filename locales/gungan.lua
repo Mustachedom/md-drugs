@@ -9,7 +9,8 @@ Lang.Catches = {
     itemNeeded = 'Yousa needin %s',
     cooldown = 'Ooooh, slow down speeda racer!',
     invalidItem = 'Dis item not bein sold here, okeeday?',
-    onCooldownWarn = '%s tryin to do da event %s \n while still on da cooldown!'
+    onCooldownWarn = '%s tryin to do da event %s \n while still on da cooldown!',
+    noCops = 'Nosa! Not enough cops online, okeeday!',
 }
 
 Lang.coke = {
