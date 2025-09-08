@@ -109,4 +109,4 @@ ps.registerCallback('md-drugs:server:GetRep', function(source, cb, args)
     return rep
 end)
 
-ps.versionCheck('md-drugs', 'https://raw.githubusercontent.com/Mustachedom/md-drugs/refs/heads/hushhushmotherfucker/version.txt', 'https://github.com/Mustachedom/md-drugs/')
+ps.versionCheck('md-drugs', 'https://raw.githubusercontent.com/Mustachedom/md-drugs/refs/heads/main/version.txt', 'https://github.com/Mustachedom/md-drugs/')
