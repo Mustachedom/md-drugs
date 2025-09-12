@@ -4,9 +4,11 @@ Build: 4.0.0
 Newest Build: 4.0.1
 - fix saving location of pill presses in xtc
 - Adjust XTC item crafting
+- notify after check for heroin baking soda
 - HOW TO UPDATE BELOW 
 - bump version in fxmanifest from 4.0.0 to 4.0.1
 - redownload and add these files
 - client/xtc.lua
 - server/xtc.lua
 - version.txt
+- client/heroin.lua

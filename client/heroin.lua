@@ -88,7 +88,10 @@ for k, v in pairs (locations.cutheroinone) do
             label = ps.lang('heroin.targetCutHeroin'),
             icon = 'fa-solid fa-seedling',
             action = function()
-                if not ps.hasItem('bakingsoda') then return end
+                if not ps.hasItem('bakingsoda') then
+                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
+                    return
+                end
 	            if not ps.progressbar(ps.lang('heroin.pbCutHeroin'), 4000, 'uncuff') then return end
 	            TriggerServerEvent("md-drugs:server:cutheroin", k)
             end,
