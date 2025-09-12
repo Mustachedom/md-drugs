@@ -88,7 +88,7 @@ end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
     local options = {}
-	local items = ps.callback('md-drugs:server:GetWeedRecipe', 'weed', tableName)
+	local items = ps.callback('md-drugs:server:GetWeedRecipe', tableName)
     for k, v in pairs(items) do
         local label = {}
         local item = ''
