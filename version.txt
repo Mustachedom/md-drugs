@@ -1,7 +1,25 @@
 Build: 4.0.0
 - update to ps_lib
 
-Newest Build: 4.0.1
+Build: 4.0.1
+- fix saving location of pill presses in xtc
+- Adjust XTC item crafting
+- notify after check for heroin baking soda
+- HOW TO UPDATE BELOW 
+- bump version in fxmanifest from 4.0.0 to 4.0.1
+- redownload and add these files
+- client/xtc.lua
+- server/xtc.lua
+- version.txt
+- client/heroin.lua
+
+Newest Build: 4.0.2
+- updated qb items
+- updated ox items
+- ABOVE IS JUST LABEL CHANGES AND IMAGE CHANGES NOT NECESSARY
+- fix for weed drying
+
+- if you didnt update 4.0.1 here is the thing you need
 - fix saving location of pill presses in xtc
 - Adjust XTC item crafting
 - notify after check for heroin baking soda

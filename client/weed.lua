@@ -7,7 +7,7 @@ for k, v in pairs (locations.WeedDry) do
 			label = ps.lang('weed.targetDry'),
 			action = function()
 				if not ps.hasItem('wetcannabis', 1) then
-					ps.notify(ps.lang('weed.nodry'), "error")
+					ps.notify(ps.lang('weed.noDry'), "error")
 					return
 				end
 				if drying then return end
@@ -19,14 +19,20 @@ for k, v in pairs (locations.WeedDry) do
 				Wait(math.random(1000,5000))
 				ps.notify(ps.lang('weed.take'), "success")
 				ps.entityTarget(weedplant, {
-					icon = "fa-solid fa-cannabis",
-					label = ps.lang('weed.targetDryed'),
-					action = function()
-						DeleteEntity(weedplant)
-						drying = false
-						TriggerServerEvent('md-drugs:server:dryoutweed')
-					end,
+					{
+						icon = "fa-solid fa-cannabis",
+						label = ps.lang('weed.targetDryed'),
+						action = function()
+							DeleteEntity(weedplant)
+							drying = false
+							TriggerServerEvent('md-drugs:server:dryoutweed')
+						end,
+					}
 				})
+			end,
+			canInteract = function()
+				if drying then return false end
+				return true
 			end
 		}
 	})
