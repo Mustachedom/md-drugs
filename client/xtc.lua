@@ -60,7 +60,7 @@ ps.registerCallback('md-drugs:client:setpress', function(xtcData)
           },
       }
     ps.entityTarget(press, options)
-    return true
+    return coords
 end)
 
 for k, v in pairs(locations.mdp2p) do

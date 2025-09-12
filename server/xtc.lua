@@ -17,7 +17,7 @@ local RecipeList = {
 		blue_xtc2 =   {amount = 1,    take = {raw_xtc = 1, crackrock = 1},},
 	 },
 	 triplestack = {
-	     white_xtc3 =   {amount = 1, take = {raw_xtc = 1},},
+	    white_xtc3 =   {amount = 1, take = {raw_xtc = 1},},
 		red_xtc3 = 	   {amount = 1, take = {raw_xtc = 1, loosecoke = 1},},
 		orange_xtc3 =  {amount = 1, take = {raw_xtc = 1, heroinvial = 1},},
 		blue_xtc3 =    {amount = 1, take = {raw_xtc = 1, crackrock = 1},},
@@ -58,25 +58,6 @@ ps.registerCallback('md-drugs:server:GetXtcLocs', function(source)
 	return xtcLocations
 end)
 
-local function craft(source, tbl, item)
-    local src = source
-    local need, have = 0,0
-    for k, v in pairs(tbl.take) do
-        if ps.hasItem(src, k, v) then
-            have = have + v
-        end
-        need = need + v
-    end
-    if need == have then
-        for k, v in pairs (tbl.take) do
-            ps.removeItem(src, k, v)
-        end
-        ps.addItem(src, item , tbl.amount)
-        return true
-    end
-    return false
-end
-
 local activePresses = {}
 
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
@@ -109,8 +90,8 @@ local presses = {
 for k, v in pairs (presses) do
 ps.createUseable(v.item, function(source, item)
 	local src = source
-	local check, loc = ps.callback('md-drugs:client:setpress', src, v)
-		if check then
+	local location = ps.callback('md-drugs:client:setpress', src, v)
+		if location then
 			if ps.removeItem(src, v.item, 1) then
 				activePresses[ps.getIdentifier(src)] = {
 					press = v.data,
@@ -118,7 +99,7 @@ ps.createUseable(v.item, function(source, item)
 					owner = ps.getPlayerName(src),
 					ownerid = ps.getIdentifier(src),
 					src = src,
-					loc = loc
+					loc = location
 				}
 			end
 		end
@@ -142,7 +123,10 @@ RegisterServerEvent('md-drugs:server:makextc', function(data)
   	end
 	if timeOut(src, 'md-drugs:server:makextc') then return end
 	if not ps.checkDistance(src, activePresses[ps.getIdentifier(src)].loc, 2.0) then return end
-  	craft(src, RecipeList[activePresses[ps.getIdentifier(src)].press][data], data)
+  	if not ps.craftItem(src, RecipeList[activePresses[ps.getIdentifier(src)].press][data]) then
+		verifyHas(src, RecipeList[activePresses[ps.getIdentifier(src)].press][data].take)
+		return
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:buypress', function(loc, item)
@@ -166,12 +150,16 @@ RegisterServerEvent('md-drugs:server:upgradepress', function(data)
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
   	end
-    craft(src, RecipeList.presses[data], data)
+  	if not ps.craftItem(src, RecipeList.presses[data]) then
+		verifyHas(src, RecipeList.presses[data].take)
+		return
+	end
 end)
 
 ps.registerCallback('md-drugs:server:getpressrecipes', function(source)
 	return RecipeList.presses
 end)
+
 ------------- making powder
 RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
     local src = source
@@ -180,7 +168,10 @@ RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
 		return
 	end
 	if timeOut(src, 'md-drugs:server:makingrawxtc') then return end
-  	if not ps.craftItem(src, RecipeList.raw.raw_xtc) then return end
+  	if not ps.craftItem(src, RecipeList.raw.raw_xtc) then
+		verifyHas(src, RecipeList.raw.raw_xtc.take)
+		return
+	end
 end)
 
 local function getColor(color)

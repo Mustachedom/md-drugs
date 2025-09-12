@@ -1,2 +1,12 @@
-Newest Build: 4.0.0
+Build: 4.0.0
 - update to ps_lib
+
+Newest Build: 4.0.1
+- fix saving location of pill presses in xtc
+- Adjust XTC item crafting
+- HOW TO UPDATE BELOW 
+- bump version in fxmanifest from 4.0.0 to 4.0.1
+- redownload and add these files
+- client/xtc.lua
+- server/xtc.lua
+- version.txt
