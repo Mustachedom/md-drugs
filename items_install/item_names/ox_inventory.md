@@ -28,57 +28,57 @@
          },
     },
     ['loosecoke'] = {
-        label = ''Loose Coke'',
+        label = 'Loose Coke',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'loosecoke.png'" 
+           image = 'loosecoke.png' 
          },
     },
     ['loosecokestagetwo'] = {
-        label = ''Loose Coke'',
+        label = 'Loose Coke',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'loosecokestagetwo.png'" 
+           image = 'loosecokestagetwo.png' 
          },
     },
     ['loosecokestagethree'] = {
-        label = ''Loose Coke'',
+        label = 'Loose Coke',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'loosecokestagethree.png'" 
+           image = 'loosecokestagethree.png' 
          },
     },
     ['cokebaggy'] = {
-        label = ''Bag of Cocaine'',
+        label = 'Bag of Cocaine',
         weight = 0,
         stack = false,
         close = true
         client = { 
-           image = "'cocaine_baggy.png'" 
+           image = 'cocaine_baggy.png' 
          },
     },
     ['cokebaggystagetwo'] = {
-        label = ''Bag Of Cocaine'',
+        label = 'Bag Of Cocaine',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'cocaine_baggystagetwo.png'" 
+           image = 'cocaine_baggystagetwo.png' 
          },
     },
     ['cokebaggystagethree'] = {
-        label = ''Bag Of Cocaine'',
+        label = 'Bag Of Cocaine',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'cocaine_baggystagethree.png'" 
+           image = 'cocaine_baggystagethree.png' 
          },
     },
     ['cokestagetwo'] = {
@@ -100,12 +100,12 @@
          },
     },
     ['empty_weed_bag'] = {
-        label = ''Empty Weed Bag'',
+        label = 'Empty Weed Bag',
         weight = 0,
         stack = false,
         close = true
         client = { 
-           image = "'weed_baggy_empty.png'" 
+           image = 'weed_baggy_empty.png' 
          },
     },
     ['bakingsoda'] = {
@@ -172,12 +172,12 @@
          },
     },
     ['empty_weed_bag'] = {
-        label = ''Empty Weed Bag'',
+        label = 'Empty Weed Bag',
         weight = 0,
         stack = false,
         close = true
         client = { 
-           image = "'weed_baggy_empty.png'" 
+           image = 'weed_baggy_empty.png' 
          },
     },
     ['bakingsoda'] = {
@@ -388,201 +388,201 @@
          },
     },
     ['lysergic_acid'] = {
-        label = ''Lysergic Acid'',
+        label = 'Lysergic Acid',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'lysergic_acid.png'" 
+           image = 'lysergic_acid.png' 
          },
     },
     ['diethylamide'] = {
-        label = ''Diethylamide'',
+        label = 'Diethylamide',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'diethylamide.png'" 
+           image = 'diethylamide.png' 
          },
     },
     ['lsd_one_vial'] = {
-        label = ''Tier 1 LSD Vial'',
+        label = 'Tier 1 LSD Vial',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'lsd_one_vial.png'" 
+           image = 'lsd_one_vial.png' 
          },
     },
     ['lsd_vial_two'] = {
-        label = ''Tier 2 LSD Vial'',
+        label = 'Tier 2 LSD Vial',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'lsd_vial_two.png'" 
+           image = 'lsd_vial_two.png' 
          },
     },
     ['lsd_vial_three'] = {
-        label = ''Tier 3 LSD Vial'',
+        label = 'Tier 3 LSD Vial',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'lsd_vial_three.png'" 
+           image = 'lsd_vial_three.png' 
          },
     },
     ['lsd_vial_four'] = {
-        label = ''Tier 4 LSD Vial'',
+        label = 'Tier 4 LSD Vial',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'lsd_vial_four.png'" 
+           image = 'lsd_vial_four.png' 
          },
     },
     ['lsd_vial_five'] = {
-        label = ''Tier 5 LSD Vial'',
+        label = 'Tier 5 LSD Vial',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'lsd_vial_five.png'" 
+           image = 'lsd_vial_five.png' 
          },
     },
     ['lsd_vial_six'] = {
-        label = ''Tier 6 LSD Vial'',
+        label = 'Tier 6 LSD Vial',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'lsd_vial_six.png'" 
+           image = 'lsd_vial_six.png' 
          },
     },
     ['tab_paper'] = {
-        label = ''Tab Paper'',
+        label = 'Tab Paper',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'tab_paper.png'" 
+           image = 'tab_paper.png' 
          },
     },
     ['smileyfacesheet'] = {
-        label = ''Smiley Face Sheet'',
+        label = 'Smiley Face Sheet',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'smileysheet.png'" 
+           image = 'smileysheet.png' 
          },
     },
     ['wildcherrysheet'] = {
-        label = ''Wild Cherry Sheet'',
+        label = 'Wild Cherry Sheet',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'wildcherrysheet.png'" 
+           image = 'wildcherrysheet.png' 
          },
     },
     ['yinyangsheet'] = {
-        label = ''Yin and Yang Sheet'',
+        label = 'Yin and Yang Sheet',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'yinyangsheet.png'" 
+           image = 'yinyangsheet.png' 
          },
     },
     ['pineapplesheet'] = {
-        label = ''Pineapple Sheet'',
+        label = 'Pineapple Sheet',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'pineapplesheet.png'" 
+           image = 'pineapplesheet.png' 
          },
     },
     ['bart_tabs'] = {
-        label = ''Cluckin Tabs'',
+        label = 'Cluckin Tabs',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'bart_tabs.png'" 
+           image = 'bart_tabs.png' 
          },
     },
     ['bartsheet'] = {
-        label = ''Cluckin Sheet'',
+        label = 'Cluckin Sheet',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'bartsheet.png'" 
+           image = 'bartsheet.png' 
          },
     },
     ['gratefuldeadsheet'] = {
-        label = ''Maze Sheet'',
+        label = 'Maze Sheet',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'gratefuldeadsheet.png'" 
+           image = 'gratefuldeadsheet.png' 
          },
     },
     ['smiley_tabs'] = {
-        label = ''Smiley tabs'',
+        label = 'Smiley tabs',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'smiley_tabs.png'" 
+           image = 'smiley_tabs.png' 
          },
     },
     ['wildcherry_tabs'] = {
-        label = ''Wild Cherry Tabs'',
+        label = 'Wild Cherry Tabs',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'wildcherry_tabs.png'" 
+           image = 'wildcherry_tabs.png' 
          },
     },
     ['yinyang_tabs'] = {
-        label = ''Yin and Yang Tabs'',
+        label = 'Yin and Yang Tabs',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'yinyang_tabs.png'" 
+           image = 'yinyang_tabs.png' 
          },
     },
     ['pineapple_tabs'] = {
-        label = ''Pineapple Tabs'',
+        label = 'Pineapple Tabs',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'pineapple_tabs.png'" 
+           image = 'pineapple_tabs.png' 
          },
     },
     ['gratefuldead_tabs'] = {
-        label = ''Maze Tabs'',
+        label = 'Maze Tabs',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'gratefuldead_tabs.png'" 
+           image = 'gratefuldead_tabs.png' 
          },
     },
     ['lsdlabkit'] = {
-        label = ''LSD Mixing Table'',
+        label = 'LSD Mixing Table',
         weight = 1000,
         stack = false,
         close = true
         client = { 
-           image = "'labkit.png'" 
+           image = 'labkit.png' 
          },
     },
     ['cactusbulb'] = {
@@ -631,21 +631,21 @@
          },
     },
     ['empty_weed_bag'] = {
-        label = ''Empty Weed Bag'',
+        label = 'Empty Weed Bag',
         weight = 0,
         stack = false,
         close = true
         client = { 
-           image = "'weed_baggy_empty.png'" 
+           image = 'weed_baggy_empty.png' 
          },
     },
     ['prescription_pad'] = {
-        label = ''Prescription Pad'',
+        label = 'Prescription Pad',
         weight = 10,
         stack = false,
         close = false
         client = { 
-           image = "'prescriptionpad.png'" 
+           image = 'prescriptionpad.png' 
          },
     },
     ['vicodin_prescription'] = {
@@ -685,75 +685,75 @@
          },
     },
     ['adderal'] = {
-        label = ''Madderal'',
+        label = 'Madderal',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'adderal.png'" 
+           image = 'adderal.png' 
          },
     },
     ['vicodin'] = {
-        label = ''Vicie'',
+        label = 'Vicie',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'vicodin.png'" 
+           image = 'vicodin.png' 
          },
     },
     ['morphine'] = {
-        label = ''Morphin'',
+        label = 'Morphin',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'morphine.png'" 
+           image = 'morphine.png' 
          },
     },
     ['xanax'] = {
-        label = ''Zany'',
+        label = 'Zany',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'xanax.png'" 
+           image = 'xanax.png' 
          },
     },
     ['adderalbottle'] = {
-        label = ''Madderal Bottle'',
+        label = 'Madderal Bottle',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'pillbottle.png'" 
+           image = 'pillbottle.png' 
          },
     },
     ['vicodinbottle'] = {
-        label = ''Vicie Bottle'',
+        label = 'Vicie Bottle',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'pillbottle.png'" 
+           image = 'pillbottle.png' 
          },
     },
     ['morphinebottle'] = {
-        label = ''Morphin Bottle'',
+        label = 'Morphin Bottle',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'pillbottle.png'" 
+           image = 'pillbottle.png' 
          },
     },
     ['xanaxbottle'] = {
-        label = ''Zany Bottle'',
+        label = 'Zany Bottle',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'pillbottle.png'" 
+           image = 'pillbottle.png' 
          },
     },
     ['shrooms'] = {
@@ -1054,21 +1054,21 @@
          },
     },
     ['isosafrole'] = {
-        label = ''isosafrole'',
+        label = 'isosafrole',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'isosafrole.png'" 
+           image = 'isosafrole.png' 
          },
     },
     ['mdp2p'] = {
-        label = ''mdp2p'',
+        label = 'mdp2p',
         weight = 100,
         stack = false,
         close = true
         client = { 
-           image = "'mdp2p.png'" 
+           image = 'mdp2p.png' 
          },
     },
     ['raw_xtc'] = {
