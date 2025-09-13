@@ -4,7 +4,7 @@
         label = 'Raw Cocaine',
         weight = 1000,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "coke.png" 
          },
@@ -13,7 +13,7 @@
         label = 'Cocaine leaves',
         weight = 1500,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "coca_leaf.png" 
          },
@@ -22,7 +22,7 @@
         label = 'Baking Soda',
         weight = 300,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "bakingsoda.png" 
          },
@@ -85,7 +85,7 @@
         label = 'Raw Cocaine',
         weight = 100,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "cokestagetwo.png" 
          },
@@ -94,7 +94,7 @@
         label = 'Raw Cocaine',
         weight = 100,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "cokestagethree.png" 
          },
@@ -112,7 +112,7 @@
         label = 'Baking Soda',
         weight = 300,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "bakingsoda.png" 
          },
@@ -121,7 +121,7 @@
         label = 'Bag Of Crack',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "crackbag1.png" 
          },
@@ -130,7 +130,7 @@
         label = 'Better Bag Of Crack',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "crackbag2.png" 
          },
@@ -139,7 +139,7 @@
         label = 'Best Bag Of Crack',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "crackbag3.png" 
          },
@@ -148,7 +148,7 @@
         label = 'Crack Rock',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "crackrock1.png" 
          },
@@ -157,7 +157,7 @@
         label = 'Better Crack Rock',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "crackrock2.png" 
          },
@@ -166,7 +166,7 @@
         label = 'Best Crack Rock',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "crackrock3.png" 
          },
@@ -184,7 +184,7 @@
         label = 'Baking Soda',
         weight = 300,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "bakingsoda.png" 
          },
@@ -193,7 +193,7 @@
         label = 'Poppy resin',
         weight = 2000,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "poppyresin.png" 
          },
@@ -202,7 +202,7 @@
         label = 'Heroin Powder',
         weight = 500,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroinpowder.png" 
          },
@@ -211,7 +211,7 @@
         label = 'Heroin Powder',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroinpowderstagetwo.png" 
          },
@@ -220,7 +220,7 @@
         label = 'Heroin Powder',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroinpowderstagethree.png" 
          },
@@ -229,7 +229,7 @@
         label = 'Cut Heroin',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroincut.png" 
          },
@@ -238,7 +238,7 @@
         label = 'Cut Heroin',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroincut2.png" 
          },
@@ -247,7 +247,7 @@
         label = 'Cut Heroin',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroincut3.png" 
          },
@@ -256,7 +256,7 @@
         label = 'Heroin Lab Kit',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "labkit.png" 
          },
@@ -265,7 +265,7 @@
         label = 'Vial Of Heroin',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroin.png" 
          },
@@ -274,7 +274,7 @@
         label = 'Vial of Heroin',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroinstagetwo.png" 
          },
@@ -283,7 +283,7 @@
         label = 'Vial Of Heroin',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroinstagethree.png" 
          },
@@ -292,7 +292,7 @@
         label = 'Heroin Syringe',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroin_ready.png" 
          },
@@ -301,7 +301,7 @@
         label = 'Heroin Syringe',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroin_readystagetwo.png" 
          },
@@ -310,7 +310,7 @@
         label = 'Heroin Syringe',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "heroin_readystagethree.png" 
          },
@@ -328,7 +328,7 @@
         label = 'Syringe',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "syringe.png" 
          },
@@ -643,7 +643,7 @@
         label = 'Prescription Pad',
         weight = 10,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = 'prescriptionpad.png' 
          },
@@ -652,7 +652,7 @@
         label = 'Vicie Prescription',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "adderalprescription.png" 
          },
@@ -661,7 +661,7 @@
         label = 'Mdderal Prescription',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "adderalprescription.png" 
          },
@@ -670,7 +670,7 @@
         label = 'Morphin Prescription',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "adderalprescription.png" 
          },
@@ -679,7 +679,7 @@
         label = 'Zany Prescription',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "adderalprescription.png" 
          },
@@ -760,7 +760,7 @@
         label = 'Shrooms',
         weight = 250,
         stack = false,
-        close = false
+        close = false,
         client = { 
            image = "shrooms.png" 
          },
@@ -816,7 +816,7 @@
         stack = false,
         close = true,
         client = { 
-           image = "chocolate.png" 
+           image = "specialbrownie.png" 
          },
     },
     ['specialcookie'] = {
@@ -961,15 +961,6 @@
         close = true,
         client = { 
            image = "leanbluntwrap.png" 
-         },
-    },
-    ['dextroblunt'] = {
-        label = 'Dextro Blunt Wrap',
-        weight = 100,
-        stack = false,
-        close = true,
-        client = { 
-           image = "dextroblunt.png" 
          },
     },
     ['dextrobluntwrap'] = {
