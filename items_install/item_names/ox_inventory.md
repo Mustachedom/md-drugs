@@ -31,7 +31,7 @@
         label = 'Loose Coke',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'loosecoke.png' 
          },
@@ -40,7 +40,7 @@
         label = 'Loose Coke',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'loosecokestagetwo.png' 
          },
@@ -49,7 +49,7 @@
         label = 'Loose Coke',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'loosecokestagethree.png' 
          },
@@ -58,7 +58,7 @@
         label = 'Bag of Cocaine',
         weight = 0,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'cocaine_baggy.png' 
          },
@@ -67,7 +67,7 @@
         label = 'Bag Of Cocaine',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'cocaine_baggystagetwo.png' 
          },
@@ -76,7 +76,7 @@
         label = 'Bag Of Cocaine',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'cocaine_baggystagethree.png' 
          },
@@ -103,7 +103,7 @@
         label = 'Empty Weed Bag',
         weight = 0,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'weed_baggy_empty.png' 
          },
@@ -175,7 +175,7 @@
         label = 'Empty Weed Bag',
         weight = 0,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'weed_baggy_empty.png' 
          },
@@ -319,7 +319,7 @@
         label = 'empty vial',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "emptyvial.png" 
          },
@@ -337,7 +337,7 @@
         label = 'Sprunk',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "sprunk.png" 
          },
@@ -346,7 +346,7 @@
         label = 'Empty Cup',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "leancup.png" 
          },
@@ -355,7 +355,7 @@
         label = 'Lean Cup',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "cupoflean.png" 
          },
@@ -364,7 +364,7 @@
         label = 'Dextro Cup',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "cupofdextro.png" 
          },
@@ -373,7 +373,7 @@
         label = 'Sizzurup',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "Sizzurup.png" 
          },
@@ -382,7 +382,7 @@
         label = 'Red Dextro',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "reddextro.png" 
          },
@@ -391,7 +391,7 @@
         label = 'Lysergic Acid',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'lysergic_acid.png' 
          },
@@ -400,7 +400,7 @@
         label = 'Diethylamide',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'diethylamide.png' 
          },
@@ -409,7 +409,7 @@
         label = 'Tier 1 LSD Vial',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'lsd_one_vial.png' 
          },
@@ -418,7 +418,7 @@
         label = 'Tier 2 LSD Vial',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'lsd_vial_two.png' 
          },
@@ -427,7 +427,7 @@
         label = 'Tier 3 LSD Vial',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'lsd_vial_three.png' 
          },
@@ -436,7 +436,7 @@
         label = 'Tier 4 LSD Vial',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'lsd_vial_four.png' 
          },
@@ -445,7 +445,7 @@
         label = 'Tier 5 LSD Vial',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'lsd_vial_five.png' 
          },
@@ -454,7 +454,7 @@
         label = 'Tier 6 LSD Vial',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'lsd_vial_six.png' 
          },
@@ -463,7 +463,7 @@
         label = 'Tab Paper',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'tab_paper.png' 
          },
@@ -472,7 +472,7 @@
         label = 'Smiley Face Sheet',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'smileysheet.png' 
          },
@@ -481,7 +481,7 @@
         label = 'Wild Cherry Sheet',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'wildcherrysheet.png' 
          },
@@ -490,7 +490,7 @@
         label = 'Yin and Yang Sheet',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'yinyangsheet.png' 
          },
@@ -499,7 +499,7 @@
         label = 'Pineapple Sheet',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'pineapplesheet.png' 
          },
@@ -508,7 +508,7 @@
         label = 'Cluckin Tabs',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'bart_tabs.png' 
          },
@@ -517,7 +517,7 @@
         label = 'Cluckin Sheet',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'bartsheet.png' 
          },
@@ -526,7 +526,7 @@
         label = 'Maze Sheet',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'gratefuldeadsheet.png' 
          },
@@ -535,7 +535,7 @@
         label = 'Smiley tabs',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'smiley_tabs.png' 
          },
@@ -544,7 +544,7 @@
         label = 'Wild Cherry Tabs',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'wildcherry_tabs.png' 
          },
@@ -553,7 +553,7 @@
         label = 'Yin and Yang Tabs',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'yinyang_tabs.png' 
          },
@@ -562,7 +562,7 @@
         label = 'Pineapple Tabs',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'pineapple_tabs.png' 
          },
@@ -571,7 +571,7 @@
         label = 'Maze Tabs',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'gratefuldead_tabs.png' 
          },
@@ -580,7 +580,7 @@
         label = 'LSD Mixing Table',
         weight = 1000,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'labkit.png' 
          },
@@ -589,7 +589,7 @@
         label = 'Cactus Bulb',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "cactusbulb.png" 
          },
@@ -598,7 +598,7 @@
         label = 'Mescaline',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "driedmescaline.png" 
          },
@@ -607,7 +607,7 @@
         label = 'Ephedrine',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "ephedrine.png" 
          },
@@ -616,7 +616,7 @@
         label = 'Acetone',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "acetone.png" 
          },
@@ -625,7 +625,7 @@
         label = 'Meth',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "methbags.png" 
          },
@@ -634,7 +634,7 @@
         label = 'Empty Weed Bag',
         weight = 0,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'weed_baggy_empty.png' 
          },
@@ -688,7 +688,7 @@
         label = 'Madderal',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'adderal.png' 
          },
@@ -697,7 +697,7 @@
         label = 'Vicie',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'vicodin.png' 
          },
@@ -706,7 +706,7 @@
         label = 'Morphin',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'morphine.png' 
          },
@@ -715,7 +715,7 @@
         label = 'Zany',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'xanax.png' 
          },
@@ -724,7 +724,7 @@
         label = 'Madderal Bottle',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'pillbottle.png' 
          },
@@ -733,7 +733,7 @@
         label = 'Vicie Bottle',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'pillbottle.png' 
          },
@@ -742,7 +742,7 @@
         label = 'Morphin Bottle',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'pillbottle.png' 
          },
@@ -751,7 +751,7 @@
         label = 'Zany Bottle',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'pillbottle.png' 
          },
@@ -769,7 +769,7 @@
         label = 'Wet Cannabis',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "wetcannabis.png" 
          },
@@ -778,7 +778,7 @@
         label = 'Dry Cannabis',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "driedcannabis.png" 
          },
@@ -787,7 +787,7 @@
         label = 'Weed Grinder',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "weedgrinder.png" 
          },
@@ -796,7 +796,7 @@
         label = 'Butter',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "butter.png" 
          },
@@ -805,7 +805,7 @@
         label = 'Canna-Butter',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "cannabutter.png" 
          },
@@ -814,7 +814,7 @@
         label = 'Special Brownie',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "chocolate.png" 
          },
@@ -823,7 +823,7 @@
         label = 'Special Cookie',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "specialcookie.png" 
          },
@@ -832,7 +832,7 @@
         label = 'Special Muffin',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "specialmuffin.png" 
          },
@@ -841,7 +841,7 @@
         label = 'Special Chocolate',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "specialchocolate.png" 
          },
@@ -850,7 +850,7 @@
         label = 'Keef',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "keef.png" 
          },
@@ -859,7 +859,7 @@
         label = 'Flour',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "flour.png" 
          },
@@ -868,7 +868,7 @@
         label = 'Chocolate',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "chocolate.png" 
          },
@@ -877,7 +877,7 @@
         label = 'Blunts',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "blunt.png" 
          },
@@ -886,7 +886,7 @@
         label = 'Butane',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "butane.png" 
          },
@@ -895,7 +895,7 @@
         label = 'Butane Torch',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "butanetorch.png" 
          },
@@ -904,7 +904,7 @@
         label = 'Dab Rig',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "dabrig2.png" 
          },
@@ -913,7 +913,7 @@
         label = 'MDWOODS',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "mdwoods.png" 
          },
@@ -922,7 +922,7 @@
         label = 'Ciggie',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "ciggie.png" 
          },
@@ -931,7 +931,7 @@
         label = 'Tobacco',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "tobacco.png" 
          },
@@ -940,7 +940,7 @@
         label = 'Shatter',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "shatter.png" 
          },
@@ -949,7 +949,7 @@
         label = 'Blunt Wrap',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "bluntwrap.png" 
          },
@@ -958,7 +958,7 @@
         label = 'Lean Blunt Wrap',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "leanbluntwrap.png" 
          },
@@ -967,7 +967,7 @@
         label = 'Dextro Blunt Wrap',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "dextroblunt.png" 
          },
@@ -976,7 +976,7 @@
         label = 'Dextro Blunt Wrap',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "dextrobluntwrap.png" 
          },
@@ -985,7 +985,7 @@
         label = 'Lean Blunts',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "leanblunts.png" 
          },
@@ -994,7 +994,7 @@
         label = 'Dextro Blunts',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "dextroblunts.png" 
          },
@@ -1003,7 +1003,7 @@
         label = 'Chewy',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "blunt.png" 
          },
@@ -1012,7 +1012,7 @@
         label = 'Coke Burner',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "gta5phone.png" 
          },
@@ -1021,7 +1021,7 @@
         label = 'Crack Burner',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "gta5phone.png" 
          },
@@ -1030,7 +1030,7 @@
         label = 'Heroin Burner',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "gta5phone.png" 
          },
@@ -1039,7 +1039,7 @@
         label = 'LSD Burner',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "gta5phone.png" 
          },
@@ -1048,7 +1048,7 @@
         label = 'XTC Burner',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "gta5phone.png" 
          },
@@ -1057,7 +1057,7 @@
         label = 'isosafrole',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'isosafrole.png' 
          },
@@ -1066,7 +1066,7 @@
         label = 'mdp2p',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = 'mdp2p.png' 
          },
@@ -1075,7 +1075,7 @@
         label = 'Raw XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "raw_xtc.png" 
          },
@@ -1084,7 +1084,7 @@
         label = 'Single Pill Press',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "pillpress.png" 
          },
@@ -1093,7 +1093,7 @@
         label = 'Dual Pill Press',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "pillpress.png" 
          },
@@ -1102,7 +1102,7 @@
         label = 'Triple Pill Press',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "pillpress.png" 
          },
@@ -1111,7 +1111,7 @@
         label = 'Quad Pill Press',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "pillpress.png" 
          },
@@ -1120,7 +1120,7 @@
         label = 'White XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_white.png" 
          },
@@ -1129,7 +1129,7 @@
         label = 'White XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_white2.png" 
          },
@@ -1138,7 +1138,7 @@
         label = 'White XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_white3.png" 
          },
@@ -1147,7 +1147,7 @@
         label = 'White XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_white4.png" 
          },
@@ -1156,7 +1156,7 @@
         label = 'Red XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_red.png" 
          },
@@ -1165,7 +1165,7 @@
         label = 'Red XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_red2.png" 
          },
@@ -1174,7 +1174,7 @@
         label = 'Red XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_red3.png" 
          },
@@ -1183,7 +1183,7 @@
         label = 'Red XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_red4.png" 
          },
@@ -1192,7 +1192,7 @@
         label = 'Orange XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_orange.png" 
          },
@@ -1201,7 +1201,7 @@
         label = 'Orange XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_orange2.png" 
          },
@@ -1210,7 +1210,7 @@
         label = 'Orange XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_orange3.png" 
          },
@@ -1219,7 +1219,7 @@
         label = 'Orange XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_orange4.png" 
          },
@@ -1228,7 +1228,7 @@
         label = 'Blue XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_blue.png" 
          },
@@ -1237,7 +1237,7 @@
         label = 'Blue XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_blue2.png" 
          },
@@ -1246,7 +1246,7 @@
         label = 'Blue XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_blue3.png" 
          },
@@ -1255,7 +1255,7 @@
         label = 'Blue XTC',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "unstamped_blue4.png" 
          },
@@ -1264,7 +1264,7 @@
         label = 'White Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_white.png" 
          },
@@ -1273,7 +1273,7 @@
         label = 'White Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_white2.png" 
          },
@@ -1282,7 +1282,7 @@
         label = 'White Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_white3.png" 
          },
@@ -1291,7 +1291,7 @@
         label = 'White Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_white4.png" 
          },
@@ -1300,7 +1300,7 @@
         label = 'blue Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_blue.png" 
          },
@@ -1309,7 +1309,7 @@
         label = 'blue Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_blue2.png" 
          },
@@ -1318,7 +1318,7 @@
         label = 'blue Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_blue3.png" 
          },
@@ -1327,7 +1327,7 @@
         label = 'blue Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_blue4.png" 
          },
@@ -1336,7 +1336,7 @@
         label = 'red Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_red.png" 
          },
@@ -1345,7 +1345,7 @@
         label = 'red Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_red2.png" 
          },
@@ -1354,7 +1354,7 @@
         label = 'red Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_red3.png" 
          },
@@ -1363,7 +1363,7 @@
         label = 'red Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_red4.png" 
          },
@@ -1372,7 +1372,7 @@
         label = 'orange Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_orange.png" 
          },
@@ -1381,7 +1381,7 @@
         label = 'orange Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_orange2.png" 
          },
@@ -1390,7 +1390,7 @@
         label = 'orange Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_orange3.png" 
          },
@@ -1399,7 +1399,7 @@
         label = 'orange Fruit',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "playboy_orange4.png" 
          },
@@ -1408,7 +1408,7 @@
         label = 'White aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_white.png" 
          },
@@ -1417,7 +1417,7 @@
         label = 'White aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_white2.png" 
          },
@@ -1426,7 +1426,7 @@
         label = 'White aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_white3.png" 
          },
@@ -1435,7 +1435,7 @@
         label = 'White aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_white4.png" 
          },
@@ -1444,7 +1444,7 @@
         label = 'blue aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_blue.png" 
          },
@@ -1453,7 +1453,7 @@
         label = 'blue aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_blue2.png" 
          },
@@ -1462,7 +1462,7 @@
         label = 'blue aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_blue3.png" 
          },
@@ -1471,7 +1471,7 @@
         label = 'blue aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_blue4.png" 
          },
@@ -1480,7 +1480,7 @@
         label = 'red aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_red.png" 
          },
@@ -1489,7 +1489,7 @@
         label = 'red aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_red2.png" 
          },
@@ -1498,7 +1498,7 @@
         label = 'red aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_red3.png" 
          },
@@ -1507,7 +1507,7 @@
         label = 'red aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_red4.png" 
          },
@@ -1516,7 +1516,7 @@
         label = 'orange aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_orange.png" 
          },
@@ -1525,7 +1525,7 @@
         label = 'orange aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_orange2.png" 
          },
@@ -1534,7 +1534,7 @@
         label = 'orange aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_orange3.png" 
          },
@@ -1543,7 +1543,7 @@
         label = 'orange aliens',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "alien_orange4.png" 
          },
@@ -1552,7 +1552,7 @@
         label = 'White pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_white.png" 
          },
@@ -1561,7 +1561,7 @@
         label = 'White pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_white2.png" 
          },
@@ -1570,7 +1570,7 @@
         label = 'White pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_white3.png" 
          },
@@ -1579,7 +1579,7 @@
         label = 'White pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_white4.png" 
          },
@@ -1588,7 +1588,7 @@
         label = 'blue pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_blue.png" 
          },
@@ -1597,7 +1597,7 @@
         label = 'blue pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_blue2.png" 
          },
@@ -1606,7 +1606,7 @@
         label = 'blue pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_blue3.png" 
          },
@@ -1615,7 +1615,7 @@
         label = 'blue pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_blue4.png" 
          },
@@ -1624,7 +1624,7 @@
         label = 'red pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_red.png" 
          },
@@ -1633,7 +1633,7 @@
         label = 'red pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_red2.png" 
          },
@@ -1642,7 +1642,7 @@
         label = 'red pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_red3.png" 
          },
@@ -1651,7 +1651,7 @@
         label = 'red pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_red4.png" 
          },
@@ -1660,7 +1660,7 @@
         label = 'orange pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_orange.png" 
          },
@@ -1669,7 +1669,7 @@
         label = 'orange pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_orange2.png" 
          },
@@ -1678,7 +1678,7 @@
         label = 'orange pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_orange3.png" 
          },
@@ -1687,7 +1687,7 @@
         label = 'orange pl',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "PL_orange4.png" 
          },
@@ -1696,7 +1696,7 @@
         label = 'White trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_white.png" 
          },
@@ -1705,7 +1705,7 @@
         label = 'White trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_white2.png" 
          },
@@ -1714,7 +1714,7 @@
         label = 'White trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_white3.png" 
          },
@@ -1723,7 +1723,7 @@
         label = 'White trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_white4.png" 
          },
@@ -1732,7 +1732,7 @@
         label = 'blue trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_blue.png" 
          },
@@ -1741,7 +1741,7 @@
         label = 'blue trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_blue2.png" 
          },
@@ -1750,7 +1750,7 @@
         label = 'blue trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_blue3.png" 
          },
@@ -1759,7 +1759,7 @@
         label = 'blue trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_blue4.png" 
          },
@@ -1768,7 +1768,7 @@
         label = 'red trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_red.png" 
          },
@@ -1777,7 +1777,7 @@
         label = 'red trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_red2.png" 
          },
@@ -1786,7 +1786,7 @@
         label = 'red trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_red3.png" 
          },
@@ -1795,7 +1795,7 @@
         label = 'red trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_red4.png" 
          },
@@ -1804,7 +1804,7 @@
         label = 'orange trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_orange.png" 
          },
@@ -1813,7 +1813,7 @@
         label = 'orange trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_orange2.png" 
          },
@@ -1822,7 +1822,7 @@
         label = 'orange trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_orange3.png" 
          },
@@ -1831,7 +1831,7 @@
         label = 'orange trolls',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "troll_orange4.png" 
          },
@@ -1840,7 +1840,7 @@
         label = 'White cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_white.png" 
          },
@@ -1849,7 +1849,7 @@
         label = 'White cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_white2.png" 
          },
@@ -1858,7 +1858,7 @@
         label = 'White cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_white3.png" 
          },
@@ -1867,7 +1867,7 @@
         label = 'White cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_white4.png" 
          },
@@ -1876,7 +1876,7 @@
         label = 'blue cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_blue.png" 
          },
@@ -1885,7 +1885,7 @@
         label = 'blue cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_blue2.png" 
          },
@@ -1894,7 +1894,7 @@
         label = 'blue cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_blue3.png" 
          },
@@ -1903,7 +1903,7 @@
         label = 'blue cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_blue4.png" 
          },
@@ -1912,7 +1912,7 @@
         label = 'red cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_red.png" 
          },
@@ -1921,7 +1921,7 @@
         label = 'red cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_red2.png" 
          },
@@ -1930,7 +1930,7 @@
         label = 'red cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_red3.png" 
          },
@@ -1939,7 +1939,7 @@
         label = 'red cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_red4.png" 
          },
@@ -1948,7 +1948,7 @@
         label = 'orange cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_orange.png" 
          },
@@ -1957,7 +1957,7 @@
         label = 'orange cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_orange2.png" 
          },
@@ -1966,7 +1966,7 @@
         label = 'orange cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_orange3.png" 
          },
@@ -1975,7 +1975,7 @@
         label = 'orange cats',
         weight = 100,
         stack = false,
-        close = true
+        close = true,
         client = { 
            image = "kitty_orange4.png" 
          },
