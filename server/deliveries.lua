@@ -185,7 +185,7 @@ ps.registerCommand("newdealer", {
     local Player = ps.getPlayer(source)
     if not Player then return end
 
-    local dealerName = args.name
+    local dealerName = args[1]
     local pos = json.encode({x = coords.x, y = coords.y, z = coords.z})
 
     local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', { dealerName })
@@ -219,7 +219,7 @@ ps.registerCommand("deletedealer", {
     local dealerName = args.name
     local result = MySQL.scalar.await('SELECT * FROM dealers WHERE name = ?', { dealerName })
 
-    if result then
+    if result and result[1] then
         MySQL.query('DELETE FROM dealers WHERE name = ?', { dealerName })
         QBConfig.Dealers[dealerName] = nil
         TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)

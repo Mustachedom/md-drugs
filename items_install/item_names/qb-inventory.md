@@ -1,7 +1,21 @@
------------------- 
+
 
 ### md-drugs Add the following Items to qb-core/shared/items.lua and - Add item images to your inventory script
-```
+```lua
+    -- base qb items 
+    weed_whitewidow              = { name = 'weed_whitewidow', label = 'White Widow 2g', weight = 200, type = 'item', image = 'weed_baggy.png', unique = false, useable = true, shouldClose = false, description = 'A weed bag with 2g White Widow' },
+    weed_skunk                   = { name = 'weed_skunk', label = 'Skunk 2g', weight = 200, type = 'item', image = 'weed_baggy.png', unique = false, useable = true, shouldClose = false, description = 'A weed bag with 2g Skunk' },
+    weed_purplehaze              = { name = 'weed_purplehaze', label = 'Purple Haze 2g', weight = 200, type = 'item', image = 'weed_baggy.png', unique = false, useable = true, shouldClose = false, description = 'A weed bag with 2g Purple Haze' },
+    weed_ogkush                  = { name = 'weed_ogkush', label = 'OGKush 2g', weight = 200, type = 'item', image = 'weed_baggy.png', unique = false, useable = true, shouldClose = false, description = 'A weed bag with 2g OG Kush' },
+    weed_amnesia                 = { name = 'weed_amnesia', label = 'Amnesia 2g', weight = 200, type = 'item', image = 'weed_baggy.png', unique = false, useable = true, shouldClose = false, description = 'A weed bag with 2g Amnesia' },
+    weed_ak47                    = { name = 'weed_ak47', label = 'AK47 2g', weight = 200, type = 'item', image = 'weed_baggy.png', unique = false, useable = true, shouldClose = false, description = 'A weed bag with 2g AK47' },
+    weed_whitewidow_seed         = { name = 'weed_whitewidow_seed', label = 'White Widow Seed', weight = 0, type = 'item', image = 'weed_seed.png', unique = false, useable = true, shouldClose = false, description = 'A weed seed of White Widow' },
+    weed_skunk_seed              = { name = 'weed_skunk_seed', label = 'Skunk Seed', weight = 0, type = 'item', image = 'weed_seed.png', unique = false, useable = true, shouldClose = true, description = 'A weed seed of Skunk' },
+    weed_purplehaze_seed         = { name = 'weed_purplehaze_seed', label = 'Purple Haze Seed', weight = 0, type = 'item', image = 'weed_seed.png', unique = false, useable = true, shouldClose = true, description = 'A weed seed of Purple Haze' },
+    weed_ogkush_seed             = { name = 'weed_ogkush_seed', label = 'OGKush Seed', weight = 0, type = 'item', image = 'weed_seed.png', unique = false, useable = true, shouldClose = true, description = 'A weed seed of OG Kush' },
+    weed_amnesia_seed            = { name = 'weed_amnesia_seed', label = 'Amnesia Seed', weight = 0, type = 'item', image = 'weed_seed.png', unique = false, useable = true, shouldClose = true, description = 'A weed seed of Amnesia' },
+    weed_ak47_seed               = { name = 'weed_ak47_seed', label = 'AK47 Seed', weight = 0, type = 'item', image = 'weed_seed.png', unique = false, useable = true, shouldClose = true, description = 'A weed seed of AK47' },
+    empty_weed_bag               = { name = 'empty_weed_bag', label = 'Empty Weed Bag', weight = 0, type = 'item', image = 'weed_baggy_empty.png', unique = false, useable = true, shouldClose = true, description = 'A small empty bag' },
     -- COCAINE 
 
 	coke 		 	 	 	     = {name = "coke",           					label = "Raw Cocaine", 			weight = 1000,		type = "item", 		image = "coke.png", 				    unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "Raw Cocaine"},
