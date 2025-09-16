@@ -14,9 +14,10 @@ local function SpawnDealer()
                 icon = 'fas fa-user-secret',
                 label = ps.lang('Deliveries.targetGetDel'),
                 action = function()
-                    local bool, item, amount, coords = ps.callback('md-drugs:server:GetDeliveryItem', false, k)
-                    if bool then
-                        TriggerEvent('md-drugs:client:setLocation', {bool = bool, item = item, amount = amount, coords = coords})
+                    local data = ps.callback('md-drugs:server:GetDeliveryItem', k)
+                    ps.debug(data)
+                    if type(data) == 'table' and data.coords then
+                        TriggerEvent('md-drugs:client:setLocation', data)
                     end
                 end,
             },
@@ -60,18 +61,20 @@ RegisterNetEvent('md-drugs:client:setLocation', function(data)
     local Buyer = CreatePed(0, "g_m_y_famdnf_01",coord.x, coord.y, coord.z-1, coord.w, false, false)
     Freeze(Buyer, true, coord.w)
     ps.entityTarget(Buyer,  {
-        icon = 'fas fa-user-secret',
-        label = ps.lang('Deliveries.targetHandOff'),
-        action = function()
-           if not progressbar(ps.lang('Deliveries.delivering'), 4000, 'uncuff') then return end
-           isActive = false
-           DeletePed(Buyer)
-           TriggerServerEvent('md-drugs:server:giveDeliveryItems', data.item, data.amount) 
-        end,
-        canInteract = function()
-            if isActive then
-                return true
+        {
+            icon = 'fas fa-user-secret',
+            label = ps.lang('Deliveries.targetHandOff'),
+            action = function()
+               if not ps.progressbar(ps.lang('Deliveries.delivering'), 4000, 'uncuff') then return end
+               isActive = false
+               DeletePed(Buyer)
+               TriggerServerEvent('md-drugs:server:giveDeliveryItems', data.item, data.amount)
+            end,
+            canInteract = function()
+                if isActive then
+                    return true
+                end
             end
-        end
-    }, nil)
+        }
+    })
 end)

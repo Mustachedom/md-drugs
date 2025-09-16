@@ -117,7 +117,7 @@ ps.registerCallback('md-drugs:server:GetDeliveryItem', function(source, data)
     local itemnum = math.random(1, #DeliveryItems)
     local item = DeliveryItems[itemnum].item
     local amount = math.random(1,4)
-    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {Player.PlayerData.citizenid})
+    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
     local locnum = math.random(1, #dloc)
     local coord = json.encode({
         x = dloc[locnum].coords.x,
@@ -129,18 +129,30 @@ ps.registerCallback('md-drugs:server:GetDeliveryItem', function(source, data)
         MySQL.insert('INSERT INTO deliveriesdealer SET cid = ?, itemdata = ?, timestart = ?, maxtime = ?, location = ?', 
         {ps.getIdentifier(src), json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
         ps.addItem(src, item, amount)
-        return true, item, amount, coord
+        local tab = {
+            bool = true,
+            item = item,
+            amount = amount,
+            coords = coord
+        }
+        return tab
     else
         local time = os.time()
         local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
 
         if timeout > 15 then
             MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
-            ps.notify(src, ps.lang('Deliveries.slowAf'), 'error' ) 
-            return false
+            ps.notify(src, ps.lang('Deliveries.slowAf'), 'error' )
+            return {bool = false}
         end
         ps.notify(src,ps.lang('Deliveries.alreadyDelivering'), 'error' )
-        return false, item, amount, coord
+        local tab = {
+            bool = false,
+            item = item,
+            amount = amount,
+            coords = coord
+        }
+        return tab
     end
 end)
 
@@ -194,7 +206,7 @@ ps.registerCommand("newdealer", {
     end
 
     MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {
-        dealerName, pos, 'nil', Player.PlayerData.citizenid
+        dealerName, pos, 'nil', ps.getIdentifier(source)
     }, function()
         QBConfig.Dealers[dealerName] = {
             name = dealerName,
