@@ -13,7 +13,7 @@ Build: 4.0.1
 - version.txt
 - client/heroin.lua
 
-Newest Build: 4.0.2
+Build: 4.0.2
 - updated qb items
 - updated ox items
 - ABOVE IS JUST LABEL CHANGES AND IMAGE CHANGES NOT NECESSARY
