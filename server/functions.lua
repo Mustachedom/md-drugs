@@ -108,5 +108,4 @@ ps.registerCallback('md-drugs:server:GetRep', function(source, cb, args)
     local rep = GetAllRep(source)
     return rep
 end)
-
 ps.versionCheck('md-drugs', 'https://raw.githubusercontent.com/Mustachedom/md-drugs/refs/heads/main/version.txt', 'https://github.com/Mustachedom/md-drugs/')

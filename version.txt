@@ -46,7 +46,7 @@ Build: 4.0.3
 - Adjust XTC item crafting
 - notify after check for heroin baking soda
 
-Newest Build: 4.0.4 
+Newest Build: 4.0.4
  - fix meth
  - `to update`
     - update version.txt
