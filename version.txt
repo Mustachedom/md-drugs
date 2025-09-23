@@ -47,9 +47,9 @@ Build: 4.0.3
 - notify after check for heroin baking soda
 
 Newest Build: 4.0.4
- - fix meth
- - `to update`
-    - update version.txt
-    - update version in fxmanifest to 4.0.4
-    - update client/meth.lua
-    
+- fix meth
+- `to update`
+   - update version.txt
+   - update version in fxmanifest to 4.0.4
+   - update client/meth.lua
+   
