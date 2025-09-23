@@ -3,7 +3,7 @@ local tray = false
 local heated = false
 local active = false
 local trays = nil
-local smashing = false
+
 local locations = ps.callback('md-drugs:server:GetMethLocs')
 --- meth heist 
 local startedmeth = false
@@ -94,6 +94,17 @@ local function loadParticle(dict)
     end
     SetPtfxAssetNextCall(dict)
 end
+local function dialSuccess(coords)
+	ps.requestModel('hei_prop_heist_thermite', 2000)
+	loadParticle('scr_ornate_heist')
+	local thermite = CreateObject('hei_prop_heist_thermite', vector3(1006.09, -3201.29, -39.30), true, false, false)
+	FreezeEntityPosition(thermite, true)
+	SetEntityRotation(thermite, 190.0, 90.0, 140.0, 3, true )
+	Wait(1000)
+	local therm = StartParticleFxLoopedOnEntity('scr_heist_ornate_thermal_burn', thermite, 0.0, 1.4, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
+	Wait(math.random(10000, 20000))
+	StopParticleFxLooped(therm, true)
+end
 
 local function MethCooking(coords, offset, rotation)
 	local animDict, animName = "anim@amb@business@meth@meth_monitoring_cooking@cooking@", "chemical_pour_short_cooker"
@@ -114,20 +125,10 @@ local function MethCooking(coords, offset, rotation)
 	NetworkStopSynchronisedScene(netScene)
 	DeleteObject(sacid) DeleteObject(ammonia)
 	FreezeEntityPosition(PlayerPedId(), false)
-	ps.requestModel('hei_prop_heist_thermite', 2000)
-	loadParticle('scr_ornate_heist')
-	local thermite = CreateObject('hei_prop_heist_thermite', vector3(1005.76, -3201.3, -39.25), true, false, false)
-	FreezeEntityPosition(thermite, true)
-	SetEntityRotation(thermite, 190.0, 90.0, 140.0, 3, true )
-	Wait(1000)
-	local therm = StartParticleFxLoopedOnEntity('scr_heist_ornate_thermal_burn', thermite, 0.0, 1.4, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
-	Wait(math.random(10000, 20000))
-	StopParticleFxLooped(therm, true)
 end
 
 
 local function SmashMeth(coords, offset, rotation)
-	smashing = true
 	local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char02"
 	ps.requestAnim(animDict, 500)
@@ -160,7 +161,6 @@ local function SmashMeth(coords, offset, rotation)
 	end
 	RemoveAnimDict(animDict)
 	FreezeEntityPosition(ped, false)
-	smashing = false
 end
 
 local function BagMeth(coords, offset, rotation)
@@ -238,7 +238,6 @@ local function startcook(num, coords, offset, rotation)
 		local adding = ps.callback('md-drugs:server:startcook', num)
 		if not adding then return end
 		active = true
-		amonia = true
 		MethCooking(coords, offset, rotation)
 		amonia = true
 	else
@@ -248,21 +247,22 @@ end
 
 
 local function dials(coords)
-	if amonia == true then
+	if amonia then
 		if not minigame() then
 			AddExplosion(coords.x, coords.y,coords.z, 49, 10, true, false, true)
 			amonia = false
 			active = false
 		return end
 		ps.notify(ps.lang('meth.increaseHeat'), "success")
+		dialSuccess(coords)
 		heated = true
 	end
 end
 
 local function smash(coords, offset, rotation, buckets, k)
-	if tray then
-		tray = false
+	if active and tray and amonia and heated then
 		DeleteObject(trays)
+		tray = false
 		local bucket = CreateObject("bkr_prop_meth_bigbag_03a", buckets.x, buckets.y, buckets.z, true, true, true)
 		Freeze(bucket, true, buckets.w)
 		SmashMeth(coords, offset, rotation)
@@ -272,11 +272,6 @@ local function smash(coords, offset, rotation, buckets, k)
 				name = 'bucket',
 				icon = "fa-solid fa-sack-xmark",
 				label = ps.lang('meth.targetBag'),
-				canInteract = function()
-					if not active then return false end
-					if not smashing then return false end
-					return true
-				end,
 				action = function()
 					DeleteObject(bucket)
 					active = false
@@ -286,13 +281,17 @@ local function smash(coords, offset, rotation, buckets, k)
 					BagMeth(locations.BagMeth[k].loc, locations.BagMeth[k].offset, locations.BagMeth[k].rotation)
 					TriggerServerEvent('md-drugs:server:getmeth', k)
 				end,
+				canInteract = function()
+					if not active then return false end
+					return true
+				end,
 			}
 		})
 	end
 end
 
 local function trayscarry()
-	if amonia then
+	if amonia and heated then
 		local pos = GetEntityCoords(PlayerPedId(), true)
 		ps.requestAnim('anim@heists@box_carry@')
 		TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
@@ -317,7 +316,7 @@ for k, v in pairs (locations.CookMeth) do
 			label = ps.lang('meth.targetCook'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
-				 startcook(k, v.loc, v.offset or vec3(0,0,0), v.rotation or vector3(0,0,180.0))
+				startcook(k, v.loc, v.offset or vec3(0,0,0), v.rotation or vector3(0,0,180.0))
 			end,
 			canInteract = function()
 				if not handleGang(v.gang) then return false end
