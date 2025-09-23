@@ -3,6 +3,7 @@ local tray = false
 local heated = false
 local active = false
 local trays = nil
+local smashing = false
 local locations = ps.callback('md-drugs:server:GetMethLocs')
 --- meth heist 
 local startedmeth = false
@@ -126,6 +127,7 @@ end
 
 
 local function SmashMeth(coords, offset, rotation)
+	smashing = true
 	local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char02"
 	ps.requestAnim(animDict, 500)
@@ -158,6 +160,7 @@ local function SmashMeth(coords, offset, rotation)
 	end
 	RemoveAnimDict(animDict)
 	FreezeEntityPosition(ped, false)
+	smashing = false
 end
 
 local function BagMeth(coords, offset, rotation)
@@ -246,7 +249,7 @@ end
 
 local function dials(coords)
 	if amonia == true then
-		if not ps.minigame('ps-circle', {amount = 2, speed = 8}) then
+		if not minigame() then
 			AddExplosion(coords.x, coords.y,coords.z, 49, 10, true, false, true)
 			amonia = false
 			active = false
@@ -262,13 +265,17 @@ local function smash(coords, offset, rotation, buckets, k)
 		DeleteObject(trays)
 		local bucket = CreateObject("bkr_prop_meth_bigbag_03a", buckets.x, buckets.y, buckets.z, true, true, true)
 		Freeze(bucket, true, buckets.w)
+		SmashMeth(coords, offset, rotation)
+		Wait(100)
 		ps.entityTarget(bucket, {
 			{
 				name = 'bucket',
 				icon = "fa-solid fa-sack-xmark",
 				label = ps.lang('meth.targetBag'),
 				canInteract = function()
-					if active == false then return false end
+					if not active then return false end
+					if not smashing then return false end
+					return true
 				end,
 				action = function()
 					DeleteObject(bucket)
@@ -281,8 +288,6 @@ local function smash(coords, offset, rotation, buckets, k)
 				end,
 			}
 		})
-		SmashMeth(coords, offset, rotation)
-		Wait(100)
 	end
 end
 
@@ -319,7 +324,6 @@ for k, v in pairs (locations.CookMeth) do
 				if not amonia and not active then
 					return true
 				end
-				
 			end,
 		},
 		{

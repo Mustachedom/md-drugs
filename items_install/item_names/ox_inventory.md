@@ -1,5 +1,4 @@
-	--md-drugs copy and paste below items to ox_inventory/data/items.lua
-```lua
+```
     ['weed_skunk_seed'] = {
         label = 'Skunk Seed',
         weight = 200,
@@ -82,7 +81,7 @@
          },
     },
     ['weed_ogkush'] = {
-      label = 'OG Kush 2g'
+      label = 'OG Kush 2g',
       weight = 200,
       stack = true,
       close = false,
@@ -91,7 +90,7 @@
        },
     },
     ['weed_amnesia'] = {
-      label = 'Amnesia 2g'
+      label = 'Amnesia 2g',
       weight = 200,
       stack = true,
       close = false,
@@ -100,14 +99,14 @@
        },
     },
     ['weed_ak47'] = {
-      label = 'AK47 2g'
+      label = 'AK47 2g',
       weight = 200,
       stack = true,
       close = false,
       client = { 
          image = "weed_baggy.png" 
        },
-    }
+    },
    ['coke'] = {
         label = 'Raw Cocaine',
         weight = 1000,

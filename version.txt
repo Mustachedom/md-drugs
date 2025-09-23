@@ -13,7 +13,7 @@ Build: 4.0.1
 - version.txt
 - client/heroin.lua
 
-Newest Build: 4.0.2
+Build: 4.0.2
 - updated qb items
 - updated ox items
 - ABOVE IS JUST LABEL CHANGES AND IMAGE CHANGES NOT NECESSARY
@@ -32,7 +32,7 @@ Newest Build: 4.0.2
 - client/heroin.lua
 
 
-Newest Build: 4.0.3
+Build: 4.0.3
 - updated weed client
 - updated ox and qb items fixing them sorry yall
 - updated images
@@ -45,3 +45,11 @@ Newest Build: 4.0.3
 - fix saving location of pill presses in xtc
 - Adjust XTC item crafting
 - notify after check for heroin baking soda
+
+Newest Build: 4.0.4 
+ - fix meth
+ - `to update`
+    - update version.txt
+    - update version in fxmanifest to 4.0.4
+    - update client/meth.lua
+    
