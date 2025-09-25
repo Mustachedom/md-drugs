@@ -15,7 +15,6 @@ local function SpawnDealer()
                 label = ps.lang('Deliveries.targetGetDel'),
                 action = function()
                     local data = ps.callback('md-drugs:server:GetDeliveryItem', k)
-                    ps.debug(data)
                     if type(data) == 'table' and data.coords then
                         TriggerEvent('md-drugs:client:setLocation', data)
                     end

@@ -123,7 +123,6 @@ local plantData = {
             GlobalState.CocaPlant = plants.cocaine
         end,
         itemGive = function(src)
-            ps.debug("Giving Coca Leaf")
             ps.addItem(src, 'coca_leaf', 1)
         end,
         coolDown = function(loc)
