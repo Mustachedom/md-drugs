@@ -176,7 +176,7 @@ for k, v in pairs (locations.stamp) do
                         description = ps.lang('xtc.stamp_desc', d.color),
                         action = function()
                             if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                            if not ps.progressbar(ps.lang('xtc.stamping'), d.label, 4000, 'uncuff') then return end
+                            if not ps.progressbar(ps.lang('xtc.stamping', d.label), 4000, 'uncuff') then return end
                             TriggerServerEvent("md-drugs:server:stamp", k, d.color)
                         end,
                         distance = 2.0

@@ -1,6 +1,6 @@
 Config = {} --Ignore.
 ps = exports.ps_lib:init()  --Ignore.
-ps.loadLangs("uwu") -- set your language
+ps.loadLangs("en") -- set your language
 
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel, ox_fuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
