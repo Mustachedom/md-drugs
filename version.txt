@@ -46,10 +46,16 @@ Build: 4.0.3
 - Adjust XTC item crafting
 - notify after check for heroin baking soda
 
-Newest Build: 4.0.4
+Build: 4.0.4
 - fix meth
 - `to update`
    - update version.txt
    - update version in fxmanifest to 4.0.4
    - update client/meth.lua
    
+Newest Build: 4.0.5
+ - fix server/xtc.lua to use src for activePresses
+ - fix server/xtc.lua to work with crafting pills
+ - HOT TO UPDATE
+ - Replace server/xtc.lua 
+ - adjust fxmanifest version to 4.0.5

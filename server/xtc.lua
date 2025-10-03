@@ -5,34 +5,34 @@ local RecipeList = {
         raw_xtc = {take = {mdp2p = 1, isosafrole = 1}, give = {raw_xtc = 1}}
     },
 	singlestack = {
-	    white_xtc =  {amount = 1,    take = {raw_xtc = 1}},
-		red_xtc = 	 {amount = 1,    take = {raw_xtc = 1, loosecoke = 1},},
-		orange_xtc = {amount = 1,    take = {raw_xtc = 1, heroinvial = 1},},
-		blue_xtc = 	 {amount = 1,    take = {raw_xtc = 1, crackrock = 1},},
+	    white_xtc =  {give = {white_xtc = 1}, take = {raw_xtc = 1}},
+		red_xtc = 	 {give = {red_xtc = 1}, take = {raw_xtc = 1, loosecoke = 1},},
+		orange_xtc = {give = {orange_xtc = 1}, take = {raw_xtc = 1, heroinvial = 1},},
+		blue_xtc = 	 {give = {blue_xtc = 1}, take = {raw_xtc = 1, crackrock = 1},},
 	 },
 	 dualstack = {
-	    white_xtc2 =  {amount = 1,    take = {raw_xtc = 1},},
-		red_xtc2 =    {amount = 1,    take = {raw_xtc = 1, loosecoke = 1},},
-		orange_xtc2 = {amount = 1,    take = {raw_xtc = 1, heroinvial = 1},},
-		blue_xtc2 =   {amount = 1,    take = {raw_xtc = 1, crackrock = 1},},
+	    white_xtc2 =  {give = {white_xtc2 = 1}, take = {raw_xtc = 1},},
+		red_xtc2 =    {give = {red_xtc2 = 1}, take = {raw_xtc = 1, loosecoke = 1},},
+		orange_xtc2 = {give = {orange_xtc2 = 1}, take = {raw_xtc = 1, heroinvial = 1},},
+		blue_xtc2 =   {give = {blue_xtc2 = 1}, take = {raw_xtc = 1, crackrock = 1},},
 	 },
 	 triplestack = {
-	    white_xtc3 =   {amount = 1, take = {raw_xtc = 1},},
-		red_xtc3 = 	   {amount = 1, take = {raw_xtc = 1, loosecoke = 1},},
-		orange_xtc3 =  {amount = 1, take = {raw_xtc = 1, heroinvial = 1},},
-		blue_xtc3 =    {amount = 1, take = {raw_xtc = 1, crackrock = 1},},
+	    white_xtc3 =   {give = {white_xtc3 = 1}, take = {raw_xtc = 1},},
+		red_xtc3 = 	   {give = {red_xtc3 = 1}, take = {raw_xtc = 1, loosecoke = 1},},
+		orange_xtc3 =  {give = {orange_xtc3 = 1}, take = {raw_xtc = 1, heroinvial = 1},},
+		blue_xtc3 =    {give = {blue_xtc3 = 1}, take = {raw_xtc = 1, crackrock = 1},},
 	 },
 	 quadstack = {
-		white_xtc4 = 	{amount = 1,    take = {raw_xtc = 1},},
-		red_xtc4 = 		{amount = 1,    take = {raw_xtc = 1, loosecoke = 1},},
-		orange_xtc4 = 	{amount = 1,    take = {raw_xtc = 1, heroinvial = 1},},
-		blue_xtc4 = 	{amount = 1,    take = {raw_xtc = 1, crackrock = 1},},
+		white_xtc4 = 	{give = {white_xtc4 = 1}, take = {raw_xtc = 1},},
+		red_xtc4 = 		{give = {red_xtc4 = 1}, take = {raw_xtc = 1, loosecoke = 1},},
+		orange_xtc4 = 	{give = {orange_xtc4 = 1}, take = {raw_xtc = 1, heroinvial = 1},},
+		blue_xtc4 = 	{give = {blue_xtc4 = 1}, take = {raw_xtc = 1, crackrock = 1},},
 	 },
 	presses = {
 		singlepress = {cash = 10000},
-		dualpress =   {amount = 1, take = {white_xtc = 20, blue_xtc = 20, red_xtc = 20, orange_xtc = 20, singlepress = 1}},
-		triplepress = {amount = 1, take = {white_xtc2 = 50, blue_xtc2 = 50, red_xtc2 = 50, orange_xtc2 = 50, dualpress = 1}},
-		quadpress =   {amount = 1, take = {white_xtc3 = 50, blue_xtc3 = 50, red_xtc3 = 50, orange_xtc3 = 50, triplepress = 1}},
+		dualpress =   {give  = {dualpress = 1}, take = {white_xtc = 20, blue_xtc = 20, red_xtc = 20, orange_xtc = 20, singlepress = 1}},
+		triplepress = {give  = {triplepress = 1}, take = {white_xtc2 = 50, blue_xtc2 = 50, red_xtc2 = 50, orange_xtc2 = 50, dualpress = 1}},
+		quadpress =   {give  = {quadpress = 1}, take = {white_xtc3 = 50, blue_xtc3 = 50, red_xtc3 = 50, orange_xtc3 = 50, triplepress = 1}},
 	}
 }
 
@@ -93,7 +93,7 @@ ps.createUseable(v.item, function(source, item)
 	local location = ps.callback('md-drugs:client:setpress', src, v)
 		if location then
 			if ps.removeItem(src, v.item, 1) then
-				activePresses[ps.getIdentifier(src)] = {
+				activePresses[src] = {
 					press = v.data,
 					get = v.item,
 					owner = ps.getPlayerName(src),
@@ -108,23 +108,23 @@ end
 
 RegisterServerEvent('md-drugs:server:getpressback', function()
 	local src = source
-	if not activePresses[ps.getIdentifier(src)] then return end
-	local press = activePresses[ps.getIdentifier(src)]
+	if not activePresses[src] then return end
+	local press = activePresses[src]
 	if not ps.checkDistance(src, press.loc, 2.0) then return end
 	ps.addItem(src, press.get, 1)
-	activePresses[ps.getIdentifier(src)] = nil
+	activePresses[src] = nil
 end)
 
 RegisterServerEvent('md-drugs:server:makextc', function(data)
   	local src = source
-  	if not activePresses[ps.getIdentifier(src)] then
+  	if not activePresses[src] then
 		ps.notify(src, ps.lang('xtc.noPressOut'), 'error')
 		return
   	end
 	if timeOut(src, 'md-drugs:server:makextc') then return end
-	if not ps.checkDistance(src, activePresses[ps.getIdentifier(src)].loc, 2.0) then return end
-  	if not ps.craftItem(src, RecipeList[activePresses[ps.getIdentifier(src)].press][data]) then
-		verifyHas(src, RecipeList[activePresses[ps.getIdentifier(src)].press][data].take)
+	if not ps.checkDistance(src, activePresses[src].loc, 2.0) then return end
+	if not ps.craftItem(src, RecipeList[activePresses[src].press][data]) then
+		verifyHas(src, RecipeList[activePresses[src].press][data].take)
 		return
 	end
 end)
@@ -213,8 +213,8 @@ end)
 
 AddEventHandler('playerDropped', function()
 	local src = source
-	if activePresses[ps.getIdentifier(src)] then
-		ps.addItem(src, activePresses[ps.getIdentifier(src)].get, 1)
-		activePresses[ps.getIdentifier(src)] = nil
+	if activePresses[src] then
+		ps.addItem(src, activePresses[src].get, 1)
+		activePresses[src] = nil
 	end
 end)

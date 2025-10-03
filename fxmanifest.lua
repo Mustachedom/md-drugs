@@ -3,7 +3,7 @@ author "mustache_dom"
 description "drugs by mustache dom"
 fx_version "cerulean"
 game "gta5"
-version  '4.0.4'
+version  '4.0.5'
 client_scripts {
 	'client/functions.lua',
 	'client/plantSpawns.lua',
