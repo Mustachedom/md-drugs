@@ -3,10 +3,10 @@ local weedLocs = {
         {inside = vector3(1066.31, -3183.36, -39.16), outside = vector3(244.74, 374.54, 105.74), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
     MakeButter = {
-        {loc = vector3(1045.48, -3198.49, -38.22), checks = {}},
+        {loc = vector4(1045.43, -3198.75, -38.15, 270.0), prop = 'prop_cooker_03', checks = {}},
     },
     MakeOil = {
-        {loc = vector3(1038.90, -3198.66, -38.17), checks = {}},
+        {loc = vector4(1038.8, -3198.68, -38.17, 90.0), prop = 'prop_cooker_03', checks = {}},
     },
     WeedDry = {
         {loc = vector3(1043.0, -3191.59, -38.39),},

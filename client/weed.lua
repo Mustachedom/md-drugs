@@ -150,4 +150,21 @@ for k, v in pairs (locations.WeedSalesman) do
 		}
 	})
 end
+local props = {}
 
+for locationKey, locationData in pairs (locations.MakeButter) do
+	if locationData.prop then
+		ps.requestModel(locationData.prop)
+		props[#props+1] = CreateObject(locationData.prop, locationData.loc.x, locationData.loc.y, locationData.loc.z - 1.0, false, false, false)
+		FreezeEntityPosition(props[#props], true)
+		SetEntityHeading(props[#props], locationData.loc.w)
+	end
+end
+for locationKey, locationData in pairs (locations.MakeOil) do
+	if locationData.prop then
+		ps.requestModel(locationData.prop)
+		props[#props+1] = CreateObject(locationData.prop, locationData.loc.x, locationData.loc.y, locationData.loc.z - 1.0, false, false, false)
+		FreezeEntityPosition(props[#props], true)
+		SetEntityHeading(props[#props], locationData.loc.w)
+	end
+end
