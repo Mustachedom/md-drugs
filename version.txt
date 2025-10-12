@@ -53,9 +53,16 @@ Build: 4.0.4
    - update version in fxmanifest to 4.0.4
    - update client/meth.lua
    
-Newest Build: 4.0.5
+Build: 4.0.5
  - fix server/xtc.lua to use src for activePresses
  - fix server/xtc.lua to work with crafting pills
  - HOT TO UPDATE
  - Replace server/xtc.lua 
  - adjust fxmanifest version to 4.0.5
+
+Newest Build: 4.0.6
+  - add whippits to the script
+     - to add move the folder `ate_balloon` to standalone folder
+       - or anywhere else like it is its own script
+      - add the items ( located at the bottom of ox.md/qb.md) and images
+      - add the server and client file named whippit.lua
