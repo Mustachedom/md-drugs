@@ -5,7 +5,7 @@ lua54 'yes'
 this_is_a_map 'yes'
 
 author 'Atenea'
-description 'Props para ti <3'
+description 'Balloon / MD-Drugs'
 version '1.0.1'
 
 ---------------------------------------------------------------------------
