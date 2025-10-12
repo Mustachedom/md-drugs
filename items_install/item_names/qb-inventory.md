@@ -261,4 +261,15 @@
     orange_cats2 				 = {name = "orange_cats2", 			    		label = "orange cats", 	    weight = 100, 		type = "item", 		image = "kitty_orange2.png", 				unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,      description = ""},
     orange_cats3 				 = {name = "orange_cats3", 			    		label = "orange cats", 		weight = 100, 		type = "item", 		image = "kitty_orange3.png", 				unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,      description = ""},
     orange_cats4 				 = {name = "orange_cats4", 			    		label = "orange cats", 		weight = 100, 		type = "item", 		image = "kitty_orange4.png", 				unique = false, 	useable = true, 	shouldClose = true,	   combinable = nil,      description = ""},
+     blue_uninflated_balloon = { name = 'blue_uninflated_balloon', label = 'Blue Uninflated Balloon', weight = 100, type = 'item', image = 'blue_uninflated_balloon.png', unique = false, useable = true, shouldClose = true, description = "" },
+cracker = { name = 'cracker', label = 'Cracker', weight = 100, type = 'item', image = 'cracker.png', unique = false, useable = true, shouldClose = true, description = "" },
+green_uninflated_balloon = { name = 'green_uninflated_balloon', label = 'Green Uninflated Balloon', weight = 100, type = 'item', image = 'green_uninflated_balloon.png', unique = false, useable = true, shouldClose = true, description = "" },
+orange_uninflated_balloon = { name = 'orange_uninflated_balloon', label = 'Orange Uninflated Balloon', weight = 100, type = 'item', image = 'orange_uninflated_balloon.png', unique = false, useable = true, shouldClose = true, description = "" },
+purple_uninflated_balloon = { name = 'purple_uninflated_balloon', label = 'Purple Uninflated Balloon', weight = 100, type = 'item', image = 'purple_uninflated_balloon.png', unique = false, useable = true, shouldClose = true, description = "" },
+red_uninflated_balloon = { name = 'red_uninflated_balloon', label = 'Red Uninflated Balloon', weight = 100, type = 'item', image = 'red_uninflated_balloon.png', unique = false, useable = true, shouldClose = true, description = "" },
+whipped_cream_cannister = { name = 'whipped_cream_cannister', label = 'Whipped Cream Cannister', weight = 100, type = 'item', image = 'whipped_cream_cannister.png', unique = false, useable = true, shouldClose = true, description = "" },
+white_uninflated_balloon = { name = 'white_uninflated_balloon', label = 'White Uninflated Balloon', weight = 100, type = 'item', image = 'white_uninflated_balloon.png', unique = false, useable = true, shouldClose = true, description = "" },
+yellow_uninflated_balloon = { name = 'yellow_uninflated_balloon', label = 'Yellow Uninflated Balloon', weight = 100, type = 'item', image = 'yellow_uninflated_balloon.png', unique = false, useable = true, shouldClose = true, description = "" },
+
+     
      ```

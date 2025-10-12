@@ -259,5 +259,11 @@ Lang.xtc = {
 Lang.merchant = {
     targetOpen = 'Open merchant menu, asshole',
 }
+Lang.Whippit = {
+    targetShop = 'Open Whippit Shop',
+    needBalloon = 'You need a balloon for this, dumbass',
+    needCanister = 'You need a canister for this, moron',
+    shopHeader = 'Whippit Shop',
+}
 
 return Lang
