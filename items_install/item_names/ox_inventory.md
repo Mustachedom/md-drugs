@@ -2078,4 +2078,76 @@
            image = "kitty_orange4.png" 
          },
     },
+    ["blue_uninflated_balloon"] = { 
+    label = 'Blue Uninflated Balloon', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'blue_uninflated_balloon.png' } 
+},
+["cracker"] = { 
+    label = 'Cracker', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'cracker.png' } 
+},
+["green_uninflated_balloon"] = { 
+    label = 'Green Uninflated Balloon', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'green_uninflated_balloon.png' } 
+},
+["orange_uninflated_balloon"] = { 
+    label = 'Orange Uninflated Balloon', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'orange_uninflated_balloon.png' } 
+},
+["purple_uninflated_balloon"] = { 
+    label = 'Purple Uninflated Balloon', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'purple_uninflated_balloon.png' } 
+},
+["red_uninflated_balloon"] = { 
+    label = 'Red Uninflated Balloon', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'red_uninflated_balloon.png' } 
+},
+["whipped_cream_cannister"] = { 
+    label = 'Whipped Cream Cannister', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'whipped_cream_cannister.png' } 
+},
+["white_uninflated_balloon"] = { 
+    label = 'White Uninflated Balloon', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'white_uninflated_balloon.png' } 
+},
+["yellow_uninflated_balloon"] = { 
+    label = 'Yellow Uninflated Balloon', 
+    description = "", 
+    weight = 100, 
+    stack = true, 
+    close = true, 
+    client = { image = 'yellow_uninflated_balloon.png' } 
+},
 ```

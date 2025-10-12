@@ -19,7 +19,7 @@ A fully customizable, immersive drug system for FiveM servers.
 - **Beta Testers:** Your invaluable feedback made this possible.  
 - **[1of1 Servers](https://1of1servers.com/  ):** Top-notch hosting and support. Join their [Discord](https://discord.gg/1of1servers  ).  
 - **[Kamaryn](https://discord.gg/KPRmZqFS  ):** For the [installation guide video](https://youtu.be/zvuYnUfrqaA?si=FGJuBO5krZMC14Nd).  
-
+- **[Athena](https://discord.gg/mam8Nmg49d):** For the Balloon props :)
 ## 🎬 Preview
 
 🎥 **[Watch Full Preview Video](https://www.youtube.com/watch?v=I_x7_oz_SAU)**
@@ -164,3 +164,6 @@ A fully customizable, immersive drug system for FiveM servers.
 - Run SQL
     - if you dont know how, click this image below
         - [![YouTube Video](https://img.youtube.com/vi/8QpFOluK_xo/hqdefault.jpg)](https://www.youtube.com/watch?v=8QpFOluK_xo)
+
+### STEP 6 
+    - If you want whippits, take the folder `ate_balloon` and place that folder into the standalone folder like it was another script :) (or a [props] if you got it)

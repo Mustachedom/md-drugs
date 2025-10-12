@@ -260,4 +260,10 @@ Lang.merchant = {
     targetOpen = 'Openyay ErchantMay EnuMay',
 }
 
+Lang.Whippit = {
+    targetShop = 'Openyay HippitWay OpShay',
+    needBalloon = 'ouYay Eednay Ayay AlloonBay Orfay isThay',
+    needCanister = 'ouYay Eednay Ayay AnisterCay Orfay isThay',
+    shopHeader = 'HippitWay OpShay',
+}
 return Lang

@@ -260,4 +260,10 @@ Lang.merchant = {
     targetOpen = 'Ouvrir le menu du marchand',
 }
 
+Lang.Whippit = {
+    targetShop = 'Ouvrir la boutique Whippit',
+    needBalloon = 'Vous avez besoin d’un ballon pour ça',
+    needCanister = 'Vous avez besoin d’un bidon pour ça',
+    shopHeader = 'Boutique Whippit',
+}
 return Lang
