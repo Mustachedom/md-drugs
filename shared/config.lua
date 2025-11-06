@@ -48,7 +48,7 @@ Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark 
     shrooms = true,
     TravellingMerchant = true,
     weed = true,
-    wholesale = false,
+    wholesale = true,
     whippit = true,
     xtc = true,
 }

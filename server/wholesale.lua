@@ -1,11 +1,15 @@
-local coke = { "cokebaggy", "cokebaggystagethree", "cokebaggystagetwo"}
-local crack = {"baggedcracked", "baggedcrackedstagetwo", "baggedcrackedstagethree"}
-local lsd = {'smiley_tabs', 'yinyang_tabs', 'wildcherry_tabs', 'pineapple_tabs', 'bart_tabs', 'gratefuldead_tabs'}
-local heroin = {'heroin_ready', 'heroin_readystagetwo', 'heroin_readystagethree'}
-local xtc = {"white_playboys",  "white_playboys2",  "white_playboys3",  "white_playboys4", "blue_playboys",  "blue_playboys2",  "blue_playboys3",  "blue_playboys4",  "red_playboys",  "red_playboys2",  "red_playboys3",  "red_playboys4",  "orange_playboys",  "orange_playboy2s",  "orange_playboys3",  "orange_playboys4",  "white_aliens",  "white_aliens2",  "white_aliens3",  "white_aliens4",  "blue_aliens",  "blue_aliens2",  "blue_aliens3",  "blue_aliens4",  "red_aliens",  "red_aliens3",  "red_aliens2",  "red_aliens4",  "orange_aliens",  "orange_aliens2",  "orange_aliens3",  "orange_aliens4",  "white_pl",  "white_pl2",  "white_pl3",  "white_pl4", "blue_pl",  "blue_pl2",  "blue_pl3",  "blue_pl4",  "red_pl",  "red_pl2",  "red_pl3",  "red_pl4",  "orange_pl",  "orange_pl2",  "orange_pl3",  "orange_pl4",  "white_trolls",  "white_trolls2",  "white_trolls3",  "white_trolls4", "blue_trolls",  "blue_trolls2",  "blue_trolls3",  "blue_trolls4",  "red_trolls",  "red_trolls2",  "red_trolls3",  "red_trolls4",  "orange_trolls",  "orange_trolls2",  "orange_trolls3",  "orange_trolls4",  "white_cats2",  "white_cats3",  "white_cats4",  "white_cats", "blue_cats",  "blue_cats3",  "blue_cats2",  "blue_cats4",  "red_cats",  "red_cats2",  "red_cats3",  "red_cats4",  "orange_cats",  "orange_cats2",  "orange_cats3",  "orange_cats4" }
-local burners = {cokeburner = coke, crackburner = crack, lsdburner = lsd, heroinburner = heroin, xtcburner = xtc}
+
+local burners = {
+    cokeburner = { "cokebaggy", "cokebaggystagethree", "cokebaggystagetwo"},
+    crackburner = {"baggedcracked", "baggedcrackedstagetwo", "baggedcrackedstagethree"},
+    lsdburner = {'smiley_tabs', 'yinyang_tabs', 'wildcherry_tabs', 'pineapple_tabs', 'bart_tabs', 'gratefuldead_tabs'},
+    heroinburner = {'heroin_ready', 'heroin_readystagetwo', 'heroin_readystagethree'},
+    xtcburner = {"white_playboys",  "white_playboys2",  "white_playboys3",  "white_playboys4", "blue_playboys",  "blue_playboys2",  "blue_playboys3",  "blue_playboys4",  "red_playboys",  "red_playboys2",  "red_playboys3",  "red_playboys4",  "orange_playboys",  "orange_playboy2s",  "orange_playboys3",  "orange_playboys4",  "white_aliens",  "white_aliens2",  "white_aliens3",  "white_aliens4",  "blue_aliens",  "blue_aliens2",  "blue_aliens3",  "blue_aliens4",  "red_aliens",  "red_aliens3",  "red_aliens2",  "red_aliens4",  "orange_aliens",  "orange_aliens2",  "orange_aliens3",  "orange_aliens4",  "white_pl",  "white_pl2",  "white_pl3",  "white_pl4", "blue_pl",  "blue_pl2",  "blue_pl3",  "blue_pl4",  "red_pl",  "red_pl2",  "red_pl3",  "red_pl4",  "orange_pl",  "orange_pl2",  "orange_pl3",  "orange_pl4",  "white_trolls",  "white_trolls2",  "white_trolls3",  "white_trolls4", "blue_trolls",  "blue_trolls2",  "blue_trolls3",  "blue_trolls4",  "red_trolls",  "red_trolls2",  "red_trolls3",  "red_trolls4",  "orange_trolls",  "orange_trolls2",  "orange_trolls3",  "orange_trolls4",  "white_cats2",  "white_cats3",  "white_cats4",  "white_cats", "blue_cats",  "blue_cats3",  "blue_cats2",  "blue_cats4",  "red_cats",  "red_cats2",  "red_cats3",  "red_cats4",  "orange_cats",  "orange_cats2",  "orange_cats3",  "orange_cats4" },
+    methburner = {'methbaggy'},
+}
 local active = {}
 local settings = {}
+
 settings.WholesaleQuantityBonus = 0.05 -- 5% bonus per 10 units sold (up to 20%)
 settings.WholesaleMaxBonus = 0.20 -- Maximum 20% bonus
 settings.WholesaleMinQuantity = 1 -- Minimum quantity required for wholesale
@@ -46,32 +50,32 @@ settings.WholesaleResetOnTimeout = true -- Reset wholesale flag when buyer times
 settings.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
 settings.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
 settings.WholesaleTimeout = 600 -- time in seconds to get to the location
-settings.PoliceCount = 2
+settings.PoliceCount = 0
 
 local Price = {
-    coke = {
-        min = math.floor(250 * 0.80), -- 250 * 0.80 = 200
-        max = math.floor(450 * 0.80)  -- 450 * 0.80 = 360
+    cokeburner = {
+        min = 25, 
+        max = 50
     },
-    crack = {
-        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
-        max = math.floor(400 * 0.80)  -- 400 * 0.80 = 320
+    crackburner = {
+         min = 25, 
+        max = 50
     },
-    lsd = {
-        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
-        max = math.floor(350 * 0.80)  -- 350 * 0.80 = 280
+    lsdburner = {
+         min = 25, 
+        max = 50
     },
-    heroin = {
-        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
-        max = math.floor(400 * 0.80)  -- 400 * 0.80 = 320
+    heroinburner = {
+        min = 25, 
+        max = 50
     },
-    xtc = {
-        min = math.floor(350 * 0.80), -- 350 * 0.80 = 280
-        max = math.floor(665 * 0.80)  -- 665 * 0.80 = 532
+    xtcburner = {
+         min = 25, 
+        max = 50
     },
-    meth = {
-        min = math.floor(200 * 0.80), -- 200 * 0.80 = 160
-        max = math.floor(400 * 0.80)  -- 400 * 0.80 = 320
+    methburner = {
+        min = 25, 
+        max = 50
     }
 }
 local locs = {
@@ -100,94 +104,94 @@ end
 
 for k, v in pairs (burners) do
     ps.createUseable(k, function(source, item)
-        local Player = ps.getPlayer(source)
-        if ps.getJobTypeCount('leo') < Config.PoliceCount then return ps.notify(source, ps.lang('wholesale.notEnoughCops'), 'error') end
-        for m, d in pairs (active) do 
-            if d.cid == ps.getIdentifier(source) then
-                return ps.notify(source, ps.lang('wholesale.alreadyWholesale'), 'error')
-            end
+        if active[ps.getIdentifier(source)] then
+            TriggerClientEvent("md-drugs:client:GetLocation", active[ps.getIdentifier(source)].src, active[ps.getIdentifier(source)])
+            return
         end
-        local tab = ''
-        if k == 'cokeburner' then tab = 'coke' end
-        if k == 'crackburner' then tab = 'crack' end
-        if k == 'lsdburner' then tab = 'lsd' end
-        if k == 'heroinburner' then tab = 'heroin' end
-        if k == 'xtcburner' then tab = 'xtc' end
-        if k == 'methburner' then tab = 'meth' end
+        if ps.getJobTypeCount('leo') < settings.PoliceCount then return ps.notify(source, ps.lang('wholesale.notEnoughCops'), 'error') end
         if ps.removeItem(source, k, 1) then
-            local Player = ps.getPlayer(source)
-            local drugCount = 0
+            local drugs, count = {}, 0
             for m, d in pairs (v) do
                 local amt = ps.getItemCount(source, d) or 0
                 if amt > 0 then
-                    drugCount = drugCount + amt
+                    drugs[d] = (drugs[d] or 0) + amt
+                    count = count + amt
                 end
             end
-            table.insert(active, {
+            if count < settings.WholesaleMinQuantity then
+                ps.addItem(source, k, 1)
+                ps.notify(source, ps.lang('wholesale.not_enough_drugs') or 'Not enough drugs for wholesale deal', 'error')
+                return
+            end
+            active[ps.getIdentifier(source)] = {
                 src = source,
                 item = k,
                 location = getRandW(source),
-                cid = ps.getIdentifier(source),
-                type = v,
-                price = Price[tab],
-                count = drugCount
-            })
-            for m, d in pairs (active) do 
-                if d.cid == ps.getIdentifier(source) then
-                    TriggerClientEvent("md-drugs:client:GetLocation", source, active[m])
-                end
-            end
+                price = Price[k],
+                count = count,
+                drugs = drugs
+            }
+            TriggerClientEvent("md-drugs:client:GetLocation", active[ps.getIdentifier(source)].src, active[ps.getIdentifier(source)])
         end
     end)
 end
 
-RegisterNetEvent('md-drugs:server:SuccessSale', function(data)
-    local Player = ps.getPlayer(source)
-    for k, v in pairs (active) do 
-        if v.cid == ps.getIdentifier(source) then
-            local totalQuantity = 0
-            local itemCounts = {}
-            for m, d in pairs (v.type) do 
-                local count = ps.getItemCount(source, d) or 0
-                if count >= 1 then
-                    totalQuantity = totalQuantity + count
-                    itemCounts[d] = count
-                end
-            end
-            if totalQuantity < Config.WholesaleMinQuantity then
-                ps.notify(source, string.format(ps.lang('wholesale.min_quantity'), Config.WholesaleMinQuantity), 'error')
-                return
-            end
-            local bonusTiers = math.floor(totalQuantity / 10)
-            local quantityBonus = math.min(bonusTiers * Config.WholesaleQuantityBonus, Config.WholesaleMaxBonus)
-            local bonusMultiplier = 1 + quantityBonus
-
-            local basePayout = math.random(v.price.min, v.price.max)
-            local finalPayout = math.floor(basePayout * bonusMultiplier)
-            local totalPayout = 0
-            for drug, amount in pairs(itemCounts) do
-                ps.removeItem(source, drug, amount)
-                totalPayout = totalPayout + (amount * finalPayout)
-            end
-            ps.addMoney(source, 'cash', totalPayout)
-            TriggerClientEvent('md-drugs:client:WholesaleComplete', source, {
-                quantity = totalQuantity,
-                bonus = math.floor(quantityBonus * 100),
-                payout = totalPayout
-            })
-            table.remove(active, k)
-            break
+local function getBonus(quantity)
+    local bonus = math.floor(quantity / 10) * settings.WholesaleQuantityBonus
+    if bonus > settings.WholesaleMaxBonus then
+        bonus = settings.WholesaleMaxBonus
+    end
+    return bonus
+end
+RegisterNetEvent('md-drugs:server:SuccessSale', function()
+    local src = source
+    local id = ps.getIdentifier(source)
+    
+    if not active[id] then
+        return
+    end
+    local deal = active[id]
+    if deal.count < settings.WholesaleMinQuantity then
+        ps.notify(src, 'Not enough drugs for wholesale deal', 'error')
+        active[id] = nil
+        return
+    end
+    local basePrice = math.floor(((deal.price.min + deal.price.max) / 2) * deal.count)
+    local bonus = getBonus(deal.count)
+    local finalPrice = math.floor(basePrice + (basePrice * bonus))
+    local need, have = 0,0
+    for k, v in pairs (deal.drugs) do
+        need = need + 1
+        if ps.hasItem(src, k, v) then
+            have = have + 1
         end
     end
+    if need ~= have then
+        ps.notify(src, 'You are missing some drugs for the deal', 'error')
+        active[id] = nil
+        return
+    end
+    local removed = true
+    for k, v in pairs (deal.drugs) do
+       if not ps.removeItem(src, k, v) then
+           removed = false
+           break
+       end
+    end
+    if not removed then
+        ps.notify(src,'Failed to remove drugs for the deal', 'error')
+        active[id] = nil
+        return
+    end
+    ps.addMoney(src, 'cash', finalPrice, 'Wholesale sale successful' .. ' $' .. finalPrice)
+    ps.notify(src, 'Wholesale sale successful' .. ' $' .. finalPrice, 'success')
+    active[id] = nil
 end)
 
 RegisterNetEvent('md-drugs:server:CleanupWholesale', function()
-    local Player = ps.getPlayer(source)
-    for k, v in pairs(active) do
-        if v.cid == ps.getIdentifier(source) then
-            table.remove(active, k)
-            ps.notify(source, ps.lang('wholesale.deal_failed_cleanup') or 'Deal failed - you can try again', 'error')
-            break
-        end
+    local src = source
+    local id = ps.getIdentifier(source)
+    if active[id] then
+        active[id] = nil
     end
 end)

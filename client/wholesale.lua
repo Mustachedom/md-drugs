@@ -71,9 +71,8 @@ function SetUpPeds(drugCount)
 end
 
 RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
-    if not GetCops(settings.PoliceCount) then return end
     if miss then
-       ps.notify(ps.lang('wholesale.alreadyWholesale'), 'error')
+       SetNewWaypoint(drug.location.x, drug.location.y)
     else
        local loc = drug.location
        local timer = 0
