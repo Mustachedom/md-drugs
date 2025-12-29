@@ -60,9 +60,20 @@ Build: 4.0.5
  - Replace server/xtc.lua 
  - adjust fxmanifest version to 4.0.5
 
-Newest Build: 4.0.6
+Build: 4.0.6
   - add whippits to the script
      - to add move the folder `ate_balloon` to standalone folder
        - or anywhere else like it is its own script
       - add the items ( located at the bottom of ox.md/qb.md) and images
       - add the server and client file named whippit.lua
+
+Newest Build: 4.0.7
+ - add checks in config for ps lib being installed and started before to 
+   - reduce the questions i get
+
+- small fix for notifications not displaying what you need properly 
+
+- THIS VERSION HAS NO STRUCTURAL CHANGES. IF YOU WANT THE FIX FOR NOTIFICATIONS, ONLY UPDATE YOUR LOCALE FILE
+
+- if you are seeing this, you most likely already have ps_lib working properly
+

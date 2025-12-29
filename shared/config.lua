@@ -1,4 +1,16 @@
 Config = {} --Ignore.
+
+if GetResourceState('ps_lib') ~= 'started' then
+    print('^1ERROR: ps_lib is not started, please start ps_lib before starting this resource.^0')
+    return
+end
+
+if GetResourceState('ps_lib') == 'missing' then
+    print('^1ERROR: ps_lib is missing, please install ps_lib to use this resource.^0')
+    print('^1You can find ps_lib here: https://github.com/Project-Sloth/ps_lib')
+    return
+end
+
 ps = exports.ps_lib:init()  --Ignore.
 ps.loadLangs("en") -- set your language
 
