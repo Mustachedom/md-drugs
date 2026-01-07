@@ -130,6 +130,7 @@ for k, v in pairs(locations.xtcpress) do
                           icon = ps.getImage(m),
                           title = ps.getLabel(m),
                           description = ps.lang('xtc.buySingle', d.cash),
+                          type = d.type,
                           action = function()
                             if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
                             TriggerServerEvent('md-drugs:server:buypress',k, m)
@@ -141,6 +142,7 @@ for k, v in pairs(locations.xtcpress) do
                             icon = ps.getImage(m),
                             title = ps.getLabel(m),
                             description = descript,
+                            type = d.type,
                             action = function()
                                  if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
                                 TriggerServerEvent("md-drugs:server:upgradepress", k, m)
@@ -149,6 +151,7 @@ for k, v in pairs(locations.xtcpress) do
                         }
                     end
                 end
+                table.sort(options, function(a, b) return a.type < b.type end)
                 ps.menu('XTC Presses', 'XTC Presses', options)
             end,
              canInteract = function() return handleGang(v.gang) end

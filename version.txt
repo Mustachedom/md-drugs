@@ -77,3 +77,5 @@ Newest Build: 4.0.7
 
 - if you are seeing this, you most likely already have ps_lib working properly
 
+Newest Build: 4.0.8
+ - fix: xtc not allowing you to upgrade a press

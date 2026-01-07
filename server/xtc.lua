@@ -29,10 +29,10 @@ local RecipeList = {
 		blue_xtc4 = 	{give = {blue_xtc4 = 1}, take = {raw_xtc = 1, crackrock = 1},},
 	 },
 	presses = {
-		singlepress = {cash = 10000},
-		dualpress =   {give  = {dualpress = 1}, take = {white_xtc = 20, blue_xtc = 20, red_xtc = 20, orange_xtc = 20, singlepress = 1}},
-		triplepress = {give  = {triplepress = 1}, take = {white_xtc2 = 50, blue_xtc2 = 50, red_xtc2 = 50, orange_xtc2 = 50, dualpress = 1}},
-		quadpress =   {give  = {quadpress = 1}, take = {white_xtc3 = 50, blue_xtc3 = 50, red_xtc3 = 50, orange_xtc3 = 50, triplepress = 1}},
+		singlepress = {type = 1,cash = 10000},
+		dualpress =   {type = 2,give  = {dualpress = 1}, take = {white_xtc = 20, blue_xtc = 20, red_xtc = 20, orange_xtc = 20, singlepress = 1}},
+		triplepress = {type = 3,give  = {triplepress = 1}, take = {white_xtc2 = 50, blue_xtc2 = 50, red_xtc2 = 50, orange_xtc2 = 50, dualpress = 1}},
+		quadpress =   {type = 4,give  = {quadpress = 1}, take = {white_xtc3 = 50, blue_xtc3 = 50, red_xtc3 = 50, orange_xtc3 = 50, triplepress = 1}},
 	}
 }
 
@@ -143,15 +143,15 @@ RegisterServerEvent('md-drugs:server:buypress', function(loc, item)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:upgradepress', function(data)
+RegisterServerEvent('md-drugs:server:upgradepress', function(data, item)
   	local src = source
 	if timeOut(src, 'md-drugs:server:upgradepress') then return end
   	if not ps.checkDistance(src, xtcLocations.xtcpress[data].loc, 2.0) then
 		ps.notify(src, ps.lang('Catches.notIn'), "error")
 		return
   	end
-  	if not ps.craftItem(src, RecipeList.presses[data]) then
-		verifyHas(src, RecipeList.presses[data].take)
+  	if not ps.craftItem(src, RecipeList.presses[item]) then
+		verifyHas(src, RecipeList.presses[item].take)
 		return
 	end
 end)
