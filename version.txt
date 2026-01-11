@@ -67,7 +67,7 @@ Build: 4.0.6
       - add the items ( located at the bottom of ox.md/qb.md) and images
       - add the server and client file named whippit.lua
 
-Newest Build: 4.0.7
+Build: 4.0.7
  - add checks in config for ps lib being installed and started before to 
    - reduce the questions i get
 
