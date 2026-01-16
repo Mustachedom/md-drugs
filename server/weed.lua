@@ -59,17 +59,17 @@ end)
 RegisterNetEvent('md-drugs:server:buyWeedItem', function(loc, name, amount)
 	local src = source
     if not ps.checkDistance(src, weedLocs.WeedSalesman[loc].loc, 3.5) then
-        ps.notify(src, ps.lang('Checks.notIn'), "error")
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Checks.notIn'), "error")
         return
     end
     if not weedStore[name] then
-        ps.notify(src, ps.lang('weed.itemDoesntExist'), "error")
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.itemDoesntExist'), "error")
         return
     end
 	if ps.removeMoney(src, 'cash', weedStore[name] * amount) or ps.removeMoney(src, 'bank', weedStore[name] * amount) then
 		ps.addItem(src, name, amount)
 	else
-		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")
 	end
 end)
 
@@ -79,7 +79,7 @@ RegisterServerEvent('md-drugs:server:dryoutweed', function()
 	if ps.removeItem(src,"wetcannabis", 1) then
     	ps.addItem(src,"drycannabis", 1)
     else
-		ps.notify(src, ps.lang('weed.noDry'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.noDry'), "error")
 	end
 end)
 
@@ -112,13 +112,13 @@ ps.createUseable("dabrig", function(source, item)
         	TriggerClientEvent("md-drugs:client:dodabs", src)
         end
     else
-    	ps.notify(src, ps.lang('weed.needItem', ps.getItemLabel("butanetorch")), 'error')
+    	Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.needItem', ps.getItemLabel("butanetorch")), 'error')
     end
 end)
 
 ps.createUseable("weedgrinder", function(source, item)
     local src = source
-    if not ps.hasItem(src, "drycannabis") then ps.notify(src, ps.lang('weed.needItem', ps.getItemLabel("drycannabis")), 'error') return end
+    if not ps.hasItem(src, "drycannabis") then Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.needItem', ps.getItemLabel("drycannabis")), 'error') return end
     local check = ps.callback('md-drugs:client:uncuff', src, 'Grinding Weed')
     if not check then return end
     if ps.removeItem(src, "drycannabis",1 ) then
@@ -128,7 +128,7 @@ end)
 
 ps.createUseable("mdwoods", function(source, item)
 	local src = source
-    local check = ps.callback('md-drugs:client:uncuff', src, ps.lang('weed.crackBlunt'))
+    local check = ps.callback('md-drugs:client:uncuff', src, Bridge.Language.Locale('weed.crackBlunt'))
     if not check then return end
 	if ps.removeItem(src, "mdwoods",1 ) then
 		ps.addItem(src, "bluntwrap", 5)

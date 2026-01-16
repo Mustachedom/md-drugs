@@ -11,10 +11,11 @@ client_scripts {
 }
 
 server_scripts {
+	'@oxmysql/lib/MySQL.lua',
 	'server/functions.lua',
 	'server/plantSpawns.lua',
 	'serverRun.lua',
-	'@oxmysql/lib/MySQL.lua',
+	
 }
 
 shared_scripts {
@@ -27,5 +28,6 @@ lua54 'yes'
 files {
 	'client/**.lua',
 	'server/**.lua',
-	'locales/**.lua'
+	'locales/**.lua',
+	'locales/**.json'
 }

@@ -1,20 +1,20 @@
-local locations = ps.callback('md-drugs:server:GetCrackLocations')
+local locations = GlobalState.MDDrugsLocations.Crack
 
 for k, v in pairs (locations.makecrack) do
-	ps.boxTarget('makeCrack'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+	Bridge.Target.AddBoxZone('makeCrack'..k,  v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
 		{
-			label = ps.lang('crack.targetMake'),
+			label = Bridge.Language.Locale('crack.targetMake'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
-				if not ps.hasItem('bakingsoda') then
-					ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
+				if not Bridge.Inventory.HasItem('bakingsoda') then
+					Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings',  Bridge.Inventory.GetItemInfo('bakingsoda').label), 'error')
 					return
 				end
 				if not minigame() then
 					TriggerServerEvent("md-drugs:server:failcrackone", k)
 					return
 				end
-				if not ps.progressbar(ps.lang('crack.cook'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('crack.cook'), 4000, 'uncuff') then return end
 				TriggerServerEvent('md-drugs:server:makecrackone', k)
 			end,
 			canInteract = function()
@@ -26,16 +26,16 @@ for k, v in pairs (locations.makecrack) do
 end
 
 for k, v in pairs (locations.bagcrack) do
-	ps.boxTarget('bagCrack'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+	Bridge.Target.AddBoxZone('bagCrack'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
 		{
-			label = ps.lang('crack.targetBag'),
+			label = Bridge.Language.Locale('crack.targetBag'),
 			icon = 'fa-solid fa-weight-scale',
 			action = function()
-				if not ps.hasItem('empty_weed_bag') then
-					ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('empty_weed_bag')), 'error')
+				if not Bridge.Inventory.HasItem('empty_weed_bag') then
+					Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings',  Bridge.Inventory.GetItemInfo('empty_weed_bag').label), 'error')
 					return
 				end
-				if not ps.progressbar(ps.lang('crack.bag'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('crack.bag'), 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:bagcrack", k)
 			end,
 			canInteract = function()

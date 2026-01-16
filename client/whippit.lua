@@ -45,32 +45,32 @@ local function spawnShops()
         FreezeEntityPosition(ped, true)
         SetEntityInvincible(ped, true)
         SetBlockingOfNonTemporaryEvents(ped, true)
-        ps.entityTarget(ped, {
-            {
-                label = ps.lang('Whippit.targetShop'),
-                icon = 'fa-solid fa-cart-shopping',
-                action = function()
-                    local menu = {}
-                    local items = ps.callback('md-drugs:server:getwhippitShop')
-                    for item, price in pairs (items) do
-                        menu[#menu + 1] = {
-                            title = ps.getLabel(item),
-                            icon = ps.getImage(item),
-                            description = '$' .. price,
-                            action = function()
-                                local amount = ps.input(ps.getLabel(item), {
-                                    {type = 'number', label = 'Amount', name = 'amount', min = 1, max = 100, default = 1}
-                                })
-                                if amount and amount[1] then
-                                    TriggerServerEvent('md-drugs:server:buyWhippitItem', k, item, amount[1])
-                                end
-                            end
-                        }
-                    end
-                    ps.menu(ps.lang('Whippit.shopHeader'), ps.lang('Whippit.shopHeader'), menu)
-                end
-            },
-        })
+       --ps.entityTarget(ped, {
+       --    {
+       --        label = Bridge.Language.Locale('Whippit.targetShop'),
+       --        icon = 'fa-solid fa-cart-shopping',
+       --        action = function()
+       --            local menu = {}
+       --            local items = ps.callback('md-drugs:server:getwhippitShop')
+       --            for item, price in pairs (items) do
+       --                menu[#menu + 1] = {
+       --                    title = ps.getLabel(item),
+       --                    icon = ps.getImage(item),
+       --                    description = '$' .. price,
+       --                    action = function()
+       --                        local amount = ps.input(ps.getLabel(item), {
+       --                            {type = 'number', label = 'Amount', name = 'amount', min = 1, max = 100, default = 1}
+       --                        })
+       --                        if amount and amount[1] then
+       --                            TriggerServerEvent('md-drugs:server:buyWhippitItem', k, item, amount[1])
+       --                        end
+       --                    end
+       --                }
+       --            end
+       --            ps.menu(Bridge.Language.Locale('Whippit.shopHeader'), Bridge.Language.Locale('Whippit.shopHeader'), menu)
+       --        end
+       --    },
+       --})
     end
 end
 

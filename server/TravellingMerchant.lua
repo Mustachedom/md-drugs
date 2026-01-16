@@ -47,16 +47,16 @@ end)
 RegisterServerEvent("md-drugs:server:purchaseGoods", function(item)
 	local src = source
 	if not ps.checkDistance(src, loc, 10) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
 	if not stores.travel[item] then
-		ps.notify(src, ps.lang('Catches.invalidItem'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.invalidItem'), "error")
 		return
 	end
 	if ps.removeMoney(src, 'cash', stores.travel[item]) then
 		ps.addItem(src, item, 1)
 	else
-		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")
 	end
 end)

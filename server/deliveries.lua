@@ -1,4 +1,4 @@
-
+Locations = Locations or {}
 
 local dloc = {
     {coords = vector4(282.48, -1814.32, 27.23, 145.11)},
@@ -88,36 +88,29 @@ local Products = {
 	{name = "weed_amnesia_seed", 		price = 15, amount = 150,  minrep = 0},
 }
 
-ps.registerCallback('md-drugs:server:dealerList', function()
+local Dealers = {}
+
+
+Bridge.Callback.Register('md-drugs:server:dealerList', function(source, location)
+    local coords = json.decode(Dealers[location].coords)
+    coords = vector3(coords.x, coords.y, coords.z)
+    if not checkDistance(source, coords, 4.0) then
+        return
+    end
     return Products
 end)
-
-ps.registerCallback('md-drugs:server:getDealers', function(source)
-    local check = MySQL.query.await('SELECT * FROM dealers', {})
-    local loc = json.encode({x = 899.98, y = -2603.24, z = 6.11, h = 176.12 })
-    if not check[1] then
-        MySQL.insert('INSERT INTO dealers SET name = ?, coords = ?, time = ?, createdby = ?', {'MD', loc, 'any', 'code Newb'})
-	    Wait(2000)
-	    local check2 = MySQL.query.await('SELECT * FROM dealers', {})
-        return check2
-    else
-        return check
-    end
-end)
-
 
 local DeliveryItems = {
     {    item = "weed_brick",    minrep = 0,    payout = {min = 10, max = 50}},
     {    item = "coke_brick",    minrep = 0,    payout = {min = 10, max = 50}},
 }
 
-ps.registerCallback('md-drugs:server:GetDeliveryItem', function(source, data)
+Bridge.Callback.Register('md-drugs:server:GetDeliveryItem', function(source, data)
     local src = source
-    local Player = ps.getPlayer(src)
     local itemnum = math.random(1, #DeliveryItems)
     local item = DeliveryItems[itemnum].item
     local amount = math.random(1,4)
-    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
+    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {Bridge.Framework.GetPlayerIdentifier(src)})
     local locnum = math.random(1, #dloc)
     local coord = json.encode({
         x = dloc[locnum].coords.x,
@@ -127,8 +120,8 @@ ps.registerCallback('md-drugs:server:GetDeliveryItem', function(source, data)
     })
     if not check[1] then
         MySQL.insert('INSERT INTO deliveriesdealer SET cid = ?, itemdata = ?, timestart = ?, maxtime = ?, location = ?', 
-        {ps.getIdentifier(src), json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
-        ps.addItem(src, item, amount)
+        {Bridge.Framework.GetPlayerIdentifier(src), json.encode({item = item, amount = amount}), os.time(), os.time() + (15 * 60), coord })
+        Bridge.Inventory.AddItem(src, item, amount)
         local tab = {
             bool = true,
             item = item,
@@ -141,11 +134,11 @@ ps.registerCallback('md-drugs:server:GetDeliveryItem', function(source, data)
         local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
 
         if timeout > 15 then
-            MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
-            ps.notify(src, ps.lang('Deliveries.slowAf'), 'error' )
+            MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {Bridge.Framework.GetPlayerIdentifier(src)})
+            Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Deliveries.slowAf'), 'error' )
             return {bool = false}
         end
-        ps.notify(src,ps.lang('Deliveries.alreadyDelivering'), 'error' )
+        Bridge.Notify.SendNotify(src,Bridge.Language.Locale('Deliveries.alreadyDelivering'), 'error' )
         local tab = {
             bool = false,
             item = item,
@@ -158,37 +151,43 @@ end)
 
 RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(item, amount)
     local src = source
-    local Player = ps.getPlayer(src)
-    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
+    local id = Bridge.Framework.GetPlayerIdentifier(src)
+    local check = MySQL.query.await('SELECT * FROM deliveriesdealer WHERE cid = ?', {id})
     if not check[1] then return end
     local time = os.time()
     local timeout = math.floor(os.difftime(time, check[1].maxtime) / 60)
     local itemData = json.decode(check[1].itemdata)
     if timeout >= 15 then
-        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
-        ps.notify(src, ps.lang('Deliveries.slowAf'), 'error' )
+        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {id})
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Deliveries.slowAf'), 'error' )
         return
     end
+
     if item ~= itemData.item then return end
     if amount ~= itemData.amount then return end
-    if ps.removeItem(src, item, amount) then
+    local coords = json.decode(check[1].location)
+    coords = vector3(coords.x, coords.y, coords.z)
+    if not checkDistance(src, coords, 5.0) then
+        return
+    end
+    if Bridge.Inventory.RemoveItem(src, item, amount) then
        for k, v in pairs (DeliveryItems) do 
             if v.item == item then 
                 local income = math.random(v.payout.min, v.payout.max) 
-                ps.addMoney(src, 'cash', income) 
-                AddRep(src, 'dealerrep') 
+                Bridge.Framework.AddAccountBalance(src, 'cash', income) 
+                AddRep(src, 'dealerrep')
             end
         end
-        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {ps.getIdentifier(src)})
+        MySQL.query.await('DELETE FROM deliveriesdealer WHERE cid = ?', {id})
     end
 end)
-
+-- TODO: COmmands
 ps.registerCommand("newdealer", {
-    help = ps.lang('Deliveries.newDealerHelp.help'),
+    help = Bridge.Language.Locale('Deliveries.newDealerHelp.help'),
     description  = {
-        { name = "name", help = ps.lang('Deliveries.newDealerHelp.name'), type = "string" },
-        { name = "min", help = ps.lang('Deliveries.newDealerHelp.timeMin'), type = "number" },
-        { name = "max", help = ps.lang('Deliveries.newDealerHelp.timeMax'), type = "number" }
+        { name = "name", help = Bridge.Language.Locale('Deliveries.newDealerHelp.name'), type = "string" },
+        { name = "min", help = Bridge.Language.Locale('Deliveries.newDealerHelp.timeMin'), type = "number" },
+        { name = "max", help = Bridge.Language.Locale('Deliveries.newDealerHelp.timeMax'), type = "number" }
     },
     admin = true,
 }, function(source, args)
@@ -202,29 +201,22 @@ ps.registerCommand("newdealer", {
 
     local result = MySQL.scalar.await('SELECT name FROM dealers WHERE name = ?', { dealerName })
     if result then
-        return ps.notify(source,ps.lang('Deliveries.DealerExists'), "error")
+        return Bridge.Notify.SendNotify(source,Bridge.Language.Locale('Deliveries.DealerExists'), "error")
     end
 
     MySQL.insert('INSERT INTO dealers (name, coords, time, createdby) VALUES (?, ?, ?, ?)', {
-        dealerName, pos, 'nil', ps.getIdentifier(source)
-    }, function()
-        QBConfig.Dealers[dealerName] = {
-            name = dealerName,
-            coords = {
-                x = coords.x,
-                y = coords.y,
-                z = coords.z,
-                h = GetEntityHeading(ped)
-            },
-        }
-        TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
-    end)
+        dealerName, pos, 'nil', Bridge.Framework.GetPlayerIdentifier(source)
+    })
+    Wait(1000)
+    Locations.Dealers = MySQL.query.await('SELECT * FROM dealers')
+    GlobalState.MDDrugsLocations = Locations
+    TriggerClientEvent('md-drugs:client:RefreshDealers', -1)
 end)
 
 ps.registerCommand("deletedealer", {
-    help = ps.lang('Deliveries.deleteDealerHelp.help'),
+    help = Bridge.Language.Locale('Deliveries.deleteDealerHelp.help'),
     description  = {
-        { name = "name", help = ps.lang('Deliveries.deleteDealerHelp.name'), type = "string" }
+        { name = "name", help = Bridge.Language.Locale('Deliveries.deleteDealerHelp.name'), type = "string" }
     },
     admin = true
 }, function(source, args)
@@ -233,24 +225,36 @@ ps.registerCommand("deletedealer", {
 
     if result and result[1] then
         MySQL.query('DELETE FROM dealers WHERE name = ?', { dealerName })
-        QBConfig.Dealers[dealerName] = nil
-        TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
-        ps.notify(source, ps.lang('Deliveries.deleteDealerSuccess'), "success")
+        Wait(1000)
+        Locations.Dealers = MySQL.query.await('SELECT * FROM dealers')
+        GlobalState.MDDrugsLocations = Locations
+        TriggerClientEvent('md-drugs:client:RefreshDealers', -1)
+        Bridge.Notify.SendNotify(source, Bridge.Language.Locale('Deliveries.deleteDealerSuccess'), "success")
     else
-        ps.notify(source, ps.lang('Deliveries.deleteDealerFail'), "error")
+        Bridge.Notify.SendNotify(source, Bridge.Language.Locale('Deliveries.deleteDealerFail'), "error")
     end
 end)
 
-RegisterNetEvent('md-drugs:server:buyItemDealer', function(num)
+RegisterNetEvent('md-drugs:server:buyItemDealer', function(num, loc)
     local src = source
     local itemData = Products[num]
     if not itemData then return end
-    local Player = ps.getPlayer(src)
-    if not Player then return end
-    if not ps.removeMoney(src, 'cash', itemData.price) or not ps.removeMoney(src,'bank', itemData.price) then 
-        ps.notify(src, ps.lang('Catches.notEnoughMoney'), 'error')
+    local coords = json.decode(Dealers[loc].coords)
+    coords = vector3(coords.x, coords.y, coords.z)
+    if not checkDistance(src, coords, 5.0) then
         return
     end
-    ps.addItem(src, itemData.name, 1)
-    ps.notify(src, string.format(ps.lang('Deliveries.buyItemSuccess'), 1, ps.getLabel(itemData.name), itemData.price), 'success')
+    if not Bridge.Framework.RemoveAccountBalance(src, 'cash', itemData.price) or not Bridge.Framework.RemoveAccountBalance(src,'bank', itemData.price) then 
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), 'error')
+        return
+    end
+    Bridge.Inventory.AddItem(src, itemData.name, 1)
+    Bridge.Notify.SendNotify(src, string.format(Bridge.Language.Locale('Deliveries.buyItemSuccess'), 1, ps.getLabel(itemData.name), itemData.price), 'success')
 end)
+
+Dealers = MySQL.query.await('SELECT * FROM dealers')
+if Dealers and not Dealers[1] then
+    MySQL.insert('INSERT INTO dealers SET name = ?, coords = ?, time = ?, createdby = ?', {'MD', json.encode({x = 899.98, y = -2603.24, z = 6.11, h = 176.12 }), 'any', 'code Newb'})
+end
+Locations.Dealers = Dealers
+GlobalState.MDDrugsLocations = Locations

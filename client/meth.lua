@@ -1,37 +1,36 @@
-local amonia = false
-local tray = false
-local heated = false
-local active = false
-local trays = nil
-
-local locations = ps.callback('md-drugs:server:GetMethLocs')
+local amonia, tray, heated, active, trays, startedmeth, methVan = false, false, false, false, nil, false, nil
+local locations = GlobalState.MDDrugsLocations.Meth
 --- meth heist 
-local startedmeth = false
 
-local function SpawnMethCarPedChase()
+
+local function SpawnMethCarPedChase(loc)
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
 	local start = locations.StartLoc[math.random(1,#locations.StartLoc)]
 	if startedmeth then
-		ps.notify(ps.lang('meth.alreadyChasing'),'error')
+		Bridge.Notify.SendNotify(Bridge.Language.Locale('meth.alreadyChasing'),'error')
 	else
 	    startedmeth = true
-		ps.callback('md-drugs:server:registerMeth')
-
-	    ps.requestModel("journey", 30000)
-	    ps.requestModel("a_m_m_hillbilly_02", 30000)
-	    ps.requestModel("cargobob3", 30000)
-
-	    local methcar = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, true, false)
+	    requestModel("journey", 30000)
+	    requestModel("a_m_m_hillbilly_02", 30000)
+	    requestModel("cargobob3", 30000)
+	    methVan = CreateVehicle("journey", start.x+3, start.y-2, start.z-1, 52.0, true, false)
 	    local methdriver = CreatePed(26, "a_m_m_hillbilly_02", start.x, start.y, start.z, 268.9422, false, false)
 	    local methpilot = CreatePed(26, "a_m_m_hillbilly_02", stoploc.x-3, stoploc.y-3, stoploc.z-1, 268.9422, false, false)
-
+		local can = Bridge.Callback.Trigger('md-drugs:server:registerMeth', loc, NetworkGetNetworkIdFromEntity(methVan))
+		if not can then
+			startedmeth = false
+			DeleteVehicle(methVan)
+			DeleteEntity(methdriver)
+			DeleteEntity(methpilot)
+			return
+		end
 		FreezeEntityPosition(methpilot, true)
 		SetEntityInvincible(methpilot, true)
-	    SetEntityAsMissionEntity(methcar)
-	    AddBlipForEntity(methcar)
-	    SetPedIntoVehicle(methdriver, methcar, -1)
+	    SetEntityAsMissionEntity(methVan)
+	    AddBlipForEntity(methVan)
+	    SetPedIntoVehicle(methdriver, methVan, -1)
 	    SetPedFleeAttributes(methdriver,false)
-	    TaskVehicleDriveToCoordLongrange(methdriver, methcar, stoploc.x, stoploc.y, stoploc.z-1, 50.0, 524288, 25.0)
+	    TaskVehicleDriveToCoordLongrange(methdriver, methVan, stoploc.x, stoploc.y, stoploc.z-1, 50.0, 524288, 25.0)
 	    SetPedKeepTask(methdriver, true)
 
 		repeat
@@ -39,25 +38,22 @@ local function SpawnMethCarPedChase()
 		until #(GetEntityCoords(methdriver) - stoploc) < 20.0 or GetEntityHealth(methdriver) == 0
 
 		if GetEntityHealth(methdriver) == 0 then
-			ps.entityTarget(methcar, {
+			Bridge.Target.AddLocalEntity(methVan, {
 				{
 					name = 'methcar',
 					icon = 'fa-solid fa-car',
-					label = ps.lang('meth.targetStealFromCar'),
+					label = Bridge.Language.Locale('meth.targetStealFromCar'),
 					action = function()
 						if not minigame() then return end
-				 		TriggerServerEvent('md-drugs:server:givemethingridients')
+				 		TriggerServerEvent('md-drugs:server:givemethingridients', NetworkGetNetworkIdFromEntity(methVan))
 				 		startedmeth = false
-				 		if math.random(1,100) <= 30 then
-							DeleteVehicle(methcar)
-							DeleteEntity(methdriver)
-							DeleteEntity(methpilot)
-				 		end
+						DeleteEntity(methdriver)
+						DeleteEntity(methpilot)
 					end,
 				}
 			})
 		else
-			DeleteVehicle(methcar)
+			DeleteVehicle(methVan)
 			DeleteEntity(methdriver)
 			DeleteEntity(methpilot)
 	    end
@@ -68,14 +64,13 @@ local peds = {}
 for k, v in pairs (locations.MethHeist) do
 	peds[k] = CreatePed(4, GetHashKey(v.ped), v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, true)
 	Freeze(peds[k], true, v.loc.w)
-	ps.entityTarget(peds[k], {
+	Bridge.Target.AddLocalEntity(peds[k], {
 		{
-			name = 'methheist'..k,
 			icon = 'fa-solid fa-user-secret',
-			label = ps.lang('meth.targetHeist'),
+			label = Bridge.Language.Locale('meth.targetHeist'),
 			action = function()
-				if startedmeth then ps.notify(ps.lang('meth.alreadyChasing'),'error') return end
-				SpawnMethCarPedChase()
+				if startedmeth then Bridge.Notify.SendNotify(Bridge.Language.Locale('meth.alreadyChasing'),'error') return end
+				SpawnMethCarPedChase(k)
 			end,
 			canInteract = function()
 				return handleGang(v.gang)
@@ -94,21 +89,23 @@ local function loadParticle(dict)
     end
     SetPtfxAssetNextCall(dict)
 end
+
 local function dialSuccess(coords)
-	ps.requestModel('hei_prop_heist_thermite', 2000)
+	requestModel('hei_prop_heist_thermite', 2000)
 	loadParticle('scr_ornate_heist')
-	local thermite = CreateObject('hei_prop_heist_thermite', vector3(1006.09, -3201.29, -39.30), true, false, false)
+	local thermite = CreateObject('hei_prop_heist_thermite', coords.x - 0.5, coords.y - 0.5, coords.z -0.5, true, false, false)
 	FreezeEntityPosition(thermite, true)
-	SetEntityRotation(thermite, 190.0, 90.0, 140.0, 3, true )
+	SetEntityVisible(thermite, false)
 	Wait(1000)
 	local therm = StartParticleFxLoopedOnEntity('scr_heist_ornate_thermal_burn', thermite, 0.0, 1.4, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
 	Wait(math.random(10000, 20000))
 	StopParticleFxLooped(therm, true)
+	DeleteObject(thermite)
 end
 
 local function MethCooking(coords, offset, rotation)
 	local animDict, animName = "anim@amb@business@meth@meth_monitoring_cooking@cooking@", "chemical_pour_short_cooker"
-	ps.requestAnim(animDict, 500)
+	Bridge.Anim.RequestDict(animDict)
 	SetEntityCoords(PlayerPedId(), coords)
 	local targetPosition = GetEntityCoords(PlayerPedId())
 	local animDuration = GetAnimDuration(animDict, animName) * 800
@@ -131,7 +128,7 @@ end
 local function SmashMeth(coords, offset, rotation)
 	local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char02"
-	ps.requestAnim(animDict, 500)
+	Bridge.Anim.RequestDict(animDict, 500)
 	local ped = PlayerPedId()
 	local targetPosition = coords
 	SetEntityCoords(ped, targetPosition)
@@ -166,7 +163,7 @@ end
 local function BagMeth(coords, offset, rotation)
 	local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
-	ps.requestAnim(animDict, 500)
+	Bridge.Anim.RequestDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
 	SetEntityCoords(ped, coords)
@@ -235,13 +232,13 @@ end
 
 local function startcook(num, coords, offset, rotation)
 	if not amonia then
-		local adding = ps.callback('md-drugs:server:startcook', num)
+		local adding = Bridge.Callback.Trigger('md-drugs:server:startcook', num)
 		if not adding then return end
 		active = true
 		MethCooking(coords, offset, rotation)
 		amonia = true
 	else
-		ps.notify(ps.lang('meth.started'), "error")
+		Bridge.Notify.SendNotify(Bridge.Language.Locale('meth.started'), "error")
 	end
 end
 
@@ -252,8 +249,9 @@ local function dials(coords)
 			AddExplosion(coords.x, coords.y,coords.z, 49, 10, true, false, true)
 			amonia = false
 			active = false
-		return end
-		ps.notify(ps.lang('meth.increaseHeat'), "success")
+			return
+		end
+		Bridge.Notify.SendNotify(Bridge.Language.Locale('meth.increaseHeat'), "success")
 		dialSuccess(coords)
 		heated = true
 	end
@@ -267,11 +265,11 @@ local function smash(coords, offset, rotation, buckets, k)
 		Freeze(bucket, true, buckets.w)
 		SmashMeth(coords, offset, rotation)
 		Wait(100)
-		ps.entityTarget(bucket, {
+		Bridge.Target.AddLocalEntity(bucket, {
 			{
 				name = 'bucket',
 				icon = "fa-solid fa-sack-xmark",
-				label = ps.lang('meth.targetBag'),
+				label = Bridge.Language.Locale('meth.targetBag'),
 				action = function()
 					DeleteObject(bucket)
 					active = false
@@ -293,9 +291,9 @@ end
 local function trayscarry()
 	if amonia and heated then
 		local pos = GetEntityCoords(PlayerPedId(), true)
-		ps.requestAnim('anim@heists@box_carry@')
+		Bridge.Anim.RequestDict('anim@heists@box_carry@')
 		TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 5.0, -1, -1, 50, 0, false, false, false)
-		ps.requestModel('bkr_prop_meth_tray_02a')	
+		requestModel('bkr_prop_meth_tray_02a')	
 		trays = CreateObject("bkr_prop_meth_tray_02a", pos.x, pos.y, pos.z, true, true, true)
 		AttachEntityToEntity(trays, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.01, -0.2,-0.2, 20.0, 0.0, 0.0, true, true, false, true, 1, true)
 		tray = true
@@ -311,9 +309,9 @@ CreateThread(function()
 end)
 
 for k, v in pairs (locations.CookMeth) do
-	ps.boxTarget('cookMeth'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
+	Bridge.Target.AddBoxZone('cookMeth'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
 		{
-			label = ps.lang('meth.targetCook'),
+			label = Bridge.Language.Locale('meth.targetCook'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
 				startcook(k, v.loc, v.offset or vec3(0,0,0), v.rotation or vector3(0,0,180.0))
@@ -327,7 +325,7 @@ for k, v in pairs (locations.CookMeth) do
 		},
 		{
 			icon = "fas fa-sign-in-alt",
-			label = ps.lang('meth.targetGrabTray'),
+			label = Bridge.Language.Locale('meth.targetGrabTray'),
 			action = function() trayscarry() end,
 		  	canInteract = function()
 				if not handleGang(v.gang) then return false end
@@ -340,28 +338,28 @@ for k, v in pairs (locations.CookMeth) do
 end
 
 for k, v in pairs (locations.MethDials) do
-	ps.boxTarget('adjustMethDials'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
+	Bridge.Target.AddBoxZone('adjustMethDials'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
 			name = 'adjustdials',
 			icon = "fa-solid fa-temperature-three-quarters",
-			label = ps.lang('meth.targetHeat'),
+			label = Bridge.Language.Locale('meth.targetHeat'),
 			action = function()
 				dials(locations.CookMeth[k].loc)
 			end,
-			canInteract = function()
-				if not handleGang(v.gang) then return false end
-				if amonia and heated == false then return true end
-			end
+			--canInteract = function()
+			--	if not handleGang(v.gang) then return false end
+			--	if amonia and heated == false then return true end
+			--end
 		}
 	})
 end
 
 for k, v in pairs (locations.MethSmash) do
-	ps.boxTarget('smashMeth'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
+	Bridge.Target.AddBoxZone('smashMeth'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
 			name = 'smash',
 			icon = "fa-solid fa-weight-scale",
-			label = ps.lang('meth.targetSmash'),
+			label = Bridge.Language.Locale('meth.targetSmash'),
 			action = function()
 				smash(v.loc, v.offset, v.rotation, v.bucket,k)
 			end,
@@ -374,10 +372,10 @@ for k, v in pairs (locations.MethSmash) do
 end
 
 for k, v in pairs (locations.MethTele) do
-	ps.boxTarget('meth_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('meth_tele'..k, v.inside, vector3(v.l, v.w, 1.0), v.rot, {
 		{
 			icon = 'fa-solid fa-door-open',
-			label = ps.lang('coke.teleOut'),
+			label = Bridge.Language.Locale('coke.teleOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
 			end,
@@ -386,10 +384,10 @@ for k, v in pairs (locations.MethTele) do
             end
 		}
 	})
-	ps.boxTarget('meth_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('meth_teleout'..k, v.outside, vector3(v.l, v.w, 1.0), v.rot, {
 		{
 			icon = 'fa-solid fa-door-closed',
-			label = ps.lang('coke.teleIn'),
+			label = Bridge.Language.Locale('coke.teleIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)
 			end,
@@ -408,12 +406,12 @@ RegisterCommand('offset', function()
 end)
 
 for k, v in pairs (locations.MethEph) do
-	ps.boxTarget('stealMethEph'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
+	Bridge.Target.AddBoxZone('stealMethEph'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
-			label = ps.lang('meth.targetStealEPH'),
+			label = Bridge.Language.Locale('meth.targetStealEPH'),
 			icon = 'fa-solid fa-bucket',
 			action = function()
-				if not ps.progressbar(ps.lang('meth.stealingEPH'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('meth.stealingEPH'), 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:geteph", k)
 			end,
 			canInteract = function()
@@ -423,12 +421,12 @@ for k, v in pairs (locations.MethEph) do
 	})
 end
 for k, v in pairs (locations.MethAce) do
-	ps.boxTarget('stealMethAce'..k, v.loc, {length = v.l, width = v.w, rotation = v.rot, height = 1.0},{
+	Bridge.Target.AddBoxZone('stealMethAce'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
-			label = ps.lang('meth.targetStealACE'),
+			label = Bridge.Language.Locale('meth.targetStealACE'),
 			icon = 'fa-solid fa-bucket',
 			action = function()
-				if not ps.progressbar(ps.lang('meth.stealingACE'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('meth.stealingACE'), 4000, 'uncuff') then return end
 				TriggerServerEvent("md-drugs:server:getace", k)
 			end,
 			canInteract = function()
@@ -438,4 +436,3 @@ for k, v in pairs (locations.MethAce) do
 	})
 
 end
-

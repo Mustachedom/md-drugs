@@ -37,7 +37,7 @@ end
 RegisterServerEvent('md-drugs:server:givelean', function()
 	local src = source
 	local amount = math.random(1,5)
-	if not onRun[ps.getIdentifier(src)] then return ps.notify(src, ps.lang('lean.notOnRun'), "error") end
+	if not onRun[ps.getIdentifier(src)] then return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('lean.notOnRun'), "error") end
 	onRun[ps.getIdentifier(src)] = onRun[ps.getIdentifier(src)] + 1
 	if math.random(1,100) <= 50 then
 		ps.addItem(src, "mdlean", amount)

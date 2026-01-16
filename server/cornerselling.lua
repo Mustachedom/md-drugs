@@ -122,6 +122,7 @@ local Drugs = {
 }
 
 local drugsNames = {}
+local soldPeds = {}
 for k, v in pairs(Drugs) do
     table.insert(drugsNames, k)
 end
@@ -135,53 +136,73 @@ local cornsellConfig = {
     policeRequired = 0, -- if you want cops to be required to sell set this to a number above 0
     robChance = 1, -- Chance To Be Robbed 1 = 1%
 }
+
 local function beingRobbed(source, item, amount, ped)
     local src = source
-    ps.removeItem(src, item, amount)
-    ps.notify(src, ps.lang('Cornerselling.gotRobbed'), 'error')
-    RobbedDrugs[ps.getIdentifier(source)] = {item = item, amount = amount, ped = ped}
+    Bridge.Inventory.RemoveItem(src, item, amount)
+    Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Cornerselling.gotRobbed'), 'error')
+    RobbedDrugs[src] = {item = item, amount = amount, ped = ped}
     return true
 end
 
 local function getDrugBack(source, item, amount)
     local src = source
-    if RobbedDrugs[ps.getIdentifier(source)] then
-        if RobbedDrugs[ps.getIdentifier(source)].item == item and RobbedDrugs[ps.getIdentifier(source)].amount == amount then
-            ps.addItem(src, item, amount)
-            ps.notify(src, ps.lang('Cornerselling.gotBack'), 'success')
-            RobbedDrugs[ps.getIdentifier(source)] = nil
+    if RobbedDrugs[src] then
+        if RobbedDrugs[src].item == item and RobbedDrugs[src].amount == amount then
+            Bridge.Inventory.AddItem(src, item, amount)
+            Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Cornerselling.gotBack'), 'success')
+            RobbedDrugs[src] = nil
             return true
         end
     end
 end
 
-ps.registerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
-    local Player = ps.getPlayer(source)
+local function getLoc(src, ped)
+    local coords, peds = GetEntityCoords(GetPlayerPed(src)), GetEntityCoords(ped)
+    local dist = #(coords - peds)
+    if dist < 5.0 then
+        return true
+    end
+    return false
+end
+Bridge.Callback.Register('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
+    local src = source
     local rep = getRep(source, 'cornerselling')
-    local priceAdjust = json.decode(rep).price
-    if not Player then return nil end
+    local priceAdjust = rep.price
+    local ped = NetworkGetEntityFromNetworkId(ped)
+    if not getLoc(src, ped) then
+        return false
+    end
+    if soldPeds[src] == nil then
+        soldPeds[src] = {}
+    end
+    if soldPeds[src][ped] then
+        return false
+    end
     for k, v in pairs(Drugs) do
-        local item = ps.getItemCount(source, k) or 0
-        if item >= 1 then
+        local count = Bridge.Inventory.GetItemCount(src, k)
+        if count >= 1 then
             local maths = math.random(1,100)
             if maths <= cornsellConfig.robChance then
-                beingRobbed(source, k, item, ped)
+                beingRobbed(source, k, count, ped)
+                soldPeds[src][ped] = {item = k, amount = count}
                 return 'robbed'
             else
-                if item > 15 then item = 15 end
-                local amount = math.random(1, item)
+                if count > 15 then count = 15 end
+                local amount = math.random(1, count)
                 local price = (math.random(Drugs[k]['min'], Drugs[k]['max']) * amount) * priceAdjust
-                DrugDeals[ps.getIdentifier(source)] = {item = k, amount = amount, price = math.floor(price), ped = ped}
-                return DrugDeals[ps.getIdentifier(source)]
+                DrugDeals[src] = {item = k, amount = amount, price = math.floor(price), ped = ped}
+                soldPeds[src][ped] = DrugDeals[src]
+                return DrugDeals[src]
             end
         end
     end
     return false
 end)
 
-ps.registerCallback('md-drugs:server:hasDrugs', function(source)
+Bridge.Callback.Register('md-drugs:server:hasDrugs', function(source)
     for k, v in pairs(Drugs) do
-        if ps.hasItem(source, k, 1) then
+        if Bridge.Inventory.HasItem(source, k) then
             return true
         end
     end
@@ -196,51 +217,67 @@ local function csCheck(src, item, amount, price)
         end
     end
     if not isIn then return false end
-    if DrugDeals[ps.getIdentifier(src)] then
-        if DrugDeals[ps.getIdentifier(src)].item == item and DrugDeals[ps.getIdentifier(src)].amount == amount and DrugDeals[ps.getIdentifier(src)].price == price then
+    if DrugDeals[src] then
+        if DrugDeals[src].item == item and DrugDeals[src].amount == amount and DrugDeals[src].price == price then
             return true
         end
     end
     return false
 end
 
-RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price)
+RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price, peds)
     local src = source
-    if not csCheck(src, item, amount, price) then return end
-    if not ps.removeItem(src, item, amount) then
-        ps.notify(src, ps.lang('Cornerselling.notEnough'), 'error')
-        DrugDeals[ps.getIdentifier(src)] = nil
+    if not csCheck(src, item, amount, price) then
+        return
+    end
+    local ped = NetworkGetEntityFromNetworkId(peds)
+    if not getLoc(src, ped) then
+        print('not close enough to ped')
+        return
+    end
+    if not soldPeds[src] or not soldPeds[src][ped] then
+        print('ped not in soldPeds')
+        return
+    end
+    if not Bridge.Inventory.RemoveItem(src, item, amount) then
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Cornerselling.notEnough'), 'error')
+        DrugDeals[src] = nil
         return
     end
     AddRep(src, 'cornerselling', Drugs[item].rep * amount)
-    DrugDeals[ps.getIdentifier(src)] = nil
+    DrugDeals[src] = nil
     if cornsellConfig.MarkedBills then
-        ps.addItem(src, 'markedbills', price, {worth = price})
+        Bridge.Inventory.AddItem(src, 'markedbills', price, nil, {worth = price})
         return
     end
     if cornsellConfig.CustomItem ~= '' then
-        ps.addItem(src, cornsellConfig.CustomItem, price)
+        Bridge.Inventory.AddItem(src, cornsellConfig.CustomItem, price)
         return
     end
-    ps.addMoney(src, 'cash', price)
+    Bridge.Framework.AddAccountBalance(src, 'cash', price)
 end)
 
-RegisterNetEvent('md-drugs:server:getBackRobbed', function() 
-    local tabl = RobbedDrugs[ps.getIdentifier(source)]
+RegisterNetEvent('md-drugs:server:getBackRobbed', function(peds) 
+    local src = source
+    local tabl = RobbedDrugs[src]
     if tabl == nil then return end
-    getDrugBack(source, tabl.item, tabl.amount)
-    RobbedDrugs[ps.getIdentifier(source)] = nil
+    local ped = NetworkGetEntityFromNetworkId(peds)
+    if ped ~= tabl.ped then return end
+    if not getLoc(src, ped) then return end
+
+    getDrugBack(src, tabl.item, tabl.amount)
+    RobbedDrugs[src] = nil
 end)
 
 ps.registerCommand('cornersell', {
-    help = ps.lang('Cornerselling.comDes'),
+    help = Bridge.Language.Locale('Cornerselling.comDes'),
     params = {
     },
 }, function(source, args, raw)
     local src = source
     local jobCount = ps.getJobTypeCount('leo')
     if jobCount < cornsellConfig.policeRequired then
-        ps.notify(src, ps.lang('Catches.noCops'), 'error')
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.noCops'), 'error')
         return
     end
     TriggerClientEvent('md-drugs:client:cornerselling', src)
@@ -248,7 +285,7 @@ end)
 
 RegisterServerEvent('md-drugs:server:cornerselling:stop', function()
     local src = source
-    if DrugDeals[ps.getIdentifier(src)] then
-        DrugDeals[ps.getIdentifier(src)] = nil
+    if DrugDeals[src] then
+        DrugDeals[src] = nil
     end
 end)

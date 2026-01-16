@@ -6,7 +6,7 @@ local pdAlert =  90
 local function getRoute()
 	local Route = ps.callback('md-drugs:server:getRoute')
     if not Route then
-		ps.notify(ps.lang('oxy.ditchCar'), "error")
+		Bridge.Notify.SendNotify(Bridge.Language.Locale('oxy.ditchCar'), "error")
 		onMission = false
 		return false
 	end
@@ -25,11 +25,11 @@ local function getRoute()
 	PoliceCall(pdAlert)
 	ps.entityTarget(oxybuyer,{
 		{ 
-			label = ps.lang('oxy.targetHandoff'),
+			label = Bridge.Language.Locale('oxy.targetHandoff'),
 			icon = "fa-solid fa-dollar-sign",
 			action = function()
 				if carryPackage then
-					if not ps.progressbar(ps.lang('oxy.handingoff'), 4000, 'uncuff') then return end
+					if not ps.progressbar(Bridge.Language.Locale('oxy.handingoff'), 4000, 'uncuff') then return end
 					TriggerServerEvent("md-drugs:server:giveoxybox")
 					DeleteEntity(oxybuyer)
 					DetachEntity(carryPackage, true, true)
@@ -37,7 +37,7 @@ local function getRoute()
 					carryPackage = nil
 					getRoute()
 				else
-					ps.notify(ps.lang('oxy.emptyHands'), "error")
+					Bridge.Notify.SendNotify(Bridge.Language.Locale('oxy.emptyHands'), "error")
 				end
 			end
 		}
@@ -48,7 +48,7 @@ for k, v in pairs(locations.OxyPayForTruck) do
 	ps.boxTarget('oxyTruckPur' ..k , v.loc, {length = v.l, width = v.w, heading = v.rot}, {
 		{
 			icon = 'fa-solid fa-truck-fast',
-			label = ps.lang('oxy.targetPay'),
+			label = Bridge.Language.Locale('oxy.targetPay'),
 			action = function()
 				ps.requestModel("burrito3", 30000)
 
@@ -62,17 +62,17 @@ for k, v in pairs(locations.OxyPayForTruck) do
     				exports[Config.Fuel]:SetFuel(oxycar, 100.0)
 				end
     			TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(oxycar))
-				ps.notify(ps.lang('oxy.keys'), 'success')
+				Bridge.Notify.SendNotify(Bridge.Language.Locale('oxy.keys'), 'success')
 				onMission = true
 				getRoute()
 
 				ps.entityTarget(oxycar,  {
 					{
 						icon = "fa-solid fa-box",
-						label = ps.lang('oxy.targetGetPackage'),
+						label = Bridge.Language.Locale('oxy.targetGetPackage'),
 						action = function()
 							if carryPackage then
-								ps.notify(ps.lang('oxy.alreadyCarrying'), "error")
+								Bridge.Notify.SendNotify(Bridge.Language.Locale('oxy.alreadyCarrying'), "error")
 							else
 								local pos = GetEntityCoords(PlayerPedId(), true)
 								ps.requestAnim('anim@heists@box_carry@')

@@ -108,7 +108,7 @@ for k, v in pairs (burners) do
             TriggerClientEvent("md-drugs:client:GetLocation", active[ps.getIdentifier(source)].src, active[ps.getIdentifier(source)])
             return
         end
-        if ps.getJobTypeCount('leo') < settings.PoliceCount then return ps.notify(source, ps.lang('wholesale.notEnoughCops'), 'error') end
+        if ps.getJobTypeCount('leo') < settings.PoliceCount then return Bridge.Notify.SendNotify(source, Bridge.Language.Locale('wholesale.notEnoughCops'), 'error') end
         if ps.removeItem(source, k, 1) then
             local drugs, count = {}, 0
             for m, d in pairs (v) do
@@ -120,7 +120,7 @@ for k, v in pairs (burners) do
             end
             if count < settings.WholesaleMinQuantity then
                 ps.addItem(source, k, 1)
-                ps.notify(source, ps.lang('wholesale.not_enough_drugs') or 'Not enough drugs for wholesale deal', 'error')
+                Bridge.Notify.SendNotify(source, Bridge.Language.Locale('wholesale.not_enough_drugs') or 'Not enough drugs for wholesale deal', 'error')
                 return
             end
             active[ps.getIdentifier(source)] = {
@@ -152,7 +152,7 @@ RegisterNetEvent('md-drugs:server:SuccessSale', function()
     end
     local deal = active[id]
     if deal.count < settings.WholesaleMinQuantity then
-        ps.notify(src, 'Not enough drugs for wholesale deal', 'error')
+        Bridge.Notify.SendNotify(src, 'Not enough drugs for wholesale deal', 'error')
         active[id] = nil
         return
     end
@@ -167,7 +167,7 @@ RegisterNetEvent('md-drugs:server:SuccessSale', function()
         end
     end
     if need ~= have then
-        ps.notify(src, 'You are missing some drugs for the deal', 'error')
+        Bridge.Notify.SendNotify(src, 'You are missing some drugs for the deal', 'error')
         active[id] = nil
         return
     end
@@ -179,12 +179,12 @@ RegisterNetEvent('md-drugs:server:SuccessSale', function()
        end
     end
     if not removed then
-        ps.notify(src,'Failed to remove drugs for the deal', 'error')
+        Bridge.Notify.SendNotify(src,'Failed to remove drugs for the deal', 'error')
         active[id] = nil
         return
     end
     ps.addMoney(src, 'cash', finalPrice, 'Wholesale sale successful' .. ' $' .. finalPrice)
-    ps.notify(src, 'Wholesale sale successful' .. ' $' .. finalPrice, 'success')
+    Bridge.Notify.SendNotify(src, 'Wholesale sale successful' .. ' $' .. finalPrice, 'success')
     active[id] = nil
 end)
 

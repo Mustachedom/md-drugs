@@ -1,18 +1,10 @@
 local tableout = false
 local dirtylsd = false
-local locations = ps.callback('md-drugs:server:GetLSDLocations')
+local locations = GlobalState.MDDrugsLocations.LSD
 
-local function loadParticle(dict)
-    if not HasNamedPtfxAssetLoaded(dict) then
-        RequestNamedPtfxAsset(dict)
-    end
-    while not HasNamedPtfxAssetLoaded(dict) do
-        Wait(0)
-    end
-    SetPtfxAssetNextCall(dict)
-end
 
 local function createLabKit(coord, head)
+    requestModel("v_ret_ml_tablea")
     local labkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false)
     SetEntityHeading(labkit, head)
     PlaceObjectOnGroundProperly(labkit)
@@ -21,17 +13,16 @@ local function createLabKit(coord, head)
     local options = {
         {
             icon = "fa-solid fa-temperature-high",
-            label = ps.lang('lsd.targetHeat'),
+            label = Bridge.Language.Locale('lsd.targetHeat'),
             action = function()
-	            local dict = "scr_ie_svm_technical2"
 	            if not minigame() then
+                    local coords = GetEntityCoords(labkit)
+                    AddExplosion(coords.x, coords.y, coords.z-1.0, 34, 0.0, true, false, true)
                     dirtylsd = true
-	            	loadParticle(dict)
-	                local exitPtfx = StartParticleFxLoopedOnEntity("scr_dst_cocaine", labkit, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
-                    SetParticleFxLoopedAlpha(exitPtfx, 3.0)
+                    TriggerServerEvent("md-drugs:server:failheating")
                     return
                 end
-                if not ps.progressbar(ps.lang('lsd.heating'), 7000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.heating'), 7000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:heatliquid")
             end,
             canInteract = function()
@@ -40,14 +31,14 @@ local function createLabKit(coord, head)
         },
         {
             icon = "fa-solid fa-temperature-high",
-            label = ps.lang('lsd.targetRefine'),
+            label = Bridge.Language.Locale('lsd.targetRefine'),
             action = function()
-                if not ps.hasItem('lsd_one_vial') then
-                    ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('lsd_one_vial')), 'error')
+                if not Bridge.Inventory.HasItem('lsd_one_vial') then
+                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('lsd_one_vial').label), 'error')
                     return
                 end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failrefinequality") return end
-                if not ps.progressbar(ps.lang('lsd.refining'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.refining'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:refinequalityacid")
             end,
             canInteract = function()
@@ -56,14 +47,14 @@ local function createLabKit(coord, head)
         },
         {
             icon = "fa-regular fa-note-sticky",
-            label = ps.lang('lsd.targetDipping'),
+            label = Bridge.Language.Locale('lsd.targetDipping'),
             action = function()
-                if not ps.hasItem('tab_paper') then
-                    ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('tab_paper')), 'error')
+                if not Bridge.Inventory.HasItem('tab_paper') then
+                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('tab_paper').label), 'error')
                     return
                 end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failtabs") return end
-                if not ps.progressbar(ps.lang('lsd.dipping'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.dipping'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:maketabpaper")
             end,
             canInteract = function()
@@ -71,11 +62,10 @@ local function createLabKit(coord, head)
             end
         },
         {
-            event = "md-drugs:client:getlabkitback",
             icon = "fas fa-box-circle-check",
-            label = ps.lang('lsd.targetPickup'),
+            label = Bridge.Language.Locale('lsd.targetPickup'),
             action = function()
-                if not ps.progressbar(ps.lang('lsd.packup'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.packup'), 4000, 'uncuff') then return end
 	            DeleteObject(labkit)
 	            TriggerServerEvent('md-drugs:server:getlabkitback')
                 tableout = false
@@ -86,14 +76,14 @@ local function createLabKit(coord, head)
         },
         {
             icon = "fa-solid fa-hand-sparkles",
-            label = ps.lang('lsd.targetClean'),
+            label = Bridge.Language.Locale('lsd.targetClean'),
             action = function()
-                if not ps.hasItem('cleaningkit') then
-                    ps.notify(ps.lang('Catches.itemNeeded', ps.getLabel('cleaningkit')), 'error')
+                if not Bridge.Inventory.HasItem('cleaningkit') then
+                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('cleaningkit').label), 'error')
                     return
                 end
-                if not ps.progressbar(ps.lang('lsd.cleaning'), 4000, 'clean') then return end
-                local check = ps.callback('md-drugs:server:removecleaningkit')
+                if not progressbar(Bridge.Language.Locale('lsd.cleaning'), 4000, 'clean') then return end
+                local check = Bridge.Callback.Trigger('md-drugs:server:removecleaningkit')
                 if check then
                     dirtylsd = false
                 end
@@ -101,17 +91,17 @@ local function createLabKit(coord, head)
             canInteract = function() if dirtylsd then return true end end
         }
     }
-    ps.entityTarget(labkit, options)
+    Bridge.Target.AddLocalEntity(labkit, options)
 end
 
 for k, v in pairs (locations.lysergicacid) do 
-    ps.boxTarget('lysergicacid'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+    Bridge.Target.AddBoxZone('lysergicacid'..k,v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
-            label = ps.lang('lsd.targetLys'),
+            label = Bridge.Language.Locale('lsd.targetLys'),
             icon = 'fa-solid fa-temperature-high',
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:faillysergic") return end
-                if not ps.progressbar(ps.lang('lsd.stealLys'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.stealLys'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:getlysergic", k)
             end,
             canInteract = function()
@@ -123,13 +113,13 @@ for k, v in pairs (locations.lysergicacid) do
 end
 
 for k, v in pairs (locations.diethylamide) do 
-    ps.boxTarget('diethylamide'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+    Bridge.Target.AddBoxZone('diethylamide'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
-            label = ps.lang('lsd.targetDie'),
+            label = Bridge.Language.Locale('lsd.targetDie'),
             icon = 'fa-solid fa-temperature-high',
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:faildiethylamide") return end
-                if not ps.progressbar(ps.lang('lsd.stealDie'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.stealDie'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:getdiethylamide", k)
             end,
             canInteract = function()
@@ -141,9 +131,9 @@ for k, v in pairs (locations.diethylamide) do
 end
 
 for k, v in pairs (locations.gettabs) do
-    ps.boxTarget('gettabs'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+    Bridge.Target.AddBoxZone('gettabs'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
-            label = ps.lang('lsd.targetBuyTab'),
+            label = Bridge.Language.Locale('lsd.targetBuyTab'),
             icon = 'fa-solid fa-hand-holding-dollar',
             action = function()
                 TriggerServerEvent("md-drugs:server:gettabpaper", k)
@@ -155,21 +145,22 @@ for k, v in pairs (locations.gettabs) do
         }
     })
 end
+
 local seller = {}
 for k, v in pairs (locations.buyLSDkit) do
-    ps.requestModel(v.ped, 1000)
+    requestModel(v.ped, 1000)
     seller[k] = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z, v.loc.w, false, false)
     Freeze(seller[k], true, v.loc.w)
-    ps.entityTarget(seller[k], {
+    Bridge.Target.AddLocalEntity(seller[k], {
         {
-            label = ps.lang('lsd.targetBuyKit'),
+            label = Bridge.Language.Locale('lsd.targetBuyKit'),
             icon = 'fa-solid fa-hand-holding-dollar',
             action = function()
-                if ps.hasItem('lsdlabkit') then
-                    ps.notify(ps.lang('lsd.alreadyOwn'), 'error')
+                if Bridge.Inventory.HasItem('lsdlabkit') then
+                    Bridge.Notify.SendNotify(Bridge.Language.Locale('lsd.alreadyOwn'), 'error')
                     return
                 end
-                if not ps.progressbar(ps.lang('lsd.buyingKit'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.buyingKit'), 4000, 'uncuff') then return end
                 TriggerServerEvent('md-drugs:server:getlabkit', k)
             end,
             canInteract = function()
@@ -180,15 +171,15 @@ for k, v in pairs (locations.buyLSDkit) do
     })
 end
 
-ps.registerCallback("md-drugs:client:setlsdlabkit", function()
+Bridge.Callback.Register("md-drugs:client:setlsdlabkit", function()
     if tableout then
-        ps.notify(ps.lang('lsd.tableout'), 'error')
+        Bridge.Notify.SendNotify(Bridge.Language.Locale('lsd.tableout'), 'error')
         return false
     else
         tableout = true
         local loc, head = StartRay()
         if not loc then tableout = false return end
-        if not ps.progressbar(ps.lang('lsd.placing'), 4000, 'uncuff') then return end
+        if not progressbar(Bridge.Language.Locale('lsd.placing'), 4000, 'uncuff') then return end
         createLabKit(loc, head)
         return true, loc
     end

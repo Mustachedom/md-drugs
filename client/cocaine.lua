@@ -1,11 +1,11 @@
-
 local cuttingcoke = nil
 local baggingcoke = nil
-local locations = ps.callback('md-drugs:server:GetCokeLocations')
+local locations = GlobalState.MDDrugsLocations.Cocaine
 
 local function CutCoke(coords, offset, rotation)
+	cuttingcoke = true
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
-	ps.requestAnim(animDict, 500)
+	Bridge.Anim.RequestDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
 	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
@@ -48,12 +48,14 @@ local function CutCoke(coords, offset, rotation)
 	end
 	RemoveAnimDict(animDict)
 	FreezeEntityPosition(ped, false)
+	cuttingcoke = nil
 end
 
 local function BagCoke(coords, offset, rotation)
+	baggingcoke = true
     local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
-	ps.requestAnim(animDict, 500)
+	Bridge.Anim.RequestDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
 	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
@@ -109,19 +111,20 @@ local function BagCoke(coords, offset, rotation)
     end
     RemoveAnimDict(animDict)
     FreezeEntityPosition(ped, false)
+	baggingcoke = nil
 end
 
 for k, v in pairs (locations.MakePowder) do
-    ps.boxTarget('cocaplant'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+    Bridge.Target.AddBoxZone('cocaplant'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
-            label = ps.lang('coke.targetMakePow'),
+            label = Bridge.Language.Locale('coke.targetMakePow'),
             icon = 'fa-solid fa-seedling',
             action = function()
-                if not ps.hasItem('coca_leaf') then
-                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('coca_leaf')), 'error')
+                if not Bridge.Inventory.HasItem('coca_leaf') then
+                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('coca_leaf').label), 'error')
                     return
                 end
-                if not ps.progressbar(ps.lang('coke.makePow'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('coke.makePow'), 4000, 'weld') then return end
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
             canInteract = function()
@@ -132,13 +135,13 @@ for k, v in pairs (locations.MakePowder) do
 end
 
 for k, v in pairs (locations.CuttingCoke) do
-    ps.boxTarget('cutcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
+    Bridge.Target.AddBoxZone('cutcoke'..k,  v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,  {
         {
-            label = ps.lang('coke.targetCutCoke'),
+            label = Bridge.Language.Locale('coke.targetCutCoke'),
             icon = 'fa-solid fa-mortar-pestle',
             action = function()
-                if not ps.hasItem('bakingsoda') then
-                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
+                if not Bridge.Inventory.HasItem('bakingsoda') then
+                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('bakingsoda').label), 'error')
                     return
                 end
                 CutCoke(v.loc, v.offset, v.rotation)
@@ -154,13 +157,13 @@ for k, v in pairs (locations.CuttingCoke) do
 end
 
 for k, v in pairs (locations.BaggingCoke) do
-    ps.boxTarget('bagcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
+    Bridge.Target.AddBoxZone('bagcoke'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
-            label = ps.lang('coke.targetBagCoke'),
+            label = Bridge.Language.Locale('coke.targetBagCoke'),
             icon = 'fa-solid fa-sack-xmark',
             action = function()
-                if not ps.hasItem('empty_weed_bag') then
-                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('empty_weed_bag')), 'error')
+                if not Bridge.Inventory.HasItem('empty_weed_bag') then
+                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('empty_weed_bag').label), 'error')
                     return
                 end
                 BagCoke(v.loc, v.offset, v.rotation)
@@ -176,10 +179,10 @@ for k, v in pairs (locations.BaggingCoke) do
 end
 
 for k, v in pairs (locations.cokeTele) do
-	ps.boxTarget('coke_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('coke_tele'..k, v.inside, vector3(v.l, v.w, 2.0), v.inside.w or 180.0,{
 		{
 			icon = 'fa-solid fa-door-open',
-			label = ps.lang('coke.teleOut'),
+			label = Bridge.Language.Locale('coke.teleOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
 			end,
@@ -188,10 +191,10 @@ for k, v in pairs (locations.cokeTele) do
             end
 		}
 	})
-	ps.boxTarget('coke_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('coke_teleout'..k, v.outside, vector3(v.l, v.w, 2.0), v.outside.w or 180.0,{
 		{
 			icon = 'fa-solid fa-door-closed',
-			label = ps.lang('coke.teleIn'),
+			label = Bridge.Language.Locale('coke.teleIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)
 			end,

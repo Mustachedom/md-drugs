@@ -38,7 +38,7 @@ RegisterServerEvent('md-drugs:server:buyWhippitItem', function(loc, item,amount)
     if not itemShop[item] then return end
     local price = itemShop[item] * amount
     if not ps.removeMoney(src, 'cash', price, 'whippit-shop') then
-        return ps.notify(src, ps.lang('Whippit.notEnoughMoney', price), 'error')
+        return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.notEnoughMoney', price), 'error')
     end
     ps.addItem(src, item, amount)
 end)
@@ -56,11 +56,11 @@ ps.createUseable('cracker', function(source)
         end
     end
     if not balloonItem then
-        return ps.notify(src, ps.lang('Whippit.needBalloon'), 'error')
+        return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.needBalloon'), 'error')
     end
 
     if not ps.removeItem(src, 'whipped_cream_cannister', 1) then
-        return ps.notify(src, ps.lang('Whippit.needCanister'), 'error')
+        return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.needCanister'), 'error')
     end
     if not ps.removeItem(src, balloonItem, 1) then
         return ps.warn(src, 'Failed to remove balloon', 'error')

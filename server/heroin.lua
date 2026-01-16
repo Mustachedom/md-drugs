@@ -1,5 +1,7 @@
+Recipes, Locations = Recipes or {}, Locations or {}
+
 local heroinLabKits = {}
-local heroinRecipes = {
+Recipes.Heroin = {
    dryheroin = {
        tier1 = {take = {poppyresin = 1}, give = {heroin = 1}},
        tier2 = {take = {poppyresin = 1}, give = {heroinstagetwo = 1}},
@@ -17,12 +19,13 @@ local heroinRecipes = {
    },
    fillneedle = {
        tier1 = {take = {heroinvial = 1,            needle = 1}, give = {heroin_ready = 1}},
-       tier2 = {take = {heroinvialstagetwo = 1,  needle = 1}, give = {heroin_readystagetwo = 1}},
+       tier2 = {take = {heroinvialstagetwo = 1,    needle = 1}, give = {heroin_readystagetwo = 1}},
        tier3 = {take = {heroinvialstagethree = 1,  needle = 1}, give = {heroin_readystagethree = 1}},
    }
 }
+GlobalState.MDDrugsRecipes = Recipes
 
-local heroinLocations = {
+Locations.Heroin = {
     dryplant = {  -- turn resin into powder
         {loc = vector3(-1353.77, -335.58, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
@@ -36,48 +39,46 @@ local heroinLocations = {
 		{ped = 'a_m_m_farmer_01',loc = vector4(-1366.32, -334.40, 44.44,180.0), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 	}
 }
+GlobalState.MDDrugsLocations = Locations
 
 local prices = {
 	heroinlabkitprice = 10000
 }
 
-ps.registerCallback('md-drugs:server:GetHeroinLocations', function(source)
-	return heroinLocations
-end)
 
-
-ps.registerCallback('removeCleaningkit', function(source)
-	for k, v in pairs(heroinLabKits) do
-		if v.ownerid == ps.getIdentifier(source) then
-			ps.removeItem(source, 'cleaningkit', 1)
-			return true
-		end
+Bridge.Callback.Register('md-drugs:server:removeCleaningKitHeroin', function(source)
+	if heroinLabKits[source] then
+		return Bridge.Inventory.RemoveItem(source, 'cleaningkit', 1)
 	end
 	return false
 end)
+
+local function getTier(source)
+	if not Config.TierSystem then
+		return 'tier1'
+	end
+	local heroin = tonumber(getRep(source, 'heroin'))
+	if heroin <= Config.Tier1 then
+		return 'tier1'
+	elseif heroin >= Config.Tier1 and heroin <= Config.Tier2 then
+		return'tier2'
+	else
+		return 'tier3'
+	end
+end
 
 RegisterServerEvent('md-drugs:server:dryplant', function(num)
 	local src = source
 
 	if timeOut(src, 'md-drugs:server:dryplant') then return end
-	if not ps.checkDistance(src, heroinLocations.dryplant[num].loc, 3.0) then 
-		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+
+	if not checkDistance(src, Locations.Heroin.dryplant[num].loc, 3.0) then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
 		return
 	end
 
-	local tier = 'tier1'
-	if Config.TierSystem then
-		local heroin = tonumber(getRep(src, 'heroin'))
-		if heroin <= Config.Tier1 then
-			tier = 'tier1'
-		elseif heroin >= Config.Tier1 and heroin <= Config.Tier2 then
-			tier = 'tier2'
-		else
-			tier = 'tier3'
-		end
-	end
-	if not ps.craftItem(src, heroinRecipes['dryheroin'][tier]) then
-		verifyHas(src, heroinRecipes['dryheroin'][tier].take)
+	local tier = getTier(src)
+	if not craft(src, Recipes.Heroin.dryheroin[tier]) then
 		return
 	end
 end)
@@ -87,85 +88,92 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 
 	if timeOut(src, 'md-drugs:server:cutheroin') then return end
 
-	if not ps.checkDistance(src, heroinLocations.cutheroinone[num].loc, 3.0) then
-		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+	if not checkDistance(src, Locations.Heroin.cutheroinone[num].loc, 3.0) then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
 		return
 	end
+
+	local tier = 'tier1'
 	if Config.TierSystem then
 		local itemList = {
 			heroin = 'tier1',
 			heroinstagetwo = 'tier2',
 			heroinstagethree = 'tier3'
 		}
-		for k, v in pairs(itemList) do
-			local cuth = ps.hasItem(src, k)
-			if cuth then
-				if not ps.craftItem(src, heroinRecipes['cutheroin'][v]) then
-					verifyHas(src, heroinRecipes['cutheroin'][v].take)
-					return
-				end
-				AddRep(src, 'heroin')
-				return
+		for item, tiers in pairs (itemList) do
+			if Bridge.Inventory.HasItem(src, item) then
+				tier = tiers
 			end
 		end
-	else
-		if not ps.craftItem(src, heroinRecipes['cutheroin']['tier1']) then
-			verifyHas(src, heroinRecipes['cutheroin']['tier1'].take)
-			return
-		end
+	end
+
+	if not craft(src, Recipes.Heroin.cutheroin[tier]) then
+		return
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:getheroinlabkit', function(num)
 	local src = source
+
 	if timeOut(src, 'md-drugs:server:getheroinlabkit') then return end
-	if not ps.checkDistance(src, heroinLocations.buyKit[num].loc, 3.0) then
-		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+
+	if not checkDistance(src, Locations.Heroin.buyKit[num].loc, 3.0) then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
 		return
 	end
-	local has = ps.hasItem(src, 'heroinlabkit')
-	if has then ps.notify(src, ps.lang('heroin.hasKitAlready'), 'error') return end
-	if ps.removeMoney(src, 'cash', prices.heroinlabkitprice) then
-		ps.addItem(src, 'heroinlabkit', 1)
+
+	local has = Bridge.Inventory.HasItem(src, 'heroinlabkit')
+	if has then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.hasKitAlready'), 'error')
+		return
+	end
+	if Bridge.Framework.RemoveAccountBalance(src, 'cash', prices.heroinlabkitprice) then
+		Bridge.Inventory.AddItem(src, 'heroinlabkit', 1)
 	else
-		ps.notify(src, ps.lang('heroin.notEnoughMoney', prices.heroinlabkitprice), 'error')
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.notEnoughMoney', prices.heroinlabkitprice), 'error')
 	end
 end)
 
-local function hasHKit(src)
-	for k, v in pairs(heroinLabKits) do
-		if v.ownerid == ps.getIdentifier(src) then
-			return true
-		end
-	end
-	return false
-end
+
 
 RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 	local src = source
-	if not hasHKit(src) then return end
-	for k, v in pairs (heroinLabKits) do
-		if v.ownerid == ps.getIdentifier(src) then
-			table.remove(heroinLabKits, k)
-			ps.addItem(src, 'heroinlabkit', 1)
-		end
+
+	if not heroinLabKits[src] then
+		return
 	end
+
+	local loc = vector3(heroinLabKits[src].coords.x, heroinLabKits[src].coords.y, heroinLabKits[src].coords.z)
+	if not checkDistance(src, loc, 5.0) then
+		return
+	end
+
+	heroinLabKits[src] = nil
+	Bridge.Inventory.AddItem(src, 'heroinlabkit', 1)
 end)
 
 
-ps.createUseable('heroinlabkit', function(source, item)
+Bridge.Framework.RegisterUsableItem('heroinlabkit', function(source, item)
 	local src = source
-	if not ps.hasItem(src, 'heroinlabkit', 1) then return end
-	local placed, loc = ps.callback('md-drugs:client:setheroinlabkit', src)
+
+	if not Bridge.Inventory.HasItem(src, 'heroinlabkit', 1) then
+		return
+	end
+
+	if heroinLabKits[src] then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.hasKitAlreadyPlaced'), "error")
+		return
+	end
+
+	local placed, loc = Bridge.Callback.Trigger('md-drugs:client:setheroinlabkit', src)
 	if placed then
-		if ps.removeItem(src, 'heroinlabkit', 1) then
-			table.insert(heroinLabKits, {
+		if Bridge.Inventory.RemoveItem(src, 'heroinlabkit', 1) then
+			heroinLabKits[src] = {
 				src = src,
-				ownerid = ps.getIdentifier(src),
+				ownerid = Bridge.Framework.GetPlayerIdentifier(src),
 				coords = loc,
-				name = ps.getPlayerName(src)
-			})
-			ps.notify(src, ps.lang('heroin.placedKit'), "success")
+			}
+			Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.placedKit'), "success")
 		end
 	end
 end)
@@ -175,9 +183,13 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 
 	if timeOut(src, 'md-drugs:server:heatliquidheroin') then return end
 
-	if not hasHKit(src) then return end
-	if not ps.hasItem(src, 'emptyvial', 1) then return end
-	
+	if not heroinLabKits[src] then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+		return
+	end
+
+	if not Bridge.Inventory.HasItem(src, 'emptyvial', 1) then return end
+	local tier = 'tier1'
 	if Config.TierSystem then
 		local itemList = {
 			heroincut = 'tier1',
@@ -185,37 +197,34 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 			heroincutstagethree = 'tier3'
 		}
 		for k, v in pairs(itemList) do
-			local cuth = ps.hasItem(src, k)
-			if cuth then
-				if not ps.craftItem(src, heroinRecipes['fillvial'][v]) then
-					verifyHas(src, heroinRecipes['fillvial'][v].take)
-					return
-				end
-				AddRep(src, 'heroin')
-				return
+			if Bridge.Inventory.HasItem(src, k) then
+				tier = v
+				break
 			end
 		end
-	else
-		if not ps.craftItem(src, heroinRecipes['fillvial']['tier1']) then
-			verifyHas(src, heroinRecipes['fillvial']['tier1'].take)
-			return
-		end
+	end
+	if not craft(src, Recipes.Heroin.fillvial[tier]) then
+		return
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 	local src = source
-	if not hasHKit(src) then return end
+
+	if not heroinLabKits[src] then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+		return
+	end
+
 	local itemList = {
 		heroincut = 1,
 		heroincutstagetwo = 1,
 		heroincutstagethree = 1
 	}
+
 	for k, v in pairs(itemList) do
-		local cuth = ps.hasItem(src, k)
-		if cuth then
-			ps.removeItem(src, k, v)
-			ps.notify(src, ps.lang('heroin.failed'), "error")
+		if Bridge.Inventory.RemoveItem(src, k, v) then
+			Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.failed'), "error")
 			return
 		end
 	end
@@ -224,33 +233,27 @@ end)
 RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:fillneedle') then return end
-	if not ps.checkDistance(src, heroinLocations.fillneedle[num].loc, 3.0) then
-		ps.notify(src, ps.lang('Catches.notIn'), 'error')
+
+	if not checkDistance(src, Locations.Heroin.fillneedle[num].loc, 3.0) then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), 'error')
 		return
 	end
-	if not ps.hasItem(src, 'needle', 1) then return end
+	local tier = 'tier1'
 	if Config.TierSystem then
 		local itemList = {
-			{item = 'heroinvial', 		  	tier = 'tier1',   log = ' Filled Heroin Needle'},
-			{item = 'heroinvialstagetwo',   tier = 'tier2', log = ' Filled Heroin Needle tier 2'},
-			{item = 'heroinvialstagethree', tier = 'tier3', log = ' Filled Heroin Needle tier 3'}
-		}
-		for k, v in pairs(itemList) do
-			local vh = ps.hasItem(src, v.item)
-			if vh then
-				if not ps.craftItem(src, heroinRecipes['fillneedle'][v.tier]) then
-					verifyHas(src, heroinRecipes['fillneedle'][v.tier].take)
-					return
-				end
-				AddRep(src, 'heroin')
-				return
+			heroinvial = 'tier1',
+			heroinvialstagetwo = 'tier2',
+			heroinvialstagethree = 'tier3'
+		}	
+		for item, tiers in pairs (itemList) do
+			if Bridge.Inventory.HasItem(src, item) then
+				tier = tiers
+				break
 			end
 		end
-	else
-		if not ps.craftItem(src, heroinRecipes['fillneedle']['tier1']) then
-			verifyHas(src, heroinRecipes['fillneedle']['tier1'].take)
-			return
-		end
+	end
+	if not craft(src, Recipes.Heroin.fillneedle[tier]) then
+		return
 	end
 end)
 
@@ -263,25 +266,20 @@ RegisterServerEvent('md-drugs:server:failheroin', function()
 			heroinvialstagethree = 1
 		}
 		for k, v in pairs (itemList) do
-			local cuth = ps.hasItem(src, k)
-			if cuth then
-				ps.removeItem(src, k, v)
-				ps.notify(src, ps.lang('Heroin.failneedle'), "error")
+			if Bridge.Inventory.RemoveItem(src, k, v) then
+				Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Heroin.failneedle'), "error")
 				return
 			end
 		end
 	else
-		ps.removeItem(src, 'heroinvial', 1)
+		Bridge.Inventory.RemoveItem(src, 'heroinvial', 1)
 	end
 end)
 
 AddEventHandler('playerDropped', function()
 	local src = source
-	for k, v in pairs(heroinLabKits) do
-		if v.src == src then
-			table.remove(heroinLabKits, k)
-			ps.addItem(src, 'heroinlabkit', 1)
-		end
+	if heroinLabKits[src] then
+		heroinLabKits[src] = nil
+		Bridge.Inventory.AddItem(src, 'heroinlabkit', 1)
 	end
-
 end)

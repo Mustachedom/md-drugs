@@ -2,6 +2,20 @@
 local minigametype = Config.minigametype
 local dispatch = Config.Dispatch
 
+function requestModel(ped, timeout)
+	timeout = timeout or 15000
+    local startTime = GetGameTimer()
+    RequestModel(ped)
+    while not HasModelLoaded(ped) do
+		Wait(0)
+        if GetGameTimer() - startTime > timeout then
+            Bridge.Prints.Debug('requestModel timed out', ped, GetGameTimer() - startTime)
+            return false
+        end
+    end
+	return true
+end
+
 function minigame()
 	local time = 0
 	local game = Config.Minigames
@@ -90,39 +104,19 @@ end
 function PoliceCall(chance)
 	local math = math.random(1,100)
 	if math <= chance then
-		if dispatch == 'ps' then 
-			exports['ps-dispatch']:DrugSale()
-		elseif dispatch == 'cd' then
-			local data = exports['cd_dispatch']:GetPlayerInfo()
-			TriggerServerEvent('cd_dispatch:AddNotification', {
-				job_table = {'police', }, 
-				coords = data.coords,
-				title = '420-69 Drug Sale',
-				message = 'A '..data.sex..' robbing a store at '..data.street, 
-				flash = 0,
-				unique_id = data.unique_id,
-				sound = 1,
-				blip = { sprite = 431,  scale = 1.2,  colour = 3, flashes = false,  text = '420-69 Drug Sale', time = 5, radius = 0,}
-			})
-		elseif	dispatch == 'core' then
-			exports['core_dispatch']:addCall("420-69", "Drugs Are Being Sold", {
-				{icon="fa-ruler", info="4.5 MILES"},
-				}, {GetEntityCoords(PlayerPedId())}, "police", 3000, 11, 5 )
-		elseif dispatch == 'aty' then 
-			exports["aty_dispatch"]:SendDispatch('Drug Sale', '420-69', 40, {'police'})
-		elseif dispatch == 'qs' then
-			exports['qs-dispatch']:DrugSale()
-		elseif dispatch == 'codem' then
-			local Data = {
-				type = 'Drug Sale',
-				header = 'Someone Selling Drugs',
-				text = 'Hurry up and save the community',
-				code = '420-69',
-			}
-			exports['codem-dispatch']:CustomDispatch(Data)
-		else
-			print('Congrats, You Choose 0 of the options :)')	
-		end
+		Bridge.Dispatch.SendAlert({
+		    message = "Suspisous Handoff",
+		    code = "10-31",
+		    coords = GetEntityCoords(PlayerPedId()),
+		    jobs = {"police"},
+		    blipData = {
+		        sprite = 161,
+		        color = 1,
+		        scale = 1.0
+		    },
+		    time = 300000,
+		    icon = "fas fa-exclamation-triangle"
+		})
 	else
 		return
 	end
@@ -131,7 +125,7 @@ end
 function GetCops(number)
 	if number == 0 then return true end
 	local amount = ps.callback('md-drugs:server:GetCoppers')
-	if amount >= number then return true else ps.notify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
+	if amount >= number then return true else Bridge.Notify.SendNotify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
 end
 
 function Freeze(entity, toggle, head)
@@ -249,8 +243,77 @@ RegisterCommand('DrugRep', function()
 	})
 end, false)
 
-function handleGang(gang)
-	if gang == nil or gang == '' or gang == "" then return true end
-	if ps.getGangName() == gang or gang == 1 then return true end
-	return false
+if Bridge.Framework.GetResourceName() == 'es_extended' then
+	function handleGang(gang)
+		return true
+	end
+else
+	function handleGang(gang)
+		if not gang then 
+			return true
+		end
+		if #gang == 0 then
+			return true
+		end
+		local data = Bridge.Framework.GetPlayerData()
+		if not data.gang then
+			return false
+		end
+		return data.gang.name == gang
+	end
+end
+
+if Config.Emotes == 'rp' then
+	function playEmote(emote)
+		return exports["rpemotes"]:EmoteCommandStart(emote)
+	end
+	function stopEmote()
+		return exports["rpemotes"]:EmoteCancel()
+	end
+end
+
+if Config.Emotes == 'dp' then
+	function playEmote(emote)
+		TriggerEvent('animations:client:EmoteCommandStart', {emote})
+	end
+	function stopEmote()
+		TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+	end
+end
+
+if Config.Emotes == 'scully' then
+	function playEmote(emote)
+		exports.scully_emotemenu:playEmoteByCommand(emote)
+	end
+	function stopEmote()
+		exports.scully_emotemenu:cancelEmote()
+	end
+end
+
+if Config.Emotes == 'custom' then
+	function playEmote(emote)
+		TriggerEvent('animations:client:EmoteCommandStart', {emote})
+	end
+	function stopEmote()
+		TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+	end
+end
+
+function progressbar(text, time, emote, cancel)
+	playEmote(emote)
+	if not cancel then
+		cancel =  {
+			move = true,
+			car = true,
+			combat = true
+		}
+	end
+	local success = Bridge.ProgressBar.Open({
+		duration = time,
+		label = text,
+		canCancel = true,
+		disable = cancel,
+	})
+	stopEmote()
+	return success
 end

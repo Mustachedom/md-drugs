@@ -1,41 +1,41 @@
 
 local DrugPlants = {
-    {model = 'prop_plant_01a', label = 'coke', langs = ps.lang('coke.targetPick'), tbl = GlobalState.CocaPlant, plantTbl = {},
+    {model = 'prop_plant_01a', label = 'coke', langs = Bridge.Language.Locale('coke.targetPick'), tbl = GlobalState.CocaPlant, plantTbl = {},
         pick = function(loc)
-            if not ps.progressbar(ps.lang('coke.picking'), 4000, 'uncuff') then return end
+            if not ps.progressbar(Bridge.Language.Locale('coke.picking'), 4000, 'uncuff') then return end
                 TriggerServerEvent("coke:pickupCane", loc)
             return true
         end,
         allow = Config.Drugs.cocaine,
     },
-    {model = 'prop_plant_01b', label = 'heroin',langs = ps.lang('heroin.targetPick'), tbl = GlobalState.PoppyPlants, plantTbl = {},
+    {model = 'prop_plant_01b', label = 'heroin',langs = Bridge.Language.Locale('heroin.targetPick'), tbl = GlobalState.PoppyPlants, plantTbl = {},
         pick = function(loc)
-            if not ps.progressbar(ps.lang('heroin.picking'), 4000, 'uncuff') then return end
+            if not ps.progressbar(Bridge.Language.Locale('heroin.picking'), 4000, 'uncuff') then return end
                 TriggerServerEvent("heroin:pickupCane", loc)
             return true
         end,
         allow = Config.Drugs.heroin,
     },
-    {model = 'prop_cactus_03', label = 'Mescaline', langs = ps.lang('mesc.targetPick'), tbl = GlobalState.Mescaline, plantTbl = {},
+    {model = 'prop_cactus_03', label = 'Mescaline', langs = Bridge.Language.Locale('mesc.targetPick'), tbl = GlobalState.Mescaline, plantTbl = {},
         pick = function(loc)
-            if not ps.progressbar(ps.lang('mesc.picking'), 4000, 'uncuff') then return end
+            if not ps.progressbar(Bridge.Language.Locale('mesc.picking'), 4000, 'uncuff') then return end
                 TriggerServerEvent("Mescaline:pickupCane", loc)
             return true
         end,
         allow = Config.Drugs.mescaline,
 
     },
-    {model = 'prop_weed_01', label = 'weed', langs = ps.lang('weed.targetPick'), tbl = GlobalState.WeedPlant, plantTbl = {},
+    {model = 'prop_weed_01', label = 'weed', langs = Bridge.Language.Locale('weed.targetPick'), tbl = GlobalState.WeedPlant, plantTbl = {},
         pick = function(loc)
-            if not ps.progressbar(ps.lang('weed.picking'), 4000, 'uncuff') then return end
+            if not ps.progressbar(Bridge.Language.Locale('weed.picking'), 4000, 'uncuff') then return end
                 TriggerServerEvent("weed:pickupCane", loc)
             return true
         end,
         allow = Config.Drugs.weed,
     },
-    {model = 'mushroom', label = 'shrooms', langs = ps.lang('shrooms.targetPick'), tbl = GlobalState.shrooms, plantTbl = {},
+    {model = 'mushroom', label = 'shrooms', langs = Bridge.Language.Locale('shrooms.targetPick'), tbl = GlobalState.shrooms, plantTbl = {},
         pick = function(loc)
-            if not ps.progressbar(ps.lang('shrooms.picking'), 4000, 'uncuff') then return end
+            if not ps.progressbar(Bridge.Language.Locale('shrooms.picking'), 4000, 'uncuff') then return end
                 TriggerServerEvent("shrooms:pickupCane", loc)
             return true
         end,

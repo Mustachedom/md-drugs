@@ -10,13 +10,13 @@ if GetResourceState('ps_lib') == 'missing' then
     print('^1You can find ps_lib here: https://github.com/Project-Sloth/ps_lib')
     return
 end
-
+Bridge = exports.community_bridge:Bridge()
 ps = exports.ps_lib:init()  --Ignore.
 ps.loadLangs("en") -- set your language
 
 Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel, ox_fuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
-
+Config.Emotes = 'rp' -- rp, dp, scully, custom
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
 Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3

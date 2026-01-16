@@ -67,7 +67,7 @@ function SetUpPeds(drugCount)
     elseif drugCount > settings.WholesaleAmbushTier1 then
         tierName = "Medium"
     end
-    ps.notify(string.format(ps.lang('wholesale.ambush'), attackerCount, tierName), 'error')
+    Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.ambush'), attackerCount, tierName), 'error')
 end
 
 RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
@@ -86,13 +86,13 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
            local maxPayout = math.floor(drug.price.max * (1 + potentialBonus))
            local totalMinPayout = drug.count * minPayout
            local totalMaxPayout = drug.count * maxPayout
-           ps.notify(string.format(ps.lang('wholesale.count'), drug.count), 'info')
+           Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.count'), drug.count), 'info')
            if bonusPercent > 0 then
-               ps.notify(string.format(ps.lang('wholesale.bonus'), bonusPercent), 'info')
+               Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.bonus'), bonusPercent), 'info')
            end
-           ps.notify(string.format(ps.lang('wholesale.estimate'), totalMinPayout, totalMaxPayout), 'info')
+           Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.estimate'), totalMinPayout, totalMaxPayout), 'info')
        elseif drug.count <= 0 then
-           ps.notify(ps.lang('wholesale.no_drugs'), 'error')
+           Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.no_drugs'), 'error')
        end
        ps.requestModel("g_m_y_famdnf_01", settings.RequestModelTime)
        local current = "g_m_y_famdnf_01"
@@ -100,12 +100,12 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
        FreezeEntityPosition(drugdealer, true)
        SetEntityInvincible(drugdealer, true)
        ps.entityTarget(drugdealer, {{
-           label = ps.lang('wholesale.targetBuyer'),
+           label = Bridge.Language.Locale('wholesale.targetBuyer'),
            icon = "fas fa-eye",
            action = function()
                 local luck = math.random(1,100)
                 if luck <= settings.SuccessfulChance then
-                    if not ps.progressbar(ps.lang('wholesale.wholesaling'), 4000, 'uncuff') then return end
+                    if not ps.progressbar(Bridge.Language.Locale('wholesale.wholesaling'), 4000, 'uncuff') then return end
                     TriggerServerEvent("md-drugs:server:SuccessSale", drug)
                 else
                     ps.progressbar("Deal Going Bad", 4000, 'uncuff')
@@ -133,7 +133,7 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
        if timer <= settings.WholesaleTimeout or #(GetEntityCoords(PlayerPedId()) - vector3(loc.x, loc.y, loc.z) ) < 4.0  then
            timer = 0
        else
-           ps.notify(ps.lang('wholesale.tooLong'), 'error')
+           Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.tooLong'), 'error')
            DeleteEntity(drugdealer)
            TriggerServerEvent('md-drugs:server:CleanupWholesale')
            if settings.WholesaleResetOnTimeout then
@@ -148,5 +148,5 @@ RegisterNetEvent('md-drugs:client:WholesaleComplete', function(data)
     if data.bonus > 0 then
         bonusText = " (+" .. data.bonus .. "% quantity bonus)"
     end
-    ps.notify(string.format(ps.lang('wholesale.complete'), data.quantity, data.payout, bonusText), 'success')
+    Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.complete'), data.quantity, data.payout, bonusText), 'success')
 end)

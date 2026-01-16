@@ -1,8 +1,7 @@
-
+Recipes, Locations = Recipes or {}, Locations or {}
 local onRun = {}
-local cool = {}
-
-local methLocs = {
+local vehicles = {}
+Locations.Meth = {
 	CookMeth = {
         {loc = vector3(1006.09, -3200.59, -38.52), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(4.79, 2.13, -0.41), rotation = vector3(0,0,0.0), gang = ""},
     },
@@ -33,113 +32,121 @@ local methLocs = {
 		{inside = vector3(996.91, -3200.83, -36.39), outside = vector3(-2222.04, 303.99, 174.6), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 	}
 }
+GlobalState.MDDrugsLocations = Locations
 
-local methRecipes = {
+Recipes.Meth = {
 	cook = {
-		heat = {take = {ephedrine = 1, acetone = 1}, give = {}} --Missing item
+		heat = {take = {ephedrine = 1, acetone = 1}, give = {}}
 	},
 	bag = {
 		bags = {take = {empty_weed_bag = 5}, give = {methbags = 5} }
 	}
 }
+GlobalState.MDDrugsRecipes = Recipes
 
-ps.registerCallback('md-drugs:server:GetMethLocs', function(source)
-	return methLocs
-end)
-
-local function setTimeout(identifier)
-	if onRun[identifier] then
+local function setTimeout(src)
+	if onRun[src] then
 		CreateThread(function()
 			Wait(10 * 60 * 1000)
-			onRun[identifier] = nil
+			onRun[src] = nil
 		end)
 	end
 end
 
-local function coolDown(identifier)
-	if cool[identifier] then
-		return false
-	else
-		cool[identifier] = true
-		CreateThread(function()
-			Wait(3500)
-			cool[identifier] = nil
-		end)
-		return true
-	end
-end
-
-RegisterServerEvent('md-drugs:server:givemethingridients', function()
+RegisterServerEvent('md-drugs:server:givemethingridients', function(veh)
 	local src = source
 	local amount = math.random(1,5)
-	if not onRun[ps.getIdentifier(src)] then return ps.notify(src, ps.lang('meth.notOnRun'), "error") end
-	onRun[ps.getIdentifier(src)] = onRun[ps.getIdentifier(src)] + 1
-	if math.random(1,100) <= 50 then
-		ps.addItem(src, "ephedrine", amount)
-	else
-		ps.addItem(src, "acetone", amount)
+
+	local vehicle = NetworkGetEntityFromNetworkId(veh)
+	if vehicles[src] ~= vehicle then
+		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('meth.noVehicle'), "error")
 	end
-	if onRun[ps.getIdentifier(src)] >= 4 then
-		onRun[ps.getIdentifier(src)] = nil
+
+	if not DoesEntityExist(vehicle) and GetEntityModel(vehicle) == GetHashKey('journey') then
+		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('meth.noVehicle'), "error")
 	end
+	
+	if timeOut(src, 'md-drugs:server:givemethingridients') then return end
+
+	if not onRun[src] then
+		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('meth.notOnRun'), "error")
+	end
+	onRun[src] = onRun[src] + 1
+
+	local chance = math.random(1,2) == 1 and 'ephedrine' or 'acetone'
+	if onRun[src] == 5 then
+		DeleteEntity(vehicle)
+		onRun[src] = nil
+		vehicles[src] = nil
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('meth.finishedRun'), "success")
+	end
+	Bridge.Inventory.AddItem(src, chance, amount)
 end)
 
 
 RegisterServerEvent('md-drugs:server:getmeth', function(num)
   	local src = source
 	if timeOut(src, 'md-drugs:server:getmeth') then return end
-	if not ps.checkDistance(src, methLocs.BagMeth[num].loc, 2.5) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+
+	if not checkDistance(src, Locations.Meth.BagMeth[num].loc, 2.5) then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
-	if not ps.craftItem(src, methRecipes.bag.bags) then
-		verifyHas(src, methRecipes.bag.bags.take)
+
+	if not craft(src, Recipes.Meth.bag.bags) then
 		return
 	end
 end)
 
 RegisterServerEvent('md-drugs:server:geteph', function(num)
 	local src = source
-	if not ps.checkDistance(src, methLocs.MethEph[num].loc, 2.5) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+	if timeOut(src, 'md-drugs:server:geteph') then return end
+	if not checkDistance(src, Locations.Meth.MethEph[num].loc, 2.5) then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
-	if timeOut(src, 'md-drugs:server:geteph') then return end
-	ps.addItem(src, 'ephedrine', 1)
+	Bridge.Inventory.AddItem(src, 'ephedrine', 1)
 end)
 
 RegisterServerEvent('md-drugs:server:getace', function(num)
 	local src = source
-	if not ps.checkDistance(src, methLocs.MethAce[num].loc, 2.5) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+	if timeOut(src, 'md-drugs:server:getace') then return end
+	if not checkDistance(src, Locations.Meth.MethAce[num].loc, 2.5) then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
-	if timeOut(src, 'md-drugs:server:getace') then return end
-	ps.addItem(src, 'acetone', 1)
+	Bridge.Inventory.AddItem(src, 'acetone', 1)
 end)
 
-ps.registerCallback('md-drugs:server:startcook', function(source, num)
+Bridge.Callback.Register('md-drugs:server:startcook', function(source, num)
 	local src = source
-	if not ps.checkDistance(src, methLocs.CookMeth[num].loc, 2.5) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.Meth.CookMeth[num].loc, 2.5) then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return false
 	end
-	local recipe = ps.craftItem(src, methRecipes.cook.heat)
-	if not recipe then
-		verifyHas(src, methRecipes.cook.heat.take)
+	if not craft(src, Recipes.Meth.cook.heat) then
 		return false
 	end
 	return true
 end)
 
-ps.registerCallback('md-drugs:server:registerMeth', function(source)
-	local identifier = ps.getIdentifier(source)
-	if not identifier then return false end
-	if onRun[identifier] then
+Bridge.Callback.Register('md-drugs:server:registerMeth', function(source, loc, vehNetId)
+	local src = source
+	if onRun[source] then
 		return false
 	else
-		onRun[identifier] = 0
-		setTimeout(identifier)
+		if checkDistance(src, Locations.Meth.MethHeist[loc].loc, 10.0) then
+			local vehicle = NetworkGetEntityFromNetworkId(vehNetId)
+			if DoesEntityExist(vehicle) and GetEntityModel(vehicle) == GetHashKey('journey') then
+				vehicles[src] = vehicle
+			else
+				return false
+			end
+		else
+			return false
+		end
+		onRun[source] = 0
+		setTimeout(source)
 		return true
 	end
 end)

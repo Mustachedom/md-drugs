@@ -33,10 +33,10 @@ ps.registerCallback('md-drugs:server:payfortruck', function(source)
 	local src = source
 	if ps.removeMoney(src, 'cash', prices.payfortruck) or ps.removeMoney(src, 'bank', prices.payfortruck) then
 		onRoute[src] = true
-		ps.notify(src, ps.lang('oxy.paid', prices.payfortruck), "success")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.paid', prices.payfortruck), "success")
 		return true
 	else
-		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")
 		return false
 	end
 end)
@@ -46,12 +46,12 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local src = source
 	if timeOut(src, 'md-drugs:server:giveoxybox') then return end
 	if not onRoute[src] then
-		ps.notify(src, ps.lang('oxy.notOn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notOn'), "error")
 		return
 	end
 
 	if not ps.checkDistance(src, oxyLocs.oxylocations[onRoute[src]], 3.5) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
 

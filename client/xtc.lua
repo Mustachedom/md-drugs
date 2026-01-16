@@ -9,19 +9,19 @@ end
 
 ps.registerCallback('md-drugs:client:setpress', function(xtcData)
     if xtcpress then
-        ps.notify(ps.lang('xtc.alreadyOut'), 'error')
+        Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.alreadyOut'), 'error')
         return
     end
     local coords, head = StartRay2()
     xtcpress = true
-	if not ps.progressbar(ps.lang('xtc.settingDown'), 4000, 'uncuff') then return end
+	if not ps.progressbar(Bridge.Language.Locale('xtc.settingDown'), 4000, 'uncuff') then return end
 	local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	PlaceObjectOnGroundProperly(press)
     Freeze(press, true, head)
       local options = {
           {
             icon = "fas fa-eye",
-            label = ps.lang('xtc.targetMake'),
+            label = Bridge.Language.Locale('xtc.targetMake'),
             distance = 2.0,
             action = function()
                 local options = {}
@@ -32,8 +32,8 @@ ps.registerCallback('md-drugs:client:setpress', function(xtcData)
                         title = ps.getLabel(k),
                         description = descript,
                         action = function()
-                            if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                            if not ps.progressbar(ps.lang('xtc.making', ps.getLabel(k)), 4000, 'uncuff') then return end
+                            if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                            if not ps.progressbar(Bridge.Language.Locale('xtc.making', ps.getLabel(k)), 4000, 'uncuff') then return end
                             TriggerServerEvent("md-drugs:server:makextc", k)
                         end,
                         distance = 2.0
@@ -47,9 +47,9 @@ ps.registerCallback('md-drugs:client:setpress', function(xtcData)
           },
           {
             icon = "fas fa-eye",
-            label = ps.lang('xtc.targetPickup'),
+            label = Bridge.Language.Locale('xtc.targetPickup'),
             action = function()
-               if not ps.progressbar(ps.lang('xtc.picking'), 5000, 'uncuff') then return end
+               if not ps.progressbar(Bridge.Language.Locale('xtc.picking'), 5000, 'uncuff') then return end
                DeleteObject(press)
                xtcpress = false
                TriggerServerEvent("md-drugs:server:getpressback")
@@ -67,10 +67,10 @@ for k, v in pairs(locations.mdp2p) do
     ps.boxTarget('mdp2p'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetStealMDP2P'),
+            label = Bridge.Language.Locale('xtc.targetStealMDP2P'),
             action = function()
-                if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.stealingMDP2P'), 4000, 'uncuff') then return end
+                if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                if not ps.progressbar(Bridge.Language.Locale('xtc.stealingMDP2P'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:stealmdp2p", k)
             end,
             canInteract = function()
@@ -83,10 +83,10 @@ for k, v in pairs(locations.isosafrole) do
     ps.boxTarget('isosafrole'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetStealIsosafrole'),
+            label = Bridge.Language.Locale('xtc.targetStealIsosafrole'),
             action = function()
-                if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.stealingIsosafrole'), 4000, 'uncuff') then return end
+                if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                if not ps.progressbar(Bridge.Language.Locale('xtc.stealingIsosafrole'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:stealisosafrole", k)
             end,
             canInteract = function()
@@ -100,10 +100,10 @@ for k, v in pairs(locations.rawxtcloc) do
     ps.boxTarget('xtcraw'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetRaw'),
+            label = Bridge.Language.Locale('xtc.targetRaw'),
             action = function()
-                if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.makingRaw'), 4000, 'uncuff') then return end
+                if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                if not ps.progressbar(Bridge.Language.Locale('xtc.makingRaw'), 4000, 'uncuff') then return end
                 TriggerServerEvent("md-drugs:server:makingrawxtc", k)
             end,
             canInteract = function()
@@ -120,7 +120,7 @@ for k, v in pairs(locations.xtcpress) do
     ps.entityTarget(ped, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.getPress'),
+            label = Bridge.Language.Locale('xtc.getPress'),
             action = function()
                 local options = {}
                 local recipeList = ps.callback('md-drugs:server:getpressrecipes')
@@ -129,10 +129,10 @@ for k, v in pairs(locations.xtcpress) do
                         options[#options + 1] = {
                           icon = ps.getImage(m),
                           title = ps.getLabel(m),
-                          description = ps.lang('xtc.buySingle', d.cash),
+                          description = Bridge.Language.Locale('xtc.buySingle', d.cash),
                           type = d.type,
                           action = function()
-                            if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
+                            if not ps.progressbar(Bridge.Language.Locale('xtc.buyp'), 4000, 'uncuff') then return end
                             TriggerServerEvent('md-drugs:server:buypress',k, m)
                           end,
                         }
@@ -144,7 +144,7 @@ for k, v in pairs(locations.xtcpress) do
                             description = descript,
                             type = d.type,
                             action = function()
-                                 if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
+                                 if not ps.progressbar(Bridge.Language.Locale('xtc.buyp'), 4000, 'uncuff') then return end
                                 TriggerServerEvent("md-drugs:server:upgradepress", k, m)
                             end,
                             distance = 2.0
@@ -163,7 +163,7 @@ for k, v in pairs (locations.stamp) do
     ps.boxTarget('xtcstamp'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
         {
             icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetStamp'),
+            label = Bridge.Language.Locale('xtc.targetStamp'),
             action = function()
                 local item = {
                     {item = 'white_xtc', label = ps.getLabel('white_xtc'), color = 'white'},
@@ -176,10 +176,10 @@ for k, v in pairs (locations.stamp) do
                     options[#options + 1] = {
                         icon = ps.getImage(d.item),
                         title = d.label,
-                        description = ps.lang('xtc.stamp_desc', d.color),
+                        description = Bridge.Language.Locale('xtc.stamp_desc', d.color),
                         action = function()
-                            if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                            if not ps.progressbar(ps.lang('xtc.stamping', d.label), 4000, 'uncuff') then return end
+                            if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                            if not ps.progressbar(Bridge.Language.Locale('xtc.stamping', d.label), 4000, 'uncuff') then return end
                             TriggerServerEvent("md-drugs:server:stamp", k, d.color)
                         end,
                         distance = 2.0

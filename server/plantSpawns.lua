@@ -228,7 +228,7 @@ for k, v in pairs (plantData) do
                 v.itemGive(src)
             end
         else
-            ps.notify(src, ps.lang('Catches.notIn'), 'error')
+            Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), 'error')
             return
         end
     end)

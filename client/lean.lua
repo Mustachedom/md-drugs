@@ -7,7 +7,7 @@ local function SpawnCarPedChase()
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
 	local start = location.StartLoc[math.random(1,#location.StartLoc)]
 
-	if started then ps.notify(ps.lang('lean.alreadyChasing'), 'error') return end
+	if started then Bridge.Notify.SendNotify(Bridge.Language.Locale('lean.alreadyChasing'), 'error') return end
     started = true
 
 	ps.callback('md-drugs:server:RegisterLean')
@@ -39,7 +39,7 @@ local function SpawnCarPedChase()
 			{
 				name = 'leancar',
 				icon = 'fa-solid fa-car',
-				label = ps.lang('lean.stealFromTruck'),
+				label = Bridge.Language.Locale('lean.stealFromTruck'),
 				action = function()
 					hit = hit + 1
 					if not minigame() then return end
@@ -69,7 +69,7 @@ for k, v in pairs (location.SyrupVendor) do
 	ps.entityTarget(leanPeds[k], {
 		{
 			icon = "fa-solid fa-hand-holding-medical",
-			label = ps.lang('lean.startMission'),
+			label = Bridge.Language.Locale('lean.startMission'),
 			action = function()
 				SpawnCarPedChase()
 			end,

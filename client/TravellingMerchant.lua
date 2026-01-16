@@ -7,7 +7,7 @@ local function spawn()
     Freeze(ped, true, data.loc.w)
     ps.entityTarget(ped, {
         {
-            label = ps.lang('merchant.targetOpen'),
+            label = Bridge.Language.Locale('merchant.targetOpen'),
             action = function()
                 local options = {}
                 for k, v in pairs (data.items) do

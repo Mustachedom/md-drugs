@@ -17,7 +17,7 @@ local function EcstasyEffect()
 end
 
 ps.registerCallback("md-drugs:client:shrooms", function()
-    if not ps.progressbar(ps.lang('shrooms.eat'), 5000, 'eat')  then return end
+    if not ps.progressbar(Bridge.Language.Locale('shrooms.eat'), 5000, 'eat')  then return end
     CreateThread(function()
         EcstasyEffect()
     end)

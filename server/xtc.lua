@@ -63,7 +63,7 @@ local activePresses = {}
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	local src = source
 	if not ps.checkDistance(src, xtcLocations.isosafrole[num].loc, 3.0) then
-		ps.notify(src, ps.lang('Checks.notIn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Checks.notIn'), "error")
 		return
 	end
 	if timeOut(src, 'md-drugs:server:stealisosafrole') then return end
@@ -73,7 +73,7 @@ end)
 RegisterServerEvent('md-drugs:server:stealmdp2p', function(num)
   	local src = source
 	if not ps.checkDistance(src, xtcLocations.mdp2p[num].loc, 3.0) then
-		ps.notify(src, ps.lang('Checks.notIn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Checks.notIn'), "error")
 		return
 	end
 	if timeOut(src, 'md-drugs:server:stealmdp2p') then return end
@@ -118,7 +118,7 @@ end)
 RegisterServerEvent('md-drugs:server:makextc', function(data)
   	local src = source
   	if not activePresses[src] then
-		ps.notify(src, ps.lang('xtc.noPressOut'), 'error')
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('xtc.noPressOut'), 'error')
 		return
   	end
 	if timeOut(src, 'md-drugs:server:makextc') then return end
@@ -132,14 +132,14 @@ end)
 RegisterServerEvent('md-drugs:server:buypress', function(loc, item)
 	local src = source
 	if not ps.checkDistance(src, xtcLocations.xtcpress[loc].loc, 2.0) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
 	if timeOut(src, 'md-drugs:server:buypress') then return end
 	if ps.removeMoney(src,"cash", RecipeList.presses['singlepress'].cash) then
 		ps.addItem(src, "singlepress", 1)
 	else
-		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")
 	end
 end)
 
@@ -147,7 +147,7 @@ RegisterServerEvent('md-drugs:server:upgradepress', function(data, item)
   	local src = source
 	if timeOut(src, 'md-drugs:server:upgradepress') then return end
   	if not ps.checkDistance(src, xtcLocations.xtcpress[data].loc, 2.0) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
   	end
   	if not ps.craftItem(src, RecipeList.presses[item]) then
@@ -164,7 +164,7 @@ end)
 RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
     local src = source
 	if not ps.checkDistance(src, xtcLocations.rawxtcloc[num].loc, 3.0) then
-		ps.notify(src, ps.lang('Checks.notIn'), "error")
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Checks.notIn'), "error")
 		return
 	end
 	if timeOut(src, 'md-drugs:server:makingrawxtc') then return end
@@ -207,7 +207,7 @@ RegisterServerEvent('md-drugs:server:stamp', function(num, color)
 	elseif ps.removeItem(src, colors[color].."4", 1) then
 		ps.addItem(src, item..'4', 1) 
 	else
-		ps.notify(src, ps.lang('xtc.noPills'), 'error')
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('xtc.noPills'), 'error')
 	end
 end)
 

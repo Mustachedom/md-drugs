@@ -25,7 +25,7 @@ ps.createUseable('prescription_pad', function(source, item)
 			{label = ps.getItemLabel('xanax_prescription'),    value = 'xanax_prescription'}
 		}
 		local data = ps.callback('md-drugs:client:prescriptionpad', src, near, options)
-		if not data then return ps.notify(src, ps.lang('pharma.canceled'), "error") end
+		if not data then return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('pharma.canceled'), "error") end
 		ps.addItem(ps.getSource(data.who), data.what, 1)
 	end
 end)
@@ -46,7 +46,7 @@ for m, d in pairs (pharmabottle) do
 				if d == k then
 					if ps.removeItem(src, d, 1) then
 						ps.addItem(src, v, math.random(10,30))
-						ps.notify(src,ps.lang('pharma.unbottle'), "success")
+						Bridge.Notify.SendNotify(src,Bridge.Language.Locale('pharma.unbottle'), "success")
 					end
 				end
 			end
@@ -58,7 +58,7 @@ RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:fillprescription') then return end
 	if not ps.checkDistance(src, pharmaLocations.FillPrescription[num].loc, 3.5) then
-		return ps.notify(src, ps.lang('Catches.notIn'), "error")
+		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 	end
 	local pres = {
 		vicodin_prescription = 'vicodinbottle',
