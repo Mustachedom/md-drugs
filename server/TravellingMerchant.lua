@@ -38,7 +38,7 @@ local stores = {
 	},
 }
 
-ps.registerCallback('md-drugs:server:GetMerchant', function(source)
+Bridge.Callback.Register('md-drugs:server:GetMerchant', function(source)
 	return {loc = loc, items = stores.travel}
 end)
 
@@ -46,7 +46,7 @@ end)
 
 RegisterServerEvent("md-drugs:server:purchaseGoods", function(item)
 	local src = source
-	if not ps.checkDistance(src, loc, 10) then
+	if not checkDistance(src, loc, 10) then
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
@@ -54,8 +54,8 @@ RegisterServerEvent("md-drugs:server:purchaseGoods", function(item)
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.invalidItem'), "error")
 		return
 	end
-	if ps.removeMoney(src, 'cash', stores.travel[item]) then
-		ps.addItem(src, item, 1)
+	if Bridge.Framework.RemoveAccountBalance(src, 'cash', stores.travel[item]) then
+		Bridge.Inventory.AddItem(src, item, 1)
 	else
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")
 	end

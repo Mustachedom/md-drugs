@@ -1,11 +1,12 @@
+Locations = Locations or {}
 local prices = {
 	payfortruck = 500,
 	hotchance = 30,
 	itemChance = 20,
 }
 local onRoute = {}
-
-local oxyLocs = {
+local vehicles = {}
+Locations.Oxy = {
 	OxyPayForTruck = {
         {loc = vector3(1437.64, -1491.91, 63.62), truckSpawn = vector4(1450.87, -1482.13, 63.22, 69.95), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
@@ -24,21 +25,25 @@ local oxyLocs = {
 	    vector4(474.88, 2609.56, 44.48, 357.0),
     }
 }
+GlobalState.MDDrugsLocations = Locations
 
-ps.registerCallback('md-drugs:server:GetOxyLocs', function(source)
-	return oxyLocs
-end)
 
-ps.registerCallback('md-drugs:server:payfortruck', function(source)
+Bridge.Callback.Register('md-drugs:server:payfortruck', function(source, loc)
 	local src = source
-	if ps.removeMoney(src, 'cash', prices.payfortruck) or ps.removeMoney(src, 'bank', prices.payfortruck) then
-		onRoute[src] = true
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.paid', prices.payfortruck), "success")
-		return true
-	else
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")
+	if timeOut(src, 'md-drugs:server:payfortruck') then return false end
+	if not checkDistance(src, Locations.Oxy.OxyPayForTruck[loc].loc, 2.0) then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return false
 	end
+	if not Bridge.Framework.RemoveAccountBalance(src, 'cash', prices.payfortruck) then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notEnoughCash'), "error")
+		return false
+	end
+	onRoute[src] = {
+		amount = math.random(1, #Locations.Oxy.oxylocations),
+		current = 0
+	}
+	return true
 end)
 
 
@@ -50,8 +55,19 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 		return
 	end
 
-	if not ps.checkDistance(src, oxyLocs.oxylocations[onRoute[src]], 3.5) then
+	if not checkDistance(src, Locations.Oxy.oxylocations[onRoute[src].current], 3.5) then
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
+		return
+	end
+
+	local vehicles = vehicles[src]
+	if not vehicles or GetEntityModel(vehicles) ~= GetHashKey("burrito3") then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notInVeh'), "error")
+		return
+	end
+
+	if #(GetEntityCoords(vehicles) - GetEntityCoords(GetPlayerPed(src))) > 35.0 then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notNearVeh'), "error")
 		return
 	end
 
@@ -62,21 +78,29 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
     	{item = 'houselockpick', amount = 1},
 	}
 	local item = itemList[math.random(1, #itemList)]
-	ps.addMoney(src,"cash", cash)
+	Bridge.Framework.AddAccountBalance(src, 'cash', cash)
 	if itemchance <= prices.itemChance then 
-		ps.addItem(src, item.item, item.amount)
+		Bridge.Framework.AddItem(src, item.item, item.amount)
 	end
 end)
 
-ps.registerCallback('md-drugs:server:getRoute', function(source)
+Bridge.Callback.Register('md-drugs:server:getRoute', function(source)
 	if not onRoute[source] then return false end
-	local giveLocation = math.random(1, 10)
-	if giveLocation >= 8 then
+	if onRoute[source].amount == 0 then
 		onRoute[source] = nil
+		vehicles[source] = nil
 		return false
-	else
-		onRoute[source] = math.random(1, #oxyLocs.oxylocations)
-		return oxyLocs.oxylocations[onRoute[source]]
 	end
+	onRoute[source].current = math.random(1, #Locations.Oxy.oxylocations)
+	onRoute[source].amount = onRoute[source].amount - 1
+	return onRoute[source].current
 end)
 
+RegisterNetEvent('md-drugs:server:startOxyRun', function(netId)
+	local src = source
+	if not onRoute[src] then return end
+	local veh = NetworkGetEntityFromNetworkId(netId)
+	if not veh or GetEntityModel(veh) ~= GetHashKey("burrito3") then return end
+	vehicles[src] = veh
+
+end)

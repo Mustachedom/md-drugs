@@ -1,40 +1,56 @@
-local pharmaLocations = {
+Locations = Locations or {}
+
+Locations.Pharma = {
     FillPrescription = { -- where to fill out your prescription
         {loc = vector3(2855.62, 4446.73, 48.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
     },
 }
-
-ps.registerCallback('md-drugs:server:GetPharmaLocs', function()
-	return pharmaLocations
-end)
+GlobalState.MDDrugsLocations = Locations
 
 local function GetJob(source)
 	local src = source
-	return ps.getJobType(src) == 'ems'
+	local jobName = Bridge.Framework.GetPlayerJob(src)
+	return jobName == 'ambulance'
 end
 
-ps.createUseable('prescription_pad', function(source, item)
+local function getNearby(src, distance)
+	local players = Bridge.Framework.GetPlayers()
+	local nearPlayers = {}
+	for index, sources in pairs(players) do
+		--if sources ~= src then
+			local target = GetEntityCoords(GetPlayerPed(sources))
+			local you = GetEntityCoords(GetPlayerPed(src))
+			local distanceBetween = #(you - target)
+			if distanceBetween <= distance then
+				table.insert(nearPlayers, {label = Bridge.Framework.GetPlayerName(sources), value = sources})
+			end
+		--end
+	end
+	return nearPlayers
+end
+
+Bridge.Framework.RegisterUsableItem('prescription_pad', function(source, item)
 	local src = source
 	local near = {}
 	if GetJob(src) then
-		near = ps.getNearbyPlayers(src, 5.0)
+		near = getNearby(src, 5.0)
 		local options = { 
-			{label = ps.getItemLabel('vicodin_prescription'),  value = 'vicodin_prescription'},
-			{label = ps.getItemLabel('adderal_prescription'),  value = 'adderal_prescription'},
-			{label = ps.getItemLabel('morphine_prescription'), value = 'morphine_prescription'},
-			{label = ps.getItemLabel('xanax_prescription'),    value = 'xanax_prescription'}
+			{label = Bridge.Inventory.GetItemInfo('vicodin_prescription').label,  value = 'vicodin_prescription'},
+			{label = Bridge.Inventory.GetItemInfo('adderal_prescription').label,  value = 'adderal_prescription'},
+			{label = Bridge.Inventory.GetItemInfo('morphine_prescription').label, value = 'morphine_prescription'},
+			{label = Bridge.Inventory.GetItemInfo('xanax_prescription').label,    value = 'xanax_prescription'}
 		}
-		local data = ps.callback('md-drugs:client:prescriptionpad', src, near, options)
+		local data = Bridge.Callback.Trigger('md-drugs:client:prescriptionpad', src, near, options)
 		if not data then return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('pharma.canceled'), "error") end
-		ps.addItem(ps.getSource(data.who), data.what, 1)
+		Bridge.Framework.AddItem(data.who, data.what, 1)
 	end
 end)
 
 local pharmabottle = {'vicodinbottle', 'adderalbottle','morphinebottle','xanaxbottle'}
 for m, d in pairs (pharmabottle) do
-	ps.createUseable(d, function(source, item)
+	Bridge.Framework.RegisterUsableItem(d, function(source, item)
 		local src = source
-		local check = ps.callback("md-drugs:client:unbottle", src)
+		local check = Bridge.Callback.Trigger("md-drugs:client:unbottle", src)
 		if check then
 			local get = {
 				['vicodinbottle'] = 'vicodin',
@@ -44,8 +60,8 @@ for m, d in pairs (pharmabottle) do
 			}
 			for k, v in pairs (get) do 
 				if d == k then
-					if ps.removeItem(src, d, 1) then
-						ps.addItem(src, v, math.random(10,30))
+					if Bridge.Framework.RemoveItem(src, d, 1) then
+						Bridge.Framework.AddItem(src, v, math.random(10,30))
 						Bridge.Notify.SendNotify(src,Bridge.Language.Locale('pharma.unbottle'), "success")
 					end
 				end
@@ -56,8 +72,9 @@ end
 
 RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
+	
 	if timeOut(src, 'md-drugs:server:fillprescription') then return end
-	if not ps.checkDistance(src, pharmaLocations.FillPrescription[num].loc, 3.5) then
+	if not checkDistance(src, Locations.Pharma.FillPrescription[num].loc, 3.5) then
 		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 	end
 	local pres = {
@@ -67,9 +84,9 @@ RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 		xanax_prescription = 'xanaxbottle'
 	}
 	for k, v in pairs (pres) do
-		if ps.hasItem(src, k, 1) then
-			ps.removeItem(src, k, 1)
-			ps.addItem(src, v, 1)
+		if Bridge.Framework.HasItem(src, k, 1) then
+			Bridge.Framework.RemoveItem(src, k, 1)
+			Bridge.Framework.AddItem(src, v, 1)
 			break
 		end
 	end

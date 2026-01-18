@@ -16,8 +16,8 @@ local function EcstasyEffect()
     startStamina = 0
 end
 
-ps.registerCallback("md-drugs:client:shrooms", function()
-    if not ps.progressbar(Bridge.Language.Locale('shrooms.eat'), 5000, 'eat')  then return end
+Bridge.Callback.Register("md-drugs:client:shrooms", function()
+    if not progressbar(Bridge.Language.Locale('shrooms.eat'), 5000, 'eat')  then return end
     CreateThread(function()
         EcstasyEffect()
     end)

@@ -18,7 +18,7 @@ for k, v in pairs (locations.WeedDry) do
 				Bridge.Notify.SendNotify(Bridge.Language.Locale('weed.wait'), "success")
 				Wait(math.random(1000,5000))
 				Bridge.Notify.SendNotify(Bridge.Language.Locale('weed.take'), "success")
-				ps.entityTarget(weedplant, {
+				Bridge.Target.AddLocalEntity(weedplant, {
 					{
 						icon = "fa-solid fa-cannabis",
 						label = Bridge.Language.Locale('weed.targetDryed'),
@@ -118,12 +118,12 @@ RegisterNetEvent('md-drugs:client:rollBlunt', function(data)
 end)
 
 for k, v in pairs (locations.WeedSalesman) do
-	ps.requestModel(v.ped)
+	requestModel(v.ped)
 	local ped = CreatePed(4, v.ped, v.loc.x, v.loc.y, v.loc.z - 1.0, v.loc.w, false, true)
 	FreezeEntityPosition(ped, true)
 	SetEntityInvincible(ped, true)
 	SetBlockingOfNonTemporaryEvents(ped, true)
-	ps.entityTarget(ped, {
+	Bridge.Target.AddLocalEntity(ped, {
 		{
 			icon = "fa-solid fa-cannabis",
 			label = Bridge.Language.Locale('weed.targetSales'),
@@ -154,7 +154,7 @@ local props = {}
 
 for locationKey, locationData in pairs (locations.MakeButter) do
 	if locationData.prop then
-		ps.requestModel(locationData.prop)
+		requestModel(locationData.prop)
 		props[#props+1] = CreateObject(locationData.prop, locationData.loc.x, locationData.loc.y, locationData.loc.z - 1.0, false, false, false)
 		FreezeEntityPosition(props[#props], true)
 		SetEntityHeading(props[#props], locationData.loc.w)
@@ -162,7 +162,7 @@ for locationKey, locationData in pairs (locations.MakeButter) do
 end
 for locationKey, locationData in pairs (locations.MakeOil) do
 	if locationData.prop then
-		ps.requestModel(locationData.prop)
+		requestModel(locationData.prop)
 		props[#props+1] = CreateObject(locationData.prop, locationData.loc.x, locationData.loc.y, locationData.loc.z - 1.0, false, false, false)
 		FreezeEntityPosition(props[#props], true)
 		SetEntityHeading(props[#props], locationData.loc.w)

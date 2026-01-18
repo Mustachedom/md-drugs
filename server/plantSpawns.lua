@@ -123,7 +123,7 @@ local plantData = {
             GlobalState.CocaPlant = plants.cocaine
         end,
         itemGive = function(src)
-            ps.addItem(src, 'coca_leaf', 1)
+            Bridge.Inventory.AddItem(src, 'coca_leaf', 1)
         end,
         coolDown = function(loc)
             CreateThread(function()
@@ -142,7 +142,7 @@ local plantData = {
             GlobalState.PoppyPlants = plants.heroin
         end,
         itemGive = function(src)
-            ps.addItem(src, 'poppyresin', 1)
+            Bridge.Inventory.AddItem(src, 'poppyresin', 1)
         end,
         coolDown = function(loc)
             CreateThread(function()
@@ -161,7 +161,7 @@ local plantData = {
             GlobalState.Mescaline = plants.mescaline
         end,
         itemGive = function(src)
-            ps.addItem(src, 'cactusbulb', 1)
+            Bridge.Inventory.AddItem(src, 'cactusbulb', 1)
         end,
         coolDown = function(loc)
             CreateThread(function()
@@ -180,7 +180,7 @@ local plantData = {
             GlobalState.shrooms = plants.shrooms
         end,
         itemGive = function(src)
-            ps.addItem(src, 'shrooms', 1)
+            Bridge.Inventory.AddItem(src, 'shrooms', 1)
         end,
         coolDown = function(loc)
             CreateThread(function()
@@ -199,7 +199,7 @@ local plantData = {
             GlobalState.WeedPlant = plants.weed
         end,
         itemGive = function(src)
-            ps.addItem(src, 'wetcannabis', 1)
+            Bridge.Inventory.AddItem(src, 'wetcannabis', 1)
         end,
         coolDown = function(loc)
             CreateThread(function()
@@ -219,7 +219,7 @@ for k, v in pairs (plantData) do
     RegisterNetEvent(v.label ..":pickupCane", function(loc)
         local src = source
         if timeOut(src, v.label .. ":pickupCane") then return end
-        if ps.checkDistance(src, v.plants[loc].location, 5.0) then
+        if checkDistance(src, v.plants[loc].location, 5.0) then
             if not v.plants[loc].taken then
                 v.plants[loc].taken = true
                 v.globalState()

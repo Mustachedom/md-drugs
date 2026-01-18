@@ -59,7 +59,7 @@ ps.registerCallback('md-drugs:client:setpress', function(xtcData)
             end
           },
       }
-    ps.entityTarget(press, options)
+    Bridge.Target.AddLocalEntity(press, options)
     return coords
 end)
 
@@ -114,10 +114,10 @@ for k, v in pairs(locations.rawxtcloc) do
 end
 
 for k, v in pairs(locations.xtcpress) do
-    ps.requestModel(v.ped)
+    requestModel(v.ped)
     local ped = CreatePed(0, v.ped, v.loc, false, false)
     Freeze(ped, true, v.loc.w)
-    ps.entityTarget(ped, {
+    Bridge.Target.AddLocalEntity(ped, {
         {
             icon = 'fa-solid fa-flask',
             label = Bridge.Language.Locale('xtc.getPress'),

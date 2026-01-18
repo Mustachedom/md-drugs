@@ -11,9 +11,9 @@ local function SpawnCarPedChase()
     started = true
 
 	ps.callback('md-drugs:server:RegisterLean')
-    ps.requestModel("pounder", 30000)
-    ps.requestModel("ig_priest", 30000)
-    ps.requestModel("cargobob3", 30000)
+    requestModel("pounder", 30000)
+    requestModel("ig_priest", 30000)
+    requestModel("cargobob3", 30000)
 
     local leancar = CreateVehicle("pounder", start.x+3, start.y-2, start.z-1, 52.0, true, false)
     local driver = CreatePed(26, "ig_priest", start.x, start.y, start.z, 268.9422, false, false)
@@ -35,7 +35,7 @@ local function SpawnCarPedChase()
 	RemoveBlip(leancar)
 
 	if GetEntityHealth(driver) == 0 then
-		ps.entityTarget(leancar, {
+		Bridge.Target.AddLocalEntity(leancar, {
 			{
 				name = 'leancar',
 				icon = 'fa-solid fa-car',
@@ -63,10 +63,10 @@ end
 
 local leanPeds = {}
 for k, v in pairs (location.SyrupVendor) do
-	ps.requestModel(v.ped)
+	requestModel(v.ped)
 	leanPeds[k] = CreatePed(0, v.ped, v.loc.x, v.loc.y, v.loc.z, false, false)
 	Freeze(leanPeds[k], true, v.loc.w)
-	ps.entityTarget(leanPeds[k], {
+	Bridge.Target.AddLocalEntity(leanPeds[k], {
 		{
 			icon = "fa-solid fa-hand-holding-medical",
 			label = Bridge.Language.Locale('lean.startMission'),

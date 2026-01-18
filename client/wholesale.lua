@@ -33,7 +33,7 @@ function SetUpPeds(drugCount)
         local y = playerCoords.y + math.sin(math.rad(angle)) * 15
         local z = playerCoords.z
         local modelHash = GetHashKey(models[math.random(1, #models)])
-        ps.requestModel(modelHash)
+        requestModel(modelHash)
         local ped = CreatePed(4, modelHash, x, y, z, 0.0, true, false)
         local weapon = weaponTier[math.random(1, #weaponTier)]
         SetPedRelationshipGroupHash(ped, GetHashKey("HATES_PLAYER"))
@@ -94,12 +94,12 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
        elseif drug.count <= 0 then
            Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.no_drugs'), 'error')
        end
-       ps.requestModel("g_m_y_famdnf_01", settings.RequestModelTime)
+       requestModel("g_m_y_famdnf_01", settings.RequestModelTime)
        local current = "g_m_y_famdnf_01"
        local drugdealer = CreatePed(0, current,loc.x,loc.y,loc.z-1, 90.0, false, false)
        FreezeEntityPosition(drugdealer, true)
        SetEntityInvincible(drugdealer, true)
-       ps.entityTarget(drugdealer, {{
+       Bridge.Target.AddLocalEntity(drugdealer, {{
            label = Bridge.Language.Locale('wholesale.targetBuyer'),
            icon = "fas fa-eye",
            action = function()

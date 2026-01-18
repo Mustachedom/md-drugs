@@ -141,7 +141,7 @@ local heading = 180.0
 function StartRay()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
-	ps.requestModel('v_ret_ml_tablea', 30000)
+	requestModel('v_ret_ml_tablea', 30000)
 	local table = CreateObject('v_ret_ml_tablea', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
         local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
@@ -185,7 +185,7 @@ end
 function StartRay2()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
-	ps.requestModel('bkr_prop_coke_press_01aa', 30000)
+	requestModel('bkr_prop_coke_press_01aa', 30000)
 	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
         local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
@@ -227,7 +227,7 @@ function StartRay2()
 end
 
 ps.registerCallback('md-drugs:client:uncuff', function(data)
-	if not ps.progressbar(data, 4000, 'uncuff') then return end
+	if not progressbar(data, 4000, 'uncuff') then return end
 	return true
 end)
 

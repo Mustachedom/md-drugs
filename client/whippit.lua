@@ -2,7 +2,7 @@ local prop = nil
 local function animation(color)
     local coords = GetEntityCoords(PlayerPedId())
     ps.requestAnim('mp_player_intdrink')
-    ps.requestModel(color)
+    requestModel(color)
     prop = CreateObject(GetHashKey(color), coords.x, coords.y, coords.z, true, true, true)
     AttachEntityToEntity(prop, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 18905), 0.087000, -0.130001, 0.138999, 63.630001, 3.299881, -21.000000, true, true, false, true, 1, true)
     TaskPlayAnim(PlayerPedId(), 'mp_player_intdrink', 'loop_bottle', 8.0, -8.0, -1, 49, 0, false, false, false)
@@ -40,12 +40,12 @@ end)
 local function spawnShops()
     local locations = ps.callback('md-drugs:server:getWhippitLocations')
     for k, v in pairs(locations) do
-        ps.requestModel(v.ped)
+        requestModel(v.ped)
         local ped = CreatePed(5, GetHashKey(v.ped), v.loc.x, v.loc.y, v.loc.z, v.loc.w, true, true)
         FreezeEntityPosition(ped, true)
         SetEntityInvincible(ped, true)
         SetBlockingOfNonTemporaryEvents(ped, true)
-       --ps.entityTarget(ped, {
+       --Bridge.Target.AddLocalEntity(ped, {
        --    {
        --        label = Bridge.Language.Locale('Whippit.targetShop'),
        --        icon = 'fa-solid fa-cart-shopping',
