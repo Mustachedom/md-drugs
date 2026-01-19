@@ -1,6 +1,7 @@
-
+Locations = Locations or {}
+Recipes = Recipes or {}
 local onRun = {}
-local leanLocs = {
+Locations.Lean = {
 	MakeLean = {
         {
             loc = vector3(2635.81, 4240.57, 45.32),
@@ -22,10 +23,28 @@ local leanLocs = {
     },
 }
 
-ps.registerCallback('md-drugs:server:GetLeanLocs', function(source)
-	return leanLocs
-end)
-
+GlobalState.MDDrugsLocations = Locations
+Recipes.Lean = {
+	{
+		item = 'cupoflean',
+		amount = 1,
+		ingredients = {
+			{item = 'leancup', amount = 1},
+			{item = 'mdlean', amount = 1},
+			{item = 'sprunk', amount = 1},
+		}
+	},
+	{
+		item = 'cupofdextro',
+		amount = 1,
+		ingredients = {
+			{item = 'leancup', amount = 1},
+			{item = 'mdreddextro', amount = 1},
+			{item = 'sprunk', amount = 1},
+		}
+	}
+}
+GlobalState.MDDrugsRecipes = Recipes
 local function setTimeout(identifier)
 	if onRun[identifier] then
 		CreateThread(function()
@@ -36,21 +55,33 @@ local function setTimeout(identifier)
 end
 RegisterServerEvent('md-drugs:server:givelean', function()
 	local src = source
-	local amount = math.random(1,5)
-	if not onRun[ps.getIdentifier(src)] then return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('lean.notOnRun'), "error") end
-	onRun[ps.getIdentifier(src)] = onRun[ps.getIdentifier(src)] + 1
-	if math.random(1,100) <= 50 then
-		ps.addItem(src, "mdlean", amount)
-	else
-		ps.addItem(src, "mdreddextro", amount)
+	if not onRun[src] then
+		return
 	end
-	if onRun[ps.getIdentifier(src)] >= 4 then
-		onRun[ps.getIdentifier(src)] = nil
+	local veh = onRun[src].vehicle
+	if not veh or veh == 0 then
+		return
+	end
+	if GetEntityModel(veh) ~= GetHashKey('pounder') then
+		return
+	end
+	local pcoords, vcoords = GetEntityCoords(GetPlayerPed(src)), GetEntityCoords(veh)
+	if #(pcoords - vcoords) > 10.0 then
+		return
+	end
+	onRun[src].taken = onRun[src].taken + 1
+	local item, amount = math.random(1,2) == 1 and 'mdlean' or 'mdreddextro', math.random(1,3)
+	Bridge.Inventory.AddItem(src, item, amount)
+	if onRun[src].taken < 5 then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('lean.maxTaken'), 'error')
+		DeleteEntity(veh)
+		onRun[src] = nil
+		return
 	end
 end)
 
 exports.ps_lib:registerCrafter({
-    loc = leanLocs.MakeLean,
+    loc = Locations.Lean.MakeLean,
     recipes = {
 		cupoflean = {
 			amount = 1,
@@ -80,14 +111,51 @@ exports.ps_lib:registerCrafter({
 	},
 })
 
-ps.registerCallback('md-drugs:server:RegisterLean', function(source)
-	local identifier = ps.getIdentifier(source)
-	if not identifier then return false end
-	if onRun[identifier] then
+Bridge.Callback.Register('md-drugs:server:registerLean', function(source, loc, vehicleNetId)
+	local src = source
+	if onRun[src] then
 		return false
 	else
-		onRun[identifier] = 0
-		setTimeout(identifier)
+		if not checkDistance(src, Locations.Lean.SyrupVendor[loc].loc, 5.0) then
+			return false
+		end
+		if not vehicleNetId then
+			return false
+		end
+		local veh = NetworkGetEntityFromNetworkId(vehicleNetId)
+		if not veh or veh == 0 or GetEntityModel(veh) ~= GetHashKey('pounder') then
+			return false
+		end
+
+		onRun[src] = {
+			taken = 0,
+			vehicle = veh,
+		}
+		setTimeout(src)
 		return true
 	end
+end)
+
+Bridge.Framework.RegisterUsableItem('leancup', function(source, item)
+	local src = source
+	if not item then return end
+	TriggerClientEvent('md-drugs:client:makeLean', src)
+end)
+
+RegisterNetEvent('md-drugs:server:makeLean', function(recipe)
+	local src = source
+	if not Recipes.Lean[recipe] then
+		return
+	end
+	local rec = Recipes.Lean[recipe]
+	for k, v in pairs (rec.ingredients) do
+		if not Bridge.Inventory.HasItem(src, v.item, v.amount) then
+			Bridge.Notify.SendNotify(src, Bridge.Language.Locale('lean.missingIngredients'), 'error')
+			return
+		end
+	end
+	for k, v in pairs (rec.ingredients) do
+		Bridge.Inventory.RemoveItem(src, v.item, v.amount)
+	end
+	Bridge.Inventory.AddItem(src, rec.item, rec.amount)
 end)

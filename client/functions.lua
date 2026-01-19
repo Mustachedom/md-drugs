@@ -97,7 +97,7 @@ function minigame()
 end
 
 function GetRep()
-	local rep = ps.callback('md-drugs:server:GetRep')
+	local rep = Bridge.Callback.Trigger('md-drugs:server:GetRep')
 	return rep
 end
 
@@ -124,7 +124,7 @@ end
 
 function GetCops(number)
 	if number == 0 then return true end
-	local amount = ps.callback('md-drugs:server:GetCoppers')
+	local amount = Bridge.Callback.Trigger('md-drugs:server:GetCoppers')
 	if amount >= number then return true else Bridge.Notify.SendNotify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
 end
 
@@ -136,6 +136,43 @@ function Freeze(entity, toggle, head)
 	SetBlockingOfNonTemporaryEvents(entity, toggle)
 end
 
+local function RotationToDirection(rotation)
+    local adjustedRotation = {
+        x = (math.pi / 180) * rotation.x,
+        y = (math.pi / 180) * rotation.y,
+        z = (math.pi / 180) * rotation.z
+    }
+    local direction = {
+        x = -math.sin(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+        y = math.cos(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+        z = math.sin(adjustedRotation.x)
+    }
+    return direction
+end
+
+local function RayCastGamePlayCamera(distance)
+    local currentRenderingCam = false
+    if not IsGameplayCamRendering() then
+        currentRenderingCam = GetRenderingCam()
+    end
+
+    local cameraRotation = not currentRenderingCam and GetGameplayCamRot() or GetCamRot(currentRenderingCam, 2)
+    local cameraCoord = not currentRenderingCam and GetGameplayCamCoord() or GetCamCoord(currentRenderingCam)
+    local direction = RotationToDirection(cameraRotation)
+    local destination = {
+        x = cameraCoord.x + direction.x * distance,
+        y = cameraCoord.y + direction.y * distance,
+        z = cameraCoord.z + direction.z * distance
+    }
+    local _, hit, endCoords, surfaceNormal, entityHit  = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0))
+    return _, hit, endCoords, surfaceNormal, entityHit
+end
+
+local function ray()
+   local _, hit, endCoords, surfaceNormal, entityHit  = RayCastGamePlayCamera(1000.0)
+    return hit, endCoords, surfaceNormal, entityHit
+end
+
 local created = false
 local heading = 180.0
 function StartRay()
@@ -144,10 +181,10 @@ function StartRay()
 	requestModel('v_ret_ml_tablea', 30000)
 	local table = CreateObject('v_ret_ml_tablea', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
-        local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
+       	local hit, endCoords, surfaceNormal, entityHit = ray()
 		if not created then 
 			created = true
-			ps.drawText([[[E] To Place   
+			Bridge.HelpText.ShowHelpText([[[E] To Place   
 			[DEL] To Cancel  
 			[<-] To Move Left  
 			[->] To Move Right]])
@@ -164,7 +201,7 @@ function StartRay()
             heading = heading + 2
         end
         if IsControlPressed(0, 38) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			DeleteObject(table)
 			created = false
@@ -172,7 +209,7 @@ function StartRay()
         end
 
         if IsControlPressed(0, 178) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			created = false
 			DeleteObject(table)
@@ -188,10 +225,10 @@ function StartRay2()
 	requestModel('bkr_prop_coke_press_01aa', 30000)
 	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
-        local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
+        local hit, endCoords, surfaceNormal, entityHit = ray()
 		if not created then 
 			created = true
-			ps.drawText([[[E] To Place   
+			Bridge.HelpText.ShowHelpText([[[E] To Place   
 			[DEL] To Cancel  
 			[<-] To Move Left  
 			[->] To Move Right]])
@@ -208,7 +245,7 @@ function StartRay2()
             heading = heading + 2
         end
         if IsControlPressed(0, 38) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			DeleteObject(table)
 			created = false
@@ -216,7 +253,7 @@ function StartRay2()
         end
 
         if IsControlPressed(0, 178) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			created = false
 			DeleteObject(table)
@@ -226,20 +263,25 @@ function StartRay2()
     until run == false
 end
 
-ps.registerCallback('md-drugs:client:uncuff', function(data)
+Bridge.Callback.Register('md-drugs:client:uncuff', function(data)
 	if not progressbar(data, 4000, 'uncuff') then return end
 	return true
 end)
 
 RegisterCommand('DrugRep', function()
 	if not Config.TierSystem then return end
-	local rep = ps.callback('md-drugs:server:GetRep', false)
-	ps.menu('Drug Rep', 'Drug Rep', {
-		{icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
-		{icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
-		{icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
-		{icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
-		{icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
+	local rep = GetRep()
+	Bridge.Menu.Open({
+		id = 'drugrep',
+		title = 'Drug Reputation',
+		description = 'Your Current Drug Reputation Stats',
+		options = {
+			{icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
+			{icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
+			{icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
+			{icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
+			{icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
+		}
 	})
 end, false)
 

@@ -91,7 +91,7 @@ for k, v in pairs (cokecut) do
             return
         end
 		if Bridge.Inventory.HasItem(src,item.name) then
-            local check = ps.callback('md-drugs:client:uncuff', src, 'Cutting It Further')
+            local check = Bridge.Callback.Trigger('md-drugs:client:uncuff', src, 'Cutting It Further')
             if not check then return end
 		    if Bridge.Inventory.RemoveItem(src, k, 1) and Bridge.Inventory.RemoveItem(src, 'bakingsoda', 1) then
                Bridge.Inventory.AddItem(src, 'crackrock', v)

@@ -1,5 +1,5 @@
-
-local itemCraft = {
+Locations, Recipes = Locations or {}, Recipes or {}
+Recipes.Whippit = {
     cracker = {
         {color = 'blue',    item = 'blue_uninflated_balloon'},
         {color = 'green',   item = 'green_uninflated_balloon'},
@@ -8,48 +8,45 @@ local itemCraft = {
         {color = 'red',     item = 'red_uninflated_balloon'},
         {color = 'white',   item = 'white_uninflated_balloon'},
         {color = 'yellow',  item = 'yellow_uninflated_balloon'}
+    },
+    shop = {
+        blue_uninflated_balloon =5,
+        green_uninflated_balloon =5,
+        orange_uninflated_balloon =5,
+        purple_uninflated_balloon =5,
+        red_uninflated_balloon =5,
+        white_uninflated_balloon =5,
+        yellow_uninflated_balloon =5,
+        cracker =500,
+        whipped_cream_cannister =10
     }
 }
-local store = {
+Locations.Whippit = {
     {loc =vector4(1695.47, 4872.98, 42.16, 288.86), ped = 'ig_priest' },
 }
-ps.registerCallback('md-drugs:server:getWhippitLocations', function(source)
-    return store
-end)
-local itemShop = {
-    blue_uninflated_balloon = 5,
-    green_uninflated_balloon = 5,
-    orange_uninflated_balloon = 5,
-    purple_uninflated_balloon = 5,
-    red_uninflated_balloon = 5,
-    white_uninflated_balloon = 5,
-    yellow_uninflated_balloon = 5,
-    cracker = 500,
-    whipped_cream_cannister = 10
-}
 
-ps.registerCallback('md-drugs:server:getwhippitShop', function(source)
-    return itemShop
-end)
+GlobalState.MDDrugsLocations = Locations
+GlobalState.MDDrugsRecipes = Recipes
+
 
 RegisterServerEvent('md-drugs:server:buyWhippitItem', function(loc, item,amount)
     local src = source
-    if not ps.checkDistance(src, store[loc].loc, 3.0) then return end
-    if not itemShop[item] then return end
-    local price = itemShop[item] * amount
-    if not ps.removeMoney(src, 'cash', price, 'whippit-shop') then
+    if not ps.checkDistance(src, Locations.Whippit[loc].loc, 3.0) then return end
+    if not Recipes.Whippit.shop[item] then return end
+    local price = Recipes.Whippit.shop[item] * amount
+    if not Bridge.Framework.RemoveAccountBalance(src, 'cash', price, 'whippit-shop') then
         return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.notEnoughMoney', price), 'error')
     end
-    ps.addItem(src, item, amount)
+    Bridge.Inventory.AddItem(src, item, amount)
 end)
 
-ps.createUseable('cracker', function(source)
+Bridge.Framework.RegisterUsableItem('cracker', function(source)
     local src = source
-    if not ps.hasItem(src, 'cracker', 1) then return end
-    if not ps.hasItem(src, 'whipped_cream_cannister', 1) then return end
+    if not Bridge.Inventory.HasItem(src, 'cracker', 1) then return end
+    if not Bridge.Inventory.HasItem(src, 'whipped_cream_cannister', 1) then return end
     local balloonItem, balloonColor = nil, nil
-    for _, balloon in pairs(itemCraft['cracker']) do
-        if ps.hasItem(src, balloon.item, 1) then
+    for _, balloon in pairs(Recipes.Whippit.cracker) do
+        if Bridge.Inventory.HasItem(src, balloon.item, 1) then
             balloonItem = balloon.item
             balloonColor = 'ate_balloon_' .. balloon.color
             break
@@ -59,11 +56,11 @@ ps.createUseable('cracker', function(source)
         return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.needBalloon'), 'error')
     end
 
-    if not ps.removeItem(src, 'whipped_cream_cannister', 1) then
+    if not Bridge.Inventory.RemoveItem(src, 'whipped_cream_cannister', 1) then
         return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.needCanister'), 'error')
     end
-    if not ps.removeItem(src, balloonItem, 1) then
+    if not Bridge.Inventory.RemoveItem(src, balloonItem, 1) then
         return ps.warn(src, 'Failed to remove balloon', 'error')
     end
-    ps.callback('md-drugs:client:useWhippit', src, balloonColor)
+    Bridge.Callback.Trigger('md-drugs:client:useWhippit', src, balloonColor)
 end)

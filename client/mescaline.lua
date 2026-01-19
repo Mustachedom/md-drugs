@@ -1,6 +1,6 @@
 
 local badTrip = 100
-
+local locations = GlobalState.MDDrugsLocations.Mescaline
 local function AlienEffect()
 	CreateThread(function()
     StartScreenEffect("DrugsMichaelAliensFightIn", 3.0, 0)
@@ -13,7 +13,7 @@ local function AlienEffect()
 	end)
 end
 
-local locations = GlobalState.MDDrugsLocations.Mescaline
+
 for k, v in pairs (locations.DryOutMescaline) do
 	Bridge.Target.AddBoxZone('dryoutMesc'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,{
 		{

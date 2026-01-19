@@ -185,6 +185,10 @@ local function Cornersell()
 end
 
 RegisterNetEvent('md-drugs:client:cornerselling', function()
+    if inZone then
+        Bridge.Notify.SendNotify(Bridge.Language.Locale('Cornerselling.inNoSellZone'), 'error')
+        return
+    end
     if sell then
         sell = false
         Bridge.HelpText.HideHelpText()
@@ -198,7 +202,17 @@ end)
 
 CreateThread(function()
     for k, v in pairs (QBConfig.NoSellZones) do
-        local box = ps.zones.box({ coords = v.loc, size = vec3(v.width, v.length, v.height), rotation = 180.0, debug = false,
-        onEnter = function() inZone = true end, onExit = function() inZone = false end})
+        Bridge.Point.Register(
+        'MDDRUGNOSELLZONE'..k,
+        v.loc,
+        (v.width or 10.0 + v.length or 10.0) / 2,
+        nil,
+        function()
+           inZone = true
+        end,
+        function(point, data)
+           inZone = false
+        end
+    )
     end
 end)

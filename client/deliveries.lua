@@ -1,6 +1,6 @@
+--TODO: Make dealers better
 local isActive = false
 local dealer = {}
---TODO: Finish Dealers 
 local function SpawnDealer()
     if #dealer >= 1 then
         for k,v in pairs (dealer) do

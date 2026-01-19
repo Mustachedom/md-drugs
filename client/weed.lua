@@ -1,12 +1,12 @@
 local exploded, drying = false, false
-local locations = ps.callback('md-drugs:server:GetWeedLocs')
+local locations, recipes = GlobalState.MDDrugsLocations.Weed, GlobalState.MDDrugsRecipes.Weed
 for k, v in pairs (locations.WeedDry) do
-	ps.boxTarget('weed_dry'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('weed_dry'..k, v.loc, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.loc.w or 180.0, {
 		{
 			icon = 'fa-solid fa-cannabis',
 			label = Bridge.Language.Locale('weed.targetDry'),
 			action = function()
-				if not ps.hasItem('wetcannabis', 1) then
+				if not Bridge.Inventory.HasItem( "wetcannabis") then
 					Bridge.Notify.SendNotify(Bridge.Language.Locale('weed.noDry'), "error")
 					return
 				end
@@ -25,7 +25,7 @@ for k, v in pairs (locations.WeedDry) do
 						action = function()
 							DeleteEntity(weedplant)
 							drying = false
-							TriggerServerEvent('md-drugs:server:dryoutweed')
+							TriggerServerEvent('md-drugs:server:dryoutweed', k)
 						end,
 					}
 				})
@@ -39,7 +39,7 @@ for k, v in pairs (locations.WeedDry) do
 end
 
 for k, v in pairs (locations.WeedTele) do
-	ps.boxTarget('weed_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('weed_tele'..k, v.inside, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.rot or 180.0, {
 		{
 			icon = 'fa-solid fa-door-open',
 			label = Bridge.Language.Locale('weed.teleportOut'),
@@ -48,7 +48,7 @@ for k, v in pairs (locations.WeedTele) do
 			end
 		}
 	})
-	ps.boxTarget('weed_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('weed_teleout'..k, v.outside, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.rot or 180.0, {
 		{
 			icon = 'fa-solid fa-door-closed',
 			label = Bridge.Language.Locale('weed.teleportIn'),
@@ -83,30 +83,34 @@ local function AlienEffect()
 end
 
 RegisterNetEvent("md-drugs:client:dodabs", function()
-	if not ps.progressbar(Bridge.Language.Locale('weed.dabs'), 4000, 'bong2') then AlienEffect() return end
+	if not progressbar(Bridge.Language.Locale('weed.dabs'), 4000, 'bong2') then AlienEffect() return end
 end)
 
 local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tableName)
     local options = {}
-	local items = ps.callback('md-drugs:server:GetWeedRecipe', tableName)
-    for k, v in pairs(items) do
+	
+    for k, v in pairs(recipes[tableName]) do
         local label = {}
         local item = ''
-        for m, d in pairs(v.take) do table.insert(label, ps.getLabel(m) .. ' X ' .. d) end 
+        for m, d in pairs(v.take) do table.insert(label, Bridge.Inventory.GetItemInfo(m).label .. ' X ' .. d .. ' \n  ') end 
 		for m, d in pairs(v.give) do item = m end
+		local itemData = Bridge.Inventory.GetItemInfo(item)
         options[#options + 1] = {
-            icon = ps.getImage(item),
-            description = table.concat(label, ", "),
-            title = ps.getLabel(item),
-			action = function()
+            icon = itemData.image,
+            description = table.concat(label, " "),
+            title = itemData.label,
+			onSelect = function()
 				if not minigame() then return end
-				if not ps.progressbar(eventLabelPrefix .. ps.getLabel(item), 4000, 'uncuff') then return end
+				if not progressbar(eventLabelPrefix .. itemData.label, 4000, 'uncuff') then return end
 				TriggerServerEvent('md-drugs:server:MakeWeedItems', {item = item, recipe = 'weed', num = k, table = tableName})
 			end
         }
     end
-    ps.sorter(options, 'title')
-    ps.menu(contextTitle, contextTitle, options)
+    Bridge.Menu.Open({
+		id = contextId,
+		title = contextTitle,
+		options = options,
+	})
 end
 
 RegisterNetEvent('md-drugs:client:makeBluntWrap', function(data)
@@ -128,28 +132,33 @@ for k, v in pairs (locations.WeedSalesman) do
 			icon = "fa-solid fa-cannabis",
 			label = Bridge.Language.Locale('weed.targetSales'),
 			action = function()
-				local itemList = ps.callback('md-drugs:server:getWeedItems')
 				local options = {}
-				for m, d in pairs (itemList) do
+				for m, d in pairs (recipes.weedStore) do
+					local itemInfo = Bridge.Inventory.GetItemInfo(m)
 					options[#options + 1] = {
-						icon = ps.getImage(m),
-						title = ps.getLabel(m),
+						icon = itemInfo.image,
+						title = itemInfo.label,
 						description = '$' .. d,
-						action = function()
-							local input = ps.input('Amount To Buy',{
+						onSelect = function()
+							local input = Bridge.Input.Open('Amount To Buy',{
 								{type = 'number', title = 'How Many To Buy', min = 1, max = 1000}
 							})
 							if not input and input[1] then return end
-							if not ps.progressbar(Bridge.Language.Locale('weed.buying', ps.getLabel(m)), 2000, 'uncuff') then return end
+							if not progressbar(Bridge.Language.Locale('weed.buying', Bridge.Inventory.GetItemInfo(m).label), 2000, 'uncuff') then return end
 							TriggerServerEvent('md-drugs:server:buyWeedItem', k, m, input[1])
 						end
 					}
 				end
-				ps.menu('Weed Shop', 'Weed Shop', options)
+				Bridge.Menu.Open({
+					id = 'weedDude',
+					title = 'Weed Salesman',
+					options = options,
+				})
 			end
 		}
 	})
 end
+
 local props = {}
 
 for locationKey, locationData in pairs (locations.MakeButter) do
@@ -158,6 +167,34 @@ for locationKey, locationData in pairs (locations.MakeButter) do
 		props[#props+1] = CreateObject(locationData.prop, locationData.loc.x, locationData.loc.y, locationData.loc.z - 1.0, false, false, false)
 		FreezeEntityPosition(props[#props], true)
 		SetEntityHeading(props[#props], locationData.loc.w)
+		Bridge.Target.AddLocalEntity(props[#props], {
+			{
+				icon = "fa-solid fa-cannabis",
+				label = Bridge.Language.Locale('weed.targetMakeButter'),
+				action = function()
+					local options = {}
+					for k, v in pairs (recipes.makeButter) do
+						local itemInfo = Bridge.Inventory.GetItemInfo(k)
+						local label = {}
+						for m, d in pairs(v.recipe) do table.insert(label, Bridge.Inventory.GetItemInfo(m).label .. ' X ' .. d .. '  \n  ') end 
+						options[#options + 1] = {
+							icon = itemInfo.image,
+							title = itemInfo.label,
+							description = table.concat(label, " "),
+							onSelect = function()
+								if not progressbar(Bridge.Language.Locale('weed.making', itemInfo.label), 2000, 'uncuff') then return end
+								TriggerServerEvent('md-drugs:server:MakeWeedItems', 'makeButter', k, locationKey)
+							end
+						}
+					end
+					Bridge.Menu.Open({
+						id = 'weedMakeButter',
+						title = Bridge.Language.Locale('weed.makeButter'),
+						options = options,
+					})
+				end
+			}
+		})
 	end
 end
 for locationKey, locationData in pairs (locations.MakeOil) do
@@ -166,5 +203,33 @@ for locationKey, locationData in pairs (locations.MakeOil) do
 		props[#props+1] = CreateObject(locationData.prop, locationData.loc.x, locationData.loc.y, locationData.loc.z - 1.0, false, false, false)
 		FreezeEntityPosition(props[#props], true)
 		SetEntityHeading(props[#props], locationData.loc.w)
+		Bridge.Target.AddLocalEntity(props[#props], {
+			{
+				icon = "fa-solid fa-cannabis",
+				label = Bridge.Language.Locale('weed.targetMakeOil'),
+				action = function()
+					local options = {}
+					for k, v in pairs (recipes.makeOil) do
+						local itemInfo = Bridge.Inventory.GetItemInfo(k)
+						local label = {}
+						for m, d in pairs(v.recipe) do table.insert(label, Bridge.Inventory.GetItemInfo(m).label .. ' X ' .. d .. '  \n  ') end 
+						options[#options + 1] = {
+							icon = itemInfo.image,
+							title = itemInfo.label,
+							description = table.concat(label, " "),
+							onSelect = function()
+								if not progressbar(Bridge.Language.Locale('weed.making', itemInfo.label), 2000, 'uncuff') then return end
+								TriggerServerEvent('md-drugs:server:MakeWeedItems', 'makeOil', k, locationKey)
+							end
+						}
+					end
+					Bridge.Menu.Open({
+						id = 'weedMakeButter',
+						title = Bridge.Language.Locale('weed.makeButter'),
+						options = options,
+					})
+				end
+			}
+		})
 	end
 end

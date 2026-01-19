@@ -165,6 +165,7 @@ local function getLoc(src, ped)
     end
     return false
 end
+
 Bridge.Callback.Register('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
     local src = source
     local rep = getRep(source, 'cornerselling')
@@ -269,19 +270,17 @@ RegisterNetEvent('md-drugs:server:getBackRobbed', function(peds)
     RobbedDrugs[src] = nil
 end)
 
-ps.registerCommand('cornersell', {
-    help = Bridge.Language.Locale('Cornerselling.comDes'),
-    params = {
-    },
-}, function(source, args, raw)
+
+RegisterCommand('cornersell', function(source, args, raw)
     local src = source
-    local jobCount = ps.getJobTypeCount('leo')
-    if jobCount < cornsellConfig.policeRequired then
+    local jobCount = Bridge.Framework.GetPlayersByJob('police')
+    if #jobCount < cornsellConfig.policeRequired then
         Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.noCops'), 'error')
         return
     end
     TriggerClientEvent('md-drugs:client:cornerselling', src)
-end)
+end, false)
+TriggerClientEvent('chat:addSuggestion', -1, '/cornersell', Bridge.Language.Locale('Cornerselling.comDes'))
 
 RegisterServerEvent('md-drugs:server:cornerselling:stop', function()
     local src = source

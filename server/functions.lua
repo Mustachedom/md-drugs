@@ -128,7 +128,7 @@ ps.registerCallback('md-drugs:server:GetCoppers', function(source, cb, args)
    return Bridge.Framework.GetPlayersByJob('police')
 end)
 
-ps.registerCallback('md-drugs:server:GetRep', function(source, cb, args)
+Bridge.Callback.Register('md-drugs:server:GetRep', function(source, cb, args)
     local rep = GetAllRep(source)
     return rep
 end)

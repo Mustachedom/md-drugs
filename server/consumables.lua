@@ -150,23 +150,23 @@ xanax =                   { anim = 'pill', effect = 'none', add = { stress = -40
 }
 
 for k, v in pairs(Consume) do
-    ps.createUseable(k, function(source, item)
-        if not ps.hasItem(source, k, 1) then return end
+    Bridge.Callback.Register(k, function(source, item)
+        if not Bridge.Inventory.HasItem(source, k, 1) then return end
         local time = v.time or Consumables.defaulttime
         local effect = v.effect or 0
         local anim = v.anim or Consumables.defaultanim
         local progressbartext = v.progressbartext or Consumables.defaultprogresstext
         local add = v.add or {hunger = 0}
-        local done = ps.callback('md-drugs:client:consumedrugs', source, time, effect, anim, progressbartext, add, k)
+        local done = Bridge.Callback.Trigger('md-drugs:client:consumedrugs', source, time, effect, anim, progressbartext, add, k)
         if done then
-            ps.removeItem(source, k, 1)
+            Bridge.Inventory.RemoveItem(source, k, 1)
         end
     end)
 end
 
 RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
     local src = source
-    local Player = ps.getPlayer(src)
+    local Player = Bridge.Framework.GetPlayer(src)
     if GetResourceState('es_extended') == 'started' then return end
     local hunger, thirst = Player.PlayerData.metadata.hunger, Player.PlayerData.metadata.thirst
     if stat == "thirst" then

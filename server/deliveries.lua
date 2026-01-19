@@ -235,6 +235,7 @@ ps.registerCommand("deletedealer", {
     end
 end)
 
+
 RegisterNetEvent('md-drugs:server:buyItemDealer', function(num, loc)
     local src = source
     local itemData = Products[num]
@@ -249,7 +250,7 @@ RegisterNetEvent('md-drugs:server:buyItemDealer', function(num, loc)
         return
     end
     Bridge.Inventory.AddItem(src, itemData.name, 1)
-    Bridge.Notify.SendNotify(src, string.format(Bridge.Language.Locale('Deliveries.buyItemSuccess'), 1, ps.getLabel(itemData.name), itemData.price), 'success')
+    Bridge.Notify.SendNotify(src, string.format(Bridge.Language.Locale('Deliveries.buyItemSuccess'), 1, Bridge.Inventory.GetItemInfo(itemData.name).label, itemData.price), 'success')
 end)
 
 Dealers = MySQL.query.await('SELECT * FROM dealers')
