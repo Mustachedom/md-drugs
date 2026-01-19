@@ -29,10 +29,10 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
 
     if timeOut(src, 'md-drugs:server:makecrackone') then return end
 
-    if not checkDistance(src, Locations.Crack.makecrack[num].loc, 2.0) then
-        Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+    if not checkDistance(src, Locations.Crack.makecrack[num].loc, 2.0, 'md-drugs:server:makecrackone') then
         return
     end
+
     local tier = 'tier1'
     if Config.TierSystem then
         local crackTiers = {
@@ -58,8 +58,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
 
     if timeOut(src, 'md-drugs:server:bagcrack') then return end
 
-    if not checkDistance(src, Locations.Crack.bagcrack[num].loc, 2.0) then
-        Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+    if not checkDistance(src, Locations.Crack.bagcrack[num].loc, 2.0, 'md-drugs:server:bagcrack') then
         return
     end
 
@@ -102,8 +101,7 @@ end
 
 RegisterNetEvent("md-drugs:server:failcrackone", function(num)
     local src = source
-    if not checkDistance(src, Locations.Crack.makecrack[num].loc, 2.0) then
-        Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+    if not checkDistance(src, Locations.Crack.makecrack[num].loc, 2.0, 'md-drugs:server:failcrackone') then
         return
     end
     local items = {

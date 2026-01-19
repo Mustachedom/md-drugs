@@ -31,7 +31,7 @@ GlobalState.MDDrugsRecipes = Recipes
 
 RegisterServerEvent('md-drugs:server:buyWhippitItem', function(loc, item,amount)
     local src = source
-    if not ps.checkDistance(src, Locations.Whippit[loc].loc, 3.0) then return end
+    if not checkDistance(src, Locations.Whippit[loc].loc, 3.0, 'md-drugs:server:buyWhippitItem') then return end
     if not Recipes.Whippit.shop[item] then return end
     local price = Recipes.Whippit.shop[item] * amount
     if not Bridge.Framework.RemoveAccountBalance(src, 'cash', price, 'whippit-shop') then
@@ -60,7 +60,7 @@ Bridge.Framework.RegisterUsableItem('cracker', function(source)
         return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.needCanister'), 'error')
     end
     if not Bridge.Inventory.RemoveItem(src, balloonItem, 1) then
-        return ps.warn(src, 'Failed to remove balloon', 'error')
+        return
     end
     Bridge.Callback.Trigger('md-drugs:client:useWhippit', src, balloonColor)
 end)

@@ -1,14 +1,16 @@
 local timeOutPlayers = {}
 local playerRep = {}
 
-function checkDistance(src, coords, dist)
+function checkDistance(src, coords, dist, event)
     local pcoords = GetEntityCoords(GetPlayerPed(src))
     coords = vector3(coords.x, coords.y, coords.z)
     if #(pcoords - coords) > dist then
+        Bridge.Prints.Warn(Bridge.Language.Locale('Catches.outOfRangeWarn', Bridge.Framework.GetPlayerIdentifier(src), event))
         return false
     end
     return true
 end
+
 local function timeOutThread(src)
     local id = Bridge.Framework.GetPlayerIdentifier(src)
     CreateThread(function()
@@ -123,9 +125,8 @@ function AddRep(source, type, amount)
     end
     MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {json.encode(playerRep[id]), id})
 end
--- TODO: Callbacks
-ps.registerCallback('md-drugs:server:GetCoppers', function(source, cb, args)
-   return Bridge.Framework.GetPlayersByJob('police')
+Bridge.Callback.Register('md-drugs:server:GetCoppers', function(source, cb, args)
+   return #Bridge.Framework.GetPlayersByJob('police')
 end)
 
 Bridge.Callback.Register('md-drugs:server:GetRep', function(source, cb, args)

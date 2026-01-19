@@ -35,8 +35,7 @@ RegisterServerEvent('md-drugs:server:getlysergic', function(num)
 
 	if timeOut(src, 'md-drugs:server:getlysergic') then return end
 
-	if not checkDistance(src, Locations.LSD.lysergicacid[num].loc, 2.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.LSD.lysergicacid[num].loc, 2.0, 'md-drugs:server:getlysergic') then
 		return
 	end
 	Bridge.Inventory.AddItem(src, 'lysergic_acid', 2)
@@ -45,8 +44,7 @@ end)
 RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:getdiethylamide') then return end
-	if not checkDistance(src, Locations.LSD.diethylamide[num].loc, 2.0) then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.LSD.diethylamide[num].loc, 2.0, 'md-drugs:server:getdiethylamide') then
 		return
 	end
 	Bridge.Inventory.AddItem(src, 'diethylamide', 2)
@@ -70,8 +68,7 @@ end)
 Bridge.Callback.Register('md-drugs:server:removecleaningkit', function(source)
 	local src = source
 	if not lsdTables[src] then return false end
-	if not checkDistance(src, lsdTables[src].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, lsdTables[src].loc, 3.0, 'md-drugs:server:removecleaningkit') then
 		return false
 	end
 	return Bridge.Inventory.RemoveItem(src, "cleaningkit", 1)
@@ -91,8 +88,7 @@ RegisterServerEvent('md-drugs:server:heatliquid', function()
 	if not lsdTables[src] then return end
 
 	if timeOut(src, 'md-drugs:server:heatliquid') then return end
-	if not checkDistance(src, lsdTables[src].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, lsdTables[src].loc, 3.0, 'md-drugs:server:heatliquid') then
 		return
 	end
 	if not craft(src, Recipes.LSD['vial']['heat']) then
@@ -104,8 +100,7 @@ RegisterServerEvent('md-drugs:server:failheating', function()
 	local src = source
 	if not lsdTables[src] then return end
 
-	if not checkDistance(src, lsdTables[src].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, lsdTables[src].loc, 3.0, 'md-drugs:server:failheating') then
 		return
 	end
 
@@ -121,8 +116,7 @@ RegisterServerEvent('md-drugs:server:refinequalityacid', function()
 	if not lsdTables[src] then
 		return
 	end
-	if not checkDistance(src, lsdTables[src].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, lsdTables[src].loc, 3.0, 'md-drugs:server:refinequalityacid') then
 		return
 	end
 
@@ -168,8 +162,7 @@ RegisterServerEvent('md-drugs:server:failrefinequality', function()
 
 	if not lsdTables[src] then return end
 
-	if not checkDistance(src, lsdTables[src].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, lsdTables[src].loc, 3.0, 'md-drugs:server:failrefinequality') then
 		return
 	end
 
@@ -182,8 +175,7 @@ RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 
 	if timeOut(src, 'md-drugs:server:gettabpaper') then return end
 
-	if not checkDistance(src, Locations.LSD.gettabs[num].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.LSD.gettabs[num].loc, 3.0, 'md-drugs:server:gettabpaper') then
 		return
 	end
 
@@ -202,8 +194,7 @@ RegisterServerEvent('md-drugs:server:getlabkit', function(num)
 		return
 	end
 
-	if not checkDistance(src, Locations.LSD.buyLSDkit[num].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.LSD.buyLSDkit[num].loc, 3.0, 'md-drugs:server:getlabkit') then
 		return
 	end
 	if Bridge.Framework.RemoveAccountBalance(src, 'cash', prices.lsdlabkitcost) then
@@ -217,8 +208,7 @@ RegisterServerEvent('md-drugs:server:maketabpaper', function()
 	local src = source
 	if timeOut(src, 'md-drugs:server:maketabpaper') then return end
 	if not lsdTables[src] then return end
-	if not checkDistance(src, lsdTables[src].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, lsdTables[src].loc, 3.0, 'md-drugs:server:maketabpaper') then
 		return
 	end
 

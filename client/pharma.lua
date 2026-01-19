@@ -1,7 +1,7 @@
 local locations = GlobalState.MDDrugsLocations.Pharma
 
-Bridge.Callback.Register("md-drugs:client:prescriptionpad", function(data, op)
-    local job = ps.getPlayerData().job.name
+Bridge.Callback.Register("md-drugs:client:prescriptionpad", function( data, op)
+    local job = Bridge.Framework.GetPlayerJob()
     if job ~= 'ambulance' then
        Bridge.Notify.SendNotify(Bridge.Language.Locale('pharma.notPharma'), 'error')
         return

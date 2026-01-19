@@ -107,8 +107,7 @@ GlobalState.MDDrugsRecipes = Recipes
 
 RegisterNetEvent('md-drugs:server:buyWeedItem', function(loc, name, amount)
 	local src = source
-    if not checkDistance(src, Locations.Weed.WeedSalesman[loc].loc, 3.5) then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Checks.notIn'), "error")
+    if not checkDistance(src, Locations.Weed.WeedSalesman[loc].loc, 3.5, 'md-drugs:server:buyWeedItem') then
         return
     end
     if not Recipes.Weed.weedStore[name] then
@@ -126,8 +125,7 @@ end)
 RegisterServerEvent('md-drugs:server:dryoutweed', function(loc)
 	local src = source
     if timeOut(src, 'md-drugs:server:dryoutweed') then return end
-    if checkDistance(src, Locations.Weed.WeedDry[loc].loc, 5.0) == false then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Checks.notIn'), "error")
+    if not checkDistance(src, Locations.Weed.WeedDry[loc].loc, 5.0, 'md-drugs:server:dryoutweed') then
         return
     end
 	if Bridge.Inventory.RemoveItem(src,"wetcannabis", 1) then
@@ -157,8 +155,7 @@ RegisterServerEvent('md-drugs:server:MakeWeedItems', function(tabl, item, loc)
         Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.invalidTable'), "error")
         return
     end
-    if not checkDistance(src, Locations.Weed[locs][loc].loc, 5.0) then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Checks.notIn'), "error")
+    if not checkDistance(src, Locations.Weed[locs][loc].loc, 5.0, 'md-drugs:server:MakeWeedItems') then
         return
     end
     local recipe = Recipes.Weed[tabl][item]

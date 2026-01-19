@@ -1,15 +1,5 @@
 Config = {} --Ignore.
 
-if GetResourceState('ps_lib') ~= 'started' then
-    print('^1ERROR: ps_lib is not started, please start ps_lib before starting this resource.^0')
-    return
-end
-
-if GetResourceState('ps_lib') == 'missing' then
-    print('^1ERROR: ps_lib is missing, please install ps_lib to use this resource.^0')
-    print('^1You can find ps_lib here: https://github.com/Project-Sloth/ps_lib')
-    return
-end
 Bridge = exports.community_bridge:Bridge()
 ps = exports.ps_lib:init()  --Ignore.
 ps.loadLangs("en") -- set your language
@@ -70,5 +60,4 @@ Config.Bzz = { -- if you have BZZZ props for these turn it on if you want
     heroin =false,
     shrooms = false,
     weed = false,
-
 }

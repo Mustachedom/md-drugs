@@ -116,7 +116,7 @@ Bridge.Callback.Register('md-drugs:server:registerLean', function(source, loc, v
 	if onRun[src] then
 		return false
 	else
-		if not checkDistance(src, Locations.Lean.SyrupVendor[loc].loc, 5.0) then
+		if not checkDistance(src, Locations.Lean.SyrupVendor[loc].loc, 5.0, 'md-drugs:server:registerLean') then
 			return false
 		end
 		if not vehicleNetId then

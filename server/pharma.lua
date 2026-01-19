@@ -74,8 +74,8 @@ RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
 	
 	if timeOut(src, 'md-drugs:server:fillprescription') then return end
-	if not checkDistance(src, Locations.Pharma.FillPrescription[num].loc, 3.5) then
-		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.Pharma.FillPrescription[num].loc, 3.5, 'md-drugs:server:fillprescription') then
+		return
 	end
 	local pres = {
 		vicodin_prescription = 'vicodinbottle',

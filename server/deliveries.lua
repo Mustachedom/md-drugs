@@ -94,7 +94,7 @@ local Dealers = {}
 Bridge.Callback.Register('md-drugs:server:dealerList', function(source, location)
     local coords = json.decode(Dealers[location].coords)
     coords = vector3(coords.x, coords.y, coords.z)
-    if not checkDistance(source, coords, 4.0) then
+    if not checkDistance(source, coords, 4.0, 'md-drugs:server:dealerList') then
         return
     end
     return Products
@@ -167,7 +167,7 @@ RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(item, amount)
     if amount ~= itemData.amount then return end
     local coords = json.decode(check[1].location)
     coords = vector3(coords.x, coords.y, coords.z)
-    if not checkDistance(src, coords, 5.0) then
+    if not checkDistance(src, coords, 5.0, 'md-drugs:server:giveDeliveryItems') then
         return
     end
     if Bridge.Inventory.RemoveItem(src, item, amount) then
@@ -242,7 +242,7 @@ RegisterNetEvent('md-drugs:server:buyItemDealer', function(num, loc)
     if not itemData then return end
     local coords = json.decode(Dealers[loc].coords)
     coords = vector3(coords.x, coords.y, coords.z)
-    if not checkDistance(src, coords, 5.0) then
+    if not checkDistance(src, coords, 5.0, 'md-drugs:server:buyItemDealer') then
         return
     end
     if not Bridge.Framework.RemoveAccountBalance(src, 'cash', itemData.price) or not Bridge.Framework.RemoveAccountBalance(src,'bank', itemData.price) then 

@@ -61,8 +61,7 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
 
     if timeOut(src, 'md-drugs:server:makepowder') then return end
 
-    if not checkDistance(src, Locations.Cocaine.MakePowder[num].loc, 3.5) then
-        Bridge.Prints.Warm(Bridge.Language.Locale('Catches.notIn', ps.getPlayerName(src)), 'md-drugs:server:makepowder')
+    if not checkDistance(src, Locations.Cocaine.MakePowder[num].loc, 3.5, 'md-drugs:server:makepowder') then
         return
     end
 
@@ -81,10 +80,10 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function(num)
 
     if timeOut(src, 'md-drugs:server:cutcokeone') then return end
 
-    if not checkDistance(src, Locations.Cocaine.CuttingCoke[num].loc, 2.5) then
-        Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+    if not checkDistance(src, Locations.Cocaine.CuttingCoke[num].loc, 2.5, 'md-drugs:server:cutcokeone') then
         return
     end
+
     local tier = 'tier1'
     local itemCheck = {
         {check = Bridge.Inventory.HasItem(src,'loosecoke'),              tier = 'tier1'},
@@ -107,10 +106,10 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
 
     if timeOut(src, 'md-drugs:server:bagcoke') then return end
 
-    if not checkDistance(src, Locations.Cocaine.BaggingCoke[num].loc, 2.5) then
-        Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+    if not checkDistance(src, Locations.Cocaine.BaggingCoke[num].loc, 2.5, 'md-drugs:server:bagcoke') then
         return
     end
+
     local tier = 'tier1'
     local itemCheck = {
         {check = Bridge.Inventory.HasItem(src,'coke'),              tier = 'tier1'},
@@ -138,7 +137,7 @@ for k, v in pairs (cokecut) do
             return
         end
 		if Bridge.Inventory.HasItem(src,item.name) then
-            local check = ps.callback('md-drugs:client:uncuff', src, 'Cutting It Further')
+            local check = Bridge.Callback.Trigger('md-drugs:client:uncuff', src, 'Cutting It Further')
             if not check then return end
 		    if Bridge.Inventory.RemoveItem(src, k, 1) and Bridge.Inventory.RemoveItem(src, 'bakingsoda', 1) then
                Bridge.Inventory.AddItem(src, 'loosecoke', v)

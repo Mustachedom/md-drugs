@@ -46,8 +46,7 @@ end)
 
 RegisterServerEvent("md-drugs:server:purchaseGoods", function(item)
 	local src = source
-	if not checkDistance(src, loc, 10) then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, loc, 10, 'md-drugs:server:purchaseGoods') then
 		return
 	end
 	if not stores.travel[item] then

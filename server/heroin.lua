@@ -72,8 +72,7 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 
 	if timeOut(src, 'md-drugs:server:dryplant') then return end
 
-	if not checkDistance(src, Locations.Heroin.dryplant[num].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+	if not checkDistance(src, Locations.Heroin.dryplant[num].loc, 3.0, 'md-drugs:server:dryplant') then
 		return
 	end
 
@@ -88,8 +87,7 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 
 	if timeOut(src, 'md-drugs:server:cutheroin') then return end
 
-	if not checkDistance(src, Locations.Heroin.cutheroinone[num].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+	if not checkDistance(src, Locations.Heroin.cutheroinone[num].loc, 3.0, 'md-drugs:server:cutheroin') then
 		return
 	end
 
@@ -117,8 +115,7 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function(num)
 
 	if timeOut(src, 'md-drugs:server:getheroinlabkit') then return end
 
-	if not checkDistance(src, Locations.Heroin.buyKit[num].loc, 3.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+	if not checkDistance(src, Locations.Heroin.buyKit[num].loc, 3.0, 'md-drugs:server:getheroinlabkit') then
 		return
 	end
 
@@ -144,7 +141,7 @@ RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
 	end
 
 	local loc = vector3(heroinLabKits[src].coords.x, heroinLabKits[src].coords.y, heroinLabKits[src].coords.z)
-	if not checkDistance(src, loc, 5.0) then
+	if not checkDistance(src, loc, 5.0, 'md-drugs:server:getheroinlabkitback') then
 		return
 	end
 
@@ -234,8 +231,7 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:fillneedle') then return end
 
-	if not checkDistance(src, Locations.Heroin.fillneedle[num].loc, 3.0) then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+	if not checkDistance(src, Locations.Heroin.fillneedle[num].loc, 3.0, 'md-drugs:server:fillneedle') then
 		return
 	end
 	local tier = 'tier1'

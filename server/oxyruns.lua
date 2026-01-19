@@ -31,8 +31,7 @@ GlobalState.MDDrugsLocations = Locations
 Bridge.Callback.Register('md-drugs:server:payfortruck', function(source, loc)
 	local src = source
 	if timeOut(src, 'md-drugs:server:payfortruck') then return false end
-	if not checkDistance(src, Locations.Oxy.OxyPayForTruck[loc].loc, 2.0) then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.Oxy.OxyPayForTruck[loc].loc, 2.0, 'md-drugs:server:payfortruck') then
 		return false
 	end
 	if not Bridge.Framework.RemoveAccountBalance(src, 'cash', prices.payfortruck) then
@@ -55,8 +54,7 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 		return
 	end
 
-	if not checkDistance(src, Locations.Oxy.oxylocations[onRoute[src].current], 3.5) then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.Oxy.oxylocations[onRoute[src].current], 3.5, 'md-drugs:server:giveoxybox') then
 		return
 	end
 

@@ -88,8 +88,7 @@ RegisterServerEvent('md-drugs:server:getmeth', function(num)
   	local src = source
 	if timeOut(src, 'md-drugs:server:getmeth') then return end
 
-	if not checkDistance(src, Locations.Meth.BagMeth[num].loc, 2.5) then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.Meth.BagMeth[num].loc, 2.5, 'md-drugs:server:getmeth') then
 		return
 	end
 
@@ -101,8 +100,7 @@ end)
 RegisterServerEvent('md-drugs:server:geteph', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:geteph') then return end
-	if not checkDistance(src, Locations.Meth.MethEph[num].loc, 2.5) then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
+	if not checkDistance(src, Locations.Meth.MethEph[num].loc, 2.5, 'md-drugs:server:geteph') then
 		return
 	end
 	Bridge.Inventory.AddItem(src, 'ephedrine', 1)
@@ -111,7 +109,7 @@ end)
 RegisterServerEvent('md-drugs:server:getace', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:getace') then return end
-	if not checkDistance(src, Locations.Meth.MethAce[num].loc, 2.5) then
+	if not checkDistance(src, Locations.Meth.MethAce[num].loc, 2.5, 'md-drugs:server:getace') then
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return
 	end
@@ -120,7 +118,7 @@ end)
 
 Bridge.Callback.Register('md-drugs:server:startcook', function(source, num)
 	local src = source
-	if not checkDistance(src, Locations.Meth.CookMeth[num].loc, 2.5) then
+	if not checkDistance(src, Locations.Meth.CookMeth[num].loc, 2.5, 'md-drugs:server:startcook') then
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return false
 	end
@@ -135,7 +133,7 @@ Bridge.Callback.Register('md-drugs:server:registerMeth', function(source, loc, v
 	if onRun[source] then
 		return false
 	else
-		if checkDistance(src, Locations.Meth.MethHeist[loc].loc, 10.0) then
+		if checkDistance(src, Locations.Meth.MethHeist[loc].loc, 10.0, 'md-drugs:server:registerMeth') then
 			local vehicle = NetworkGetEntityFromNetworkId(vehNetId)
 			if DoesEntityExist(vehicle) and GetEntityModel(vehicle) == GetHashKey('journey') then
 				vehicles[src] = vehicle

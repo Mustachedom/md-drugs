@@ -20,8 +20,7 @@ RegisterNetEvent("md-drugs:server:drymescaline", function(num)
     local src = source
     if timeOut(src, 'md-drugs:server:drymescaline') then return end
 
-    if not checkDistance(src, Locations.Mescaline.DryOutMescaline[num].loc, 3.0) then
-        Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), "error")
+    if not checkDistance(src, Locations.Mescaline.DryOutMescaline[num].loc, 3.0, 'md-drugs:server:drymescaline') then
         return
     end
 
