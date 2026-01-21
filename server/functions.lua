@@ -1,22 +1,40 @@
 local timeOutPlayers = {}
 local playerRep = {}
+local playerWarnings = {}
+local trollExploiters = true
+local function trollPlayer(src)
+    if not trollExploiters then return end
+    CreateThread(function()
+        local playerPed = GetPlayerPed(src)
+        SetEntityCoords(playerPed, -3432.36, -6000.42, -2.0, false, false, false, true)
+        Wait(30000)
+        SetEntityCoords(playerPed, -1392.98, -2599.29, 2419.18, false, false, false, true)
+        Wait(50000)
+        DropPlayer(src, 'You have been caught trying to exploit md-drugs, get rekted.')
+    end)
+end
+
 
 function checkDistance(src, coords, dist, event)
     local pcoords = GetEntityCoords(GetPlayerPed(src))
     coords = vector3(coords.x, coords.y, coords.z)
     if #(pcoords - coords) > dist then
         Bridge.Prints.Warn(Bridge.Language.Locale('Catches.outOfRangeWarn', Bridge.Framework.GetPlayerIdentifier(src), event))
+        playerWarnings[src] = (playerWarnings[src] or 0) + 1
+        if playerWarnings[src] >= 5 then
+            trollPlayer(src)
+        end
         return false
     end
     return true
 end
 
 local function timeOutThread(src)
-    local id = Bridge.Framework.GetPlayerIdentifier(src)
+    src = tonumber(src)
     CreateThread(function()
-        timeOutPlayers[id] = true
+        timeOutPlayers[src] = true
         Wait(3000)
-        timeOutPlayers[id] = nil
+        timeOutPlayers[src] = nil
     end)
 end
 
@@ -24,6 +42,10 @@ function timeOut(src, event)
     if timeOutPlayers[src] then
         local first, last = Bridge.Framework.GetPlayerName(src)
         Bridge.Prints.Warn(Bridge.Language.Locale('Catches.onCooldownWarn', first .. ' ' .. last, event))
+        playerWarnings[src] = (playerWarnings[src] or 0) + 1
+        if playerWarnings[src] >= 5 then
+            trollPlayer(src)
+        end
         return true
     end
     timeOutThread(src)
