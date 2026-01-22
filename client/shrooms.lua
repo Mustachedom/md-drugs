@@ -17,7 +17,11 @@ local function EcstasyEffect()
 end
 
 Bridge.Callback.Register("md-drugs:client:shrooms", function()
-    if not progressbar(Bridge.Language.Locale('shrooms.eat'), 5000, 'eat')  then return end
+    if not progressbar(Bridge.Language.Locale('shrooms.eat'), 5000, {
+        dict = 'mp_player_inteat@burger',
+        clip = 'mp_player_int_eat_burger',
+        flags = 49
+    })  then return end
     CreateThread(function()
         EcstasyEffect()
     end)

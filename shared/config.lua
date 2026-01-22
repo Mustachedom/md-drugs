@@ -32,8 +32,19 @@ Config.Minigames = {
     glmath =        {timeLimit = 300000},
 }
 Config.minigametype = 'ps_circle' -- look above for options or choose none if you dont want any minigames 
-
-
+Config.DefaultAnimation = {
+    dict = "mp_arresting",
+    clip = "a_uncuff",
+    flag = 49,
+}
+Config.ProgressBar = {
+    Disables = {
+        move = true,             -- Disable movement
+        car = true,              -- Disable vehicle movement
+        combat = true,           -- Disable combat
+        mouse = false            -- Disable mouse
+    }
+}
 Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark it false
     cocaine = true,
     consumables = true,

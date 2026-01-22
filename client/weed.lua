@@ -101,7 +101,7 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
             title = itemData.label,
 			onSelect = function()
 				if not minigame() then return end
-				if not progressbar(eventLabelPrefix .. itemData.label, 4000, 'uncuff') then return end
+				if not progressbar(eventLabelPrefix .. itemData.label) then return end
 				TriggerServerEvent('md-drugs:server:MakeWeedItems', {item = item, recipe = 'weed', num = k, table = tableName})
 			end
         }
@@ -144,7 +144,7 @@ for k, v in pairs (locations.WeedSalesman) do
 								{type = 'number', title = 'How Many To Buy', min = 1, max = 1000}
 							})
 							if not input and input[1] then return end
-							if not progressbar(Bridge.Language.Locale('weed.buying', Bridge.Inventory.GetItemInfo(m).label), 2000, 'uncuff') then return end
+							if not progressbar(Bridge.Language.Locale('weed.buying', Bridge.Inventory.GetItemInfo(m).label)) then return end
 							TriggerServerEvent('md-drugs:server:buyWeedItem', k, m, input[1])
 						end
 					}
@@ -182,7 +182,7 @@ for locationKey, locationData in pairs (locations.MakeButter) do
 							title = itemInfo.label,
 							description = table.concat(label, " "),
 							onSelect = function()
-								if not progressbar(Bridge.Language.Locale('weed.making', itemInfo.label), 2000, 'uncuff') then return end
+								if not progressbar(Bridge.Language.Locale('weed.making', itemInfo.label)) then return end
 								TriggerServerEvent('md-drugs:server:MakeWeedItems', 'makeButter', k, locationKey)
 							end
 						}
@@ -218,14 +218,14 @@ for locationKey, locationData in pairs (locations.MakeOil) do
 							title = itemInfo.label,
 							description = table.concat(label, " "),
 							onSelect = function()
-								if not progressbar(Bridge.Language.Locale('weed.making', itemInfo.label), 2000, 'uncuff') then return end
+								if not progressbar(Bridge.Language.Locale('weed.making', itemInfo.label)) then return end
 								TriggerServerEvent('md-drugs:server:MakeWeedItems', 'makeOil', k, locationKey)
 							end
 						}
 					end
 					Bridge.Menu.Open({
-						id = 'weedMakeButter',
-						title = Bridge.Language.Locale('weed.makeButter'),
+						id = 'weedMakeOil',
+						title = Bridge.Language.Locale('weed.makeOil'),
 						options = options,
 					})
 				end

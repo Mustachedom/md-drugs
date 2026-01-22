@@ -74,7 +74,7 @@
 --            icon = 'fas fa-user-secret',
 --            label = Bridge.Language.Locale('Deliveries.targetHandOff'),
 --            action = function()
---               if not progressbar(Bridge.Language.Locale('Deliveries.delivering'), 4000, 'uncuff') then return end
+--               if not progressbar(Bridge.Language.Locale('Deliveries.delivering')) then return end
 --               isActive = false
 --               DeletePed(Buyer)
 --               TriggerServerEvent('md-drugs:server:giveDeliveryItems', data.item, data.amount)

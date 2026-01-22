@@ -114,7 +114,7 @@ RegisterNetEvent("md-drugs:client:makeLean", function()
 			icon = Bridge.Inventory.GetItemInfo(v.item).image,
 			disabled = getDisabled(v),
 			onSelect = function()
-				if not progressbar(Bridge.Language.Locale('lean.makingLean'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('lean.makingLean')) then return end
 				TriggerServerEvent('md-drugs:server:makeLean', k)
 			end,
 		}

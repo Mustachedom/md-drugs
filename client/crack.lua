@@ -14,7 +14,7 @@ for k, v in pairs (locations.makecrack) do
 					TriggerServerEvent("md-drugs:server:failcrackone", k)
 					return
 				end
-				if not progressbar(Bridge.Language.Locale('crack.cook'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('crack.cook')) then return end
 				TriggerServerEvent('md-drugs:server:makecrackone', k)
 			end,
 			canInteract = function()
@@ -35,7 +35,7 @@ for k, v in pairs (locations.bagcrack) do
 					Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings',  Bridge.Inventory.GetItemInfo('empty_weed_bag').label), 'error')
 					return
 				end
-				if not progressbar(Bridge.Language.Locale('crack.bag'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('crack.bag')) then return end
 				TriggerServerEvent("md-drugs:server:bagcrack", k)
 			end,
 			canInteract = function()

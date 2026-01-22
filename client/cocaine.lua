@@ -118,13 +118,13 @@ for k, v in pairs (locations.MakePowder) do
     Bridge.Target.AddBoxZone('cocaplant'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('coke.targetMakePow'),
-            icon = 'fa-solid fa-seedling',
+            icon = Bridge.Language.Locale('coke.targetMakePowIcon'),
             action = function()
                 if not Bridge.Inventory.HasItem('coca_leaf') then
                     Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('coca_leaf').label), 'error')
                     return
                 end
-                if not progressbar(Bridge.Language.Locale('coke.makePow'), 4000, 'weld') then return end
+                if not progressbar(Bridge.Language.Locale('coke.makePow')) then return end
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
             canInteract = function()
@@ -138,7 +138,7 @@ for k, v in pairs (locations.CuttingCoke) do
     Bridge.Target.AddBoxZone('cutcoke'..k,  v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,  {
         {
             label = Bridge.Language.Locale('coke.targetCutCoke'),
-            icon = 'fa-solid fa-mortar-pestle',
+            icon = Bridge.Language.Locale('coke.targetCutCokeIcon'),
             action = function()
                 if not Bridge.Inventory.HasItem('bakingsoda') then
                     Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('bakingsoda').label), 'error')
@@ -160,7 +160,7 @@ for k, v in pairs (locations.BaggingCoke) do
     Bridge.Target.AddBoxZone('bagcoke'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('coke.targetBagCoke'),
-            icon = 'fa-solid fa-sack-xmark',
+            icon = Bridge.Language.Locale('coke.targetBagCokeIcon'),
             action = function()
                 if not Bridge.Inventory.HasItem('empty_weed_bag') then
                     Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('empty_weed_bag').label), 'error')
@@ -181,7 +181,7 @@ end
 for k, v in pairs (locations.cokeTele) do
 	Bridge.Target.AddBoxZone('coke_tele'..k, v.inside, vector3(v.l, v.w, 2.0), v.inside.w or 180.0,{
 		{
-			icon = 'fa-solid fa-door-open',
+			icon = Bridge.Language.Locale('coke.teleOutIcon'),
 			label = Bridge.Language.Locale('coke.teleOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
@@ -193,7 +193,7 @@ for k, v in pairs (locations.cokeTele) do
 	})
 	Bridge.Target.AddBoxZone('coke_teleout'..k, v.outside, vector3(v.l, v.w, 2.0), v.outside.w or 180.0,{
 		{
-			icon = 'fa-solid fa-door-closed',
+			icon = Bridge.Language.Locale('coke.teleInIcon'),
 			label = Bridge.Language.Locale('coke.teleIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)

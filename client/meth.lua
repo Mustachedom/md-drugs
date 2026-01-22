@@ -411,7 +411,7 @@ for k, v in pairs (locations.MethEph) do
 			label = Bridge.Language.Locale('meth.targetStealEPH'),
 			icon = 'fa-solid fa-bucket',
 			action = function()
-				if not progressbar(Bridge.Language.Locale('meth.stealingEPH'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('meth.stealingEPH')) then return end
 				TriggerServerEvent("md-drugs:server:geteph", k)
 			end,
 			canInteract = function()
@@ -426,7 +426,7 @@ for k, v in pairs (locations.MethAce) do
 			label = Bridge.Language.Locale('meth.targetStealACE'),
 			icon = 'fa-solid fa-bucket',
 			action = function()
-				if not progressbar(Bridge.Language.Locale('meth.stealingACE'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('meth.stealingACE')) then return end
 				TriggerServerEvent("md-drugs:server:getace", k)
 			end,
 			canInteract = function()

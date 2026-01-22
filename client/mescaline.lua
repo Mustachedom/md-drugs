@@ -24,7 +24,7 @@ for k, v in pairs (locations.DryOutMescaline) do
 					Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('cactusbulb').label), 'error') 
 					return 
 				end
-				if not progressbar(Bridge.Language.Locale('mescaline.dry'), 4000, 'uncuff') then return end
+				if not progressbar(Bridge.Language.Locale('mescaline.dry')) then return end
 				TriggerServerEvent("md-drugs:server:drymescaline", k)
 			end,
 			canInteract = function()
@@ -39,7 +39,7 @@ RegisterNetEvent("md-drugs:client:takemescaline", function()
     local chance, chance2 = math.random(1,100), math.random(1,100)
     local weapon = ''
     if chance2 == 100 then weapon = 'weapon_rpg' else weapon = 'weapon_flaregun' end
-    if not progressbar(Bridge.Language.Locale('mescaline.eat'), 4000, 'uncuff') then return end
+    if not progressbar(Bridge.Language.Locale('mescaline.eat')) then return end
 	if chance <= badTrip then
 		AlienEffect()
 		Wait(math.random(3000,6000))

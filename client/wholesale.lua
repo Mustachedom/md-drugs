@@ -105,10 +105,10 @@
 --           action = function()
 --                local luck = math.random(1,100)
 --                if luck <= settings.SuccessfulChance then
---                    if not ps.progressbar(Bridge.Language.Locale('wholesale.wholesaling'), 4000, 'uncuff') then return end
+--                    if not ps.progressbar(Bridge.Language.Locale('wholesale.wholesaling')) then return end
 --                    TriggerServerEvent("md-drugs:server:SuccessSale", drug)
 --                else
---                    ps.progressbar("Deal Going Bad", 4000, 'uncuff')
+--                    ps.progressbar("Deal Going Bad")
 --                    if settings.WholesaleAmbushEnabled then
 --                        SetUpPeds(drug.count)
 --                    end

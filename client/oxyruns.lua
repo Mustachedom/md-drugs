@@ -30,7 +30,7 @@ local function getRoute()
 			icon = "fa-solid fa-dollar-sign",
 			action = function()
 				if carryPackage then
-					if not progressbar(Bridge.Language.Locale('oxy.handingoff'), 4000, 'uncuff') then return end
+					if not progressbar(Bridge.Language.Locale('oxy.handingoff')) then return end
 					TriggerServerEvent("md-drugs:server:giveoxybox")
 					DeleteEntity(oxybuyer)
 					DetachEntity(carryPackage, true, true)

@@ -16,7 +16,7 @@ Bridge.Callback.Register("md-drugs:client:prescriptionpad", function( data, op)
 end)
 
 Bridge.Callback.Register("md-drugs:client:unbottle", function() 
-    if not progressbar(Bridge.Language.Locale('pharma.opening'), 4000, 'uncuff') then return end
+    if not progressbar(Bridge.Language.Locale('pharma.opening')) then return end
     return true
 end)
 
@@ -27,7 +27,7 @@ for k, v in pairs (locations.FillPrescription) do
             icon = 'fa-solid fa-capsules',
             label = Bridge.Language.Locale('pharma.targetFill'),
             action = function()
-                if not progressbar(Bridge.Language.Locale('pharma.fill'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('pharma.fill')) then return end
 	            TriggerServerEvent("md-drugs:server:fillprescription", k)
             end,
         }

@@ -26,7 +26,7 @@ local function createLabKit(coord, head)
 	        	SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
 	            return
             end
-            if not progressbar(Bridge.Language.Locale('heroin.pbCook'), 4000, 'uncuff') then return end
+            if not progressbar(Bridge.Language.Locale('heroin.pbCook')) then return end
             TriggerServerEvent("md-drugs:server:heatliquidheroin")
         end,
         canInteract = function()
@@ -37,7 +37,7 @@ local function createLabKit(coord, head)
         icon = "fas fa-box-circle-check",
         label = Bridge.Language.Locale('heroin.targetPickup'),
         action = function()
-            if not progressbar(Bridge.Language.Locale('heroin.pbPickup'), 4000, 'uncuff') then return end
+            if not progressbar(Bridge.Language.Locale('heroin.pbPickup')) then return end
             herointable = false
             DeleteObject(heroinlabkit)
             TriggerServerEvent("md-drugs:server:getheroinlabkitback")
@@ -72,7 +72,7 @@ for k, v in pairs (locations.dryplant) do
             label = Bridge.Language.Locale('heroin.targetDry'),
             icon = 'fa-solid fa-temperature-high',
             action = function()
-                if not progressbar(Bridge.Language.Locale('heroin.pbDry'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('heroin.pbDry')) then return end
 	            TriggerServerEvent("md-drugs:server:dryplant", k)
             end,
             canInteract = function()
@@ -92,7 +92,7 @@ for k, v in pairs (locations.cutheroinone) do
                     Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('bakingsoda').label), 'error')
                     return
                 end
-	            if not progressbar(Bridge.Language.Locale('heroin.pbCutHeroin'), 4000, 'uncuff') then return end
+	            if not progressbar(Bridge.Language.Locale('heroin.pbCutHeroin')) then return end
 	            TriggerServerEvent("md-drugs:server:cutheroin", k)
             end,
             canInteract = function()
@@ -114,7 +114,7 @@ for k, v in pairs (locations.buyKit) do
             label = Bridge.Language.Locale('heroin.targetBuyKit'),
             icon = 'fa-solid fa-box-open',
             action = function()
-               if not progressbar(Bridge.Language.Locale('heroin.pbBuyKit'), 4000, 'uncuff') then return end
+               if not progressbar(Bridge.Language.Locale('heroin.pbBuyKit')) then return end
 	            TriggerServerEvent("md-drugs:server:getheroinlabkit", k)
             end,
             canInteract = function()
@@ -134,7 +134,7 @@ Bridge.Callback.Register("md-drugs:client:setheroinlabkit", function()
         herointable = true
         local location, head = StartRay()
         if not location then herointable = false return end
-        if not progressbar(Bridge.Language.Locale('heroin.placing'), 4000, 'uncuff') then return end
+        if not progressbar(Bridge.Language.Locale('heroin.placing')) then return end
     	createLabKit(location, head)
         return true, location
     end
@@ -147,7 +147,7 @@ for k, v in pairs (locations.fillneedle) do
             icon = 'fa-solid fa-syringe',
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:failheroin", k) return end
-                if not progressbar(Bridge.Language.Locale('heroin.pbFill'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('heroin.pbFill')) then return end
                 TriggerServerEvent("md-drugs:server:fillneedle", k)
             end,
             canInteract = function()

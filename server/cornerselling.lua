@@ -134,7 +134,7 @@ local cornsellConfig = {
     CustomItem = '', -- If you want to use a custom item for selling, put the item name here, if not leave it blank '' 
     --- if MarkedBills is false and CustomItem is blank it will pay cash
     policeRequired = 0, -- if you want cops to be required to sell set this to a number above 0
-    robChance = 1, -- Chance To Be Robbed 1 = 1%
+    robChance = 20, -- Chance To Be Robbed 1 = 1%
 }
 
 local function beingRobbed(source, item, amount, ped)
@@ -170,20 +170,25 @@ Bridge.Callback.Register('md-drugs:server:cornerselling:getAvailableDrugs', func
     local src = source
     local rep = getRep(source, 'cornerselling')
     local priceAdjust = rep.price
+
     local ped = NetworkGetEntityFromNetworkId(ped)
-    if not getLoc(src, ped) then
+    if not checkDistance(src, GetEntityCoords(ped), 5.0, 'md-drugs:server:cornerselling:getAvailableDrugs') then
         return false
     end
+
     if soldPeds[src] == nil then
         soldPeds[src] = {}
     end
+
     if soldPeds[src][ped] then
         return false
     end
+
     for k, v in pairs(Drugs) do
         local count = Bridge.Inventory.GetItemCount(src, k)
         if count >= 1 then
             local maths = math.random(1,100)
+            
             if maths <= cornsellConfig.robChance then
                 beingRobbed(source, k, count, ped)
                 soldPeds[src][ped] = {item = k, amount = count}
@@ -217,6 +222,7 @@ local function csCheck(src, item, amount, price)
             isIn = true
         end
     end
+
     if not isIn then return false end
     if DrugDeals[src] then
         if DrugDeals[src].item == item and DrugDeals[src].amount == amount and DrugDeals[src].price == price then
@@ -228,25 +234,29 @@ end
 
 RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price, peds)
     local src = source
+
     if not csCheck(src, item, amount, price) then
         return
     end
+
     local ped = NetworkGetEntityFromNetworkId(peds)
-    if not getLoc(src, ped) then
-        print('not close enough to ped')
+    if not checkDistance(src, GetEntityCoords(ped), 5.0, 'md-drugs:server:sellCornerDrugs') then
         return
     end
+
     if not soldPeds[src] or not soldPeds[src][ped] then
-        print('ped not in soldPeds')
         return
     end
+
     if not Bridge.Inventory.RemoveItem(src, item, amount) then
         Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Cornerselling.notEnough'), 'error')
         DrugDeals[src] = nil
         return
     end
+
     AddRep(src, 'cornerselling', Drugs[item].rep * amount)
     DrugDeals[src] = nil
+
     if cornsellConfig.MarkedBills then
         Bridge.Inventory.AddItem(src, 'markedbills', price, nil, {worth = price})
         return
@@ -264,8 +274,9 @@ RegisterNetEvent('md-drugs:server:getBackRobbed', function(peds)
     if tabl == nil then return end
     local ped = NetworkGetEntityFromNetworkId(peds)
     if ped ~= tabl.ped then return end
-    if not getLoc(src, ped) then return end
-
+    if not checkDistance(src, GetEntityCoords(ped), 5.0, 'md-drugs:server:getBackRobbed') then
+        return
+     end
     getDrugBack(src, tabl.item, tabl.amount)
     RobbedDrugs[src] = nil
 end)
@@ -280,6 +291,7 @@ RegisterCommand('cornersell', function(source, args, raw)
     end
     TriggerClientEvent('md-drugs:client:cornerselling', src)
 end, false)
+
 TriggerClientEvent('chat:addSuggestion', -1, '/cornersell', Bridge.Language.Locale('Cornerselling.comDes'))
 
 RegisterServerEvent('md-drugs:server:cornerselling:stop', function()

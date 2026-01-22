@@ -20,7 +20,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
     end
     local coords, head = StartRay2()
     xtcpress = true
-	if not progressbar(Bridge.Language.Locale('xtc.settingDown'), 4000, 'uncuff') then return end
+	if not progressbar(Bridge.Language.Locale('xtc.settingDown')) then return end
 	local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	PlaceObjectOnGroundProperly(press)
     Freeze(press, true, head)
@@ -40,7 +40,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
                         description = descript,
                         onSelect = function()
                             if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
-                            if not progressbar(Bridge.Language.Locale('xtc.making', Bridge.Language.Locale(k)), 4000, 'uncuff') then return end
+                            if not progressbar(Bridge.Language.Locale('xtc.making', Bridge.Language.Locale(k))) then return end
                             TriggerServerEvent("md-drugs:server:makextc", k)
                         end,
                         distance = 2.0
@@ -60,7 +60,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
             icon = "fas fa-eye",
             label = Bridge.Language.Locale('xtc.targetPickup'),
             action = function()
-               if not progressbar(Bridge.Language.Locale('xtc.picking'), 5000, 'uncuff') then return end
+               if not progressbar(Bridge.Language.Locale('xtc.picking')) then return end
                DeleteObject(press)
                xtcpress = false
                TriggerServerEvent("md-drugs:server:getpressback")
@@ -81,7 +81,7 @@ for k, v in pairs(locations.mdp2p) do
             label = Bridge.Language.Locale('xtc.targetStealMDP2P'),
             action = function()
                 if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
-                if not progressbar(Bridge.Language.Locale('xtc.stealingMDP2P'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('xtc.stealingMDP2P')) then return end
                 TriggerServerEvent("md-drugs:server:stealmdp2p", k)
             end,
             canInteract = function()
@@ -97,7 +97,7 @@ for k, v in pairs(locations.isosafrole) do
             label = Bridge.Language.Locale('xtc.targetStealIsosafrole'),
             action = function()
                 if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
-                if not progressbar(Bridge.Language.Locale('xtc.stealingIsosafrole'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('xtc.stealingIsosafrole')) then return end
                 TriggerServerEvent("md-drugs:server:stealisosafrole", k)
             end,
             canInteract = function()
@@ -114,7 +114,7 @@ for k, v in pairs(locations.rawxtcloc) do
             label = Bridge.Language.Locale('xtc.targetRaw'),
             action = function()
                 if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
-                if not progressbar(Bridge.Language.Locale('xtc.makingRaw'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('xtc.makingRaw')) then return end
                 TriggerServerEvent("md-drugs:server:makingrawxtc", k)
             end,
             canInteract = function()
@@ -144,7 +144,7 @@ for k, v in pairs(locations.xtcpress) do
                           description = Bridge.Language.Locale('xtc.buySingle', d.cash),
                           type = d.type,
                           onSelect = function()
-                            if not progressbar(Bridge.Language.Locale('xtc.buyp'), 4000, 'uncuff') then return end
+                            if not progressbar(Bridge.Language.Locale('xtc.buyp')) then return end
                             TriggerServerEvent('md-drugs:server:buypress',k, m)
                           end,
                         }
@@ -157,7 +157,7 @@ for k, v in pairs(locations.xtcpress) do
                             description = descript,
                             type = d.type,
                             onSelect = function()
-                                 if not progressbar(Bridge.Language.Locale('xtc.buyp'), 4000, 'uncuff') then return end
+                                 if not progressbar(Bridge.Language.Locale('xtc.buyp')) then return end
                                 TriggerServerEvent("md-drugs:server:upgradepress", k, m)
                             end,
                             distance = 2.0
@@ -196,7 +196,7 @@ for k, v in pairs (locations.stamp) do
                         description = Bridge.Language.Locale('xtc.stamp_desc', d.color),
                         action = function()
                             if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
-                            if not progressbar(Bridge.Language.Locale('xtc.stamping', d.label), 4000, 'uncuff') then return end
+                            if not progressbar(Bridge.Language.Locale('xtc.stamping', d.label)) then return end
                             TriggerServerEvent("md-drugs:server:stamp", k, d.color)
                         end,
                         distance = 2.0

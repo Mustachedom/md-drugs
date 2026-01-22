@@ -38,7 +38,7 @@ local function createLabKit(coord, head)
                     return
                 end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failrefinequality") return end
-                if not progressbar(Bridge.Language.Locale('lsd.refining'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.refining')) then return end
                 TriggerServerEvent("md-drugs:server:refinequalityacid")
             end,
             canInteract = function()
@@ -54,7 +54,7 @@ local function createLabKit(coord, head)
                     return
                 end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failtabs") return end
-                if not progressbar(Bridge.Language.Locale('lsd.dipping'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.dipping')) then return end
                 TriggerServerEvent("md-drugs:server:maketabpaper")
             end,
             canInteract = function()
@@ -65,7 +65,7 @@ local function createLabKit(coord, head)
             icon = "fas fa-box-circle-check",
             label = Bridge.Language.Locale('lsd.targetPickup'),
             action = function()
-                if not progressbar(Bridge.Language.Locale('lsd.packup'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.packup')) then return end
 	            DeleteObject(labkit)
 	            TriggerServerEvent('md-drugs:server:getlabkitback')
                 tableout = false
@@ -101,7 +101,7 @@ for k, v in pairs (locations.lysergicacid) do
             icon = 'fa-solid fa-temperature-high',
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:faillysergic") return end
-                if not progressbar(Bridge.Language.Locale('lsd.stealLys'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.stealLys')) then return end
                 TriggerServerEvent("md-drugs:server:getlysergic", k)
             end,
             canInteract = function()
@@ -119,7 +119,7 @@ for k, v in pairs (locations.diethylamide) do
             icon = 'fa-solid fa-temperature-high',
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:faildiethylamide") return end
-                if not progressbar(Bridge.Language.Locale('lsd.stealDie'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.stealDie')) then return end
                 TriggerServerEvent("md-drugs:server:getdiethylamide", k)
             end,
             canInteract = function()
@@ -160,7 +160,7 @@ for k, v in pairs (locations.buyLSDkit) do
                     Bridge.Notify.SendNotify(Bridge.Language.Locale('lsd.alreadyOwn'), 'error')
                     return
                 end
-                if not progressbar(Bridge.Language.Locale('lsd.buyingKit'), 4000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.buyingKit')) then return end
                 TriggerServerEvent('md-drugs:server:getlabkit', k)
             end,
             canInteract = function()
@@ -179,7 +179,7 @@ Bridge.Callback.Register("md-drugs:client:setlsdlabkit", function()
         tableout = true
         local loc, head = StartRay()
         if not loc then tableout = false return end
-        if not progressbar(Bridge.Language.Locale('lsd.placing'), 4000, 'uncuff') then return end
+        if not progressbar(Bridge.Language.Locale('lsd.placing')) then return end
         createLabKit(loc, head)
         return true, loc
     end

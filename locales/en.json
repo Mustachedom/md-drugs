@@ -16,13 +16,19 @@
     "targetPick": "Pick Coca Leaf",
     "picking": "Picking Coca Leaf",
     "targetMakePow": "Make Cocaine Powder",
+    "targetMakePowIcon": "fa-solid fa-seedling",
     "noleaf": "You Need A Coke Leaf",
     "makePow": "Chopping Leaves into Powder",
     "targetCutCoke": "Cut Cocaine",
+    "targetCutCokeIcon": "fa-solid fa-mortal-pestle",
     "targetBagCoke": "Bag Cocaine",
+    "targetBagCokeIcon": "fa-solid fa-sack-xmark",
     "teleIn": "Enter the Lab",
+    "teleInIcon": "fa-solid fa-door-closed",
+    "teleOutIcon":"fa-solid fa-door-open",
     "teleOut": "Exit the Lab",
-    "needBakingSoda": "You Need Baking Soda For This"
+    "needBakingSoda": "You Need Baking Soda For This",
+    "cutCokeAgain": "Cutting Cocaine With Baking Soda"
   },
 
   "Cornerselling": {
@@ -33,8 +39,11 @@
     "nodrugs": "You Do Not Have Any Drugs To Sell",
     "searching": "Searching For Nearby Customers",
     "targetTakeBack": "Take Back Drugs",
+    "targetTakeBackIcon": "fa-solid fa-hand-back-fist",
     "targetSell": "Sell %s Of %s For $%s",
+    "targetSellIcon": "fa-solid fa-money-bill",
     "targetDeny": "Deny Offer",
+    "targetDenyIcon": "fa-solid fa-person-harassing",
     "stopped": "Your Lazy Ass Cant Even Sell Drugs!",
     "start": "Go Make Your Mom Proud",
     "gotRobbed": "You Got Robbed Nerd!",

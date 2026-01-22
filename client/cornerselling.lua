@@ -15,7 +15,7 @@ local function sellDrug(item, amount, price, targ)
         return
     end
 
-    if not progressbar(Bridge.Language.Locale('Cornerselling.selling', Bridge.Inventory.GetItemInfo(item).label, price), 4000, 'uncuff') then
+    if not progressbar(Bridge.Language.Locale('Cornerselling.selling', Bridge.Inventory.GetItemInfo(item).label, price)) then
         walkAway(targ)
         return
     end
@@ -27,35 +27,41 @@ local function sellDrug(item, amount, price, targ)
 local function deny(targ)
     PoliceCall(20)
     buyers[targ] = 'sold'
-    if not progressbar(Bridge.Language.Locale('Cornerselling.deny'), 4000, 'argue5') then return end
+    if not progressbar(Bridge.Language.Locale('Cornerselling.deny'), 4000, {
+		dict = 'anim@amb@casino@brawl@fights@argue@',
+		clip = 'arguement_loop_mp_m_brawler_01',
+		flag = 49
+	}) then return end
     walkAway(targ)
 end
 
 local function getClosestPed()
-        local coords = GetEntityCoords(PlayerPedId())
-        local distance = 10.0
-        local pedList = GetGamePool('CPed')
-        local closestDistance = 1000.0
-        local PED = nil
-        for i = 1, #pedList do
-            local ped = pedList[i]
-            if ped ~= PlayerPedId() then
-                local pedCoords = GetEntityCoords(ped)
-                local dist = #(coords - pedCoords)
-                if dist < closestDistance then
-                    PED = ped
-                    closestDistance = dist
-                end
+    local coords = GetEntityCoords(PlayerPedId())
+    local distance = 10.0
+    local pedList = GetGamePool('CPed')
+    local closestDistance = 1000.0
+    local PED = nil
+    for i = 1, #pedList do
+        local ped = pedList[i]
+        if ped ~= PlayerPedId() then
+            local pedCoords = GetEntityCoords(ped)
+            local dist = #(coords - pedCoords)
+            if dist < closestDistance then
+                PED = ped
+                closestDistance = dist
             end
         end
-        if PED and closestDistance < distance then
-            return PED, closestDistance
-        else
-            return nil
-        end
+    end
+    if PED and closestDistance < distance then
+        return PED, closestDistance
+    else
+        return nil
+    end
 end
+
 local function findPed()
     local targ = nil
+
     repeat
         Wait(100)
         targ = getClosestPed()
@@ -69,6 +75,7 @@ local function findPed()
             targ = nil
         end
     until targ ~= nil or sell == false
+
     if not sell then return end
     buyers[targ] = true
 
@@ -135,7 +142,7 @@ local function Cornersell()
         Bridge.Target.AddLocalEntity(targ, {
             {
                 label = Bridge.Language.Locale('Cornerselling.targetTakeBack'),
-                icon ="fa-solid fa-money-bill",
+                icon = Bridge.Language.Locale("Cornerselling.targetTakeBackIcon"),
                 action =   function()
                     got = true
                     TriggerServerEvent('md-drugs:server:getBackRobbed',  NetworkGetNetworkIdFromEntity(targ))
@@ -155,7 +162,7 @@ local function Cornersell()
         Bridge.Target.AddLocalEntity(targ, {
             {
                 label = Bridge.Language.Locale('Cornerselling.targetSell', data.amount, Bridge.Inventory.GetItemInfo(data.item).label, data.price),
-                icon ="fa-solid fa-money-bill",
+                icon = Bridge.Language.Locale("Cornerselling.targetSellIcon"),
                 action =   function()
                     sellDrug(data.item, data.amount, data.price, targ)
                     Cornersell()
@@ -168,7 +175,7 @@ local function Cornersell()
             },
             {
                 label = Bridge.Language.Locale('Cornerselling.targetDeny'),
-                icon = "fa-solid fa-person-harassing",
+                icon = Bridge.Language.Locale("Cornerselling.targetDenyIcon"),
                 action = function()
                     deny(targ)
                     walkAway(targ)

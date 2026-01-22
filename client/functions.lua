@@ -1,6 +1,5 @@
 
 local minigametype = Config.minigametype
-local dispatch = Config.Dispatch
 
 function requestModel(ped, timeout)
 	timeout = timeout or 15000
@@ -264,7 +263,7 @@ function StartRay2()
 end
 
 Bridge.Callback.Register('md-drugs:client:uncuff', function(data)
-	if not progressbar(data, 4000, 'uncuff') then return end
+	if not progressbar(data) then return end
 	return true
 end)
 
@@ -305,57 +304,13 @@ else
 	end
 end
 
-if Config.Emotes == 'rp' then
-	function playEmote(emote)
-		return exports["rpemotes"]:EmoteCommandStart(emote)
-	end
-	function stopEmote()
-		return exports["rpemotes"]:EmoteCancel()
-	end
-end
-
-if Config.Emotes == 'dp' then
-	function playEmote(emote)
-		TriggerEvent('animations:client:EmoteCommandStart', {emote})
-	end
-	function stopEmote()
-		TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-	end
-end
-
-if Config.Emotes == 'scully' then
-	function playEmote(emote)
-		exports.scully_emotemenu:playEmoteByCommand(emote)
-	end
-	function stopEmote()
-		exports.scully_emotemenu:cancelEmote()
-	end
-end
-
-if Config.Emotes == 'custom' then
-	function playEmote(emote)
-		TriggerEvent('animations:client:EmoteCommandStart', {emote})
-	end
-	function stopEmote()
-		TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-	end
-end
-
 function progressbar(text, time, emote, cancel)
-	playEmote(emote)
-	if not cancel then
-		cancel =  {
-			move = true,
-			car = true,
-			combat = true
-		}
-	end
 	local success = Bridge.ProgressBar.Open({
-		duration = time,
-		label = text,
+		duration = time or 5000,
+		label = text or 'LAZY AF DEVS',
 		canCancel = true,
-		disable = cancel,
+		disable = cancel or Config.ProgressBar.Disables,
+		anim = emote or Config.DefaultAnimation,
 	})
-	stopEmote()
 	return success
 end
