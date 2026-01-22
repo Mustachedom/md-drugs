@@ -6,10 +6,7 @@ for k, v in pairs (locations.makecrack) do
 			label = Bridge.Language.Locale('crack.targetMake'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
-				if not Bridge.Inventory.HasItem('bakingsoda') then
-					Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings',  Bridge.Inventory.GetItemInfo('bakingsoda').label), 'error')
-					return
-				end
+				if not itemCheck('baking_soda') then return end
 				if not minigame() then
 					TriggerServerEvent("md-drugs:server:failcrackone", k)
 					return
@@ -31,10 +28,7 @@ for k, v in pairs (locations.bagcrack) do
 			label = Bridge.Language.Locale('crack.targetBag'),
 			icon = 'fa-solid fa-weight-scale',
 			action = function()
-				if not Bridge.Inventory.HasItem('empty_weed_bag') then
-					Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings',  Bridge.Inventory.GetItemInfo('empty_weed_bag').label), 'error')
-					return
-				end
+				if not itemCheck('empty_weed_bag') then return end
 				if not progressbar(Bridge.Language.Locale('crack.bag')) then return end
 				TriggerServerEvent("md-drugs:server:bagcrack", k)
 			end,

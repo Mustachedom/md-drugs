@@ -20,10 +20,7 @@ for k, v in pairs (locations.DryOutMescaline) do
 			label = Bridge.Language.Locale('mesc.targetDry'),
 			icon = 'fa-solid fa-temperature-high',
 			action = function()
-				if not Bridge.Inventory.HasItem('cactusbulb') then 
-					Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('cactusbulb').label), 'error') 
-					return 
-				end
+				if not itemCheck('cactusbulb') then return end
 				if not progressbar(Bridge.Language.Locale('mescaline.dry')) then return end
 				TriggerServerEvent("md-drugs:server:drymescaline", k)
 			end,

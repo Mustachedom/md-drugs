@@ -33,10 +33,7 @@ local function createLabKit(coord, head)
             icon = "fa-solid fa-temperature-high",
             label = Bridge.Language.Locale('lsd.targetRefine'),
             action = function()
-                if not Bridge.Inventory.HasItem('lsd_one_vial') then
-                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('lsd_one_vial').label), 'error')
-                    return
-                end
+                if not itemCheck('lsd_one_vial') then return end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failrefinequality") return end
                 if not progressbar(Bridge.Language.Locale('lsd.refining')) then return end
                 TriggerServerEvent("md-drugs:server:refinequalityacid")
@@ -49,10 +46,7 @@ local function createLabKit(coord, head)
             icon = "fa-regular fa-note-sticky",
             label = Bridge.Language.Locale('lsd.targetDipping'),
             action = function()
-                if not Bridge.Inventory.HasItem('tab_paper') then
-                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('tab_paper').label), 'error')
-                    return
-                end
+                if not itemCheck('tab_paper') then return end
                 if not minigame() then TriggerServerEvent("md-drugs:server:failtabs") return end
                 if not progressbar(Bridge.Language.Locale('lsd.dipping')) then return end
                 TriggerServerEvent("md-drugs:server:maketabpaper")
@@ -78,10 +72,7 @@ local function createLabKit(coord, head)
             icon = "fa-solid fa-hand-sparkles",
             label = Bridge.Language.Locale('lsd.targetClean'),
             action = function()
-                if not Bridge.Inventory.HasItem('cleaningkit') then
-                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemNeeded', Bridge.Inventory.GetItemInfo('cleaningkit').label), 'error')
-                    return
-                end
+                if not itemCheck('cleaningkit') then return end
                 if not progressbar(Bridge.Language.Locale('lsd.cleaning'), 4000, 'clean') then return end
                 local check = Bridge.Callback.Trigger('md-drugs:server:removecleaningkit')
                 if check then

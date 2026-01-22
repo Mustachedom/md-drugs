@@ -6,10 +6,7 @@ for k, v in pairs (locations.WeedDry) do
 			icon = 'fa-solid fa-cannabis',
 			label = Bridge.Language.Locale('weed.targetDry'),
 			action = function()
-				if not Bridge.Inventory.HasItem( "wetcannabis") then
-					Bridge.Notify.SendNotify(Bridge.Language.Locale('weed.noDry'), "error")
-					return
-				end
+				if not itemCheck("wetcannabis") then return end
 				if drying then return end
 				local loc = GetEntityCoords(PlayerPedId())
 				local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)

@@ -120,10 +120,7 @@ for k, v in pairs (locations.MakePowder) do
             label = Bridge.Language.Locale('coke.targetMakePow'),
             icon = Bridge.Language.Locale('coke.targetMakePowIcon'),
             action = function()
-                if not Bridge.Inventory.HasItem('coca_leaf') then
-                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('coca_leaf').label), 'error')
-                    return
-                end
+                if not itemCheck('coca_leaf') then return end
                 if not progressbar(Bridge.Language.Locale('coke.makePow')) then return end
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
@@ -140,10 +137,7 @@ for k, v in pairs (locations.CuttingCoke) do
             label = Bridge.Language.Locale('coke.targetCutCoke'),
             icon = Bridge.Language.Locale('coke.targetCutCokeIcon'),
             action = function()
-                if not Bridge.Inventory.HasItem('bakingsoda') then
-                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('bakingsoda').label), 'error')
-                    return
-                end
+                if not itemCheck('baking_soda') then return end
                 CutCoke(v.loc, v.offset, v.rotation)
 				TriggerServerEvent("md-drugs:server:cutcokeone", k)
             end,
@@ -162,10 +156,7 @@ for k, v in pairs (locations.BaggingCoke) do
             label = Bridge.Language.Locale('coke.targetBagCoke'),
             icon = Bridge.Language.Locale('coke.targetBagCokeIcon'),
             action = function()
-                if not Bridge.Inventory.HasItem('empty_weed_bag') then
-                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('empty_weed_bag').label), 'error')
-                    return
-                end
+                if not itemCheck('empty_weed_bag') then return end
                 BagCoke(v.loc, v.offset, v.rotation)
 				TriggerServerEvent("md-drugs:server:bagcoke", k)
             end,

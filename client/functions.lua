@@ -314,3 +314,11 @@ function progressbar(text, time, emote, cancel)
 	})
 	return success
 end
+
+function itemCheck(item)
+	if not Bridge.Inventory.HasItem(item) then
+        Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo(item).label), 'error')
+        return false
+    end
+	return true
+end

@@ -12,10 +12,7 @@ local function createLabKit(coord, head)
             icon = "fa-solid fa-temperature-high",
             label = Bridge.Language.Locale('heroin.targetCook'),
             action = function()
-            if not Bridge.Inventory.HasItem('emptyvial') then
-                Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('emptyvial').label), 'error')
-                return
-            end
+            if not itemCheck('empty_vial') then return end
 
             if not minigame() then
                 dirty = true
@@ -51,10 +48,7 @@ local function createLabKit(coord, head)
         icon = "fa-solid fa-hand-sparkles",
         label = Bridge.Language.Locale('heroin.targetClean'),
         action = function()
-            if not Bridge.Inventory.HasItem('cleaningkit') then
-                Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('cleaningkit').label), 'error')
-                return
-            end
+            if not itemCheck('cleaningkit') then return end
             if not progressbar(Bridge.Language.Locale('heroin.pbClean'), 4000, 'clean') then return end
 	        local done = Bridge.Callback.Trigger('md-drugs:server:removeCleaningKitHeroin', false)
             if done then dirty = false end
@@ -88,10 +82,7 @@ for k, v in pairs (locations.cutheroinone) do
             label = Bridge.Language.Locale('heroin.targetCutHeroin'),
             icon = 'fa-solid fa-seedling',
             action = function()
-                if not Bridge.Inventory.HasItem('bakingsoda') then
-                    Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo('bakingsoda').label), 'error')
-                    return
-                end
+                if not itemCheck('baking_soda') then return end
 	            if not progressbar(Bridge.Language.Locale('heroin.pbCutHeroin')) then return end
 	            TriggerServerEvent("md-drugs:server:cutheroin", k)
             end,
