@@ -227,9 +227,6 @@ for k, v in pairs (plantData) do
                 v.coolDown(loc)
                 v.itemGive(src)
             end
-        else
-            Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), 'error')
-            return
         end
     end)
     ::continue::

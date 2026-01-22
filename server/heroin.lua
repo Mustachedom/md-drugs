@@ -101,6 +101,7 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 		for item, tiers in pairs (itemList) do
 			if Bridge.Inventory.HasItem(src, item) then
 				tier = tiers
+				break
 			end
 		end
 	end
@@ -167,7 +168,6 @@ Bridge.Framework.RegisterUsableItem('heroinlabkit', function(source, item)
 		if Bridge.Inventory.RemoveItem(src, 'heroinlabkit', 1) then
 			heroinLabKits[src] = {
 				src = src,
-				ownerid = Bridge.Framework.GetPlayerIdentifier(src),
 				coords = loc,
 			}
 			Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.placedKit'), "success")
@@ -181,11 +181,10 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 	if timeOut(src, 'md-drugs:server:heatliquidheroin') then return end
 
 	if not heroinLabKits[src] then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.missedTable', Bridge.Framework.GetPlayerIdentifier(src), 'md-drugs:server:heatliquidheroin'), 'error')
 		return
 	end
 
-	if not Bridge.Inventory.HasItem(src, 'emptyvial', 1) then return end
 	local tier = 'tier1'
 	if Config.TierSystem then
 		local itemList = {
@@ -209,8 +208,7 @@ RegisterServerEvent('md-drugs:server:failheatingheroin', function()
 	local src = source
 
 	if not heroinLabKits[src] then
-		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.notIn'), 'error')
-		return
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('Catches.missedTable', Bridge.Framework.GetPlayerIdentifier(src), 'md-drugs:server:failheatingheroin'), 'error')
 	end
 
 	local itemList = {

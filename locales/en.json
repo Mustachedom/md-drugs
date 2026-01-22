@@ -1,6 +1,6 @@
 {
   "Catches": {
-    "notIn": "You Are Not In The Correct Location",
+    "outOfRangeWarn": "Player: %s attempted to exploit Event: '%s' by triggering the event out of range.",
     "needItems": "You Do Not Have The Required Items",
     "notEnoughMoney": "Youre To Broke",
     "buySuccess": "You Bought %s %s For $%s",
@@ -8,8 +8,9 @@
     "itemNeeded": "You Need %s",
     "cooldown": "Slow Down Speed Racer",
     "invalidItem": "This Item Is Not Sold Here",
-    "onCooldownWarn": "%s Attempted To Run Event %s \n  while on cooldown",
-    "noCops": "Not Enough Police Online"
+    "onCooldownWarn": "Player: %s Attempted To Run Event %s \n  while on cooldown",
+    "noCops": "Not Enough Police Online",
+    "missedTable": "Player: %s attempted to exploit Event: '%s' by triggering the event without being in a server table"
   },
 
   "coke": {
@@ -54,9 +55,12 @@
 
   "crack": {
     "targetMake": "Cook Some Crack",
+    "makeIcon": "fa-solid fa-temperature-high",
     "cook": "Cooking Crack",
     "targetBag": "Bag Crack",
-    "bag": "Bagging Crack"
+    "bagIcon": "fa-solid fa-weight-scale",
+    "bag": "Bagging Crack",
+    "breakdown": "Breaking Down Crack Even Further"
   },
 
   "Deliveries": {
@@ -87,21 +91,29 @@
     "picking": "Picking Heroin",
     "targetCook": "Cook Heroin",
     "pbCook": "Cooking Up Heroin",
+    "cookIcon": "fa-solid fa-temperature-high",
     "targetPickup": "Pick Up Lab",
+    "targetPickupIcon": "fa-solid fa-box-circle-check",
     "pbPickup": "Picking Up Lab",
     "targetClean": "Clean Lab",
+    "targetCleanIcon": "fa-solid fa-broom",
     "pbClean": "Cleaning Lab",
     "targetDry": "Dry Out Plant",
+    "dryIcon": "fa-solid fa-temperature-high",
     "pbDry": "Drying Out Plant",
     "targetCutHeroin": "Cut Heroin",
     "pbCutHeroin": "Cutting Heroin",
+    "cutIcon": "fa-solid fa-mortal-pestle",
     "targetBuyKit": "Buy Heroin Lab Kit",
+    "buyIcon": "fa-solid fa-box-open",
+    "fillNeedleIcon": "fa-solid fa-syringe",
     "pbBuyKit": "Buying Heroin Lab Kit",
     "tableout": "You Already Have A Table Out",
     "placing": "Placing Down Table",
     "targetFill": "Fill Syringe",
     "pbFill": "Filling Syringe",
     "hasKitAlready": "You Already Have A Heroin Lab Kit",
+    "hasKitAlreadyPlaced": "You Already Have A Heroin Lab Kit Placed",
     "notEnoughMoney": "You Need $%s In Cash For This",
     "placedKit": "You Placed Down Your Heroin Lab Kit",
     "failed": "You Failed To Make Heroin And Lost Your Ingredients"
@@ -111,7 +123,15 @@
     "stealFromTruck": "Steal From Truck",
     "startMission": "Start Lean Mission",
     "notOnRun": "You Are Not On A Lean Run",
-    "alreadyChasing": "You Are Already Chasing A Truck"
+    "alreadyChasing": "You Are Already Chasing A Truck",
+    "carIcon": "fa-solid fa-truck-fast",
+    "startMissionIcon": "fa-solid fa-hand-holding-medical",
+    "makingLean": "Making Lean",
+    "makeLeanMenuTitle": "Lean Creation",
+    "makeLeanMenuDesc": "Choose Your Ingredients",
+    "vehDoesntExist": "Player: %s attempted to exploit the lean event by triggering the event when the vehicle does not exist.",
+    "wrongVehModel": "Player: %s attempted to exploit the lean event by triggering the event in the wrong vehicle model.",
+    "maxTaken": "You Have Taken The Maximum Amount Of Lean From This Run"
   },
 
   "lsd": {
@@ -223,20 +243,13 @@
   },
 
   "wholesale": {
-    "alreadyWholesale": "Already Wholesaling",
-    "targetBuyer": "Talk To The Buyer",
-    "wholesaling": "Wholesaling Drugs",
-    "uhoh": "The Buyer Is Getting Sketchy",
-    "tooLong": "The Buyer Waited Too Long",
-    "notEnoughCops": "Not Enough Cops On Duty",
-    "count": "Quantity detected: %s",
-    "bonus": "Quantity bonus: +%s%%",
-    "estimate": "Estimated payout: $%s - $%s",
-    "no_drugs": "You do not have any of this drug to sell",
-    "ambush": "Ambush! %s attackers with %s weapons are approaching!",
-    "complete": "Sold %s items for $%s%s",
-    "min_quantity": "You must sell at least %s items to wholesale",
-    "deal_failed_cleanup": "Deal failed - you can try again"
+    "go_location": "Your Meeting Spot Has Been Marked On Your GPS",
+    "sell_drugs": "Hand Over Product",
+    "sell_drugs_icon": "fa-solid fa-handshake",
+    "selling_drugs": "Handing Over The Product",
+    "not_enough_police": "Not Enough Police Online To Start A Wholesale Deal",
+    "not_enough_drugs": "Wholesale Is Meant For Large Amounts Of Drugs",
+    "ambush_fail_warn": "Player: %s attempted to exploit the wholesale Sale event by triggering the event when they should be ambushed."
   },
 
   "xtc": {

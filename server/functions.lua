@@ -2,6 +2,7 @@ local timeOutPlayers = {}
 local playerRep = {}
 local playerWarnings = {}
 local trollExploiters = true
+
 local function trollPlayer(src)
     if not trollExploiters then return end
     CreateThread(function()
@@ -40,8 +41,7 @@ end
 
 function timeOut(src, event)
     if timeOutPlayers[src] then
-        local first, last = Bridge.Framework.GetPlayerName(src)
-        Bridge.Prints.Warn(Bridge.Language.Locale('Catches.onCooldownWarn', first .. ' ' .. last, event))
+        Bridge.Prints.Warn(Bridge.Language.Locale('Catches.onCooldownWarn', Bridge.Framework.GetPlayerIdentifier(src), event))
         playerWarnings[src] = (playerWarnings[src] or 0) + 1
         if playerWarnings[src] >= 5 then
             trollPlayer(src)
@@ -156,4 +156,4 @@ Bridge.Callback.Register('md-drugs:server:GetRep', function(source, cb, args)
     return rep
 end)
 --TODO: fix versioncheck
-Bridge.Version.VersionChecker('Mustachedom/md-drugs/', false)
+Bridge.Version.VersionChecker('Mustachedom/md-drugs', false)

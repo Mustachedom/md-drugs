@@ -9,7 +9,7 @@ local function createLabKit(coord, head)
     PlaceObjectOnGroundProperly(heroinlabkit)
     Bridge.Target.AddLocalEntity(heroinlabkit, {
         {
-            icon = "fa-solid fa-temperature-high",
+            icon = Bridge.Language.Locale('heroin.cookIcon'),
             label = Bridge.Language.Locale('heroin.targetCook'),
             action = function()
             if not itemCheck('empty_vial') then return end
@@ -31,7 +31,7 @@ local function createLabKit(coord, head)
         end
     },
     {
-        icon = "fas fa-box-circle-check",
+        icon = Bridge.Language.Locale('heroin.targetPickupIcon'),
         label = Bridge.Language.Locale('heroin.targetPickup'),
         action = function()
             if not progressbar(Bridge.Language.Locale('heroin.pbPickup')) then return end
@@ -45,7 +45,7 @@ local function createLabKit(coord, head)
         end
     },
     {
-        icon = "fa-solid fa-hand-sparkles",
+        icon = Bridge.Language.Locale('heroin.targetCleanIcon'),
         label = Bridge.Language.Locale('heroin.targetClean'),
         action = function()
             if not itemCheck('cleaningkit') then return end
@@ -64,7 +64,7 @@ for k, v in pairs (locations.dryplant) do
     Bridge.Target.AddBoxZone('dryHeroin'..k,   v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,   {
         {
             label = Bridge.Language.Locale('heroin.targetDry'),
-            icon = 'fa-solid fa-temperature-high',
+            icon = Bridge.Language.Locale('heroin.dryIcon'),
             action = function()
                 if not progressbar(Bridge.Language.Locale('heroin.pbDry')) then return end
 	            TriggerServerEvent("md-drugs:server:dryplant", k)
@@ -80,7 +80,7 @@ for k, v in pairs (locations.cutheroinone) do
     Bridge.Target.AddBoxZone('cutHeroin'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,  {
         {
             label = Bridge.Language.Locale('heroin.targetCutHeroin'),
-            icon = 'fa-solid fa-seedling',
+            icon = Bridge.Language.Locale('heroin.cutIcon'),
             action = function()
                 if not itemCheck('baking_soda') then return end
 	            if not progressbar(Bridge.Language.Locale('heroin.pbCutHeroin')) then return end
@@ -103,7 +103,7 @@ for k, v in pairs (locations.buyKit) do
     Bridge.Target.AddLocalEntity(peds[k], {
         {
             label = Bridge.Language.Locale('heroin.targetBuyKit'),
-            icon = 'fa-solid fa-box-open',
+            icon = Bridge.Language.Locale('heroin.buyIcon'),
             action = function()
                if not progressbar(Bridge.Language.Locale('heroin.pbBuyKit')) then return end
 	            TriggerServerEvent("md-drugs:server:getheroinlabkit", k)
@@ -135,7 +135,7 @@ for k, v in pairs (locations.fillneedle) do
     Bridge.Target.AddBoxZone('fillNeedle'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('heroin.targetFill'),
-            icon = 'fa-solid fa-syringe',
+            icon = Bridge.Language.Locale('heroin.fillNeedleIcon'),
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:failheroin", k) return end
                 if not progressbar(Bridge.Language.Locale('heroin.pbFill')) then return end

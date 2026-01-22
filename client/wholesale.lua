@@ -1,152 +1,94 @@
---local miss = false
---local settings = ps.callback('md-drugs:server:GetWSsettings')
---
---function SetUpPeds(drugCount)
---    local attackerCount = settings.WholesaleAmbushBase
---    if settings.WholesaleAmbushScale then
---        if drugCount > settings.WholesaleAmbushTier1 then
---            attackerCount = 3
---        end
---        if drugCount > settings.WholesaleAmbushTier2 then
---            attackerCount = 4
---        end
---        if drugCount > settings.WholesaleAmbushTier3 then
---            attackerCount = 5
---        end
---    end
---    local weaponTier = settings.WholesaleWeaponsTier1
---    if settings.WholesaleWeaponTiers then
---        if drugCount > settings.WholesaleAmbushTier3 then
---            weaponTier = settings.WholesaleWeaponsTier4
---        elseif drugCount > settings.WholesaleAmbushTier2 then
---            weaponTier = settings.WholesaleWeaponsTier3
---        elseif drugCount > settings.WholesaleAmbushTier1 then
---            weaponTier = settings.WholesaleWeaponsTier2
---        end
---    end
---    local playerPed = PlayerPedId()
---    local playerCoords = GetEntityCoords(playerPed, false)
---    local models = {"g_m_y_ballasout_01", "g_m_y_famdnf_01", "g_m_y_famca_01", "g_m_y_mexgoon_01", "g_m_y_salvagoon_01"}
---    for i = 1, attackerCount do
---        local angle = (360 / attackerCount) * i
---        local x = playerCoords.x + math.cos(math.rad(angle)) * 15
---        local y = playerCoords.y + math.sin(math.rad(angle)) * 15
---        local z = playerCoords.z
---        local modelHash = GetHashKey(models[math.random(1, #models)])
---        requestModel(modelHash)
---        local ped = CreatePed(4, modelHash, x, y, z, 0.0, true, false)
---        local weapon = weaponTier[math.random(1, #weaponTier)]
---        SetPedRelationshipGroupHash(ped, GetHashKey("HATES_PLAYER"))
---        SetPedCombatAttributes(ped, 46, true)
---        SetPedCombatAttributes(ped, 0, true)
---        SetPedCombatAttributes(ped, 5, true)
---        SetPedCombatAttributes(ped, 2, true)
---        local healthMultiplier = 1.0
---        if drugCount > settings.WholesaleAmbushTier3 then
---            healthMultiplier = 1.5
---        elseif drugCount > settings.WholesaleAmbushTier2 then
---            healthMultiplier = 1.3
---        elseif drugCount > settings.WholesaleAmbushTier1 then
---            healthMultiplier = 1.2
---        end
---        local baseHealth = GetEntityHealth(ped)
---        SetEntityHealth(ped, math.floor(baseHealth * healthMultiplier))
---        GiveWeaponToPed(ped, GetHashKey(weapon), 500, false, true)
---        TaskCombatPed(ped, playerPed, 0, 16)
---        local blip = AddBlipForEntity(ped)
---        SetBlipAsShortRange(blip, true)
---        SetBlipColour(blip, 1)
---        SetBlipScale(blip, 0.7)
---        SetEntityAsNoLongerNeeded(ped)
---    end
---    local tierName = "Basic"
---    if drugCount > settings.WholesaleAmbushTier3 then
---        tierName = "Elite"
---    elseif drugCount > settings.WholesaleAmbushTier2 then
---        tierName = "Advanced"
---    elseif drugCount > settings.WholesaleAmbushTier1 then
---        tierName = "Medium"
---    end
---    Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.ambush'), attackerCount, tierName), 'error')
---end
---
---RegisterNetEvent("md-drugs:client:GetLocation", function(drug)
---    if miss then
---       SetNewWaypoint(drug.location.x, drug.location.y)
---    else
---       local loc = drug.location
---       local timer = 0
---       miss = true
---       SetNewWaypoint(loc.x, loc.y)
---       if settings.WholesaleShowEstimates and drug.count > 0 then
---           local bonusTiers = math.floor(drug.count / 10)
---           local potentialBonus = math.min(bonusTiers * settings.WholesaleQuantityBonus, settings.WholesaleMaxBonus)
---           local bonusPercent = math.floor(potentialBonus * 100)
---           local minPayout = math.floor(drug.price.min * (1 + potentialBonus))
---           local maxPayout = math.floor(drug.price.max * (1 + potentialBonus))
---           local totalMinPayout = drug.count * minPayout
---           local totalMaxPayout = drug.count * maxPayout
---           Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.count'), drug.count), 'info')
---           if bonusPercent > 0 then
---               Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.bonus'), bonusPercent), 'info')
---           end
---           Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.estimate'), totalMinPayout, totalMaxPayout), 'info')
---       elseif drug.count <= 0 then
---           Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.no_drugs'), 'error')
---       end
---       requestModel("g_m_y_famdnf_01", settings.RequestModelTime)
---       local current = "g_m_y_famdnf_01"
---       local drugdealer = CreatePed(0, current,loc.x,loc.y,loc.z-1, 90.0, false, false)
---       FreezeEntityPosition(drugdealer, true)
---       SetEntityInvincible(drugdealer, true)
---       Bridge.Target.AddLocalEntity(drugdealer, {{
---           label = Bridge.Language.Locale('wholesale.targetBuyer'),
---           icon = "fas fa-eye",
---           action = function()
---                local luck = math.random(1,100)
---                if luck <= settings.SuccessfulChance then
---                    if not ps.progressbar(Bridge.Language.Locale('wholesale.wholesaling')) then return end
---                    TriggerServerEvent("md-drugs:server:SuccessSale", drug)
---                else
---                    ps.progressbar("Deal Going Bad")
---                    if settings.WholesaleAmbushEnabled then
---                        SetUpPeds(drug.count)
---                    end
---                    if settings.WholesaleFailPoliceAlert > 0 then
---                        local alertChance = math.random(1, 100)
---                        if alertChance <= settings.WholesaleFailPoliceAlert then
---                            PoliceCall(100)
---                        end
---                    end
---                    TriggerServerEvent('md-drugs:server:CleanupWholesale')
---                end
---                Wait(3000)
---                DeleteEntity(drugdealer)
---                miss = false
---            end
---       }},drugdealer )
---    	repeat
---           Wait(1000)
---           timer = timer + 1
---       until #(GetEntityCoords(PlayerPedId()) - vector3(loc.x, loc.y, loc.z) ) < 4.0 or timer == settings.WholesaleTimeout + 1
---       PoliceCall(settings.AlertPoliceWholesale)
---       if timer <= settings.WholesaleTimeout or #(GetEntityCoords(PlayerPedId()) - vector3(loc.x, loc.y, loc.z) ) < 4.0  then
---           timer = 0
---       else
---           Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.tooLong'), 'error')
---           DeleteEntity(drugdealer)
---           TriggerServerEvent('md-drugs:server:CleanupWholesale')
---           if settings.WholesaleResetOnTimeout then
---               miss = false
---           end
---       end
---    end
---end)
---
---RegisterNetEvent('md-drugs:client:WholesaleComplete', function(data)
---    local bonusText = ""
---    if data.bonus > 0 then
---        bonusText = " (+" .. data.bonus .. "% quantity bonus)"
---    end
---    Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('wholesale.complete'), data.quantity, data.payout, bonusText), 'success')
---end)
+local active = false
+local active, ped, peds = false, nil, {}
+
+local function loop(wholesaleData)
+    local timeout = 600 -- 10 minutes
+    while active do
+        Wait(1000)
+        local dist = #(GetEntityCoords(PlayerPedId()) - vector3(wholesaleData.location.x, wholesaleData.location.y, wholesaleData.location.z))
+        if dist < 100.0 then
+            if IsEntityDead(PlayerPedId()) then
+                active = false
+                Bridge.Point.Remove('md-drugs:wholesaleZone'..Bridge.Framework.GetPlayerIdentifier())
+                TriggerServerEvent('md-drugs:server:getkilledFuckingNoob')
+                for k, v in pairs (peds) do
+                    DeleteEntity(v)
+                end
+                peds = {}
+                break
+            end
+        end
+        timeout = timeout - 1
+        if timeout <= 0 then
+            break
+        end
+    end
+end
+
+function SetUpPeds(attackerCount, location)
+    local models = {"g_m_y_ballasout_01", "g_m_y_famdnf_01", "g_m_y_famca_01", "g_m_y_mexgoon_01", "g_m_y_salvagoon_01"}
+    for i = 1, attackerCount do
+        local angle = (360 / attackerCount) * i
+        local x = location.x + math.cos(math.rad(angle)) * 15
+        local y = location.y + math.sin(math.rad(angle)) * 15
+        local z = location.z
+        local modelHash = GetHashKey(models[math.random(1, #models)])
+        requestModel(modelHash)
+        peds[#peds+1] = CreatePed(4, modelHash, x, y, z, 0.0, true, true)
+        local weapon = math.random(1, 2) == 1 and "WEAPON_PISTOL" or "WEAPON_BAT"
+        SetPedRelationshipGroupHash(peds[#peds], GetHashKey("HATES_PLAYER"))
+        SetPedCombatAttributes(peds[#peds], 46, true)
+        SetPedCombatAttributes(peds[#peds], 0, true)
+        SetPedCombatAttributes(peds[#peds], 5, true)
+        SetPedCombatAttributes(peds[#peds], 2, true)
+        GiveWeaponToPed(peds[#peds], GetHashKey(weapon), 500, false, true)
+        TaskCombatPed(peds[#peds], PlayerPedId(), 0, 16)
+    end
+end
+
+RegisterNetEvent("md-drugs:client:GetLocation", function(wholesaleData)
+    if active then return end
+    if not wholesaleData then return end
+    active = true
+    SetNewWaypoint(wholesaleData.location.x, wholesaleData.location.y)
+    Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.go_location'), 'success')
+    Bridge.Point.Register(
+    'md-drugs:wholesaleZone'..Bridge.Framework.GetPlayerIdentifier(),
+    vector3(wholesaleData.location.x, wholesaleData.location.y, wholesaleData.location.z),
+    50.0,
+    nil,
+    function(point, data)
+        if wholesaleData.ambush then
+            SetUpPeds(wholesaleData.attackerCount, wholesaleData.location)
+            loop(wholesaleData)
+        end
+        requestModel(GetHashKey("s_m_m_ammucountry"))
+        ped = CreatePed(4, GetHashKey("s_m_m_ammucountry"), wholesaleData.location.x, wholesaleData.location.y, wholesaleData.location.z, wholesaleData.location.w, false, true)
+        FreezeEntityPosition(ped, true)
+        TaskStartScenarioInPlace(ped, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
+        Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.meet_dealer'), 'info')
+        Bridge.Target.AddLocalEntity(ped, {
+            {
+                label = Bridge.Language.Locale('wholesale.sell_drugs'),
+                icon = Bridge.Language.Locale('wholesale.sell_drugs_icon'),
+                action = function()
+                    if not progressbar(Bridge.Language.Locale('wholesale.selling_drugs'), 15000) then return end
+                    TriggerServerEvent('md-drugs:server:SuccessSale')
+                    DeleteEntity(ped)
+                    active = false
+                    Bridge.Point.Remove('md-drugs:wholesaleZone'.. Bridge.Framework.GetPlayerIdentifier())
+                end
+            }
+        })
+    end,
+    function(point, data)
+        Bridge.Point.Remove('md-drugs:wholesaleZone'.. Bridge.Framework.GetPlayerIdentifier())
+        return data
+    end)
+end)
+
+
+RegisterNetEvent('md-drugs:client:MarkLocation', function(data)
+    SetNewWaypoint(data.x, data.y)
+    Bridge.Notify.SendNotify(Bridge.Language.Locale('wholesale.go_location'), 'success')
+end)

@@ -60,13 +60,15 @@ RegisterServerEvent('md-drugs:server:givelean', function()
 	end
 	local veh = onRun[src].vehicle
 	if not veh or veh == 0 then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('lean.vehDoesntExist', Bridge.Framework.GetPlayerIdentifier(src)), 'error')
 		return
 	end
 	if GetEntityModel(veh) ~= GetHashKey('pounder') then
+		Bridge.Prints.Warn(src, Bridge.Language.Locale('lean.wrongVehModel', Bridge.Framework.GetPlayerIdentifier(src)), 'error')
 		return
 	end
 	local pcoords, vcoords = GetEntityCoords(GetPlayerPed(src)), GetEntityCoords(veh)
-	if #(pcoords - vcoords) > 10.0 then
+	if not checkDistance(src, vcoords, 5.0, 'md-drugs:server:givelean') then
 		return
 	end
 	onRun[src].taken = onRun[src].taken + 1
@@ -80,37 +82,6 @@ RegisterServerEvent('md-drugs:server:givelean', function()
 	end
 end)
 
-exports.ps_lib:registerCrafter({
-    loc = Locations.Lean.MakeLean,
-    recipes = {
-		cupoflean = {
-			amount = 1,
-			time = 5000,
-			anim = 'uncuff',
-			recipe = {
-				leancup = 1,
-				mdlean = 1,
-				sprunk = 1
-			}
-		},
-		cupofdextro = {
-			amount = 1,
-			time = 5000,
-			anim = 'uncuff',
-			recipe = {
-				leancup = 1,
-				mdreddextro = 1,
-				sprunk = 1
-			}
-		}
-	},
-	targetData = {
-		size = {height = 1.0, width = 1.0, length = 1.0, rotation = 180.0},
-		label = 'Make Lean',
-		icon = 'fa-solid fa-mug-saucer',
-	},
-})
-
 Bridge.Callback.Register('md-drugs:server:registerLean', function(source, loc, vehicleNetId)
 	local src = source
 	if onRun[src] then
@@ -120,10 +91,12 @@ Bridge.Callback.Register('md-drugs:server:registerLean', function(source, loc, v
 			return false
 		end
 		if not vehicleNetId then
+			Bridge.Prints.Warn(src, Bridge.Language.Locale('lean.vehDoesntExist', Bridge.Framework.GetPlayerIdentifier(src)), 'error')
 			return false
 		end
 		local veh = NetworkGetEntityFromNetworkId(vehicleNetId)
 		if not veh or veh == 0 or GetEntityModel(veh) ~= GetHashKey('pounder') then
+			Bridge.Prints.Warn(src, Bridge.Language.Locale('lean.wrongVehModel', Bridge.Framework.GetPlayerIdentifier(src)), 'error')
 			return false
 		end
 

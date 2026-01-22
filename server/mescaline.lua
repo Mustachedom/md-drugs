@@ -1,4 +1,4 @@
-Recipes, locations = Recipes or {}, locations or {}
+Recipes, Locations = Recipes or {}, Locations or {}
 
 Locations.Mescaline = {
     DryOutMescaline = { -- where to dry out your mescaline

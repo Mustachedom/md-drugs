@@ -50,7 +50,7 @@ local function SpawnCarPedChase(loc)
 		Bridge.Target.AddLocalEntity(leanCar, {
 			{
 				name = 'leancar',
-				icon = 'fa-solid fa-car',
+				icon = Bridge.Language.Locale('lean.carIcon'),
 				label = Bridge.Language.Locale('lean.stealFromTruck'),
 				action = function()
 					if not minigame() then return end
@@ -74,7 +74,7 @@ for k, v in pairs (location.SyrupVendor) do
 	Freeze(leanPeds[k], true, v.loc.w)
 	Bridge.Target.AddLocalEntity(leanPeds[k], {
 		{
-			icon = "fa-solid fa-hand-holding-medical",
+			icon = Bridge.Language.Locale('lean.startMission'),
 			label = Bridge.Language.Locale('lean.startMission'),
 			action = function()
 				SpawnCarPedChase()

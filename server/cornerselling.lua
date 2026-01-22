@@ -157,15 +157,6 @@ local function getDrugBack(source, item, amount)
     end
 end
 
-local function getLoc(src, ped)
-    local coords, peds = GetEntityCoords(GetPlayerPed(src)), GetEntityCoords(ped)
-    local dist = #(coords - peds)
-    if dist < 5.0 then
-        return true
-    end
-    return false
-end
-
 Bridge.Callback.Register('md-drugs:server:cornerselling:getAvailableDrugs', function(source, ped)
     local src = source
     local rep = getRep(source, 'cornerselling')
@@ -284,8 +275,7 @@ end)
 
 RegisterCommand('cornersell', function(source, args, raw)
     local src = source
-    local jobCount = Bridge.Framework.GetPlayersByJob('police')
-    if #jobCount < cornsellConfig.policeRequired then
+    if #Bridge.Framework.GetPlayersByJob('police') < cornsellConfig.policeRequired then
         Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.noCops'), 'error')
         return
     end

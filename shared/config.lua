@@ -1,10 +1,7 @@
 Config = {} --Ignore.
 
 Bridge = exports.community_bridge:Bridge()
-ps = exports.ps_lib:init()  --Ignore.
-ps.loadLangs("en") -- set your language
 
-Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel, ox_fuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.Emotes = 'rp' -- rp, dp, scully, custom
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
@@ -32,11 +29,13 @@ Config.Minigames = {
     glmath =        {timeLimit = 300000},
 }
 Config.minigametype = 'ps_circle' -- look above for options or choose none if you dont want any minigames 
+
 Config.DefaultAnimation = {
     dict = "mp_arresting",
     clip = "a_uncuff",
     flag = 49,
 }
+
 Config.ProgressBar = {
     Disables = {
         move = true,             -- Disable movement

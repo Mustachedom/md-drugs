@@ -128,20 +128,26 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
     AddRep(src, 'coke', 1)
 end)
 
-local cokecut = {loosecokestagetwo = 2, loosecokestagethree = 3}
+local cokecut = {
+    loosecokestagetwo = {give = {loosecoke =2}, take = {loosecokestagetwo = 1, bakingsoda = 1}},
+    loosecokestagethree = {give = {loosecokestagetwo = 3}, take = {loosecokestagethree = 1, bakingsoda = 1}},
+}
 for k, v in pairs (cokecut) do
 	Bridge.Framework.RegisterUsableItem(k, function(source, item)
 		local src = source
-        if not Bridge.Inventory.HasItem(src, 'bakingsoda') then
-            Bridge.Notify.SendNotify(src, Bridge.Language.Locale('coke.needBakingSoda'), 'error')
-            return
-        end
-		if Bridge.Inventory.HasItem(src,item.name) then
-            local check = Bridge.Callback.Trigger('md-drugs:client:uncuff', src, Bridge.Language.Locale('coke.cutCokeAgain'))
-            if not check then return end
-		    if Bridge.Inventory.RemoveItem(src, k, 1) and Bridge.Inventory.RemoveItem(src, 'bakingsoda', 1) then
-               Bridge.Inventory.AddItem(src, 'loosecoke', v)
+        local can = true
+        for k, v in pairs (v.take) do
+            local count = Bridge.Inventory.GetItemCount(src, k)
+            if count < v then
+                can = false
+                break
             end
-		end
+        end
+        if not can then
+            return craft(src, v)
+        end
+        local progress = Bridge.Callback.Trigger("md-drugs:client:uncuff", src, Bridge.Language.Locale('coke.cutCokeAgain'))
+        if not progress then return end
+        craft(src, v)
 	end)
 end
