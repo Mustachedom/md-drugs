@@ -208,7 +208,7 @@ RegisterNetEvent('md-drugs:client:cornerselling', function()
 end)
 
 CreateThread(function()
-    for k, v in pairs (QBConfig.NoSellZones) do
+    for k, v in pairs (GlobalState.MDDrugsLocations.CornerSelling.noSellZones) do
         Bridge.Point.Register(
         'MDDRUGNOSELLZONE'..k,
         v.loc,

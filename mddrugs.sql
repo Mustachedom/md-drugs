@@ -1,3 +1,12 @@
+CREATE TABLE IF NOT EXISTS `dealers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '0',
+  `coords` longtext DEFAULT NULL,
+  `time` longtext DEFAULT NULL,
+  `createdby` varchar(50) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 CREATE TABLE IF NOT EXISTS `deliveriesdealer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -8,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `deliveriesdealer` (
   `maxtime` varchar(50) NOT NULL,
   `location` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `drugrep` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -16,4 +25,4 @@ CREATE TABLE IF NOT EXISTS `drugrep` (
   `drugrep` varchar(255) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

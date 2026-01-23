@@ -2,14 +2,22 @@ Config = {} --Ignore.
 
 Bridge = exports.community_bridge:Bridge()
 
-Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
-Config.Emotes = 'rp' -- rp, dp, scully, custom
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
+Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3
+Config.CornerSellLevel = {
+   {price = 0.5, minrep = 0,    maxrep = 240,  label = 'Rookie'},
+   {price = 1.0, minrep = 240,  maxrep = 600,  label = 'Corner Boy'},
+   {price = 1.1, minrep = 600,  maxrep = 1200, label = 'Corner Man'},
+   {price = 1.2, minrep = 1200, maxrep = 1800, label = 'Dope Peddler'},
+   {price = 1.3, minrep = 1800, maxrep = 2400, label = 'Drug Supplier'},
+   {price = 1.5, minrep = 2400, maxrep = 4800, label = 'Drug Pusher'},
+   {price = 1.75, minrep = 4800, maxrep = 99999999999999, label = 'Drug Lord'},
+}
 
+--- Customizations
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
-
 Config.Minigames = {
     ps_circle =     {amount = 2,     speed = 8,},
     ps_maze =       {timelimit = 15},
@@ -44,6 +52,8 @@ Config.ProgressBar = {
         mouse = false            -- Disable mouse
     }
 }
+
+-- Drug System Configs
 Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark it false
     cocaine = true,
     consumables = true,

@@ -127,7 +127,13 @@ for k, v in pairs(Drugs) do
     table.insert(drugsNames, k)
 end
 GlobalState.DrugNames = drugsNames
-
+Locations = Locations or {}
+Locations.CornerSelling = {
+    noSellZones = {
+        {loc = vector3(445.11, -991.3, 30.69), width = 10.0, length = 10.0, height = 10.0, rot = 180.0},
+    }
+}
+GlobalState.MDDrugsLocations = Locations
 local RobbedDrugs = {}
 local cornsellConfig = {
     MarkedBills = false, -- if you want to use qb markedbills for selling set to true, if you want to use a custom item or cash set to false

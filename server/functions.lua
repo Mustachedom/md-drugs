@@ -88,9 +88,9 @@ local function handleFresh(source)
         heroin = 0,
         dealerrep = 0,
         cornerselling = { 
-            price = QBConfig.SellLevel[1].price,
+            price = Config.CornerSellLevell[1].price,
             rep = 0,
-            label = QBConfig.SellLevel[1].label,
+            label = Config.CornerSellLevel[1].label,
             level = 1
         }
     }
@@ -135,11 +135,11 @@ function AddRep(source, type, amount)
     end
     if type == 'cornerselling' then
         local rep = playerRep[id].cornerselling
-        local cornerData = QBConfig.SellLevel[rep.level]
+        local cornerData = Config.CornerSellLevel[rep.level]
         if rep.rep + amount >= cornerData.maxrep then
             rep.level = rep.level + 1
-            rep.label = QBConfig.SellLevel[rep.level].label
-            rep.price = QBConfig.SellLevel[rep.level].price
+            rep.label = Config.CornerSellLevel[rep.level].label
+            rep.price = Config.CornerSellLevel[rep.level].price
         end
         rep.rep = rep.rep + amount
     else
