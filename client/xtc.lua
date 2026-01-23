@@ -26,7 +26,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
     Freeze(press, true, head)
       local options = {
           {
-            icon = "fas fa-eye",
+            icon = Bridge.Language.Locale('xtc.pressIcon'),
             label = Bridge.Language.Locale('xtc.targetMake'),
             distance = 2.0,
             action = function()
@@ -39,7 +39,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
                         title = Bridge.Language.Locale(k),
                         description = descript,
                         onSelect = function()
-                            if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                            if not minigame() then return end
                             if not progressbar(Bridge.Language.Locale('xtc.making', Bridge.Language.Locale(k))) then return end
                             TriggerServerEvent("md-drugs:server:makextc", k)
                         end,
@@ -57,7 +57,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
             end
           },
           {
-            icon = "fas fa-eye",
+            icon = Bridge.Language.Locale('xtc.pressIcon'),
             label = Bridge.Language.Locale('xtc.targetPickup'),
             action = function()
                if not progressbar(Bridge.Language.Locale('xtc.picking')) then return end
@@ -77,10 +77,10 @@ end)
 for k, v in pairs(locations.mdp2p) do
     Bridge.Target.AddBoxZone('mdp2p'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
+            icon = Bridge.Language.Locale('xtc.mdp2pIcon'),
             label = Bridge.Language.Locale('xtc.targetStealMDP2P'),
             action = function()
-                if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                if not minigame() then  return end
                 if not progressbar(Bridge.Language.Locale('xtc.stealingMDP2P')) then return end
                 TriggerServerEvent("md-drugs:server:stealmdp2p", k)
             end,
@@ -93,10 +93,10 @@ end
 for k, v in pairs(locations.isosafrole) do
     Bridge.Target.AddBoxZone('isosafrole'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
+            icon = Bridge.Language.Locale('xtc.isosafroleIcon'),
             label = Bridge.Language.Locale('xtc.targetStealIsosafrole'),
             action = function()
-                if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                if not minigame() then  return end
                 if not progressbar(Bridge.Language.Locale('xtc.stealingIsosafrole')) then return end
                 TriggerServerEvent("md-drugs:server:stealisosafrole", k)
             end,
@@ -110,10 +110,10 @@ end
 for k, v in pairs(locations.rawxtcloc) do
     Bridge.Target.AddBoxZone('xtcraw'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
+            icon = Bridge.Language.Locale('xtc.rawIcon'),
             label = Bridge.Language.Locale('xtc.targetRaw'),
             action = function()
-                if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                if not minigame() then  return end
                 if not progressbar(Bridge.Language.Locale('xtc.makingRaw')) then return end
                 TriggerServerEvent("md-drugs:server:makingrawxtc", k)
             end,
@@ -130,7 +130,7 @@ for k, v in pairs(locations.xtcpress) do
     Freeze(ped, true, v.loc.w)
     Bridge.Target.AddLocalEntity(ped, {
         {
-            icon = 'fa-solid fa-flask',
+            icon = Bridge.Language.Locale('xtc.pressIcon'),
             label = Bridge.Language.Locale('xtc.getPress'),
             onSelect = function()
                 local options = {}
@@ -179,7 +179,7 @@ end
 for k, v in pairs (locations.stamp) do
     Bridge.Target.AddBoxZone('xtcstamp'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
+            icon = Bridge.Language.Locale('xtc.stampIcon'),
             label = Bridge.Language.Locale('xtc.targetStamp'),
             onSelect = function()
                 local item = {
@@ -195,7 +195,7 @@ for k, v in pairs (locations.stamp) do
                         title = d.label,
                         description = Bridge.Language.Locale('xtc.stamp_desc', d.color),
                         action = function()
-                            if not minigame() then Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.fail'), "error") return end
+                            if not minigame() then  return end
                             if not progressbar(Bridge.Language.Locale('xtc.stamping', d.label)) then return end
                             TriggerServerEvent("md-drugs:server:stamp", k, d.color)
                         end,

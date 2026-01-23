@@ -31,8 +31,17 @@ GlobalState.MDDrugsRecipes = Recipes
 
 RegisterServerEvent('md-drugs:server:buyWhippitItem', function(loc, item,amount)
     local src = source
-    if not checkDistance(src, Locations.Whippit[loc].loc, 3.0, 'md-drugs:server:buyWhippitItem') then return end
-    if not Recipes.Whippit.shop[item] then return end
+
+    if timeOut(src, 'md-drugs:server:buyWhippitItem') then return end
+
+    if not checkDistance(src, Locations.Whippit[loc].loc, 3.0, 'md-drugs:server:buyWhippitItem') then
+        return
+    end
+
+    if not Recipes.Whippit.shop[item] then
+        Bridge.Prints.Warn(Bridge.Language.Locale('Whippit.invalidItemWarn', Bridge.Framework.GetPlayerIdentifier(src), item))
+        return
+    end
     local price = Recipes.Whippit.shop[item] * amount
     if not Bridge.Framework.RemoveAccountBalance(src, 'cash', price, 'whippit-shop') then
         return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Whippit.notEnoughMoney', price), 'error')

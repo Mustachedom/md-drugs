@@ -12,7 +12,7 @@ local function createLabKit(coord, head)
     tableout = true
     local options = {
         {
-            icon = "fa-solid fa-temperature-high",
+            icon = Bridge.Language.Locale('lsd.targetHeatIcon'),
             label = Bridge.Language.Locale('lsd.targetHeat'),
             action = function()
 	            if not minigame() then
@@ -30,7 +30,7 @@ local function createLabKit(coord, head)
             end
         },
         {
-            icon = "fa-solid fa-temperature-high",
+            icon = Bridge.Language.Locale('lsd.targetRefineIcon'),
             label = Bridge.Language.Locale('lsd.targetRefine'),
             action = function()
                 if not itemCheck('lsd_one_vial') then return end
@@ -43,7 +43,7 @@ local function createLabKit(coord, head)
             end
         },
         {
-            icon = "fa-regular fa-note-sticky",
+            icon = Bridge.Language.Locale('lsd.targetDippingIcon'),
             label = Bridge.Language.Locale('lsd.targetDipping'),
             action = function()
                 if not itemCheck('tab_paper') then return end
@@ -56,7 +56,7 @@ local function createLabKit(coord, head)
             end
         },
         {
-            icon = "fas fa-box-circle-check",
+            icon = Bridge.Language.Locale('lsd.targetPickupIcon'),
             label = Bridge.Language.Locale('lsd.targetPickup'),
             action = function()
                 if not progressbar(Bridge.Language.Locale('lsd.packup')) then return end
@@ -69,7 +69,7 @@ local function createLabKit(coord, head)
             end
         },
         {
-            icon = "fa-solid fa-hand-sparkles",
+            icon = Bridge.Language.Locale('lsd.targetCleanIcon'),
             label = Bridge.Language.Locale('lsd.targetClean'),
             action = function()
                 if not itemCheck('cleaningkit') then return end
@@ -89,7 +89,7 @@ for k, v in pairs (locations.lysergicacid) do
     Bridge.Target.AddBoxZone('lysergicacid'..k,v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('lsd.targetLys'),
-            icon = 'fa-solid fa-temperature-high',
+            icon = Bridge.Language.Locale('lsd.targetLysIcon'),
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:faillysergic") return end
                 if not progressbar(Bridge.Language.Locale('lsd.stealLys')) then return end
@@ -107,7 +107,7 @@ for k, v in pairs (locations.diethylamide) do
     Bridge.Target.AddBoxZone('diethylamide'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('lsd.targetDie'),
-            icon = 'fa-solid fa-temperature-high',
+            icon = Bridge.Language.Locale('lsd.targetDieIcon'),
             action = function()
                 if not minigame() then TriggerServerEvent("md-drugs:server:faildiethylamide") return end
                 if not progressbar(Bridge.Language.Locale('lsd.stealDie')) then return end
@@ -125,7 +125,7 @@ for k, v in pairs (locations.gettabs) do
     Bridge.Target.AddBoxZone('gettabs'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('lsd.targetBuyTab'),
-            icon = 'fa-solid fa-hand-holding-dollar',
+            icon = Bridge.Language.Locale('lsd.targetBuyTabIcon'),
             action = function()
                 TriggerServerEvent("md-drugs:server:gettabpaper", k)
             end,
@@ -145,7 +145,7 @@ for k, v in pairs (locations.buyLSDkit) do
     Bridge.Target.AddLocalEntity(seller[k], {
         {
             label = Bridge.Language.Locale('lsd.targetBuyKit'),
-            icon = 'fa-solid fa-hand-holding-dollar',
+            icon = Bridge.Language.Locale('lsd.targetBuyKitIcon'),
             action = function()
                 if Bridge.Inventory.HasItem('lsdlabkit') then
                     Bridge.Notify.SendNotify(Bridge.Language.Locale('lsd.alreadyOwn'), 'error')

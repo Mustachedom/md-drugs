@@ -50,7 +50,7 @@ RegisterServerEvent("md-drugs:server:purchaseGoods", function(item)
 		return
 	end
 	if not stores.travel[item] then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.invalidItem'), "error")
+		Bridge.Prints.Warn(Bridge.Language.Locale('merchant.itemDoesntExist', Bridge.Framework.GetPlayerIdentifier(src), item))
 		return
 	end
 	if Bridge.Framework.RemoveAccountBalance(src, 'cash', stores.travel[item]) then

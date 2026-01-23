@@ -276,7 +276,7 @@ end)
 RegisterCommand('cornersell', function(source, args, raw)
     local src = source
     if #Bridge.Framework.GetPlayersByJob('police') < cornsellConfig.policeRequired then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.noCops'), 'error')
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Cornerselling.notEnoughCops', cornsellConfig.policeRequired - #Bridge.Framework.GetPlayersByJob('police')), 'error')
         return
     end
     TriggerClientEvent('md-drugs:client:cornerselling', src)

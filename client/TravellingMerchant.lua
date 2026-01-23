@@ -7,6 +7,7 @@ local function spawn()
     Freeze(ped, true, data.loc.w)
     Bridge.Target.AddLocalEntity(ped, {
         {
+            icon = Bridge.Language.Locale('merchant.targetIcon'),
             label = Bridge.Language.Locale('merchant.targetOpen'),
             action = function()
                 local options = {}

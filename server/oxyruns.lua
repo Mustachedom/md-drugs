@@ -31,6 +31,9 @@ GlobalState.MDDrugsLocations = Locations
 Bridge.Callback.Register('md-drugs:server:payfortruck', function(source, loc)
 	local src = source
 	if timeOut(src, 'md-drugs:server:payfortruck') then return false end
+	if onRoute[src] then
+		return false
+	end
 	if not checkDistance(src, Locations.Oxy.OxyPayForTruck[loc].loc, 2.0, 'md-drugs:server:payfortruck') then
 		return false
 	end
@@ -50,7 +53,7 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local src = source
 	if timeOut(src, 'md-drugs:server:giveoxybox') then return end
 	if not onRoute[src] then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notOn'), "error")
+		Bridge.Prints.Warn(Bridge.Language.Locale('oxy.notOnOxyRun', Bridge.Framework.GetPlayerIdentifier(src)))
 		return
 	end
 
@@ -58,14 +61,13 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 		return
 	end
 
-	local vehicles = vehicles[src]
-	if not vehicles or GetEntityModel(vehicles) ~= GetHashKey("burrito3") then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notInVeh'), "error")
+	local vehicle = vehicles[src]
+	if not vehicle or GetEntityModel(vehicle) ~= GetHashKey("burrito3") then
+		Bridge.Prints.Warn(Bridge.Language.Locale('oxy.mismatchOxyVan', Bridge.Framework.GetPlayerIdentifier(src), vehicle, vehicles[src]))
 		return
 	end
 
-	if #(GetEntityCoords(vehicles) - GetEntityCoords(GetPlayerPed(src))) > 35.0 then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notNearVeh'), "error")
+	if not checkDistance(src, GetEntityCoords(vehicle), 35.0, 'md-drugs:server:giveoxybox') then
 		return
 	end
 

@@ -17,14 +17,12 @@ local function getNearby(src, distance)
 	local players = Bridge.Framework.GetPlayers()
 	local nearPlayers = {}
 	for index, sources in pairs(players) do
-		--if sources ~= src then
-			local target = GetEntityCoords(GetPlayerPed(sources))
-			local you = GetEntityCoords(GetPlayerPed(src))
-			local distanceBetween = #(you - target)
-			if distanceBetween <= distance then
-				table.insert(nearPlayers, {label = Bridge.Framework.GetPlayerName(sources), value = sources})
-			end
-		--end
+		local target = GetEntityCoords(GetPlayerPed(sources))
+		local you = GetEntityCoords(GetPlayerPed(src))
+		local distanceBetween = #(you - target)
+		if distanceBetween <= distance then
+			table.insert(nearPlayers, {label = Bridge.Framework.GetPlayerName(sources), value = sources})
+		end
 	end
 	return nearPlayers
 end

@@ -111,7 +111,7 @@ RegisterNetEvent('md-drugs:server:buyWeedItem', function(loc, name, amount)
         return
     end
     if not Recipes.Weed.weedStore[name] then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.itemDoesntExist'), "error")
+        Bridge.Prints.Warn(Bridge.Language.Locale('weed.itemDoesntExistWarn', Bridge.Framework.GetPlayerIdentifier(src), name))
         return
     end
 
@@ -152,7 +152,7 @@ RegisterServerEvent('md-drugs:server:MakeWeedItems', function(tabl, item, loc)
     if timeOut(src, 'md-drugs:server:MakeWeedItems') then return end
     local locs = tabl == 'makeButter' and 'MakeButter' or tabl == 'makeOil' and 'MakeOil' or nil
     if not locs then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.invalidTable'), "error")
+        Bridge.Prints.Warn(Bridge.Language.Locale('weed.invalidTableWarn', Bridge.Framework.GetPlayerIdentifier(src), tabl))
         return
     end
     if not checkDistance(src, Locations.Weed[locs][loc].loc, 5.0, 'md-drugs:server:MakeWeedItems') then
@@ -160,7 +160,7 @@ RegisterServerEvent('md-drugs:server:MakeWeedItems', function(tabl, item, loc)
     end
     local recipe = Recipes.Weed[tabl][item]
     if not recipe then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('weed.itemDoesntExist'), "error")
+        Bridge.Prints.Warn(Bridge.Language.Locale('weed.recipeDoesntExistWarn', Bridge.Framework.GetPlayerIdentifier(src), item))
         return
     end
     for k, v in pairs (recipe.recipe) do

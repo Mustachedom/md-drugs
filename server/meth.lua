@@ -59,17 +59,20 @@ RegisterServerEvent('md-drugs:server:givemethingridients', function(veh)
 
 	local vehicle = NetworkGetEntityFromNetworkId(veh)
 	if vehicles[src] ~= vehicle then
-		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('meth.noVehicle'), "error")
+		Bridge.Prints.Warn(Bridge.Language.Locale('meth.noVehicle', Bridge.Framework.GetPlayerIdentifier(src), vehicle, vehicles[src]))
+		return
 	end
 
 	if not DoesEntityExist(vehicle) and GetEntityModel(vehicle) == GetHashKey('journey') then
-		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('meth.noVehicle'), "error")
+		Bridge.Prints.Warn(Bridge.Language.Locale('meth.wrongVehModel', Bridge.Framework.GetPlayerIdentifier(src), GetEntityModel(vehicle), 'journey'))
+		return
 	end
-	
+
 	if timeOut(src, 'md-drugs:server:givemethingridients') then return end
 
 	if not onRun[src] then
-		return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('meth.notOnRun'), "error")
+		Bridge.Prints.Warn(Bridge.Language.Locale('meth.notOnRun', Bridge.Framework.GetPlayerIdentifier(src)))
+		return
 	end
 	onRun[src] = onRun[src] + 1
 
@@ -119,7 +122,6 @@ end)
 Bridge.Callback.Register('md-drugs:server:startcook', function(source, num)
 	local src = source
 	if not checkDistance(src, Locations.Meth.CookMeth[num].loc, 2.5, 'md-drugs:server:startcook') then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notIn'), "error")
 		return false
 	end
 	if not craft(src, Recipes.Meth.cook.heat) then

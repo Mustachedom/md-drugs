@@ -106,7 +106,9 @@ RegisterServerEvent('md-drugs:server:getpressback', function()
 	local src = source
 	if not activePresses[src] then return end
 	local press = activePresses[src]
-	if not checkDistance(src, press.loc, 2.0,'md-drugs:server:getpressback' ) then return end
+	if not checkDistance(src, press.loc, 2.0,'md-drugs:server:getpressback' ) then
+		return
+	end
 	Bridge.Inventory.AddItem(src, press.get, 1)
 	activePresses[src] = nil
 end)
@@ -114,11 +116,13 @@ end)
 RegisterServerEvent('md-drugs:server:makextc', function(data)
   	local src = source
   	if not activePresses[src] then
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('xtc.noPressOut'), 'error')
+		Bridge.Prints.Warn(Bridge.Language.Locale('xtc.noActivePress', Bridge.Framework.GetPlayerIdentifier(src)))
 		return
   	end
 	if timeOut(src, 'md-drugs:server:makextc') then return end
-	if not checkDistance(src, activePresses[src].loc, 2.0, 'md-drugs:server:makextc') then return end
+	if not checkDistance(src, activePresses[src].loc, 2.0, 'md-drugs:server:makextc') then
+		return
+	end
 	if not craft(src, Recipes.XTC[activePresses[src].press][data]) then
 		return
 	end

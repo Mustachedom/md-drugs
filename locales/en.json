@@ -1,16 +1,11 @@
 {
   "Catches": {
-    "outOfRangeWarn": "Player: %s attempted to exploit Event: '%s' by triggering the event out of range.",
-    "needItems": "You Do Not Have The Required Items",
-    "notEnoughMoney": "Youre To Broke",
-    "buySuccess": "You Bought %s %s For $%s",
+    "outOfRangeWarn": "Player: %s attempted to exploit Event: '%s' by triggering the event out of range.", 
+    "notEnoughMoney": "Damn You Are A Broke Fuck",
     "itemMissings": "You Need %s",
-    "itemNeeded": "You Need %s",
-    "cooldown": "Slow Down Speed Racer",
-    "invalidItem": "This Item Is Not Sold Here",
     "onCooldownWarn": "Player: %s Attempted To Run Event %s \n  while on cooldown",
-    "noCops": "Not Enough Police Online",
-    "missedTable": "Player: %s attempted to exploit Event: '%s' by triggering the event without being in a server table"
+    "missedTable": "Player: %s attempted to exploit Event: '%s' by triggering the event without being in a server table",
+    "YouNeedMoreCops": "You Need %s More Police To Do This"
   },
 
   "coke": {
@@ -18,7 +13,6 @@
     "picking": "Picking Coca Leaf",
     "targetMakePow": "Make Cocaine Powder",
     "targetMakePowIcon": "fa-solid fa-seedling",
-    "noleaf": "You Need A Coke Leaf",
     "makePow": "Chopping Leaves into Powder",
     "targetCutCoke": "Cut Cocaine",
     "targetCutCokeIcon": "fa-solid fa-mortal-pestle",
@@ -28,8 +22,8 @@
     "teleInIcon": "fa-solid fa-door-closed",
     "teleOutIcon":"fa-solid fa-door-open",
     "teleOut": "Exit the Lab",
-    "needBakingSoda": "You Need Baking Soda For This",
-    "cutCokeAgain": "Cutting Cocaine With Baking Soda"
+    "cutCokeAgain": "Cutting Cocaine With Baking Soda",
+    "pickIcon": "fa-solid fa-seedling"
   },
 
   "Cornerselling": {
@@ -50,7 +44,8 @@
     "gotRobbed": "You Got Robbed Nerd!",
     "gotBack": "You Got Your Stuff Back!",
     "notEnough": "You Dont Have Enough Of This Item",
-    "comDes": "Sell Things On The Corner"
+    "comDes": "Sell Things On The Corner",
+    "notEnoughCops": "You Need %s More Police To Do This"
   },
 
   "crack": {
@@ -116,13 +111,13 @@
     "hasKitAlreadyPlaced": "You Already Have A Heroin Lab Kit Placed",
     "notEnoughMoney": "You Need $%s In Cash For This",
     "placedKit": "You Placed Down Your Heroin Lab Kit",
-    "failed": "You Failed To Make Heroin And Lost Your Ingredients"
+    "failed": "You Failed To Make Heroin And Lost Your Ingredients",
+    "pickIcon": "fa-brands fa-pagelines"
   },
 
   "lean": {
     "stealFromTruck": "Steal From Truck",
     "startMission": "Start Lean Mission",
-    "notOnRun": "You Are Not On A Lean Run",
     "alreadyChasing": "You Are Already Chasing A Truck",
     "carIcon": "fa-solid fa-truck-fast",
     "startMissionIcon": "fa-solid fa-hand-holding-medical",
@@ -136,23 +131,31 @@
 
   "lsd": {
     "targetHeat": "Heating LSD",
+    "targetHeatIcon": "fa-solid fa-temperature-high",
     "heating": "Heating Up LSD",
     "targetRefine": "Refine The Acid",
+    "targetRefineIcon": "fa-solid fa-vial",
     "refining": "Refining The Acid",
     "targetDipping": "Dip Tabs",
+    "targetDippingIcon": "fa-solid fa-droplet",
     "dipping": "Dipping Tabs",
     "targetPickup": "Pick Up Lab Kit",
+    "targetPickupIcon": "fas fa-box-circle-check",
     "packup": "Packing Up Lab Kit",
     "targetClean": "Clean Lab Kit",
-    "needCleaning": "You Need A Cleaning Kit To Clean The Lab",
+    "targetCleanIcon": "fa-solid fa-hand-sparkles",
     "cleaning": "Cleaning Lab Kit",
     "targetLys": "Steal Lysergic Acid",
+    "targetLysIcon": "fa-solid fa-vial",
     "stealLys": "Stealing Lysergic Acid",
     "targetDie": "Steal Diethylamide",
+    "targetDieIcon": "fa-solid fa-vial",
     "stealDie": "Stealing Diethylamide",
     "targetBuyTab": "Buy Tab Paper",
+    "targetBuyTabIcon": "fa-solid fa-hand-holding-dollar",
     "targetBuyKit": "Buy LSD Lab Kit",
-    "alreadyOwn": "You Already Own This Item",
+    "targetBuyKitIcon": "fa-solid fa-hand-holding-dollar",
+    "alreadyOwn": "You Already Own An LSD Lab Kit",
     "buyingKit": "Buying LSD Lab Kit",
     "tableout": "You Already Have A Table Out",
     "placing": "Placing Lab Kit Down!",
@@ -163,41 +166,59 @@
     "targetPick": "Pick Cactus",
     "picking": "Picking Cactus",
     "targetDry": "Dry Cactus",
-    "dry": "Drying Cactus"
+    "dry": "Drying Cactus",
+    "eat": "Taking Mescaline",
+    "pickIcon": "fa-solid fa-holly-berry"
   },
 
   "meth": {
     "alreadyChasing": "You Already Are Chasing A Truck",
     "targetStealFromCar": "Steal From Meth Car",
+    "targetStealFromCarIcon": "fa-solid fa-truck-fast",
     "targetHeist": "Start Meth Mission",
+    "targetHeistIcon": "fa-solid fa-user-secret",
     "started": "You Already Have Meth Cooking",
     "increaseHeat": "You Increased The Heat",
     "targetBag": "Bag Meth",
+    "targetBagIcon": "fa-solid fa-sack-xmark",
     "targetCook": "Cook Meth",
+    "targetCookIcon": "fa-solid fa-temperature-high",
     "targetGrabTray": "Grab Meth Tray",
+    "targetGrabTrayIcon": "fas fa-sign-in-alt",
     "targetHeat": "Adjust The Dials",
+    "targetHeatIcon": "fa-solid fa-temperature-three-quarters",
     "targetSmash": "Smash The Tray",
+    "targetSmashIcon": "fa-solid fa-hammer",
     "targetStealEPH": "Steal Ephedrine",
+    "targetStealEPHIcon": "fa-solid fa-vial",
     "stealingEPH": "Stealing Ephedrine",
     "targetStealACE": "Steal Acetone",
+    "targetStealACEIcon": "fa-solid fa-vial",
     "stealingACE": "Stealing Acetone",
-    "notOnRun": "You Are Not On A Meth Run",
-    "onCooldown": "You Are On A Cooldown",
     "teleIn": "Enter the Lab",
-    "teleOut": "Exit the Lab"
+    "teleInIcon": "fa-solid fa-door-open",
+    "teleOutIcon":"fa-solid fa-door-closed",
+    "teleOut": "Exit the Lab",
+    "wrongVehModel": "Player: %s Passed A Vehicle Model: %s for Meth Van but The Proper Vehicle Model is: %s ",
+    "notOnRun": "Player: %s attempted to exploit the meth run event by triggering the event when not on a meth run.",
+    "finishedRun": "You Have Finished Your Meth Run"
   },
 
   "oxy": {
     "ditchCar": "The Van Is Hot, Leave It Somewhere",
     "targetHandoff": "Hand Off The Package",
+    "targetHandOffIcon": "fa-solid fa-box-open",
     "handingoff": "Handing Off The Package",
     "emptyHands": "You Are Not Carrying Anything",
     "targetPay": "Rent Oxy Van",
+    "targetPayIcon": "fa-solid fa-hand-holding-dollar",
     "keys": "The Keys Are In The Van",
     "targetGetPackage": "Grab Package",
+    "targetGetPackageIcon": "fa-solid fa-box-open",
     "alreadyCarrying": "You Are Already Carrying A Package",
-    "paid": "You Paid $%s To Rent The Van",
-    "notOn": "You Are Not On A Route"
+    "notOn": "You Are Not On A Route",
+    "notOnOxyRun": "Player: %s attempted to exploit the oxy run event by triggering the give event when not on an oxy run.",
+    "mismatchOxyVan": "Player: %s Passed Vehicle: %s for Oxy Van but The Proper Vehicle is: %s "
   },
 
   "pharma": {
@@ -211,7 +232,8 @@
     "targetFill": "Fill Prescription",
     "fill": "Getting Prescription Filled",
     "canceled": "You Canceled The Prescription",
-    "unbottle": "You Opened The Bottle"
+    "unbottle": "You Opened The Bottle",
+    "fillIcon": "fa-solid fa-prescription-bottle-medical"
   },
 
   "shrooms": {
@@ -219,11 +241,13 @@
     "picking": "Picking Shrooms",
     "eat": "Eating Shrooms",
     "cancel": "Decided To Not Do Shrooms",
-    "took": "You Took Some Shrooms!"
+    "took": "You Took Some Shrooms!",
+    "pickIcon": "fa-solid fa-mushroom"
   },
 
   "weed": {
     "targetPick": "Pick Weed",
+    "targetDryIcon": "fa-solid fa-temperature-high",
     "picking": "Picking Weed",
     "targetDry": "Dry Weed",
     "noDry": "You Need Wet Weed For This",
@@ -234,12 +258,21 @@
     "teleportOut": "Leave The Grow House",
     "dabs": "Doing Some Dabs",
     "bluntWrap": "Dipping Syrup To Make %s",
-    "rollBlunt": "Rolling A %s",
     "targetSales": "Buy From Dealer",
+    "salessHeader": "Weed Salesman",
+    "salesIcon": "fa-solid fa-handshake",
+    "salesHeader": "Amount To Buy",
+    "salesDesc": "how Many Do You Wish To Buy?",
     "buying": "Buying %s From Dealer",
-    "itemDoesntExist": "This Item Does Not Exist Here",
     "needItem": "You Need A %s For This",
-    "crackBlunt": "Cracking Open A Blunt"
+    "crackBlunt": "Cracking Open A Blunt",
+    "pickIcon": "fa-solid fa-cannabis",
+    "teleportInIcon": "fa-solid fa-door-open",
+    "teleportOutIcon":"fa-solid fa-door-closed",
+    "cannabisIcon": "fa-solid fa-cannabis",
+    "itemDoesntExistWarn": "Player: %s attempted to exploit the weed salesman event by trying to purchase an item that does not exist in the weed salesman: %s",
+    "invalidTableWarn": "Player: %s attempted to exploit the weed event by triggering the event with an invalid recipe table butter/oil.",
+    "recipeDoesntExistWarn": "Player: %s attempted to exploit the weed event by triggering the event with a non existent recipe name: %s."
   },
 
   "wholesale": {
@@ -255,35 +288,75 @@
   "xtc": {
     "alreadyOut": "You Have A Press Out Already",
     "settingDown": "Setting Down The Press",
-    "noPressOut": "You Do Not Have A Press Out",
     "targetMake": "Press Pills",
+    "pressIcon": "fa-solid fa-pills",
     "making": "Pressing A %s",
     "targetPickup": "Pick Up Press",
+    "targetPickupIcon": "fa-solid fa-hand-holding",
     "picking": "Picking Up Press",
     "targetStealMDP2P": "Steal MDP2P",
+    "mdp2pIcon": "fa-solid fa-vial",
     "stealingMDP2P": "Stealing MDP2P",
-    "fail": "Damn Dude You Suck",
     "targetStealIsosafrole": "Steal Isosafrole",
+    "isosafroleIcon": "fa-solid fa-vial",
     "stealingIsosafrole": "Stealing Isosafrole",
     "targetRaw": "Make Raw XTC",
+    "rawIcon": "fa-solid fa-hand-scissors",
     "makingRaw": "Making Raw XTC",
     "getPress": "Get Press",
     "buySingle": "Buy Single Press For $%s",
     "buyp": "Buying Press",
     "targetStamp": "Stamp XTC",
+    "stampIcon": "fa-solid fa-stamp",
     "stamp_desc": "Stamp %s Pills",
     "stamping": "Stamping %s Pills",
-    "noPills": "You Dont Have Any Unstamped Pills"
+    "noPills": "You Dont Have Any Unstamped Pills",
+    "noActivePress": "Player: %s attempted to exploit the xtc event by trying to stamp pills without having an active press."
   },
 
   "merchant": {
-    "targetOpen": "Open Merchant Menu"
+    "targetOpen": "Open Merchant Menu",
+    "targetIcon": "fa-solid fa-shop",
+    "menuTitle": "Travelling Merchant",
+    "itemDoesntExist": "Player: %s attempted to exploit the merchant event by trying to purchase an item that does not exist in the merchant: %s"
   },
 
   "Whippit": {
     "targetShop": "Open Whippit Shop",
     "needBalloon": "You Need A Balloon For This",
     "needCanister": "You Need A Canister For This",
-    "shopHeader": "Whippit Shop"
+    "shopHeader": "Whippit Shop",
+    "whippitIcon": "fa-solid fa-cart-shopping",
+    "invalidItemWarn": "Player: %s attempted to exploit the whippit shop event by trying to purchase an item that does not exist in the whippit shop: %s"
+  },
+  "Dispatch": {
+    "header": "Drug Activity",
+    "code": "4-2-0",
+    "icon": "fas fa-exclamation-triangle"
+  },
+  "DrugRep": {
+    "header": "Drug Reputation",
+    "increased": "Your Current Drug Reputation Stats",
+    "coke": {
+      "icon": "fa-solid fa-face-flushed",
+      "title": "Cocaine: %s"
+    },
+    "heroin": {
+      "icon": "fa-solid fa-syringe",
+      "title": "Heroin: %s"
+    },
+    "lsd": {
+      "icon": "fa-solid fa-vial",
+      "title": "LSD: %s"
+    },
+    "dealerrep": {
+      "icon": "fa-solid fa-plug",
+      "title": "Dealer: %s"
+  },
+  "cornerselling": {
+    "icon": "fa-solid fa-money-bill",
+    "title": "Corner Selling: %s",
+    "description": "Rank: %s"
+  }
   }
 }

@@ -104,8 +104,8 @@ function PoliceCall(chance)
 	local math = math.random(1,100)
 	if math <= chance then
 		Bridge.Dispatch.SendAlert({
-		    message = "Suspisous Handoff",
-		    code = "10-31",
+		    message = Bridge.Language.Locale('Dispatch.header'),
+		    code = Bridge.Language.Locale('Dispatch.code'),
 		    coords = GetEntityCoords(PlayerPedId()),
 		    jobs = {"police"},
 		    blipData = {
@@ -114,7 +114,7 @@ function PoliceCall(chance)
 		        scale = 1.0
 		    },
 		    time = 300000,
-		    icon = "fas fa-exclamation-triangle"
+		    icon = Bridge.Language.Locale('Dispatch.icon')
 		})
 	else
 		return
@@ -124,7 +124,7 @@ end
 function GetCops(number)
 	if number == 0 then return true end
 	local amount = Bridge.Callback.Trigger('md-drugs:server:GetCoppers')
-	if amount >= number then return true else Bridge.Notify.SendNotify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
+	if amount >= number then return true else Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('Catches.YouNeedMoreCops'), number - amount), 'error')  end
 end
 
 function Freeze(entity, toggle, head)
@@ -272,14 +272,14 @@ RegisterCommand('DrugRep', function()
 	local rep = GetRep()
 	Bridge.Menu.Open({
 		id = 'drugrep',
-		title = 'Drug Reputation',
-		description = 'Your Current Drug Reputation Stats',
+		title = Bridge.Language.Locale('DrugRep.header'),
+		description = Bridge.Language.Locale('DrugRep.increased'),
 		options = {
-			{icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
-			{icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
-			{icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
-			{icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
-			{icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
+			{icon = Bridge.Language.Locale('DrugRep.coke.icon'), title = Bridge.Language.Locale('DrugRep.coke.title', rep.coke)},
+			{icon = Bridge.Language.Locale('DrugRep.heroin.icon'), 	  title = Bridge.Language.Locale('DrugRep.heroin.title', rep.heroin)},
+			{icon = Bridge.Language.Locale('DrugRep.lsd.icon'),		  title = Bridge.Language.Locale('DrugRep.lsd.title', rep.lsd)},
+			{icon = Bridge.Language.Locale('DrugRep.dealerrep.icon'), 		  title = Bridge.Language.Locale('DrugRep.dealerrep.title', rep.dealerrep)},
+			{icon = Bridge.Language.Locale('DrugRep.cornerselling.icon'),   title = Bridge.Language.Locale('DrugRep.cornerselling.title', rep.cornerselling.rep), description = Bridge.Language.Locale('DrugRep.cornerselling.description', rep.cornerselling.label) }
 		}
 	})
 end, false)

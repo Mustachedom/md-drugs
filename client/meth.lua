@@ -41,7 +41,7 @@ local function SpawnMethCarPedChase(loc)
 			Bridge.Target.AddLocalEntity(methVan, {
 				{
 					name = 'methcar',
-					icon = 'fa-solid fa-car',
+					icon = Bridge.Language.Locale('meth.targetStealFromCarIcon'),
 					label = Bridge.Language.Locale('meth.targetStealFromCar'),
 					action = function()
 						if not minigame() then return end
@@ -66,10 +66,13 @@ for k, v in pairs (locations.MethHeist) do
 	Freeze(peds[k], true, v.loc.w)
 	Bridge.Target.AddLocalEntity(peds[k], {
 		{
-			icon = 'fa-solid fa-user-secret',
+			icon = Bridge.Language.Locale('meth.targetHeistIcon'),
 			label = Bridge.Language.Locale('meth.targetHeist'),
 			action = function()
-				if startedmeth then Bridge.Notify.SendNotify(Bridge.Language.Locale('meth.alreadyChasing'),'error') return end
+				if startedmeth then 
+					Bridge.Notify.SendNotify(Bridge.Language.Locale('meth.alreadyChasing'),'error')
+					return 
+				end
 				SpawnMethCarPedChase(k)
 			end,
 			canInteract = function()
@@ -268,7 +271,7 @@ local function smash(coords, offset, rotation, buckets, k)
 		Bridge.Target.AddLocalEntity(bucket, {
 			{
 				name = 'bucket',
-				icon = "fa-solid fa-sack-xmark",
+				icon = Bridge.Language.Locale('meth.targetBagIcon'),
 				label = Bridge.Language.Locale('meth.targetBag'),
 				action = function()
 					DeleteObject(bucket)
@@ -312,7 +315,7 @@ for k, v in pairs (locations.CookMeth) do
 	Bridge.Target.AddBoxZone('cookMeth'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('meth.targetCook'),
-			icon = 'fa-solid fa-temperature-high',
+			icon = Bridge.Language.Locale('meth.targetCookIcon'),
 			action = function()
 				startcook(k, v.loc, v.offset or vec3(0,0,0), v.rotation or vector3(0,0,180.0))
 			end,
@@ -324,7 +327,7 @@ for k, v in pairs (locations.CookMeth) do
 			end,
 		},
 		{
-			icon = "fas fa-sign-in-alt",
+			icon = Bridge.Language.Locale('meth.targetGrabTrayIcon'),
 			label = Bridge.Language.Locale('meth.targetGrabTray'),
 			action = function() trayscarry() end,
 		  	canInteract = function()
@@ -341,15 +344,15 @@ for k, v in pairs (locations.MethDials) do
 	Bridge.Target.AddBoxZone('adjustMethDials'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
 			name = 'adjustdials',
-			icon = "fa-solid fa-temperature-three-quarters",
+			icon = Bridge.Language.Locale('meth.targetHeatIcon'),
 			label = Bridge.Language.Locale('meth.targetHeat'),
 			action = function()
 				dials(locations.CookMeth[k].loc)
 			end,
-			--canInteract = function()
-			--	if not handleGang(v.gang) then return false end
-			--	if amonia and heated == false then return true end
-			--end
+			canInteract = function()
+				if not handleGang(v.gang) then return false end
+				if amonia and heated == false then return true end
+			end
 		}
 	})
 end
@@ -358,7 +361,7 @@ for k, v in pairs (locations.MethSmash) do
 	Bridge.Target.AddBoxZone('smashMeth'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
 			name = 'smash',
-			icon = "fa-solid fa-weight-scale",
+			icon = Bridge.Language.Locale('meth.targetSmashIcon'),
 			label = Bridge.Language.Locale('meth.targetSmash'),
 			action = function()
 				smash(v.loc, v.offset, v.rotation, v.bucket,k)
@@ -374,8 +377,8 @@ end
 for k, v in pairs (locations.MethTele) do
 	Bridge.Target.AddBoxZone('meth_tele'..k, v.inside, vector3(v.l, v.w, 1.0), v.rot, {
 		{
-			icon = 'fa-solid fa-door-open',
-			label = Bridge.Language.Locale('coke.teleOut'),
+			icon = Bridge.Language.Locale('meth.teleOutIcon'),
+			label = Bridge.Language.Locale('meth.teleOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
 			end,
@@ -386,8 +389,8 @@ for k, v in pairs (locations.MethTele) do
 	})
 	Bridge.Target.AddBoxZone('meth_teleout'..k, v.outside, vector3(v.l, v.w, 1.0), v.rot, {
 		{
-			icon = 'fa-solid fa-door-closed',
-			label = Bridge.Language.Locale('coke.teleIn'),
+			icon = Bridge.Language.Locale('meth.teleInIcon'),
+			label = Bridge.Language.Locale('meth.teleIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)
 			end,
@@ -409,7 +412,7 @@ for k, v in pairs (locations.MethEph) do
 	Bridge.Target.AddBoxZone('stealMethEph'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('meth.targetStealEPH'),
-			icon = 'fa-solid fa-bucket',
+			icon = Bridge.Language.Locale('meth.targetStealEPHIcon'),
 			action = function()
 				if not progressbar(Bridge.Language.Locale('meth.stealingEPH')) then return end
 				TriggerServerEvent("md-drugs:server:geteph", k)
@@ -424,7 +427,7 @@ for k, v in pairs (locations.MethAce) do
 	Bridge.Target.AddBoxZone('stealMethAce'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('meth.targetStealACE'),
-			icon = 'fa-solid fa-bucket',
+			icon = Bridge.Language.Locale('meth.targetStealACEIcon'),
 			action = function()
 				if not progressbar(Bridge.Language.Locale('meth.stealingACE')) then return end
 				TriggerServerEvent("md-drugs:server:getace", k)

@@ -3,7 +3,7 @@ local locations, recipes = GlobalState.MDDrugsLocations.Weed, GlobalState.MDDrug
 for k, v in pairs (locations.WeedDry) do
 	Bridge.Target.AddBoxZone('weed_dry'..k, v.loc, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.loc.w or 180.0, {
 		{
-			icon = 'fa-solid fa-cannabis',
+			icon = Bridge.Language.Locale('weed.targetDryIcon'),
 			label = Bridge.Language.Locale('weed.targetDry'),
 			action = function()
 				if not itemCheck("wetcannabis") then return end
@@ -17,7 +17,7 @@ for k, v in pairs (locations.WeedDry) do
 				Bridge.Notify.SendNotify(Bridge.Language.Locale('weed.take'), "success")
 				Bridge.Target.AddLocalEntity(weedplant, {
 					{
-						icon = "fa-solid fa-cannabis",
+						icon = Bridge.Language.Locale('weed.targetDryIcon'),
 						label = Bridge.Language.Locale('weed.targetDryed'),
 						action = function()
 							DeleteEntity(weedplant)
@@ -38,7 +38,7 @@ end
 for k, v in pairs (locations.WeedTele) do
 	Bridge.Target.AddBoxZone('weed_tele'..k, v.inside, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.rot or 180.0, {
 		{
-			icon = 'fa-solid fa-door-open',
+			icon = Bridge.Language.Locale('weed.teleportOutIcon'),
 			label = Bridge.Language.Locale('weed.teleportOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
@@ -47,7 +47,7 @@ for k, v in pairs (locations.WeedTele) do
 	})
 	Bridge.Target.AddBoxZone('weed_teleout'..k, v.outside, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.rot or 180.0, {
 		{
-			icon = 'fa-solid fa-door-closed',
+			icon = Bridge.Language.Locale('weed.teleportInIcon'),
 			label = Bridge.Language.Locale('weed.teleportIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)
@@ -126,7 +126,7 @@ for k, v in pairs (locations.WeedSalesman) do
 	SetBlockingOfNonTemporaryEvents(ped, true)
 	Bridge.Target.AddLocalEntity(ped, {
 		{
-			icon = "fa-solid fa-cannabis",
+			icon = Bridge.Language.Locale('weed.salesIcon'),
 			label = Bridge.Language.Locale('weed.targetSales'),
 			action = function()
 				local options = {}
@@ -137,8 +137,8 @@ for k, v in pairs (locations.WeedSalesman) do
 						title = itemInfo.label,
 						description = '$' .. d,
 						onSelect = function()
-							local input = Bridge.Input.Open('Amount To Buy',{
-								{type = 'number', title = 'How Many To Buy', min = 1, max = 1000}
+							local input = Bridge.Input.Open(Bridge.Language.Locale('weed.salesHeader'),{
+								{type = 'number', title = Bridge.Language.Locale('weed.salesDesc'), min = 1, max = 1000}
 							})
 							if not input and input[1] then return end
 							if not progressbar(Bridge.Language.Locale('weed.buying', Bridge.Inventory.GetItemInfo(m).label)) then return end
@@ -148,7 +148,7 @@ for k, v in pairs (locations.WeedSalesman) do
 				end
 				Bridge.Menu.Open({
 					id = 'weedDude',
-					title = 'Weed Salesman',
+					title = Bridge.Language.Locale('weed.salessHeader'),
 					options = options,
 				})
 			end
@@ -166,7 +166,7 @@ for locationKey, locationData in pairs (locations.MakeButter) do
 		SetEntityHeading(props[#props], locationData.loc.w)
 		Bridge.Target.AddLocalEntity(props[#props], {
 			{
-				icon = "fa-solid fa-cannabis",
+				icon = Bridge.Language.Locale('weed.cannabisIcon'),
 				label = Bridge.Language.Locale('weed.targetMakeButter'),
 				action = function()
 					local options = {}
@@ -202,7 +202,7 @@ for locationKey, locationData in pairs (locations.MakeOil) do
 		SetEntityHeading(props[#props], locationData.loc.w)
 		Bridge.Target.AddLocalEntity(props[#props], {
 			{
-				icon = "fa-solid fa-cannabis",
+				icon = Bridge.Language.Locale('weed.cannabisIcon'),
 				label = Bridge.Language.Locale('weed.targetMakeOil'),
 				action = function()
 					local options = {}

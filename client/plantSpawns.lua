@@ -7,6 +7,7 @@ local DrugPlants = {
             return true
         end,
         allow = Config.Drugs.cocaine,
+        icon = Bridge.Language.Locale('coke.pickIcon'),
     },
     {model = 'prop_plant_01b', label = 'heroin',langs = Bridge.Language.Locale('heroin.targetPick'), tbl = GlobalState.PoppyPlants, plantTbl = {},
         pick = function(loc)
@@ -15,6 +16,7 @@ local DrugPlants = {
             return true
         end,
         allow = Config.Drugs.heroin,
+        icon = Bridge.Language.Locale('heroin.pickIcon'),
     },
     {model = 'prop_cactus_03', label = 'Mescaline', langs = Bridge.Language.Locale('mesc.targetPick'), tbl = GlobalState.Mescaline, plantTbl = {},
         pick = function(loc)
@@ -23,6 +25,7 @@ local DrugPlants = {
             return true
         end,
         allow = Config.Drugs.mescaline,
+        icon = Bridge.Language.Locale('mesc.pickIcon'),
 
     },
     {model = 'prop_weed_01', label = 'weed', langs = Bridge.Language.Locale('weed.targetPick'), tbl = GlobalState.WeedPlant, plantTbl = {},
@@ -32,6 +35,7 @@ local DrugPlants = {
             return true
         end,
         allow = Config.Drugs.weed,
+        icon = Bridge.Language.Locale('weed.pickIcon'),
     },
     {model = 'mushroom', label = 'shrooms', langs = Bridge.Language.Locale('shrooms.targetPick'), tbl = GlobalState.shrooms, plantTbl = {},
         pick = function(loc)
@@ -40,6 +44,7 @@ local DrugPlants = {
             return true
         end,
         allow = Config.Drugs.shrooms,
+        icon = Bridge.Language.Locale('shrooms.pickIcon'),
     },
 }
 

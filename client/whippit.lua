@@ -48,7 +48,7 @@ local function spawnShops()
         Bridge.Target.AddLocalEntity(ped, {
            {
                label = Bridge.Language.Locale('Whippit.targetShop'),
-               icon = 'fa-solid fa-cart-shopping',
+               icon = Bridge.Language.Locale('Whippit.whippitIcon'),
                action = function()
                    local menu = {}
                    for item, price in pairs (GlobalState.MDDrugsRecipes.Whippit.shop) do

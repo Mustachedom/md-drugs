@@ -24,7 +24,7 @@ end)
 for k, v in pairs (locations.FillPrescription) do
     Bridge.Target.AddBoxZone('pharma' ..k , v.loc,vector3(v.l, v.w, 1.0), v.loc.w or 180, {
         {
-            icon = 'fa-solid fa-capsules',
+            icon = Bridge.Language.Locale('pharma.fillIcon'),
             label = Bridge.Language.Locale('pharma.targetFill'),
             action = function()
                 if not progressbar(Bridge.Language.Locale('pharma.fill')) then return end

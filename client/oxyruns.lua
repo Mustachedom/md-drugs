@@ -27,7 +27,7 @@ local function getRoute()
 	Bridge.Target.AddLocalEntity(oxybuyer,{
 		{ 
 			label = Bridge.Language.Locale('oxy.targetHandoff'),
-			icon = "fa-solid fa-dollar-sign",
+			icon = Bridge.Language.Locale('oxy.targetHandOffIcon'),
 			action = function()
 				if carryPackage then
 					if not progressbar(Bridge.Language.Locale('oxy.handingoff')) then return end
@@ -48,7 +48,7 @@ end
 for k, v in pairs(locations.OxyPayForTruck) do
 	Bridge.Target.AddBoxZone('oxyTruckPur' ..k ,  v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
 		{
-			icon = 'fa-solid fa-truck-fast',
+			icon = Bridge.Language.Locale('oxy.targetPayIcon'),
 			label = Bridge.Language.Locale('oxy.targetPay'),
 			action = function()
 				requestModel("burrito3", 30000)
@@ -65,7 +65,7 @@ for k, v in pairs(locations.OxyPayForTruck) do
 				
 				Bridge.Target.AddLocalEntity(vehicle,  {
 					{
-						icon = "fa-solid fa-box",
+						icon = Bridge.Language.Locale('oxy.targetGetPackageIcon'),
 						label = Bridge.Language.Locale('oxy.targetGetPackage'),
 						action = function()
 							if carryPackage then

@@ -185,7 +185,7 @@ RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")
 	end
 end)
- 
+
 RegisterServerEvent('md-drugs:server:getlabkit', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:getlabkit') then return end

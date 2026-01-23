@@ -74,7 +74,7 @@ for k, v in pairs (location.SyrupVendor) do
 	Freeze(leanPeds[k], true, v.loc.w)
 	Bridge.Target.AddLocalEntity(leanPeds[k], {
 		{
-			icon = Bridge.Language.Locale('lean.startMission'),
+			icon = Bridge.Language.Locale('lean.startMissionIcon'),
 			label = Bridge.Language.Locale('lean.startMission'),
 			action = function()
 				SpawnCarPedChase()
