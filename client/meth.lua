@@ -303,13 +303,7 @@ local function trayscarry()
 	end
 end
 
-CreateThread(function()
-	BikerMethLab = exports['bob74_ipl']:GetBikerMethLabObject()
-	BikerMethLab.Style.Set(BikerMethLab.Style.upgrade)
-	BikerMethLab.Security.Set(BikerMethLab.Security.upgrade)
-	BikerMethLab.Details.Enable(BikerMethLab.Details.production, true)
-	RefreshInterior(BikerMethLab.interiorId)
-end)
+
 
 for k, v in pairs (locations.CookMeth) do
 	Bridge.Target.AddBoxZone('cookMeth'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
@@ -439,3 +433,11 @@ for k, v in pairs (locations.MethAce) do
 	})
 
 end
+
+CreateThread(function()
+	BikerMethLab = exports['bob74_ipl']:GetBikerMethLabObject()
+	BikerMethLab.Style.Set(BikerMethLab.Style.upgrade)
+	BikerMethLab.Security.Set(BikerMethLab.Security.upgrade)
+	BikerMethLab.Details.Enable(BikerMethLab.Details.production, true)
+	RefreshInterior(BikerMethLab.interiorId)
+end)

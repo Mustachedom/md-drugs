@@ -28,6 +28,5 @@ lua54 'yes'
 files {
 	'client/**.lua',
 	'server/**.lua',
-	'locales/**.lua',
 	'locales/**.json'
 }
