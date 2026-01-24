@@ -212,7 +212,7 @@ CreateThread(function()
         Bridge.Point.Register(
         'MDDRUGNOSELLZONE'..k,
         v.loc,
-        (v.width or 10.0 + v.length or 10.0) / 2,
+        ((v.width or 10.0) + (v.length or 10.0)) / 2,
         nil,
         function()
            inZone = true

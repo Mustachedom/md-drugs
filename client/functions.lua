@@ -305,12 +305,19 @@ else
 end
 
 function progressbar(text, time, emote, cancel)
+	if emote.prop then
+		if not emote.prop.model then
+			emote.prop = nil
+		end
+	end
+	print(json.encode(emote))
 	local success = Bridge.ProgressBar.Open({
 		duration = time or 5000,
 		label = text or 'LAZY AF DEVS',
 		canCancel = true,
 		disable = cancel or Config.ProgressBar.Disables,
 		anim = emote or Config.DefaultAnimation,
+		prop = emote and emote.prop or nil
 	})
 	return success
 end

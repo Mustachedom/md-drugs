@@ -53,7 +53,6 @@ local function spawnShops()
                    local menu = {}
                    for item, price in pairs (GlobalState.MDDrugsRecipes.Whippit.shop) do
                     local itemInfo = Bridge.Inventory.GetItemInfo(item)
-                    Bridge.Prints.Debug(itemInfo)
                        menu[#menu + 1] = {
                            title = itemInfo.label,
                            icon = itemInfo.image,

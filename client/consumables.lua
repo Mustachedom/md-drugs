@@ -1,6 +1,7 @@
 
 
 Bridge.Callback.Register('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
+    Bridge.Anim.RequestDict(anim.dict)
 	if not progressbar(progresstext .. Bridge.Inventory.GetItemInfo(item).label.. "!", time, anim ) then return end
 	for k, v in pairs (status) do
 		if k == 'health' then
