@@ -86,4 +86,4 @@ A fully customizable, immersive drug system for FiveM servers.
         - [![YouTube Video](https://img.youtube.com/vi/8QpFOluK_xo/hqdefault.jpg)](https://www.youtube.com/watch?v=8QpFOluK_xo)
 
 ### STEP 5 
-    - If you want whippits, take the folder `ate_balloon` and place that folder into the standalone folder like it was another script :) (or a [props] if you got it)
+- If you want whippits, take the folder `ate_balloon` and place that folder into the standalone folder like it was another script :)
