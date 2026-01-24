@@ -60,25 +60,18 @@
 
   "Deliveries": {
     "targetGetDel": "Get Delivery Mission",
+    "targetGetDelIcon": "fas fa-user-secret",
     "targetOpenShop": "Open Dealer Shop",
+    "targetOpenShopIcon": "fas fa-store",
     "shopHeader": "Dealer Shop",
     "targetHandOff": "Hand Off Delivery",
+    "targetHandOffIcon": "fa-solid fa-box-open",
     "delivering": "Handing The Package To Drug Dealer",
+    "itemDoesntExist": "Player: %s attempted to exploit the deliveries shop event by trying to purchase an item that does not exist in the deliveries shop: %s",
     "alreadyDelivering": "You Are Already Delivering A Package",
-    "slowAf": "You Took To Long!",
-    "newDealerHelp": {
-      "help": "Place A Dealer",
-      "name": "Dealer Name",
-      "timeMin": "Minimum Time",
-      "timeMax": "Maximum Time"
-    },
-    "DealerExists": "Dealer Already Exists",
-    "deleteDealer": {
-      "help": "Delete A Dealer",
-      "name": "Dealer Name"
-    },
-    "deleteDealerSuccess": "Deleted Dealer",
-    "deleteDealerFail": "Failed To Delete Dealer"
+    "slowAf": "You Took To Long And Now The Customer Cancelled You Fucking Turtle!",
+    "deliveryFailed": "Dude, You Didnt Even Bring The Drugs I Asked For!",
+    "delivery_success": "You Successfully Delivered The Package!"
   },
 
   "heroin": {

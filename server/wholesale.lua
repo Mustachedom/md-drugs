@@ -65,7 +65,7 @@ settings.Locs = {
 Locations = Locations or {}
 
 
-GlobalState.MDDrugsLocations.Wholesale = settings
+GlobalState.MDDrugsLocations = Locations
 
 for k, v in pairs (burners) do
     Bridge.Framework.RegisterUsableItem(k, function(source, item)
