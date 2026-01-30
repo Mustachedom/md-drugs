@@ -11,19 +11,19 @@ Recipes.LSD = {
 GlobalState.MDDrugsRecipes = Recipes
 Locations.LSD = {
 	lysergicacid = { -- get lysergic acid
-        {loc = vector3(-1381.21, -327.75, 39.85), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-        {loc = vector3(2405.53, 5008.39, 46.02), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(-1381.21, -327.75, 39.85),size = vector3(1.0, 1.0, 2.0), gang = ""},
+        {loc = vector3(2405.53, 5008.39, 46.02), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
     diethylamide = {  -- get diethylamide
-        {loc = vector3(-1372.89, -319.47, 39.05), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-        {loc = vector3(2408.38, 5011.18, 46.08), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(-1372.89, -319.47, 39.05), size = vector3(1.0, 1.0, 2.0), gang = ""},
+        {loc = vector3(2408.38, 5011.18, 46.08), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
     gettabs = { -- buy tab paper
-        {loc = vector3(-1378.26, -336.56, 39.31), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-        {loc = vector3(2409.59, 5012.45, 46.09), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(-1378.26, -336.56, 39.31), size = vector3(1.0, 1.0, 2.0), gang = ""},
+        {loc = vector3(2409.59, 5012.45, 46.09), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
     buyLSDkit = {
-        {ped = 'g_f_y_families_01', loc = vector4(-1376.66, -325.52, 39.63, 142.1), l = 1.0, w = 1.0, rot = 283.51, gang = ""},
+        {ped = 'g_f_y_families_01', loc = vector4(-1376.66, -325.52, 39.63, 142.1), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
 }
 GlobalState.MDDrugsLocations = Locations

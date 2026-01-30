@@ -1,5 +1,6 @@
 local carryPackage = nil
 local onMission = false
+repeat Wait(100) until GlobalState.MDDrugsLocations.Oxy ~= nil
 local locations = GlobalState.MDDrugsLocations.Oxy
 local pdAlert =  90
 local vehicle = nil
@@ -46,7 +47,7 @@ local function getRoute()
 end
 
 for k, v in pairs(locations.OxyPayForTruck) do
-	Bridge.Target.AddBoxZone('oxyTruckPur' ..k ,  v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('oxyTruckPur' ..k ,  v.loc, v.size, v.loc.w or 180.0, {
 		{
 			icon = Bridge.Language.Locale('oxy.targetPayIcon'),
 			label = Bridge.Language.Locale('oxy.targetPay'),

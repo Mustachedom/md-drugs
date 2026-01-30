@@ -2,19 +2,9 @@ Locations = Locations or {}
 Recipes = Recipes or {}
 local onRun = {}
 Locations.Lean = {
-	MakeLean = {
-        {
-            loc = vector3(2635.81, 4240.57, 45.32),
-            checks = { -- these can be arrays like {'police', 'ambulance'} or just a single string like 'police'
-                --gang = {},
-                --item = {},
-                --job = {},
-                --citizenid = {}
-            }
-        },
-    },
+
 	SyrupVendor = {
-        {ped = 'a_m_m_farmer_01', loc = vector4(365.21, -578.77, 39.30, 347.23), l = 1.0, w = 1.0, rot = 347.23, gang = ""},
+        {ped = 'a_m_m_farmer_01', loc = vector4(365.21, -578.77, 39.30, 347.23), gang = ""},
     },
 	StartLoc = { -- where truck spawns for lean and meth missions
         vector3(-2307.22, 434.77, 174.47),
@@ -74,7 +64,7 @@ RegisterServerEvent('md-drugs:server:givelean', function()
 	onRun[src].taken = onRun[src].taken + 1
 	local item, amount = math.random(1,2) == 1 and 'mdlean' or 'mdreddextro', math.random(1,3)
 	Bridge.Inventory.AddItem(src, item, amount)
-	if onRun[src].taken < 5 then
+	if onRun[src].taken >= 5 then
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('lean.maxTaken'), 'error')
 		DeleteEntity(veh)
 		onRun[src] = nil

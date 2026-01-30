@@ -38,19 +38,19 @@ Recipes.XTC = {
 
 Locations.XTC = {
 	isosafrole = { -- where to steal isosafrole
-        {loc = vector3(844.39, -902.92, 25.42), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(844.39, -902.92, 25.42), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
     mdp2p = { -- where to steal mdp2p
-        {loc = vector3(844.4, -898.79, 25.23), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(844.4, -898.79, 25.23), size = vector3(1.0, 1.0, 2.0), rot = 45.0, gang = ""},
     },
     rawxtcloc = { --  where to combine the 2 ingridents to make raw xtc
-        {loc = vector3(844.71, -910.33, 25.37), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(844.71, -910.33, 25.37), size = vector3(1.0, 1.0, 2.0), rot = 45.0, gang = ""},
     },
     xtcpress = {
-        {ped = 'g_f_y_families_01',loc = vector4(845.82, -884.79, 25.18, 180.0), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {ped = 'g_f_y_families_01',loc = vector4(845.82, -884.79, 25.18, 180.0), size = vector3(1.0, 1.0, 2.0), rot = 45.0, gang = ""},
     },
     stamp = {  --  where to stamp pills
-        {loc = vector3(844.71, -900.56, 25.43), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(844.71, -900.56, 25.43), size = vector3(1.0, 1.0, 2.0), rot = 45.0, gang = ""},
     },
 }
 GlobalState.MDDrugsLocations = Locations

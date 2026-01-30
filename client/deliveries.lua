@@ -2,9 +2,7 @@
 local dealer = {}
 local buyer = nil
 
-repeat
-    Wait(100)
-until GlobalState.MDDrugsLocations.Deliveries.dealers ~= nil
+repeat Wait(100) until GlobalState.MDDrugsLocations.Deliveries.dealers ~= nil
 
 local function SpawnDealer()
     if #dealer >= 1 then

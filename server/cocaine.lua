@@ -21,17 +21,17 @@ Recipes.Cocaine = {
 GlobalState.MDDrugsRecipes = Recipes
 
 Locations.Cocaine = {
-    MakePowder = {
-        {loc = vector3(1086.20, -3195.30, -39.20), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    MakePowder = { -- size = vector3(x,y,z) x = length, y = width, z = height
+        {loc = vector3(1086.20, -3195.30, -39.20), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
     CuttingCoke = {
-        {loc = vector3(1095.61, -3195.62, -39.13), l = 1.0, w = 1.0, rot = 45.0, offset = vec3(-1.782227, 0.445068, -0.502701), rotation = vector3(0,0,0), gang = ""},
+        {loc = vector3(1095.61, -3195.62, -39.13), size = vector3(1.0, 1.0, 2.0), offset = vec3(-1.782227, 0.445068, -0.502701), rotation = vector3(0,0,0), gang = ""},
     },
     BaggingCoke = {
-        {loc = vector3(1093.16, -3195.78, -39.19), l = 1.0, w = 1.0, rot = 45.0,offset = vec3(4.515137, 2.542969, -0.814194), rotation = vector3(0,0,180.0), gang = ""},
+        {loc = vector3(1093.16, -3195.78, -39.19), size = vector3(1.0, 1.0, 2.0), offset = vec3(4.515137, 2.542969, -0.814194), rotation = vector3(0,0,180.0), gang = ""},
     },
     cokeTele = {
-        {inside = vector3(1088.81, -3187.57, -38.99), outside = vector3(198.16, -1276.92, 29.33), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {inside = vector3(1088.81, -3187.57, -38.99), outside = vector3(198.16, -1276.92, 29.33), size = vector3(1.0, 1.0, 2.0), gang = ""},
     }
 }
 GlobalState.MDDrugsLocations = Locations

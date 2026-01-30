@@ -16,10 +16,10 @@ GlobalState.MDDrugsRecipes = Recipes
 
 Locations.Crack = {
     makecrack = { -- make crack with baking soda with cut coke 1-3
-        {loc = vector3(2433.47, 4970.02, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2433.47, 4970.02, 42.18),  size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
     bagcrack = {  ---  bag crack 1-3 stages
-        {loc = vector3(2436.55, 4964.96, 42.18), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2436.55, 4964.96, 42.18), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
 }
 GlobalState.MDDrugsLocations = Locations

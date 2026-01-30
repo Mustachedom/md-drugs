@@ -2,7 +2,7 @@ Recipes, Locations = Recipes or {}, Locations or {}
 
 Locations.Mescaline = {
     DryOutMescaline = { -- where to dry out your mescaline
-        {loc = vector3(1850.12, 2595.23, 45.67), l = 1.0, w = 1.0, rot = 0.0, gang = ""},
+        {loc = vector3(1850.12, 2595.23, 45.67), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
 }
 GlobalState.MDDrugsLocations = Locations

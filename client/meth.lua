@@ -1,4 +1,5 @@
 local amonia, tray, heated, active, trays, startedmeth, methVan = false, false, false, false, nil, false, nil
+repeat Wait(100) until GlobalState.MDDrugsLocations.Meth ~= nil
 local locations = GlobalState.MDDrugsLocations.Meth
 --- meth heist 
 
@@ -306,7 +307,7 @@ end
 
 
 for k, v in pairs (locations.CookMeth) do
-	Bridge.Target.AddBoxZone('cookMeth'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('cookMeth'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('meth.targetCook'),
 			icon = Bridge.Language.Locale('meth.targetCookIcon'),
@@ -335,7 +336,7 @@ for k, v in pairs (locations.CookMeth) do
 end
 
 for k, v in pairs (locations.MethDials) do
-	Bridge.Target.AddBoxZone('adjustMethDials'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('adjustMethDials'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{
 			name = 'adjustdials',
 			icon = Bridge.Language.Locale('meth.targetHeatIcon'),
@@ -352,7 +353,7 @@ for k, v in pairs (locations.MethDials) do
 end
 
 for k, v in pairs (locations.MethSmash) do
-	Bridge.Target.AddBoxZone('smashMeth'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('smashMeth'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{
 			name = 'smash',
 			icon = Bridge.Language.Locale('meth.targetSmashIcon'),
@@ -369,7 +370,7 @@ for k, v in pairs (locations.MethSmash) do
 end
 
 for k, v in pairs (locations.MethTele) do
-	Bridge.Target.AddBoxZone('meth_tele'..k, v.inside, vector3(v.l, v.w, 1.0), v.rot, {
+	Bridge.Target.AddBoxZone('meth_tele'..k, v.inside, v.size, v.rot, {
 		{
 			icon = Bridge.Language.Locale('meth.teleOutIcon'),
 			label = Bridge.Language.Locale('meth.teleOut'),
@@ -381,7 +382,7 @@ for k, v in pairs (locations.MethTele) do
             end
 		}
 	})
-	Bridge.Target.AddBoxZone('meth_teleout'..k, v.outside, vector3(v.l, v.w, 1.0), v.rot, {
+	Bridge.Target.AddBoxZone('meth_teleout'..k, v.outside, v.size, v.rot, {
 		{
 			icon = Bridge.Language.Locale('meth.teleInIcon'),
 			label = Bridge.Language.Locale('meth.teleIn'),
@@ -403,7 +404,7 @@ RegisterCommand('offset', function()
 end)
 
 for k, v in pairs (locations.MethEph) do
-	Bridge.Target.AddBoxZone('stealMethEph'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('stealMethEph'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('meth.targetStealEPH'),
 			icon = Bridge.Language.Locale('meth.targetStealEPHIcon'),
@@ -418,7 +419,7 @@ for k, v in pairs (locations.MethEph) do
 	})
 end
 for k, v in pairs (locations.MethAce) do
-	Bridge.Target.AddBoxZone('stealMethAce'..k, v.loc, vector3(v.l, v.w, 1.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('stealMethAce'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('meth.targetStealACE'),
 			icon = Bridge.Language.Locale('meth.targetStealACEIcon'),

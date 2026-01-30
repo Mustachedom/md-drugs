@@ -1,7 +1,8 @@
 local exploded, drying = false, false
+repeat Wait(100) until GlobalState.MDDrugsLocations.Weed ~= nil and GlobalState.MDDrugsRecipes.Weed ~= nil
 local locations, recipes = GlobalState.MDDrugsLocations.Weed, GlobalState.MDDrugsRecipes.Weed
 for k, v in pairs (locations.WeedDry) do
-	Bridge.Target.AddBoxZone('weed_dry'..k, v.loc, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('weed_dry'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{
 			icon = Bridge.Language.Locale('weed.targetDryIcon'),
 			label = Bridge.Language.Locale('weed.targetDry'),
@@ -36,7 +37,7 @@ for k, v in pairs (locations.WeedDry) do
 end
 
 for k, v in pairs (locations.WeedTele) do
-	Bridge.Target.AddBoxZone('weed_tele'..k, v.inside, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.rot or 180.0, {
+	Bridge.Target.AddBoxZone('weed_tele'..k, v.inside, v.size, v.rot or 180.0, {
 		{
 			icon = Bridge.Language.Locale('weed.teleportOutIcon'),
 			label = Bridge.Language.Locale('weed.teleportOut'),
@@ -45,7 +46,7 @@ for k, v in pairs (locations.WeedTele) do
 			end
 		}
 	})
-	Bridge.Target.AddBoxZone('weed_teleout'..k, v.outside, vector3(v.l or 1.0, v.w or 1.0, 1.0), v.rot or 180.0, {
+	Bridge.Target.AddBoxZone('weed_teleout'..k, v.outside, v.size, v.rot or 180.0, {
 		{
 			icon = Bridge.Language.Locale('weed.teleportInIcon'),
 			label = Bridge.Language.Locale('weed.teleportIn'),

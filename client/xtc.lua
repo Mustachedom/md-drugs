@@ -1,4 +1,5 @@
 local xtcpress = false
+repeat Wait(100) until GlobalState.MDDrugsLocations.XTC ~= nil
 local locations = GlobalState.MDDrugsLocations.XTC
 
 local function getRecipeList(tbl, type)
@@ -75,7 +76,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
 end)
 
 for k, v in pairs(locations.mdp2p) do
-    Bridge.Target.AddBoxZone('mdp2p'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
+    Bridge.Target.AddBoxZone('mdp2p'..k, v.loc, v.size, v.rot or 180.0, {
         {
             icon = Bridge.Language.Locale('xtc.mdp2pIcon'),
             label = Bridge.Language.Locale('xtc.targetStealMDP2P'),
@@ -91,7 +92,7 @@ for k, v in pairs(locations.mdp2p) do
     })
 end
 for k, v in pairs(locations.isosafrole) do
-    Bridge.Target.AddBoxZone('isosafrole'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
+    Bridge.Target.AddBoxZone('isosafrole'..k, v.loc, v.size, v.rot or 180.0, {
         {
             icon = Bridge.Language.Locale('xtc.isosafroleIcon'),
             label = Bridge.Language.Locale('xtc.targetStealIsosafrole'),
@@ -108,7 +109,7 @@ for k, v in pairs(locations.isosafrole) do
 end
 
 for k, v in pairs(locations.rawxtcloc) do
-    Bridge.Target.AddBoxZone('xtcraw'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
+    Bridge.Target.AddBoxZone('xtcraw'..k, v.loc, v.size, v.rot or 180.0, {
         {
             icon = Bridge.Language.Locale('xtc.rawIcon'),
             label = Bridge.Language.Locale('xtc.targetRaw'),
@@ -177,7 +178,7 @@ for k, v in pairs(locations.xtcpress) do
 end
 
 for k, v in pairs (locations.stamp) do
-    Bridge.Target.AddBoxZone('xtcstamp'..k, v.loc, vector3(v.l, v.w, 2.0), v.rot or 180.0, {
+    Bridge.Target.AddBoxZone('xtcstamp'..k, v.loc, v.size, v.rot or 180.0, {
         {
             icon = Bridge.Language.Locale('xtc.stampIcon'),
             label = Bridge.Language.Locale('xtc.targetStamp'),

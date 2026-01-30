@@ -1,7 +1,7 @@
 
 local started = false
-local hit = 0
 local leanCar = nil
+repeat Wait(100) until GlobalState.MDDrugsRecipes.Lean ~= nil
 local location = GlobalState.MDDrugsLocations.Lean
 
 local function SpawnCarPedChase(loc)
@@ -28,7 +28,7 @@ local function SpawnCarPedChase(loc)
 		started = false
 		return
 	end
-
+	Bridge.Notify.SendNotify(Bridge.Language.Locale('lean.chaseStarted'), 'success')
 	SetPedIntoVehicle(pilot2, leanCar, 1)
 	FreezeEntityPosition(driver, true)
 	FreezeEntityPosition(pilot2, true)
@@ -77,7 +77,7 @@ for k, v in pairs (location.SyrupVendor) do
 			icon = Bridge.Language.Locale('lean.startMissionIcon'),
 			label = Bridge.Language.Locale('lean.startMission'),
 			action = function()
-				SpawnCarPedChase()
+				SpawnCarPedChase(k)
 			end,
 			canInteract = function()
 				if not handleGang(v.gang) then return false end

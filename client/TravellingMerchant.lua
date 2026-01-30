@@ -17,7 +17,7 @@ local function spawn()
                         title = itemInfo.label,
                         description = '$'..v,
                         icon = itemInfo.image,
-                        action = function()
+                        onSelect = function()
                             TriggerServerEvent('md-drugs:server:purchaseGoods', k)
                         end
                     }

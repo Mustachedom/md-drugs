@@ -1,6 +1,7 @@
 
 local herointable = false
 local dirty = false
+repeat Wait(100) until GlobalState.MDDrugsLocations.Heroin ~= nil
 local locations = GlobalState.MDDrugsLocations.Heroin
 
 local function createLabKit(coord, head)
@@ -12,7 +13,7 @@ local function createLabKit(coord, head)
             icon = Bridge.Language.Locale('heroin.cookIcon'),
             label = Bridge.Language.Locale('heroin.targetCook'),
             action = function()
-            if not itemCheck('empty_vial') then return end
+            if not itemCheck('emptyvial') then return end
 
             if not minigame() then
                 dirty = true
@@ -61,7 +62,7 @@ local function createLabKit(coord, head)
 end
 
 for k, v in pairs (locations.dryplant) do
-    Bridge.Target.AddBoxZone('dryHeroin'..k,   v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,   {
+    Bridge.Target.AddBoxZone('dryHeroin'..k,   v.loc, v.size, v.loc.w or 180.0,   {
         {
             label = Bridge.Language.Locale('heroin.targetDry'),
             icon = Bridge.Language.Locale('heroin.dryIcon'),
@@ -77,12 +78,12 @@ for k, v in pairs (locations.dryplant) do
 end
 
 for k, v in pairs (locations.cutheroinone) do
-    Bridge.Target.AddBoxZone('cutHeroin'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,  {
+    Bridge.Target.AddBoxZone('cutHeroin'..k, v.loc, v.size, v.loc.w or 180.0,  {
         {
             label = Bridge.Language.Locale('heroin.targetCutHeroin'),
             icon = Bridge.Language.Locale('heroin.cutIcon'),
             action = function()
-                if not itemCheck('baking_soda') then return end
+                if not itemCheck('bakingsoda') then return end
 	            if not progressbar(Bridge.Language.Locale('heroin.pbCutHeroin')) then return end
 	            TriggerServerEvent("md-drugs:server:cutheroin", k)
             end,
@@ -132,7 +133,7 @@ Bridge.Callback.Register("md-drugs:client:setheroinlabkit", function()
 end)
 
 for k, v in pairs (locations.fillneedle) do
-    Bridge.Target.AddBoxZone('fillNeedle'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+    Bridge.Target.AddBoxZone('fillNeedle'..k, v.loc, v.size, v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('heroin.targetFill'),
             icon = Bridge.Language.Locale('heroin.fillNeedleIcon'),

@@ -8,7 +8,7 @@ local onRoute = {}
 local vehicles = {}
 Locations.Oxy = {
 	OxyPayForTruck = {
-        {loc = vector3(1437.64, -1491.91, 63.62), truckSpawn = vector4(1450.87, -1482.13, 63.22, 69.95), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(1437.64, -1491.91, 63.62), truckSpawn = vector4(1450.87, -1482.13, 63.22, 69.95),size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
 	oxylocations = {
         vector4(-2352.32, 266.78, 165.3, 23.46),
@@ -63,7 +63,7 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 
 	local vehicle = vehicles[src]
 	if not vehicle or GetEntityModel(vehicle) ~= GetHashKey("burrito3") then
-		Bridge.Prints.Warn(Bridge.Language.Locale('oxy.mismatchOxyVan', Bridge.Framework.GetPlayerIdentifier(src), vehicle, vehicles[src]))
+		Bridge.Prints.Warn(Bridge.Language.Locale('oxy.mismatchOxyVan', Bridge.Framework.GetPlayerIdentifier(src), vehicle))
 		return
 	end
 
@@ -80,7 +80,7 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local item = itemList[math.random(1, #itemList)]
 	Bridge.Framework.AddAccountBalance(src, 'cash', cash)
 	if itemchance <= prices.itemChance then 
-		Bridge.Framework.AddItem(src, item.item, item.amount)
+		Bridge.Inventory.AddItem(src, item.item, item.amount)
 	end
 end)
 

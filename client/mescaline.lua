@@ -1,5 +1,6 @@
 
 local badTrip = 100
+repeat Wait(100) until GlobalState.MDDrugsRecipes.Mescaline ~= nil
 local locations = GlobalState.MDDrugsLocations.Mescaline
 local function AlienEffect()
 	CreateThread(function()
@@ -15,7 +16,7 @@ end
 
 
 for k, v in pairs (locations.DryOutMescaline) do
-	Bridge.Target.AddBoxZone('dryoutMesc'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,{
+	Bridge.Target.AddBoxZone('dryoutMesc'..k, v.loc, v.size, v.loc.w or 180.0,{
 		{
 			label = Bridge.Language.Locale('mesc.targetDry'),
 			icon = 'fa-solid fa-temperature-high',

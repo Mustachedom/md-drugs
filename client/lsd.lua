@@ -1,5 +1,6 @@
 local tableout = false
 local dirtylsd = false
+repeat Wait(100) until GlobalState.MDDrugsRecipes.LSD ~= nil
 local locations = GlobalState.MDDrugsLocations.LSD
 
 
@@ -22,7 +23,7 @@ local function createLabKit(coord, head)
                     TriggerServerEvent("md-drugs:server:failheating")
                     return
                 end
-                if not progressbar(Bridge.Language.Locale('lsd.heating'), 7000, 'uncuff') then return end
+                if not progressbar(Bridge.Language.Locale('lsd.heating'), 7000) then return end
                 TriggerServerEvent("md-drugs:server:heatliquid")
             end,
             canInteract = function()
@@ -86,7 +87,7 @@ local function createLabKit(coord, head)
 end
 
 for k, v in pairs (locations.lysergicacid) do 
-    Bridge.Target.AddBoxZone('lysergicacid'..k,v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+    Bridge.Target.AddBoxZone('lysergicacid'..k,v.loc, v.size, v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('lsd.targetLys'),
             icon = Bridge.Language.Locale('lsd.targetLysIcon'),
@@ -104,7 +105,7 @@ for k, v in pairs (locations.lysergicacid) do
 end
 
 for k, v in pairs (locations.diethylamide) do 
-    Bridge.Target.AddBoxZone('diethylamide'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+    Bridge.Target.AddBoxZone('diethylamide'..k, v.loc, v.size, v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('lsd.targetDie'),
             icon = Bridge.Language.Locale('lsd.targetDieIcon'),
@@ -122,7 +123,7 @@ for k, v in pairs (locations.diethylamide) do
 end
 
 for k, v in pairs (locations.gettabs) do
-    Bridge.Target.AddBoxZone('gettabs'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+    Bridge.Target.AddBoxZone('gettabs'..k, v.loc, v.size, v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('lsd.targetBuyTab'),
             icon = Bridge.Language.Locale('lsd.targetBuyTabIcon'),

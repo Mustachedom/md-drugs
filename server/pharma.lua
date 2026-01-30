@@ -2,7 +2,7 @@ Locations = Locations or {}
 
 Locations.Pharma = {
     FillPrescription = { -- where to fill out your prescription
-        {loc = vector3(2855.62, 4446.73, 48.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(2855.62, 4446.73, 48.53), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
 }
 GlobalState.MDDrugsLocations = Locations
@@ -40,7 +40,7 @@ Bridge.Framework.RegisterUsableItem('prescription_pad', function(source, item)
 		}
 		local data = Bridge.Callback.Trigger('md-drugs:client:prescriptionpad', src, near, options)
 		if not data then return Bridge.Notify.SendNotify(src, Bridge.Language.Locale('pharma.canceled'), "error") end
-		Bridge.Framework.AddItem(data.who, data.what, 1)
+		Bridge.Inventory.AddItem(data.who, data.what, 1)
 	end
 end)
 
@@ -58,8 +58,8 @@ for m, d in pairs (pharmabottle) do
 			}
 			for k, v in pairs (get) do 
 				if d == k then
-					if Bridge.Framework.RemoveItem(src, d, 1) then
-						Bridge.Framework.AddItem(src, v, math.random(10,30))
+					if Bridge.Inventory.RemoveItem(src, d, 1) then
+						Bridge.Inventory.AddItem(src, v, math.random(10,30))
 						Bridge.Notify.SendNotify(src,Bridge.Language.Locale('pharma.unbottle'), "success")
 					end
 				end
@@ -82,9 +82,9 @@ RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 		xanax_prescription = 'xanaxbottle'
 	}
 	for k, v in pairs (pres) do
-		if Bridge.Framework.HasItem(src, k, 1) then
-			Bridge.Framework.RemoveItem(src, k, 1)
-			Bridge.Framework.AddItem(src, v, 1)
+		if Bridge.Inventory.HasItem(src, k, 1) then
+			Bridge.Inventory.RemoveItem(src, k, 1)
+			Bridge.Inventory.AddItem(src, v, 1)
 			break
 		end
 	end

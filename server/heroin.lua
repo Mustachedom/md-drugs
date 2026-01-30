@@ -27,16 +27,16 @@ GlobalState.MDDrugsRecipes = Recipes
 
 Locations.Heroin = {
     dryplant = {  -- turn resin into powder
-        {loc = vector3(-1353.77, -335.58, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(-1353.77, -335.58, 43.92), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
     cutheroinone = {  -- cut heroin stage 1-3 with baking soda
-        {loc = vector3(-1360.14, -337.03, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(-1360.14, -337.03, 43.92), size = vector3(1.0, 1.0, 2.0), gang = ""},
     }, 
     fillneedle = { -- fill needles with heroin
-        {loc = vector3(-1366.32, -334.40, 44.44), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+        {loc = vector3(-1366.32, -334.40, 44.44), size = vector3(1.0, 1.0, 2.0), gang = ""},
     },
 	buyKit = {
-		{ped = 'a_m_m_farmer_01',loc = vector4(-1366.32, -334.40, 44.44,180.0), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+		{ped = 'a_m_m_farmer_01',loc = vector4(-1366.32, -334.40, 44.44,180.0), size = vector3(1.0, 1.0, 2.0), gang = ""},
 	}
 }
 GlobalState.MDDrugsLocations = Locations

@@ -1,12 +1,13 @@
+repeat Wait(100) until GlobalState.MDDrugsLocations.Crack ~= nil
 local locations = GlobalState.MDDrugsLocations.Crack
 
 for k, v in pairs (locations.makecrack) do
-	Bridge.Target.AddBoxZone('makeCrack'..k,  v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('makeCrack'..k,  v.loc, v.size, v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('crack.targetMake'),
 			icon = Bridge.Language.Locale('crack.makeIcon'),
 			action = function()
-				if not itemCheck('baking_soda') then return end
+				if not itemCheck('bakingsoda') then return end
 				if not minigame() then
 					TriggerServerEvent("md-drugs:server:failcrackone", k)
 					return
@@ -23,7 +24,7 @@ for k, v in pairs (locations.makecrack) do
 end
 
 for k, v in pairs (locations.bagcrack) do
-	Bridge.Target.AddBoxZone('bagCrack'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+	Bridge.Target.AddBoxZone('bagCrack'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{
 			label = Bridge.Language.Locale('crack.targetBag'),
 			icon = Bridge.Language.Locale('crack.bagIcon'),

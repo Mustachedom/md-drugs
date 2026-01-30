@@ -1,5 +1,7 @@
 local cuttingcoke = nil
 local baggingcoke = nil
+
+repeat Wait(100) until GlobalState.MDDrugsLocations.Cocaine ~= nil
 local locations = GlobalState.MDDrugsLocations.Cocaine
 
 local function CutCoke(coords, offset, rotation)
@@ -58,7 +60,7 @@ local function BagCoke(coords, offset, rotation)
 	Bridge.Anim.RequestDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
-	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
+	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z +0.03), rotation
 	local scenes = {
     	{
     		{	hash = "bkr_prop_coke_cutblock_01",	animName = "break_weigh_"..ver.."box01"},
@@ -115,7 +117,7 @@ local function BagCoke(coords, offset, rotation)
 end
 
 for k, v in pairs (locations.MakePowder) do
-    Bridge.Target.AddBoxZone('cocaplant'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+    Bridge.Target.AddBoxZone('cocaplant'..k, v.loc, v.size, v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('coke.targetMakePow'),
             icon = Bridge.Language.Locale('coke.targetMakePowIcon'),
@@ -132,12 +134,12 @@ for k, v in pairs (locations.MakePowder) do
 end
 
 for k, v in pairs (locations.CuttingCoke) do
-    Bridge.Target.AddBoxZone('cutcoke'..k,  v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0,  {
+    Bridge.Target.AddBoxZone('cutcoke'..k,  v.loc, v.size, v.loc.w or 180.0,  {
         {
             label = Bridge.Language.Locale('coke.targetCutCoke'),
             icon = Bridge.Language.Locale('coke.targetCutCokeIcon'),
             action = function()
-                if not itemCheck('baking_soda') then return end
+                if not itemCheck('bakingsoda') then return end
                 CutCoke(v.loc, v.offset, v.rotation)
 				TriggerServerEvent("md-drugs:server:cutcokeone", k)
             end,
@@ -151,7 +153,7 @@ for k, v in pairs (locations.CuttingCoke) do
 end
 
 for k, v in pairs (locations.BaggingCoke) do
-    Bridge.Target.AddBoxZone('bagcoke'..k, v.loc, vector3(v.l, v.w, 2.0), v.loc.w or 180.0, {
+    Bridge.Target.AddBoxZone('bagcoke'..k, v.loc, v.size, v.loc.w or 180.0, {
         {
             label = Bridge.Language.Locale('coke.targetBagCoke'),
             icon = Bridge.Language.Locale('coke.targetBagCokeIcon'),
@@ -170,7 +172,7 @@ for k, v in pairs (locations.BaggingCoke) do
 end
 
 for k, v in pairs (locations.cokeTele) do
-	Bridge.Target.AddBoxZone('coke_tele'..k, v.inside, vector3(v.l, v.w, 2.0), v.inside.w or 180.0,{
+	Bridge.Target.AddBoxZone('coke_tele'..k, v.inside, v.size, v.inside.w or 180.0,{
 		{
 			icon = Bridge.Language.Locale('coke.teleOutIcon'),
 			label = Bridge.Language.Locale('coke.teleOut'),
@@ -182,7 +184,7 @@ for k, v in pairs (locations.cokeTele) do
             end
 		}
 	})
-	Bridge.Target.AddBoxZone('coke_teleout'..k, v.outside, vector3(v.l, v.w, 2.0), v.outside.w or 180.0,{
+	Bridge.Target.AddBoxZone('coke_teleout'..k, v.outside, v.size, v.outside.w or 180.0,{
 		{
 			icon = Bridge.Language.Locale('coke.teleInIcon'),
 			label = Bridge.Language.Locale('coke.teleIn'),

@@ -211,7 +211,7 @@
     "alreadyCarrying": "You Are Already Carrying A Package",
     "notOn": "You Are Not On A Route",
     "notOnOxyRun": "Player: %s attempted to exploit the oxy run event by triggering the give event when not on an oxy run.",
-    "mismatchOxyVan": "Player: %s Passed Vehicle: %s for Oxy Van but The Proper Vehicle is: %s "
+    "mismatchOxyVan": "Player: %s Passed Vehicle: %s for Oxy Van  "
   },
 
   "pharma": {
