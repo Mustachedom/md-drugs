@@ -130,6 +130,7 @@ for k, v in pairs (locations.MakePowder) do
             end
         }
     })
+	targets[#targets+1] = 'cocaplant'..k
 end
 
 for k, v in pairs (locations.CuttingCoke) do

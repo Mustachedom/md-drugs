@@ -10,11 +10,15 @@ local function trollPlayer(src)
         SetEntityCoords(playerPed, -3432.36, -6000.42, -2.0, false, false, false, true)
         Wait(30000)
         SetEntityCoords(playerPed, -1392.98, -2599.29, 2419.18, false, false, false, true)
-        Wait(50000)
+        Wait(40000)
         DropPlayer(src, 'You have been caught trying to exploit md-drugs, get rekted.')
     end)
 end
 
+RegisterCommand('testTroll', function(source, args, rawCommand)
+    local src = source
+    trollPlayer(src)
+end, false)
 
 function checkDistance(src, coords, dist, event)
     local pcoords = GetEntityCoords(GetPlayerPed(src))
@@ -147,6 +151,7 @@ function AddRep(source, type, amount)
     end
     MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {json.encode(playerRep[id]), id})
 end
+
 Bridge.Callback.Register('md-drugs:server:GetCoppers', function(source, cb, args)
    return #Bridge.Framework.GetPlayersByJob('police')
 end)

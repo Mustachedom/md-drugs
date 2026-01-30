@@ -1,5 +1,6 @@
 local prop = nil
 repeat Wait(100) until GlobalState.MDDrugsLocations.Whippit ~= nil and GlobalState.MDDrugsRecipes.Whippit ~= nil
+
 local function animation(color)
     local coords = GetEntityCoords(PlayerPedId())
     Bridge.Anim.RequestDict('mp_player_intdrink')

@@ -1,7 +1,4 @@
-Config = {} --Ignore.
-targets = {}
-
-Bridge = exports.community_bridge:Bridge()
+Config, Bridge, targets = {}, exports.community_bridge:Bridge(), {} 
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
