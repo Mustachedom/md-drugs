@@ -61,6 +61,7 @@ local function SpawnCarPedChase(loc)
 				end
 			}
 		})
+		targets[#targets+1] = leanCar
 	else
 		DeleteEntity(driver)
 		DeleteEntity(pilot2)
@@ -85,6 +86,7 @@ for k, v in pairs (location.SyrupVendor) do
 			end
 		},
 	})
+	targets[#targets+1] = leanPeds[k]
 end
 
 local function concat(tbl)

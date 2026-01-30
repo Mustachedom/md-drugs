@@ -328,3 +328,17 @@ function itemCheck(item)
     end
 	return true
 end
+
+AddEventHandler('onResourceStop', function(resourceName)
+	if GetCurrentResourceName() ~= resourceName then return end
+	for k, v in pairs (targets) do
+		if type(v) == 'number' then
+			Bridge.Target.RemoveLocalEntity(v)
+			if DoesEntityExist(v) then
+				DeleteEntity(v)
+			end
+		else
+			Bridge.Target.RemoveZone(v)
+		end
+	end
+end)

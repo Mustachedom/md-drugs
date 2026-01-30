@@ -21,6 +21,7 @@ for k, v in pairs (locations.makecrack) do
 			end
 		}
 	})
+	targets[#targets+1] = 'makeCrack'..k
 end
 
 for k, v in pairs (locations.bagcrack) do
@@ -39,4 +40,5 @@ for k, v in pairs (locations.bagcrack) do
 			end
 		}
 	})
+	targets[#targets+1] = 'bagCrack'..k
 end

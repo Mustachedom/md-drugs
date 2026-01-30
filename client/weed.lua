@@ -34,6 +34,7 @@ for k, v in pairs (locations.WeedDry) do
 			end
 		}
 	})
+	targets[#targets+1] = 'weed_dry'..k
 end
 
 for k, v in pairs (locations.WeedTele) do
@@ -46,6 +47,7 @@ for k, v in pairs (locations.WeedTele) do
 			end
 		}
 	})
+	targets[#targets+1] = 'weed_tele'..k
 	Bridge.Target.AddBoxZone('weed_teleout'..k, v.outside, v.size, v.rot or 180.0, {
 		{
 			icon = Bridge.Language.Locale('weed.teleportInIcon'),
@@ -55,6 +57,7 @@ for k, v in pairs (locations.WeedTele) do
 			end
 		}
 	})
+	targets[#targets+1] = 'weed_teleout'..k
 end
 
 CreateThread(function()
@@ -155,6 +158,7 @@ for k, v in pairs (locations.WeedSalesman) do
 			end
 		}
 	})
+	targets[#targets+1] = ped
 end
 
 local props = {}
@@ -193,6 +197,7 @@ for locationKey, locationData in pairs (locations.MakeButter) do
 				end
 			}
 		})
+		targets[#targets+1] = props[#props]
 	end
 end
 for locationKey, locationData in pairs (locations.MakeOil) do
@@ -229,5 +234,6 @@ for locationKey, locationData in pairs (locations.MakeOil) do
 				end
 			}
 		})
+		targets[#targets+1] = props[#props]
 	end
 end

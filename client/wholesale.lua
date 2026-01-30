@@ -80,6 +80,7 @@ RegisterNetEvent("md-drugs:client:GetLocation", function(wholesaleData)
                 end
             }
         })
+        targets[#targets+1] = ped
     end,
     function(point, data)
         Bridge.Point.Remove('md-drugs:wholesaleZone'.. Bridge.Framework.GetPlayerIdentifier())

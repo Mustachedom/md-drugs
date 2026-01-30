@@ -1,6 +1,5 @@
 local cuttingcoke = nil
 local baggingcoke = nil
-
 repeat Wait(100) until GlobalState.MDDrugsLocations.Cocaine ~= nil
 local locations = GlobalState.MDDrugsLocations.Cocaine
 
@@ -150,6 +149,7 @@ for k, v in pairs (locations.CuttingCoke) do
             end,
         }
     })
+	targets[#targets+1] = 'cutcoke'..k
 end
 
 for k, v in pairs (locations.BaggingCoke) do
@@ -169,6 +169,7 @@ for k, v in pairs (locations.BaggingCoke) do
             end
         }
     })
+	targets[#targets+1] = 'bagcoke'..k
 end
 
 for k, v in pairs (locations.cokeTele) do
@@ -184,6 +185,7 @@ for k, v in pairs (locations.cokeTele) do
             end
 		}
 	})
+	targets[#targets+1] = 'coke_tele'..k
 	Bridge.Target.AddBoxZone('coke_teleout'..k, v.outside, v.size, v.outside.w or 180.0,{
 		{
 			icon = Bridge.Language.Locale('coke.teleInIcon'),
@@ -196,6 +198,7 @@ for k, v in pairs (locations.cokeTele) do
             end
 		}
 	})
+	targets[#targets+1] = 'coke_teleout'..k
 end
 
 CreateThread(function()

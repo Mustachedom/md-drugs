@@ -75,7 +75,8 @@ local function spawnShops()
                    })
                end
            },
-       })
+        })
+        targets[#targets+1] = ped
     end
 end
 

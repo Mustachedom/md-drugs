@@ -31,6 +31,7 @@ for k, v in pairs (locations.DryOutMescaline) do
 			end
 		}
 	})
+	targets[#targets+1] = 'dryoutMesc'..k
 end
 
 RegisterNetEvent("md-drugs:client:takemescaline", function()

@@ -88,7 +88,7 @@ local function handleFresh(source)
         heroin = 0,
         dealerrep = 0,
         cornerselling = { 
-            price = Config.CornerSellLevell[1].price,
+            price = Config.CornerSellLevel[1].price,
             rep = 0,
             label = Config.CornerSellLevel[1].label,
             level = 1

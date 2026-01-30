@@ -50,6 +50,7 @@ local function SpawnDealer()
                 end,
             }
         })
+        targets[#targets+1] = dealer[k]
     end
 end
 
@@ -80,4 +81,5 @@ RegisterNetEvent('md-drugs:client:setLocation', function(data)
             end,
         }
     })
+    targets[#targets+1] = buyer
 end)

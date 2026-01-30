@@ -1,5 +1,5 @@
 Config = {} --Ignore.
-
+targets = {}
 
 Bridge = exports.community_bridge:Bridge()
 

@@ -30,5 +30,6 @@ local function spawn()
             end
         }
     })
+    targets[#targets+1] = ped
 end
 spawn()

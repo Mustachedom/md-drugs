@@ -84,6 +84,7 @@ local function createLabKit(coord, head)
         }
     }
     Bridge.Target.AddLocalEntity(labkit, options)
+    targets[#targets+1] = labkit
 end
 
 for k, v in pairs (locations.lysergicacid) do 
@@ -102,6 +103,7 @@ for k, v in pairs (locations.lysergicacid) do
             end
         }
     })
+    targets[#targets+1] = 'lysergicacid'..k
 end
 
 for k, v in pairs (locations.diethylamide) do 
@@ -120,6 +122,7 @@ for k, v in pairs (locations.diethylamide) do
             end
         }
     })
+    targets[#targets+1] = 'diethylamide'..k
 end
 
 for k, v in pairs (locations.gettabs) do
@@ -136,6 +139,7 @@ for k, v in pairs (locations.gettabs) do
             end
         }
     })
+    targets[#targets+1] = 'gettabs'..k
 end
 
 local seller = {}
@@ -161,6 +165,7 @@ for k, v in pairs (locations.buyLSDkit) do
             end
         }
     })
+    targets[#targets+1] = seller[k]
 end
 
 Bridge.Callback.Register("md-drugs:client:setlsdlabkit", function()

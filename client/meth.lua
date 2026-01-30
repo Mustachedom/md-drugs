@@ -81,6 +81,7 @@ for k, v in pairs (locations.MethHeist) do
 			end
 		}
 	})
+	targets[#targets+1] = peds[k]
 end
 
 ---- start animation shit
@@ -289,6 +290,7 @@ local function smash(coords, offset, rotation, buckets, k)
 				end,
 			}
 		})
+		targets[#targets+1] = bucket
 	end
 end
 
@@ -333,6 +335,7 @@ for k, v in pairs (locations.CookMeth) do
 		  	end,
 		},
 	})
+	targets[#targets+1] = 'cookMeth'..k
 end
 
 for k, v in pairs (locations.MethDials) do
@@ -350,6 +353,7 @@ for k, v in pairs (locations.MethDials) do
 			end
 		}
 	})
+	targets[#targets+1] = 'adjustMethDials'..k
 end
 
 for k, v in pairs (locations.MethSmash) do
@@ -367,6 +371,7 @@ for k, v in pairs (locations.MethSmash) do
 			end
 		}
 	})
+	targets[#targets+1] = 'smashMeth'..k
 end
 
 for k, v in pairs (locations.MethTele) do
@@ -394,6 +399,8 @@ for k, v in pairs (locations.MethTele) do
             end
 		}
 	})
+	targets[#targets+1] = 'meth_tele'..k
+	targets[#targets+1] = 'meth_teleout'..k
 end
 
 RegisterCommand('offset', function()
@@ -417,6 +424,7 @@ for k, v in pairs (locations.MethEph) do
 			end
 		}
 	})
+	targets[#targets+1] = 'stealMethEph'..k
 end
 for k, v in pairs (locations.MethAce) do
 	Bridge.Target.AddBoxZone('stealMethAce'..k, v.loc, v.size, v.loc.w or 180.0, {
@@ -432,7 +440,7 @@ for k, v in pairs (locations.MethAce) do
 			end
 		}
 	})
-
+	targets[#targets+1] = 'stealMethAce'..k
 end
 
 CreateThread(function()

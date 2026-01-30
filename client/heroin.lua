@@ -59,6 +59,7 @@ local function createLabKit(coord, head)
             return false
         end
     }})
+    targets[#targets+1] = heroinlabkit
 end
 
 for k, v in pairs (locations.dryplant) do
@@ -75,6 +76,7 @@ for k, v in pairs (locations.dryplant) do
             end
         }
     })
+    targets[#targets+1] = 'dryHeroin'..k
 end
 
 for k, v in pairs (locations.cutheroinone) do
@@ -92,6 +94,7 @@ for k, v in pairs (locations.cutheroinone) do
             end
         }
     })
+    targets[#targets+1] = 'cutHeroin'..k
 end
 
 local peds = {}
@@ -115,6 +118,7 @@ for k, v in pairs (locations.buyKit) do
 			end
         }
     })
+    targets[#targets+1] = peds[k]
 end
 
 
@@ -147,4 +151,5 @@ for k, v in pairs (locations.fillneedle) do
             end
         }
     })
+    targets[#targets+1] = 'fillNeedle'..k
 end

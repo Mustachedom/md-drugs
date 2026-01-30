@@ -44,6 +44,7 @@ local function getRoute()
 			end
 		}
 	})
+	targets[#targets+1] = oxybuyer
 end
 
 for k, v in pairs(locations.OxyPayForTruck) do
@@ -96,5 +97,5 @@ for k, v in pairs(locations.OxyPayForTruck) do
 			end
 		}
 	})
-
+	targets[#targets+1] = 'oxyTruckPur' ..k
 end

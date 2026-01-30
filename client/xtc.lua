@@ -72,6 +72,7 @@ Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
           },
       }
     Bridge.Target.AddLocalEntity(press, options)
+    targets[#targets+1] = press
     return coords
 end)
 
@@ -90,6 +91,7 @@ for k, v in pairs(locations.mdp2p) do
             end
         }
     })
+    targets[#targets+1] = 'mdp2p'..k
 end
 for k, v in pairs(locations.isosafrole) do
     Bridge.Target.AddBoxZone('isosafrole'..k, v.loc, v.size, v.rot or 180.0, {
@@ -106,6 +108,7 @@ for k, v in pairs(locations.isosafrole) do
             end
         }
     })
+    targets[#targets+1] = 'isosafrole'..k
 end
 
 for k, v in pairs(locations.rawxtcloc) do
@@ -123,6 +126,7 @@ for k, v in pairs(locations.rawxtcloc) do
             end
         }
     })
+    targets[#targets+1] = 'xtcraw'..k
 end
 
 for k, v in pairs(locations.xtcpress) do
@@ -175,6 +179,7 @@ for k, v in pairs(locations.xtcpress) do
              canInteract = function() return handleGang(v.gang) end
         }
     })
+    targets[#targets+1] = ped
 end
 
 for k, v in pairs (locations.stamp) do
@@ -212,4 +217,5 @@ for k, v in pairs (locations.stamp) do
             canInteract = function() return handleGang(v.gang) end
         }
     })
+    targets[#targets+1] = 'xtcstamp'..k
 end

@@ -1,7 +1,6 @@
 local sell = false
 local inZone = false
 local buyers = {}
-
 local function walkAway(targ)
     FreezeEntityPosition(targ, false)
     ClearPedTasks(targ)
@@ -155,6 +154,7 @@ local function Cornersell()
                 end,
             }
         })
+        targets[#targets+1] = targ
     else
         Bridge.Anim.RequestDict("rcmme_tracey1")
         TaskStartScenarioInPlace(targ, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false)
@@ -188,6 +188,7 @@ local function Cornersell()
                 end
             }
         })
+        targets[#targets+1] = targ
     end
 end
 

@@ -66,6 +66,7 @@ for k, v in pairs (DrugPlants) do
                     end
                 }
             })
+            targets[#targets+1] = v.plantTbl[loc]
         end
     end)
 
@@ -90,6 +91,7 @@ for k, v in pairs (DrugPlants) do
                         end
                     }
                 })
+                targets[#targets+1] = v.plantTbl[key]
             end
         end
     end)
