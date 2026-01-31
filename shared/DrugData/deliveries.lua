@@ -1,3 +1,4 @@
+if not Config.Drugs['deliveries'] then return end
 Config.Deliveries = {
     Locations = {
         dropOff = {

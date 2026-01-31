@@ -1,3 +1,4 @@
+if not Config.Drugs['lean'] then return end
 Config.Lean = {
     Locations = {
         SyrupVendor = {

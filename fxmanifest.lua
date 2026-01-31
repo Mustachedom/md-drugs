@@ -21,6 +21,7 @@ server_scripts {
 shared_scripts {
  	'@ox_lib/init.lua', 
 	'shared/config.lua',
+	'shared/DrugData/*.lua',
 }
 
 lua54 'yes'
@@ -28,6 +29,5 @@ lua54 'yes'
 files {
 	'client/**.lua',
 	'server/**.lua',
-	'shared/**.lua',
 	'locales/**.json'
 }

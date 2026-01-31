@@ -1,3 +1,4 @@
+if not Config.Drugs['mescaline'] then return end
 Config.Mescaline = {
     Locations = {
         DryOutMescaline = { -- where to dry out your mescaline

@@ -1,3 +1,4 @@
+if not Config.Drugs['lsd'] then return end
 Config.LSD = {
     Recipes = {
         vial = {

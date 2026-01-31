@@ -1,3 +1,4 @@
+if not Config.Drugs['wholesale'] then return end
 Config.Wholesale = {
     settings = {
         WholesaleQuantityBonus = 0.05, -- 5% bonus per 10 units sold (up to 20%)

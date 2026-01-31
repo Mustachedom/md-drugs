@@ -1,3 +1,4 @@
+if not Config.Drugs['cocaine'] then return end
 Config.Cocaine = {
     Locations = {
          MakePowder = { -- size = vector3(x,y,z) x = length, y = width, z = height

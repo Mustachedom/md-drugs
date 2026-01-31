@@ -1,3 +1,4 @@
+if not Config.Drugs['crack'] then return end
 Config.Crack = {
     Recipes = {
         cookcrack = {

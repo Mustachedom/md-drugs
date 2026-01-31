@@ -1,3 +1,4 @@
+if not Config.Drugs['TravellingMerchant'] then return end
 Config.Merchant = {
     Locations = {
         Travellingmerchant = {

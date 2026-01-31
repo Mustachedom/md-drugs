@@ -1,3 +1,4 @@
+if not Config.Drugs['oxyruns'] then return end
 Config.Oxy = {
     Locations = {
         OxyPayForTruck = {

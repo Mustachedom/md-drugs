@@ -1,3 +1,4 @@
+if not Config.Drugs['heroin'] then return end
 Config.Heroin = {
     Recipes = {
         dryheroin = {

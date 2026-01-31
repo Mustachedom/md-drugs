@@ -1,3 +1,4 @@
+if not Config.Drugs['pharma'] then return end
 Config.Pharma = {
     Locations = {
         FillPrescription = { -- where to fill out your prescription

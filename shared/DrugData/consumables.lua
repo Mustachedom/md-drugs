@@ -1,3 +1,4 @@
+if not Config.Drugs['consumables'] then return end
 local emotes = {
     smoke = {
         dict = "amb@world_human_aa_smoke@male@idle_a",

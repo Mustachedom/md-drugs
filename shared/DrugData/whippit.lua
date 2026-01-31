@@ -1,3 +1,4 @@
+if not Config.Drugs['whippit'] then return end
 Config.Whippit = {
     Recipes = {
         cracker = {

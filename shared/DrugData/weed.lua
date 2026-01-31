@@ -1,3 +1,4 @@
+if not Config.Drugs['weed'] then return end
 Config.Weed = {
     Locations = {
         WeedTele = { -- where you tele out of weed

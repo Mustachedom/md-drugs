@@ -1,3 +1,4 @@
+if not Config.Drugs['xtc'] then return end
 Config.XTC = {
     Recipes = {
         raw = {
