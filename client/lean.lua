@@ -1,8 +1,8 @@
 
 local started = false
 local leanCar = nil
-repeat Wait(100) until GlobalState.MDDrugsRecipes.Lean ~= nil
-local location = GlobalState.MDDrugsLocations.Lean
+
+local location = Config.Lean.Locations
 
 local function SpawnCarPedChase(loc)
 	local stoploc = vector3(-1157.63, -3056.71, 13.94)
@@ -109,7 +109,7 @@ end
 
 RegisterNetEvent("md-drugs:client:makeLean", function()
 	local menu = {}
-	for k, v in pairs (GlobalState.MDDrugsRecipes.Lean) do
+	for k, v in pairs (Config.Lean.Recipes) do
 		menu[#menu+1] = {
 			title = Bridge.Inventory.GetItemInfo(v.item).label,
 			description = concat(v.ingredients),

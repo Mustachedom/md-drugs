@@ -1,49 +1,5 @@
-Recipes, Locations = Recipes or {}, Locations or {}
 
 local heroinLabKits = {}
-Recipes.Heroin = {
-   dryheroin = {
-       tier1 = {take = {poppyresin = 1}, give = {heroin = 1}},
-       tier2 = {take = {poppyresin = 1}, give = {heroinstagetwo = 1}},
-       tier3 = {take = {poppyresin = 1}, give = {heroinstagethree = 1}},
-   },
-   cutheroin = {
-       tier1 = {take = {heroin = 1,            bakingsoda = 1}, give = {heroincut = 1}},
-       tier2 = {take = {heroinstagetwo = 1,    bakingsoda = 1}, give = {heroincutstagetwo = 1}},
-       tier3 = {take = {heroinstagethree = 1,  bakingsoda = 1}, give = {heroincutstagethree = 1}},
-   },
-   fillvial = {
-       tier1 = {take = {heroincut = 1,            emptyvial = 1}, give = {heroinvial = 1}},
-       tier2 = {take = {heroincutstagetwo = 1,    emptyvial = 1}, give = {heroinvialstagetwo = 1}},
-       tier3 = {take = {heroincutstagethree = 1,  emptyvial = 1}, give = {heroinvialstagethree = 1}},
-   },
-   fillneedle = {
-       tier1 = {take = {heroinvial = 1,            needle = 1}, give = {heroin_ready = 1}},
-       tier2 = {take = {heroinvialstagetwo = 1,    needle = 1}, give = {heroin_readystagetwo = 1}},
-       tier3 = {take = {heroinvialstagethree = 1,  needle = 1}, give = {heroin_readystagethree = 1}},
-   }
-}
-GlobalState.MDDrugsRecipes = Recipes
-
-Locations.Heroin = {
-    dryplant = {  -- turn resin into powder
-        {loc = vector3(-1353.77, -335.58, 43.92), size = vector3(1.0, 1.0, 2.0), gang = ""},
-    },
-    cutheroinone = {  -- cut heroin stage 1-3 with baking soda
-        {loc = vector3(-1360.14, -337.03, 43.92), size = vector3(1.0, 1.0, 2.0), gang = ""},
-    }, 
-    fillneedle = { -- fill needles with heroin
-        {loc = vector3(-1366.32, -334.40, 44.44), size = vector3(1.0, 1.0, 2.0), gang = ""},
-    },
-	buyKit = {
-		{ped = 'a_m_m_farmer_01',loc = vector4(-1366.32, -334.40, 44.44,180.0), size = vector3(1.0, 1.0, 2.0), gang = ""},
-	}
-}
-GlobalState.MDDrugsLocations = Locations
-
-local prices = {
-	heroinlabkitprice = 10000
-}
 
 
 Bridge.Callback.Register('md-drugs:server:removeCleaningKitHeroin', function(source)
@@ -72,12 +28,12 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 
 	if timeOut(src, 'md-drugs:server:dryplant') then return end
 
-	if not checkDistance(src, Locations.Heroin.dryplant[num].loc, 3.0, 'md-drugs:server:dryplant') then
+	if not checkDistance(src, Config.Heroin.Locations.dryplant[num].loc, 3.0, 'md-drugs:server:dryplant') then
 		return
 	end
 
 	local tier = getTier(src)
-	if not craft(src, Recipes.Heroin.dryheroin[tier]) then
+	if not craft(src, Config.Heroin.Recipes.dryheroin[tier]) then
 		return
 	end
 end)
@@ -87,7 +43,7 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 
 	if timeOut(src, 'md-drugs:server:cutheroin') then return end
 
-	if not checkDistance(src, Locations.Heroin.cutheroinone[num].loc, 3.0, 'md-drugs:server:cutheroin') then
+	if not checkDistance(src, Config.Heroin.Locations.cutheroinone[num].loc, 3.0, 'md-drugs:server:cutheroin') then
 		return
 	end
 
@@ -106,7 +62,7 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 		end
 	end
 
-	if not craft(src, Recipes.Heroin.cutheroin[tier]) then
+	if not craft(src, Config.Heroin.Recipes.cutheroin[tier]) then
 		return
 	end
 end)
@@ -116,7 +72,7 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function(num)
 
 	if timeOut(src, 'md-drugs:server:getheroinlabkit') then return end
 
-	if not checkDistance(src, Locations.Heroin.buyKit[num].loc, 3.0, 'md-drugs:server:getheroinlabkit') then
+	if not checkDistance(src, Config.Heroin.Locations.buyKit[num].loc, 3.0, 'md-drugs:server:getheroinlabkit') then
 		return
 	end
 
@@ -125,10 +81,10 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function(num)
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.hasKitAlready'), 'error')
 		return
 	end
-	if Bridge.Framework.RemoveAccountBalance(src, 'cash', prices.heroinlabkitprice) then
+	if Bridge.Framework.RemoveAccountBalance(src, 'cash', Config.Heroin.prices.heroinlabkitprice) then
 		Bridge.Inventory.AddItem(src, 'heroinlabkit', 1)
 	else
-		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.notEnoughMoney', prices.heroinlabkitprice), 'error')
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('heroin.notEnoughMoney', Config.Heroin.prices.heroinlabkitprice), 'error')
 	end
 end)
 
@@ -185,6 +141,10 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 		return
 	end
 
+	if not checkDistance(src, heroinLabKits[src].coords, 3.0, 'md-drugs:server:heatliquidheroin') then
+		return
+	end
+
 	local tier = 'tier1'
 	if Config.TierSystem then
 		local itemList = {
@@ -199,7 +159,7 @@ RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
 			end
 		end
 	end
-	if not craft(src, Recipes.Heroin.fillvial[tier]) then
+	if not craft(src, Config.Heroin.Recipes.fillvial[tier]) then
 		return
 	end
 end)
@@ -229,7 +189,7 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:fillneedle') then return end
 
-	if not checkDistance(src, Locations.Heroin.fillneedle[num].loc, 3.0, 'md-drugs:server:fillneedle') then
+	if not checkDistance(src, Config.Heroin.Locations.fillneedle[num].loc, 3.0, 'md-drugs:server:fillneedle') then
 		return
 	end
 	local tier = 'tier1'
@@ -246,7 +206,7 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 			end
 		end
 	end
-	if not craft(src, Recipes.Heroin.fillneedle[tier]) then
+	if not craft(src, Config.Hero8in.Recipes.fillneedle[tier]) then
 		return
 	end
 end)

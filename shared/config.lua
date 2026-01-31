@@ -4,15 +4,7 @@ Config, Bridge, targets = {}, exports.community_bridge:Bridge(), {}
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3
-Config.CornerSellLevel = {
-   {price = 0.5, minrep = 0,    maxrep = 240,  label = 'Rookie'},
-   {price = 1.0, minrep = 240,  maxrep = 600,  label = 'Corner Boy'},
-   {price = 1.1, minrep = 600,  maxrep = 1200, label = 'Corner Man'},
-   {price = 1.2, minrep = 1200, maxrep = 1800, label = 'Dope Peddler'},
-   {price = 1.3, minrep = 1800, maxrep = 2400, label = 'Drug Supplier'},
-   {price = 1.5, minrep = 2400, maxrep = 4800, label = 'Drug Pusher'},
-   {price = 1.75, minrep = 4800, maxrep = 99999999999999, label = 'Drug Lord'},
-}
+
 
 --- Customizations
 Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
@@ -79,3 +71,27 @@ Config.Bzz = { -- if you have BZZZ props for these turn it on if you want
     shrooms = false,
     weed = false,
 }
+
+
+for k, v in pairs (Config.Drugs) do
+    if not v then goto continue end
+     local resourceName = 'md-drugs'
+     local filePath = 'shared/DrugData/' .. k .. '.lua'
+    local fullScript = LoadResourceFile(resourceName, filePath)
+    if not fullScript then
+        Bridge.Prints.Error("Error: Failed to load module '" .. filePath .. "' from resource '" .. resourceName .. "'.")
+        return false
+    end
+    local chunk, err = load(fullScript, filePath, "t")
+    if not chunk then
+        Bridge.Prints.Error("Error loading Lua chunk from '" .. filePath .. "': " .. tostring(err))
+        return false
+    end
+
+    local success, execErr = pcall(chunk)
+    if not success then
+        Bridge.Prints.Error("Error executing Lua chunk from '" .. filePath .. "': " .. tostring(execErr))
+        return false
+    end
+    ::continue::
+end

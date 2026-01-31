@@ -1,7 +1,6 @@
 local cuttingcoke = nil
 local baggingcoke = nil
-repeat Wait(100) until GlobalState.MDDrugsLocations.Cocaine ~= nil
-local locations = GlobalState.MDDrugsLocations.Cocaine
+local locations = Config.Cocaine.Locations
 
 local function CutCoke(coords, offset, rotation)
 	cuttingcoke = true

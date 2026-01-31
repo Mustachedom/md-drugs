@@ -1,5 +1,4 @@
 local prop = nil
-repeat Wait(100) until GlobalState.MDDrugsLocations.Whippit ~= nil and GlobalState.MDDrugsRecipes.Whippit ~= nil
 
 local function animation(color)
     local coords = GetEntityCoords(PlayerPedId())
@@ -41,7 +40,7 @@ end)
 
 local function spawnShops()
 
-    for k, v in pairs(GlobalState.MDDrugsLocations.Whippit) do
+    for k, v in pairs(Config.Whippit.Locations.Whippit) do
         requestModel(v.ped)
         local ped = CreatePed(5, GetHashKey(v.ped), v.loc.x, v.loc.y, v.loc.z, v.loc.w, true, true)
         FreezeEntityPosition(ped, true)
@@ -53,7 +52,7 @@ local function spawnShops()
                icon = Bridge.Language.Locale('Whippit.whippitIcon'),
                action = function()
                    local menu = {}
-                   for item, price in pairs (GlobalState.MDDrugsRecipes.Whippit.shop) do
+                   for item, price in pairs (Config.Whippit.Recipes.shop) do
                     local itemInfo = Bridge.Inventory.GetItemInfo(item)
                        menu[#menu + 1] = {
                            title = itemInfo.label,

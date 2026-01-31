@@ -1,6 +1,5 @@
 local exploded, drying = false, false
-repeat Wait(100) until GlobalState.MDDrugsLocations.Weed ~= nil and GlobalState.MDDrugsRecipes.Weed ~= nil
-local locations, recipes = GlobalState.MDDrugsLocations.Weed, GlobalState.MDDrugsRecipes.Weed
+local locations, recipes = Config.Weed.Locations, Config.Weed.Recipes
 for k, v in pairs (locations.WeedDry) do
 	Bridge.Target.AddBoxZone('weed_dry'..k, v.loc, v.size, v.loc.w or 180.0, {
 		{

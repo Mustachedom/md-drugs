@@ -1,5 +1,4 @@
-repeat Wait(100) until GlobalState.MDDrugsLocations.Crack ~= nil
-local locations = GlobalState.MDDrugsLocations.Crack
+local locations = Config.Crack.Locations
 
 for k, v in pairs (locations.makecrack) do
 	Bridge.Target.AddBoxZone('makeCrack'..k,  v.loc, v.size, v.loc.w or 180.0, {

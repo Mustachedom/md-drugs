@@ -1,45 +1,8 @@
 
-local Target = {
-    Travellingmerchant = {
-        vector4(-119.66, -977.43, 304.25, 88.21),
-        vector4(-1522.93, 1476.01, 111.45, 41.25),
-        vector4(-3278.98, 973.38, 5.35, 101.53),
-    },
-}
-
-local loc = Target.Travellingmerchant[math.random(1, #Target.Travellingmerchant)]
-
-local stores = {
-	travel = {
-		tab_paper 	     	= 50,
-		bakingsoda 	     	= 25,
-		isosafrole 	     	= 25,
-		mdp2p 		     	= 25,
-		lysergic_acid    	= 25,
-		diethylamide     	= 25,
-		lockpick  	     	= 2,
-		emptyvial 	     	= 2,
-		needle 		   	 	= 2,
-		cokeburner 	     	= 25,
-		crackburner 	 	= 2,
-		lsdburner	   	 	= 2,
-		heroinburner     	= 2,
-		mdlean 		     	= 50,
-		weedgrinder 	 	= 25,
-		mdbutter 	     	= 25,
-		flour 		     	= 25,
-		chocolate  	     	= 25,
-		butane 		     	= 25,
-		butanetorch 	   	= 2,
-		dabrig 		   		= 2,
-		mdwoods 		   	= 2,
-		leancup 		   	= 25,
-		xtcburner 	   		= 25,
-	},
-}
+local loc = Config.Merchant.Locations.Travellingmerchant[math.random(1, #Config.Merchant.Locations.Travellingmerchant)]
 
 Bridge.Callback.Register('md-drugs:server:GetMerchant', function(source)
-	return {loc = loc, items = stores.travel}
+	return {loc = loc, items = Config.Merchant.stores}
 end)
 
 
@@ -49,11 +12,11 @@ RegisterServerEvent("md-drugs:server:purchaseGoods", function(item)
 	if not checkDistance(src, loc, 10, 'md-drugs:server:purchaseGoods') then
 		return
 	end
-	if not stores.travel[item] then
+	if not Config.Merchant.stores[item] then
 		Bridge.Prints.Warn(Bridge.Language.Locale('merchant.itemDoesntExist', Bridge.Framework.GetPlayerIdentifier(src), item))
 		return
 	end
-	if Bridge.Framework.RemoveAccountBalance(src, 'cash', stores.travel[item]) then
+	if Bridge.Framework.RemoveAccountBalance(src, 'cash', Config.Merchant.stores[item]) then
 		Bridge.Inventory.AddItem(src, item, 1)
 	else
 		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Catches.notEnoughMoney'), "error")

@@ -1,6 +1,7 @@
 local sell = false
 local inZone = false
 local buyers = {}
+
 local function walkAway(targ)
     FreezeEntityPosition(targ, false)
     ClearPedTasks(targ)
@@ -209,7 +210,7 @@ RegisterNetEvent('md-drugs:client:cornerselling', function()
 end)
 
 CreateThread(function()
-    for k, v in pairs (GlobalState.MDDrugsLocations.CornerSelling.noSellZones) do
+    for k, v in pairs (Config.Cornerselling.noSellZones) do
         Bridge.Point.Register(
         'MDDRUGNOSELLZONE'..k,
         v.loc,

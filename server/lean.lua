@@ -1,40 +1,6 @@
-Locations = Locations or {}
-Recipes = Recipes or {}
+
 local onRun = {}
-Locations.Lean = {
 
-	SyrupVendor = {
-        {ped = 'a_m_m_farmer_01', loc = vector4(365.21, -578.77, 39.30, 347.23), gang = ""},
-    },
-	StartLoc = { -- where truck spawns for lean and meth missions
-        vector3(-2307.22, 434.77, 174.47),
-        vector3(614.75, 1786.26, 199.39),
-        vector3(-224.89, 6388.32, 31.59)
-    },
-}
-
-GlobalState.MDDrugsLocations = Locations
-Recipes.Lean = {
-	{
-		item = 'cupoflean',
-		amount = 1,
-		ingredients = {
-			{item = 'leancup', amount = 1},
-			{item = 'mdlean', amount = 1},
-			{item = 'sprunk', amount = 1},
-		}
-	},
-	{
-		item = 'cupofdextro',
-		amount = 1,
-		ingredients = {
-			{item = 'leancup', amount = 1},
-			{item = 'mdreddextro', amount = 1},
-			{item = 'sprunk', amount = 1},
-		}
-	}
-}
-GlobalState.MDDrugsRecipes = Recipes
 local function setTimeout(identifier)
 	if onRun[identifier] then
 		CreateThread(function()
@@ -43,6 +9,7 @@ local function setTimeout(identifier)
 		end)
 	end
 end
+
 RegisterServerEvent('md-drugs:server:givelean', function()
 	local src = source
 	if not onRun[src] then
@@ -77,7 +44,7 @@ Bridge.Callback.Register('md-drugs:server:registerLean', function(source, loc, v
 	if onRun[src] then
 		return false
 	else
-		if not checkDistance(src, Locations.Lean.SyrupVendor[loc].loc, 5.0, 'md-drugs:server:registerLean') then
+		if not checkDistance(src, Config.Lean.Locations.SyrupVendor[loc].loc, 5.0, 'md-drugs:server:registerLean') then
 			return false
 		end
 		if not vehicleNetId then
@@ -107,10 +74,10 @@ end)
 
 RegisterNetEvent('md-drugs:server:makeLean', function(recipe)
 	local src = source
-	if not Recipes.Lean[recipe] then
+	if not Config.Lean.Recipes[recipe] then
 		return
 	end
-	local rec = Recipes.Lean[recipe]
+	local rec = Config.Lean.Recipes[recipe]
 	for k, v in pairs (rec.ingredients) do
 		if not Bridge.Inventory.HasItem(src, v.item, v.amount) then
 			Bridge.Notify.SendNotify(src, Bridge.Language.Locale('lean.missingIngredients'), 'error')

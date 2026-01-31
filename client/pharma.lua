@@ -1,5 +1,4 @@
-repeat Wait(100) until GlobalState.MDDrugsLocations.Pharma ~= nil
-local locations = GlobalState.MDDrugsLocations.Pharma
+local locations = Config.Pharma.Locations
 
 Bridge.Callback.Register("md-drugs:client:prescriptionpad", function( data, op)
     local job = Bridge.Framework.GetPlayerJob()

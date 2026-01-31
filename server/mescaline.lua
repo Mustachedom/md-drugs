@@ -1,30 +1,14 @@
-Recipes, Locations = Recipes or {}, Locations or {}
-
-Locations.Mescaline = {
-    DryOutMescaline = { -- where to dry out your mescaline
-        {loc = vector3(1850.12, 2595.23, 45.67), size = vector3(1.0, 1.0, 2.0), gang = ""},
-    },
-}
-GlobalState.MDDrugsLocations = Locations
-Recipes.Mescaline = {
-    mescaline = {
-        dry = {
-            dried = {take = {cactusbulb = 1}, give = {driedmescaline = 1} }
-        }
-    },
-}
-GlobalState.MDDrugsRecipes = Recipes
 
 
 RegisterNetEvent("md-drugs:server:drymescaline", function(num)
     local src = source
     if timeOut(src, 'md-drugs:server:drymescaline') then return end
 
-    if not checkDistance(src, Locations.Mescaline.DryOutMescaline[num].loc, 3.0, 'md-drugs:server:drymescaline') then
+    if not checkDistance(src, Config.Mescaline.Locations.DryOutMescaline[num].loc, 3.0, 'md-drugs:server:drymescaline') then
         return
     end
 
-    if not craft(src, Recipes.Mescaline.mescaline.dry.dried) then
+    if not craft(src, Config.Mescaline.Recipes.dry.dried) then
         return
     end
 end)

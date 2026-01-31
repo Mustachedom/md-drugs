@@ -1,8 +1,8 @@
 
 local herointable = false
 local dirty = false
-repeat Wait(100) until GlobalState.MDDrugsLocations.Heroin ~= nil
-local locations = GlobalState.MDDrugsLocations.Heroin
+
+local locations = Config.Heroin.Locations
 
 local function createLabKit(coord, head)
     local heroinlabkit = CreateObject("v_ret_ml_tablea", coord.x, coord.y, coord.z - 1, true, false,false)

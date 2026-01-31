@@ -1,7 +1,6 @@
 
 local badTrip = 100
-repeat Wait(100) until GlobalState.MDDrugsRecipes.Mescaline ~= nil
-local locations = GlobalState.MDDrugsLocations.Mescaline
+local locations = Config.Mescaline.Locations
 local function AlienEffect()
 	CreateThread(function()
     StartScreenEffect("DrugsMichaelAliensFightIn", 3.0, 0)

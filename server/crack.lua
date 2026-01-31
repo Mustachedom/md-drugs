@@ -1,35 +1,10 @@
-Recipes, Locations = Recipes or {}, Locations or {}
-
-Recipes.Crack = {
-    cookcrack = {
-        tier1 = {take = {loosecoke = 1,          bakingsoda = 1}, give = {crackrock = 1}},
-        tier2 = {take = {loosecokestagetwo = 1,  bakingsoda = 1}, give = {crackrockstagetwo = 1}},
-        tier3 = {take = {loosecokestagethree = 1,bakingsoda = 1}, give = {crackrockstagethree = 1}},
-    },
-    bagcrack = {
-        tier1 = {take = {crackrock = 1,           empty_weed_bag = 1}, give = {baggedcracked = 1}},
-        tier2 = {take = {crackrockstagetwo = 1,   empty_weed_bag = 1}, give = {baggedcrackedstagetwo = 1}},
-        tier3 = {take = {crackrockstagethree = 1, empty_weed_bag = 1}, give = {baggedcrackedstagethree = 1}},
-    }
-}
-GlobalState.MDDrugsRecipes = Recipes
-
-Locations.Crack = {
-    makecrack = { -- make crack with baking soda with cut coke 1-3
-        {loc = vector3(2433.47, 4970.02, 42.18),  size = vector3(1.0, 1.0, 2.0), gang = ""},
-    },
-    bagcrack = {  ---  bag crack 1-3 stages
-        {loc = vector3(2436.55, 4964.96, 42.18), size = vector3(1.0, 1.0, 2.0), gang = ""},
-    },
-}
-GlobalState.MDDrugsLocations = Locations
 
 RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
 
     if timeOut(src, 'md-drugs:server:makecrackone') then return end
 
-    if not checkDistance(src, Locations.Crack.makecrack[num].loc, 2.0, 'md-drugs:server:makecrackone') then
+    if not checkDistance(src, Config.Crack.Locations.makecrack[num].loc, 2.0, 'md-drugs:server:makecrackone') then
         return
     end
 
@@ -47,7 +22,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
             end
         end
     end
-    if not craft(src, Recipes.Crack.cookcrack[tier]) then
+    if not craft(src, Config.Crack.Recipes.cookcrack[tier]) then
         return
     end
 end)
@@ -58,7 +33,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
 
     if timeOut(src, 'md-drugs:server:bagcrack') then return end
 
-    if not checkDistance(src, Locations.Crack.bagcrack[num].loc, 2.0, 'md-drugs:server:bagcrack') then
+    if not checkDistance(src, Config.Crack.Locations.bagcrack[num].loc, 2.0, 'md-drugs:server:bagcrack') then
         return
     end
 
@@ -76,7 +51,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
             end
         end
     end
-    if not craft(src, Recipes.Crack.bagcrack[tier]) then
+    if not craft(src, Config.Crack.Recipes.bagcrack[tier]) then
         return
     end
 end)
@@ -107,7 +82,7 @@ end
 
 RegisterNetEvent("md-drugs:server:failcrackone", function(num)
     local src = source
-    if not checkDistance(src, Locations.Crack.makecrack[num].loc, 2.0, 'md-drugs:server:failcrackone') then
+    if not checkDistance(src, Config.Crack.Locations.makecrack[num].loc, 2.0, 'md-drugs:server:failcrackone') then
         return
     end
     local items = {

@@ -1,8 +1,6 @@
 local tableout = false
 local dirtylsd = false
-repeat Wait(100) until GlobalState.MDDrugsRecipes.LSD ~= nil
-local locations = GlobalState.MDDrugsLocations.LSD
-
+local locations = Config.LSD.Locations
 
 local function createLabKit(coord, head)
     requestModel("v_ret_ml_tablea")

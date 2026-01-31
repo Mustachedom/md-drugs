@@ -97,17 +97,4 @@ for k, v in pairs (DrugPlants) do
     end)
     TriggerEvent(v.label ..":init")
     ::continue::
-    
 end
-
-AddEventHandler('onResourceStop', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01a'))
-        for k, v in pairs(DrugPlants) do
-            for key, plant in pairs(v.plantTbl) do
-                if DoesEntityExist(plant) then DeleteEntity(plant) end
-                v.plantTbl[key] = nil
-            end
-        end
-    end
-end)

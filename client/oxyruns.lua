@@ -1,7 +1,6 @@
 local carryPackage = nil
 local onMission = false
-repeat Wait(100) until GlobalState.MDDrugsLocations.Oxy ~= nil
-local locations = GlobalState.MDDrugsLocations.Oxy
+local locations = Config.Oxy.Locations
 local pdAlert =  90
 local vehicle = nil
 

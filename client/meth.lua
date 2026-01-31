@@ -1,6 +1,5 @@
 local amonia, tray, heated, active, trays, startedmeth, methVan = false, false, false, false, nil, false, nil
-repeat Wait(100) until GlobalState.MDDrugsLocations.Meth ~= nil
-local locations = GlobalState.MDDrugsLocations.Meth
+local locations = Config.Meth.Locations
 --- meth heist 
 
 

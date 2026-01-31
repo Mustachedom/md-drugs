@@ -1,11 +1,4 @@
-Locations = Locations or {}
 
-Locations.Pharma = {
-    FillPrescription = { -- where to fill out your prescription
-        {loc = vector3(2855.62, 4446.73, 48.53), size = vector3(1.0, 1.0, 2.0), gang = ""},
-    },
-}
-GlobalState.MDDrugsLocations = Locations
 
 local function GetJob(source)
 	local src = source
@@ -72,7 +65,7 @@ RegisterServerEvent('md-drugs:server:fillprescription', function(num)
 	local src = source
 	
 	if timeOut(src, 'md-drugs:server:fillprescription') then return end
-	if not checkDistance(src, Locations.Pharma.FillPrescription[num].loc, 3.5, 'md-drugs:server:fillprescription') then
+	if not checkDistance(src, Config.Pharma.Locations.FillPrescription[num].loc, 3.5, 'md-drugs:server:fillprescription') then
 		return
 	end
 	local pres = {

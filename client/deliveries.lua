@@ -2,7 +2,7 @@
 local dealer = {}
 local buyer = nil
 
-repeat Wait(100) until GlobalState.MDDrugsLocations.Deliveries.dealers ~= nil
+repeat Wait(100) until GlobalState.MDDrugDealers ~= nil
 
 local function SpawnDealer()
     if #dealer >= 1 then
@@ -11,7 +11,7 @@ local function SpawnDealer()
         end
         dealer = {}
     end
-    for k,v in pairs(GlobalState.MDDrugsLocations.Deliveries.dealers) do
+    for k,v in pairs(GlobalState.MDDrugDealers) do
         requestModel(v.model)
         dealer[k] = CreatePed(0, v.model, v.coords.x, v.coords.y, v.coords.z-1, v.coords.w, false, false)
         Freeze(dealer[k], true, v.coords.w)
@@ -29,7 +29,7 @@ local function SpawnDealer()
                 action = function()
                     local rep = GetRep()
                     local options = {}
-                    for m, d in pairs (GlobalState.MDDrugsRecipes.Deliveries) do
+                    for m, d in pairs (Config.Deliveries.Recipes) do
                         if rep.dealerrep >= d.minrep then
                             options[#options+1] = {
                                 title = Bridge.Inventory.GetItemInfo(d.name).label,
@@ -50,7 +50,6 @@ local function SpawnDealer()
                 end,
             }
         })
-        targets[#targets+1] = dealer[k]
     end
 end
 
@@ -81,5 +80,4 @@ RegisterNetEvent('md-drugs:client:setLocation', function(data)
             end,
         }
     })
-    targets[#targets+1] = buyer
 end)

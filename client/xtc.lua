@@ -1,6 +1,5 @@
 local xtcpress = false
-repeat Wait(100) until GlobalState.MDDrugsLocations.XTC ~= nil
-local locations = GlobalState.MDDrugsLocations.XTC
+local locations = Config.XTC.Locations
 
 local function getRecipeList(tbl, type)
     local rec
@@ -139,7 +138,7 @@ for k, v in pairs(locations.xtcpress) do
             label = Bridge.Language.Locale('xtc.getPress'),
             onSelect = function()
                 local options = {}
-                local recipeList = GlobalState.MDDrugsRecipes.XTC.presses
+                local recipeList = Config.XTC.Recipes.presses
                 for m, d in pairs(recipeList) do
                     if m == 'singlepress' then
                         local itemInfo = Bridge.Inventory.GetItemInfo(m)
