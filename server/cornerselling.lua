@@ -55,7 +55,7 @@ Bridge.Callback.Register('md-drugs:server:cornerselling:getAvailableDrugs', func
         if count >= 1 then
             local maths = math.random(1,100)
             
-            if maths <= Config.CornerSelling.config.robChance then
+            if maths <= Config.Cornerselling.config.robChance then
                 beingRobbed(source, k, count, ped)
                 soldPeds[src][ped] = {item = k, amount = count}
                 return 'robbed'
@@ -123,12 +123,12 @@ RegisterNetEvent('md-drugs:server:sellCornerDrugs', function(item, amount, price
     AddRep(src, 'cornerselling', Config.Cornerselling.Drugs[item].rep * amount)
     DrugDeals[src] = nil
 
-    if Config.CornerSelling.config.MarkedBills then
+    if Config.Cornerselling.config.MarkedBills then
         Bridge.Inventory.AddItem(src, 'markedbills', price, nil, {worth = price})
         return
     end
-    if Config.CornerSelling.config.CustomItem ~= '' then
-        Bridge.Inventory.AddItem(src, Config.CornerSelling.config.CustomItem, price)
+    if Config.Cornerselling.config.CustomItem ~= '' then
+        Bridge.Inventory.AddItem(src, Config.Cornerselling.config.CustomItem, price)
         return
     end
     Bridge.Framework.AddAccountBalance(src, 'cash', price)
@@ -150,8 +150,8 @@ end)
 
 RegisterCommand('cornersell', function(source, args, raw)
     local src = source
-    if #Bridge.Framework.GetPlayersByJob('police') < Config.CornerSelling.config.policeRequired then
-        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Cornerselling.notEnoughCops', Config.CornerSelling.config.policeRequired - #Bridge.Framework.GetPlayersByJob('police')), 'error')
+    if #Bridge.Framework.GetPlayersByJob('police') < Config.Cornerselling.config.policeRequired then
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('Cornerselling.notEnoughCops', Config.Cornerselling.config.policeRequired - #Bridge.Framework.GetPlayersByJob('police')), 'error')
         return
     end
     TriggerClientEvent('md-drugs:client:cornerselling', src)

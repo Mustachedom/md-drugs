@@ -265,7 +265,9 @@
     "cannabisIcon": "fa-solid fa-cannabis",
     "itemDoesntExistWarn": "Player: %s attempted to exploit the weed salesman event by trying to purchase an item that does not exist in the weed salesman: %s",
     "invalidTableWarn": "Player: %s attempted to exploit the weed event by triggering the event with an invalid recipe table butter/oil.",
-    "recipeDoesntExistWarn": "Player: %s attempted to exploit the weed event by triggering the event with a non existent recipe name: %s."
+    "recipeDoesntExistWarn": "Player: %s attempted to exploit the weed event by triggering the event with a non existent recipe name: %s.",
+    "targetMakeButter": "Make Edible Products",
+    "targetMakeOil": "Make Oil"
   },
 
   "wholesale": {
