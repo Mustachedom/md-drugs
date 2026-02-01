@@ -4,6 +4,7 @@ local baggingcoke = nil
 local locations = ps.callback('md-drugs:server:GetCokeLocations')
 
 local function CutCoke(coords, offset, rotation)
+cuttingcoke = true
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
 	ps.requestAnim(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
@@ -48,9 +49,11 @@ local function CutCoke(coords, offset, rotation)
 	end
 	RemoveAnimDict(animDict)
 	FreezeEntityPosition(ped, false)
+cuttingcoke = nil
 end
 
 local function BagCoke(coords, offset, rotation)
+baggingcoke = true
     local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
 	ps.requestAnim(animDict, 500)
@@ -109,6 +112,7 @@ local function BagCoke(coords, offset, rotation)
     end
     RemoveAnimDict(animDict)
     FreezeEntityPosition(ped, false)
+baggingcoke = nil
 end
 
 for k, v in pairs (locations.MakePowder) do
