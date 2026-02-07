@@ -100,7 +100,7 @@ local function handleFresh(source)
     }
     playerRep[id] = player
     local first, last = Bridge.Framework.GetPlayerName(source)
-    MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {id, player, first .. ' ' .. last})
+    MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {id, json.encode(player), first .. ' ' .. last})
 end
 
 local function loadRep(source)
