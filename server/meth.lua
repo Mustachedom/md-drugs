@@ -1,3 +1,4 @@
+if not Config.Drugs['meth'] then return end
 local onRun = {}
 local vehicles = {}
 

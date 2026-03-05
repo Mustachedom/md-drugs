@@ -1,4 +1,4 @@
-
+if not Config.Drugs['crack'] then return end
 RegisterServerEvent('md-drugs:server:makecrackone', function(num)
     local src = source
 

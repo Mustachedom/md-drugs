@@ -6,16 +6,13 @@ game "gta5"
 version  '4.0.8'
 client_scripts {
 	'client/functions.lua',
-	'client/plantSpawns.lua',
-	'clientRun.lua',
+	'client/**.lua',
 }
 
 server_scripts {
 	'@oxmysql/lib/MySQL.lua',
 	'server/functions.lua',
-	'server/plantSpawns.lua',
-	'serverRun.lua',
-	
+	'server/**.lua',
 }
 
 shared_scripts {

@@ -1,3 +1,4 @@
+if not Config.Drugs['weed'] then return end
 local exploded, drying = false, false
 local locations, recipes = Config.Weed.Locations, Config.Weed.Recipes
 for k, v in pairs (locations.WeedDry) do

@@ -1,4 +1,4 @@
-
+if not Config.Drugs['consumables'] then return end
 
 Bridge.Callback.Register('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
     Bridge.Anim.RequestDict(anim.dict)

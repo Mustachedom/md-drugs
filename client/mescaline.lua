@@ -1,4 +1,4 @@
-
+if not Config.Drugs['mescaline'] then return end
 local badTrip = 100
 local locations = Config.Mescaline.Locations
 local function AlienEffect()

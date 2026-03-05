@@ -1,3 +1,4 @@
+if not Config.Drugs['meth'] then return end
 local amonia, tray, heated, active, trays, startedmeth, methVan = false, false, false, false, nil, false, nil
 local locations = Config.Meth.Locations
 --- meth heist 

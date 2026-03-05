@@ -1,3 +1,4 @@
+if not Config.Drugs['oxyruns'] then return end
 local carryPackage = nil
 local onMission = false
 local locations = Config.Oxy.Locations

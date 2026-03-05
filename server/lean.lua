@@ -1,4 +1,4 @@
-
+if not Config.Drugs['lean'] then return end
 local onRun = {}
 
 local function setTimeout(identifier)

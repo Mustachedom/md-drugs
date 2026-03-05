@@ -1,4 +1,4 @@
-
+if not Config.Drugs['xtc'] then return end
 local activePresses = {}
 
 RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)

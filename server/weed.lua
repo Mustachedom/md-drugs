@@ -1,4 +1,4 @@
-
+if not Config.Drugs['weed'] then return end
 RegisterNetEvent('md-drugs:server:buyWeedItem', function(loc, name, amount)
 	local src = source
     if not checkDistance(src, Config.Weed.Locations.WeedSalesman[loc].loc, 3.5, 'md-drugs:server:buyWeedItem') then

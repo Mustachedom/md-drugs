@@ -1,3 +1,5 @@
+
+if not Config.Drugs['pharma'] then return end
 local locations = Config.Pharma.Locations
 
 Bridge.Callback.Register("md-drugs:client:prescriptionpad", function( data, op)

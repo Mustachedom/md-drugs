@@ -1,4 +1,4 @@
-
+if not Config.Drugs['oxyruns'] then return end
 local onRoute = {}
 local vehicles = {}
 

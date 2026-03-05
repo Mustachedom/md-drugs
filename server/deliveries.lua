@@ -1,4 +1,4 @@
-
+if not Config.Drugs['deliveries'] then return end
 
 local drugDeliveryItem = {
     {item = 'coke_brick', amount = 1},
@@ -12,10 +12,17 @@ CreateThread(function()
         for i = 1, #dealers do
             local coords = json.decode(dealers[i].coords)
             Dealers[#Dealers + 1] = {
-                coords = vector4(coords.x, coords.y, coords.z, coords.w),
+                coords = vector4(coords.x, coords.y, coords.z, coords.w or 180.0),
                 model = dealers[i].model or 'a_m_m_skater_01',
             }
         end
+        GlobalState.MDDrugDealers = Dealers
+    else
+        MySQL.insert('INSERT INTO dealers (model, coords, createdby) VALUES (?, ?, ?)', {'a_m_m_skater_01', json.encode(vector4(1915.68, 154.22, 155.41, 6.88)), 'default'})
+        Dealers[#Dealers + 1] = {
+            coords = vector4(1915.68, 154.22, 155.41, 6.88),
+            model = 'a_m_m_skater_01',
+        }
         GlobalState.MDDrugDealers = Dealers
     end
 end)

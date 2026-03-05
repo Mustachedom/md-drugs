@@ -1,4 +1,4 @@
-
+if not Config.Drugs['TravellingMerchant'] then return end
 local loc = Config.Merchant.Locations.Travellingmerchant[math.random(1, #Config.Merchant.Locations.Travellingmerchant)]
 
 Bridge.Callback.Register('md-drugs:server:GetMerchant', function(source)

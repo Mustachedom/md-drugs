@@ -1,3 +1,4 @@
+if not Config.Drugs['xtc'] then return end
 local xtcpress = false
 local locations = Config.XTC.Locations
 

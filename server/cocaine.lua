@@ -1,3 +1,4 @@
+if not Config.Drugs['cocaine'] then return end
 local Locations = Config.Cocaine.Locations
 local Recipes = Config.Cocaine.Recipes
 

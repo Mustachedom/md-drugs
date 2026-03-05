@@ -1,4 +1,4 @@
-
+if not Config.Drugs['wholesale'] then return end
 local burners = {
     cokeburner = { "cokebaggy", "cokebaggystagethree", "cokebaggystagetwo"},
     crackburner = {"baggedcracked", "baggedcrackedstagetwo", "baggedcrackedstagethree"},

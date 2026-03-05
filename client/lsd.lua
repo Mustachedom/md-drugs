@@ -1,3 +1,4 @@
+if not Config.Drugs['lsd'] then return end
 local tableout = false
 local dirtylsd = false
 local locations = Config.LSD.Locations

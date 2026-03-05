@@ -1,3 +1,5 @@
+if not Config.Drugs['shrooms'] then return end
+
 local function EcstasyEffect()
     local startStamina = 50
     SetFlash(0, 0, 500, 20000, 500)

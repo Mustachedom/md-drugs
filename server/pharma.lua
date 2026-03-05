@@ -1,4 +1,4 @@
-
+if not Config.Drugs['deliveries'] then return end
 
 local function GetJob(source)
 	local src = source

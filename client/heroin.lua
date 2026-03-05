@@ -1,4 +1,4 @@
-
+if not Config.Drugs['heroin'] then return end
 local herointable = false
 local dirty = false
 

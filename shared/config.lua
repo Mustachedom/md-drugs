@@ -26,8 +26,8 @@ Config.Minigames = {
     glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
     glmath =        {timeLimit = 300000},
 }
-Config.minigametype = 'ps_circle' -- look above for options or choose none if you dont want any minigames 
-
+Config.minigametype = 'ox' -- look above for options or choose none if you dont want any minigames 
+Config.Emotes = 'rpemotes' -- this is if you want to use emotes, you can pass the string of the emote name instead of the animDict and animClip like below
 Config.DefaultAnimation = {
     dict = "mp_arresting",
     clip = "a_uncuff",

@@ -1,3 +1,4 @@
+if not Config.Drugs['whippit'] then return end
 local prop = nil
 
 local function animation(color)

@@ -1,4 +1,4 @@
-
+if not Config.Drugs['TravellingMerchant'] then return end
 local function spawn()
     local data = Bridge.Callback.Trigger('md-drugs:server:GetMerchant')
     local model = 's_m_m_trucker_01'

@@ -1,4 +1,4 @@
-
+if not Config.Drugs['deliveries'] then return end
 local dealer = {}
 local buyer = nil
 

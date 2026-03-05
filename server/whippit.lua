@@ -1,4 +1,4 @@
-
+if not Config.Drugs['whippit'] then return end
 
 RegisterServerEvent('md-drugs:server:buyWhippitItem', function(loc, item,amount)
     local src = source

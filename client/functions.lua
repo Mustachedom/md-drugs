@@ -304,9 +304,43 @@ else
 	end
 end
 
+if Config.Emotes == 'scully' then
+    function playEmote(emote)
+        exports.scully_emotemenu:playEmoteByCommand(emote, 0)
+    end
+    function stopEmote()
+        exports.scully_emotemenu:cancelEmote()
+    end
+end
+
+if Config.Emotes == 'dpemotes' then
+    function playEmote(emote)
+        TriggerEvent('animations:client:EmoteCommandStart', {emote})
+    end
+    function stopEmote()
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+    end
+end
+
+if Config.Emotes == 'rpemotes' then
+    function playEmote(emote)
+        exports["rpemotes"]:EmoteCommandStart(emote, 0)
+    end
+    function stopEmote()
+        exports["rpemotes"]:EmoteCancel()
+    end
+end
+
+local animation = nil
+
 function progressbar(text, time, emote, cancel)
-	if emote and emote.prop then
-		if not emote.prop.model then
+	local animData
+	if type(emote) == 'string' then
+		playEmote(emote)
+		animation = emote
+	elseif type(emote) == 'table' then
+		animData = emote
+		if emote.prop and not emote.prop.model then
 			emote.prop = nil
 		end
 	end
@@ -315,9 +349,13 @@ function progressbar(text, time, emote, cancel)
 		label = text or 'LAZY AF DEVS',
 		canCancel = true,
 		disable = cancel or Config.ProgressBar.Disables,
-		anim = emote or Config.DefaultAnimation,
-		prop = emote and emote.prop or nil
+		anim = animData,
+		prop = animData and animData.prop or nil
 	})
+	if animation then
+		animation = nil
+		stopEmote()
+	end
 	return success
 end
 

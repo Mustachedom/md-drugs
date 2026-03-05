@@ -1,4 +1,4 @@
-
+if not Config.Drugs['consumables'] then return end
 for k, v in pairs(Config.Consumables.Consume) do
     Bridge.Framework.RegisterUsableItem(k, function(source, item)
         if not Bridge.Inventory.HasItem(source, k, 1) then return end

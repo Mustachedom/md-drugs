@@ -1,4 +1,4 @@
-local active = false
+if not Config.Drugs['wholesale'] then return end
 local active, ped, peds = false, nil, {}
 
 local function loop(wholesaleData)

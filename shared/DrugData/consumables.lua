@@ -32,7 +32,7 @@ local emotes = {
     drink = {
         dict = "mp_player_intdrink",
         clip = "loop_bottle",
-    }
+    },
 }
 
 Config.Consumables = {

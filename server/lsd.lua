@@ -1,4 +1,4 @@
-
+if not Config.Drugs['lsd'] then return end
 local lsdTables = {}
 
 RegisterServerEvent('md-drugs:server:getlysergic', function(num)

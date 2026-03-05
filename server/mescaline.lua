@@ -1,4 +1,4 @@
-
+if not Config.Drugs['mescaline'] then return end
 
 RegisterNetEvent("md-drugs:server:drymescaline", function(num)
     local src = source
