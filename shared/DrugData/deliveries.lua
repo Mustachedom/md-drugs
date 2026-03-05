@@ -88,5 +88,5 @@ Config.Deliveries = {
 	    {name = "weed_purplehaze_seed",	    price = 15, amount = 150,  minrep = 0},
 	    {name = "weed_ogkush_seed", 	    price = 15, amount = 150,  minrep = 0},
 	    {name = "weed_amnesia_seed", 		price = 15, amount = 150,  minrep = 0},
-    }
+    } 
 }
