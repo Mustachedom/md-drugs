@@ -1,3 +1,5 @@
+if not Config.Drugs['shrooms'] then return end
+
 local function EcstasyEffect()
     local startStamina = 50
     SetFlash(0, 0, 500, 20000, 500)
@@ -16,8 +18,12 @@ local function EcstasyEffect()
     startStamina = 0
 end
 
-ps.registerCallback("md-drugs:client:shrooms", function()
-    if not ps.progressbar(ps.lang('shrooms.eat'), 5000, 'eat')  then return end
+Bridge.Callback.Register("md-drugs:client:shrooms", function()
+    if not progressbar(Bridge.Language.Locale('shrooms.eat'), 5000, {
+        dict = 'mp_player_inteat@burger',
+        clip = 'mp_player_int_eat_burger',
+        flags = 49
+    })  then return end
     CreateThread(function()
         EcstasyEffect()
     end)

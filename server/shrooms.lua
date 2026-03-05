@@ -1,11 +1,11 @@
-
-ps.createUseable('shrooms', function(source, item)
+if not Config.Drugs['shrooms'] then return end
+Bridge.Framework.RegisterUsableItem('shrooms', function(source, item)
     local src = source
-    if not ps.callback("md-drugs:client:shrooms", src) then
-        ps.notify(src, ps.lang('shrooms.cancel'), "error")
+    if not Bridge.Callback.Trigger("md-drugs:client:shrooms", src) then
+        Bridge.Notify.SendNotify(src, Bridge.Language.Locale('shrooms.cancel'), "error")
         return
     end
-    ps.removeItem(src, 'shrooms', 1)
-    ps.notify(src, ps.lang('shrooms.took'), 'success')
+    Bridge.Inventory.RemoveItem(src, 'shrooms', 1)
+    Bridge.Notify.SendNotify(src, Bridge.Language.Locale('shrooms.took'), 'success')
 end)
 

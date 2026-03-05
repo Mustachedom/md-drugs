@@ -1,0 +1,357 @@
+{
+  "Catches": {
+    "outOfRangeWarn": "Player: %s attempted to exploit Event: '%s' by triggering the event out of range.", 
+    "notEnoughMoney": "Damn You Are A Broke Fuck",
+    "itemMissings": "You Need %s",
+    "onCooldownWarn": "Player: %s Attempted To Run Event %s \n  while on cooldown",
+    "missedTable": "Player: %s attempted to exploit Event: '%s' by triggering the event without being in a server table",
+    "YouNeedMoreCops": "You Need %s More Police To Do This"
+  },
+
+  "coke": {
+    "targetPick": "Pick Coca Leaf",
+    "picking": "Picking Coca Leaf",
+    "targetMakePow": "Make Cocaine Powder",
+    "targetMakePowIcon": "fa-solid fa-seedling",
+    "makePow": "Chopping Leaves into Powder",
+    "targetCutCoke": "Cut Cocaine",
+    "targetCutCokeIcon": "fa-solid fa-mortal-pestle",
+    "targetBagCoke": "Bag Cocaine",
+    "targetBagCokeIcon": "fa-solid fa-sack-xmark",
+    "teleIn": "Enter the Lab",
+    "teleInIcon": "fa-solid fa-door-closed",
+    "teleOutIcon":"fa-solid fa-door-open",
+    "teleOut": "Exit the Lab",
+    "cutCokeAgain": "Cutting Cocaine With Baking Soda",
+    "pickIcon": "fa-solid fa-seedling"
+  },
+
+  "Cornerselling": {
+    "inVeh": "Stranger Danger!",
+    "selling": "Selling %s for $%s",
+    "deny": "Fuck That Offer",
+    "wait": "Waiting For Customer",
+    "nodrugs": "You Do Not Have Any Drugs To Sell",
+    "searching": "Searching For Nearby Customers",
+    "targetTakeBack": "Take Back Drugs",
+    "targetTakeBackIcon": "fa-solid fa-hand-back-fist",
+    "targetSell": "Sell %s Of %s For $%s",
+    "targetSellIcon": "fa-solid fa-money-bill",
+    "targetDeny": "Deny Offer",
+    "targetDenyIcon": "fa-solid fa-person-harassing",
+    "stopped": "Your Lazy Ass Cant Even Sell Drugs!",
+    "start": "Go Make Your Mom Proud",
+    "gotRobbed": "You Got Robbed Nerd!",
+    "gotBack": "You Got Your Stuff Back!",
+    "notEnough": "You Dont Have Enough Of This Item",
+    "comDes": "Sell Things On The Corner",
+    "notEnoughCops": "You Need %s More Police To Do This"
+  },
+
+  "crack": {
+    "targetMake": "Cook Some Crack",
+    "makeIcon": "fa-solid fa-temperature-high",
+    "cook": "Cooking Crack",
+    "targetBag": "Bag Crack",
+    "bagIcon": "fa-solid fa-weight-scale",
+    "bag": "Bagging Crack",
+    "breakdown": "Breaking Down Crack Even Further"
+  },
+
+  "Deliveries": {
+    "targetGetDel": "Get Delivery Mission",
+    "targetGetDelIcon": "fas fa-user-secret",
+    "targetOpenShop": "Open Dealer Shop",
+    "targetOpenShopIcon": "fas fa-store",
+    "shopHeader": "Dealer Shop",
+    "targetHandOff": "Hand Off Delivery",
+    "targetHandOffIcon": "fa-solid fa-box-open",
+    "delivering": "Handing The Package To Drug Dealer",
+    "itemDoesntExist": "Player: %s attempted to exploit the deliveries shop event by trying to purchase an item that does not exist in the deliveries shop: %s",
+    "alreadyDelivering": "You Are Already Delivering A Package",
+    "slowAf": "You Took To Long And Now The Customer Cancelled You Fucking Turtle!",
+    "deliveryFailed": "Dude, You Didnt Even Bring The Drugs I Asked For!",
+    "delivery_success": "You Successfully Delivered The Package!"
+  },
+
+  "heroin": {
+    "targetPick": "Pick Heroin",
+    "picking": "Picking Heroin",
+    "targetCook": "Cook Heroin",
+    "pbCook": "Cooking Up Heroin",
+    "cookIcon": "fa-solid fa-temperature-high",
+    "targetPickup": "Pick Up Lab",
+    "targetPickupIcon": "fa-solid fa-box-circle-check",
+    "pbPickup": "Picking Up Lab",
+    "targetClean": "Clean Lab",
+    "targetCleanIcon": "fa-solid fa-broom",
+    "pbClean": "Cleaning Lab",
+    "targetDry": "Dry Out Plant",
+    "dryIcon": "fa-solid fa-temperature-high",
+    "pbDry": "Drying Out Plant",
+    "targetCutHeroin": "Cut Heroin",
+    "pbCutHeroin": "Cutting Heroin",
+    "cutIcon": "fa-solid fa-mortal-pestle",
+    "targetBuyKit": "Buy Heroin Lab Kit",
+    "buyIcon": "fa-solid fa-box-open",
+    "fillNeedleIcon": "fa-solid fa-syringe",
+    "pbBuyKit": "Buying Heroin Lab Kit",
+    "tableout": "You Already Have A Table Out",
+    "placing": "Placing Down Table",
+    "targetFill": "Fill Syringe",
+    "pbFill": "Filling Syringe",
+    "hasKitAlready": "You Already Have A Heroin Lab Kit",
+    "hasKitAlreadyPlaced": "You Already Have A Heroin Lab Kit Placed",
+    "notEnoughMoney": "You Need $%s In Cash For This",
+    "placedKit": "You Placed Down Your Heroin Lab Kit",
+    "failed": "You Failed To Make Heroin And Lost Your Ingredients",
+    "pickIcon": "fa-brands fa-pagelines"
+  },
+
+  "lean": {
+    "stealFromTruck": "Steal From Truck",
+    "startMission": "Start Lean Mission",
+    "alreadyChasing": "You Are Already Chasing A Truck",
+    "carIcon": "fa-solid fa-truck-fast",
+    "startMissionIcon": "fa-solid fa-hand-holding-medical",
+    "makingLean": "Making Lean",
+    "makeLeanMenuTitle": "Lean Creation",
+    "makeLeanMenuDesc": "Choose Your Ingredients",
+    "vehDoesntExist": "Player: %s attempted to exploit the lean event by triggering the event when the vehicle does not exist.",
+    "wrongVehModel": "Player: %s attempted to exploit the lean event by triggering the event in the wrong vehicle model.",
+    "maxTaken": "You Have Taken The Maximum Amount Of Lean From This Run"
+  },
+
+  "lsd": {
+    "targetHeat": "Heating LSD",
+    "targetHeatIcon": "fa-solid fa-temperature-high",
+    "heating": "Heating Up LSD",
+    "targetRefine": "Refine The Acid",
+    "targetRefineIcon": "fa-solid fa-vial",
+    "refining": "Refining The Acid",
+    "targetDipping": "Dip Tabs",
+    "targetDippingIcon": "fa-solid fa-droplet",
+    "dipping": "Dipping Tabs",
+    "targetPickup": "Pick Up Lab Kit",
+    "targetPickupIcon": "fas fa-box-circle-check",
+    "packup": "Packing Up Lab Kit",
+    "targetClean": "Clean Lab Kit",
+    "targetCleanIcon": "fa-solid fa-hand-sparkles",
+    "cleaning": "Cleaning Lab Kit",
+    "targetLys": "Steal Lysergic Acid",
+    "targetLysIcon": "fa-solid fa-vial",
+    "stealLys": "Stealing Lysergic Acid",
+    "targetDie": "Steal Diethylamide",
+    "targetDieIcon": "fa-solid fa-vial",
+    "stealDie": "Stealing Diethylamide",
+    "targetBuyTab": "Buy Tab Paper",
+    "targetBuyTabIcon": "fa-solid fa-hand-holding-dollar",
+    "targetBuyKit": "Buy LSD Lab Kit",
+    "targetBuyKitIcon": "fa-solid fa-hand-holding-dollar",
+    "alreadyOwn": "You Already Own An LSD Lab Kit",
+    "buyingKit": "Buying LSD Lab Kit",
+    "tableout": "You Already Have A Table Out",
+    "placing": "Placing Lab Kit Down!",
+    "failed": "You Suck At Making Drugs"
+  },
+
+  "mesc": {
+    "targetPick": "Pick Cactus",
+    "picking": "Picking Cactus",
+    "targetDry": "Dry Cactus",
+    "dry": "Drying Cactus",
+    "eat": "Taking Mescaline",
+    "pickIcon": "fa-solid fa-holly-berry"
+  },
+
+  "meth": {
+    "alreadyChasing": "You Already Are Chasing A Truck",
+    "targetStealFromCar": "Steal From Meth Car",
+    "targetStealFromCarIcon": "fa-solid fa-truck-fast",
+    "targetHeist": "Start Meth Mission",
+    "targetHeistIcon": "fa-solid fa-user-secret",
+    "started": "You Already Have Meth Cooking",
+    "increaseHeat": "You Increased The Heat",
+    "targetBag": "Bag Meth",
+    "targetBagIcon": "fa-solid fa-sack-xmark",
+    "targetCook": "Cook Meth",
+    "targetCookIcon": "fa-solid fa-temperature-high",
+    "targetGrabTray": "Grab Meth Tray",
+    "targetGrabTrayIcon": "fas fa-sign-in-alt",
+    "targetHeat": "Adjust The Dials",
+    "targetHeatIcon": "fa-solid fa-temperature-three-quarters",
+    "targetSmash": "Smash The Tray",
+    "targetSmashIcon": "fa-solid fa-hammer",
+    "targetStealEPH": "Steal Ephedrine",
+    "targetStealEPHIcon": "fa-solid fa-vial",
+    "stealingEPH": "Stealing Ephedrine",
+    "targetStealACE": "Steal Acetone",
+    "targetStealACEIcon": "fa-solid fa-vial",
+    "stealingACE": "Stealing Acetone",
+    "teleIn": "Enter the Lab",
+    "teleInIcon": "fa-solid fa-door-open",
+    "teleOutIcon":"fa-solid fa-door-closed",
+    "teleOut": "Exit the Lab",
+    "wrongVehModel": "Player: %s Passed A Vehicle Model: %s for Meth Van but The Proper Vehicle Model is: %s ",
+    "notOnRun": "Player: %s attempted to exploit the meth run event by triggering the event when not on a meth run.",
+    "finishedRun": "You Have Finished Your Meth Run"
+  },
+
+  "oxy": {
+    "ditchCar": "The Van Is Hot, Leave It Somewhere",
+    "targetHandoff": "Hand Off The Package",
+    "targetHandOffIcon": "fa-solid fa-box-open",
+    "handingoff": "Handing Off The Package",
+    "emptyHands": "You Are Not Carrying Anything",
+    "targetPay": "Rent Oxy Van",
+    "targetPayIcon": "fa-solid fa-hand-holding-dollar",
+    "keys": "The Keys Are In The Van",
+    "targetGetPackage": "Grab Package",
+    "targetGetPackageIcon": "fa-solid fa-box-open",
+    "alreadyCarrying": "You Are Already Carrying A Package",
+    "notOn": "You Are Not On A Route",
+    "notOnOxyRun": "Player: %s attempted to exploit the oxy run event by triggering the give event when not on an oxy run.",
+    "mismatchOxyVan": "Player: %s Passed Vehicle: %s for Oxy Van  "
+  },
+
+  "pharma": {
+    "input": {
+      "header": "Who To Give A Prescription To?",
+      "title1": "Player Name",
+      "title2": "Prescription"
+    },
+    "write": "Writing Prescription",
+    "opening": "Opening Prescription Bottle",
+    "targetFill": "Fill Prescription",
+    "fill": "Getting Prescription Filled",
+    "canceled": "You Canceled The Prescription",
+    "unbottle": "You Opened The Bottle",
+    "fillIcon": "fa-solid fa-prescription-bottle-medical"
+  },
+
+  "shrooms": {
+    "targetPick": "Pick Shrooms",
+    "picking": "Picking Shrooms",
+    "eat": "Eating Shrooms",
+    "cancel": "Decided To Not Do Shrooms",
+    "took": "You Took Some Shrooms!",
+    "pickIcon": "fa-solid fa-mushroom"
+  },
+
+  "weed": {
+    "targetPick": "Pick Weed",
+    "targetDryIcon": "fa-solid fa-temperature-high",
+    "picking": "Picking Weed",
+    "targetDry": "Dry Weed",
+    "noDry": "You Need Wet Weed For This",
+    "wait": "Waiting For Weed To Dry...",
+    "take": "Ready To Take Weed",
+    "targetDryed": "Pickup Weed",
+    "teleportIn": "Enter The Grow House",
+    "teleportOut": "Leave The Grow House",
+    "dabs": "Doing Some Dabs",
+    "bluntWrap": "Dipping Syrup To Make %s",
+    "targetSales": "Buy From Dealer",
+    "salessHeader": "Weed Salesman",
+    "salesIcon": "fa-solid fa-handshake",
+    "salesHeader": "Amount To Buy",
+    "salesDesc": "how Many Do You Wish To Buy?",
+    "buying": "Buying %s From Dealer",
+    "needItem": "You Need A %s For This",
+    "crackBlunt": "Cracking Open A Blunt",
+    "pickIcon": "fa-solid fa-cannabis",
+    "teleportInIcon": "fa-solid fa-door-open",
+    "teleportOutIcon":"fa-solid fa-door-closed",
+    "cannabisIcon": "fa-solid fa-cannabis",
+    "itemDoesntExistWarn": "Player: %s attempted to exploit the weed salesman event by trying to purchase an item that does not exist in the weed salesman: %s",
+    "invalidTableWarn": "Player: %s attempted to exploit the weed event by triggering the event with an invalid recipe table butter/oil.",
+    "recipeDoesntExistWarn": "Player: %s attempted to exploit the weed event by triggering the event with a non existent recipe name: %s.",
+    "targetMakeButter": "Make Edible Products",
+    "targetMakeOil": "Make Oil"
+  },
+
+  "wholesale": {
+    "go_location": "Your Meeting Spot Has Been Marked On Your GPS",
+    "sell_drugs": "Hand Over Product",
+    "sell_drugs_icon": "fa-solid fa-handshake",
+    "selling_drugs": "Handing Over The Product",
+    "not_enough_police": "Not Enough Police Online To Start A Wholesale Deal",
+    "not_enough_drugs": "Wholesale Is Meant For Large Amounts Of Drugs",
+    "ambush_fail_warn": "Player: %s attempted to exploit the wholesale Sale event by triggering the event when they should be ambushed."
+  },
+
+  "xtc": {
+    "alreadyOut": "You Have A Press Out Already",
+    "settingDown": "Setting Down The Press",
+    "targetMake": "Press Pills",
+    "pressIcon": "fa-solid fa-pills",
+    "making": "Pressing A %s",
+    "targetPickup": "Pick Up Press",
+    "targetPickupIcon": "fa-solid fa-hand-holding",
+    "picking": "Picking Up Press",
+    "targetStealMDP2P": "Steal MDP2P",
+    "mdp2pIcon": "fa-solid fa-vial",
+    "stealingMDP2P": "Stealing MDP2P",
+    "targetStealIsosafrole": "Steal Isosafrole",
+    "isosafroleIcon": "fa-solid fa-vial",
+    "stealingIsosafrole": "Stealing Isosafrole",
+    "targetRaw": "Make Raw XTC",
+    "rawIcon": "fa-solid fa-hand-scissors",
+    "makingRaw": "Making Raw XTC",
+    "getPress": "Get Press",
+    "buySingle": "Buy Single Press For $%s",
+    "buyp": "Buying Press",
+    "targetStamp": "Stamp XTC",
+    "stampIcon": "fa-solid fa-stamp",
+    "stamp_desc": "Stamp %s Pills",
+    "stamping": "Stamping %s Pills",
+    "noPills": "You Dont Have Any Unstamped Pills",
+    "noActivePress": "Player: %s attempted to exploit the xtc event by trying to stamp pills without having an active press."
+  },
+
+  "merchant": {
+    "targetOpen": "Open Merchant Menu",
+    "targetIcon": "fa-solid fa-shop",
+    "menuTitle": "Travelling Merchant",
+    "itemDoesntExist": "Player: %s attempted to exploit the merchant event by trying to purchase an item that does not exist in the merchant: %s"
+  },
+
+  "Whippit": {
+    "targetShop": "Open Whippit Shop",
+    "needBalloon": "You Need A Balloon For This",
+    "needCanister": "You Need A Canister For This",
+    "shopHeader": "Whippit Shop",
+    "whippitIcon": "fa-solid fa-cart-shopping",
+    "invalidItemWarn": "Player: %s attempted to exploit the whippit shop event by trying to purchase an item that does not exist in the whippit shop: %s"
+  },
+  "Dispatch": {
+    "header": "Drug Activity",
+    "code": "4-2-0",
+    "icon": "fas fa-exclamation-triangle"
+  },
+  "DrugRep": {
+    "header": "Drug Reputation",
+    "increased": "Your Current Drug Reputation Stats",
+    "coke": {
+      "icon": "fa-solid fa-face-flushed",
+      "title": "Cocaine: %s"
+    },
+    "heroin": {
+      "icon": "fa-solid fa-syringe",
+      "title": "Heroin: %s"
+    },
+    "lsd": {
+      "icon": "fa-solid fa-vial",
+      "title": "LSD: %s"
+    },
+    "dealerrep": {
+      "icon": "fa-solid fa-plug",
+      "title": "Dealer: %s"
+  },
+  "cornerselling": {
+    "icon": "fa-solid fa-money-bill",
+    "title": "Corner Selling: %s",
+    "description": "Rank: %s"
+  }
+  }
+}

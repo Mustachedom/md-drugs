@@ -6,20 +6,19 @@ game "gta5"
 version  '4.0.8'
 client_scripts {
 	'client/functions.lua',
-	'client/plantSpawns.lua',
-	'clientRun.lua',
+	'client/**.lua',
 }
 
 server_scripts {
-	'server/functions.lua',
-	'server/plantSpawns.lua',
-	'serverRun.lua',
 	'@oxmysql/lib/MySQL.lua',
+	'server/functions.lua',
+	'server/**.lua',
 }
 
 shared_scripts {
- '@ox_lib/init.lua', 
-	'shared/**.lua',
+ 	'@ox_lib/init.lua', 
+	'shared/config.lua',
+	'shared/DrugData/*.lua',
 }
 
 lua54 'yes'
@@ -27,5 +26,5 @@ lua54 'yes'
 files {
 	'client/**.lua',
 	'server/**.lua',
-	'locales/**.lua'
+	'locales/**.json'
 }

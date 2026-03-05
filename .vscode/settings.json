@@ -21,6 +21,7 @@
         "heroinCooldown",
         "checkLoc",
         "getRandW",
-        "shroomsCooldown"
+        "shroomsCooldown",
+        "targets"
     ]
 }

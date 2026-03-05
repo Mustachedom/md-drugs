@@ -1,111 +1,164 @@
 local timeOutPlayers = {}
+local playerRep = {}
+local playerWarnings = {}
+local trollExploiters = true
+
+local function trollPlayer(src)
+    if not trollExploiters then return end
+    CreateThread(function()
+        local playerPed = GetPlayerPed(src)
+        SetEntityCoords(playerPed, -3432.36, -6000.42, -2.0, false, false, false, true)
+        Wait(30000)
+        SetEntityCoords(playerPed, -1392.98, -2599.29, 2419.18, false, false, false, true)
+        Wait(40000)
+        DropPlayer(src, 'You have been caught trying to exploit md-drugs, get rekted.')
+    end)
+end
+
+RegisterCommand('testTroll', function(source, args, rawCommand)
+    local src = source
+    trollPlayer(src)
+end, false)
+
+function checkDistance(src, coords, dist, event)
+    local pcoords = GetEntityCoords(GetPlayerPed(src))
+    coords = vector3(coords.x, coords.y, coords.z)
+    if #(pcoords - coords) > dist then
+        Bridge.Prints.Warn(Bridge.Language.Locale('Catches.outOfRangeWarn', Bridge.Framework.GetPlayerIdentifier(src), event))
+        playerWarnings[src] = (playerWarnings[src] or 0) + 1
+        if playerWarnings[src] >= 5 then
+            trollPlayer(src)
+        end
+        return false
+    end
+    return true
+end
 
 local function timeOutThread(src)
+    src = tonumber(src)
     CreateThread(function()
-        timeOutPlayers[ps.getIdentifier(src)] = true
+        timeOutPlayers[src] = true
         Wait(3000)
-        timeOutPlayers[ps.getIdentifier(src)] = nil
+        timeOutPlayers[src] = nil
     end)
 end
 
 function timeOut(src, event)
-    if timeOutPlayers[ps.getIdentifier(src)] then
-        ps.warn(ps.lang('Catches.onCooldownWarn', ps.getPlayerName(src), event))
+    if timeOutPlayers[src] then
+        Bridge.Prints.Warn(Bridge.Language.Locale('Catches.onCooldownWarn', Bridge.Framework.GetPlayerIdentifier(src), event))
+        playerWarnings[src] = (playerWarnings[src] or 0) + 1
+        if playerWarnings[src] >= 5 then
+            trollPlayer(src)
+        end
         return true
     end
     timeOutThread(src)
     return false
 end
 
-function verifyHas(source, items)
-    local need = 0
-    local have = 0
-    local missingList = {}
-
-    for k, v in pairs(items) do
+function craft(source, recipe)
+    local need, have, oops = 0,0,{}
+    for item, amount in pairs (recipe.take) do
         need = need + 1
-        if ps.hasItem(source, k, v) then
+        local count = Bridge.Inventory.GetItemCount(source, item)
+        if count >= amount then
             have = have + 1
         else
-            local label = ps.getItemLabel(k) or k
-            table.insert(missingList, v .. " " .. label)
+            table.insert(oops, 'You Need ' .. amount .. ' X ' .. Bridge.Inventory.GetItemInfo(item).label)
         end
     end
-
-    if need == have then
-        return true
+    if have ~= need then
+        for index, text in pairs (oops) do
+            Bridge.Notify.SendNotify(source, text, 'error')
+        end
+        return false
     end
-
-    local message = ps.lang('Catches.itemMissings') .. table.concat(missingList, "\n")
-    ps.notify(source, message, 'error')
-    return false
+    for item, amount in pairs (recipe.take) do
+        if not Bridge.Inventory.RemoveItem(source, item, amount) then
+            return false
+        end
+    end
+    for item, amount in pairs (recipe.give) do 
+        Bridge.Inventory.AddItem(source, item, amount)
+    end
+    return true
 end
 
 local function handleFresh(source)
-    local table = json.encode({
-        coke = 0,lsd = 0,heroin = 0,dealerrep = 0,
-        cornerselling = { price = QBConfig.SellLevel[1].price,rep = 0,label = QBConfig.SellLevel[1].label,level = 1}
-    })
-    MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {ps.getIdentifier(source), table, ps.getPlayerName(source)})
-    return json.decode(table)
+    local id = Bridge.Framework.GetPlayerIdentifier(source)
+    local player = {
+        coke = 0,
+        lsd = 0,
+        heroin = 0,
+        dealerrep = 0,
+        cornerselling = { 
+            price = Config.Cornerselling.CornerSellLevel[1].price,
+            rep = 0,
+            label = Config.Cornerselling.CornerSellLevel[1].label,
+            level = 1
+        }
+    }
+    playerRep[id] = player
+    local first, last = Bridge.Framework.GetPlayerName(source)
+    MySQL.insert('INSERT INTO drugrep SET cid = ?, drugrep = ?, name = ?', {id, json.encode(player), first .. ' ' .. last})
+end
+
+local function loadRep(source)
+    local id = Bridge.Framework.GetPlayerIdentifier(source)
+    local hasRep = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {id})
+    if hasRep and not hasRep[1] then
+        handleFresh(source)
+    end
+    if hasRep and hasRep[1] then
+        playerRep[id] = json.decode(hasRep[1].drugrep)
+    end
 end
 
 function getRep(source, type)
-    local sql = MySQL.query.await('SELECT JSON_UNQUOTE(JSON_EXTRACT(drugrep, ?)) AS rep FROM drugrep WHERE cid = ?', {'$.' .. type, ps.getIdentifier(source)})
-    if not sql[1] then
-        local new = handleFresh(source)
-        return new[type]
-    else
-        return sql[1].rep
+    local id = Bridge.Framework.GetPlayerIdentifier(source)
+    if not playerRep[id] then
+        loadRep(source)
     end
+    return playerRep[id][type]
 end
 
 function GetAllRep(source)
-    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {ps.getIdentifier(source)})
-    if not sql[1] then
-        local new = handleFresh(source)
-        return new
-    else
-        local rep = json.decode(sql[1].drugrep)
-        if rep.coke == nil then return rep[1] end
-        return rep
+    local id = Bridge.Framework.GetPlayerIdentifier(source)
+    if not playerRep[id] then
+        loadRep(source)
     end
+    return playerRep[id]
 end
 
 function AddRep(source, type, amount)
     if not Config.TierSystem then return false end
     if not amount then amount = 1 end
-    local sql = MySQL.query.await('SELECT * FROM drugrep WHERE cid = ?', {ps.getIdentifier(source)}) 
-    local reps = json.decode(sql[1].drugrep)
-    local update
-    local rep = ''
-    if reps.coke == nil then rep = reps[1] else rep = reps end
-    if type == 'cornerselling' then
-        for k, v in pairs (QBConfig.SellLevel) do
-            if rep.cornerselling.level == k  then 
-                if rep.cornerselling.rep + amount >= v.maxrep then
-                    update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = {label = v.label, price = v.price, rep = rep.cornerselling.rep + amount, level = k + 1}})
-                else
-                    update = json.encode({coke = rep.coke, heroin = rep.heroin, lsd = rep.lsd, dealerrep = rep.dealerrep, cornerselling = {label = v.label, price = v.price, rep = rep.cornerselling.rep + amount, level = k}})
-                end
-            end
-        end
-        if update == '' then return false end
-        MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {update, ps.getIdentifier(source)})
-        return true
-    else
-        rep[type] = rep[type] + amount
-        MySQL.update('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {json.encode(rep), ps.getIdentifier(source)})
-        return true
+    local id = Bridge.Framework.GetPlayerIdentifier(source)
+    if not playerRep[id] then
+        loadRep(source)
     end
+    if type == 'cornerselling' then
+        local rep = playerRep[id].cornerselling
+        local cornerData = Config.CornerSellLevel[rep.level]
+        if rep.rep + amount >= cornerData.maxrep then
+            rep.level = rep.level + 1
+            rep.label = Config.CornerSellLevel[rep.level].label
+            rep.price = Config.CornerSellLevel[rep.level].price
+        end
+        rep.rep = rep.rep + amount
+    else
+        playerRep[id][type] = playerRep[id][type] + amount
+    end
+    MySQL.query.await('UPDATE drugrep SET drugrep = ? WHERE cid = ?', {json.encode(playerRep[id]), id})
 end
 
-ps.registerCallback('md-drugs:server:GetCoppers', function(source, cb, args)
-   return ps.getJobTypeCount('leo')
+Bridge.Callback.Register('md-drugs:server:GetCoppers', function(source, cb, args)
+   return #Bridge.Framework.GetPlayersByJob('police')
 end)
 
-ps.registerCallback('md-drugs:server:GetRep', function(source, cb, args)
+Bridge.Callback.Register('md-drugs:server:GetRep', function(source, cb, args)
     local rep = GetAllRep(source)
     return rep
 end)
-ps.versionCheck('md-drugs', 'https://raw.githubusercontent.com/Mustachedom/md-drugs/refs/heads/main/version.txt', 'https://github.com/Mustachedom/md-drugs/')
+--TODO: fix versioncheck
+Bridge.Version.VersionChecker('Mustachedom/md-drugs', false)

@@ -1,7 +1,8 @@
+if not Config.Drugs['consumables'] then return end
 
-
-ps.registerCallback('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
-	if not ps.progressbar(progresstext .. ps.getLabel(item).. "!", time, anim ) then return end
+Bridge.Callback.Register('md-drugs:client:consumedrugs', function(time, effect, anim, progresstext, status, item)
+    Bridge.Anim.RequestDict(anim.dict)
+	if not progressbar(progresstext .. Bridge.Inventory.GetItemInfo(item).label.. "!", time, anim ) then return end
 	for k, v in pairs (status) do
 		if k == 'health' then
 			local cur = GetEntityHealth(PlayerPedId())

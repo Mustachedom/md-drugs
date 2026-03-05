@@ -1,55 +1,67 @@
+if not Config.Drugs['xtc'] then return end
 local xtcpress = false
-local locations = ps.callback('md-drugs:server:GetXtcLocs')
+local locations = Config.XTC.Locations
 
-local function getRecipeList(tbl)
-  local rec = {}
-  for m, d in pairs(tbl) do table.insert(rec, ps.getLabel(m) .. ' X ' .. d) end
-  return table.concat(rec, ', ')
+local function getRecipeList(tbl, type)
+    local rec
+  if type == 'presses' then
+    rec = {'XTC FROM THE PREVIOUS TIER REQUIRED TO UPGRADE  \n  '}
+  else
+    rec = {'REQUIRED INGREDIENTS:  \n  '}
+  end
+
+  for m, d in pairs(tbl) do table.insert(rec, Bridge.Inventory.GetItemInfo(m).label .. ' X ' .. d .. '  \n  ') end
+  return table.concat(rec, ' ')
 end
 
-ps.registerCallback('md-drugs:client:setpress', function(xtcData)
+Bridge.Callback.Register('md-drugs:client:setpress', function(xtcData)
     if xtcpress then
-        ps.notify(ps.lang('xtc.alreadyOut'), 'error')
+        Bridge.Notify.SendNotify(Bridge.Language.Locale('xtc.alreadyOut'), 'error')
         return
     end
     local coords, head = StartRay2()
     xtcpress = true
-	if not ps.progressbar(ps.lang('xtc.settingDown'), 4000, 'uncuff') then return end
+	if not progressbar(Bridge.Language.Locale('xtc.settingDown')) then return end
 	local press = CreateObject("bkr_prop_coke_press_01aa", coords.x, coords.y, coords.z, true, false, false)
 	PlaceObjectOnGroundProperly(press)
     Freeze(press, true, head)
       local options = {
           {
-            icon = "fas fa-eye",
-            label = ps.lang('xtc.targetMake'),
+            icon = Bridge.Language.Locale('xtc.pressIcon'),
+            label = Bridge.Language.Locale('xtc.targetMake'),
             distance = 2.0,
             action = function()
                 local options = {}
                 for k, v in pairs(xtcData.recipes) do
                   local descript = getRecipeList(v.take)
+                  local itemInfo = Bridge.Inventory.GetItemInfo(k)
                     options[#options + 1] = {
-                        icon = ps.getImage(k),
-                        title = ps.getLabel(k),
+                        icon = itemInfo.image,
+                        title = Bridge.Language.Locale(k),
                         description = descript,
-                        action = function()
-                            if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                            if not ps.progressbar(ps.lang('xtc.making', ps.getLabel(k)), 4000, 'uncuff') then return end
+                        onSelect = function()
+                            if not minigame() then return end
+                            if not progressbar(Bridge.Language.Locale('xtc.making', Bridge.Language.Locale(k))) then return end
                             TriggerServerEvent("md-drugs:server:makextc", k)
                         end,
                         distance = 2.0
                     }
                 end
-                ps.menu('XTC Recipes', 'XTC Recipes', options)
+                Bridge.Menu.Open({
+                    id = 'XTC Recipes', 
+                    title = 'XTC Recipes',
+                    options = options
+                })
             end,
             canInteract = function()
               if xtcpress then return true end
             end
           },
           {
-            icon = "fas fa-eye",
-            label = ps.lang('xtc.targetPickup'),
+            icon = Bridge.Language.Locale('xtc.pressIcon'),
+            label = Bridge.Language.Locale('xtc.targetPickup'),
             action = function()
-               if not ps.progressbar(ps.lang('xtc.picking'), 5000, 'uncuff') then return end
+               if not progressbar(Bridge.Language.Locale('xtc.picking')) then return end
                DeleteObject(press)
                xtcpress = false
                TriggerServerEvent("md-drugs:server:getpressback")
@@ -59,18 +71,19 @@ ps.registerCallback('md-drugs:client:setpress', function(xtcData)
             end
           },
       }
-    ps.entityTarget(press, options)
+    Bridge.Target.AddLocalEntity(press, options)
+    targets[#targets+1] = press
     return coords
 end)
 
 for k, v in pairs(locations.mdp2p) do
-    ps.boxTarget('mdp2p'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+    Bridge.Target.AddBoxZone('mdp2p'..k, v.loc, v.size, v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetStealMDP2P'),
+            icon = Bridge.Language.Locale('xtc.mdp2pIcon'),
+            label = Bridge.Language.Locale('xtc.targetStealMDP2P'),
             action = function()
-                if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.stealingMDP2P'), 4000, 'uncuff') then return end
+                if not minigame() then  return end
+                if not progressbar(Bridge.Language.Locale('xtc.stealingMDP2P')) then return end
                 TriggerServerEvent("md-drugs:server:stealmdp2p", k)
             end,
             canInteract = function()
@@ -78,15 +91,16 @@ for k, v in pairs(locations.mdp2p) do
             end
         }
     })
+    targets[#targets+1] = 'mdp2p'..k
 end
 for k, v in pairs(locations.isosafrole) do
-    ps.boxTarget('isosafrole'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+    Bridge.Target.AddBoxZone('isosafrole'..k, v.loc, v.size, v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetStealIsosafrole'),
+            icon = Bridge.Language.Locale('xtc.isosafroleIcon'),
+            label = Bridge.Language.Locale('xtc.targetStealIsosafrole'),
             action = function()
-                if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.stealingIsosafrole'), 4000, 'uncuff') then return end
+                if not minigame() then  return end
+                if not progressbar(Bridge.Language.Locale('xtc.stealingIsosafrole')) then return end
                 TriggerServerEvent("md-drugs:server:stealisosafrole", k)
             end,
             canInteract = function()
@@ -94,16 +108,17 @@ for k, v in pairs(locations.isosafrole) do
             end
         }
     })
+    targets[#targets+1] = 'isosafrole'..k
 end
 
 for k, v in pairs(locations.rawxtcloc) do
-    ps.boxTarget('xtcraw'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+    Bridge.Target.AddBoxZone('xtcraw'..k, v.loc, v.size, v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetRaw'),
+            icon = Bridge.Language.Locale('xtc.rawIcon'),
+            label = Bridge.Language.Locale('xtc.targetRaw'),
             action = function()
-                if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                if not ps.progressbar(ps.lang('xtc.makingRaw'), 4000, 'uncuff') then return end
+                if not minigame() then  return end
+                if not progressbar(Bridge.Language.Locale('xtc.makingRaw')) then return end
                 TriggerServerEvent("md-drugs:server:makingrawxtc", k)
             end,
             canInteract = function()
@@ -111,40 +126,43 @@ for k, v in pairs(locations.rawxtcloc) do
             end
         }
     })
+    targets[#targets+1] = 'xtcraw'..k
 end
 
 for k, v in pairs(locations.xtcpress) do
-    ps.requestModel(v.ped)
+    requestModel(v.ped)
     local ped = CreatePed(0, v.ped, v.loc, false, false)
     Freeze(ped, true, v.loc.w)
-    ps.entityTarget(ped, {
+    Bridge.Target.AddLocalEntity(ped, {
         {
-            icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.getPress'),
-            action = function()
+            icon = Bridge.Language.Locale('xtc.pressIcon'),
+            label = Bridge.Language.Locale('xtc.getPress'),
+            onSelect = function()
                 local options = {}
-                local recipeList = ps.callback('md-drugs:server:getpressrecipes')
+                local recipeList = Config.XTC.Recipes.presses
                 for m, d in pairs(recipeList) do
                     if m == 'singlepress' then
+                        local itemInfo = Bridge.Inventory.GetItemInfo(m)
                         options[#options + 1] = {
-                          icon = ps.getImage(m),
-                          title = ps.getLabel(m),
-                          description = ps.lang('xtc.buySingle', d.cash),
+                          icon = itemInfo.image,
+                          title = itemInfo.label,
+                          description = Bridge.Language.Locale('xtc.buySingle', d.cash),
                           type = d.type,
-                          action = function()
-                            if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
+                          onSelect = function()
+                            if not progressbar(Bridge.Language.Locale('xtc.buyp')) then return end
                             TriggerServerEvent('md-drugs:server:buypress',k, m)
                           end,
                         }
                     else
-                        local descript = getRecipeList(d.take)
+                        local itemInfo = Bridge.Inventory.GetItemInfo(m)
+                        local descript = getRecipeList(d.take, 'presses')
                         options[#options + 1] = {
-                            icon = ps.getImage(m),
-                            title = ps.getLabel(m),
+                            icon = itemInfo.image,
+                            title = itemInfo.label,
                             description = descript,
                             type = d.type,
-                            action = function()
-                                 if not ps.progressbar(ps.lang('xtc.buyp'), 4000, 'uncuff') then return end
+                            onSelect = function()
+                                 if not progressbar(Bridge.Language.Locale('xtc.buyp')) then return end
                                 TriggerServerEvent("md-drugs:server:upgradepress", k, m)
                             end,
                             distance = 2.0
@@ -152,42 +170,52 @@ for k, v in pairs(locations.xtcpress) do
                     end
                 end
                 table.sort(options, function(a, b) return a.type < b.type end)
-                ps.menu('XTC Presses', 'XTC Presses', options)
+                Bridge.Menu.Open({
+                    id = 'XTC Presses', 
+                    title = 'XTC Presses',
+                    options = options
+                })
             end,
              canInteract = function() return handleGang(v.gang) end
         }
     })
+    targets[#targets+1] = ped
 end
 
 for k, v in pairs (locations.stamp) do
-    ps.boxTarget('xtcstamp'..k, v.loc, {length = v.l, width = v.w, heading = v.rot}, {
+    Bridge.Target.AddBoxZone('xtcstamp'..k, v.loc, v.size, v.rot or 180.0, {
         {
-            icon = 'fa-solid fa-flask',
-            label = ps.lang('xtc.targetStamp'),
-            action = function()
+            icon = Bridge.Language.Locale('xtc.stampIcon'),
+            label = Bridge.Language.Locale('xtc.targetStamp'),
+            onSelect = function()
                 local item = {
-                    {item = 'white_xtc', label = ps.getLabel('white_xtc'), color = 'white'},
-                    {item = 'red_xtc', label = ps.getLabel('red_xtc'), color = 'red'},
-                    {item = 'orange_xtc', label = ps.getLabel('orange_xtc'), color = 'orange'},
-                    {item = 'blue_xtc', label = ps.getLabel('blue_xtc'), color = 'blue'},
+                    {item = 'white_xtc', label = Bridge.Inventory.GetItemInfo('white_xtc').label, color = 'white'},
+                    {item = 'red_xtc', label = Bridge.Inventory.GetItemInfo('red_xtc').label, color = 'red'},
+                    {item = 'orange_xtc', label = Bridge.Inventory.GetItemInfo('orange_xtc').label, color = 'orange'},
+                    {item = 'blue_xtc', label = Bridge.Inventory.GetItemInfo('blue_xtc').label, color = 'blue'},
                 }
                 local options = {}
                 for m, d in pairs (item) do
                     options[#options + 1] = {
-                        icon = ps.getImage(d.item),
+                        icon = Bridge.Inventory.GetItemInfo(d.item).image,
                         title = d.label,
-                        description = ps.lang('xtc.stamp_desc', d.color),
+                        description = Bridge.Language.Locale('xtc.stamp_desc', d.color),
                         action = function()
-                            if not minigame() then ps.notify(ps.lang('xtc.fail'), "error") return end
-                            if not ps.progressbar(ps.lang('xtc.stamping', d.label), 4000, 'uncuff') then return end
+                            if not minigame() then  return end
+                            if not progressbar(Bridge.Language.Locale('xtc.stamping', d.label)) then return end
                             TriggerServerEvent("md-drugs:server:stamp", k, d.color)
                         end,
                         distance = 2.0
                     }
                 end
-                ps.menu('Stamp Pills', 'Stamp Pills', options)
+                Bridge.Menu.Open({
+                    id = 'XTC Stamp', 
+                    title = 'XTC Stamp',
+                    options = options
+                })
             end,
             canInteract = function() return handleGang(v.gang) end
         }
     })
+    targets[#targets+1] = 'xtcstamp'..k
 end

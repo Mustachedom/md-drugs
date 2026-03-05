@@ -1,79 +1,83 @@
-local isActive = false
+if not Config.Drugs['deliveries'] then return end
 local dealer = {}
+local buyer = nil
+
+repeat Wait(100) until GlobalState.MDDrugDealers ~= nil
 
 local function SpawnDealer()
-    local getDealers = ps.callback('md-drugs:server:getDealers')
-    for k,v in pairs(getDealers) do
-		local Ped = "g_m_y_famdnf_01"
-        ps.requestModel(Ped, 30000)
-        local loc = json.decode(v.coords)
-        dealer[k] = CreatePed(0, Ped,loc.x,loc.y, loc.z-1, loc.h, false, false)
-        Freeze(dealer[k], true, loc.h)
-        ps.entityTarget(dealer[k], {
+    if #dealer >= 1 then
+        for k,v in pairs (dealer) do
+            DeletePed(v)
+        end
+        dealer = {}
+    end
+    for k,v in pairs(GlobalState.MDDrugDealers) do
+        requestModel(v.model)
+        dealer[k] = CreatePed(0, v.model, v.coords.x, v.coords.y, v.coords.z-1, v.coords.w, false, false)
+        Freeze(dealer[k], true, v.coords.w)
+        Bridge.Target.AddLocalEntity(dealer[k], {
             {
-                icon = 'fas fa-user-secret',
-                label = ps.lang('Deliveries.targetGetDel'),
+                icon = Bridge.Language.Locale('Deliveries.targetGetDelIcon'),
+                label = Bridge.Language.Locale('Deliveries.targetGetDel'),
                 action = function()
-                    local data = ps.callback('md-drugs:server:GetDeliveryItem', k)
-                    if type(data) == 'table' and data.coords then
-                        TriggerEvent('md-drugs:client:setLocation', data)
-                    end
+                    TriggerServerEvent('md-drugs:server:requestDelivery', k)
                 end,
             },
             {
-                icon = "fa-solid fa-store",
-                label = ps.lang('Deliveries.targetOpenShop'),
+                icon = Bridge.Language.Locale('Deliveries.targetOpenShopIcon'),
+                label = Bridge.Language.Locale('Deliveries.targetOpenShop'),
                 action = function()
                     local rep = GetRep()
-                    local items = ps.callback('md-drugs:server:dealerList')
                     local options = {}
-                    for m, d in pairs (items) do
+                    for m, d in pairs (Config.Deliveries.Recipes) do
                         if rep.dealerrep >= d.minrep then
                             options[#options+1] = {
-                                title = ps.getLabel(d.name),
+                                title = Bridge.Inventory.GetItemInfo(d.name).label,
                                 description = '$' .. d.price,
-                                icon = ps.getImage(d.name),
-                                action = function()
-                                    TriggerServerEvent('md-drugs:server:buyItemDealer', m)
+                                icon = Bridge.Inventory.GetItemInfo(d.name).image,
+                                onSelect = function()
+                                    TriggerServerEvent('md-drugs:server:buyItemDealer', m, k)
                                 end,
                             }
                         end
                     end
-                    ps.menu(ps.lang('Deliveries.shopHeader'), ps.lang('Deliveries.shopHeader'), options)
+                    Bridge.Menu.Open({
+                        id = 'DealerMenu',
+                        title = Bridge.Language.Locale('Deliveries.shopHeader'),
+                        description = Bridge.Language.Locale('Deliveries.shopHeader'),
+                        options = options
+                    })
                 end,
             }
         })
     end
 end
 
+SpawnDealer()
+
 RegisterNetEvent('md-drugs:client:RefreshDealers', function()
     SpawnDealer()
 end)
 
-SpawnDealer()
-
 RegisterNetEvent('md-drugs:client:setLocation', function(data)
-    local coord = json.decode(data.coords)
+    if buyer then
+        DeletePed(buyer)
+    end
+    local coord = data.coords
     SetNewWaypoint(coord.x, coord.y)
-    if isActive then return end
-    isActive = true
-    local Buyer = CreatePed(0, "g_m_y_famdnf_01",coord.x, coord.y, coord.z-1, coord.w, false, false)
-    Freeze(Buyer, true, coord.w)
-    ps.entityTarget(Buyer,  {
+    requestModel("g_m_y_famdnf_01") 
+    buyer = CreatePed(0, "g_m_y_famdnf_01",coord.x, coord.y, coord.z-1, coord.w, false, false)
+    Freeze(buyer, true, coord.w)
+    Bridge.Target.AddLocalEntity(buyer  ,  {
         {
-            icon = 'fas fa-user-secret',
-            label = ps.lang('Deliveries.targetHandOff'),
+            icon = Bridge.Language.Locale('Deliveries.targetHandOffIcon'),
+            label = Bridge.Language.Locale('Deliveries.targetHandOff'),
             action = function()
-               if not ps.progressbar(ps.lang('Deliveries.delivering'), 4000, 'uncuff') then return end
-               isActive = false
-               DeletePed(Buyer)
-               TriggerServerEvent('md-drugs:server:giveDeliveryItems', data.item, data.amount)
+               if not progressbar(Bridge.Language.Locale('Deliveries.delivering')) then return end
+               TriggerServerEvent('md-drugs:server:giveDeliveryItems')
+               Wait(400)
+                DeletePed(buyer)
             end,
-            canInteract = function()
-                if isActive then
-                    return true
-                end
-            end
         }
     })
 end)

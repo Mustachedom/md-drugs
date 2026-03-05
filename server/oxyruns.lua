@@ -1,44 +1,27 @@
-local prices = {
-	payfortruck = 500,
-	hotchance = 30,
-	itemChance = 20,
-}
+if not Config.Drugs['oxyruns'] then return end
 local onRoute = {}
+local vehicles = {}
 
-local oxyLocs = {
-	OxyPayForTruck = {
-        {loc = vector3(1437.64, -1491.91, 63.62), truckSpawn = vector4(1450.87, -1482.13, 63.22, 69.95), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-    },
-	oxylocations = {
-        vector4(-2352.32, 266.78, 165.3, 23.46),
-        vector4(-1467.49, 874.01, 183.59, 298.45),
-        vector4(-856.71, 874.26, 202.85, 205.3),
-        vector4(950.58, -128.49, 74.42, 205.3),
-        vector4(1152.71, -328.43, 69.21, 205.3),
-	    vector4(112.66, -1955.67, 20.75, 37.94),
-	    vector4(-544.4, -1684.8, 19.89, 252.07),
-	    vector4(-1185.02, -1805.4, 3.91, 184.83),
-	    vector4(-1641.4, -981.99, 7.58, 35.38),
-	    vector4(-1827.93, 782.36, 138.29, 219.99),
-	    vector4(-320.84, 2818.73, 59.45, 337.22),
-	    vector4(474.88, 2609.56, 44.48, 357.0),
-    }
-}
 
-ps.registerCallback('md-drugs:server:GetOxyLocs', function(source)
-	return oxyLocs
-end)
 
-ps.registerCallback('md-drugs:server:payfortruck', function(source)
+Bridge.Callback.Register('md-drugs:server:payfortruck', function(source, loc)
 	local src = source
-	if ps.removeMoney(src, 'cash', prices.payfortruck) or ps.removeMoney(src, 'bank', prices.payfortruck) then
-		onRoute[src] = true
-		ps.notify(src, ps.lang('oxy.paid', prices.payfortruck), "success")
-		return true
-	else
-		ps.notify(src, ps.lang('Catches.notEnoughMoney'), "error")
+	if timeOut(src, 'md-drugs:server:payfortruck') then return false end
+	if onRoute[src] then
 		return false
 	end
+	if not checkDistance(src, Config.Oxy.Locations.OxyPayForTruck[loc].loc, 2.0, 'md-drugs:server:payfortruck') then
+		return false
+	end
+	if not Bridge.Framework.RemoveAccountBalance(src, 'cash', Config.Oxy.prices.payfortruck) then
+		Bridge.Notify.SendNotify(src, Bridge.Language.Locale('oxy.notEnoughCash'), "error")
+		return false
+	end
+	onRoute[src] = {
+		amount = math.random(1, #Config.Oxy.Locations.oxylocations),
+		current = 0
+	}
+	return true
 end)
 
 
@@ -46,37 +29,50 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 	local src = source
 	if timeOut(src, 'md-drugs:server:giveoxybox') then return end
 	if not onRoute[src] then
-		ps.notify(src, ps.lang('oxy.notOn'), "error")
+		Bridge.Prints.Warn(Bridge.Language.Locale('oxy.notOnOxyRun', Bridge.Framework.GetPlayerIdentifier(src)))
 		return
 	end
 
-	if not ps.checkDistance(src, oxyLocs.oxylocations[onRoute[src]], 3.5) then
-		ps.notify(src, ps.lang('Catches.notIn'), "error")
+	if not checkDistance(src, Config.Oxy.Locations.oxylocations[onRoute[src].current], 3.5, 'md-drugs:server:giveoxybox') then
+		return
+	end
+
+	local vehicle = vehicles[src]
+	if not vehicle or GetEntityModel(vehicle) ~= GetHashKey("burrito3") then
+		Bridge.Prints.Warn(Bridge.Language.Locale('oxy.mismatchOxyVan', Bridge.Framework.GetPlayerIdentifier(src), vehicle))
+		return
+	end
+
+	if not checkDistance(src, GetEntityCoords(vehicle), 35.0, 'md-drugs:server:giveoxybox') then
 		return
 	end
 
 	local cash = math.random(50, 200)
 	local itemchance = math.random(1,100)
-	local itemList = {
-		{item = 'oxy', amount = 2},
-    	{item = 'houselockpick', amount = 1},
-	}
-	local item = itemList[math.random(1, #itemList)]
-	ps.addMoney(src,"cash", cash)
-	if itemchance <= prices.itemChance then 
-		ps.addItem(src, item.item, item.amount)
+	local item = Config.Oxy.itemList[math.random(1, #Config.Oxy.itemList)]
+	Bridge.Framework.AddAccountBalance(src, 'cash', cash)
+	if itemchance <= Config.Oxy.prices.itemChance then 
+		Bridge.Inventory.AddItem(src, item.item, item.amount)
 	end
 end)
 
-ps.registerCallback('md-drugs:server:getRoute', function(source)
+Bridge.Callback.Register('md-drugs:server:getRoute', function(source)
 	if not onRoute[source] then return false end
-	local giveLocation = math.random(1, 10)
-	if giveLocation >= 8 then
+	if onRoute[source].amount == 0 then
 		onRoute[source] = nil
+		vehicles[source] = nil
 		return false
-	else
-		onRoute[source] = math.random(1, #oxyLocs.oxylocations)
-		return oxyLocs.oxylocations[onRoute[source]]
 	end
+	onRoute[source].current = math.random(1, #Config.Oxy.Locations.oxylocations)
+	onRoute[source].amount = onRoute[source].amount - 1
+	return onRoute[source].current
 end)
 
+RegisterNetEvent('md-drugs:server:startOxyRun', function(netId)
+	local src = source
+	if not onRoute[src] then return end
+	local veh = NetworkGetEntityFromNetworkId(netId)
+	if not veh or GetEntityModel(veh) ~= GetHashKey("burrito3") then return end
+	vehicles[src] = veh
+
+end)

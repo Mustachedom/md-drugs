@@ -1,6 +1,19 @@
 
 local minigametype = Config.minigametype
-local dispatch = Config.Dispatch
+
+function requestModel(ped, timeout)
+	timeout = timeout or 15000
+    local startTime = GetGameTimer()
+    RequestModel(ped)
+    while not HasModelLoaded(ped) do
+		Wait(0)
+        if GetGameTimer() - startTime > timeout then
+            Bridge.Prints.Debug('requestModel timed out', ped, GetGameTimer() - startTime)
+            return false
+        end
+    end
+	return true
+end
 
 function minigame()
 	local time = 0
@@ -83,46 +96,26 @@ function minigame()
 end
 
 function GetRep()
-	local rep = ps.callback('md-drugs:server:GetRep')
+	local rep = Bridge.Callback.Trigger('md-drugs:server:GetRep')
 	return rep
 end
 
 function PoliceCall(chance)
 	local math = math.random(1,100)
 	if math <= chance then
-		if dispatch == 'ps' then 
-			exports['ps-dispatch']:DrugSale()
-		elseif dispatch == 'cd' then
-			local data = exports['cd_dispatch']:GetPlayerInfo()
-			TriggerServerEvent('cd_dispatch:AddNotification', {
-				job_table = {'police', }, 
-				coords = data.coords,
-				title = '420-69 Drug Sale',
-				message = 'A '..data.sex..' robbing a store at '..data.street, 
-				flash = 0,
-				unique_id = data.unique_id,
-				sound = 1,
-				blip = { sprite = 431,  scale = 1.2,  colour = 3, flashes = false,  text = '420-69 Drug Sale', time = 5, radius = 0,}
-			})
-		elseif	dispatch == 'core' then
-			exports['core_dispatch']:addCall("420-69", "Drugs Are Being Sold", {
-				{icon="fa-ruler", info="4.5 MILES"},
-				}, {GetEntityCoords(PlayerPedId())}, "police", 3000, 11, 5 )
-		elseif dispatch == 'aty' then 
-			exports["aty_dispatch"]:SendDispatch('Drug Sale', '420-69', 40, {'police'})
-		elseif dispatch == 'qs' then
-			exports['qs-dispatch']:DrugSale()
-		elseif dispatch == 'codem' then
-			local Data = {
-				type = 'Drug Sale',
-				header = 'Someone Selling Drugs',
-				text = 'Hurry up and save the community',
-				code = '420-69',
-			}
-			exports['codem-dispatch']:CustomDispatch(Data)
-		else
-			print('Congrats, You Choose 0 of the options :)')	
-		end
+		Bridge.Dispatch.SendAlert({
+		    message = Bridge.Language.Locale('Dispatch.header'),
+		    code = Bridge.Language.Locale('Dispatch.code'),
+		    coords = GetEntityCoords(PlayerPedId()),
+		    jobs = {"police"},
+		    blipData = {
+		        sprite = 161,
+		        color = 1,
+		        scale = 1.0
+		    },
+		    time = 300000,
+		    icon = Bridge.Language.Locale('Dispatch.icon')
+		})
 	else
 		return
 	end
@@ -130,8 +123,8 @@ end
 
 function GetCops(number)
 	if number == 0 then return true end
-	local amount = ps.callback('md-drugs:server:GetCoppers')
-	if amount >= number then return true else ps.notify('You Need '.. number - amount .. ' More Cops To Do This', 'error')  end
+	local amount = Bridge.Callback.Trigger('md-drugs:server:GetCoppers')
+	if amount >= number then return true else Bridge.Notify.SendNotify(string.format(Bridge.Language.Locale('Catches.YouNeedMoreCops'), number - amount), 'error')  end
 end
 
 function Freeze(entity, toggle, head)
@@ -142,18 +135,55 @@ function Freeze(entity, toggle, head)
 	SetBlockingOfNonTemporaryEvents(entity, toggle)
 end
 
+local function RotationToDirection(rotation)
+    local adjustedRotation = {
+        x = (math.pi / 180) * rotation.x,
+        y = (math.pi / 180) * rotation.y,
+        z = (math.pi / 180) * rotation.z
+    }
+    local direction = {
+        x = -math.sin(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+        y = math.cos(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+        z = math.sin(adjustedRotation.x)
+    }
+    return direction
+end
+
+local function RayCastGamePlayCamera(distance)
+    local currentRenderingCam = false
+    if not IsGameplayCamRendering() then
+        currentRenderingCam = GetRenderingCam()
+    end
+
+    local cameraRotation = not currentRenderingCam and GetGameplayCamRot() or GetCamRot(currentRenderingCam, 2)
+    local cameraCoord = not currentRenderingCam and GetGameplayCamCoord() or GetCamCoord(currentRenderingCam)
+    local direction = RotationToDirection(cameraRotation)
+    local destination = {
+        x = cameraCoord.x + direction.x * distance,
+        y = cameraCoord.y + direction.y * distance,
+        z = cameraCoord.z + direction.z * distance
+    }
+    local _, hit, endCoords, surfaceNormal, entityHit  = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0))
+    return _, hit, endCoords, surfaceNormal, entityHit
+end
+
+local function ray()
+   local _, hit, endCoords, surfaceNormal, entityHit  = RayCastGamePlayCamera(1000.0)
+    return hit, endCoords, surfaceNormal, entityHit
+end
+
 local created = false
 local heading = 180.0
 function StartRay()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
-	ps.requestModel('v_ret_ml_tablea', 30000)
+	requestModel('v_ret_ml_tablea', 30000)
 	local table = CreateObject('v_ret_ml_tablea', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
-        local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
+       	local hit, endCoords, surfaceNormal, entityHit = ray()
 		if not created then 
 			created = true
-			ps.drawText([[[E] To Place   
+			Bridge.HelpText.ShowHelpText([[[E] To Place   
 			[DEL] To Cancel  
 			[<-] To Move Left  
 			[->] To Move Right]])
@@ -170,7 +200,7 @@ function StartRay()
             heading = heading + 2
         end
         if IsControlPressed(0, 38) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			DeleteObject(table)
 			created = false
@@ -178,7 +208,7 @@ function StartRay()
         end
 
         if IsControlPressed(0, 178) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			created = false
 			DeleteObject(table)
@@ -191,13 +221,13 @@ end
 function StartRay2()
     local run = true
 	local pedcoord = GetEntityCoords(PlayerPedId())
-	ps.requestModel('bkr_prop_coke_press_01aa', 30000)
+	requestModel('bkr_prop_coke_press_01aa', 30000)
 	local table = CreateObject('bkr_prop_coke_press_01aa', pedcoord.x, pedcoord.y, pedcoord.z+1, heading, false, false)
     repeat
-        local hit, endCoords, surfaceNormal, entityHit = ps.raycast()
+        local hit, endCoords, surfaceNormal, entityHit = ray()
 		if not created then 
 			created = true
-			ps.drawText([[[E] To Place   
+			Bridge.HelpText.ShowHelpText([[[E] To Place   
 			[DEL] To Cancel  
 			[<-] To Move Left  
 			[->] To Move Right]])
@@ -214,7 +244,7 @@ function StartRay2()
             heading = heading + 2
         end
         if IsControlPressed(0, 38) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			DeleteObject(table)
 			created = false
@@ -222,7 +252,7 @@ function StartRay2()
         end
 
         if IsControlPressed(0, 178) then
-            ps.hideText()
+            Bridge.HelpText.HideHelpText()
             run = false
 			created = false
 			DeleteObject(table)
@@ -232,25 +262,121 @@ function StartRay2()
     until run == false
 end
 
-ps.registerCallback('md-drugs:client:uncuff', function(data)
-	if not ps.progressbar(data, 4000, 'uncuff') then return end
+Bridge.Callback.Register('md-drugs:client:uncuff', function(data)
+	if not progressbar(data) then return end
 	return true
 end)
 
 RegisterCommand('DrugRep', function()
 	if not Config.TierSystem then return end
-	local rep = ps.callback('md-drugs:server:GetRep', false)
-	ps.menu('Drug Rep', 'Drug Rep', {
-		{icon = "fa-solid fa-face-flushed", title = 'Cocaine: '..rep.coke},
-		{icon = "fa-solid fa-syringe", 	  title = 'Heroin: '..rep.heroin},
-		{icon = "fa-solid fa-vial",		  title = 'LSD: '..rep.lsd},
-		{icon = "fa-solid fa-plug", 		  title = 'Dealer: '..rep.dealerrep},
-		{icon = "fa-solid fa-money-bill",   title = 'Corner Selling: ' .. rep.cornerselling.rep, description = 'Rank: ' .. rep.cornerselling.label }
+	local rep = GetRep()
+	Bridge.Menu.Open({
+		id = 'drugrep',
+		title = Bridge.Language.Locale('DrugRep.header'),
+		description = Bridge.Language.Locale('DrugRep.increased'),
+		options = {
+			{icon = Bridge.Language.Locale('DrugRep.coke.icon'), title = Bridge.Language.Locale('DrugRep.coke.title', rep.coke)},
+			{icon = Bridge.Language.Locale('DrugRep.heroin.icon'), 	  title = Bridge.Language.Locale('DrugRep.heroin.title', rep.heroin)},
+			{icon = Bridge.Language.Locale('DrugRep.lsd.icon'),		  title = Bridge.Language.Locale('DrugRep.lsd.title', rep.lsd)},
+			{icon = Bridge.Language.Locale('DrugRep.dealerrep.icon'), 		  title = Bridge.Language.Locale('DrugRep.dealerrep.title', rep.dealerrep)},
+			{icon = Bridge.Language.Locale('DrugRep.cornerselling.icon'),   title = Bridge.Language.Locale('DrugRep.cornerselling.title', rep.cornerselling.rep), description = Bridge.Language.Locale('DrugRep.cornerselling.description', rep.cornerselling.label) }
+		}
 	})
 end, false)
 
-function handleGang(gang)
-	if gang == nil or gang == '' or gang == "" then return true end
-	if ps.getGangName() == gang or gang == 1 then return true end
-	return false
+if Bridge.Framework.GetResourceName() == 'es_extended' then
+	function handleGang(gang)
+		return true
+	end
+else
+	function handleGang(gang)
+		if not gang then 
+			return true
+		end
+		if #gang == 0 then
+			return true
+		end
+		local data = Bridge.Framework.GetPlayerData()
+		if not data.gang then
+			return false
+		end
+		return data.gang.name == gang
+	end
 end
+
+if Config.Emotes == 'scully' then
+    function playEmote(emote)
+        exports.scully_emotemenu:playEmoteByCommand(emote, 0)
+    end
+    function stopEmote()
+        exports.scully_emotemenu:cancelEmote()
+    end
+end
+
+if Config.Emotes == 'dpemotes' then
+    function playEmote(emote)
+        TriggerEvent('animations:client:EmoteCommandStart', {emote})
+    end
+    function stopEmote()
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+    end
+end
+
+if Config.Emotes == 'rpemotes' then
+    function playEmote(emote)
+        exports["rpemotes"]:EmoteCommandStart(emote, 0)
+    end
+    function stopEmote()
+        exports["rpemotes"]:EmoteCancel()
+    end
+end
+
+local animation = nil
+
+function progressbar(text, time, emote, cancel)
+	local animData
+	if type(emote) == 'string' then
+		playEmote(emote)
+		animation = emote
+	elseif type(emote) == 'table' then
+		animData = emote
+		if emote.prop and not emote.prop.model then
+			emote.prop = nil
+		end
+	end
+	local success = Bridge.ProgressBar.Open({
+		duration = time or 5000,
+		label = text or 'LAZY AF DEVS',
+		canCancel = true,
+		disable = cancel or Config.ProgressBar.Disables,
+		anim = animData,
+		prop = animData and animData.prop or nil
+	})
+	if animation then
+		animation = nil
+		stopEmote()
+	end
+	return success
+end
+
+function itemCheck(item)
+	if not Bridge.Inventory.HasItem(item) then
+        Bridge.Notify.SendNotify(Bridge.Language.Locale('Catches.itemMissings', Bridge.Inventory.GetItemInfo(item).label), 'error')
+        return false
+    end
+	return true
+end
+
+AddEventHandler('onResourceStop', function(resourceName)
+	if GetCurrentResourceName() ~= resourceName then return end
+	for k, v in pairs (targets) do
+		if type(v) == 'number' then
+			Bridge.Target.RemoveLocalEntity(v)
+			if DoesEntityExist(v) then
+				DeleteEntity(v)
+			end
+		else
+			Bridge.Target.RemoveZone(v)
+		end
+	end
+end)

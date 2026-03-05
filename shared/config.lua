@@ -1,28 +1,13 @@
-Config = {} --Ignore.
-
-if GetResourceState('ps_lib') ~= 'started' then
-    print('^1ERROR: ps_lib is not started, please start ps_lib before starting this resource.^0')
-    return
-end
-
-if GetResourceState('ps_lib') == 'missing' then
-    print('^1ERROR: ps_lib is missing, please install ps_lib to use this resource.^0')
-    print('^1You can find ps_lib here: https://github.com/Project-Sloth/ps_lib')
-    return
-end
-
-ps = exports.ps_lib:init()  --Ignore.
-ps.loadLangs("en") -- set your language
-
-Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel, ox_fuel
-Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
+Config, Bridge, targets = {}, exports.community_bridge:Bridge(), {} 
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
+Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3
 
-Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 
+--- Customizations
+Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
 Config.Minigames = {
     ps_circle =     {amount = 2,     speed = 8,},
     ps_maze =       {timelimit = 15},
@@ -41,9 +26,24 @@ Config.Minigames = {
     glspot =        {gridSize = 6, timeLimit = 999999, charSet = "alphabet", required = 10},
     glmath =        {timeLimit = 300000},
 }
-Config.minigametype = 'ps_circle' -- look above for options or choose none if you dont want any minigames 
+Config.minigametype = 'ox' -- look above for options or choose none if you dont want any minigames 
+Config.Emotes = 'rpemotes' -- this is if you want to use emotes, you can pass the string of the emote name instead of the animDict and animClip like below
+Config.DefaultAnimation = {
+    dict = "mp_arresting",
+    clip = "a_uncuff",
+    flag = 49,
+}
 
+Config.ProgressBar = {
+    Disables = {
+        move = true,             -- Disable movement
+        car = true,              -- Disable vehicle movement
+        combat = true,           -- Disable combat
+        mouse = false            -- Disable mouse
+    }
+}
 
+-- Drug System Configs
 Config.Drugs = { -- want a drug turn on? keep it true, want it turned off, mark it false
     cocaine = true,
     consumables = true,
@@ -70,5 +70,4 @@ Config.Bzz = { -- if you have BZZZ props for these turn it on if you want
     heroin =false,
     shrooms = false,
     weed = false,
-
 }

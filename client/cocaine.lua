@@ -1,12 +1,11 @@
-
 local cuttingcoke = nil
 local baggingcoke = nil
-local locations = ps.callback('md-drugs:server:GetCokeLocations')
+local locations = Config.Cocaine.Locations
 
 local function CutCoke(coords, offset, rotation)
-cuttingcoke = true
+	cuttingcoke = true
 	local animDict, animName = "anim@amb@business@coc@coc_unpack_cut_left@", "coke_cut_v5_coccutter"
-	ps.requestAnim(animDict, 500)
+	Bridge.Anim.RequestDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
 	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
@@ -49,17 +48,17 @@ cuttingcoke = true
 	end
 	RemoveAnimDict(animDict)
 	FreezeEntityPosition(ped, false)
-cuttingcoke = nil
+	cuttingcoke = nil
 end
 
 local function BagCoke(coords, offset, rotation)
 baggingcoke = true
     local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
-	ps.requestAnim(animDict, 500)
+	Bridge.Anim.RequestDict(animDict, 500)
 	local animDuration = GetAnimDuration(animDict, animName) * 1000
 	local ped = PlayerPedId()
-	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z), rotation
+	local scenePos, sceneRot = vector3(coords.x + offset.x, coords.y + offset.y,coords.z + offset.z +0.03), rotation
 	local scenes = {
     	{
     		{	hash = "bkr_prop_coke_cutblock_01",	animName = "break_weigh_"..ver.."box01"},
@@ -112,20 +111,17 @@ baggingcoke = true
     end
     RemoveAnimDict(animDict)
     FreezeEntityPosition(ped, false)
-baggingcoke = nil
+	baggingcoke = nil
 end
 
 for k, v in pairs (locations.MakePowder) do
-    ps.boxTarget('cocaplant'..k, v.loc, {length = v.l, width = v.w, height = 1.0, rotation = v.rot}, {
+    Bridge.Target.AddBoxZone('cocaplant'..k, v.loc, v.size, v.loc.w or 180.0, {
         {
-            label = ps.lang('coke.targetMakePow'),
-            icon = 'fa-solid fa-seedling',
+            label = Bridge.Language.Locale('coke.targetMakePow'),
+            icon = Bridge.Language.Locale('coke.targetMakePowIcon'),
             action = function()
-                if not ps.hasItem('coca_leaf') then
-                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('coca_leaf')), 'error')
-                    return
-                end
-                if not ps.progressbar(ps.lang('coke.makePow'), 4000, 'uncuff') then return end
+                if not itemCheck('coca_leaf') then return end
+                if not progressbar(Bridge.Language.Locale('coke.makePow')) then return end
 	            TriggerServerEvent("md-drugs:server:makepowder", k)
             end,
             canInteract = function()
@@ -133,18 +129,16 @@ for k, v in pairs (locations.MakePowder) do
             end
         }
     })
+	targets[#targets+1] = 'cocaplant'..k
 end
 
 for k, v in pairs (locations.CuttingCoke) do
-    ps.boxTarget('cutcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
+    Bridge.Target.AddBoxZone('cutcoke'..k,  v.loc, v.size, v.loc.w or 180.0,  {
         {
-            label = ps.lang('coke.targetCutCoke'),
-            icon = 'fa-solid fa-mortar-pestle',
+            label = Bridge.Language.Locale('coke.targetCutCoke'),
+            icon = Bridge.Language.Locale('coke.targetCutCokeIcon'),
             action = function()
-                if not ps.hasItem('bakingsoda') then
-                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('bakingsoda')), 'error')
-                    return
-                end
+                if not itemCheck('bakingsoda') then return end
                 CutCoke(v.loc, v.offset, v.rotation)
 				TriggerServerEvent("md-drugs:server:cutcokeone", k)
             end,
@@ -155,18 +149,16 @@ for k, v in pairs (locations.CuttingCoke) do
             end,
         }
     })
+	targets[#targets+1] = 'cutcoke'..k
 end
 
 for k, v in pairs (locations.BaggingCoke) do
-    ps.boxTarget('bagcoke'..k, v.loc, {length = 1.0, width = 1.0, height = 1.0, rotation = 180.0}, {
+    Bridge.Target.AddBoxZone('bagcoke'..k, v.loc, v.size, v.loc.w or 180.0, {
         {
-            label = ps.lang('coke.targetBagCoke'),
-            icon = 'fa-solid fa-sack-xmark',
+            label = Bridge.Language.Locale('coke.targetBagCoke'),
+            icon = Bridge.Language.Locale('coke.targetBagCokeIcon'),
             action = function()
-                if not ps.hasItem('empty_weed_bag') then
-                    ps.notify(ps.lang('Catches.itemMissings', ps.getLabel('empty_weed_bag')), 'error')
-                    return
-                end
+                if not itemCheck('empty_weed_bag') then return end
                 BagCoke(v.loc, v.offset, v.rotation)
 				TriggerServerEvent("md-drugs:server:bagcoke", k)
             end,
@@ -177,13 +169,14 @@ for k, v in pairs (locations.BaggingCoke) do
             end
         }
     })
+	targets[#targets+1] = 'bagcoke'..k
 end
 
 for k, v in pairs (locations.cokeTele) do
-	ps.boxTarget('coke_tele'..k, v.inside, {length = v.l, width = v.w, heading = v.rot}, {
+	Bridge.Target.AddBoxZone('coke_tele'..k, v.inside, v.size, v.inside.w or 180.0,{
 		{
-			icon = 'fa-solid fa-door-open',
-			label = ps.lang('coke.teleOut'),
+			icon = Bridge.Language.Locale('coke.teleOutIcon'),
+			label = Bridge.Language.Locale('coke.teleOut'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.outside)
 			end,
@@ -192,10 +185,11 @@ for k, v in pairs (locations.cokeTele) do
             end
 		}
 	})
-	ps.boxTarget('coke_teleout'..k, v.outside, {length = v.l, width = v.w, heading = v.rot}, {
+	targets[#targets+1] = 'coke_tele'..k
+	Bridge.Target.AddBoxZone('coke_teleout'..k, v.outside, v.size, v.outside.w or 180.0,{
 		{
-			icon = 'fa-solid fa-door-closed',
-			label = ps.lang('coke.teleIn'),
+			icon = Bridge.Language.Locale('coke.teleInIcon'),
+			label = Bridge.Language.Locale('coke.teleIn'),
 			action = function()
 				SetEntityCoords(PlayerPedId(), v.inside)
 			end,
@@ -204,6 +198,7 @@ for k, v in pairs (locations.cokeTele) do
             end
 		}
 	})
+	targets[#targets+1] = 'coke_teleout'..k
 end
 
 CreateThread(function()
