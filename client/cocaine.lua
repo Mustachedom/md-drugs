@@ -52,7 +52,7 @@ local function CutCoke(coords, offset, rotation)
 end
 
 local function BagCoke(coords, offset, rotation)
-	baggingcoke = true
+baggingcoke = true
     local ver = ""
 	local animDict, animName = "anim@amb@business@meth@meth_smash_weight_check@", "break_weigh_"..ver.."char01"
 	Bridge.Anim.RequestDict(animDict, 500)
