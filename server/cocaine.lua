@@ -72,7 +72,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function(num)
 
     if timeOut(src, 'md-drugs:server:bagcoke') then return end
 
-    if not checkDistance(src, Locations.Cocaine.BaggingCoke[num].loc, 2.5, 'md-drugs:server:bagcoke') then
+    if not checkDistance(src, Locations.BaggingCoke[num].loc, 2.5, 'md-drugs:server:bagcoke') then
         return
     end
 
