@@ -349,7 +349,7 @@ function progressbar(text, time, emote, cancel)
 		label = text or 'LAZY AF DEVS',
 		canCancel = true,
 		disable = cancel or Config.ProgressBar.Disables,
-		anim = animData,
+		anim = animData or Config.DefaultAnimation,
 		prop = animData and animData.prop or nil
 	})
 	if animation then
