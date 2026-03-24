@@ -102,8 +102,8 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
             title = itemData.label,
 			onSelect = function()
 				if not minigame() then return end
-				if not progressbar(eventLabelPrefix .. itemData.label) then return end
-				TriggerServerEvent('md-drugs:server:MakeWeedItems', {item = item, recipe = 'weed', num = k, table = tableName})
+				if not progressbar( Bridge.Language.Locale(eventLabelPrefix, itemData.label)) then return end
+				TriggerServerEvent('md-drugs:server:RollBlunt', tableName, item)
 			end
         }
     end
@@ -115,11 +115,11 @@ local function createBluntOptions(contextId, contextTitle, eventLabelPrefix, tab
 end
 
 RegisterNetEvent('md-drugs:client:makeBluntWrap', function(data)
-	createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", Bridge.Language.Locale('weed.bluntWrap'), 'bluntwrap')
+	createBluntOptions('mddrugsbluntwraps', "Dipping Syrup", 'weed.bluntWrap', 'bluntwrap')
 end)
 
 RegisterNetEvent('md-drugs:client:rollBlunt', function(data)
-	createBluntOptions('mddrugsblunts', "Roll Blunts", Bridge.Language.Locale('weed.blunts'), 'blunts')
+	createBluntOptions('mddrugsblunts', "Roll Blunts", 'weed.rolling', 'blunts')
 end)
 
 for k, v in pairs (locations.WeedSalesman) do

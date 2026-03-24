@@ -267,7 +267,9 @@
     "invalidTableWarn": "Player: %s attempted to exploit the weed event by triggering the event with an invalid recipe table butter/oil.",
     "recipeDoesntExistWarn": "Player: %s attempted to exploit the weed event by triggering the event with a non existent recipe name: %s.",
     "targetMakeButter": "Make Edible Products",
-    "targetMakeOil": "Make Oil"
+    "targetMakeOil": "Make Oil",
+    "making": "Making %s ",
+    "rolling": "Rolling %s"
   },
 
   "wholesale": {

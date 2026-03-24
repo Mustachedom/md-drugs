@@ -73,6 +73,16 @@ RegisterServerEvent('md-drugs:server:MakeWeedItems', function(tabl, item, loc)
 end)
 
 
+RegisterNetEvent('md-drugs:server:RollBlunt', function(tabl, item)
+    local src = source
+    if timeOut(src, 'md-drugs:server:RollBlunt') then return end
+    local recipe = Config.Weed.Recipes[tabl][item]
+    if not recipe then
+        Bridge.Prints.Warn(Bridge.Language.Locale('weed.recipeDoesntExistWarn', Bridge.Framework.GetPlayerIdentifier(src), item))
+        return
+    end
+    if not craft(src, recipe) then return end
+end)
 Bridge.Framework.RegisterUsableItem("dabrig", function(source, item)
     local src = source
     if Bridge.Inventory.HasItem(src, "butanetorch") then
