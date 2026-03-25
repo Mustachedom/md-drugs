@@ -4,7 +4,7 @@ Config, Bridge, targets = {}, exports.community_bridge:Bridge(), {}
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.Tier1 = 100 -- amount to hit for level 2
 Config.Tier2 = 300 -- amount to hit for level 3
-
+--- this is a test to show envi 
 
 --- Customizations
 Config.Dispatch = 'ox' -- either 'ps', 'cd', 'core', 'aty'
