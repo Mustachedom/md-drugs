@@ -70,7 +70,7 @@ end)
 RegisterServerEvent('md-drugs:server:getace', function(num)
 	local src = source
 	if timeOut(src, 'md-drugs:server:getace') then return end
-	if not checkDistance(src, Locations.Meth.MethAce[num].loc, 2.5, 'md-drugs:server:getace') then
+	if not checkDistance(src, Config.Meth.MethAce[num].loc, 2.5, 'md-drugs:server:getace') then
 		return
 	end
 	Bridge.Inventory.AddItem(src, 'acetone', 1)
