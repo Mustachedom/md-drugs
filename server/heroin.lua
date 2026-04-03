@@ -206,7 +206,7 @@ RegisterServerEvent('md-drugs:server:fillneedle', function(num)
 			end
 		end
 	end
-	if not craft(src, Config.Hero8in.Recipes.fillneedle[tier]) then
+	if not craft(src, Config.Heroin.Recipes.fillneedle[tier]) then
 		return
 	end
 end)
