@@ -18,21 +18,23 @@ RegisterNetEvent('md-drugs:server:updatestatus', function(stat, statval)
     local src = source
     local Player = Bridge.Framework.GetPlayer(src)
     if GetResourceState('es_extended') == 'started' then return end
+    if type(statval) ~= 'number' or statval ~= statval then return end
+    if statval < 0 or statval > 100 then return end
     local hunger, thirst = Player.PlayerData.metadata.hunger, Player.PlayerData.metadata.thirst
     if stat == "thirst" then
-        local value = thirst + statval
+        local value = math.min(thirst + statval, 100)
         Player.Functions.SetMetaData('thirst', value)
         TriggerClientEvent('hud:client:UpdateNeeds', src, hunger, value)
     elseif stat == "hunger" then
-        local value = hunger + statval
+        local value = math.min(hunger + statval, 100)
         Player.Functions.SetMetaData('hunger', value)
         TriggerClientEvent('hud:client:UpdateNeeds', src, value, thirst)
     elseif stat == "stress" then
-        local value = Player.PlayerData.metadata.stress + statval
+        local value = math.max(Player.PlayerData.metadata.stress - statval, 0)
         Player.Functions.SetMetaData('stress', value)
         TriggerClientEvent('hud:client:UpdateStress', src, Player.PlayerData.metadata.stress, value)
     elseif stat == "armor" then
-        local value = Player.PlayerData.metadata.armor + statval
+        local value = math.min(Player.PlayerData.metadata.armor + statval, 100)
         TriggerEvent('hospital:server:SetArmor', value)
         TriggerClientEvent('hud:client:UpdateStress', src, Player.PlayerData.metadata.armor, value)
     end
