@@ -139,7 +139,7 @@ function AddRep(source, type, amount)
     end
     if type == 'cornerselling' then
         local rep = playerRep[id].cornerselling
-        local cornerData = Config.CornerSellLevel[rep.level]
+        local cornerData = Config.Cornerselling.CornerSellLevel[rep.level]
         if rep.rep + amount >= cornerData.maxrep then
             rep.level = rep.level + 1
             rep.label = Config.CornerSellLevel[rep.level].label
